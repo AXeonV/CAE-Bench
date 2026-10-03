@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cae-bench-oj"
+version = "0.2.0"
+description = "CAE data protocol, structural validation and tolerance-based grading"
+requires-python = ">=3.11"
+dependencies = ["jsonschema==4.26.0", "numpy>=2.0,<3", "gmsh==4.15.2"]
+
+[project.scripts]
+caeoj = "caeoj.cli:main"
+
+[tool.setuptools]
+packages = ["caeoj"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.setuptools.package-data]
+caeoj = ["problem.schema.json"]

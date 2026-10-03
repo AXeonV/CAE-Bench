@@ -1,0 +1,91 @@
+{
+  "case": "08-harmonic-quartic",
+  "temperature_coefficients": [
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      -6.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "temperature": "1*v^4 - 6*u^2*v^2 + 1*u^4",
+  "source": "0",
+  "boundaries": {
+    "left": {
+      "operator": "dirichlet",
+      "coefficients": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "g": "1*s^4"
+    },
+    "right": {
+      "operator": "dirichlet",
+      "coefficients": [
+        1.0,
+        0.0,
+        -6.0,
+        0.0,
+        1.0
+      ],
+      "g": "1 - 6*s^2 + 1*s^4"
+    },
+    "bottom": {
+      "operator": "dirichlet",
+      "coefficients": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "g": "1*s^4"
+    },
+    "top": {
+      "operator": "dirichlet",
+      "coefficients": [
+        1.0,
+        0.0,
+        -6.0,
+        0.0,
+        1.0
+      ],
+      "g": "1 - 6*s^2 + 1*s^4"
+    }
+  },
+  "mean_temperature": -0.2666666666666666,
+  "node_count": 957,
+  "cell_count": 1792
+}

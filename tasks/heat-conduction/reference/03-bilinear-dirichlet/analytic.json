@@ -1,0 +1,91 @@
+{
+  "case": "03-bilinear-dirichlet",
+  "temperature_coefficients": [
+    [
+      0.2,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      3.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "temperature": "0.2 + 3*u*v",
+  "source": "0",
+  "boundaries": {
+    "left": {
+      "operator": "dirichlet",
+      "coefficients": [
+        0.2,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "g": "0.2"
+    },
+    "right": {
+      "operator": "dirichlet",
+      "coefficients": [
+        0.2,
+        3.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "g": "0.2 + 3*s"
+    },
+    "bottom": {
+      "operator": "dirichlet",
+      "coefficients": [
+        0.2,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "g": "0.2"
+    },
+    "top": {
+      "operator": "dirichlet",
+      "coefficients": [
+        0.2,
+        3.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "g": "0.2 + 3*s"
+    }
+  },
+  "mean_temperature": 0.95,
+  "node_count": 957,
+  "cell_count": 1792
+}

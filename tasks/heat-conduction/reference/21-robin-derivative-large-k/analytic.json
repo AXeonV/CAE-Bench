@@ -1,0 +1,91 @@
+{
+  "case": "21-robin-derivative-large-k",
+  "temperature_coefficients": [
+    [
+      -0.3,
+      0.0,
+      0.0,
+      -0.9,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      -0.4,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.7,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      1.5,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "temperature": "-0.3 - 0.9*v^3 - 0.4*u*v^2 + 0.7*u^2*v + 1.5*u^3",
+  "source": "80*v - 164*u",
+  "boundaries": {
+    "left": {
+      "operator": "normal_derivative",
+      "coefficients": [
+        -0.0,
+        -0.0,
+        0.4,
+        -0.0,
+        -0.0
+      ],
+      "g": "0.4*s^2"
+    },
+    "right": {
+      "operator": "robin",
+      "coefficients": [
+        102.0,
+        35.0,
+        -12.0,
+        -9.0,
+        0.0
+      ],
+      "g": "102 + 35*s - 12*s^2 - 9*s^3"
+    },
+    "bottom": {
+      "operator": "normal_derivative",
+      "coefficients": [
+        -0.0,
+        -0.0,
+        -0.7,
+        -0.0,
+        -0.0
+      ],
+      "g": "-0.7*s^2"
+    },
+    "top": {
+      "operator": "robin",
+      "coefficients": [
+        -66.0,
+        -20.0,
+        21.0,
+        15.0,
+        0.0
+      ],
+      "g": "-66 - 20*s + 21*s^2 + 15*s^3"
+    }
+  },
+  "mean_temperature": -0.1,
+  "node_count": 957,
+  "cell_count": 1792
+}

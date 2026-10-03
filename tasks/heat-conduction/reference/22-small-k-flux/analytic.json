@@ -1,0 +1,91 @@
+{
+  "case": "22-small-k-flux",
+  "temperature_coefficients": [
+    [
+      1.0,
+      0.0,
+      -0.8,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.6,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      2.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "temperature": "1 - 0.8*v^2 + 0.6*u*v + 2*u^2",
+  "source": "-0.12",
+  "boundaries": {
+    "left": {
+      "operator": "dirichlet",
+      "coefficients": [
+        1.0,
+        0.0,
+        -0.8,
+        0.0,
+        0.0
+      ],
+      "g": "1 - 0.8*s^2"
+    },
+    "right": {
+      "operator": "normal_flux",
+      "coefficients": [
+        -0.2,
+        -0.03,
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "g": "-0.2 - 0.03*s"
+    },
+    "bottom": {
+      "operator": "dirichlet",
+      "coefficients": [
+        1.0,
+        0.0,
+        2.0,
+        0.0,
+        0.0
+      ],
+      "g": "1 + 2*s^2"
+    },
+    "top": {
+      "operator": "normal_flux",
+      "coefficients": [
+        0.08000000000000002,
+        -0.03,
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "g": "0.08 - 0.03*s"
+    }
+  },
+  "mean_temperature": 1.55,
+  "node_count": 957,
+  "cell_count": 1792
+}

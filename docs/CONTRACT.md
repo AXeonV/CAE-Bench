@@ -427,4 +427,6 @@ $caePython = 'C:\Users\Admin\.conda\envs\expr\python.exe'
 
 新的物理模型、量名称、条件算子和 components 标签，只要任务定义明确且结构遵守本协议，可直接使用。通用结构变化必须同步更新文档、Schema、校验器及样例，不依赖隐式转换。
 
+例如热传导题用已有 `components` 字段存储 NumPy 升幂多项式系数，题面明确基函数、归一化坐标、每个分量含义和常系数约束。系数是数值场，连续源项／边界函数由题目数学定义得到；不能把普通场样本隐式当作连续函数。具体约定见 [热传导题面](../tasks/heat-conduction/instruction.md)，校验器只检查字段和数组结构，不求值或验证这些方程。
+
 JSON Schema 负责清单结构，Gmsh／NumPy 负责标准格式解析，`validation.py` 负责跨文件引用和形状检查。不存在另一套自定义网格或数组序列化格式。

@@ -9,6 +9,9 @@ description = "CAE data protocol, structural validation and tolerance-based grad
 requires-python = ">=3.11"
 dependencies = ["jsonschema==4.26.0", "numpy>=2.0,<3", "gmsh==4.15.2"]
 
+[project.optional-dependencies]
+heat = ["scipy>=1.17,<2"]
+
 [project.scripts]
 caeoj = "caeoj.cli:main"
 

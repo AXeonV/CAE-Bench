@@ -2,12 +2,12 @@
 
 CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕通用数据协议、结构校验、测试数据和独立判分组织，支持持续增加不同物理模型的题目和测试。
 
-完整协议见 [CONTRACT.md](docs/CONTRACT.md)，实施规划见 [MVP-PLAN.md](docs/MVP-PLAN.md)。各题目的方程、输入范围、测试设计、依赖和运行说明保存在对应的 `tasks/<task>/` 目录。
+通用数据协议见 [CONTRACT.md](docs/CONTRACT.md)，实施规划见 [MVP-PLAN.md](docs/MVP-PLAN.md)。各题目的方程、输入范围、测试设计、依赖和运行说明保存在对应的 `tasks/<task>/` 目录。
 
 ## 设计
 
 - **通用数据协议**：Gmsh 存网格，NPZ 存数组，JSON 声明字段和条件；各题目明确方程与输入范围，求解程序按同一协议读写。
-- **纠正 Agent 的 I/O 负担**：Agent 在理解输入、编写和调试程序时可随时调用**结构校验器**，根据诊断修改读写实现，减少输入输出理解错误的负担。*校验器只检查格式与引用，不验证或纠正物理结果。*
+- **纠正 Agent I/O**：Agent 在理解输入、编写和调试程序时可随时调用**结构校验器**，根据诊断修改读写实现，减少输入输出理解错误的负担。*校验器只检查格式与引用，不验证或纠正物理结果。*
 - **提交后独立评测**：逐例执行提交程序，重新校验输出并按题目误差阈值与标答比较，每点 0/1 分，汇总结果和日志。
 
 当前已实现协议、校验器、SDK、独立判分器和本地测试流程；Agent／Harbor 接入留待后续。
@@ -18,9 +18,9 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 |---|---|
 | `docs/` | 通用协议与项目规划 |
 | `src/caeoj/problem.schema.json` | JSON 元数据 Schema |
-| `src/caeoj/validation.py` | 标准格式读取及跨文件结构检查 |
+| `src/caeoj/validation.py` | 基于通用数据协议的**结构校验器** |
 | `src/caeoj/sdk.py` | 可选的数据读写帮助 |
-| `src/caeoj/grading.py` | 与参考输出比较的独立判分器 |
+| `src/caeoj/grading.py` | 与参考输出比较的**独立判分器** |
 | `src/caeoj/cli.py` | 校验与判分命令入口 |
 | `tasks/<task>/` | 各题目的题面、数据、标答及出题工具 |
 | `tests/` | 协议、校验、判分和题目数据的自动测试 |

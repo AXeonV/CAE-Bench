@@ -4,10 +4,45 @@ import json
 from pathlib import Path
 import re
 import shutil
+from string import Template
 import tempfile
+import tomllib
+import zipfile
 
 from publish_dist import PROJECT_ROOT, read_public_file
 from caeoj.sdk import load_problem, load_result
+
+TEMPLATE_FILES = ('environment/Dockerfile', 'solution/solve.sh',
+                  'tests/test.sh', 'tests/judge.py')
+RESOURCE_FIELDS = {'agent': ('timeout_sec',),
+                   'environment': ('build_timeout_sec', 'cpus', 'memory_mb'),
+                   'verifier': ('timeout_sec',)}
+
+
+def task_config(template, overrides):
+    """Keep the shared execution interface; allow task-specific resource limits."""
+    config = tomllib.loads(template)
+    for section, values in overrides.items():
+        if section not in RESOURCE_FIELDS or not isinstance(values, dict):
+            raise ValueError(f'Unsupported Harbor config section: {section}')
+        for name, value in values.items():
+            if name not in RESOURCE_FIELDS[section]:
+                raise ValueError(f'Unsupported Harbor config field: {section}.{name}')
+            expected = type(config[section][name])
+            types = (int, float) if expected is float else (expected,)
+            if type(value) not in types or value <= 0:
+                raise ValueError(f'Harbor resource must be positive: {section}.{name}')
+            config[section][name] = value
+    # These config values are TOML-compatible scalar values or arrays of strings.
+    lines = []
+    for name, value in config.items():
+        if not isinstance(value, dict):
+            lines.append(f'{name} = {json.dumps(value, allow_nan=False)}')
+    for section, values in config.items():
+        if isinstance(values, dict):
+            lines.extend(['', f'[{section}]'])
+            lines.extend(f'{name} = {json.dumps(value, allow_nan=False)}' for name, value in values.items())
+    return '\n'.join(lines) + '\n'
 
 
 def prepare(task, root=PROJECT_ROOT):
@@ -15,9 +50,7 @@ def prepare(task, root=PROJECT_ROOT):
     if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]*', task):
         raise ValueError('Task must be a directory name')
     source = root / 'tasks' / task
-    template = source / 'harbor'
-    if not (template / 'task.toml').is_file():
-        raise ValueError(f'No Harbor adapter for {task}')
+    template = root / 'src/utils/harbor'
     cases = sorted((source / 'cases').glob('*/problem.json'))
     if not cases:
         raise ValueError('Generate task cases before preparing Harbor')
@@ -26,6 +59,16 @@ def prepare(task, root=PROJECT_ROOT):
     archive = root / 'dist' / f'{task}-agent.zip'
     if not archive.is_file():
         raise ValueError(f'Run src/utils/publish_dist.py --task {task} first')
+    with zipfile.ZipFile(archive) as bundle:
+        manifest = json.loads(bundle.read('MANIFEST.json'))
+    if manifest['task'] != task or not manifest['public_samples']:
+        raise ValueError('Published archive must match the task and include a sample')
+    config_path = source / 'harbor/task.toml'
+    overrides = tomllib.loads(read_public_file(root, config_path).decode('utf-8')) if config_path.is_file() else {}
+    rendered_config = task_config(read_public_file(root, template / 'task.toml').decode('utf-8'), overrides)
+    judge_config = json.loads(read_public_file(root, source / 'judge-config.json'))
+    instruction = Template(read_public_file(root, template / 'instruction.md').decode('utf-8')).substitute(
+        task=task, sample=manifest['public_samples'][0], timeout_seconds=judge_config['timeout_seconds'])
     destination = root / 'runs/harbor/tasks' / task
     destination.parent.mkdir(parents=True, exist_ok=True)
     if destination.is_symlink() or getattr(destination, 'is_junction', lambda: False)():
@@ -43,9 +86,15 @@ def prepare(task, root=PROJECT_ROOT):
                 data = data.replace(b'\r\n', b'\n')
             target.write_bytes(data)
 
-        for path in template.rglob('*'):
-            if path.is_file() and '__pycache__' not in path.parts:
-                copy(path, path.relative_to(template))
+        for name in TEMPLATE_FILES:
+            copy(template / name, Path(name))
+        (staged / 'task.toml').write_text(rendered_config, encoding='utf-8', newline='\n')
+        (staged / 'instruction.md').write_text(instruction, encoding='utf-8', newline='\n')
+        requirements = source / 'harbor/requirements.txt'
+        if requirements.is_file():
+            copy(requirements, Path('environment/requirements.txt'))
+        else:
+            (staged / 'environment/requirements.txt').write_text('', encoding='utf-8')
         # Only the allowlisted public archive enters the agent image build context.
         copy(archive, Path('environment/agent.zip'))
         copy(source / 'author/baseline.py', Path('solution/baseline.py'))

@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && useradd --uid 1000 --create-home solver
 WORKDIR /app
 COPY agent.zip /tmp/agent.zip
+COPY requirements.txt /tmp/requirements.txt
 RUN python -m zipfile -e /tmp/agent.zip /app \
-    && python -m pip install --no-cache-dir /app scipy==1.18.1 \
+    && python -m pip install --no-cache-dir /app -r /tmp/requirements.txt \
     && mkdir -p /app/submission

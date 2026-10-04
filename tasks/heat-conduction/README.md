@@ -21,7 +21,7 @@
 | `author/generate.py` | **生成输入与标答**：生成 Gmsh 网格、源项和边界数据，代入解析解生成标答。 |
 | `author/baseline.py` | **求解并验证**：可用的本地 P1 有限元 solver，支持本题当前输入范围；只读取输入，用于验证数据和阈值。 |
 | `author/check.py` | **批量执行与判分**：逐点运行指定 solver（默认 baseline），调用判分器并汇总报告。 |
-| `harbor/` | *Harbor* 的解题入口、Docker 配置、Oracle 和独立判题适配。 |
+| `harbor/requirements.txt` | 补充本题所需的 SciPy 依赖 |
 
 ## 出题与验证
 

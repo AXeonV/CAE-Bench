@@ -29,7 +29,7 @@ try:
     prepare = module('prepare_harbor', ROOT / 'src/utils/prepare_harbor.py')
 finally:
     sys.path.pop(0)
-judge = module('harbor_judge', ROOT / 'tasks/heat-conduction/harbor/tests/judge.py')
+judge = module('harbor_judge', ROOT / 'src/utils/harbor/tests/judge.py')
 
 
 class HarborTests(unittest.TestCase):
@@ -52,6 +52,7 @@ class HarborTests(unittest.TestCase):
         shutil.copytree(source / 'author', task / 'author')
         shutil.copyfile(source / 'judge-config.json', task / 'judge-config.json')
         shutil.copytree(source / 'harbor', task / 'harbor')
+        shutil.copytree(ROOT / 'src/utils/harbor', self.root / 'src/utils/harbor')
 
     def prepared(self):
         publisher.publish(TASK, root=self.root)
@@ -64,11 +65,16 @@ class HarborTests(unittest.TestCase):
     def test_build_context_contains_only_public_release(self):
         directory = self.prepared()
         self.assertEqual(directory, self.root / 'runs/harbor/tasks' / TASK)
-        self.assertEqual({p.name for p in (directory / 'environment').iterdir()}, {'Dockerfile', 'agent.zip'})
+        self.assertEqual({p.name for p in (directory / 'environment').iterdir()},
+                         {'Dockerfile', 'agent.zip', 'requirements.txt'})
         with zipfile.ZipFile(directory / 'environment/agent.zip') as bundle:
             self.assertFalse(any('/reference/' in p or '/author/' in p or '/cases/' in p for p in bundle.namelist()))
         self.assertEqual(len(list((directory / 'tests/reference').glob('*/reference.npz'))), 2)
         self.assertTrue((directory / 'solution/baseline.py').is_file())
+        self.assertEqual((directory / 'environment/requirements.txt').read_text().strip(), 'scipy==1.18.1')
+        instruction = (directory / 'instruction.md').read_text(encoding='utf-8')
+        self.assertIn(f'/app/tasks/{TASK}/samples/01/input/problem.json', instruction)
+        self.assertNotIn('${', instruction)
         config = tomllib.loads((directory / 'task.toml').read_text())
         self.assertEqual(config['verifier']['environment_mode'], 'separate')
         self.assertEqual(config['verifier']['network_mode'], 'no-network')
@@ -86,6 +92,45 @@ class HarborTests(unittest.TestCase):
         self.assertEqual(archive.stat().st_mtime_ns, published_mtime)
         self.assertFalse((directory / 'obsolete.txt').exists())
         self.assertEqual((jobs / 'keep.log').read_text(), 'keep')
+
+    def test_another_task_reuses_templates_and_overrides_resources(self):
+        task = 'another-problem'
+        source = self.root / 'tasks' / task
+        shutil.copytree(self.root / 'tasks' / TASK, source)
+        (source / 'harbor/task.toml').write_text(
+            '[agent]\ntimeout_sec = 240.0\n[environment]\ncpus = 1\nmemory_mb = 1024\n'
+            '[verifier]\ntimeout_sec = 60.0\n')
+        config_path = source / 'judge-config.json'
+        judge_config = json.loads(config_path.read_text())
+        judge_config['timeout_seconds'] = 15
+        config_path.write_text(json.dumps(judge_config))
+        publisher.publish(task, root=self.root)
+        directory = Path(prepare.prepare(task, self.root)['task_directory'])
+        config = tomllib.loads((directory / 'task.toml').read_text())
+        self.assertEqual(config['agent']['timeout_sec'], 240)
+        self.assertEqual(config['environment']['cpus'], 1)
+        self.assertEqual(config['environment']['memory_mb'], 1024)
+        self.assertEqual(config['verifier']['timeout_sec'], 60)
+        self.assertEqual(config['verifier']['environment_mode'], 'separate')
+        instruction = (directory / 'instruction.md').read_text(encoding='utf-8')
+        self.assertIn(f'/app/tasks/{task}/samples/01/', instruction)
+        self.assertIn('15 秒', instruction)
+        self.assertNotIn(TASK, instruction)
+
+    def test_task_without_harbor_config_uses_shared_defaults(self):
+        requirements = self.root / 'tasks' / TASK / 'harbor/requirements.txt'
+        requirements.unlink()
+        directory = self.prepared()
+        self.assertEqual((directory / 'environment/requirements.txt').read_bytes(), b'')
+        config = tomllib.loads((directory / 'task.toml').read_text())
+        self.assertEqual(config['agent']['timeout_sec'], 1800)
+
+    def test_resource_overrides_cannot_change_judging_interface(self):
+        (self.root / 'tasks' / TASK / 'harbor/task.toml').write_text(
+            '[verifier]\nenvironment_mode = "same"\n')
+        publisher.publish(TASK, root=self.root)
+        with self.assertRaisesRegex(ValueError, 'Unsupported Harbor config field'):
+            prepare.prepare(TASK, self.root)
 
     def test_actual_grader_aggregates_pass_and_fail(self):
         directory = self.prepared()

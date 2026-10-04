@@ -23,7 +23,8 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 | `src/caeoj/grading.py` | 与参考输出比较的**独立判分器** |
 | `src/caeoj/cli.py` | 校验与判分命令入口 |
 | `src/utils/publish_dist.py` | 打包单题的公开解题材料到 dist |
-| `src/utils/prepare_harbor.py` | 使用发布包准备临时 Harbor 任务 |
+| `src/utils/prepare_harbor.py` | **统一组装** Harbor 临时任务环境 |
+| `src/utils/harbor/` | 通用 Harbor 模板与逐例判题逻辑 |
 | `tasks/<task>/` | 各题目的题面、数据、标答及出题工具 |
 | `tests/` | 协议、校验、判分和题目数据的自动测试 |
 | `runs/` | 本地输出、临时 Harbor 任务和运行报告，不纳入版本控制 |
@@ -50,22 +51,26 @@ $caePython = 'C:\Users\Admin\.conda\envs\expr\python.exe'
 & $caePython -m caeoj validate-output --input 'tasks/<task>/cases/<case>/problem.json' --output 'tasks/<task>/reference/<case>/reference.npz'
 ```
 
-发布解题材料，再准备临时 Harbor 任务：
+发布解题材料，再统一组装临时 Harbor 任务：
 
 ```powershell
 & $caePython src/utils/publish_dist.py --task '<task>'
 & $caePython src/utils/prepare_harbor.py --task '<task>'
 ```
 
-公开材料为 `dist/<task>-agent.zip`；题目适配位于 `tasks/<task>/harbor/`，临时任务位于 `runs/harbor/tasks/<task>/`。
+公开材料为 `dist/<task>-agent.zip`，组装结果位于 `runs/harbor/tasks/<task>/`。各题可通过 `harbor/requirements.txt` 补充依赖，通过 `harbor/task.toml` 覆盖资源与时限。
 
-启动 Docker 的 Linux containers，先用 Oracle 验收，再运行 Codex + Luna：
+启动 Docker 的 Linux containers，先用 Oracle 验收判题链路：
 
 ```powershell
 $harborExe = 'C:\Users\Admin\.conda\envs\expr\Scripts\harbor.exe'
 $env:PYTHONUTF8 = '1'
 & $harborExe run -p 'runs/harbor/tasks/<task>' -e docker -a oracle -n 1 -o 'runs/harbor/jobs'
+```
 
+确认 Oracle 全分且无异常后，运行 Codex + Luna：
+
+```powershell
 $env:CODEX_AUTH_JSON_PATH = 'C:\Users\Admin\.codex\auth.json'
 & $harborExe run -p 'runs/harbor/tasks/<task>' -e docker -a codex `
   -m 'openai/gpt-6-luna' --ak 'reasoning_effort=medium' -n 1 -o 'runs/harbor/jobs'
@@ -77,7 +82,7 @@ Harbor 自动逐点运行提交、校验输出并判分。查看轨迹与结果�
 & $harborExe view 'runs/harbor/jobs'
 ```
 
-trial 的 `verifier/report.json` 保存逐点得分，`reward.txt` 保存通过率；Oracle 应全分且无异常。
+trial 的 `verifier/report.json` 保存逐点得分，`reward.txt` 保存通过率。
 
 提交后也可本地执行并复核单点：
 

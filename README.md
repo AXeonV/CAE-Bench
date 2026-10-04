@@ -10,7 +10,7 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 - **纠正 Agent I/O**：Agent 在理解输入、编写和调试程序时可随时调用**结构校验器**，根据诊断修改读写实现，减少输入输出理解错误的负担。*校验器只检查格式与引用，不验证或纠正物理结果。*
 - **提交后独立评测**：逐例执行提交程序，重新校验输出并按题目误差阈值与标答比较，每点 0/1 分，汇总结果和日志。
 
-当前已实现协议、校验器、SDK、独立判分器、本地测试流程与首个 Harbor 任务适配；实际 Agent 评测尚未验收。
+当前已实现协议、校验器、SDK、独立判分器与本地测试流程；首个 Harbor 任务已跑通 Agent 执行和独立判分。
 
 ## 项目结构
 
@@ -65,7 +65,7 @@ $caePython = 'C:\Users\Admin\.conda\envs\expr\python.exe'
 ```powershell
 $harborExe = 'C:\Users\Admin\.conda\envs\expr\Scripts\harbor.exe'
 $env:PYTHONUTF8 = '1'
-& $harborExe run -p 'runs/harbor/tasks/<task>' -e docker -a oracle -n 1 -o 'runs/harbor/jobs'
+& $harborExe run -p 'runs/harbor/tasks/<task>' -e docker -a oracle -n 1 -o "$PWD/runs/harbor/jobs"
 ```
 
 确认 Oracle 全分且无异常后，运行 Codex + Luna：
@@ -73,7 +73,7 @@ $env:PYTHONUTF8 = '1'
 ```powershell
 $env:CODEX_AUTH_JSON_PATH = 'C:\Users\Admin\.codex\auth.json'
 & $harborExe run -p 'runs/harbor/tasks/<task>' -e docker -a codex `
-  -m 'openai/gpt-6-luna' --ak 'reasoning_effort=medium' -n 1 -o 'runs/harbor/jobs'
+  -m 'openai/gpt-6-luna' --ak 'reasoning_effort=medium' -n 1 -o "$PWD/runs/harbor/jobs"
 ```
 
 Harbor 自动逐点运行提交、校验输出并判分。查看轨迹与结果：

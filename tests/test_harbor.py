@@ -77,8 +77,15 @@ class HarborTests(unittest.TestCase):
         self.assertNotIn('${', instruction)
         config = tomllib.loads((directory / 'task.toml').read_text())
         self.assertEqual(config['verifier']['environment_mode'], 'separate')
-        self.assertEqual(config['verifier']['network_mode'], 'no-network')
+        self.assertIn('network_mode: none', (directory / 'tests/docker-compose.yaml').read_text())
         self.assertEqual(config['artifacts'], ['/app/submission'])
+        # Separate verification uses tests/ as its Docker build context.
+        verifier_dockerfile = (directory / 'tests/Dockerfile').read_text()
+        self.assertTrue(verifier_dockerfile.endswith('COPY . /tests\n'))
+        self.assertEqual((directory / 'tests/agent.zip').read_bytes(),
+                         (directory / 'environment/agent.zip').read_bytes())
+        self.assertEqual((directory / 'tests/requirements.txt').read_bytes(),
+                         (directory / 'environment/requirements.txt').read_bytes())
         archive = self.root / 'dist' / f'{TASK}-agent.zip'
         self.assertEqual((directory / 'environment/agent.zip').read_bytes(), archive.read_bytes())
         published_mtime = archive.stat().st_mtime_ns

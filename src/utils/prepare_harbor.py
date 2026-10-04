@@ -13,7 +13,7 @@ from publish_dist import PROJECT_ROOT, read_public_file
 from caeoj.sdk import load_problem, load_result
 
 TEMPLATE_FILES = ('environment/Dockerfile', 'solution/solve.sh',
-                  'tests/test.sh', 'tests/judge.py')
+                  'tests/test.sh', 'tests/judge.py', 'tests/docker-compose.yaml')
 RESOURCE_FIELDS = {'agent': ('timeout_sec',),
                    'environment': ('build_timeout_sec', 'cpus', 'memory_mb'),
                    'verifier': ('timeout_sec',)}
@@ -97,6 +97,13 @@ def prepare(task, root=PROJECT_ROOT):
             (staged / 'environment/requirements.txt').write_text('', encoding='utf-8')
         # Only the allowlisted public archive enters the agent image build context.
         copy(archive, Path('environment/agent.zip'))
+        # Harbor builds the separate verifier from tests/, not environment/.
+        # Reuse the public runtime definition and install private files only there.
+        copy(template / 'environment/Dockerfile', Path('tests/Dockerfile'))
+        with (staged / 'tests/Dockerfile').open('a', encoding='utf-8', newline='\n') as stream:
+            stream.write('COPY . /tests\n')
+        copy(archive, Path('tests/agent.zip'))
+        shutil.copyfile(staged / 'environment/requirements.txt', staged / 'tests/requirements.txt')
         copy(source / 'author/baseline.py', Path('solution/baseline.py'))
         copy(source / 'judge-config.json', Path('tests/judge-config.json'))
         for path in cases:

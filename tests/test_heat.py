@@ -9,7 +9,7 @@ import unittest
 
 import numpy as np
 
-from caeoj.grading import grade_arrays
+from caeoj.grading import grade_arrays, grade_files
 from caeoj.sdk import load_problem, load_result
 from caeoj.smoke import PROJECT_ROOT
 from caeoj.validation import check_result, output_support
@@ -62,6 +62,23 @@ class HeatTests(unittest.TestCase):
             operators = {c["operator"] for p, *_ in self.cases for c in p.manifest["conditions"]
                          if c["role"] == "boundary" and c["location"] == side}
             self.assertEqual(operators, {"dirichlet", "normal_derivative", "normal_flux", "robin"})
+
+    def test_complete_public_sample_matches_scoring_case_and_passes_grader(self):
+        sample = TASK / "samples/01"
+        original, reference, *_ = self.case("01")
+        for filename in ("problem.json", "input.npz", "mesh.msh", "mesh.geo"):
+            self.assertEqual((sample/"input"/filename).read_bytes(), (original.path.parent/filename).read_bytes())
+        problem = load_problem(sample/"input/problem.json")
+        result = load_result(problem, sample/"output/result.npz")
+        np.testing.assert_array_equal(result["node_ids"], np.arange(1, 10, dtype=np.int64))
+        np.testing.assert_array_equal(result["temperature"], np.full((1, 9, 1), 4.0))
+        self.assertEqual(len(problem.arrays["domain_ids"]), 8)
+        report = grade_files(problem.path, sample/"output/result.npz", TASK/"reference"/original.path.parent.name/"reference.npz",
+                             atol=self.config["atol"], rtol=self.config["rtol"])
+        self.assertEqual(report["score"], 1)
+        self.assertEqual(report["fields"]["temperature"]["max_abs_error"], 0)
+        saved = json.loads((sample/"verification.json").read_text(encoding="utf-8"))
+        self.assertEqual(saved, {"case": original.path.parent.name, **report})
 
     def test_frozen_inputs_match_advertised_ranges_and_coefficients(self):
         for problem, _, _, coordinates, elements in self.cases:

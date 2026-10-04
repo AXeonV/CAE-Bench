@@ -1,16 +1,40 @@
 """Generate actual Gmsh inputs and analytic (not numerical-solver) references."""
 import argparse
+import json
 from pathlib import Path
+import shutil
 
 import gmsh
 import numpy as np
 from numpy.polynomial.polynomial import polyval2d
 
 from caeoj.sdk import load_problem, write_result
+from caeoj.grading import grade_files
 from caeoj.validation import GMSH_LOCK, write_json
 from catalog import CASES, SIDES, R, N, F, source_coefficients, boundary_coefficients, exact_mean, equation
 
 TASK_ROOT = Path(__file__).resolve().parents[1]
+
+
+def publish_sample(destination):
+    """Complete public sample, also present as scoring case 01 in the suite."""
+    name = "01-constant-dirichlet"
+    sample = destination / "samples" / "01"
+    input_dir = sample / "input"
+    input_dir.mkdir(parents=True, exist_ok=True)
+    for filename in ("problem.json", "input.npz", "mesh.msh", "mesh.geo"):
+        shutil.copyfile(destination / "cases" / name / filename, input_dir / filename)
+    problem = load_problem(input_dir / "problem.json")
+    # Explicit constant answer, independent of the polynomial reference evaluation.
+    answer = np.full((1, len(problem.arrays["node_ids"]), 1), 4.0, dtype=np.float64)
+    output = sample / "output" / "result.npz"
+    write_result(output, problem, {"temperature": answer})
+    config = json.loads((TASK_ROOT / "judge-config.json").read_text(encoding="utf-8"))
+    report = grade_files(problem.path, output, destination / "reference" / name / "reference.npz",
+                         atol=config["atol"], rtol=config["rtol"])
+    write_json(sample / "verification.json", {"case": name, **report})
+    if report["score"] != 1:
+        raise ValueError("Public sample did not pass the task grader")
 
 
 def mesh(case, path):
@@ -149,6 +173,7 @@ def generate(destination=TASK_ROOT):
         if all(op in (N, F) for op in case.boundaries):
             descriptions += ["", f"另给定域平均温度 `{record['mean_temperature']:.12g} K`。"]
     (destination / "TEST-CASES.md").write_text("\n".join(descriptions) + "\n", encoding="utf-8")
+    publish_sample(destination)
     return len(CASES)
 
 

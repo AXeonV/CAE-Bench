@@ -45,3 +45,33 @@
 输出 NPZ 包含原样复制的 `node_ids`、`times`，及 float64 `temperature`，shape `[1,节点数,1]`，按节点 IDs 行序，单位 K。
 
 每测试点所有节点满足 `|T−Tref|≤0.01 K` 得 1 分，否则 0 分。32 个测试点满分 32，单点时间上限 30 秒。标答由解析解在节点坐标处直接计算。
+
+## 示例 1
+
+### 示例输入
+
+完整输入目录：[samples/01/input/](samples/01/input/)，入口为 [problem.json](samples/01/input/problem.json)。目录包含全部输入文件，无需额外数据：
+
+```text
+samples/01/input/
+├── problem.json
+├── mesh.msh
+├── mesh.geo
+└── input.npz
+```
+
+该输入为单位正方形、k=1、q=0，四边均为 T=4 K；网格有 9 个节点、8 个三角形。
+
+### 示例输出
+
+完整正确输出目录：[samples/01/output/](samples/01/output/)，答案文件为 [result.npz](samples/01/output/result.npz)。文件包含以下全部数组：
+
+```text
+node_ids    int64   [9]     = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+times       float64 [1]     = [0.0]
+temperature float64 [1,9,1] = [[[4.0], [4.0], [4.0], [4.0], [4.0], [4.0], [4.0], [4.0], [4.0]]]
+```
+
+### 示例说明
+
+解析解为 T(x,y)=4 K。该答案已按本题阈值通过独立判分，得 1 分，最大误差为 0，见[验证记录](samples/01/verification.json)。本例同时作为题库中的公开送分测试点 `01-constant-dirichlet`，计入上述 32 个测试点。

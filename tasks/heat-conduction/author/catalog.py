@@ -40,7 +40,7 @@ BUBBLE = {(1, 1): 8.0, (2, 1): -8.0, (1, 2): -8.0, (2, 2): 8.0}
 QUARTIC = {(0, 0): 0.4, (4, 0): 1.2, (0, 4): -0.7, (3, 1): 0.5, (1, 3): -0.8, (2, 2): 0.9}
 
 CASES = [
-    Case("01-constant-dirichlet", {(0, 0): 4.0}),
+    Case("01-constant-dirichlet", {(0, 0): 4.0}, nx=2, ny=2),
     Case("02-affine-shifted", AFFINE, origin=(-1.2, 0.7), size=(2.0, 0.8)),
     Case("03-bilinear-dirichlet", {(0, 0): 0.2, (1, 1): 3.0}, size=(0.8, 1.7)),
     Case("04-quadratic-source", {(2, 0): 1.0, (0, 2): 1.0}),

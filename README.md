@@ -22,6 +22,7 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 | `src/caeoj/sdk.py` | 可选的数据读写帮助 |
 | `src/caeoj/grading.py` | 与参考输出比较的**独立判分器** |
 | `src/caeoj/cli.py` | 校验与判分命令入口 |
+| `src/utils/publish_dist.py` | 打包单题的公开解题材料到 dist |
 | `tasks/<task>/` | 各题目的题面、数据、标答及出题工具 |
 | `tests/` | 协议、校验、判分和题目数据的自动测试 |
 | `runs/<task>/` | 本地执行输出、日志和报告，不纳入版本控制 |
@@ -30,7 +31,7 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 ## 运行
 
-在项目根目录使用指定 Python 环境。以下 `<task>`、`<case>`、`<solver.py>`、`<atol>` 和 `<rtol>` 均为占位符，运行前替换为实际题目、测试点、程序路径和阈值。
+在项目根目录使用指定 Python 环境。下列尖括号内容均为占位符，运行前替换为实际题目、测试点、程序路径、Agent、模型或阈值。
 
 安装项目并运行自动测试：
 
@@ -49,6 +50,15 @@ $caePython = 'C:\Users\Admin\.conda\envs\expr\python.exe'
 & $caePython '<solver.py>' --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.npz'
 & $caePython -m caeoj validate-output --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.npz'
 ```
+
+出题并检查输入输出后，打包公开材料；完成 [Harbor 配置与任务适配](docs/HARBOR.md)后启动 Agent：
+
+```powershell
+& $caePython src/utils/publish_dist.py --task '<task>'
+& 'C:\Users\Admin\.conda\envs\expr\Scripts\harbor.exe' run -p 'harbor/<task>' -e docker -a '<agent>' -m '<model>' -n 1 -o 'runs/harbor'
+```
+
+发布包为 `dist/<task>-agent.zip`，包含题面、协议、公开示例和校验／读写工具，不含隐藏测试、隐藏标答和出题侧 solver。
 
 按题目指定阈值对单点判分：
 

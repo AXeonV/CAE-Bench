@@ -7,11 +7,14 @@
 python /app/submission/solve.py --input <problem.json> --output <result.npz>
 ```
 
-共享工具与题目声明的依赖已安装。所需辅助 Python 文件也放在 `/app/submission/`；
-最终判题在干净、无网络的环境中运行，只传递该目录，不保留开发环境的其他修改。
+共享工具与题目声明的依赖已安装。可用 `caeoj.sdk` 的 `load_problem`、
+`read_constant`、`read_field`、`write_result` 读写数据，用法见 CONTRACT.md。
+
+所需辅助 Python 文件也放在 `/app/submission/`；
+提交后在独立环境中判题，只传递该目录，不保留开发环境的其他修改。
 逐例运行时间上限 ${timeout_seconds} 秒，输出按题面规定的误差阈值判分。
 
-请在实现与调试时使用以下结构校验命令，根据 JSON 诊断修正输入输出理解：
+结构校验命令示例：
 
 ```bash
 python -m caeoj validate-input /app/tasks/${task}/samples/${sample}/input/problem.json
@@ -19,5 +22,6 @@ python /app/submission/solve.py --input /app/tasks/${task}/samples/${sample}/inp
 python -m caeoj validate-output --input /app/tasks/${task}/samples/${sample}/input/problem.json --output /app/sample-result.npz
 ```
 
+公开样例目录：${samples}。
 校验器仅检查数据协议；数值正确性由独立判分器检查。
 公开示例的完整正确输出位于 `/app/tasks/${task}/samples/${sample}/output/result.npz`。

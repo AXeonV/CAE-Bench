@@ -7,7 +7,7 @@ import numpy as np
 from scipy.sparse import coo_matrix, bmat, csr_matrix
 from scipy.sparse.linalg import spsolve
 
-from caeoj.sdk import load_problem, write_result
+from caeoj.sdk import load_problem, read_constant, read_field, write_result
 from caeoj.validation import GMSH_LOCK
 
 
@@ -36,7 +36,7 @@ def read_geometry(problem):
 
 def solve(problem):
     coordinates, elements = read_geometry(problem)
-    p = {key: item["value"] for key, item in problem.manifest["physics"]["parameters"].items()}
+    p = {key: read_constant(item) for key, item in problem.manifest["physics"]["parameters"].items()}
     k = p["conductivity"]
     origin, lengths = np.array([p["x0"], p["y0"]]), np.array([p["length_x"], p["length_y"]])
     n = len(coordinates)
@@ -59,8 +59,7 @@ def solve(problem):
     bary = np.stack(((1 - r) * (1 - t), r, (1 - r) * t), axis=-1).reshape(-1, 3)
     uv = (np.einsum("qa,eai->eqi", bary, vertices) - origin) / lengths
     source = next(c for c in problem.manifest["conditions"] if c["role"] == "source")
-    field = source["data"]["coefficients"]["field"]
-    coeff = problem.arrays[problem.manifest["fields"][field]["array"]][0]
+    coeff = read_field(problem, source["data"]["coefficients"])[0]
     q = sum(coeff[:, i, j, None] * uv[:, :, 0]**i * uv[:, :, 1]**j for i in range(3) for j in range(3))
     loads = 2 * area[:, None] * np.einsum("eq,q,qa->ea", q, weights, bary)
     np.add.at(rhs, cells.ravel(), loads.ravel())
@@ -77,8 +76,7 @@ def solve(problem):
         edges = all_edges[np.searchsorted(tags, ids)]
         verts = coordinates[edges]
         length = np.linalg.norm(verts[:, 1] - verts[:, 0], axis=1)
-        field = condition["data"]["coefficients"]["field"]
-        coeff = problem.arrays[problem.manifest["fields"][field]["array"]][0]
+        coeff = read_field(problem, condition["data"]["coefficients"])[0]
         axis = 1 if location in ("left", "right") else 0
         s_end = (verts[:, :, axis] - origin[axis]) / lengths[axis]
         operator = condition["operator"]
@@ -96,7 +94,7 @@ def solve(problem):
         elif operator == "normal_derivative":
             factor = k
         elif operator == "robin":
-            alpha, beta = (condition["data"][key]["value"] for key in ("alpha", "beta"))
+            alpha, beta = (read_constant(condition["data"][key]) for key in ("alpha", "beta"))
             factor = k / beta
             mass = factor * alpha * length[:, None, None] / 6 * np.array([[2, 1], [1, 2]])
             rows.append(np.repeat(edges, 2, axis=1).ravel())

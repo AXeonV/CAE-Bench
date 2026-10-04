@@ -20,13 +20,26 @@ Physical Groups：域 `(2,1)`，左/右/下/上 `(1,2)/(1,3)/(1,4)/(1,5)`；对�
 
 每条边恰有一条 `role=boundary` 条件，`operator` 取题面四种之一，`data.coefficients.field` 指向 c，定义：
 
-`g(s)=Σ c[i]s^i`，i=0,…,4。左右边 **s=v**，上下边 **s=u**，与线段连接方向无关。向外法向分别为 left=(−1,0)、right=(1,0)、bottom=(0,−1)、top=(0,1)。Robin 的 `data.alpha`、`data.beta` 是带单位的常数。
+`g(s)=Σ c[i]s^i`，i=0,…,4。左右边 **s=v**，上下边 **s=u**，与线段连接方向无关。向外法向分别为 left=(−1,0)、right=(1,0)、bottom=(0,−1)、top=(0,1)。Robin 的 `data.alpha`、`data.beta` 是 `{"value": 数值, "unit": 单位}` 常量对象。
 
 系数采用 NumPy [`numpy.polynomial.polynomial`](https://numpy.org/doc/stable/reference/generated/numpy.polynomial.polynomial.polyval2d.html) 的**升幂顺序**。源项数组 shape `[1,域三角形数,3,3]`，标签 `c00,c01,c02,c10,…,c22`；每条边的数组 shape `[1,边线段数,5]`，标签 `c0,…,c4`。字段为 `kind=components`、`value_kind=average`，单位同 q 或 g。
 
 所有域单元的 C 相同，同一边各线段的 c 相同。常系数的单元平均就是该系数；它们定义**连续多项式，不是函数采样值**。例如 C[0,0]=2、C[1,0]=3、C[0,1]=−1，其余为零，表示 `q=2+3u−v`；c=[1,2,0,0,0] 表示 `g=1+2s`。
 
 Dirichlet 角点值保证一致。角点邻接 Dirichlet 和其他边时，节点温度取 Dirichlet 值，其他条件施加于对应边的内部，不额外施加角点方程。
+
+## SDK 读取示例
+
+可用 SDK 读取常量和字段，返回的数组保留完整 shape：
+
+```python
+from caeoj.sdk import load_problem, read_constant, read_field
+
+problem = load_problem("problem.json")
+k = read_constant(problem.manifest["physics"]["parameters"]["conductivity"])
+condition = problem.manifest["conditions"][0]
+coefficients = read_field(problem, condition["data"]["coefficients"])
+```
 
 ## 输出与诊断
 

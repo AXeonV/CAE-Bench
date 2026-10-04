@@ -360,13 +360,22 @@ with np.load(input_path.parent / metadata["data_file"], allow_pickle=False) as d
 SDK 是可选帮助：
 
 ```python
-from caeoj.sdk import load_problem, write_result
+from caeoj.sdk import load_problem, read_constant, read_field, write_result
 
 problem = load_problem("case/problem.json")
 # problem.manifest 为元数据，problem.arrays 为 key -> ndarray。
 # SDK 不执行转置、dtype 转换或数值纠正。
-write_result("result.npz", problem, {"velocity": problem.arrays["velocity"].copy()})
+velocity = read_field(problem, {"field": "velocity"})
+write_result("result.npz", problem, {"velocity": velocity.copy()})
 ```
+
+| 读取接口 | 输入与返回值 |
+|---|---|
+| `read_constant(data)` | 接收 `{"value": 100.0, "unit": "K"}`，返回其中的数值；单位字符串保留在 data 中，不换算单位 |
+| `read_field(problem, reference)` | 接收 `{"field": "velocity"}`，按 `fields.velocity.array` 找到 NPZ 数组并返回；保留完整时间、位置、分量轴与 dtype |
+
+读取接口用于 `load_problem` 已校验的元数据，数据来源类型不符会报错。
+返回的场数组与输入共享数据，修改前可调用 `.copy()`。SDK 不求值边界函数、不插值、不修正数值。
 
 SDK 写入时复制必需的 IDs／时间轴；判分时仍独立重新校验文件，不信任程序是否调用 SDK。
 

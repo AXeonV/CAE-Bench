@@ -10,7 +10,7 @@ import unittest
 import numpy as np
 
 from caeoj.grading import grade_arrays, grade_files
-from caeoj.sdk import load_problem, load_result
+from caeoj.sdk import load_problem, load_result, read_constant, read_field
 from caeoj.smoke import PROJECT_ROOT
 from caeoj.validation import check_result, output_support
 
@@ -105,6 +105,33 @@ class HeatTests(unittest.TestCase):
                         self.assertTrue(0.01 <= condition["data"]["beta"]["value"] <= 100)
                 if "mean_temperature" in p:
                     self.assertTrue(-20 <= p["mean_temperature"] <= 20)
+
+    def test_mixed_public_sample_uses_sdk_and_passes_independent_solver(self):
+        sample = TASK / "samples/02"
+        problem = load_problem(sample / "input/problem.json")
+        reference = load_result(problem, sample / "output/result.npz")
+        boundaries = [c for c in problem.manifest["conditions"] if c["role"] == "boundary"]
+        self.assertEqual({c["operator"] for c in boundaries},
+                         {"dirichlet", "normal_derivative", "normal_flux", "robin"})
+        expected = {"left": [1, 1, 0, 0, 0], "right": [1, 0, 0, 0, 0],
+                    "bottom": [1, 0, 0, 0, 0], "top": [3, 1, 0, 0, 0]}
+        for condition in boundaries:
+            values = read_field(problem, condition["data"]["coefficients"])
+            self.assertEqual(values.shape, (1, 2, 5))
+            np.testing.assert_array_equal(values, np.broadcast_to(expected[condition["location"]], values.shape))
+            if condition["operator"] == "robin":
+                self.assertEqual(read_constant(condition["data"]["alpha"]), 1.0)
+                self.assertEqual(read_constant(condition["data"]["beta"]), 1.0)
+        coordinates, _ = baseline.read_geometry(problem)
+        expected_temperature = (1 + coordinates[:, 0] + coordinates[:, 1])[None, :, None]
+        np.testing.assert_allclose(reference["temperature"], expected_temperature, atol=1e-14, rtol=0)
+        self.assertEqual(self.grade(problem, baseline.solve(problem), reference)["score"], 1)
+        saved = json.loads((sample / "verification.json").read_text(encoding="utf-8"))
+        private_reference = TASK / "reference" / saved["case"] / "reference.npz"
+        report = grade_files(problem.path, sample / "output/result.npz", private_reference,
+                             atol=self.config["atol"], rtol=self.config["rtol"])
+        self.assertEqual(report["score"], 1)
+        self.assertEqual(saved, {"case": saved["case"], **report})
 
     def test_every_reference_is_analytic_value_at_correct_gmsh_tag(self):
         for problem, reference, analytic, coordinates, _ in self.cases:

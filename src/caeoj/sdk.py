@@ -21,6 +21,25 @@ def load_result(problem, path):
     return arrays
 
 
+def read_constant(data):
+    """Read a validated {value, unit} constant; never convert its unit."""
+    if not isinstance(data, dict) or set(data) != {"value", "unit"}:
+        raise TypeError('Expected a {"value": number, "unit": string} constant; '
+                        'use read_field(problem, reference) for a field reference.')
+    return data["value"]
+
+
+def read_field(problem, reference):
+    """Resolve {field: name} to its NPZ array; preserve dtype, shape and order."""
+    if not isinstance(reference, dict) or set(reference) != {"field"}:
+        raise TypeError('Expected a {"field": name} reference; '
+                        'use read_constant(data) for a constant.')
+    name = reference["field"]
+    if name not in problem.manifest["fields"]:
+        raise KeyError(f'Unknown input field: {name!r}; use the field name, not the NPZ key.')
+    return problem.arrays[problem.manifest["fields"][name]["array"]]
+
+
 def write_result(path, problem, fields):
     """fields maps required NPZ array keys to actual ndarrays; no dtype conversion."""
     if any(not isinstance(a, np.ndarray) for a in fields.values()):

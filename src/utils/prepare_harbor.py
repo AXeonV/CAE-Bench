@@ -13,7 +13,7 @@ from publish_dist import PROJECT_ROOT, read_public_file
 from caeoj.sdk import load_problem, load_result
 
 TEMPLATE_FILES = ('environment/Dockerfile', 'solution/solve.sh',
-                  'tests/test.sh', 'tests/judge.py', 'tests/docker-compose.yaml')
+                  'tests/test.sh', 'tests/judge.py')
 RESOURCE_FIELDS = {'agent': ('timeout_sec',),
                    'environment': ('build_timeout_sec', 'cpus', 'memory_mb'),
                    'verifier': ('timeout_sec',)}
@@ -68,7 +68,8 @@ def prepare(task, root=PROJECT_ROOT):
     rendered_config = task_config(read_public_file(root, template / 'task.toml').decode('utf-8'), overrides)
     judge_config = json.loads(read_public_file(root, source / 'judge-config.json'))
     instruction = Template(read_public_file(root, template / 'instruction.md').decode('utf-8')).substitute(
-        task=task, sample=manifest['public_samples'][0], timeout_seconds=judge_config['timeout_seconds'])
+        task=task, sample=manifest['public_samples'][0], timeout_seconds=judge_config['timeout_seconds'],
+        samples=', '.join(f'`/app/tasks/{task}/samples/{name}/`' for name in manifest['public_samples']))
     destination = root / 'runs/harbor/tasks' / task
     destination.parent.mkdir(parents=True, exist_ok=True)
     if destination.is_symlink() or getattr(destination, 'is_junction', lambda: False)():

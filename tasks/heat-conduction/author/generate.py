@@ -11,13 +11,13 @@ from numpy.polynomial.polynomial import polyval2d
 from caeoj.sdk import load_problem, write_result
 from caeoj.grading import grade_files
 from caeoj.validation import GMSH_LOCK, write_json
-from catalog import CASES, SIDES, R, N, F, source_coefficients, boundary_coefficients, exact_mean, equation
+from catalog import Case, CASES, SIDES, D, R, N, F, source_coefficients, boundary_coefficients, exact_mean, equation
 
 TASK_ROOT = Path(__file__).resolve().parents[1]
 
 
 def publish_sample(destination):
-    """Complete public sample, also present as scoring case 01 in the suite."""
+    """Publish the constant scoring sample and a small mixed-boundary example."""
     name = "01-constant-dirichlet"
     sample = destination / "samples" / "01"
     input_dir = sample / "input"
@@ -35,6 +35,26 @@ def publish_sample(destination):
     write_json(sample / "verification.json", {"case": name, **report})
     if report["score"] != 1:
         raise ValueError("Public sample did not pass the task grader")
+    publish_mixed_sample(destination)
+
+
+def publish_mixed_sample(destination):
+    """All four operators on a 9-node mesh; analytic T=1+x+y, q=0."""
+    case = Case("sample-02-mixed-boundaries", {(0, 0): 1.0, (1, 0): 1.0, (0, 1): 1.0},
+                (D, N, F, R), nx=2, ny=2, alpha=1.0, beta_ratio=1.0)
+    sample = Path(destination) / "samples/02"
+    reference = Path(destination) / "reference" / case.name / "reference.npz"
+    _, coordinates = generate_case(case, sample / "input", reference.parent)
+    problem = load_problem(sample / "input/problem.json")
+    # Evaluate independently of the coefficient-based reference generator.
+    answer = (1.0 + coordinates[:, 0] + coordinates[:, 1])[None, :, None]
+    output = sample / "output/result.npz"
+    write_result(output, problem, {"temperature": answer})
+    config = json.loads((TASK_ROOT / "judge-config.json").read_text(encoding="utf-8"))
+    report = grade_files(problem.path, output, reference, atol=config["atol"], rtol=config["rtol"])
+    write_json(sample / "verification.json", {"case": case.name, **report})
+    if report["score"] != 1:
+        raise ValueError("Mixed-boundary public sample did not pass the task grader")
 
 
 def mesh(case, path):
@@ -86,6 +106,69 @@ def field(name, location, shape, labels, unit):
             "components": labels, "unit": unit, "value_kind": "average"}
 
 
+def generate_case(case, directory, reference_dir):
+    """Use the same data contract for scoring cases and public examples."""
+    directory, reference_dir = Path(directory), Path(reference_dir)
+    directory.mkdir(parents=True, exist_ok=True)
+    ids, coordinates = mesh(case, directory / "mesh.msh")
+    # Let the existing structural loader enumerate mesh entities/groups.
+    from caeoj.validation import read_mesh
+    topology = read_mesh(directory / "mesh.msh")
+    manifest = {"task": "heat-conduction", "spatial_dimension": 2, "data_file": "input.npz",
+                "geometries": {"rectangle": {"file": "mesh.geo", "format": "gmsh-geo"}},
+                "meshes": {"main": {"file": "mesh.msh", "geometry": "rectangle"}},
+                "locations": {"nodes": {"kind": "mesh", "mesh": "main", "entity": "node", "ids": "node_ids"}},
+                "time_axes": {"steady": "times"}, "fields": {}, "outputs": {}, "conditions": [],
+                "physics": {"model": "steady_heat_conduction", "parameters": {}}}
+    parameters = manifest["physics"]["parameters"]
+    for name, value, unit in [("conductivity", case.k, "W/(m.K)"), ("x0", case.origin[0], "m"),
+                              ("y0", case.origin[1], "m"), ("length_x", case.size[0], "m"),
+                              ("length_y", case.size[1], "m")]:
+        parameters[name] = {"value": value, "unit": unit}
+    arrays = {"node_ids": ids, "times": np.array([0.0], dtype=np.float64)}
+    for name, dim, tag in [("domain", 2, 1)] + [(side, 1, tag) for side, tag in zip(SIDES, range(2, 6))]:
+        key = name + "_ids"
+        arrays[key] = np.array(sorted(topology["groups"][(dim, tag)]["elements"]), dtype=np.int64)
+        manifest["locations"][name] = {"kind": "mesh", "mesh": "main", "entity": "element",
+            "dimension": dim, "ids": key, "physical_group": {"dimension": dim, "tag": tag}}
+    source = source_coefficients(case)
+    arrays["source_coefficients"] = np.broadcast_to(source, (1, len(arrays["domain_ids"]), 3, 3)).copy()
+    manifest["fields"]["source_coefficients"] = field("source_coefficients", "domain", [3, 3],
+        [f"c{i}{j}" for i in range(3) for j in range(3)], "W/m3")
+    manifest["conditions"].append({"role": "source", "variable": "temperature", "location": "domain",
+        "operator": "polynomial", "data": {"coefficients": {"field": "source_coefficients"}}})
+    boundaries = {}
+    for side, operator in zip(SIDES, case.boundaries):
+        key = side + "_coefficients"
+        coeff = boundary_coefficients(case, side, operator)
+        arrays[key] = np.broadcast_to(coeff, (1, len(arrays[side + "_ids"]), 5)).copy()
+        unit = "K/m" if operator == N else "W/m2" if operator in (F, R) else "K"
+        manifest["fields"][key] = field(key, side, [5], [f"c{i}" for i in range(5)], unit)
+        data = {"coefficients": {"field": key}}
+        if operator == R:
+            data |= {"alpha": {"value": case.alpha, "unit": "W/(m2.K)"},
+                     "beta": {"value": case.k * case.beta_ratio, "unit": "W/(m.K)"}}
+        manifest["conditions"].append({"role": "boundary", "variable": "temperature", "location": side,
+                                         "operator": operator, "data": data})
+        boundaries[side] = {"operator": operator, "coefficients": coeff.tolist(), "g": equation(coeff, ("s",))}
+    if all(op in (N, F) for op in case.boundaries):
+        parameters["mean_temperature"] = {"value": exact_mean(case), "unit": "K"}
+    manifest["outputs"]["temperature"] = {"array": "temperature", "quantity": "temperature", "location": "nodes",
+        "time_axis": "steady", "dtype": "float64", "kind": "scalar", "component_shape": [1],
+        "components": ["value"], "unit": "K", "value_kind": "point"}
+    np.savez_compressed(directory / "input.npz", **arrays)
+    write_json(directory / "problem.json", manifest)
+    problem = load_problem(directory / "problem.json")
+    uv = (coordinates - case.origin) / case.size
+    temperature = polyval2d(uv[:, 0], uv[:, 1], case.temperature)[None, :, None]
+    write_result(reference_dir / "reference.npz", problem, {"temperature": temperature})
+    record = {"case": case.name, "temperature_coefficients": case.temperature.tolist(),
+              "temperature": equation(case.temperature), "source": equation(source), "boundaries": boundaries,
+              "mean_temperature": exact_mean(case), "node_count": len(ids), "cell_count": len(arrays["domain_ids"])}
+    write_json(reference_dir / "analytic.json", record)
+    return record, coordinates
+
+
 def generate(destination=TASK_ROOT):
     destination = Path(destination)
     descriptions = ["# 热传导测试点与解析解（出题材料）", "",
@@ -97,65 +180,8 @@ def generate(destination=TASK_ROOT):
     symbols = {"dirichlet": "D", N: "N", F: "F", R: "R"}
     records = []
     for case in CASES:
-        directory = destination / "cases" / case.name
-        directory.mkdir(parents=True, exist_ok=True)
-        ids, coordinates = mesh(case, directory / "mesh.msh")
-        # Let the existing structural loader enumerate mesh entities/groups.
-        from caeoj.validation import read_mesh
-        topology = read_mesh(directory / "mesh.msh")
-        manifest = {"task": "heat-conduction", "spatial_dimension": 2, "data_file": "input.npz",
-                    "geometries": {"rectangle": {"file": "mesh.geo", "format": "gmsh-geo"}},
-                    "meshes": {"main": {"file": "mesh.msh", "geometry": "rectangle"}},
-                    "locations": {"nodes": {"kind": "mesh", "mesh": "main", "entity": "node", "ids": "node_ids"}},
-                    "time_axes": {"steady": "times"}, "fields": {}, "outputs": {}, "conditions": [],
-                    "physics": {"model": "steady_heat_conduction", "parameters": {}}}
-        parameters = manifest["physics"]["parameters"]
-        for name, value, unit in [("conductivity", case.k, "W/(m.K)"), ("x0", case.origin[0], "m"),
-                                  ("y0", case.origin[1], "m"), ("length_x", case.size[0], "m"),
-                                  ("length_y", case.size[1], "m")]:
-            parameters[name] = {"value": value, "unit": unit}
-        arrays = {"node_ids": ids, "times": np.array([0.0], dtype=np.float64)}
-        for name, dim, tag in [("domain", 2, 1)] + [(side, 1, tag) for side, tag in zip(SIDES, range(2, 6))]:
-            key = name + "_ids"
-            arrays[key] = np.array(sorted(topology["groups"][(dim, tag)]["elements"]), dtype=np.int64)
-            manifest["locations"][name] = {"kind": "mesh", "mesh": "main", "entity": "element",
-                "dimension": dim, "ids": key, "physical_group": {"dimension": dim, "tag": tag}}
-        source = source_coefficients(case)
-        arrays["source_coefficients"] = np.broadcast_to(source, (1, len(arrays["domain_ids"]), 3, 3)).copy()
-        manifest["fields"]["source_coefficients"] = field("source_coefficients", "domain", [3, 3],
-            [f"c{i}{j}" for i in range(3) for j in range(3)], "W/m3")
-        manifest["conditions"].append({"role": "source", "variable": "temperature", "location": "domain",
-            "operator": "polynomial", "data": {"coefficients": {"field": "source_coefficients"}}})
-        boundaries = {}
-        for side, operator in zip(SIDES, case.boundaries):
-            key = side + "_coefficients"
-            coeff = boundary_coefficients(case, side, operator)
-            arrays[key] = np.broadcast_to(coeff, (1, len(arrays[side + "_ids"]), 5)).copy()
-            unit = "K/m" if operator == N else "W/m2" if operator in (F, R) else "K"
-            manifest["fields"][key] = field(key, side, [5], [f"c{i}" for i in range(5)], unit)
-            data = {"coefficients": {"field": key}}
-            if operator == R:
-                data |= {"alpha": {"value": case.alpha, "unit": "W/(m2.K)"},
-                         "beta": {"value": case.k * case.beta_ratio, "unit": "W/(m.K)"}}
-            manifest["conditions"].append({"role": "boundary", "variable": "temperature", "location": side,
-                                             "operator": operator, "data": data})
-            boundaries[side] = {"operator": operator, "coefficients": coeff.tolist(), "g": equation(coeff, ("s",))}
-        if all(op in (N, F) for op in case.boundaries):
-            parameters["mean_temperature"] = {"value": exact_mean(case), "unit": "K"}
-        manifest["outputs"]["temperature"] = {"array": "temperature", "quantity": "temperature", "location": "nodes",
-            "time_axis": "steady", "dtype": "float64", "kind": "scalar", "component_shape": [1],
-            "components": ["value"], "unit": "K", "value_kind": "point"}
-        np.savez_compressed(directory / "input.npz", **arrays)
-        write_json(directory / "problem.json", manifest)
-        problem = load_problem(directory / "problem.json")
-        uv = (coordinates - case.origin) / case.size
-        temperature = polyval2d(uv[:, 0], uv[:, 1], case.temperature)[None, :, None]
-        reference_dir = destination / "reference" / case.name
-        write_result(reference_dir / "reference.npz", problem, {"temperature": temperature})
-        record = {"case": case.name, "temperature_coefficients": case.temperature.tolist(),
-                  "temperature": equation(case.temperature), "source": equation(source), "boundaries": boundaries,
-                  "mean_temperature": exact_mean(case), "node_count": len(ids), "cell_count": len(arrays["domain_ids"])}
-        write_json(reference_dir / "analytic.json", record)
+        record, _ = generate_case(case, destination / "cases" / case.name,
+                                  destination / "reference" / case.name)
         records.append(record)
         boundaries_short = "/".join(symbols[op] for op in case.boundaries)
         mesh_label = "非结构" if case.unstructured else f"{case.nx}×{case.ny}"

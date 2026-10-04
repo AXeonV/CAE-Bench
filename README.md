@@ -19,7 +19,7 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 | `docs/` | 通用协议与项目规划 |
 | `src/caeoj/problem.schema.json` | JSON 元数据 Schema |
 | `src/caeoj/validation.py` | 基于通用数据协议的**结构校验器** |
-| `src/caeoj/sdk.py` | 可选的数据读写帮助 |
+| `src/caeoj/sdk.py` | 常量／字段读取与输出帮助 |
 | `src/caeoj/grading.py` | 与参考输出比较的**独立判分器** |
 | `src/caeoj/cli.py` | 校验与判分命令入口 |
 | `src/utils/publish_dist.py` | 打包单题的公开解题材料到 dist |

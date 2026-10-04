@@ -15,7 +15,7 @@ import zipfile
 import gmsh
 import numpy as np
 
-from caeoj.sdk import id_to_row, load_problem, load_result, target_ids, write_result
+from caeoj.sdk import id_to_row, load_problem, load_result, read_constant, read_field, target_ids, write_result
 from caeoj.grading import grade_arrays
 from caeoj.smoke import PROJECT_ROOT, run_smoke
 from caeoj.validation import ContractError, output_support, read_json, read_npz, validate_input, validate_output, write_json
@@ -315,6 +315,31 @@ class ContractTests(unittest.TestCase):
         self.assertFalse((self.root / "refused.npz").exists())
         for key, a in before.items():
             np.testing.assert_array_equal(a, p.arrays[key])
+
+    def test_sdk_reads_constant_and_field_without_guessing_or_converting(self):
+        constant = {"value": 3.0, "unit": "cm"}
+        self.assertEqual(read_constant(constant), 3.0)
+        self.assertEqual(constant["unit"], "cm")
+        # Field names may differ from the NPZ key; this is a real valid input.
+        self.m["fields"]["flow"] = self.m["fields"].pop("velocity")
+        self.save()
+        problem = load_problem(self.path)
+        values = read_field(problem, {"field": "flow"})
+        self.assertIs(values, problem.arrays["velocity"])
+        np.testing.assert_array_equal(values, self.a["velocity"])
+        self.assertEqual(values.shape, self.a["velocity"].shape)
+        self.assertEqual(values.dtype, self.a["velocity"].dtype)
+        with self.assertRaisesRegex(KeyError, 'field name, not the NPZ key'):
+            read_field(problem, {"field": "velocity"})
+
+    def test_sdk_wrong_data_source_has_actionable_error(self):
+        problem = load_problem(self.path)
+        with self.assertRaisesRegex(TypeError, 'use read_field'):
+            read_constant({"field": "velocity"})
+        with self.assertRaisesRegex(TypeError, 'use read_constant'):
+            read_field(problem, {"value": 1.0, "unit": "K"})
+        with self.assertRaises(TypeError):
+            read_constant(1.0)
 
     def test_cli_json_diagnostics_and_exit_codes(self):
         result = subprocess.run([sys.executable, "-m", "caeoj", "validate-input", str(self.path)], capture_output=True, text=True)

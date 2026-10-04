@@ -49,10 +49,11 @@ python solve.py --input tasks/{task}/samples/<sample>/input/problem.json --outpu
 python -m caeoj validate-output --input tasks/{task}/samples/<sample>/input/problem.json --output result.npz
 ```
 
-根据诊断修正读写实现。校验器只检查结构和引用，不验证或纠正物理结果。
-提交程序接口及支持范围以题面为准。共享 SDK 可选；程序必须能处理题面范围内的输入。
+校验器只检查结构和引用，不验证或纠正物理结果。
+可用 `caeoj.sdk` 的 `load_problem`、`read_constant`、`read_field`、`write_result` 读写数据，
+示例见 CONTRACT.md 和题目 DATA.md。提交程序接口及支持范围以题面为准。
 
-本包只含公开解题材料。MANIFEST.json 记录所含文件的 SHA-256；依赖需要另行安装，本包不是离线环境或完整 Harbor 任务。
+本包只含公开解题材料。MANIFEST.json 记录所含文件的 SHA-256。
 """.encode("utf-8")
 
 

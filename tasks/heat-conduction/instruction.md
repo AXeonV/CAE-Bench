@@ -75,3 +75,31 @@ temperature float64 [1,9,1] = [[[4.0], [4.0], [4.0], [4.0], [4.0], [4.0], [4.0],
 ### 示例说明
 
 解析解为 T(x,y)=4 K。该答案已按本题阈值通过独立判分，得 1 分，最大误差为 0，见[验证记录](samples/01/verification.json)。本例同时作为题库中的公开送分测试点 `01-constant-dirichlet`，计入上述 32 个测试点。
+
+## 示例 2：四种边界条件
+
+完整输入：[samples/02/input/](samples/02/input/)，入口为 [problem.json](samples/02/input/problem.json)。
+完整正确输出：[samples/02/output/result.npz](samples/02/output/result.npz)。
+
+单位正方形、k=1、q=0，仍为 9 个节点、8 个三角形。四条边分别为：
+
+| 边 | `operator` | 边界方程 | NPZ 中的升幂系数 c |
+|---|---|---|---|
+| left | `dirichlet` | T=1+y | `[1,1,0,0,0]` |
+| right | `normal_derivative` | ∂T/∂n=1 | `[1,0,0,0,0]` |
+| bottom | `normal_flux` | −k∂T/∂n=1 | `[1,0,0,0,0]` |
+| top | `robin` | T+∂T/∂n=3+x | `[3,1,0,0,0]` |
+
+top 的条件数据为：
+
+```json
+{
+  "coefficients": {"field": "top_coefficients"},
+  "alpha": {"value": 1.0, "unit": "W/(m2.K)"},
+  "beta": {"value": 1.0, "unit": "W/(m.K)"}
+}
+```
+
+解析解为 `T=1+x+y`。输出仍只含 `node_ids`、`times`、`temperature`；按 tag 1～9，温度约为
+`[1,2,3,2,1.5,2.5,2.5,1.5,2]` K，完整精度见 NPZ。
+该输出已通过独立判分，见[验证记录](samples/02/verification.json)。本例用于公开演示，不计入 32 个判分测试点。

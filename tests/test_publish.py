@@ -43,10 +43,12 @@ class PublishTests(unittest.TestCase):
             self.assertEqual(len(names), len(set(names)))
             self.assertIn("src/caeoj/problem.schema.json", names)
             self.assertIn("tasks/heat-conduction/samples/01/output/result.npz", names)
+            self.assertIn("tasks/heat-conduction/samples/02/output/result.npz", names)
             self.assertFalse(any(part in {"author", "cases", "reference", "__pycache__", "runs", ".git"}
                                  for name in names for part in Path(name).parts))
             self.assertFalse(any(name.endswith(("baseline.py", "TEST-CASES.md", "MVP-PLAN.md")) for name in names))
             manifest = json.loads(bundle.read("MANIFEST.json"))
+            self.assertEqual(manifest["public_samples"], ["01", "02"])
             self.assertEqual(set(manifest["files"]), set(names) - {"MANIFEST.json"})
             for name, checksum in manifest["files"].items():
                 self.assertEqual(checksum, hashlib.sha256(bundle.read(name)).hexdigest())
@@ -59,6 +61,9 @@ class PublishTests(unittest.TestCase):
             ["validate-input", "tasks/heat-conduction/samples/01/input/problem.json"],
             ["validate-output", "--input", "tasks/heat-conduction/samples/01/input/problem.json",
              "--output", "tasks/heat-conduction/samples/01/output/result.npz"],
+            ["validate-input", "tasks/heat-conduction/samples/02/input/problem.json"],
+            ["validate-output", "--input", "tasks/heat-conduction/samples/02/input/problem.json",
+             "--output", "tasks/heat-conduction/samples/02/output/result.npz"],
         ]
         for command in commands:
             execution = subprocess.run([sys.executable, "-m", "caeoj", *command], cwd=root, env=env,

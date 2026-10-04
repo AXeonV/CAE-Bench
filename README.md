@@ -10,7 +10,7 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 - **纠正 Agent I/O**：Agent 在理解输入、编写和调试程序时可随时调用**结构校验器**，根据诊断修改读写实现，减少输入输出理解错误的负担。*校验器只检查格式与引用，不验证或纠正物理结果。*
 - **提交后独立评测**：逐例执行提交程序，重新校验输出并按题目误差阈值与标答比较，每点 0/1 分，汇总结果和日志。
 
-当前已实现协议、校验器、SDK、独立判分器和本地测试流程；Agent／Harbor 接入留待后续。
+当前已实现协议、校验器、SDK、独立判分器、本地测试流程与首个 Harbor 任务适配；实际 Agent 评测尚未验收。
 
 ## 项目结构
 
@@ -23,46 +23,67 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 | `src/caeoj/grading.py` | 与参考输出比较的**独立判分器** |
 | `src/caeoj/cli.py` | 校验与判分命令入口 |
 | `src/utils/publish_dist.py` | 打包单题的公开解题材料到 dist |
+| `src/utils/prepare_harbor.py` | 使用发布包准备临时 Harbor 任务 |
 | `tasks/<task>/` | 各题目的题面、数据、标答及出题工具 |
 | `tests/` | 协议、校验、判分和题目数据的自动测试 |
-| `runs/<task>/` | 本地执行输出、日志和报告，不纳入版本控制 |
+| `runs/` | 本地输出、临时 Harbor 任务和运行报告，不纳入版本控制 |
 
 题目的开发材料与判题材料分别组织：开发材料提供题面、输入约定、公开样例及校验工具；判题材料包含测试数据、标答和判分配置。
 
 ## 运行
 
-在项目根目录使用指定 Python 环境。下列尖括号内容均为占位符，运行前替换为实际题目、测试点、程序路径、Agent、模型或阈值。
+在项目根目录使用指定 Python 环境。下列尖括号内容均为占位符，运行前替换为实际题目、测试点、程序路径或阈值。
 
-安装项目并运行自动测试：
+准备环境与题目数据，额外依赖和生成参数见题目 README：
 
 ```powershell
 $caePython = 'C:\Users\Admin\.conda\envs\expr\python.exe'
 & $caePython -m pip install -e .
+& $caePython 'tasks/<task>/author/generate.py'
 & $caePython -m unittest discover -s tests -v
 ```
 
-各题目需要的额外依赖、数据生成及批量执行命令见其 README。
-
-检查输入、运行求解程序并检查输出：
+检查测试输入与标答的结构：
 
 ```powershell
 & $caePython -m caeoj validate-input 'tasks/<task>/cases/<case>/problem.json'
-& $caePython '<solver.py>' --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.npz'
-& $caePython -m caeoj validate-output --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.npz'
+& $caePython -m caeoj validate-output --input 'tasks/<task>/cases/<case>/problem.json' --output 'tasks/<task>/reference/<case>/reference.npz'
 ```
 
-出题并检查输入输出后，打包公开材料；完成 [Harbor 配置与任务适配](docs/HARBOR.md)后启动 Agent：
+发布解题材料，再准备临时 Harbor 任务：
 
 ```powershell
 & $caePython src/utils/publish_dist.py --task '<task>'
-& 'C:\Users\Admin\.conda\envs\expr\Scripts\harbor.exe' run -p 'harbor/<task>' -e docker -a '<agent>' -m '<model>' -n 1 -o 'runs/harbor'
+& $caePython src/utils/prepare_harbor.py --task '<task>'
 ```
 
-发布包为 `dist/<task>-agent.zip`，包含题面、协议、公开示例和校验／读写工具，不含隐藏测试、隐藏标答和出题侧 solver。
+公开材料为 `dist/<task>-agent.zip`；题目适配位于 `tasks/<task>/harbor/`，临时任务位于 `runs/harbor/tasks/<task>/`。
 
-按题目指定阈值对单点判分：
+启动 Docker 的 Linux containers，先用 Oracle 验收，再运行 Codex + Luna：
 
 ```powershell
+$harborExe = 'C:\Users\Admin\.conda\envs\expr\Scripts\harbor.exe'
+$env:PYTHONUTF8 = '1'
+& $harborExe run -p 'runs/harbor/tasks/<task>' -e docker -a oracle -n 1 -o 'runs/harbor/jobs'
+
+$env:CODEX_AUTH_JSON_PATH = 'C:\Users\Admin\.codex\auth.json'
+& $harborExe run -p 'runs/harbor/tasks/<task>' -e docker -a codex `
+  -m 'openai/gpt-6-luna' --ak 'reasoning_effort=medium' -n 1 -o 'runs/harbor/jobs'
+```
+
+Harbor 自动逐点运行提交、校验输出并判分。查看轨迹与结果：
+
+```powershell
+& $harborExe view 'runs/harbor/jobs'
+```
+
+trial 的 `verifier/report.json` 保存逐点得分，`reward.txt` 保存通过率；Oracle 应全分且无异常。
+
+提交后也可本地执行并复核单点：
+
+```powershell
+& $caePython '<solver.py>' --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.npz'
+& $caePython -m caeoj validate-output --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.npz'
 & $caePython -m caeoj grade `
   --input 'tasks/<task>/cases/<case>/problem.json' `
   --output 'runs/<task>/<case>/result.npz' `
@@ -70,6 +91,4 @@ $caePython = 'C:\Users\Admin\.conda\envs\expr\python.exe'
   --atol '<atol>' --rtol '<rtol>'
 ```
 
-参考 NPZ 与提交结果满足相同的输出契约，包含结果场、固定 IDs 和时间轴。浮点分量使用 `|结果−参考| ≤ atol + rtol×|参考|`；整数和布尔值精确比较。阈值属于题目配置，不属于通用数据协议。
-
-校验命令输出 `valid/errors` JSON，退出码 0 为合法、1 为不合法、2 为参数错误。判分退出码 0 为通过、1 为答案错误或非法输出、2 为输入／参考数据或参数错误。结构校验与数值判分独立。
+误差阈值按题目配置填写。校验命令输出 `valid/errors` JSON；判分每点为 0/1 分，退出码 2 表示输入、标答或参数异常。

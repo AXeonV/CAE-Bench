@@ -1,8 +1,8 @@
-# 热传导题交付说明
+# 热传导题
 
-选手题面见 [instruction.md](instruction.md)，仅规定方程、输入范围、数据解释和输出。测试点与逐边解析方程见 [TEST-CASES.md](TEST-CASES.md)，属于出题材料。
+二维稳态热传导题。题面见 [instruction.md](instruction.md)，字段与边界条件解释见 [DATA.md](DATA.md)，测试点与解析方程见 [TEST-CASES.md](TEST-CASES.md)。
 
-32 个测试点覆盖常数、线性、双轴耦合、二至四次多项式，定温、法向导数、向外热流、Robin 及混合条件；还包含纯 Neumann 的域平均温度约束、绝热边、零场、小幅值、域平移、长宽比、不同 k、网格细化、非结构网格、稀疏 tags、binary MSH。
+32 个测试点覆盖常数至四次多项式解，定温、法向导数、向外热流、Robin、混合条件与纯 Neumann 的域平均温度约束；同时变化温度幅值、区域、导热系数、网格密度及存储形式。
 
 ## 文件
 
@@ -21,43 +21,26 @@
 | `author/generate.py` | **生成输入与标答**：生成 Gmsh 网格、源项和边界数据，代入解析解生成标答。 |
 | `author/baseline.py` | **求解并验证**：可用的本地 P1 有限元 solver，支持本题当前输入范围；只读取输入，用于验证数据和阈值。 |
 | `author/check.py` | **批量执行与判分**：逐点运行指定 solver（默认 baseline），调用判分器并汇总报告。 |
+| `harbor/` | *Harbor* 的解题入口、Docker 配置、Oracle 和独立判题适配。 |
 
-解析解不写入输入。后续接入 Agent 时，开发材料只提供题面及 DATA.md、通用协议、SDK／校验命令和 `samples/` 的完整公开示例；不提供 `author/`、`reference/`、`TEST-CASES.md` 及其余测试输入。目前没有 Agent 或 Harbor 适配。
+## 出题与验证
 
-## 运行
-
-在项目根目录：
+在项目根目录，沿用[项目 README](../../README.md#运行) 中的 `$caePython`：
 
 ```powershell
-$caePython = 'C:\Users\Admin\.conda\envs\expr\python.exe'
 & $caePython -m pip install -e '.[heat]'
 & $caePython 'tasks/heat-conduction/author/generate.py'
 & $caePython 'tasks/heat-conduction/author/check.py'
-& $caePython -m unittest discover -s tests -v
 ```
 
-生成程序覆盖同名数据文件，同时生成公开示例并对其正确输出判分，只有通过才生成成功。标答仅由解析函数计算，不调用数值求解器；题目不限定使用有限元、差分或其他求解方法。
+`generate.py` 生成网格、输入、解析标答及已通过判分的公开样例，覆盖同名数据文件。`check.py` 默认逐点运行 P1 有限元基线，报告写入 `runs/heat/report.json`；用 `--program <solver.py>` 检查其他求解程序。
 
-`check.py` 默认逐点启动本地有限元基线，报告写入 `runs/heat/report.json`，输出和日志保存在独立运行目录。用 `--program 路径` 检查其他本地 Python 求解程序；接口与题面相同。输入或标答结构错误记为基础设施异常，score 为 null；运行错误、超时、非法输出或超阈值则该点 0 分。退出码 0 全通过、1 有错误答案、2 基础设施异常。
+## 数据与判分
 
-单点判分可直接调用已有判分器，必须传本题阈值：
+源项 `q=-kΔT_exact` 和各边条件由同一解析温度函数推导，标答为该函数在网格节点处的值，解析解不写入输入。源项与边界数据存为多项式系数，具体解释见 DATA.md。
 
-```powershell
-& $caePython -m caeoj grade `
-  --input 'tasks/heat-conduction/cases/01-constant-dirichlet/problem.json' `
-  --output 'result.npz' `
-  --reference 'tasks/heat-conduction/reference/01-constant-dirichlet/reference.npz' `
-  --atol 0.01 --rtol 0
-```
+每点限时 **30 秒**；所有节点绝对误差 **≤0.01 K** 得 1 分，否则 0 分，满分 **32 分**。相对容差为零，以 `judge-config.json` 为准。
 
-每例所有节点绝对误差≤0.01 K 得 1 分，否则 0 分，满分 32。该阈值独立于通用判分器的默认阈值；相对误差设为零，避免背景温度影响容差。
+基线只读取输入，用 P1 有限元独立求解；当前 32/32 通过，最大绝对误差约 **0.00324 K**。该结果验证当前数据与阈值，题目不限定求解方法。
 
-## 数据与阈值验证
-
-源项为 `q=-kΔT_exact`；各边 g 由对应边界算子作用于同一个 `T_exact` 得到。因此参考温度精确满足题面定义的连续方程和边界条件。NPZ 存储 NumPy 升幂多项式的系数场，任务规定常系数及归一化自变量；不存在函数采样后插值造成的方程变更。这是已有 `components` 字段的题目语义，没有新增通用协议字段。
-
-出题测试独立检查源项、每条边的方程、纯 Neumann 积分相容性及域平均温度；这些检查只属于出题数据质量测试，结构校验器不增加物理功能。
-
-P1 基线使用三角形弱形式、Gaussian 积分、[SciPy 稀疏线性求解](https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.spsolve.html)，纯 Neumann 用域积分约束。32/32 通过，最大绝对误差约 0.00324 K；网格细化的泡形解误差从约 0.00324 降到 0.000360 K。阈值为这套具体测试数据校准，不保证任意允许范围内的粗网格用 P1 都能达到该精度。
-
-自动测试还验证漏掉源项、热流符号写反、忽略 k、错用 Robin 系数或平均温度都会被判错；它们的输出仍可以通过结构检查。完整测试入口为 `tests/test_heat.py`。
+`tests/test_heat.py` 检查解析源项、逐边条件、纯 Neumann 相容性与域平均温度，并验证常见物理错误会被判错。

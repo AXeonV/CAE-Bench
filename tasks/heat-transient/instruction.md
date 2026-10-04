@@ -35,7 +35,7 @@ Dirichlet 边界的初始节点温度为零。其他条件要求在 t>0 满足�
 
 接口：`python solve.py --input problem.json --output result.npz`。
 
-输出包含原样复制的 `node_ids`、`times`，以及 float64 `temperature`，shape `[输出时刻数,节点数,1]`，单位 K。第一个时间层必须是输入初始节点温度。
+输出包含原样复制的 `node_ids`、`times`，以及 float64 `temperature`，shape `[输出时刻数,节点数,1]`，单位 K。t=0 的温度为输入给定的初始节点温度。
 
 每点全部时刻、全部节点绝对误差≤**0.02 K** 得 1 分，否则 0 分。24 点满分 24；单点限时 **5 秒**，内存 **1,024 MB**（按 1 MB=2²⁰ 字节计）。
 

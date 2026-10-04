@@ -1,0 +1,255 @@
+{
+  "task": "navier-stokes-steady",
+  "spatial_dimension": 2,
+  "data_file": "input.npz",
+  "geometries": {
+    "rectangle": {
+      "file": "mesh.geo",
+      "format": "gmsh-geo"
+    }
+  },
+  "meshes": {
+    "main": {
+      "file": "mesh.msh",
+      "geometry": "rectangle"
+    }
+  },
+  "locations": {
+    "nodes": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "node",
+      "ids": "node_ids"
+    },
+    "domain": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "node",
+      "ids": "node_ids",
+      "physical_group": {
+        "dimension": 2,
+        "tag": 1
+      }
+    },
+    "left": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "node",
+      "ids": "left_ids",
+      "physical_group": {
+        "dimension": 1,
+        "tag": 2
+      }
+    },
+    "right": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "node",
+      "ids": "right_ids",
+      "physical_group": {
+        "dimension": 1,
+        "tag": 3
+      }
+    },
+    "bottom": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "node",
+      "ids": "bottom_ids",
+      "physical_group": {
+        "dimension": 1,
+        "tag": 4
+      }
+    },
+    "top": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "node",
+      "ids": "top_ids",
+      "physical_group": {
+        "dimension": 1,
+        "tag": 5
+      }
+    }
+  },
+  "time_axes": {
+    "output": "times",
+    "conditions": "condition_times"
+  },
+  "fields": {
+    "acceleration": {
+      "array": "acceleration",
+      "quantity": "acceleration",
+      "location": "domain",
+      "time_axis": "conditions",
+      "dtype": "float64",
+      "kind": "vector",
+      "component_shape": [
+        2
+      ],
+      "components": [
+        "x",
+        "y"
+      ],
+      "unit": "m/s2",
+      "value_kind": "point"
+    },
+    "bottom_velocity": {
+      "array": "bottom_velocity",
+      "quantity": "velocity",
+      "location": "bottom",
+      "time_axis": "conditions",
+      "dtype": "float64",
+      "kind": "vector",
+      "component_shape": [
+        2
+      ],
+      "components": [
+        "x",
+        "y"
+      ],
+      "unit": "m/s",
+      "value_kind": "point"
+    },
+    "top_velocity": {
+      "array": "top_velocity",
+      "quantity": "velocity",
+      "location": "top",
+      "time_axis": "conditions",
+      "dtype": "float64",
+      "kind": "vector",
+      "component_shape": [
+        2
+      ],
+      "components": [
+        "x",
+        "y"
+      ],
+      "unit": "m/s",
+      "value_kind": "point"
+    }
+  },
+  "outputs": {
+    "velocity": {
+      "array": "velocity",
+      "quantity": "velocity",
+      "location": "nodes",
+      "time_axis": "output",
+      "dtype": "float64",
+      "kind": "vector",
+      "component_shape": [
+        2
+      ],
+      "components": [
+        "x",
+        "y"
+      ],
+      "unit": "m/s",
+      "value_kind": "point"
+    },
+    "pressure": {
+      "array": "pressure",
+      "quantity": "pressure",
+      "location": "nodes",
+      "time_axis": "output",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "Pa",
+      "value_kind": "point"
+    }
+  },
+  "physics": {
+    "model": "incompressible_navier_stokes",
+    "parameters": {
+      "density": {
+        "value": 2.0,
+        "unit": "kg/m3"
+      },
+      "dynamic_viscosity": {
+        "value": 0.04,
+        "unit": "Pa.s"
+      },
+      "x0": {
+        "value": 0.0,
+        "unit": "m"
+      },
+      "y0": {
+        "value": 0.0,
+        "unit": "m"
+      },
+      "length_x": {
+        "value": 1.0,
+        "unit": "m"
+      },
+      "length_y": {
+        "value": 1.0,
+        "unit": "m"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "role": "source",
+      "variable": "velocity",
+      "location": "domain",
+      "operator": "acceleration",
+      "data": {
+        "value": {
+          "field": "acceleration"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "velocity_pressure",
+      "location": "right",
+      "operator": "periodic",
+      "data": {
+        "master_physical_tag": {
+          "value": 2,
+          "unit": "1"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "velocity",
+      "location": "bottom",
+      "operator": "dirichlet",
+      "data": {
+        "value": {
+          "field": "bottom_velocity"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "velocity",
+      "location": "top",
+      "operator": "dirichlet",
+      "data": {
+        "value": {
+          "field": "top_velocity"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "pressure",
+      "location": "domain",
+      "operator": "mean",
+      "data": {
+        "value": {
+          "value": 0.0,
+          "unit": "Pa"
+        }
+      }
+    }
+  ]
+}

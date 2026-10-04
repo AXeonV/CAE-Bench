@@ -47,6 +47,9 @@ class PublishTests(unittest.TestCase):
             self.assertFalse(any(part in {"author", "cases", "reference", "__pycache__", "runs", ".git"}
                                  for name in names for part in Path(name).parts))
             self.assertFalse(any(name.endswith(("baseline.py", "TEST-CASES.md", "MVP-PLAN.md")) for name in names))
+            self.assertNotIn("src/caeoj/examples.py", names)
+            self.assertNotIn("src/caeoj/smoke.py", names)
+            self.assertFalse(any(name.endswith("verification.json") for name in names))
             manifest = json.loads(bundle.read("MANIFEST.json"))
             self.assertEqual(manifest["public_samples"], ["01", "02"])
             self.assertEqual(set(manifest["files"]), set(names) - {"MANIFEST.json"})
@@ -73,10 +76,27 @@ class PublishTests(unittest.TestCase):
         module = subprocess.run([sys.executable, "-c", "import caeoj; print(caeoj.__file__)"],
                                 cwd=root, env=env, capture_output=True, text=True, timeout=30)
         self.assertEqual(Path(module.stdout.strip()).resolve(), (root / "src/caeoj/__init__.py").resolve())
+        help_result = subprocess.run([sys.executable, "-m", "caeoj", "--help"],
+                                     cwd=root, env=env, capture_output=True, text=True, timeout=30)
+        self.assertEqual(help_result.returncode, 0, help_result.stderr)
+        self.assertIn("validate-output", help_result.stdout)
+        self.assertNotIn("make-cases", help_result.stdout)
+        self.assertNotIn("smoke", help_result.stdout)
+        for sample in ("01", "02"):
+            execution = subprocess.run(
+                [sys.executable, "-m", "caeoj", "grade", "--input",
+                 f"tasks/heat-conduction/samples/{sample}/input/problem.json", "--output",
+                 f"tasks/heat-conduction/samples/{sample}/output/result.npz", "--reference",
+                 f"tasks/heat-conduction/samples/{sample}/output/result.npz", "--atol", "0.01", "--rtol", "0"],
+                cwd=root, env=env, capture_output=True, text=True, timeout=30)
+            self.assertEqual(execution.returncode, 0, execution.stderr)
+            self.assertEqual(json.loads(execution.stdout)["score"], 1)
 
     def test_unlisted_files_never_enter_release(self):
         root, _ = self.extracted_bundle()
         for name in (".env", "src/caeoj/secret.py", "tasks/heat-conduction/author/baseline.py",
+                     "src/caeoj/examples.py", "src/caeoj/smoke.py",
+                     "tasks/heat-conduction/samples/01/verification.json",
                      "tasks/heat-conduction/samples/01/input/notes.txt"):
             path = root / name
             path.parent.mkdir(parents=True, exist_ok=True)

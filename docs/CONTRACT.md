@@ -414,7 +414,7 @@ $caePython = 'C:\Users\Admin\.conda\envs\expr\python.exe'
 
 校验器检查结构和声明，不修改数据，不重排或匹配等价网格，不验证 CAD、网格质量、PDE、守恒、材料正负、条件物理相容性或解误差。
 
-判分由独立模块 `src/caeoj/grading.py` 实现，`smoke.py` 只执行程序并汇总分数。判分器接收输出和参考 NPZ，二者都满足同一个输出契约。浮点场逐分量使用：
+判分由独立模块 `src/caeoj/grading.py` 实现。判分器接收输出和参考 NPZ，二者都满足同一个输出契约。浮点场逐分量使用：
 
 `|result-reference| ≤ atol + rtol·|reference|`
 
@@ -424,7 +424,7 @@ $caePython = 'C:\Users\Admin\.conda\envs\expr\python.exe'
 & $caePython -m caeoj grade --input 'problem.json' --output 'result.npz' --reference 'reference.npz'
 ```
 
-`grade` 退出码为 0（通过）、1（答案错误或非法输出）、2（输入／参考数据错误或命令参数错误）。参考文件是出题方提供的权威输出数组，包括必要的 IDs 和时间轴，不要求与输入场相同。当前 smoke 的参考值来自输入回传场；真实物理题可以直接替换参考值来源。
+`grade` 退出码为 0（通过）、1（答案错误或非法输出）、2（输入／参考数据错误或命令参数错误）。参考文件是出题方提供的权威输出数组，包括必要的 IDs 和时间轴，不要求与输入场相同。
 
 判分与结构诊断分开：`validate-output` 不比较参考值。参考数据错误不能算作选手失分，报告 score 为 null。
 

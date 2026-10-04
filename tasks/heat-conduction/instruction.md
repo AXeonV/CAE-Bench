@@ -44,7 +44,7 @@
 
 输出 NPZ 包含原样复制的 `node_ids`、`times`，及 float64 `temperature`，shape `[1,节点数,1]`，按节点 IDs 行序，单位 K。
 
-每测试点所有节点满足 `|T−Tref|≤0.01 K` 得 1 分，否则 0 分。32 个测试点满分 32，单点时间上限 30 秒。标答由解析解在节点坐标处直接计算。
+每测试点所有节点满足 `|T−Tref|≤0.01 K` 得 1 分，否则 0 分。32 个测试点满分 32，单点时间上限 30 秒。
 
 ## 示例 1
 
@@ -72,10 +72,6 @@ times       float64 [1]     = [0.0]
 temperature float64 [1,9,1] = [[[4.0], [4.0], [4.0], [4.0], [4.0], [4.0], [4.0], [4.0], [4.0]]]
 ```
 
-### 示例说明
-
-解析解为 T(x,y)=4 K。该答案已按本题阈值通过独立判分，得 1 分，最大误差为 0，见[验证记录](samples/01/verification.json)。本例同时作为题库中的公开送分测试点 `01-constant-dirichlet`，计入上述 32 个测试点。
-
 ## 示例 2：四种边界条件
 
 完整输入：[samples/02/input/](samples/02/input/)，入口为 [problem.json](samples/02/input/problem.json)。
@@ -100,6 +96,5 @@ top 的条件数据为：
 }
 ```
 
-解析解为 `T=1+x+y`。输出仍只含 `node_ids`、`times`、`temperature`；按 tag 1～9，温度约为
+输出仍只含 `node_ids`、`times`、`temperature`；按 tag 1～9，温度约为
 `[1,2,3,2,1.5,2.5,2.5,1.5,2]` K，完整精度见 NPZ。
-该输出已通过独立判分，见[验证记录](samples/02/verification.json)。本例用于公开演示，不计入 32 个判分测试点。

@@ -1,11 +1,10 @@
 """Local contract-checking CLI and smoke entry points."""
 import argparse
+from importlib.util import find_spec
 import json
 from pathlib import Path
 
-from .examples import make_cases
 from .grading import DEFAULT_ATOL, DEFAULT_RTOL, grade_files
-from .smoke import PROJECT_ROOT, run_smoke
 from .validation import ContractError, validate_input, validate_output
 
 
@@ -23,13 +22,16 @@ def main(argv=None):
     grade_parser.add_argument("--reference", required=True)
     grade_parser.add_argument("--atol", type=float, default=DEFAULT_ATOL)
     grade_parser.add_argument("--rtol", type=float, default=DEFAULT_RTOL)
-    make_parser = commands.add_parser("make-cases", help="Write 12 local echo examples")
-    make_parser.add_argument("--output", default=str(PROJECT_ROOT / "tasks/echo-field/cases"))
-    smoke_parser = commands.add_parser("smoke", help="Run a local echo program; no Agent")
-    smoke_parser.add_argument("--cases", default=str(PROJECT_ROOT / "tasks/echo-field/cases"))
-    smoke_parser.add_argument("--program", default=str(PROJECT_ROOT / "tasks/echo-field/solve.py"))
-    smoke_parser.add_argument("--report", default=str(PROJECT_ROOT / "runs/smoke/report.json"))
-    smoke_parser.add_argument("--timeout", type=float, default=10)
+    # Author-only modules are omitted from the public release.
+    if all(find_spec(f"{__package__}.{name}") is not None for name in ("examples", "smoke")):
+        project_root = Path(__file__).resolve().parents[2]
+        make_parser = commands.add_parser("make-cases", help="Write 12 local echo examples")
+        make_parser.add_argument("--output", default=str(project_root / "tasks/echo-field/cases"))
+        smoke_parser = commands.add_parser("smoke", help="Run a local echo program; no Agent")
+        smoke_parser.add_argument("--cases", default=str(project_root / "tasks/echo-field/cases"))
+        smoke_parser.add_argument("--program", default=str(project_root / "tasks/echo-field/solve.py"))
+        smoke_parser.add_argument("--report", default=str(project_root / "runs/smoke/report.json"))
+        smoke_parser.add_argument("--timeout", type=float, default=10)
     args = parser.parse_args(argv)
     try:
         if args.command == "validate-input":
@@ -37,11 +39,13 @@ def main(argv=None):
         elif args.command == "validate-output":
             result = validate_output(args.input, args.output)
         elif args.command == "make-cases":
+            from .examples import make_cases
             count = make_cases(args.output)
             result = {"generated_cases": count, "directory": str(Path(args.output).resolve())}
         elif args.command == "grade":
             result = grade_files(args.input, args.output, args.reference, atol=args.atol, rtol=args.rtol)
         else:
+            from .smoke import run_smoke
             if args.timeout <= 0:
                 parser.error("--timeout must be positive")
             result = run_smoke(args.cases, args.program, args.report, args.timeout)

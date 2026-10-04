@@ -16,7 +16,7 @@ from caeoj.validation import ContractError, validate_input, validate_output
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 TOOL_FILES = ("__init__.py", "__main__.py", "cli.py", "validation.py", "sdk.py",
-              "problem.schema.json", "grading.py", "examples.py", "smoke.py")
+              "problem.schema.json", "grading.py")
 
 
 def read_public_file(root, path):
@@ -99,9 +99,6 @@ def collect_materials(task, root=PROJECT_ROOT):
         diagnostics = validate_output(path, result)
         if not diagnostics["valid"]:
             raise ContractError(diagnostics)
-        verification = sample / "verification.json"
-        if verification.is_file():
-            add(verification)
         samples.append(sample.name)
     files["README.md"] = agent_readme(task)
     manifest = {"task": task, "public_samples": samples,

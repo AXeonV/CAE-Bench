@@ -2,7 +2,7 @@
 
 CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕通用数据协议、结构校验、测试数据和独立判分组织，支持持续增加不同物理模型的题目和测试。
 
-通用数据协议见 [CONTRACT.md](docs/CONTRACT.md)，实施规划见 [MVP-PLAN.md](docs/MVP-PLAN.md)。各题目的方程、输入范围、测试设计、依赖和运行说明保存在对应的 `tasks/<task>/` 目录。
+通用数据协议见 [CONTRACT.md](docs/CONTRACT.md)，初版实施规划见 [MVP-PLAN.md](docs/MVP-PLAN.md)，Agent 测试记录见 [AGENT-RESULTS.md](docs/AGENT-RESULTS.md)。各题目的方程、输入范围、测试设计、依赖和运行说明保存在对应的 `tasks/<task>/` 目录。
 
 ## 设计
 

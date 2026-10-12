@@ -28,7 +28,7 @@ def task_config(template, overrides):
         for name, value in values.items():
             if name not in RESOURCE_FIELDS[section]:
                 raise ValueError(f'Unsupported Harbor config field: {section}.{name}')
-            expected = type(config[section][name])
+            expected = int if name in ('cpus', 'memory_mb') else float
             types = (int, float) if expected is float else (expected,)
             if type(value) not in types or value <= 0:
                 raise ValueError(f'Harbor resource must be positive: {section}.{name}')
@@ -47,7 +47,7 @@ def task_config(template, overrides):
 
 def prepare(task, root=PROJECT_ROOT):
     root = Path(root).resolve()
-    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]*', task):
+    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9_.-]*[A-Za-z0-9_-])?', task):
         raise ValueError('Task must be a directory name')
     source = root / 'tasks' / task
     template = root / 'src/utils/harbor'

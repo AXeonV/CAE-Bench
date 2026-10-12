@@ -36,8 +36,7 @@ def execute(directory, timeout, logs):
                '--output', str(directory / 'result.npz')]
     # Credentials from the agent phase are never passed to solver processes.
     env = {'PATH': '/usr/local/bin:/usr/bin:/bin', 'HOME': '/home/solver',
-           'PYTHONDONTWRITEBYTECODE': '1', 'OPENBLAS_NUM_THREADS': '1',
-           'OMP_NUM_THREADS': '1'}
+           'PYTHONDONTWRITEBYTECODE': '1'}
     with (logs / 'stdout.log').open('wb') as out, (logs / 'stderr.log').open('wb') as err:
         process = subprocess.Popen(command, cwd=directory, env=env, stdout=out,
                                    stderr=err, start_new_session=True)

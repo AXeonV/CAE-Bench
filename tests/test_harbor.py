@@ -104,7 +104,7 @@ class HarborTests(unittest.TestCase):
         self.assertEqual((jobs / 'keep.log').read_text(), 'keep')
 
     def test_another_task_reuses_templates_and_overrides_resources(self):
-        task = 'another-problem'
+        task = '1D_Advection_Sols_beta0.2'
         source = self.root / 'tasks' / task
         shutil.copytree(self.root / 'tasks' / TASK, source)
         (source / 'harbor/task.toml').write_text(
@@ -130,10 +130,15 @@ class HarborTests(unittest.TestCase):
     def test_task_without_harbor_config_uses_shared_defaults(self):
         requirements = self.root / 'tasks' / TASK / 'harbor/requirements.txt'
         requirements.unlink()
+        resource_config = self.root / 'tasks' / TASK / 'harbor/task.toml'
+        if resource_config.exists():
+            resource_config.unlink()
         directory = self.prepared()
         self.assertEqual((directory / 'environment/requirements.txt').read_bytes(), b'')
         config = tomllib.loads((directory / 'task.toml').read_text())
         self.assertEqual(config['agent']['timeout_sec'], 1800)
+        self.assertNotIn('cpus', config['environment'])
+        self.assertNotIn('memory_mb', config['environment'])
 
     def test_resource_overrides_cannot_change_judging_interface(self):
         (self.root / 'tasks' / TASK / 'harbor/task.toml').write_text(

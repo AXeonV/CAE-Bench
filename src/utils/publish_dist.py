@@ -59,7 +59,7 @@ python -m caeoj validate-output --input tasks/{task}/samples/<sample>/input/prob
 
 def collect_materials(task, root=PROJECT_ROOT):
     root = Path(root).resolve()
-    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]*", task):
+    if not re.fullmatch(r"[A-Za-z0-9](?:[A-Za-z0-9_.-]*[A-Za-z0-9_-])?", task):
         raise ValueError("--task must be a task directory name, without paths")
     task_dir = root / "tasks" / task
     files = {}

@@ -29,6 +29,26 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 题目的开发材料与判题材料分别组织：开发材料提供题面、输入约定、公开样例及校验工具；判题材料包含测试数据、标答和判分配置。
 
+## 任务与题面草案
+
+已有任务（具备题面、样例与评测材料）：`echo-field`、`heat-conduction`、`heat-transient`、`navier-stokes-steady`、`navier-stokes-transient`、`1D_Advection_Sols_beta0.4`。这些任务保持现状。
+
+以下为 PDEBench 方程族题目。每个目录包含 instruction.md、DATA.md、DESIGN.md 和 README.md；判例、参考数据、误差阈值、资源限制、完整样例及存储方案后续补充。它们目前不能执行下文的发布与评测流程。 样例、测试分组与空目录已规划；统一下载、缓存和协议转换工具见 [PDEBench 数据准备工具](src/utils/PDEBench/README.md)，支持克隆后一条命令运行；参考审核状态单独报告。
+
+| 目录 | 问题 | 要求输出 |
+|---|---|---|
+| [PDEBench_1D_Advection](tasks/PDEBench_1D_Advection/README.md) | 一维周期线性平流 | state |
+| [PDEBench_1D_Burgers](tasks/PDEBench_1D_Burgers/README.md) | 一维周期黏性 Burgers 方程 | state |
+| [PDEBench_1D_ReactionDiffusion](tasks/PDEBench_1D_ReactionDiffusion/README.md) | 一维 logistic 反应扩散 | state |
+| [PDEBench_1D_DiffusionSorption](tasks/PDEBench_1D_DiffusionSorption/README.md) | 一维 Freundlich 迟滞扩散 | concentration |
+| [PDEBench_2D_ReactionDiffusion](tasks/PDEBench_2D_ReactionDiffusion/README.md) | 二维 FitzHugh–Nagumo 反应扩散 | activator、inhibitor |
+| [PDEBench_2D_DarcyFlow](tasks/PDEBench_2D_DarcyFlow/README.md) | 二维空间变系数 Darcy 型稳态问题 | state |
+| [PDEBench_2D_ShallowWater](tasks/PDEBench_2D_ShallowWater/README.md) | 二维浅水径向溃坝 | depth |
+| [PDEBench_1D_CompressibleNavierStokes](tasks/PDEBench_1D_CompressibleNavierStokes/README.md) | 一维可压缩 Navier–Stokes | density、velocity、pressure |
+| [PDEBench_2D_CompressibleNavierStokes](tasks/PDEBench_2D_CompressibleNavierStokes/README.md) | 二维可压缩 Navier–Stokes | density、velocity、pressure |
+| [PDEBench_3D_CompressibleNavierStokes](tasks/PDEBench_3D_CompressibleNavierStokes/README.md) | 三维可压缩 Navier–Stokes | density、velocity、pressure |
+| [PDEBench_2D_IncompressibleNavierStokes](tasks/PDEBench_2D_IncompressibleNavierStokes/README.md) | 二维非均匀强迫不可压缩流 | velocity |
+
 ## 运行
 
 在项目根目录使用指定 Python 环境。下列尖括号内容均为占位符，运行前替换为实际题目、测试点、程序路径或阈值。

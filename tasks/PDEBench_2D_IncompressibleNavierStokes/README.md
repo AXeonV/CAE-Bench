@@ -17,3 +17,5 @@
 公开样例的问题定义：[样例 01](samples/01/input/problem.json)、[样例 02](samples/02/input/problem.json)。隐藏定义保存在 cases/<ID>/problem.json，参考证书保存在 reference/<ID>/certificate.json；这些 JSON 随 Git 克隆保留，数组与网格需运行工具补齐。
 
 本题覆盖当前官方已发布配置的数学问题，求解方法由提交程序选择。现有任务及其评测数据保持不变。
+
+已提供宽松试运行配置：[judge-config.json](judge-config.json)、[Harbor 资源](harbor/task.toml)。实际运行入口会声明这些参数；正式参考误差和资源校准仍待完成，详见 [试运行说明](../../src/utils/PDEBench/EVALUATION.md)。本题不要求提供 baseline，可直接组装后运行 Agent。

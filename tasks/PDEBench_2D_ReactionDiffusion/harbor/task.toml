@@ -1,0 +1,12 @@
+# 宽松试运行资源，尚未正式校准。
+[agent]
+timeout_sec = 3600.0
+
+[environment]
+build_timeout_sec = 1800.0
+cpus = 4
+memory_mb = 4096
+
+[verifier]
+# 覆盖所有 case 均达到逐例时限，加上装载、结构校验与判分余量。
+timeout_sec = 10200.0

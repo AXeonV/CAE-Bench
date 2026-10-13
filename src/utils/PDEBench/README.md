@@ -8,6 +8,10 @@
 
 题面与现行设计的一致性修订、正式评分前仍需验证的事项见 [题面审阅记录](STATEMENT_REVIEW.md)。
 
+## 试运行评测
+
+仓库已提供 11 题的宽松 judge-config.json 与 Harbor 资源配置，详见 [试运行参数和运行步骤](EVALUATION.md)。baseline 可选，尚未正式校准；数据准备工具不覆盖这些已追踪配置。
+
 ## 克隆后使用
 
 在仓库根目录运行：
@@ -101,7 +105,7 @@ tasks/PDEBench_*/author/sample-certificates/  公开样例的私有证书
 
 初始输出按显式位置 IDs 与初始字段关联后逐值检查，支持完整初值上的输出子集；不可压缩流也必须保留契约要求的预投影 t=0 记录，不能跳过首帧检查。
 
-只有真实公开样例、全套同契约参考、误差阈值和执行资源均准备好，才能进入既有 publish_dist.py / prepare_harbor.py 流程。当前 Harbor 判题器还硬限制输出文件为 128 MiB，部分三维载荷超过它，须另行审核调整，不能靠减少要求变量或假定压缩率来绕过。
+只有真实公开样例、全套同契约参考、误差阈值和执行资源均准备好，才能进入既有 publish_dist.py / prepare_harbor.py 流程。当前 Harbor 判题器支持 judge-config.json 的 max_output_bytes；旧任务缺省仍为 128 MiB，PDEBench 三维试运行配置为 2 GiB，不缩减要求的输出变量。正式资源与误差校准仍需完成。
 
 ## 占用与恢复
 

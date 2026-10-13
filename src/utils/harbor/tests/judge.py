@@ -39,13 +39,20 @@ def freeze_submission():
         if not (stat.S_ISDIR(mode) or stat.S_ISREG(mode)):
             raise ValueError('Submission contains a link or special file')
         os.chown(path, 0, 0)
-        path.chmod(0o755 if stat.S_ISDIR(mode) else 0o644)
+        path.chmod(0o755 if stat.S_ISDIR(mode) or mode & 0o111 else 0o644)
     return (SUBMISSION / 'solve.py').is_file()
 
 
 def execute(directory, timeout, logs):
+    # Keep the canonical submission immutable, but give each invocation its own
+    # writable source tree for compiled helpers and caches. No changes survive
+    # into the next case.
+    working_submission = directory / 'submission'
+    shutil.copytree(SUBMISSION, working_submission)
+    for path in [working_submission, *working_submission.rglob('*')]:
+        os.chown(path, 1000, 1000)
     command = ['setpriv', '--reuid=1000', '--regid=1000', '--clear-groups',
-               '--no-new-privs', 'python', str(SUBMISSION / 'solve.py'),
+               '--no-new-privs', 'python', str(working_submission / 'solve.py'),
                '--input', str(directory / 'input/problem.json'),
                '--output', str(directory / 'result.npz')]
     # Credentials from the agent phase are never passed to solver processes.

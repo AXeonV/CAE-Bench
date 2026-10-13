@@ -225,6 +225,35 @@ class HarborTests(unittest.TestCase):
         self.assertFalse(judge.output_within_limit(path,judge.output_limit({})))
         self.assertTrue(judge.output_within_limit(path,judge.output_limit({'max_output_bytes':2*1024**3})))
 
+    def test_compilation_uses_writable_per_case_copy_without_changing_submission(self):
+        submission = self.root / 'canonical-submission'
+        submission.mkdir()
+        (submission / 'solve.py').write_text('original source')
+        executable = submission / 'core'
+        executable.write_text('compiled helper')
+        executable.chmod(0o755)
+        with patch.object(judge, 'SUBMISSION', submission), patch.object(judge.os, 'chown'):
+            self.assertTrue(judge.freeze_submission())
+            self.assertTrue(executable.stat().st_mode & 0o111)
+            for index in range(2):
+                work = self.root / f'work-{index}'
+                logs = self.root / f'logs-{index}'
+                work.mkdir(); logs.mkdir()
+                def spawn(command, **kwargs):
+                    self.assertEqual(command[6], str(work / 'submission/solve.py'))
+                    self.assertEqual((work / 'submission/solve.py').read_text(), 'original source')
+                    (work / 'submission/solve.py').write_text('runtime change')
+                    (work / 'submission/core.so').write_text('runtime compiled helper')
+                    from unittest.mock import Mock
+                    process = Mock(pid=12345)
+                    process.wait.return_value = 0
+                    return process
+                with patch.object(judge.subprocess, 'Popen', side_effect=spawn), \
+                        patch.object(judge.os, 'killpg'):
+                    self.assertIsNone(judge.execute(work, 1, logs))
+                self.assertEqual((submission / 'solve.py').read_text(), 'original source')
+                self.assertFalse((submission / 'core.so').exists())
+
     def test_resource_overrides_cannot_change_judging_interface(self):
         (self.root / 'tasks' / TASK / 'harbor/task.toml').write_text(
             '[verifier]\nenvironment_mode = "same"\n')

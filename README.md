@@ -23,15 +23,28 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 | `src/utils/publish_dist.py` | 打包单题的公开解题材料到 dist |
 | `src/utils/prepare_harbor.py` | **统一组装** Harbor 临时任务环境 |
 | `src/utils/harbor/` | 通用 Harbor 模板与逐例判题逻辑 |
+| `src/utils/PDEBench/` | PDEBench 数据获取、协议转换与参考审核 |
 | `tasks/<task>/` | 各题目的题面、数据、标答及出题工具 |
 | `tests/` | 协议、校验、判分和题目数据的自动测试 |
 | `runs/` | 本地输出、临时 Harbor 任务和运行报告，不纳入版本控制 |
 
 题目的开发材料与判题材料分别组织：开发材料提供题面、输入约定、公开样例及校验工具；判题材料包含测试数据、标答和判分配置。
 
-## 任务与题面草案
+## 任务
 
-已有任务（具备题面、样例与评测材料）：`echo-field`、`heat-conduction`、`heat-transient`、`navier-stokes-steady`、`navier-stokes-transient`、`1D_Advection_Sols_beta0.4`。这些任务保持现状。
+### 自主设计题目
+
+题面、输入输出约定、数据生成与验证方法见各题 README。
+
+| 目录 | 问题 | 要求输出 |
+|---|---|---|
+| [echo-field](tasks/echo-field/instruction.md) | 输入场回传，检查协议与校验链路 | 输入要求回传的场 |
+| [heat-conduction](tasks/heat-conduction/README.md) | 稳态热传导 | temperature |
+| [heat-transient](tasks/heat-transient/README.md) | 瞬态热传导 | temperature |
+| [navier-stokes-steady](tasks/navier-stokes-steady/README.md) | 稳态不可压缩 Navier–Stokes | velocity、pressure |
+| [navier-stokes-transient](tasks/navier-stokes-transient/README.md) | 瞬态不可压缩 Navier–Stokes | velocity、pressure |
+
+### PDEBench
 
 以下为 PDEBench 方程族题目。每个目录包含 instruction.md、DATA.md、DESIGN.md 和 README.md。样例与隐藏测试分组已规划；[PDEBench 数据准备工具](src/utils/PDEBench/README.md)支持克隆后一条命令获取所需源片段并转换输入，问题定义 problem.json、冻结清单和参考证书 JSON 纳入 Git；数值数组及网格不进入 Git，由工具补齐。默认逐例审核源对齐的官方数值轨迹并补齐答案；二维反应扩散恢复完整细网格初值，Darcy 修正未收敛快照至源算子稳态，一维反应扩散重算存在非物理停滞的官方轨迹。数值参考并非未经误差审核的精确连续真解。现已提供[宽松试运行评测配置](src/utils/PDEBench/EVALUATION.md)，无 baseline 也可组装并运行 Agent。正式误差阈值、资源限制和参考精度仍待校准，试运行成绩不作为正式 Benchmark 结论。
 
@@ -51,70 +64,82 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 ## 运行
 
-在项目根目录使用指定 Python 环境。下列尖括号内容均为占位符，运行前替换为实际题目、测试点、程序路径或阈值。
+选择本地或 HPC 作为执行主机，在该主机的项目根目录运行后续流程。先激活自行配置的 Python 3.11+ 环境；`python`、`harbor` 和 `docker` 应来自该主机，尖括号内容均为待替换的占位符。下述单行命令可在 PowerShell 或 Bash 中执行。
 
-准备环境与题目数据，额外依赖和生成参数见题目 README：
-
-```powershell
-$caePython = 'C:\Users\Admin\.conda\envs\expr\python.exe'
-& $caePython -m pip install -e .
-& $caePython 'tasks/<task>/author/generate.py'
-& $caePython -m unittest discover -s tests -v
-```
-
-检查测试输入与标答的结构：
+**1. 准备运行环境。** 本地使用 Docker 的 Linux containers；PowerShell 中可设置以下变量，兼容各题 README 的调用方式：
 
 ```powershell
-& $caePython -m caeoj validate-input 'tasks/<task>/cases/<case>/problem.json'
-& $caePython -m caeoj validate-output --input 'tasks/<task>/cases/<case>/problem.json' --output 'tasks/<task>/reference/<case>/reference.npz'
+$caePython = 'python'
 ```
 
-发布解题材料，再统一组装临时 Harbor 任务：
+Docker、Python 环境和 Agent 认证需先配置好。认证由执行主机的环境变量提供，也可在 Agent 运行命令中追加 `--env-file '<agent-env-file>'`；Codex 的 `CODEX_AUTH_JSON_PATH` 指向自行配置的登录文件。
 
-```powershell
-& $caePython src/utils/publish_dist.py --task '<task>'
-& $caePython src/utils/prepare_harbor.py --task '<task>'
+**2. 按题目来源准备数据。** 两类入口任选其一，之后共用步骤 3～7。
+
+自主设计题目沿用“安装依赖 → 生成输入与标答 → 运行测试”的流程。以下安装项覆盖全仓库测试依赖，题目专用依赖与生成参数见对应 README：
+
+```sh
+python -m pip install -e '.[heat,pdebench]' harbor
+python 'tasks/<task>/author/generate.py'
+python -m unittest discover -s tests -v
 ```
 
-公开材料为 `dist/<task>-agent.zip`，组装结果位于 `runs/harbor/tasks/<task>/`。各题可通过 `harbor/requirements.txt` 补充依赖，通过 `harbor/task.toml` 覆盖资源与时限。
+在本地 PowerShell 中也可用 `& $caePython` 替代 `python`。
 
-启动 Docker 的 Linux containers，先用 Oracle 验收判题链路：
+PDEBench 方程族任务通过统一工具获取、转换并审核外部数据，不要求另写 generator 或 baseline：
 
-```powershell
-$harborExe = 'C:\Users\Admin\.conda\envs\expr\Scripts\harbor.exe'
-$env:PYTHONUTF8 = '1'
-& $harborExe run -p 'runs/harbor/tasks/<task>' -e docker -a oracle -n 1 -o "$PWD/runs/harbor/jobs"
+```sh
+python -m pip install -e '.[pdebench]' harbor
+python src/utils/PDEBench/prepare.py --tasks '<task>' --budget-gb 60 --no-bootstrap
 ```
 
-确认 Oracle 全分且无异常后，运行 Codex + Luna：
+`<task>` 使用 `PDEBench_*` 目录名，准备全部方程族可用 `--tasks all`。单文件适配题 `1D_Advection_Sols_beta0.4` 使用其 README 中的数据转换入口。
 
-```powershell
-$env:CODEX_AUTH_JSON_PATH = 'C:\Users\Admin\.codex\auth.json'
-& $harborExe run -p 'runs/harbor/tasks/<task>' -e docker -a codex `
-  -m 'openai/gpt-6-luna' --ak 'reasoning_effort=medium' -n 1 -o "$PWD/runs/harbor/jobs"
+**3. 检查输入与参考输出的结构。**
+
+```sh
+python -m caeoj validate-input 'tasks/<task>/cases/<case>/problem.json'
+python -m caeoj validate-output --input 'tasks/<task>/cases/<case>/problem.json' --output 'tasks/<task>/reference/<case>/reference.npz'
 ```
 
-Harbor 自动逐点运行提交、校验输出并判分。查看轨迹与结果：
+**4. 发布材料并统一组装 Harbor 环境。** 依赖补充放在题目的 `harbor/requirements.txt`，CPU／内存配额与时限放在 `harbor/task.toml`；修改配置后重新组装。
 
-```powershell
-& $harborExe view 'runs/harbor/jobs'
+```sh
+python src/utils/publish_dist.py --task '<task>'
+python src/utils/prepare_harbor.py --task '<task>'
 ```
 
-trial 的 `verifier/report.json` 保存逐点得分，`reward.txt` 保存通过率。
+公开包位于 `dist/<task>-agent.zip`，临时任务位于 `runs/harbor/tasks/<task>/`。组装结果中的 `oracle_available` 表示是否提供 baseline；隐藏输入和参考仅进入独立判题环境。
 
-提交后也可本地执行并复核单点：
+**5. 可选 Oracle 检查。** 有 baseline 时可先运行以下命令确认判题链路；没有 baseline 时跳过，直接运行 Agent。
 
-```powershell
-& $caePython '<solver.py>' --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.npz'
-& $caePython -m caeoj validate-output --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.npz'
-& $caePython -m caeoj grade `
-  --input 'tasks/<task>/cases/<case>/problem.json' `
-  --output 'runs/<task>/<case>/result.npz' `
-  --reference 'tasks/<task>/reference/<case>/reference.npz' `
-  --atol '<atol>' --rtol '<rtol>'
+```sh
+harbor run -p 'runs/harbor/tasks/<task>' -e docker -a oracle -n 1 -o 'runs/harbor/jobs'
 ```
 
-误差阈值按题目配置填写。校验命令输出 `valid/errors` JSON；判分每点为 0/1 分，退出码 2 表示输入、标答或参数异常。
+**6. 运行 Agent 并独立判题。** 例如 Codex + Luna：
+
+```sh
+harbor run -p 'runs/harbor/tasks/<task>' -e docker -a codex -m 'openai/gpt-6-luna' --ak 'reasoning_effort=medium' -n 1 -o 'runs/harbor/jobs'
+```
+
+HPC 运行可追加 `--override-cpus '<cpu-quota>' --override-memory-mb '<memory-mb>'`，值须与组装时声明的资源一致；`-n '<concurrency>'` 控制并发 trial 数，不是单个求解器的线程数。GPU／MPI 需统一配置解题与独立判题容器的工具链、运行库和设备映射；默认模板提供 CPU 环境。
+
+**7. 查看成绩或复核单点。**
+
+```sh
+harbor view 'runs/harbor/jobs'
+```
+
+trial 的 `verifier/report.json` 保存逐点得分与误差，`reward.txt` 保存通过率。也可单独运行提交并判分：
+
+```sh
+python '<solver.py>' --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.npz'
+python -m caeoj validate-output --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.npz'
+python -m caeoj grade --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.npz' --reference 'tasks/<task>/reference/<case>/reference.npz' --atol '<atol>' --rtol '<rtol>'
+```
+
+阈值取题目判分配置。校验输出 `valid/errors` JSON；判分每点为 0/1，退出码 2 表示输入、参考或参数异常。
 
 ## TODO
 

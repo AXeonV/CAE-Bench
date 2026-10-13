@@ -81,10 +81,10 @@ Docker、Python 环境和 Agent 认证需先配置好。认证由执行主机的
 ```sh
 python -m pip install -e '.[heat,pdebench]' harbor
 python 'tasks/<task>/author/generate.py'
-python -m unittest discover -s tests -v
+python -m unittest discover -s tests -p '<test-file>.py' -v
 ```
 
-在本地 PowerShell 中也可用 `& $caePython` 替代 `python`。
+`<test-file>` 取对应题目 README 中的测试文件；NS 的测试同时依赖稳态与瞬态两题数据。全量测试命令 `python -m unittest discover -s tests -v` 需先准备全部自主设计题目及单文件平流适配题的数据。在本地 PowerShell 中也可用 `& $caePython` 替代 `python`。
 
 PDEBench 方程族任务通过统一工具获取、转换并审核外部数据，不要求另写 generator 或 baseline：
 

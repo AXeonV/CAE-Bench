@@ -152,7 +152,7 @@ class HarborTests(unittest.TestCase):
         self.assertFalse(result['oracle_available'])
         self.assertFalse((directory / 'solution').exists())
         self.assertTrue((directory / 'tests/judge.py').is_file())
-        instruction = (directory / 'instruction.md').read_text()
+        instruction = (directory / 'instruction.md').read_text(encoding='utf-8')
         self.assertNotIn('宽松试运行', instruction)
         self.assertNotIn('校准', instruction)
         self.assertNotIn('Harbor', instruction)

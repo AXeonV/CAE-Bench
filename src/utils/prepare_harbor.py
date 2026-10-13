@@ -74,13 +74,11 @@ def prepare(task, root=PROJECT_ROOT):
     instruction += '\n本次判分参数：绝对误差容限=' + str(judge_config['atol']) + \
         '，相对误差容限=' + str(judge_config['rtol']) + \
         '；逐项满足 |结果−参考| ≤ atol + rtol·|参考|。IDs、时间轴等结构要求仍须严格满足。\n'
-    if judge_config.get('stage') == 'provisional':
-        instruction += '这些是尚未正式校准的宽松试运行条件；本次运行采用这里声明的资源和判分参数。\n'
     environment = resources['environment']
     if 'cpus' in environment:
         instruction += f"本次环境 CPU 配额：{environment['cpus']} 核。\n"
     if 'memory_mb' in environment:
-        instruction += f"本次环境内存上限：{environment['memory_mb']} MB，由 Harbor 配置容器；不是逐例进程的独立内存限制。\n"
+        instruction += f"可用内存：{environment['memory_mb']} MB。\n"
     if 'max_output_bytes' in judge_config:
         instruction += f"每例结果文件大小上限：{judge_config['max_output_bytes']} 字节。\n"
     baseline = source / 'author/baseline.py'

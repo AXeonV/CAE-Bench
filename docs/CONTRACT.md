@@ -383,10 +383,11 @@ SDK 写入时复制必需的 IDs／时间轴；判分时仍独立重新校验文
 
 ## 11. 校验与判分的边界
 
-```powershell
-$caePython = 'C:\Users\Admin\.conda\envs\expr\python.exe'
-& $caePython -m caeoj validate-input 'tasks/echo-field/cases/09-vector-2d/problem.json'
-& $caePython -m caeoj validate-output --input 'tasks/echo-field/cases/09-vector-2d/problem.json' --output 'result.npz'
+激活自行配置的 Python 环境后运行；路径按实际输入文件填写。
+
+```sh
+python -m caeoj validate-input 'problem.json'
+python -m caeoj validate-output --input 'problem.json' --output 'result.npz'
 ```
 
 校验返回纯 JSON，退出码 0 合法、1 不合法，CLI 参数错误为 2：
@@ -422,8 +423,8 @@ $caePython = 'C:\Users\Admin\.conda\envs\expr\python.exe'
 
 默认 `atol=1e-6`、`rtol=1e-5`，等号包含在内，每例所有输出场的全部分量都满足阈值才得 1 分，否则 0 分。整数／布尔场必须完全一致；IDs 和时间轴仍由契约校验要求精确一致。报告包含浮点字段最大绝对误差及错误分量数。物理题可在判题前明确并冻结自己的阈值，这些参数不进入通用数据协议。
 
-```powershell
-& $caePython -m caeoj grade --input 'problem.json' --output 'result.npz' --reference 'reference.npz'
+```sh
+python -m caeoj grade --input 'problem.json' --output 'result.npz' --reference 'reference.npz'
 ```
 
 `grade` 退出码为 0（通过）、1（答案错误或非法输出）、2（输入／参考数据错误或命令参数错误）。参考文件是出题方提供的权威输出数组，包括必要的 IDs 和时间轴，不要求与输入场相同。

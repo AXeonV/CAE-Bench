@@ -16,6 +16,18 @@ LOGS = Path('/logs/verifier')
 SUBMISSION = Path('/app/submission')
 
 
+def output_limit(config):
+    limit = config.get('max_output_bytes', 128 * 1024**2)
+    if type(limit) is not int or limit <= 0:
+        raise ValueError('max_output_bytes must be a positive integer')
+    return limit
+
+
+def output_within_limit(path, limit):
+    info = path.lstat()
+    return stat.S_ISREG(info.st_mode) and info.st_size <= limit
+
+
 def freeze_submission():
     """Reject links and remove solver write permissions before execution."""
     if not SUBMISSION.is_dir() or SUBMISSION.is_symlink():
@@ -58,6 +70,7 @@ def execute(directory, timeout, logs):
 def main():
     LOGS.mkdir(parents=True, exist_ok=True)
     config = json.loads((TESTS / 'judge-config.json').read_text())
+    maximum_output_bytes = output_limit(config)
     paths = sorted((TESTS / 'cases').glob('*/problem.json'))
     if not paths:
         raise ValueError('No judge cases')
@@ -87,7 +100,7 @@ def main():
             if outcome is None:
                 if not output.exists():
                     outcome = {'score': 0, 'status': 'missing_output'}
-                elif not stat.S_ISREG(output.lstat().st_mode) or output.stat().st_size > 128 * 1024**2:
+                elif not output_within_limit(output, maximum_output_bytes):
                     outcome = {'score': 0, 'status': 'invalid_output_file'}
                 else:
                     shutil.copyfile(output, logs / 'result.npz')
@@ -101,6 +114,10 @@ def main():
     report = {'score': passed, 'total_cases': len(results),
               'reward': passed / len(results), 'cases': results,
               'tolerance': {'atol': config['atol'], 'rtol': config['rtol']}}
+    if config.get('stage'):
+        report['stage'] = config['stage']
+        report['limits'] = {'timeout_seconds': config['timeout_seconds'],
+                            'max_output_bytes': maximum_output_bytes}
     (LOGS / 'report.json').write_text(json.dumps(report, indent=2) + '\n')
     (LOGS / 'reward.txt').write_text(str(report['reward']) + '\n')
     print(json.dumps({key: value for key, value in report.items() if key != 'cases'}))

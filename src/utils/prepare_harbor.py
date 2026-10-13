@@ -70,6 +70,18 @@ def prepare(task, root=PROJECT_ROOT):
     instruction = Template(read_public_file(root, template / 'instruction.md').decode('utf-8')).substitute(
         task=task, sample=manifest['public_samples'][0], timeout_seconds=judge_config['timeout_seconds'],
         samples=', '.join(f'`/app/tasks/{task}/samples/{name}/`' for name in manifest['public_samples']))
+    resources = tomllib.loads(rendered_config)
+    instruction += '\n本次判分参数：绝对误差容限=' + str(judge_config['atol']) + \
+        '，相对误差容限=' + str(judge_config['rtol']) + \
+        '；逐项满足 |结果−参考| ≤ atol + rtol·|参考|。IDs、时间轴等结构要求仍须严格满足。\n'
+    environment = resources['environment']
+    if 'cpus' in environment:
+        instruction += f"本次环境 CPU 配额：{environment['cpus']} 核。\n"
+    if 'memory_mb' in environment:
+        instruction += f"可用内存：{environment['memory_mb']} MB。\n"
+    if 'max_output_bytes' in judge_config:
+        instruction += f"每例结果文件大小上限：{judge_config['max_output_bytes']} 字节。\n"
+    baseline = source / 'author/baseline.py'
     destination = root / 'runs/harbor/tasks' / task
     destination.parent.mkdir(parents=True, exist_ok=True)
     if destination.is_symlink() or getattr(destination, 'is_junction', lambda: False)():
@@ -88,6 +100,8 @@ def prepare(task, root=PROJECT_ROOT):
             target.write_bytes(data)
 
         for name in TEMPLATE_FILES:
+            if name == 'solution/solve.sh' and not baseline.is_file():
+                continue
             copy(template / name, Path(name))
         (staged / 'task.toml').write_text(rendered_config, encoding='utf-8', newline='\n')
         (staged / 'instruction.md').write_text(instruction, encoding='utf-8', newline='\n')
@@ -105,7 +119,8 @@ def prepare(task, root=PROJECT_ROOT):
             stream.write('COPY . /tests\n')
         copy(archive, Path('tests/agent.zip'))
         shutil.copyfile(staged / 'environment/requirements.txt', staged / 'tests/requirements.txt')
-        copy(source / 'author/baseline.py', Path('solution/baseline.py'))
+        if baseline.is_file():
+            copy(baseline, Path('solution/baseline.py'))
         copy(source / 'judge-config.json', Path('tests/judge-config.json'))
         for path in cases:
             for asset in path.parent.iterdir():
@@ -119,7 +134,8 @@ def prepare(task, root=PROJECT_ROOT):
         # Copy rather than rename: Windows temporary directories have private
         # ACLs, which must not follow the published task into its destination.
         shutil.copytree(staged, destination)
-    return {'task_directory': str(destination), 'cases': len(cases), 'archive': str(archive)}
+    return {'task_directory': str(destination), 'cases': len(cases), 'archive': str(archive),
+            'oracle_available': baseline.is_file()}
 
 
 if __name__ == '__main__':

@@ -2,7 +2,7 @@
 
 CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕通用数据协议、结构校验、测试数据和独立判分组织，支持持续增加不同物理模型的题目和测试。
 
-通用数据协议见 [CONTRACT.md](docs/CONTRACT.md)，初版实施规划见 [MVP-PLAN.md](docs/MVP-PLAN.md)，Agent 测试记录见 [AGENT-RESULTS.md](docs/AGENT-RESULTS.md)。各题目的方程、输入范围、测试设计、依赖和运行说明保存在对应的 `tasks/<task>/` 目录。
+通用数据协议见 [CONTRACT.md](docs/CONTRACT.md)，多指标评分配置见 [GRADING.md](docs/GRADING.md)，初版实施规划见 [MVP-PLAN.md](docs/MVP-PLAN.md)，Agent 测试记录见 [AGENT-RESULTS.md](docs/AGENT-RESULTS.md)。各题目的方程、输入范围、测试设计、依赖和运行说明保存在对应的 `tasks/<task>/` 目录。
 
 ## 设计
 
@@ -134,6 +134,8 @@ python '<solver.py>' --input 'tasks/<task>/cases/<case>/problem.json' --output '
 python -m caeoj validate-output --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.npz'
 python -m caeoj grade --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.npz' --reference 'tasks/<task>/reference/<case>/reference.npz' --atol '<atol>' --rtol '<rtol>'
 ```
+
+新策略使用 `--grading tasks/<task>/grading.json` 替代 `--atol/--rtol`；支持按字段的 RMSE、NRMSE、最大误差、超限比例及 AND／OR 条件。旧配置保持原判分行为。
 
 阈值取题目判分配置。校验输出 `valid/errors` JSON；判分每点为 0/1，退出码 2 表示输入、参考或参数异常。
 

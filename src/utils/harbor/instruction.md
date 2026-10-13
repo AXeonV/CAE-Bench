@@ -12,7 +12,7 @@ python /app/submission/solve.py --input <problem.json> --output <result.npz>
 
 所需辅助 Python 文件也放在 `/app/submission/`；
 提交后在独立环境中判题，只传递该目录，不保留开发环境的其他修改。
-逐例运行时间上限 ${timeout_seconds} 秒，输出按题面规定的误差阈值判分。
+逐例运行时间上限 ${timeout_seconds} 秒，输出按下述评分规则判分。
 
 结构校验命令示例：
 

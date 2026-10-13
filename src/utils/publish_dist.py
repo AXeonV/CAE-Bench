@@ -12,11 +12,14 @@ import re
 import tempfile
 import zipfile
 
+from caeoj.sdk import load_problem
+from caeoj.grading_policy import task_policy, validate_policy, render_policy
 from caeoj.validation import ContractError, validate_input, validate_output
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 TOOL_FILES = ("__init__.py", "__main__.py", "cli.py", "validation.py", "sdk.py",
-              "problem.schema.json", "grading.py")
+              "problem.schema.json", "grading.py", "grading_policy.py",
+              "grading_metrics.py", "grading.schema.json")
 
 
 def read_public_file(root, path):
@@ -37,7 +40,7 @@ def agent_readme(task):
     return f"""# 解题材料
 
 题面：`tasks/{task}/instruction.md`。通用数据协议：`docs/CONTRACT.md`。
-题目目录中的 DATA.md（若存在）也是输入约定的一部分。公开示例在 `tasks/{task}/samples/`。
+题目目录中的 DATA.md（若存在）也是输入约定的一部分。评分规则见 GRADING.md 和 grading.json。公开示例在 `tasks/{task}/samples/`。
 
 安装共享工具：`python -m pip install -e .`。NumPy、Gmsh、jsonschema 是协议依赖；求解所需额外依赖由程序选择。
 
@@ -47,6 +50,7 @@ def agent_readme(task):
 python -m caeoj validate-input tasks/{task}/samples/<sample>/input/problem.json
 python solve.py --input tasks/{task}/samples/<sample>/input/problem.json --output result.npz
 python -m caeoj validate-output --input tasks/{task}/samples/<sample>/input/problem.json --output result.npz
+python -m caeoj grade --input tasks/{task}/samples/<sample>/input/problem.json --output result.npz --reference tasks/{task}/samples/<sample>/output/result.npz --grading tasks/{task}/grading.json
 ```
 
 校验器只检查结构和引用，不验证或纠正物理结果。
@@ -67,7 +71,7 @@ def collect_materials(task, root=PROJECT_ROOT):
     def add(path):
         files[path.relative_to(root).as_posix()] = read_public_file(root, path)
 
-    for name in ("pyproject.toml", "LICENSE", "docs/CONTRACT.md"):
+    for name in ("pyproject.toml", "LICENSE", "docs/CONTRACT.md", "docs/GRADING.md"):
         add(root / name)
     for name in TOOL_FILES:
         add(root / "src/caeoj" / name)
@@ -77,6 +81,15 @@ def collect_materials(task, root=PROJECT_ROOT):
     paths = sorted((task_dir / "samples").glob("*/input/problem.json"))
     if not paths:
         raise ValueError(f"No complete public samples in tasks/{task}/samples; add them before publishing")
+    policy = task_policy(task_dir, load_problem(paths[0]), read_bytes=lambda p: read_public_file(root, p))
+    files[f'tasks/{task}/grading.json'] = (json.dumps(policy, ensure_ascii=False, indent=2) + '\n').encode()
+    files[f'tasks/{task}/GRADING.md'] = render_policy(policy).encode()
+    if task.startswith('PDEBench_'):
+        key = f'tasks/{task}/instruction.md'
+        text = files[key].decode()
+        text = text.replace('判分规则、误差阈值、执行时限及内存限制：**后续补充**。当前尚未接入评测。',
+                            '评分规则见 [GRADING.md](GRADING.md)，运行限制见运行入口。')
+        files[key] = text.encode()
     samples = []
     for path in paths:
         # Check the path before allowing the contract loader to read it.
@@ -90,6 +103,7 @@ def collect_materials(task, root=PROJECT_ROOT):
             if not asset.resolve().is_relative_to(path.parent.resolve()):
                 raise ValueError(f"Sample asset escapes its input directory: {name}")
             add(asset)
+        validate_policy(policy, load_problem(path))
         diagnostics = validate_input(path)
         if not diagnostics["valid"]:
             raise ContractError(diagnostics)

@@ -417,17 +417,15 @@ python -m caeoj validate-output --input 'problem.json' --output 'result.npz'
 
 校验器检查结构和声明，不修改数据，不重排或匹配等价网格，不验证 CAD、网格质量、PDE、守恒、材料正负、条件物理相容性或解误差。
 
-判分由独立模块 `src/caeoj/grading.py` 实现。判分器接收输出和参考 NPZ，二者都满足同一个输出契约。浮点场逐分量使用：
+判分由独立模块 `src/caeoj/grading.py` 实现，输出与参考 NPZ 必须满足同一个输出契约。可通过公开 `grading.json` 配置按字段的逐值容差、RMSE、NRMSE、最大误差和超限比例，并用 AND／OR 组合条件。聚合范围、零参考场处理、配置格式与示例见 [数值评分策略](GRADING.md)。这些评分参数不进入 `problem.json` 通用数据协议。
 
-`|result-reference| ≤ atol + rtol·|reference|`
-
-默认 `atol=1e-6`、`rtol=1e-5`，等号包含在内，每例所有输出场的全部分量都满足阈值才得 1 分，否则 0 分。整数／布尔场必须完全一致；IDs 和时间轴仍由契约校验要求精确一致。报告包含浮点字段最大绝对误差及错误分量数。物理题可在判题前明确并冻结自己的阈值，这些参数不进入通用数据协议。
+未提供策略时保持旧规则：浮点场逐分量满足 `|result-reference| ≤ atol + rtol·|reference|`，默认 `atol=1e-6`、`rtol=1e-5`；全部值通过才得 1 分。整数／布尔场始终精确一致，IDs 和时间轴始终由契约校验要求精确一致。新策略也不能绕过这些要求。
 
 ```sh
-python -m caeoj grade --input 'problem.json' --output 'result.npz' --reference 'reference.npz'
+python -m caeoj grade --input problem.json --output result.npz --reference reference.npz --grading grading.json
 ```
 
-`grade` 退出码为 0（通过）、1（答案错误或非法输出）、2（输入／参考数据错误或命令参数错误）。参考文件是出题方提供的权威输出数组，包括必要的 IDs 和时间轴，不要求与输入场相同。
+不提供 `--grading` 时仍可使用 `--atol`、`--rtol`；两种方式不能同时指定。`grade` 退出码为 0（通过）、1（答案错误或非法输出）、2（输入／参考数据错误或配置、命令参数错误）。参考输出由出题方提供，不要求与输入场相同。
 
 判分与结构诊断分开：`validate-output` 不比较参考值。参考数据错误不能算作选手失分，报告 score 为 null。
 

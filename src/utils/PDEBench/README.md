@@ -10,7 +10,7 @@
 
 ## 试运行评测
 
-仓库已提供 11 题的宽松 judge-config.json 与 Harbor 资源配置，详见 [试运行参数和运行步骤](EVALUATION.md)。baseline 可选，尚未正式校准；数据准备工具不覆盖这些已追踪配置。
+仓库已提供 11 题的公开 grading.json（沿用各题 atol/rtol，每时刻每字段允许最多 0.1% 偏差空间点）、judge-config.json 与 Harbor 资源配置，详见 [试运行参数和运行步骤](EVALUATION.md)。baseline 可选，尚未正式校准；数据准备工具不覆盖这些已追踪配置。
 
 ## 克隆后使用
 

@@ -25,9 +25,9 @@
 
 沿用[项目 README](../../README.md#运行) 的 Python 环境，在项目根目录执行：
 
-```powershell
-& $caePython tasks/navier-stokes-transient/author/generate.py
-& $caePython tasks/navier-stokes-transient/author/check.py
+```sh
+python tasks/navier-stokes-transient/author/generate.py
+python tasks/navier-stokes-transient/author/check.py
 ```
 
 `generate.py` 覆盖题库及公开样例；`check.py --program <solver.py>` 检查其他求解器。资源与判分报告保存于 `runs/navier-stokes-transient/baseline/`。单文件 baseline 可直接用于独立判题环境。

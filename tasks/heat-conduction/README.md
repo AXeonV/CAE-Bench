@@ -27,12 +27,12 @@
 
 ## 出题与验证
 
-在项目根目录，沿用[项目 README](../../README.md#运行) 中的 `$caePython`：
+在项目根目录，激活 Python 环境后运行：
 
-```powershell
-& $caePython -m pip install -e '.[heat]'
-& $caePython 'tasks/heat-conduction/author/generate.py'
-& $caePython 'tasks/heat-conduction/author/check.py'
+```sh
+python -m pip install -e '.[heat]'
+python 'tasks/heat-conduction/author/generate.py'
+python 'tasks/heat-conduction/author/check.py'
 ```
 
 `generate.py` 生成网格、输入、解析标答及已通过判分的公开样例，覆盖同名数据文件。`check.py` 默认逐点运行 P1 有限元基线，报告写入 `runs/heat/report.json`；用 `--program <solver.py>` 检查其他求解程序。

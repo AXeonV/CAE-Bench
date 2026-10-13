@@ -27,9 +27,9 @@
 
 沿用[项目 README](../../README.md#运行) 的 Python 环境，在项目根目录执行：
 
-```powershell
-& $caePython tasks/navier-stokes-steady/author/generate.py
-& $caePython tasks/navier-stokes-steady/author/check.py
+```sh
+python tasks/navier-stokes-steady/author/generate.py
+python tasks/navier-stokes-steady/author/check.py
 ```
 
 `generate.py` 覆盖生成题库及样例；`check.py --program <solver.py>` 可检查其他提交，报告位于 `runs/navier-stokes-steady/baseline/`。作者生成工具由瞬态题复用；两题的 baseline 均为可独立部署的单文件。

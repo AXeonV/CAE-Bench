@@ -26,14 +26,14 @@
 
 ## 出题与验证
 
-在项目根目录，沿用[项目 README](../../README.md#运行) 中的 `$caePython`：
+在项目根目录，激活 Python 环境后运行：
 
-```powershell
-& $caePython -m pip install -e '.[heat]'
-& $caePython -m pip install -r tasks/heat-transient/author/requirements.txt
-& $caePython 'tasks/heat-transient/author/generate.py'
-& $caePython 'tasks/heat-transient/author/check.py'
-& $caePython 'tasks/heat-transient/author/check.py' --time-mode adaptive
+```sh
+python -m pip install -e '.[heat]'
+python -m pip install -r tasks/heat-transient/author/requirements.txt
+python 'tasks/heat-transient/author/generate.py'
+python 'tasks/heat-transient/author/check.py'
+python 'tasks/heat-transient/author/check.py' --time-mode adaptive
 ```
 
 `generate.py` 生成网格、初始场、解析标答与公开样例，覆盖同名数据文件。`check.py` 默认逐点运行 baseline，调用独立判分器并检查时间与内存；用 `--program <solver.py>` 检查其他求解程序。运行产物保存在 `runs/heat-transient/`。

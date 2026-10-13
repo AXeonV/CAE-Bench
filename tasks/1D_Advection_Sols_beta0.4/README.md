@@ -19,10 +19,10 @@
 
 ## 出题与验证
 
-```powershell
-& $caePython -m pip install -r tasks/1D_Advection_Sols_beta0.4/author/requirements.txt
-& $caePython tasks/1D_Advection_Sols_beta0.4/author/generate.py
-& $caePython tasks/1D_Advection_Sols_beta0.4/author/check.py
+```sh
+python -m pip install -r tasks/1D_Advection_Sols_beta0.4/author/requirements.txt
+python tasks/1D_Advection_Sols_beta0.4/author/generate.py
+python tasks/1D_Advection_Sols_beta0.4/author/check.py
 ```
 
 原始选定样本保存在 `runs/pdebench-official/`，无需下载整个官方文件。共享发布、组装与 Harbor 命令见项目 README。

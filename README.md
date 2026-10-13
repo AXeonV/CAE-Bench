@@ -66,11 +66,7 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 选择本地或 HPC 作为执行主机，在该主机的项目根目录运行后续流程。先激活自行配置的 Python 3.11+ 环境；`python`、`harbor` 和 `docker` 应来自该主机，尖括号内容均为待替换的占位符。下述单行命令可在 PowerShell 或 Bash 中执行。
 
-**1. 准备运行环境。** 本地使用 Docker 的 Linux containers；PowerShell 中可设置以下变量，兼容各题 README 的调用方式：
-
-```powershell
-$caePython = 'python'
-```
+**1. 准备运行环境。** 使用 Docker 的 Linux containers。
 
 Docker、Python 环境和 Agent 认证需先配置好。认证由执行主机的环境变量提供，也可在 Agent 运行命令中追加 `--env-file '<agent-env-file>'`；Codex 的 `CODEX_AUTH_JSON_PATH` 指向自行配置的登录文件。
 
@@ -84,7 +80,7 @@ python 'tasks/<task>/author/generate.py'
 python -m unittest discover -s tests -p '<test-file>.py' -v
 ```
 
-`<test-file>` 取对应题目 README 中的测试文件；NS 的测试同时依赖稳态与瞬态两题数据。全量测试命令 `python -m unittest discover -s tests -v` 需先准备全部自主设计题目及单文件平流适配题的数据。在本地 PowerShell 中也可用 `& $caePython` 替代 `python`。
+`<test-file>` 取对应题目 README 中的测试文件；NS 的测试同时依赖稳态与瞬态两题数据。全量测试命令 `python -m unittest discover -s tests -v` 需先准备全部自主设计题目及单文件平流适配题的数据。
 
 PDEBench 方程族任务通过统一工具获取、转换并审核外部数据，不要求另写 generator 或 baseline：
 

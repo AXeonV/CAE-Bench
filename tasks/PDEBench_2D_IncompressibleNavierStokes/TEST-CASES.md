@@ -1,6 +1,6 @@
 # 隐藏测试算例规划（作者材料）
 
-**规划状态：候选分组，尚无数据和判分配置。** 本题计划 2 个公开样例及 16 个隐藏测试点；数量是首批准备目标，不是已完成或冻结的评测规模。本文和 author/ 均不进入 Agent 公开包。
+**数据准备状态由工具逐例记录，判分配置尚未接入。** 本题计划 2 个公开样例及 16 个隐藏测试点；实际来源与拆分见 author/selection.json，完成状态见本地生成的 author/preparation.json；这些数量不表示评测已校准。本文和 author/ 均不进入 Agent 公开包。
 
 ## 测试分组
 
@@ -11,7 +11,7 @@
 | `009`–`012` | 强初速度、弱初始 χf 驱动 | 4 |
 | `013`–`016` | 强初速度、强初始 χf 驱动 | 4 |
 
-组名用于作者选样；不加入参赛输入，不要求程序读取来源标签。具体源文件采用 DESIGN.md 固定版本，源样本索引将在后续工具检查数组内容和连续契约后一次性冻结。
+组名用于作者选样；不加入参赛输入，不要求程序读取来源标签。具体源文件采用 DESIGN.md 固定版本，源样本索引由准备工具检查后冻结在 author/selection.json。
 
 ## 拆分与覆盖
 
@@ -25,22 +25,22 @@
 
 保留原空间分辨率，最多选 9 个输出时刻：源有 T 个有效帧时，取 floor(k·(T−1)/8)，k=0,…,8，去重；T<9 时全保留。从实际有效时间数组读取，不能把无对应轨迹帧的额外坐标算成输出。含初始、早期、中期和末期；允许参考在这些相同时间重算，不采用未经审核的时间插值。
 
-按初速度 RMS 和初始 χf RMS 的中位数划分四组；审核单位正方形尺度、初始连续投影、中心采样及耦合输运，源速度首帧不可直接作为 t=0 标答。
+按初速度 RMS 和初始 χf RMS 的中位数划分四组；审核单位正方形尺度、初始连续投影、中心采样及耦合输运，t=0 按当前契约保留未投影的源速度记录，正时间输出采用投影后的演化速度。
 
-数值误差阈值、参考收敛指标、CPU/内存及时限在参考审核后确定。本阶段不承诺官方正时间数组可直接当标答。尚未审核的源轨迹只能作为输入候选或对照，不能写入可评测 reference。
+工具按当前源对齐契约审核轨迹并生成数值参考，保留原始对照和局限；Darcy 的参考采用源离散算子平衡态，一维反应扩散参考采用同一 PDE 的独立加密计算。策略及逐例证据见 DESIGN.md 和私有 certificate.json。数值误差阈值、连续误差审核、CPU/内存及时限仍需校准；参考文件存在不等于题目已可评测。
 
-## 目录与后续文件
+## 工具生成的目录与文件
 
 ```text
-samples/01/input/       # 后续：problem.json、mesh.msh、input.npz
-samples/01/output/      # 后续：result.npz
+samples/01/input/       # 工具生成：problem.json、mesh.msh、input.npz
+samples/01/output/      # 工具生成：result.npz
 samples/02/input/
 samples/02/output/
-cases/<case-ID>/        # 后续：problem.json、mesh.msh、input.npz
-reference/<case-ID>/    # 后续：reference.npz、certificate.json
-author/                # 后续：selection.json、reference-policy.json
+cases/<case-ID>/        # 工具生成：problem.json、mesh.msh、input.npz
+reference/<case-ID>/    # 工具生成：reference.npz、certificate.json
+author/                # 工具生成：selection.json、preparation.json、prepared/、sample-certificates/
 ```
 
-case ID 使用本表的三位编号；cases 与 reference 必须一一对应。具体 case 子目录由后续工具在源选择冻结后创建，现在只保留根目录。证书记录源身份、实际数组哈希、空间/时间映射、参考来源、误差证据及工具版本；不复制到公开包。公开样例的私有证书由 author/ 保存。
+case ID 使用本表的三位编号；cases 与 reference 必须一一对应。具体 case 子目录由工具在源选择冻结后创建；数值文件不进入 Git，克隆后需运行工具生成。证书记录源身份、实际数组哈希、空间/时间映射、参考来源、误差证据及工具版本；不复制到公开包。公开样例的私有证书由 author/ 保存。
 
-现有 `.gitkeep` 仅保存空目录，不代表输入/输出或标答。工具成功后才生成 judge-config.json；没有真实样例、完整参考及审核记录时禁止发布或组装 Harbor。
+现有 `.gitkeep` 仅保存空目录，不代表输入/输出或标答。本工具不生成 judge-config.json；真实样例、完整参考、误差阈值和执行资源全部审核完成后，才能发布或组装 Harbor。

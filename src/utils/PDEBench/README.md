@@ -2,7 +2,9 @@
 
 统一入口为 `prepare.py`，支持 11 个 `PDEBench_` 方程族：按固定 DaRUS V8 清单获取选定数据，冻结公开/隐藏拆分，缓存选定轨迹，并生成符合各题 DATA.md 的 JSON/Gmsh/NPZ 输入。
 
-**数据转换与参考解准备分别报告。** 平流使用分片常数初值的周期平移积分生成独立解析输出；其余族保留官方选定数组供作者对照，默认不将它们写成标答。对应连续初值、边界、黏性模型或域尺度的差异仍须按 DESIGN.md 审核；工具不改变题面来迁就来源轨迹。
+默认按用户选择的**官方生成器对齐与逐例数值参考审核**准备输入和答案。每例核对来源、配置、坐标、时间、完整初值、数组关联与模型一致性，保存指标和局限；官方数值输出不被称为精确连续真解。二维反应扩散恢复原 512² 初值并逐值验证发布的初始子集；Darcy 对发布空间算子求稳态，避免把未收敛的有限时间快照当成椭圆答案；一维反应扩散的官方轨迹存在远离反应平衡的停滞，工具保留差异证据并以同一 PDE 的独立空间/时间加密计算替换答案。判分阈值、网格收敛精度与执行资源仍待校准。
+
+本轮发现的差异、处理方式和证据边界见 [审核记录](AUDIT.md)。
 
 ## 克隆后使用
 
@@ -37,20 +39,21 @@ python src/utils/PDEBench/prepare.py --tasks 1D_Advection --max-cases 1 --output
 src/utils/PDEBench/catalog.json       固定 V8 文件 ID、路径、字节数、MD5 和入口
 runs/pdebench/cache/ranges/<ID>/      有校验和的字节块，单源缓存上限 64 MiB
 runs/pdebench/cache/selections/<ID>/  选定帧、坐标和字段 HDF5，以及实际载荷 SHA-256
+runs/pdebench/cache/candidates/       绑定来源和读取器版本的候选特征，逐条保存以恢复扫描
 runs/pdebench/staging/               临时转换目录
 runs/pdebench/reports/latest.json    每题状态、错误、当前占用和估算峰值
 
 tasks/PDEBench_*/author/selection.json    已冻结的源文件、样本索引、特征分组、ID、格式变体
 tasks/PDEBench_*/author/preparation.json  当前准备状态（本地生成）
 tasks/PDEBench_*/samples/01/input/        公开输入：problem.json、mesh.msh、input.npz
-tasks/PDEBench_*/samples/01/output/       参考已准备时生成 result.npz
+tasks/PDEBench_*/samples/01/output/       源对齐审核通过后生成 result.npz
                                         samples/02 同结构
 tasks/PDEBench_*/cases/<ID>/             隐藏输入
-tasks/PDEBench_*/reference/<ID>/         certificate.json、official-candidate.npz；参考已准备时另生成 reference.npz
+tasks/PDEBench_*/reference/<ID>/         certificate.json、official-candidate.npz；审核或稳态修正通过后生成 reference.npz
 tasks/PDEBench_*/author/sample-certificates/  公开样例的私有证书
 ```
 
-选定源轨迹均留在私有缓存。工具同时生成私有 `official-candidate.npz`（公开样例的候选保存在 author/sample-certificates/）；它是转换后的源输出，证书明确标记 unreviewed_do_not_grade，既不进入 Agent 包，也不作为 reference.npz。它们不是完整官方文件，不能用官方整文件 MD5 校验此子集：工具用固定源身份、完整 Content-Range/长度、ETag（服务器提供时）、缓存块 SHA-256 和选定载荷 SHA-256 记录各自的完整性范围。只有 `--source-dir` 的完整文件执行整文件 MD5 校验。
+选定源轨迹留在私有缓存。工具保存原始转换对照 official-candidate.npz 及审核状态，公开样例的原始对照只位于 author/sample-certificates/。Darcy 的原始快照与修正答案分别保存，证书记录稳态残差和改变量；一维反应扩散保留官方轨迹与同一 PDE 重算结果的差异；其余族审核通过后以官方数值轨迹生成答案。原始对照和证书不进入 Agent 包。远程子集不能用整文件 MD5 验证：工具记录源身份、Content-Range/长度、ETag（有则使用）、块 SHA-256 和选定载荷 SHA-256；只有 --source-dir 的完整文件执行整文件 MD5。
 
 生成的数值数据、状态和私有证书由 .gitignore 排除；题面、固定 catalog 和冻结的 selection.json 可纳入版本管理。将冻结选样清单纳入版本管理后，另一次克隆可复现同一选择。没有冻结清单时，工具按稳定排序扫描有上限的初值候选池，完成一次确定性选样。
 
@@ -62,23 +65,28 @@ tasks/PDEBench_*/author/sample-certificates/  公开样例的私有证书
 - 标量浓度/圆形水深按初值特征四分位分组；双场反应扩散按梯度/RMS 中位数组合分组；不可压缩按速度/初始 χf RMS 中位数组合分组；各参数配置内部选取分散的初值特征。
 - 保留原空间分辨率；公开最多 5 个、隐藏最多 9 个输出时刻，直接取实际有效帧的均匀索引，包含 t=0 和末帧。Darcy 为单个稳态时刻。已确认的 NLE 多余尾部时间坐标不算轨迹帧。
 - 一阶线、矩形四边形和六面体网格采用显式 C-order 源索引关联；连续与递增稀疏编号、ASCII 与 binary 交替覆盖。输入不含源文件名、MD5、源索引或参考证书。
-- FHN 源码存储 y/x 轴，转为 x/y；其细网格步进抽样坐标可能偏离粗单元中心，工具将有序样本作为题面定义的粗单元初始平均值，并在私有证书保存实际源坐标。参考必须针对该连续初值重新审核。Darcy 的 float32 二值系数显式规范为题面常量 0.1/1。
-- 不可压缩速度与强迫使用题面单位正方形的中心点解释，原始速度不提前替参赛程序投影；连续 Helmholtz 投影和 χf 耦合仍是题目定义。源域尺度与正时间参考待审核。
+- FHN 源存储 y/x 轴，转为 x/y。发布的 128² 值是原 512² 网格的子集；工具以组配置的 seed 使用历史 MT19937 恢复完整初值，并要求所有发布初值逐值匹配 float32 精度。审核源码的 default_rng 生成器不满足这个历史重建，不能直接使用。输入只含完整字段，不含 seed。输出采用原细网格的明确单元子集。
+- Darcy 系数是中心点的 0.1/1 采样，使用双线性重建；外部零单元对应的边界采用题面规定的单元平均耦合。工具对同一源空间算子独立求稳态并记录发布快照残差，残差不是连续误差界。
+- 吸附采用正则化迟滞系数和明确的单元平均耦合边界，匹配源外部单元闭合的连续表达。
+- 可压缩流采用源代码密度加权定向黏性通量，η/ζ 单位 m2/s；输出速度与压力由平均守恒量反算，不是体积平均原始变量。证书记录正性、压力下限值及周期质量/能量变化。
+- 不可压缩流采用发布配置的 [0,1]² Box，工具对每个分片用短时标量输运区分单位域与当前源码的 grid_size Box；t=0 保留未投影的原始记录，正时间采用投影后的速度和 χf 耦合。归档生成器提交链与中心/交错采样误差未被此结构审核证明，证书明确记录这些局限。
 
-冻结清单绑定 catalog、题面版本与选样选项。存在不一致时工具停止，避免静默重选隐藏数据。重跑会校验已准备文件和选定缓存，复用完整条目、修复损坏的工具生成条目，并记录转换器源码摘要。不会覆盖不属于工具的同名算例。
+冻结清单绑定 catalog、题面版本和选样选项。不一致时默认停止。作者明确审核题面修订后可使用 --refresh-contract，将相同来源和选样选项的已有选择绑定到新契约，并在 author/history/ 归档旧清单；不会重选或忽略已知的候选池/算例数变更。此次源对齐修订使用该选项；新克隆无需它。
+
+重跑校验文件和选定缓存，复用完整条目，修复损坏的工具生成条目，并记录转换器源码摘要；保留 .gitkeep，不改动不属于工具的同名算例。
 
 ## 参考解与返回状态
 
 | 退出码 | 意义 |
 |---|---|
-| 0 | 本次选择的输入与参考均已准备；不等于评测配置已完成 |
-| 2 | 输入与私有源子集已准备，有参考仍待审核 |
+| 0 | 本次选择的输入与数值参考均已准备；不等于连续误差已验证或评测配置已完成 |
+| 2 | 输入与私有源子集已准备，独立参考模式下仍有尚未实现的参考 |
 | 1 | 获取、预算、来源、选样或转换错误；详情见报告 |
 | 130 | 被中断；完整缓存块与已提交条目可复用 |
 
-全族运行会继续处理相互独立的题目，并汇总失败；一个题目失败不会被写成成功。尚未完成的题目不会得到假的 result.npz/reference.npz。工具不生成未校准的 judge-config.json，不自动发布或组装 Harbor。
+全族运行会继续处理相互独立的题目，并汇总失败；冻结选样后，单个算例获取或转换失败也会继续其余算例，报告保留已完成记录及逐例错误。一个题目失败不会被写成成功。尚未完成的题目不会得到假的 result.npz/reference.npz。工具不生成未校准的 judge-config.json，不自动发布或组装 Harbor。
 
-可用 `--reference-dir <目录>` 接入独立审核的参考。目录结构为：
+可用 --reference-mode independent 切换到已有平流解析积分、Burgers Cole–Hopf 积分和一维反应扩散空间/时间加密参考；未实现的族会明确 reference_pending。可用 `--reference-dir <目录>` 接入外部审核的参考。目录结构为：
 
 ```text
 <目录>/<task>/sample/01/reference.npz
@@ -88,6 +96,8 @@ tasks/PDEBench_*/author/sample-certificates/  公开样例的私有证书
 ```
 
 每份 evidence.json 必须提供：`status="audited"`、`method`、`error_evidence`、`contract_sha256`、`input_files`、`reference_sha256`。contract 和 input_files 从工具生成的私有 certificate.json 取得；参考摘要为实际 reference.npz 的 SHA-256。证据必须绑定此次题面及三个真实输入文件（problem.json、input.npz、mesh.msh），并通过输出结构校验。记录保留为外部审核声明；工具不把声明的存在当作自己完成了科学验证。
+
+初始输出按显式位置 IDs 与初始字段关联后逐值检查，支持完整初值上的输出子集；不可压缩流也必须保留契约要求的预投影 t=0 记录，不能跳过首帧检查。
 
 只有真实公开样例、全套同契约参考、误差阈值和执行资源均准备好，才能进入既有 publish_dist.py / prepare_harbor.py 流程。当前 Harbor 判题器还硬限制输出文件为 128 MiB，部分三维载荷超过它，须另行审核调整，不能靠减少要求变量或假定压缩率来绕过。
 
@@ -103,5 +113,9 @@ tasks/PDEBench_*/author/sample-certificates/  公开样例的私有证书
 python -m pip install -e '.[pdebench]'
 python -m unittest discover -s tests -p 'test_pdebench_prepare.py' -v
 ```
+
+大字段的当前读取请求会合并至最多四个已有粒度的块，减少请求延迟；小头部读取不额外扩大下载范围。块校验、缓存上限与断点恢复语义保持一致。
+
+不可压缩流的时间戳逐个存储在压缩块中。候选只读取真实 t=0，选定轨迹只读取所需输出帧的真实时间戳，域尺度审核只读取真实前三帧时间；不会为获取时间轴扫描所有无关帧，也不按配置重新生成时间值。
 
 本地测试覆盖范围读取、缓存损坏修复和恢复、拒绝整文件回退、预算、11 族协议与编号关联、FHN 空间轴、平流积分参考、拆分复用，以及未审核轨迹不会变成标答。这些是工具验证，不是其余族的连续 PDE 数值参考验证。

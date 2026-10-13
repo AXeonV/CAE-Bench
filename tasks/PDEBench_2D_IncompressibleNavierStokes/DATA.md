@@ -49,7 +49,7 @@
 
 | role / variable / operator | location | data 与数学含义 |
 |---|---|---|
-| initial / velocity / project | domain | `value={field:"initial_velocity"}`，执行题面定义的连续 Helmholtz 投影。 |
+| initial / velocity / project_preserve_snapshot | domain | `value={field:"initial_velocity"}`，执行题面定义的连续 Helmholtz 投影。 |
 | initial / tracer / assign | domain | `value={field:"initial_tracer"}`。 |
 | source / velocity / tracer_force | domain | `value={field:"forcing"}`，方程加速度为 χf，χ 初值由 initial/tracer 指定。 |
 | boundary / velocity / dirichlet | left/right/bottom/top 各一条 | `value` 分别引用 `wall_velocity_left`、`wall_velocity_right`、`wall_velocity_bottom`、`wall_velocity_top`；壁面矢量全零，t>0 生效。 |
@@ -65,6 +65,10 @@
 
 输出场沿用 `location=domain`、`time_axis=output`、float64 及上述标量/矢量规则。结果 NPZ 仅包含 outputs 指定的数值数组、原样复制的 `point_ids` 和 `times`；多字段共享的轴只保存一次，不导出初始场、坐标、强迫或未要求的量。
 
-t=0 速度为投影后的 v₀ 在采样点上的值，一般不等于 initial_velocity；不输出 χ 或压力。
+t=0 是预投影初始记录，velocity 必须原样输出 initial_velocity；t>0 输出投影演化后的连续速度点值。t=0 记录不要求满足散度约束；右初值 v(0+)=P(w₀) 仍按题面的 Helmholtz 投影定义。不输出 χ 或压力。
 
 可用 `load_problem`、`read_constant`、`read_field`、`write_result` 读写。结构校验器检查引用和数组关联，不验证数学条件或数值解的正确性。
+
+## 初始记录与正时间解
+
+请求 times 中的 0.0 表示预投影初始快照 w₀，必须原样输出。对 t>0，速度满足不可压缩方程，以 P(w₀) 为右初值。这个特殊初始记录不能用于取消正时间的散度约束。定义域为 [0,1]²，点间距 1/512 m。

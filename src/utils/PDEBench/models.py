@@ -81,8 +81,8 @@ def parameters(model, source):
     if model.model == "shallow_water_2d": return {"gravity": constant(1, "m/s2")}
     if model.points: return {"kinematic_viscosity": constant(.01, "m2/s")}
     return {"gamma": constant(5/3, "1"),
-            "shear_viscosity": constant(1e-8 if name.startswith("Sod") else label("Eta"), "Pa.s"),
-            "bulk_viscosity": constant(1e-8 if name.startswith("Sod") else label("Zeta"), "Pa.s")}
+            "shear_viscosity": constant(1e-8 if name.startswith("Sod") else label("Eta"), "m2/s"),
+            "bulk_viscosity": constant(1e-8 if name.startswith("Sod") else label("Zeta"), "m2/s")}
 
 
 def source_files(model, catalog):

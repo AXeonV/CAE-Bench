@@ -10,13 +10,13 @@
 
 \[\partial_t\rho+\nabla\cdot(\rho v)=0,\]
 \[\partial_t(\rho v)+\nabla\cdot(\rho v\otimes v+pI)=\nabla\cdot\tau,\]
-\[\partial_tE+\nabla\cdot((E+p)v)=\nabla\cdot(\tau v),\]
+\[\partial_tE+\nabla\cdot((E+p)v)=\sum_j\partial_j\!\left(\sum_i v_i Q_{ij}\right),\]
 \[E=\frac{p}{\gamma-1}+\frac12\rho|v|^2,\qquad
-\tau=\eta\left(\nabla v+(\nabla v)^T-\frac23(\nabla\cdot v)I\right)+\zeta(\nabla\cdot v)I.\]
+Q_{ij}=\rho\left[\eta+\left(\zeta+\frac{\eta}{3}\right)\delta_{ij}\right]\partial_jv_i.\]
 
-E 为单位体积总能量，γ 为比热比，η、ζ 为常动力剪切和体黏度。没有热传导、体力或额外能量源项。较低维问题按三维气体的不变方向约化，故应力中的 2/3 不改为 2/D。
+动量方程右端的 τ 在本题定义为 Q；其第 i 个分量为 ∑_j∂_jQ_ij。i、j 遍历本题空间维数，δ_ij 为 Kronecker 符号。E 为单位体积总能量，γ 为比热比，η、ζ 为固定运动学黏性系数（m²/s）。这是密度加权、按方向定义的 PDEBench 黏性模型；不添加未给出的交叉导数或热传导项。
 
-初始 ρ、v、p 在各单元内分别为给定常数；由它们逐单元构造初始动量与总能量。正密度和正内能为物理解的要求，禁止把原始变量的单元平均值自动解释成“由平均守恒量反算得到的值”。
+初始 ρ、v、p 在各单元内分别为给定常数，由它们构造初始守恒量。输出采用守恒量的单元平均后反算的状态：ρ_out=平均(ρ)，v_out=平均(ρv)/ρ_out，p_out=(γ−1)[平均(E)−|平均(ρv)|²/(2ρ_out)]。这些定义在 t=0 与输入相同；在非均匀场中 v_out 和 p_out 无须等于 v、p 的体积平均值。
 
 ## 初始与边界条件
 
@@ -31,8 +31,8 @@ E 为单位体积总能量，γ 为比热比，η、ζ 为常动力剪切和体�
 | 参数 | 定义与支持值 |
 |---|---|
 | `gamma` | γ=5/3；单位 `1` |
-| `shear_viscosity` | η：本题定义为常动力剪切黏度；单位 `Pa.s` |
-| `bulk_viscosity` | ζ：本题定义为常动力体黏度；单位 `Pa.s` |
+| `shear_viscosity` | η：密度加权定向模型的运动学剪切系数；单位 `m2/s` |
+| `bulk_viscosity` | ζ：密度加权定向模型的运动学体系数；单位 `m2/s` |
 
 初值、参数和请求时刻以输入为准；ID 只表示实体身份，不表示空间次序。
 

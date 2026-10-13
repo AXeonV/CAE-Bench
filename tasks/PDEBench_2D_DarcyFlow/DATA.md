@@ -6,7 +6,7 @@
 
 `main` 为 Gmsh MSH 4.1 ASCII/binary 网格，覆盖 [0,1]×[0,1] m²。域由 Physical Group `(dimension=2, tag=1)` 标记；`domain` 为该组的全部一阶域单元，`entity=element`、`dimension=2`、`ids="cell_ids"`。网格由等长一阶矩形四边形构成；不拆成三角形再沿用原单元平均值。
 
-空间系数 a 在所属单元内为常数；系数跳变处采用题面规定的界面条件。输出为每个原始单元上对应量的面积平均值。
+空间系数 a 使用下述 coefficient_samples 的分片双线性重建；最外中心点到边界沿法向常值延拓。输出为每个原始单元上对应量的面积平均值。
 
 编号只表示身份。单元及边界节点 IDs 为严格递增正 int64。各字段的第 i 行对应 IDs 的第 i 项；几何位置由网格确定。`left/right` 为 x 最小/最大边界，`bottom/top` 为 y 最小/最大边界。各边界 location 引用相应维度 1 的 Physical Group，以节点 IDs 表示边界取值位置。组 tag 由清单提供。条件中的字段引用必须与条件 location 一致。
 
@@ -22,15 +22,15 @@
 
 ## 输入场与时间轴
 
-所有数值场为 float64。标量为 `kind=scalar`、`component_shape=[1]`、`components=["value"]`。域场的 `location=domain`、`value_kind=average`。quantity 的具体字符串列于下表；下表对象名与默认数组 key 相同，程序必须实际读取 `array` 引用。
+所有数值场为 float64。标量为 `kind=scalar`、`component_shape=[1]`、`components=["value"]`。系数字段的 `location=coefficient_samples`、`value_kind=point`；输出的 location=domain、value_kind=average。quantity 的具体字符串列于下表；下表对象名与默认数组 key 相同，程序必须实际读取 `array` 引用。
 
 | fields 对象 | quantity | kind | 单位 | shape | time_axis | 含义 |
 |---|---|---|---|---|---|---|
-| `diffusivity` | `diffusivity` | `scalar` | `m2/s` | `[1,N,1]` | `output` | 正系数 a，单元值仅取 0.1 或 1 |
+| `diffusivity` | `diffusivity` | `scalar` | `m2/s` | `[1,N,1]` | `output` | 正系数 a 的中心点采样，仅取 0.1 或 1 |
 
 稳态采用 `time_axes.output="times"`，`times=float64([0.0])`，没有初始场时间轴。 输出原样复制该稳态时间轴。未列出的字段不得加入输入 NPZ；几何/网格记录可引用包内文件，`data_file` 指向输入 NPZ。
 
-边界常量在条件 `data` 中显式给出，稳态边界始终生效；角点重合记录均为同一零值。
+边界常量在条件 `data` 中显式给出，稳态边界始终生效；各边条件对边界面的内部点成立，不额外约束角点单点。
 
 ## 条件记录
 
@@ -38,9 +38,9 @@
 
 | role / variable / operator | location | data 与数学含义 |
 |---|---|---|
-| material / state / assign | domain | `value={field:"diffusivity"}`，指定 a。 |
+| material / state / assign | coefficient_samples | `value={field:"diffusivity"}`，指定 a。 |
 | source / state / assign | domain | `value={value:f,unit:"1/s"}`，方程右侧为 +f。 |
-| boundary / state / dirichlet | 每条边 | `value={value:0,unit:"1"}`。 |
+| boundary / state / cell_coupled_dirichlet | 每条边 | external_value={value:0,unit:"1"}、cell_weight={value:0.5,unit:"1"}；边界面值为相邻原单元平均的 1/2。 |
 
 边界条件作用于条件表指定的位置。输入不允许重复冲突约束。
 
@@ -55,3 +55,7 @@
 T=1 表示稳态解，不表示在 t=0 求瞬态初值。
 
 可用 `load_problem`、`read_constant`、`read_field`、`write_result` 读写。结构校验器检查引用和数组关联，不验证数学条件或数值解的正确性。
+
+## 系数与非局部边界的源对齐
+
+diffusivity 使用 location=coefficient_samples、value_kind=point；该 location 为 points，引用 coefficient_ids(int64[N]) 与 coefficient_coordinates(float64[N,2])，坐标为原单元中心。系数按相邻中心点双线性插值，外侧到边界作法向常值延拓，角部两个方向均常值延拓。四边使用 cell_coupled_dirichlet：u_boundary=0.5×相邻原单元的解平均；角点不影响弱解。输出仍为 domain 原单元平均值。

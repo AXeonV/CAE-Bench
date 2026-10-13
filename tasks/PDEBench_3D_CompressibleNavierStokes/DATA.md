@@ -6,7 +6,7 @@
 
 `main` 为 Gmsh MSH 4.1 ASCII/binary 网格，覆盖 [0,1]³ m³。域由 Physical Group `(dimension=3, tag=1)` 标记；`domain` 为该组的全部一阶域单元，`entity=element`、`dimension=3`、`ids="cell_ids"`。网格由等长一阶长方体六面体构成；不拆成四面体再沿用原单元平均值。
 
-每个初始状态值定义为所属单元内的常数，单元边界的单点取值不影响平均值。输出为每个原始单元上对应量的体积平均值。
+每个初始状态值定义为所属单元内的常数，单元边界的单点取值不影响平均值。输出定义为题面中的守恒量平均派生状态；velocity 的 quantity 为 mass_weighted_velocity，pressure 为 conservative_pressure。value_kind=average 表示按原单元做守恒平均后求这些规定观测量。
 
 编号只表示身份。单元及边界节点 IDs 为严格递增正 int64。各字段的第 i 行对应 IDs 的第 i 项；几何位置由网格确定。条件中的字段引用必须与条件 location 一致。
 
@@ -19,8 +19,8 @@
 | 参数 | 单位 | 定义与支持值 |
 |---|---|---|
 | `gamma` | `1` | γ=5/3 |
-| `shear_viscosity` | `Pa.s` | η：本题定义为常动力剪切黏度 |
-| `bulk_viscosity` | `Pa.s` | ζ：本题定义为常动力体黏度 |
+| `shear_viscosity` | `m2/s` | η：本题定义为运动学剪切系数 |
+| `bulk_viscosity` | `m2/s` | ζ：本题定义为运动学体系数 |
 
 ## 输入场与时间轴
 
@@ -52,11 +52,15 @@
 | outputs 对象与默认 array key | quantity | kind | 单位 | shape | 含义 |
 |---|---|---|---|---|---|
 | `density` | `density` | `scalar` | `kg/m3` | `[T,N,1]` | ρ 的单元平均值 |
-| `velocity` | `velocity` | `vector` | `m/s` | `[T,N,3]` | 原始变量 v 的单元平均值 |
-| `pressure` | `pressure` | `scalar` | `Pa` | `[T,N,1]` | 热力学压力 p 的单元平均值 |
+| `velocity` | `mass_weighted_velocity` | `vector` | `m/s` | `[T,N,3]` | 平均动量除以平均密度，质量加权速度 |
+| `pressure` | `conservative_pressure` | `scalar` | `Pa` | `[T,N,1]` | 由平均守恒量反算的压力 |
 
 输出场沿用 `location=domain`、`time_axis=output`、float64 及上述标量/矢量规则。结果 NPZ 仅包含 outputs 指定的数值数组、原样复制的 `cell_ids` 和 `times`；多字段共享的轴只保存一次，不导出初始场、坐标、强迫或未要求的量。
 
 t=0 输出为输入初值的对应平均值。
 
 可用 `load_problem`、`read_constant`、`read_field`、`write_result` 读写。结构校验器检查引用和数组关联，不验证数学条件或数值解的正确性。
+
+## 源对齐观测量
+
+本题用密度加权定向黏性通量 Q_ij，系数单位为 m2/s。输出 density 为体积平均密度；velocity=平均(ρv)/平均(ρ)，pressure=(γ−1)[平均(E)−|平均(ρv)|²/(2平均(ρ))]。初始单元内常数使 t=0 三者恰等于输入。提交程序必须按这些观测量输出，不能直接输出速度或压力的体积平均。

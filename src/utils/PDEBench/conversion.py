@@ -12,6 +12,25 @@ from .models import constant, parameters
 from .storage import PreparationError, atomic_json, digest
 
 
+def check_reference_initial(model, problem, values):
+    """Compare t=0 on the explicitly identified output entities, including subsets."""
+    manifest=problem.manifest
+    for output,initial,_,_ in model.fields:
+        if not initial:continue
+        field=manifest['fields'][initial]
+        expected=problem.arrays[field['array']]
+        initial_ids=problem.arrays[manifest['locations'][field['location']]['ids']]
+        output_ids=problem.arrays[manifest['locations'][manifest['outputs'][output]['location']]['ids']]
+        if not np.array_equal(initial_ids,output_ids):
+            positions=np.searchsorted(initial_ids,output_ids)
+            if (np.any(positions>=len(initial_ids)) or
+                not np.array_equal(initial_ids[positions],output_ids)):
+                raise PreparationError('Reference output entities are not in the initial location')
+            expected=expected[:,positions,:]
+        if not np.array_equal(values[output][0:1],expected):
+            raise PreparationError('Reference t=0 does not match the contracted initial data')
+
+
 def make_mesh(path, shape, bounds, sparse=False, binary=False):
     """Bulk-build aligned line/quad/hex cells, with C-order IDs and side groups."""
     dimension = len(shape)
@@ -69,7 +88,7 @@ def make_mesh(path, shape, bounds, sparse=False, binary=False):
 
 
 def field(name, quantity, unit, components, model, location='domain', axis='initial'):
-    vector = quantity in ('velocity','momentum','forcing')
+    vector = quantity in ('velocity','momentum','forcing','mass_weighted_velocity')
     return {'array':name,'quantity':quantity,'location':location,'time_axis':axis,
             'dtype':'float64','kind':'vector' if vector else 'scalar',
             'component_shape':[components],
@@ -94,14 +113,19 @@ def advection_average(initial, times, speed, length=1.):
     return result[...,None]
 
 
-def build_input(model, source, coords, times, values, destination, variant=0):
+def build_input(model, source, coords, times, values, destination, variant=0, config=None):
     destination = Path(destination)
     destination.mkdir(parents=True, exist_ok=True)
     shape = tuple(len(c) for c in coords)
     for name,value in values.items():
         if value.shape[1:-1] != shape:
             raise PreparationError(f"Source spatial shape mismatch for {name}: {value.shape}, {shape}")
-    ids,sides = make_mesh(destination/'mesh.msh',shape,model.bounds, bool(variant%2),bool(variant%2))
+    initial_values=values;initial_shape=shape;sample_axes=None
+    if model.model=='reaction_diffusion_2d' and config is not None:
+        from .source_audit import fhn_initial
+        initial_shape,sample_axes,initial_values=fhn_initial(coords,values,config)
+    all_ids,sides = make_mesh(destination/'mesh.msh',initial_shape,model.bounds, bool(variant%2),bool(variant%2))
+    ids=all_ids if sample_axes is None else all_ids.reshape(initial_shape)[np.ix_(*sample_axes)].ravel()
     arrays = {'times':np.asarray(times,dtype=np.float64)}
     locations = {}
     if model.points:
@@ -114,6 +138,17 @@ def build_input(model, source, coords, times, values, destination, variant=0):
         locations['domain'] = {'kind':'mesh','mesh':'main','entity':'element',
                                'dimension':model.dimension,'ids':'cell_ids',
                                'physical_group':{'dimension':model.dimension,'tag':1}}
+    initial_location='domain'
+    if sample_axes is not None:
+        initial_location='initial_domain'
+        arrays['initial_cell_ids']=all_ids
+        locations['initial_domain']={**locations['domain'],'ids':'initial_cell_ids'}
+        locations['domain'].pop('physical_group')
+    if model.model=='darcy_flow_2d':
+        arrays['coefficient_ids']=ids.copy()
+        points=np.meshgrid(*coords,indexing='ij')
+        arrays['coefficient_coordinates']=np.stack([p.ravel() for p in points],axis=1)
+        locations['coefficient_samples']={'kind':'points','ids':'coefficient_ids','coordinates':'coefficient_coordinates'}
     metadata = {'task':model.task,'spatial_dimension':model.dimension,'data_file':'input.npz',
                 'geometries':{},'meshes':{'main':{'file':'mesh.msh'}},'locations':locations,
                 'time_axes':{'output':'times'},'fields':{},'outputs':{},
@@ -130,9 +165,12 @@ def build_input(model, source, coords, times, values, destination, variant=0):
         metadata['time_axes']['initial']='initial_times'
     for output,initial,unit,c in model.fields:
         metadata['outputs'][output]=field(output,output,unit,c,model,axis='output')
+        if model.model.startswith('compressible_') and output in ('velocity','pressure'):
+            metadata['outputs'][output]['quantity']='mass_weighted_velocity' if output=='velocity' else 'conservative_pressure'
         if initial:
-            add(initial,output,unit,c,values[output][0:1].reshape(1,-1,c))
-            condition('initial',output,'project' if model.points else 'assign',{'value':{'field':initial}})
+            add(initial,output,unit,c,initial_values[output][0:1].reshape(1,-1,c),initial_location)
+            if initial_location=='initial_domain':metadata['fields'][initial]['value_kind']='average'
+            condition('initial',output,'project_preserve_snapshot' if model.points else 'assign',{'value':{'field':initial}},initial_location)
     periodic = model.model in ('advection_1d','burgers_1d','reaction_diffusion_1d') or (
         model.model.startswith('compressible_') and 'trans' not in source['filename'] and not source['filename'].startswith('Sod'))
     if periodic:
@@ -145,14 +183,16 @@ def build_input(model, source, coords, times, values, destination, variant=0):
             locations[side]={'kind':'mesh','mesh':'main','entity':'node','ids':side+'_ids',
                              'physical_group':{'dimension':model.dimension-1,'tag':tag}}
         if steady:
-            add('diffusivity','diffusivity','m2/s',1,values['diffusivity'].reshape(1,-1,1),axis='output')
-            condition('material','state','assign',{'value':{'field':'diffusivity'}})
+            add('diffusivity','diffusivity','m2/s',1,values['diffusivity'].reshape(1,-1,1),loc='coefficient_samples',axis='output')
+            condition('material','state','assign',{'value':{'field':'diffusivity'}},'coefficient_samples')
             condition('source','state','assign',{'value':metadata['physics']['parameters']['source_strength']})
-            for side in sides: condition('boundary','state','dirichlet',{'value':constant(0,'1')},side)
+            for side in sides:condition('boundary','state','cell_coupled_dirichlet',
+                                       {'external_value':constant(0,'1'),'cell_weight':constant(.5,'1')},side)
         elif model.model=='diffusion_sorption_1d':
-            condition('boundary','concentration','dirichlet',{'value':constant(1,'1')},'left')
-            condition('boundary','concentration','robin',{'alpha':constant(1,'1'),
-                      'beta':constant(.0005,'m'),'value':constant(0,'1')},'right')
+            condition('boundary','concentration','cell_coupled_dirichlet',
+                      {'external_value':constant(1,'1'),'cell_weight':constant(.5,'1')},'left')
+            condition('boundary','concentration','outlet_cell_coupling',
+                      {'length':constant(.0005,'m')},'right')
         elif model.model=='reaction_diffusion_2d':
             for side in sides:
                 for variable in ('activator','inhibitor'):

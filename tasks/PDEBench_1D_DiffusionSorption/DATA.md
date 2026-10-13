@@ -46,8 +46,8 @@
 | role / variable / operator | location | data 与数学含义 |
 |---|---|---|
 | initial / concentration / assign | domain | `value={field:"initial_concentration"}`。 |
-| boundary / concentration / dirichlet | left | `value={value:1,unit:"1"}`。 |
-| boundary / concentration / robin | right | `alpha={value:1,unit:"1"}`、`beta={value:0.0005,unit:"m"}`、`value={value:0,unit:"1"}`；alpha·c+beta·∂c/∂n=value。 |
+| boundary / concentration / cell_coupled_dirichlet | left | external_value={value:1,unit:"1"}、cell_weight={value:0.5,unit:"1"}；c(0)=(1+C_1)/2。 |
+| boundary / concentration / outlet_cell_coupling | right | length={value:0.0005,unit:"m"}；c(1)=[C_N−ℓ(C_N−C_{N−1})/h]/2。 |
 
 边界条件作用于条件表指定的位置。输入不允许重复冲突约束。
 
@@ -62,3 +62,7 @@
 t=0 输出为输入初值的对应平均值。
 
 可用 `load_problem`、`read_constant`、`read_field`、`write_result` 读写。结构校验器检查引用和数组关联，不验证数学条件或数值解的正确性。
+
+## 非局部边界
+
+边界值依赖当前浓度在原输出单元上的平均值，完整公式见 instruction.md。C_1、C_N、C_{N−1} 由网格的几何邻接确定；ID 数值不是空间序号。边界算子数据中的 length 等于 physics.parameters.outlet_length，external_value 等于 inlet_concentration。禁止把这两条条件替换成普通 Dirichlet 或 Robin 条件。

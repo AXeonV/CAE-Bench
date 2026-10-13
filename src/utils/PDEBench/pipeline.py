@@ -10,7 +10,7 @@ import h5py
 import numpy as np
 
 from caeoj.sdk import load_problem, load_result
-from .conversion import build_input, input_identity, write_analytic_reference
+from .conversion import build_input, input_identity, write_analytic_reference, check_reference_initial
 from .models import parameters, public_sources, source_files
 from .sources import Reader, check_initial, feature, frame_indices, open_source
 from .storage import PreparationError, atomic_json, digest
@@ -21,7 +21,7 @@ VERSION = 1
 
 def tool_hash():
     h=hashlib.sha256()
-    for name in ('models.py','sources.py','conversion.py','pipeline.py','storage.py'):
+    for name in ('models.py','sources.py','conversion.py','pipeline.py','storage.py','references.py','source_audit.py'):
         h.update(name.encode());h.update((Path(__file__).parent/name).read_bytes())
     return h.hexdigest()
 
@@ -55,18 +55,40 @@ def select(model, sources, cache, budget, local, pool, timeout, max_cases=None):
         inspect_sources=[s for s in sources if s['id'] in wanted]
     for source in inspect_sources:
         print(f"  inspect {source['filename']}",flush=True)
+        inventory_path=cache/'candidates'/model.task/f"{source['id']}.json"
+        inventory_key=hashlib.sha256(json.dumps({'source':source,'model':model.model,
+                         'reader_sha256':digest(Path(__file__).with_name('sources.py'))},sort_keys=True).encode()).hexdigest()
+        inventory={}
+        if inventory_path.exists():
+            try:
+                previous=json.loads(inventory_path.read_text())
+                if previous.get('identity')==inventory_key:inventory=previous
+            except (ValueError,OSError):pass
+        cached={c['index']:c for c in inventory.get('entries',[])}
+        requested=pool if model.grouped or model.points else max(8,model.hidden_per_file+2)
+        if local is None and inventory.get('count') and all(i in cached for i in range(min(inventory['count'],requested))):
+            candidates.extend(cached[i] for i in range(min(inventory['count'],requested)))
+            continue
         with open_source(source,cache,budget,local,timeout) as handle:
             reader=Reader(handle,model)
-            count=min(reader.count,pool if model.grouped or model.points else max(8,model.hidden_per_file+2))
+            count=min(reader.count,requested)
             for index in range(count):
-                coords,times,config=reader.metadata(index)
+                if index in cached:
+                    candidates.append(cached[index]);continue
+                coords,times,config=reader.metadata(index, frames=np.array([0])) if model.points else reader.metadata(index)
                 values=reader.values(index,np.array([0],dtype=np.int64))
                 check_initial(model,values)
                 magnitude,gradient=feature(model,values)
                 fingerprint=hashlib.sha256()
                 for key in sorted(values): fingerprint.update(key.encode());fingerprint.update(values[key].tobytes())
-                candidates.append({'source_id':source['id'],'index':index,'magnitude':magnitude,
-                                   'gradient':gradient,'initial_sha256':fingerprint.hexdigest()})
+                candidate={'source_id':source['id'],'index':index,'magnitude':magnitude,
+                           'gradient':gradient,'initial_sha256':fingerprint.hexdigest()}
+                candidates.append(candidate);cached[index]=candidate
+                budget.check(65536)
+                atomic_json(inventory_path,{'identity':inventory_key,'count':reader.count,
+                                           'entries':[cached[i] for i in sorted(cached)]})
+                if count>8 and (index+1)%8==0:
+                    print(f"    initial candidates {index+1}/{count}",flush=True)
     public=[]
     if model.grouped or model.points:
         public=spread(candidates,2,key='magnitude')
@@ -122,6 +144,12 @@ def select(model, sources, cache, budget, local, pool, timeout, max_cases=None):
 def install_directory(staged, target):
     """Atomic rename with rollback; never merge stale arrays into a new case."""
     target=Path(target);target.parent.mkdir(parents=True,exist_ok=True)
+    # Preserve the versioned empty-directory markers when materializing data.
+    if target.exists():
+        for marker in target.rglob('.gitkeep'):
+            destination=Path(staged)/marker.relative_to(target)
+            destination.parent.mkdir(parents=True,exist_ok=True)
+            destination.touch()
     backup=target.with_name('.'+target.name+'.previous')
     if backup.exists():
         if target.exists(): raise PreparationError(f"Interrupted installation needs inspection: {backup}")
@@ -162,8 +190,14 @@ def selected(path,model,source,index,cache,budget,local,timeout,requested):
                 return coords,handle['times'][...],handle['frame_indices'][...],values,json.loads(handle.attrs['config'])
     with open_source(source,cache,budget,local,timeout) as handle:
         reader=Reader(handle,model)
-        coords,times,config=reader.metadata(index)
-        frames=frame_indices(len(times),requested)
+        if model.points:
+            frames=frame_indices(reader.h['velocity'].shape[1],requested)
+            coords,times,config=reader.metadata(index,frames=frames)
+            selected_times=times
+        else:
+            coords,times,config=reader.metadata(index)
+            frames=frame_indices(len(times),requested)
+            selected_times=times[frames]
         shape=tuple(len(c) for c in coords)
         # Preflight selected source payload + input + reference + mesh/staging duplicate.
         components=sum(f[3] for f in model.fields)+(3 if model.points else 1 if model.model=='darcy_flow_2d' else 0)
@@ -172,11 +206,11 @@ def selected(path,model,source,index,cache,budget,local,timeout,requested):
         values=reader.values(index,frames)
         if any(not np.isfinite(v).all() for v in values.values()):
             raise PreparationError("Nonfinite selected source trajectory")
-        save_selected(path,model,source,index,coords,times[frames],frames,values,config,budget)
-        return coords,times[frames],frames,values,config
+        save_selected(path,model,source,index,coords,selected_times,frames,values,config,budget)
+        return coords,selected_times,frames,values,config
 
 
-def prepare_entry(model,source,entry,task,cache,staging,budget,local,timeout,reference_root=None):
+def prepare_entry(model,source,entry,task,cache,staging,budget,local,timeout,reference_root=None,reference_mode='independent'):
     public=entry['kind']=='sample'
     requested=5 if public else 9
     payload=cache/'selections'/str(source['id'])/f"{entry['index']}-{requested}.h5"
@@ -190,7 +224,7 @@ def prepare_entry(model,source,entry,task,cache,staging,budget,local,timeout,ref
         maximum=2 if model.model in ('advection_1d','burgers_1d') or (model.dimension==1 and source['filename'].startswith('Sod')) else 500 if model.model=='diffusion_sorption_1d' else 5 if model.model=='reaction_diffusion_2d' else 4.995 if model.points else 1
         if times[-1] > maximum+1e-6: raise PreparationError("Source time is outside task contract")
     contract=contract_hash(task)
-    build_key=hashlib.sha256(json.dumps({'version':VERSION,'tool_sha256':tool_hash(),'entry':entry,'contract':contract,
+    build_key=hashlib.sha256(json.dumps({'version':VERSION,'reference_mode':reference_mode,'tool_sha256':tool_hash(),'entry':entry,'contract':contract,
                              'payload':digest(payload)},sort_keys=True).encode()).hexdigest()
     target=task/'samples'/entry['id'] if public else task/'cases'/entry['id']
     record_path=task/'author'/'prepared'/f"{entry['kind']}-{entry['id']}.json"
@@ -215,7 +249,8 @@ def prepare_entry(model,source,entry,task,cache,staging,budget,local,timeout,ref
             shutil.copytree(target/'input' if public else target,input_dir)
             problem=load_problem(input_dir/'problem.json')
         else:
-            problem=build_input(model,source,coords,times,values,input_dir,entry['variant'])
+            if model.model=='reaction_diffusion_2d':budget.check(int(config['sim']['xdim'])*int(config['sim']['ydim'])*600)
+            problem=build_input(model,source,coords,times,values,input_dir,entry['variant'],config=config)
         identity=input_identity(problem)
         certificate={'source_id':source['id'],'source_md5':source['md5'],
                      'sample_index':entry['index'],'frame_indices':frames.tolist(),
@@ -223,7 +258,7 @@ def prepare_entry(model,source,entry,task,cache,staging,budget,local,timeout,ref
                      'contract_sha256':contract,'input_files':identity,'build_key':build_key,
                      'tool_version':VERSION,'tool_sha256':tool_hash(),'status':'reference_pending',
                      'source_coordinate_axes':[c.tolist() for c in coords],
-                     'coordinate_interpretation':'ordered source samples assigned to task cell averages; no claim of source continuum equivalence' if not model.points else 'centred source samples interpreted on task unit square; source-domain audit pending'}
+                     'coordinate_interpretation':'source cell averages; FHN uses reconstructed full initial grid and a subset of original output cells' if not model.points else 'source centered samples on the published unit Box, checked against short-time tracer transport'}
         ref_dir=stage/'reference';ref_dir.mkdir()
         reference=ref_dir/'reference.npz'
         candidate=ref_dir/'official-candidate.npz'
@@ -233,7 +268,17 @@ def prepare_entry(model,source,entry,task,cache,staging,budget,local,timeout,ref
         certificate['official_candidate']={'filename':'official-candidate.npz',
                 'sha256':digest(candidate),'status':'unreviewed_do_not_grade',
                 'meaning':'converted source values; not asserted to solve this continuous task'}
-        if model.model=='advection_1d':
+        if reference_mode=='official' and not reference_root:
+            from .source_audit import audit_reference
+            certificate['evidence']=audit_reference(model,problem,values,coords,config,reference)
+            if model.points:
+                from .source_audit import audit_ns_domain
+                certificate['evidence']['checks']['domain_witness']=audit_ns_domain(model,source,cache,budget,local,timeout)
+            certificate['status']='reference_prepared'
+            certificate['official_candidate']['status']='audited_source_snapshot_not_exact_truth'
+            if model.model=='darcy_flow_2d':certificate['official_candidate']['status']='source_snapshot_not_used_as_steady_answer'
+            if model.model=='reaction_diffusion_1d':certificate['official_candidate']['status']='source_trajectory_replaced_after_same_pde_comparison'
+        elif model.model=='advection_1d':
             certificate['evidence']=write_analytic_reference(problem,reference)
             certificate['status']='reference_prepared'
         elif reference_root:
@@ -248,15 +293,20 @@ def prepare_entry(model,source,entry,task,cache,staging,budget,local,timeout,ref
                     not audit.get('method') or not audit.get('error_evidence')):
                     raise PreparationError("External reference evidence does not bind to this exact input/contract")
                 imported=load_result(problem,supplied)
-                if not model.points:
-                    for output,initial,_,_ in model.fields:
-                        if initial and not np.array_equal(imported[output][0:1],problem.arrays[initial]):
-                            raise PreparationError('Reviewed reference t=0 does not match the contracted initial averages')
+                check_reference_initial(model,problem,imported)
                 shutil.copyfile(supplied,reference)
                 # Preserve reviewer provenance; do not call supplied assertions
                 # a proof or an independently measured error by this tool.
                 certificate['evidence']={**audit,'kind':'external_review_assertion'}
                 certificate['status']='reference_prepared'
+        if not reference.exists() and model.model=='burgers_1d':
+            from .references import write_burgers_reference
+            certificate['evidence']=write_burgers_reference(problem,reference)
+            certificate['status']='reference_prepared'
+        if not reference.exists() and model.model=='reaction_diffusion_1d':
+            from .references import write_logistic_reference
+            certificate['evidence']=write_logistic_reference(problem,reference)
+            certificate['status']='reference_prepared'
         if reference.exists(): certificate['reference_sha256']=digest(reference)
         atomic_json(ref_dir/'certificate.json',certificate)
         if public:
@@ -281,33 +331,44 @@ def prepare_entry(model,source,entry,task,cache,staging,budget,local,timeout,ref
 
 
 def prepare_task(model,catalog,task,cache,staging,budget,local=None,pool=64,timeout=45,
-                 max_cases=None,reference_root=None):
+                 max_cases=None,reference_root=None,reference_mode='independent',refresh_contract=False):
     sources=source_files(model,catalog)
     if not sources: raise PreparationError("No pinned sources for task")
     selection_path=task/'author'/'selection.json'
     identity=hashlib.sha256(json.dumps({'catalog':catalog,'contract':contract_hash(task),
                       'pool':pool,'max_cases':max_cases,'version':VERSION},sort_keys=True).encode()).hexdigest()
+    options={'pool':pool,'max_cases':max_cases}
     if selection_path.exists():
         selection=json.loads(selection_path.read_text())
         if selection.get('identity')!=identity:
-            raise PreparationError("Frozen selection differs from this catalog/contract/options; use a separate output root")
+            if not refresh_contract or selection.get('source_files')!=sources or selection.get('options',options)!=options:
+                raise PreparationError("Frozen selection differs from this catalog/contract/options; use a separate output root or explicit --refresh-contract for a reviewed contract revision")
+            archive=task/'author/history'/('selection-'+selection['identity']+'.json')
+            atomic_json(archive,selection)
+            selection={**selection,'identity':identity,'options':options,
+                       'contract_sha256':contract_hash(task),'previous_identity':selection['identity']}
+            atomic_json(selection_path,selection)
         entries=selection['entries']
     else:
         entries=select(model,sources,cache,budget,local,pool,timeout,max_cases)
         selection={'version':VERSION,'identity':identity,'task':model.task,'status':'frozen',
-                   'source_files':sources,'entries':entries}
+                   'source_files':sources,'entries':entries,'options':options,'contract_sha256':contract_hash(task)}
         atomic_json(selection_path,selection)
     file_by_id={s['id']:s for s in sources}
-    records=[]
+    records=[];errors=[]
     for entry in entries:
         print(f"  prepare {entry['kind']} {entry['id']}",flush=True)
-        records.append(prepare_entry(model,file_by_id[entry['source_id']],entry,task,cache,staging,
-                                     budget,local,timeout,reference_root))
+        try:
+            records.append(prepare_entry(model,file_by_id[entry['source_id']],entry,task,cache,staging,
+                                         budget,local,timeout,reference_root,reference_mode))
+        except (PreparationError,ValueError,KeyError,OSError) as exc:
+            errors.append({'kind':entry['kind'],'id':entry['id'],'error':str(exc)})
+            print(f"    failed: {exc}",flush=True)
     pending=sum(r['status']=='reference_pending' for r in records)
-    report={'task':model.task,'status':'reference_pending' if pending else 'references_prepared',
+    report={'task':model.task,'status':'failed' if errors else 'reference_pending' if pending else 'references_prepared',
             'samples':sum(r['kind']=='sample' for r in records),
             'cases':sum(r['kind']=='case' for r in records),'pending_references':pending,
-            'records':records,'partial_selection':max_cases is not None,
+            'records':records,'errors':errors,'partial_selection':max_cases is not None,
             'grading_ready':False,
             'remaining':['Calibrate error thresholds and execution resources; no judge-config generated']}
     if any(r['estimated_output_bytes']>128*1024**2 for r in records):

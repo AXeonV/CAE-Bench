@@ -65,7 +65,7 @@ class Budget:
 
 class RangeReader(io.RawIOBase):
     def __init__(self, source, cache, budget, block_size=1024 * 1024,
-                 memory_blocks=4, timeout=45, retries=3, cache_bytes=64 * 1024**2):
+                 memory_blocks=4, timeout=45, retries=5, cache_bytes=64 * 1024**2):
         super().__init__()
         self.source, self.budget = source, budget
         self.url = source["url"]
@@ -127,7 +127,10 @@ class RangeReader(io.RawIOBase):
                     return content
             except (requests.RequestException,TransportError,OSError) as exc:
                 last = exc
-                if attempt + 1 < self.retries: time.sleep(min(2**attempt, 4))
+                # A DNS/proxy reconnect or interrupted TLS session must not
+                # reuse a stale connection pool on the next attempt.
+                self.session.close();self.session=requests.Session()
+                if attempt + 1 < self.retries: time.sleep(min(2**attempt, 10))
         raise PreparationError(f"Cannot read source {self.source['id']}: {last}")
 
     def _block(self, start):
@@ -169,11 +172,39 @@ class RangeReader(io.RawIOBase):
         while len(self.memory) > self.memory_blocks: self.memory.popitem(last=False)
         return data
 
+    def _prefetch(self,start,end):
+        """Coalesce only blocks that a large current read actually needs.
+
+        Preserve the existing block granularity and checksums, rather than
+        increasing overfetch for tiny HDF5 header/initial-field reads.
+        """
+        count=min(4,self.memory_blocks,self.cache_bytes//self.block_size,
+                  (end-start)//self.block_size)
+        if count<2:return
+        starts=[start+i*self.block_size for i in range(count)]
+        if any(i in self.memory or (self.cache/f'{i}.bin').exists() for i in starts):return
+        stop=min(self.size,start+count*self.block_size)
+        self.budget.check(stop-start+count*4096)
+        data=self._fetch(start,stop-1)
+        occupied=sum(p.stat().st_size for p in self.cache.glob('*.bin'))
+        for old in sorted(self.cache.glob('*.bin'),key=lambda p:p.stat().st_mtime):
+            if occupied+len(data)<=self.cache_bytes:break
+            occupied-=old.stat().st_size
+            old.unlink();old.with_suffix('.json').unlink(missing_ok=True)
+        for i in starts:
+            block=data[i-start:min(i-start+self.block_size,len(data))]
+            path=self.cache/f'{i}.bin';temporary=path.with_suffix('.partial')
+            temporary.write_bytes(block);os.replace(temporary,path)
+            atomic_json(path.with_suffix('.json'),{'sha256':hashlib.sha256(block).hexdigest()})
+            self.memory[i]=block
+        while len(self.memory)>self.memory_blocks:self.memory.popitem(last=False)
+
     def readinto(self, buffer):
         end = min(self.position + len(buffer), self.size)
         written = 0
         while self.position < end:
             start = self.position // self.block_size * self.block_size
+            self._prefetch(start,end)
             block = self._block(start)
             offset = self.position - start
             count = min(end - self.position, len(block) - offset)
@@ -184,6 +215,7 @@ class RangeReader(io.RawIOBase):
 
     def close(self):
         if not self.closed:
-            self.session.close()
-            self.memory.clear()
+            # Budget/identity checks can fail partway through __init__.
+            if hasattr(self,'session'):self.session.close()
+            if hasattr(self,'memory'):self.memory.clear()
         super().close()

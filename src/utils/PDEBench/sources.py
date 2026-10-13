@@ -71,7 +71,7 @@ class Reader:
         if key not in self.h: raise PreparationError(f"Missing sample group {key}")
         return self.h[key]
 
-    def metadata(self, index=0):
+    def metadata(self, index=0, frames=None):
         model = self.model
         if self.grouped:
             group = self._group(index)
@@ -87,9 +87,25 @@ class Reader:
             declared = config.get('domain_size')
             if declared is None or list(declared) != [1, 1]:
                 raise PreparationError("Cannot establish unit-square source configuration")
-            coords = [(np.arange(n)+.5)/n for n in shape]
-            times = np.asarray(self.h['t'][index], dtype=np.float64)
+            if list(config.get('grid_size',[]))!=list(shape):
+                raise PreparationError('Source grid_size does not match the published velocity grid')
+            # Released domain_size is checked independently against short-time
+            # tracer transport; the current generator's grid_size Box differs.
+            coords = [lo+(np.arange(n)+.5)*(hi-lo)/n
+                      for n,(lo,hi) in zip(shape,model.bounds)]
             length = self.h['velocity'].shape[1]
+            if frames is None:
+                times = np.asarray(self.h['t'][index], dtype=np.float64)
+            else:
+                frames = np.asarray(frames, dtype=np.int64)
+                if (frames.ndim != 1 or not len(frames) or frames[0] != 0
+                    or np.any(np.diff(frames) <= 0) or frames[-1] >= length):
+                    raise PreparationError('Invalid selected source time indices')
+                # Each published timestamp is its own compressed HDF5 chunk.
+                # Read actual requested entries, never synthesize timestamps
+                # or fetch all unrelated chunks distributed across the file.
+                times = np.asarray(self.h['t'][index, frames], dtype=np.float64)
+                length = len(frames)
         else:
             coords = [np.asarray(self.h[axis+'-coordinate'], dtype=np.float64)
                       for axis in 'xyz'[:model.dimension]]

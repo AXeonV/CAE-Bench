@@ -15,7 +15,12 @@ R_\varepsilon(c)=1+\frac{1-\phi}{\phi}\rho_s k_f n_f(c+\varepsilon)^{n_f-1}.\]
 
 ## 初始与边界条件
 
-左端 c=c_in；右端 c+ℓ∂c/∂n=0，n 为向外单位法向，右端 ∂/∂n=∂/∂x。两条件在 t>0 生效；t=0 取输入分片常数初值，允许初值与突然施加的入口值不相容。
+设输入原网格单元宽 h=1/1024 m，C_i(t) 是连续浓度在第 i 个原单元上的平均值，按几何从左向右编号 i=1,…,1024（不按 ID 推断）。采用以下非局部边界值：
+
+\[c(0,t)=\tfrac12(c_{in}+C_1(t)),\qquad
+c(1,t)=\tfrac12\left[C_{1024}(t)-\frac{\ell}{h}(C_{1024}(t)-C_{1023}(t))\right].\]
+
+c_in=1，ℓ 为输入给出的出口耦合长度。条件在 t>0 生效，t=0 取输入常数初值。这里的 C_i 由原始输出单元定义，即使程序使用另一张内部网格，也按原单元积分。程序可自主选择空间与时间数值方法。
 
 ## 输入范围
 
@@ -32,7 +37,7 @@ R_\varepsilon(c)=1+\frac{1-\phi}{\phi}\rho_s k_f n_f(c+\varepsilon)^{n_f-1}.\]
 | `freundlich_exponent` | n_f=0.874；单位 `1` |
 | `concentration_shift` | ε=10⁻⁶；单位 `1` |
 | `inlet_concentration` | c_in=1；单位 `1` |
-| `outlet_length` | ℓ=5×10⁻⁴；单位 `m` |
+| `outlet_length` | ℓ=5×10⁻⁴，出口耦合长度；单位 `m` |
 
 初值、参数和请求时刻以输入为准；ID 只表示实体身份，不表示空间次序。
 

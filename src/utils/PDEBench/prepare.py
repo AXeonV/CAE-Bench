@@ -23,6 +23,8 @@ def parser():
     p.add_argument('--cache-root',type=Path,default=ROOT/'runs/pdebench')
     p.add_argument('--source-dir',type=Path,help='Read local complete source files (full size and MD5 verified)')
     p.add_argument('--reference-dir',type=Path,help='Import independently audited references, never unreviewed source trajectories')
+    p.add_argument('--reference-mode',choices=['official','independent'],default='official',help='Source-aligned numerical audit (default), or independent references where implemented')
+    p.add_argument('--refresh-contract',action='store_true',help='Explicitly bind existing frozen source choices to a reviewed revised contract; archive previous selection')
     p.add_argument('--budget-gb',type=float,default=60.,help='Decimal GB managed disk cap')
     p.add_argument('--candidate-pool',type=int,default=64,help='Bounded candidate pool for feature-stratified families')
     p.add_argument('--max-cases',type=int,help='Smoke run: prepare only this many hidden cases, still include both public samples')
@@ -32,7 +34,7 @@ def parser():
 
 
 def bootstrap(args):
-    missing=[n for n in ('numpy','gmsh','h5py','requests','yaml','jsonschema') if importlib.util.find_spec(n) is None]
+    missing=[n for n in ('numpy','gmsh','h5py','requests','yaml','jsonschema','scipy') if importlib.util.find_spec(n) is None]
     if not missing:return
     if args.no_bootstrap:
         raise RuntimeError('Missing '+', '.join(missing)+"; install: python -m pip install -e '.[pdebench]'")
@@ -84,7 +86,7 @@ def main(argv=None):
           'tasks':[{'task':m.task,'sources':len(source_files(m,catalog)),
                     'whole_source_bytes':sum(s['bytes'] for s in source_files(m,catalog)),
                     'strategy':'selected frames via bounded HTTP ranges',
-                    'reference':'exact analytic' if m.model=='advection_1d' else 'independent audit required'} for m in chosen]}
+                    'reference':'source-aligned audit and equilibrium correction' if args.reference_mode=='official' else 'independent reference where implemented'} for m in chosen]}
     if args.plan:
         print(json.dumps(plan,ensure_ascii=False,indent=2));return 0
     bootstrap(args)
@@ -116,7 +118,8 @@ def main(argv=None):
             print('Preparing '+model.task,flush=True)
             try:
                 result=prepare_task(model,catalog,output/model.task,runtime/'cache',runtime/'staging',budget,
-                                    args.source_dir,args.candidate_pool,args.timeout,args.max_cases,args.reference_dir)
+                                    args.source_dir,args.candidate_pool,args.timeout,args.max_cases,args.reference_dir,
+                                    args.reference_mode,args.refresh_contract)
             except (PreparationError,ValueError,KeyError,OSError) as exc:
                 result={'task':model.task,'status':'failed','error':str(exc),'grading_ready':False}
                 atomic_json(output/model.task/'author/preparation.json',result)

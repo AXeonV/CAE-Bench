@@ -1,17 +1,17 @@
 # 公开样例输入输出规划（作者材料）
 
-**规划状态：未下载、未选定源样本、未生成数据。** 本文不进入 Agent 公开包；正式样例就绪后，在 instruction.md 添加完整输入输出链接。
+**样例准备由统一工具执行。** 冻结来源见 author/selection.json，实际输入与参考状态见 author/preparation.json（运行后生成）。本文不进入 Agent 公开包；仅在完整输入和同契约答案均具备后，才发布样例。
 
 | 样例 ID | 候选配置与选择目标 | 要求输出 |
 |---|---|---|
-| `01` | η=ζ=0.01 的周期随机初值 | density、velocity、pressure 三个单元平均场 |
-| `02` | η=ζ=1e-8 的外推随机激波管初值 | density、velocity、pressure 三个单元平均场 |
+| `01` | η=ζ=0.01 的周期随机初值 | density、velocity、pressure 三个守恒平均派生状态场 |
+| `02` | η=ζ=1e-8 的外推随机激波管初值 | density、velocity、pressure 三个守恒平均派生状态场 |
 
 ## 输入与输出
 
-输入目录为 `samples/<ID>/input/`，后续生成 `problem.json`、`mesh.msh`、`input.npz`；几何 `.geo` 仅在需要记录几何来源时生成，不是必需输入。JSON 与数组完全遵守 [DATA.md](DATA.md)，不加入来源文件名、源索引、种子、MD5 或参考审核字段。
+输入目录为 `samples/<ID>/input/`，由工具生成 `problem.json`、`mesh.msh`、`input.npz`；几何 `.geo` 仅在需要记录几何来源时生成，不是必需输入。JSON 与数组完全遵守 [DATA.md](DATA.md)，不加入来源文件名、源索引、种子、MD5 或参考审核字段。
 
-输出目录为 `samples/<ID>/output/`，后续生成完整 `result.npz`，包含本题要求的全部字段与位置，以及原样复制的 IDs 和 `times`。t=0 规则与题面一致；不能用示意数组、截图或全零占位结果代替真实输出。
+输出目录为 `samples/<ID>/output/`，参考准备通过后生成完整 `result.npz`，包含本题要求的全部字段与位置，以及原样复制的 IDs 和 `times`。t=0 规则与题面一致；不能用示意数组、截图或全零占位结果代替真实输出。
 
 保留原始空间分辨率，最多选择 5 个输出时刻：若源轨迹有 T 帧，选索引 floor(k·(T−1)/4)，k=0,…,4，去重；T<5 时保留全部帧。采用真实有效时间数组，包含初始帧与末帧，不插值造帧。参考重算使用同一请求时间轴。
 

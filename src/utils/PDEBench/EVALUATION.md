@@ -42,3 +42,15 @@ harbor run -p runs/harbor/tasks/PDEBench_1D_Advection \
 ```
 
 对于其他方程族替换任务名即可；缺少数值文件时先运行数据准备工具。报告仍是每例 0/1，通过率不能直接解释为已校准的正式 Benchmark 能力指标。
+
+## Apple Silicon 与镜像下载
+
+Apple Silicon 的 Docker 默认构建 Linux ARM64；当前固定依赖 gmsh==4.15.2 没有可供该安装流程使用的 Linux ARM64 wheel。此环境在运行 Harbor 前设置：
+
+```bash
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
+```
+
+该变量同时影响 Docker Compose 的镜像构建与容器平台选择；无需改动数学题面或降低 Gmsh 版本。x86-64 镜像会在 Apple Silicon 上通过模拟运行，因此其用时不应作为原生 ARM 性能结果。
+
+若日志在拉取 python:3.14-slim 时显示 TLS handshake timeout，属于 Docker Hub 连接问题，Agent 尚未开始；可在连接恢复后先运行 `docker pull --platform linux/amd64 python:3.14-slim`，再重试原 Harbor 命令。LiteLLM 费用表下载警告需与 trial 的 exception.txt 区分，不能据此解释得分。

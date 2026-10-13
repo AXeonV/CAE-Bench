@@ -6,7 +6,7 @@
 
 `main` 为覆盖 [0,1]×[0,1] m² 的一阶矩形 Gmsh MSH 4.1 网格，用于定义区域与四边；状态采样位置 `domain` 独立声明为 `kind=points`、`ids="point_ids"`、`coordinates="point_coordinates"`。点坐标为 float64 `[N,2]`，是 512² 个等距单元中心；不得将它们伪装成 Gmsh 节点或单元平均值。
 
-初始场和静态强迫在相邻采样点间按 x/y 坐标作分片双线性插值。在最外中心点到物理边界之间沿外法向常值延拓，角部同时采用两个方向的常值延拓。该连续采样解释不取代 t>0 的零壁速条件。原始初速度还须执行题面指定的 Helmholtz 投影；输出为投影后连续速度的点值。
+初始场和静态强迫在相邻采样点间按 x/y 坐标作分片双线性插值。在最外中心点到物理边界之间沿外法向常值延拓，角部同时采用两个方向的常值延拓。该连续采样解释不取代 t>0 的零壁速条件。原始初速度还须执行题面指定的 Helmholtz 投影；t>0 输出为投影演化后的连续速度点值，t=0 则按输出节原样保留预投影记录。
 
 编号只表示身份。独立点 IDs 为严格递增非负 int64；边界节点 IDs 为严格递增正 int64。各字段的第 i 行对应 IDs 的第 i 项；几何位置由显式点坐标或边界网格确定。`left/right` 为 x 最小/最大边界，`bottom/top` 为 y 最小/最大边界。各边界 location 引用相应维度 1 的 Physical Group，以节点 IDs 表示边界取值位置。组 tag 由清单提供。条件中的字段引用必须与条件 location 一致。
 
@@ -26,7 +26,7 @@
 
 | fields 对象 | quantity | kind | 单位 | shape | time_axis | 含义 |
 |---|---|---|---|---|---|---|
-| `initial_velocity` | `velocity` | `vector` | `m/s` | `[1,N,2]` | `initial` | 原始速度采样 w₀；连续初速度采用下述 Helmholtz 投影 |
+| `initial_velocity` | `velocity` | `vector` | `m/s` | `[1,N,2]` | `initial` | 原始速度采样 w₀；连续初速度采用题面定义的 Helmholtz 投影 |
 | `initial_tracer` | `tracer` | `scalar` | `1` | `[1,N,1]` | `initial` | 随流输运标量 χ₀，允许正负值，不是流体质量密度 |
 | `forcing` | `forcing` | `vector` | `m/s2` | `[1,N,2]` | `initial` | 不随时间变化的空间强迫 f |
 
@@ -68,7 +68,3 @@
 t=0 是预投影初始记录，velocity 必须原样输出 initial_velocity；t>0 输出投影演化后的连续速度点值。t=0 记录不要求满足散度约束；右初值 v(0+)=P(w₀) 仍按题面的 Helmholtz 投影定义。不输出 χ 或压力。
 
 可用 `load_problem`、`read_constant`、`read_field`、`write_result` 读写。结构校验器检查引用和数组关联，不验证数学条件或数值解的正确性。
-
-## 初始记录与正时间解
-
-请求 times 中的 0.0 表示预投影初始快照 w₀，必须原样输出。对 t>0，速度满足不可压缩方程，以 P(w₀) 为右初值。这个特殊初始记录不能用于取消正时间的散度约束。定义域为 [0,1]²，点间距 1/512 m。

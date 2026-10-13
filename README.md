@@ -33,7 +33,7 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 已有任务（具备题面、样例与评测材料）：`echo-field`、`heat-conduction`、`heat-transient`、`navier-stokes-steady`、`navier-stokes-transient`、`1D_Advection_Sols_beta0.4`。这些任务保持现状。
 
-以下为 PDEBench 方程族题目。每个目录包含 instruction.md、DATA.md、DESIGN.md 和 README.md。样例与隐藏测试分组已规划；[PDEBench 数据准备工具](src/utils/PDEBench/README.md)支持克隆后一条命令获取所需源片段并转换输入，生成的数据不进入 Git。默认逐例审核源对齐的官方数值轨迹并补齐答案；二维反应扩散恢复完整细网格初值，Darcy 修正未收敛快照至源算子稳态，一维反应扩散重算存在非物理停滞的官方轨迹。数值参考并非未经误差审核的精确连续真解。误差阈值、资源限制和评测配置仍待补充，目前不能执行下文的正式发布与评测流程。
+以下为 PDEBench 方程族题目。每个目录包含 instruction.md、DATA.md、DESIGN.md 和 README.md。样例与隐藏测试分组已规划；[PDEBench 数据准备工具](src/utils/PDEBench/README.md)支持克隆后一条命令获取所需源片段并转换输入，问题定义 problem.json、冻结清单和参考证书 JSON 纳入 Git；数值数组及网格不进入 Git，由工具补齐。默认逐例审核源对齐的官方数值轨迹并补齐答案；二维反应扩散恢复完整细网格初值，Darcy 修正未收敛快照至源算子稳态，一维反应扩散重算存在非物理停滞的官方轨迹。数值参考并非未经误差审核的精确连续真解。误差阈值、资源限制和评测配置仍待补充，目前不能执行下文的正式发布与评测流程。
 
 | 目录 | 问题 | 要求输出 |
 |---|---|---|

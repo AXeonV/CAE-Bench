@@ -301,6 +301,41 @@ class PipelineTests(unittest.TestCase):
         cache=root/'runtime/cache';stage=root/'runtime/staging';budget=Budget([root/'runtime',root/'tasks'],100_000_000)
         return model,task,local,catalog,cache,stage,budget
 
+    def test_metadata_only_clone_restores_payloads_and_preserves_definitions(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            model,task,local,catalog,cache,stage,budget=self.fixture(root)
+            prepare_task(model,catalog,task,cache,stage,budget,local=local,max_cases=1)
+            clone=root/'clone';copied=clone/'tasks'/model.task;copied.mkdir(parents=True)
+            for path in task.rglob('*'):
+                relative=path.relative_to(task)
+                if not path.is_file():continue
+                if path.name in {'instruction.md','DATA.md','problem.json','certificate.json','selection.json'}:
+                    destination=copied/relative;destination.parent.mkdir(parents=True,exist_ok=True)
+                    shutil.copyfile(path,destination)
+            definitions={p:p.read_bytes() for p in copied.rglob('problem.json')}
+            self.assertEqual(len(definitions),3)
+            self.assertFalse(list(copied.rglob('*.npz')))
+            restored=prepare_task(model,catalog,copied,clone/'runtime/cache',clone/'runtime/staging',
+                                  Budget([clone],100_000_000),local=local,max_cases=1)
+            self.assertEqual(restored['status'],'references_prepared')
+            for path,data in definitions.items():self.assertEqual(path.read_bytes(),data)
+            p=load_problem(copied/'cases/001/problem.json')
+            load_result(p,copied/'reference/001/reference.npz')
+            # A versioned definition edited by an author must never be silently
+            # replaced with the generator's original mathematical problem.
+            edited=copied/'samples/01/input/problem.json'
+            manifest=json.loads(edited.read_text())
+            manifest['physics']['parameters']['velocity']['value']+=1
+            changed=json.dumps(manifest,indent=4)+'\n';edited.write_text(changed)
+            reference=copied/'author/sample-certificates/01/reference.npz';before=digest(reference)
+            failed=prepare_task(model,catalog,copied,clone/'runtime/cache',clone/'runtime/staging',
+                                Budget([clone],100_000_000),local=local,max_cases=1)
+            self.assertEqual(failed['status'],'failed')
+            self.assertIn('Existing problem definition differs',failed['errors'][0]['error'])
+            self.assertEqual(edited.read_text(),changed)
+            self.assertEqual(digest(reference),before)
+
     def test_real_pipeline_disjoint_resume_and_tamper_repair(self):
         with tempfile.TemporaryDirectory() as tmp:
             model,task,local,catalog,cache,stage,budget=self.fixture(Path(tmp))

@@ -8,7 +8,7 @@
 
 空间系数 a 使用下述 coefficient_samples 的分片双线性重建；最外中心点到边界沿法向常值延拓。输出为每个原始单元上对应量的面积平均值。
 
-编号只表示身份。单元及边界节点 IDs 为严格递增正 int64。各字段的第 i 行对应 IDs 的第 i 项；几何位置由网格确定。`left/right` 为 x 最小/最大边界，`bottom/top` 为 y 最小/最大边界。各边界 location 引用相应维度 1 的 Physical Group，以节点 IDs 表示边界取值位置。组 tag 由清单提供。条件中的字段引用必须与条件 location 一致。
+编号只表示身份。单元及边界节点 IDs 为严格递增正 int64。各字段的第 i 行对应 IDs 的第 i 项；几何位置由网格确定。`left/right` 为 x 最小/最大边界，`bottom/top` 为 y 最小/最大边界。各边界 location 引用相应维度 1 的 Physical Group，节点 IDs 标识边界几何；cell_coupled_dirichlet 作用于这些边界上的原单元外侧面内部，不要求给边界节点另设状态数组。组 tag 由清单提供。条件中的字段引用必须与条件 location 一致。
 
 长度使用 m，时间使用 s，字段采用下表给出的单位；不进行隐式单位换算。
 
@@ -30,7 +30,7 @@
 
 稳态采用 `time_axes.output="times"`，`times=float64([0.0])`，没有初始场时间轴。 输出原样复制该稳态时间轴。未列出的字段不得加入输入 NPZ；几何/网格记录可引用包内文件，`data_file` 指向输入 NPZ。
 
-边界常量在条件 `data` 中显式给出，稳态边界始终生效；各边条件对边界面的内部点成立，不额外约束角点单点。
+边界常量在条件 `data` 中显式给出，稳态边界始终生效；各边条件对原单元外侧面的内部点成立，面与面相交的单点不额外约束。
 
 ## 条件记录
 
@@ -58,4 +58,4 @@ T=1 表示稳态解，不表示在 t=0 求瞬态初值。
 
 ## 系数与非局部边界的源对齐
 
-diffusivity 使用 location=coefficient_samples、value_kind=point；该 location 为 points，引用 coefficient_ids(int64[N]) 与 coefficient_coordinates(float64[N,2])，坐标为原单元中心。系数按相邻中心点双线性插值，外侧到边界作法向常值延拓，角部两个方向均常值延拓。四边使用 cell_coupled_dirichlet：u_boundary=0.5×相邻原单元的解平均；角点不影响弱解。输出仍为 domain 原单元平均值。
+diffusivity 使用 location=coefficient_samples、value_kind=point；该 location 为 points，引用 coefficient_ids(int64[N]) 与 coefficient_coordinates(float64[N,2])，坐标为原单元中心；coefficient_ids 严格递增且非负，不能根据其数值推断与 cell_ids 的空间对应，实际关联由坐标和网格确定。系数按相邻中心点双线性插值，外侧到边界作法向常值延拓，角部两个方向均常值延拓。四边使用 cell_coupled_dirichlet：u_boundary=0.5×相邻原单元的解平均；原单元外侧面之间的交点不另约束。输出仍为 domain 原单元平均值。

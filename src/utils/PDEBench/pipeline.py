@@ -239,8 +239,14 @@ def prepare_entry(model,source,entry,task,cache,staging,budget,local,timeout,ref
             external=Path(reference_root)/model.task/entry['kind']/entry['id']
             if not (external/'reference.npz').exists() and not (external/'evidence.json').exists():
                 return {**previous,'reused':True}
-    elif target.exists() and any(p.is_file() and p.name!='.gitkeep' for p in target.rglob('*')):
-        raise PreparationError(f"Refusing to replace an existing case not owned by this tool: {target}")
+    else:
+        definition=target/'input/problem.json' if public else target/'problem.json'
+        existing=[p for p in target.rglob('*') if p.is_file() and p.name!='.gitkeep']
+        # Fresh clones contain versioned definitions but not local ownership
+        # records or numerical payloads. Only this known metadata-only state
+        # may be hydrated without an existing preparation record.
+        if any(p!=definition for p in existing):
+            raise PreparationError(f"Refusing to replace an existing case not owned by this tool: {target}")
     staging.mkdir(parents=True,exist_ok=True)
     with tempfile.TemporaryDirectory(dir=staging,prefix='convert-') as temporary:
         stage=Path(temporary)
@@ -251,6 +257,14 @@ def prepare_entry(model,source,entry,task,cache,staging,budget,local,timeout,ref
         else:
             if model.model=='reaction_diffusion_2d':budget.check(int(config['sim']['xdim'])*int(config['sim']['ydim'])*600)
             problem=build_input(model,source,coords,times,values,input_dir,entry['variant'],config=config)
+            definition=target/'input/problem.json' if public else target/'problem.json'
+            if definition.is_file():
+                if json.loads(definition.read_text())!=problem.manifest:
+                    raise PreparationError(f'Existing problem definition differs from the frozen source conversion; preserving {definition}')
+                # Keep the versioned definition byte-for-byte (including its
+                # formatting), then bind the certificate to those actual bytes.
+                shutil.copyfile(definition,input_dir/'problem.json')
+                problem=load_problem(input_dir/'problem.json')
         identity=input_identity(problem)
         certificate={'source_id':source['id'],'source_md5':source['md5'],
                      'sample_index':entry['index'],'frame_indices':frames.tolist(),

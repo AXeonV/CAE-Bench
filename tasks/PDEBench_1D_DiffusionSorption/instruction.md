@@ -1,6 +1,6 @@
 # 一维 Freundlich 迟滞扩散
 
-数学问题与字段契约在本文及 [DATA.md](DATA.md) 中定义；判例、参考数据、误差阈值、时限、内存及完整样例后续补充。
+本文与 [DATA.md](DATA.md) 共同定义求解要求。DATA.md 中的字段、位置、数组关联和采样规则也是题目的一部分。
 
 ## 数学问题
 
@@ -47,6 +47,8 @@ c_in=1，ℓ 为输入给出的出口耦合长度。条件在 t>0 生效，t=0 �
 
 接口：`python solve.py --input problem.json --output result.npz`。Python 入口可以调用其他语言实现，题面不要求核心计算使用 Python。
 
+输入中的包内文件路径相对 `problem.json` 所在目录解析。读取 JSON 声明的文件和数组引用；按每个输出的 `location` 与 `time_axis` 排列空间行和时间行，将结果写入其 `array` 指定的 NPZ 键。IDs 和时间轴原样复制，结果保存到 `--output` 指定路径。
+
 输出 `concentration[T,N,1]`（1），并原样附带输入的 IDs 和 `times`；N 为要求输出的位置数量，T 为请求时刻数。字段均为 float64，具体 quantity、location、value_kind、分量顺序和时间轴见 [DATA.md](DATA.md)。
 
-判分规则与误差阈值：**后续补充**。测试点数、执行时限、内存及完整输入输出样例：**后续补充**。目前不能将该目录作为可发布、可判分任务使用。
+公开输入输出样例位于 `samples/01/` 与 `samples/02/`，数值文件在数据准备后提供。判分规则、误差阈值、执行时限及内存限制：**后续补充**。当前尚未接入评测。

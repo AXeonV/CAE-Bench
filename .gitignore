@@ -6,13 +6,10 @@ dist/
 work/
 runs/
 
-# Prepared PDEBench assets are reproducible local outputs, not source data.
-tasks/PDEBench_*/cases/*/
-tasks/PDEBench_*/reference/*/
-tasks/PDEBench_*/samples/*/input/*
-!tasks/PDEBench_*/samples/*/input/.gitkeep
-tasks/PDEBench_*/samples/*/output/*
-!tasks/PDEBench_*/samples/*/output/.gitkeep
+# Track PDEBench definitions and certificates; regenerate numerical payloads.
+tasks/PDEBench_*/**/*.npz
+tasks/PDEBench_*/**/*.msh
+tasks/PDEBench_*/**/*.h5
+tasks/PDEBench_*/**/*.hdf5
 tasks/PDEBench_*/author/prepared/
-tasks/PDEBench_*/author/sample-certificates/
 tasks/PDEBench_*/author/preparation.json

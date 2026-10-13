@@ -46,4 +46,4 @@ author/                # 工具生成：selection.json、preparation.json、prep
 
 case ID 使用本表的三位编号；cases 与 reference 必须一一对应。具体 case 子目录由工具在源选择冻结后创建；数值文件不进入 Git，克隆后需运行工具生成。证书记录源身份、实际数组哈希、空间/时间映射、参考来源、误差证据及工具版本；不复制到公开包。公开样例的私有证书由 author/ 保存。
 
-现有 `.gitkeep` 仅保存空目录，不代表输入/输出或标答。本工具不生成 judge-config.json；真实样例、完整参考、误差阈值和执行资源全部审核完成后，才能发布或组装 Harbor。
+`.gitkeep` 仅为目录占位；问题定义与 JSON 证书纳入 Git，数值数组及网格需由工具补齐。本工具不生成 judge-config.json；真实样例、完整参考、误差阈值和执行资源全部审核完成后，才能发布或组装 Harbor。

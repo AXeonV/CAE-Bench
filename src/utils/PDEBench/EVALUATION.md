@@ -16,13 +16,13 @@
 | 2D_IncompressibleNavierStokes | 0.1 | 0.2 | 900 | 4 | 8192 | 256 MiB |
 | 2D_ReactionDiffusion | 0.1 | 0.2 | 600 | 4 | 4096 | 256 MiB |
 | 2D_ShallowWater | 0.1 | 0.1 | 600 | 4 | 4096 | 256 MiB |
-| 3D_CompressibleNavierStokes | 0.1 | 0.2 | 1800 | 4 | 16384 | 2048 MiB |
+| 3D_CompressibleNavierStokes | 0.1 | 0.2 | 1800 | 4 | 8192 | 2048 MiB |
 
 Darcy 的绝对容限使用较小数值，以免最小源项配置被宽松统一绝对容限吞没；相对容限仍为 20%。吸附浓度的绝对容限也按其量级单独设置。这些选择尚未通过正式区分度与参考误差校准。
 
 Agent 时间上限为 3600 秒，三维题为 7200 秒；环境构建上限为 1800 秒。verifier 的整阶段时限覆盖该题全部 case 达到逐例上限，加 600 秒余量，三维加 1200 秒。具体数值以各题 task.toml 为准。
 
-memory_mb 是 Harbor 环境的容器内存上限，不是 judge-config 中逐例进程的单独限制。实际运行仍需 Docker 主机提供相应内存与 CPU；配置不会自动扩大 Docker 虚拟机的内存。二维不可压缩题配置 8192 MB，三维题配置 16384 MB，运行前应给 Docker 足够内存并留出系统开销。
+memory_mb 是 Harbor 环境的容器内存上限，不是 judge-config 中逐例进程的单独限制。实际运行仍需 Docker 主机提供相应内存与 CPU；配置不会自动扩大 Docker 虚拟机的内存。二维不可压缩题和三维题均配置 8192 MB，运行前应给 Docker 足够内存并留出系统开销。
 
 组装后的 Agent 入口 instruction.md 只给出求解与提交要求，以及实际误差容限、逐例时限、CPU、可用内存和输出文件大小上限。试运行状态、阈值校准情况及容器资源的实现说明仅保留在维护文档和配置中，不写入 Agent 入口。
 

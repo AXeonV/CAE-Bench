@@ -88,7 +88,7 @@ def mesh(case, path):
                 tags = np.concatenate(blocks)
                 gmsh.model.mesh.renumberElements(tags, np.arange(len(tags), dtype=np.uint64) * 17 + 211)
             gmsh.option.setNumber("Mesh.MshFileVersion", 4.1)
-            gmsh.option.setNumber("Mesh.Binary", int(case.binary))
+            gmsh.option.setNumber("Mesh.Binary", 0)
             gmsh.option.setNumber("Mesh.SaveAll", 1)
             gmsh.write(str(path.with_suffix(".geo_unrolled")))
             path.with_suffix(".geo_unrolled").replace(path.with_suffix(".geo"))
@@ -186,7 +186,7 @@ def generate(destination=TASK_ROOT):
         boundaries_short = "/".join(symbols[op] for op in case.boundaries)
         mesh_label = "非结构" if case.unstructured else f"{case.nx}×{case.ny}"
         if case.sparse_ids:
-            mesh_label += "，稀疏 tags / binary"
+            mesh_label += "，稀疏 tags"
         descriptions.append(f"| {case.name} | `{record['temperature']}` | {boundaries_short} | {case.k:g} | {case.origin}; {case.size} | {mesh_label} |")
     descriptions += ["", "## 每例源项、边界方程及唯一性", "",
                      "边界方程中 N 为 ∂T/∂n=g，F 为 −k∂T/∂n=g，R 为 αT+β∂T/∂n=g。法向均指向域外。"]

@@ -7,12 +7,12 @@ import numpy as np
 from .validation import GMSH_LOCK, read_mesh, write_json
 
 CASE_NAMES = ["01-line-1d", "02-triangle-2d", "03-quad-2d", "04-tetra-3d",
-              "05-mixed-blocks", "06-noncontiguous-ids", "07-transfinite-binary",
+              "05-mixed-blocks", "06-noncontiguous-ids", "07-transfinite-quad",
               "08-scalars-and-dtypes", "09-vector-2d", "10-full-tensor",
               "11-field-locations", "12-time-series"]
 
 
-def generate_mesh(path, dimension=2, quads=False, mixed=False, sparse=False, binary=False):
+def generate_mesh(path, dimension=2, quads=False, mixed=False, sparse=False):
     """Geometry, meshing and element numbering all use the official Gmsh API."""
     path = Path(path)
     with GMSH_LOCK:
@@ -60,7 +60,7 @@ def generate_mesh(path, dimension=2, quads=False, mixed=False, sparse=False, bin
                 gmsh.model.mesh.renumberNodes(tags, np.arange(1, len(tags)+1, dtype=np.uint64) * 11 + 7)
             gmsh.option.setNumber("Mesh.MshFileVersion", 4.1)
             gmsh.option.setNumber("Mesh.SaveAll", 1)
-            gmsh.option.setNumber("Mesh.Binary", int(binary))
+            gmsh.option.setNumber("Mesh.Binary", 0)
             # Keep the generated .geo as the optional geometry artifact in 1D/2D cases.
             if dimension != 3:
                 gmsh.write(str(path.with_suffix(".geo_unrolled")))
@@ -112,7 +112,7 @@ def make_cases(destination):
         dim = 1 if index == 1 else 3 if index == 4 else 2
         mesh_path = directory / "mesh.msh"
         generate_mesh(mesh_path, dim, quads=index in (3, 7), mixed=index == 5,
-                      sparse=index == 6, binary=index == 7)
+                      sparse=index == 6)
         mesh = read_mesh(mesh_path)
         m = base(dim)
         if dim != 3:

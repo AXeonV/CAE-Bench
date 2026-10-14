@@ -78,7 +78,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 {"main": {"file": "meshes/domain.msh", "geometry": "shape"}}
 ```
 
-固定采用 **Gmsh MSH 4.1**，允许官方 ASCII 和 binary 编码。读取和单元节点顺序直接采用 Gmsh 标准，协议不提供另一份单元类型目录或 JSON 连接关系。
+固定采用 **Gmsh MSH 4.1 ASCII**，`$MeshFormat` 下一行必须为 `4.1 0 8`（版本 4.1、ASCII 编码、数据尺寸 8 字节）。所有题目使用这一种网格编码；校验器拒绝其他版本、binary 编码或数据尺寸，不做自动转换。Gmsh 导出时设置 `Mesh.MshFileVersion=4.1`、`Mesh.Binary=0`。读取和单元节点顺序直接采用 Gmsh 标准，协议不提供另一份单元类型目录或 JSON 连接关系。
 
 - Gmsh 节点 tag、单元 tag 是身份，不是数组下标；必须为正且能由 `int64` 表示。
 - 节点和单元各有自己的 tag 空间；不同网格也各有自己的 tag 空间。

@@ -23,7 +23,6 @@ class Case:
     epochs: tuple = (0.0, 0.003, 0.007, 0.016, 0.035, 0.08)
     unstructured: bool = False
     sparse: bool = False
-    binary: bool = False
 
 
 CASES = [
@@ -50,8 +49,8 @@ CASES = [
     Case('19-slow-diffusion', 'signed', (N, R, D, F), k=0.05, capacity=20.0),
     Case('20-shifted-rectangle', 'lobes', (D, F, R, N),
          origin=(-1.5, 2.0), size=(2.0, 0.8), nx=64, ny=32),
-    Case('21-sparse-binary', 'bubble', (F, D, N, R),
-         nx=32, ny=40, sparse=True, binary=True),
+    Case('21-sparse-tags', 'bubble', (F, D, N, R),
+         nx=32, ny=40, sparse=True),
     Case('22-unstructured', 'lobes', (R, N, F, D), unstructured=True),
     Case('23-initial-boundary-layer', 'plate', nx=88, ny=88),
     Case('24-insulated-gradient', 'gradient', (N, F, F, N),

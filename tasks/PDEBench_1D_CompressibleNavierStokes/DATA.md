@@ -4,7 +4,7 @@
 
 ## 几何、位置与采样
 
-`main` 为 Gmsh MSH 4.1 ASCII/binary 网格，覆盖 [-1,1] m。域由 Physical Group `(dimension=1, tag=1)` 标记；`domain` 为该组的全部一阶域单元，`entity=element`、`dimension=1`、`ids="cell_ids"`。网格由等长一阶线单元构成。
+`main` 为 Gmsh MSH 4.1 ASCII 网格，覆盖 [-1,1] m。域由 Physical Group `(dimension=1, tag=1)` 标记；`domain` 为该组的全部一阶域单元，`entity=element`、`dimension=1`、`ids="cell_ids"`。网格由等长一阶线单元构成。
 
 每个初始状态值定义为所属单元内的常数，单元边界的单点取值不影响平均值。输出密度为原单元平均值；速度和压力由平均守恒量反算，定义见题面及本文“源对齐观测量”。
 

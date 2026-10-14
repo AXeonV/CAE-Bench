@@ -4,7 +4,7 @@
 
 ## 几何、位置与采样
 
-`main` 为 Gmsh MSH 4.1 ASCII/binary 网格，覆盖 [0,1]×[0,1] m²。域由 Physical Group `(dimension=2, tag=1)` 标记；`domain` 为该组的全部一阶域单元，`entity=element`、`dimension=2`、`ids="cell_ids"`。网格由等长一阶矩形四边形构成；不拆成三角形再沿用原单元平均值。
+`main` 为 Gmsh MSH 4.1 ASCII 网格，覆盖 [0,1]×[0,1] m²。域由 Physical Group `(dimension=2, tag=1)` 标记；`domain` 为该组的全部一阶域单元，`entity=element`、`dimension=2`、`ids="cell_ids"`。网格由等长一阶矩形四边形构成；不拆成三角形再沿用原单元平均值。
 
 空间系数 a 使用下述 coefficient_samples 的分片双线性重建；最外中心点到边界沿法向常值延拓。输出为每个原始单元上对应量的面积平均值。
 

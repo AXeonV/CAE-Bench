@@ -157,8 +157,8 @@ def read_mesh(path):
             if stream.readline().strip() != b"$MeshFormat":
                 raise ValueError("Missing MSH header.")
             header = stream.readline().split()
-            if len(header) != 3 or header[0] != b"4.1" or header[1] not in (b"0", b"1"):
-                raise ValueError("Expected Gmsh MSH 4.1 (ASCII or binary).")
+            if header != [b"4.1", b"0", b"8"]:
+                raise ValueError("Expected Gmsh MSH 4.1 ASCII with header '4.1 0 8'.")
         with GMSH_LOCK:
             owned = not gmsh.isInitialized()
             if owned:
@@ -211,7 +211,7 @@ def read_mesh(path):
                         gmsh.model.setCurrent(previous)
                     gmsh.option.setNumber("General.Terminal", terminal)
     except Exception as exc:
-        raise ContractError(report([issue("E_MESH", str(path), "readable Gmsh MSH 4.1", str(exc),
+        raise ContractError(report([issue("E_MESH", str(path), "Gmsh MSH 4.1 ASCII (4.1 0 8)", str(exc),
                                           "Cannot read mesh structure.")])) from exc
 
 

@@ -4,7 +4,7 @@
 
 ## 几何、位置与采样
 
-`main` 为 Gmsh MSH 4.1 ASCII/binary 网格，覆盖 [0,1]³ m³。域由 Physical Group `(dimension=3, tag=1)` 标记；`domain` 为该组的全部一阶域单元，`entity=element`、`dimension=3`、`ids="cell_ids"`。网格由等长一阶长方体六面体构成；不拆成四面体再沿用原单元平均值。
+`main` 为 Gmsh MSH 4.1 ASCII 网格，覆盖 [0,1]³ m³。域由 Physical Group `(dimension=3, tag=1)` 标记；`domain` 为该组的全部一阶域单元，`entity=element`、`dimension=3`、`ids="cell_ids"`。网格由等长一阶长方体六面体构成；不拆成四面体再沿用原单元平均值。
 
 每个初始状态值定义为所属单元内的常数，单元边界的单点取值不影响平均值。输出定义为题面中的守恒量平均派生状态；velocity 的 quantity 为 mass_weighted_velocity，pressure 为 conservative_pressure。value_kind=average 表示按原单元做守恒平均后求这些规定观测量。
 

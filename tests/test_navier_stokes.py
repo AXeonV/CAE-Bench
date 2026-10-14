@@ -70,7 +70,7 @@ class NSTests(unittest.TestCase):
                     self.assertGreaterEqual(nu*p.arrays['times'][1]/lengths[1-int(axis)]**2,.001-1e-12)
                 else:self.assertGreaterEqual(p.arrays['times'][1]/lengths[0],.005-1e-12)
 
-    def test_native_periodic_links_survive_sparse_binary_numbering(self):
+    def test_native_periodic_links_survive_sparse_numbering(self):
         for (task,name),(p,_) in self.inputs.items():
             if not any(c['operator']=='periodic' for c in p.manifest['conditions']):continue
             gmsh.initialize([],readConfigFiles=False)

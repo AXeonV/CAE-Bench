@@ -44,7 +44,7 @@ def generate_mesh(case, directory):
                 tags = gmsh.model.mesh.getNodes()[0]
                 gmsh.model.mesh.renumberNodes(tags, 101+13*np.arange(len(tags),dtype=np.uint64))
             gmsh.option.setNumber('Mesh.MshFileVersion', 4.1)
-            gmsh.option.setNumber('Mesh.Binary', int(case.binary))
+            gmsh.option.setNumber('Mesh.Binary', 0)
             gmsh.write(str(directory/'mesh.msh'))
             gmsh.write(str(directory/'mesh.geo_unrolled'))
             (directory/'mesh.geo_unrolled').replace(directory/'mesh.geo')

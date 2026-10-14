@@ -44,14 +44,14 @@
 | 08-decay-multiple-modes | modes | P/P/D/D | 0.01 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 1089 / 2048 | 7 / 0.1 / 30 |
 | 09-signed-piecewise-profile | plate | P/P/D/D | 0.01 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 4225 / 8192 | 7 / 0.1 / 30 |
 | 10-vertical-start | zero | D/D/P/P | 0.01 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 1089 / 2048 | 7 / 0.1 / 30 |
-| 11-shifted-sparse-binary | zero | P/P/D/D | 0.005 / 1.0 | (-1, 2); (2, 0.5) | 2401 / 4608 | 7 / 0.05 / 15 |
+| 11-shifted-sparse | zero | P/P/D/D | 0.005 / 1.0 | (-1, 2); (2, 0.5) | 2401 / 4608 | 7 / 0.05 / 15 |
 | 12-fast-viscous-start | zero | P/P/D/D | 0.05 / 2 | (0.0, 0.0); (1.0, 1.0) | 1089 / 2048 | 7 / 0.02 / 6 |
 | 13-periodic-vortex | 单涡旋 | P/P/P/P | 0.01 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 1089 / 2048 | 6 / 0.01 / 1 |
 | 14-advected-vortex | 单涡旋 | P/P/P/P | 0.017 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 1089 / 2048 | 6 / 0.01 / 1 |
 | 15-oblique-advection | 单涡旋 | P/P/P/P | 0.015 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 2401 / 4608 | 6 / 0.01 / 1 |
 | 16-two-wave-vortex | 单涡旋 | P/P/P/P | 0.011 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 4225 / 8192 | 6 / 0.005 / 0.4 |
 | 17-scaled-density-vortex | 单涡旋 | P/P/P/P | 0.036 / 2 | (1, -2); (2, 2) | 2401 / 4608 | 6 / 0.02 / 2 |
-| 18-sparse-binary-vortex | 单涡旋 | P/P/P/P | 0.016 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 2401 / 4608 | 6 / 0.01 / 1 |
+| 18-sparse-vortex | 单涡旋 | P/P/P/P | 0.016 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 2401 / 4608 | 6 / 0.01 / 1 |
 | 19-driven-nonzero-initial | modes | P/P/D/D | 0.015 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 4225 / 8192 | 8 / 0.0666667 / 20 |
 | 20-vertical-local-pulse | pulse | D/D/P/P | 0.01 / 0.5 | (1, -2); (1.0, 1.0) | 4225 / 8192 | 7 / 0.1 / 30 |
 | 21-oscillatory-counter-drive | oscillatory | P/P/D/D | 0.01 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 4225 / 8192 | 8 / 0.1 / 30 |
@@ -61,7 +61,7 @@
 | 25-mixed-vortex-matrix | 叠加涡旋 | P/P/P/P | 0.025 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 2401 / 4608 | 8 / 0.005 / 0.8 |
 | 26-mixed-two-wave | 叠加涡旋 | P/P/P/P | 0.02 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 4225 / 8192 | 8 / 0.005 / 0.4 |
 | 27-mixed-scaled-density | 叠加涡旋 | P/P/P/P | 0.04 / 2 | (-2, 1); (2, 2) | 2401 / 4608 | 8 / 0.01 / 2 |
-| 28-mixed-sparse-binary | 叠加涡旋 | P/P/P/P | 0.025 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 4225 / 8192 | 8 / 0.005 / 0.7 |
+| 28-mixed-sparse | 叠加涡旋 | P/P/P/P | 0.025 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 4225 / 8192 | 8 / 0.005 / 0.7 |
 | 29-oblique-periodic-shear | 斜向剪切波 | P/P/P/P | 0.015 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 2401 / 4608 | 8 / 0.005 / 1 |
 | 30-crosswise-periodic-shear | 斜向剪切波 | P/P/P/P | 0.015 / 2 | (0.0, 0.0); (1.0, 1.0) | 2401 / 4608 | 8 / 0.005 / 1 |
 | 31-horizontal-periodic-shear | 斜向剪切波 | P/P/P/P | 0.014 / 1.0 | (2, -2); (0.5, 0.5) | 1089 / 2048 | 8 / 0.0025 / 0.5 |
@@ -199,7 +199,7 @@
 输出时刻：`[0, 0.1, 0.3, 1, 3, 10, 30]` s。
 网格：n=32，连续 tag，MSH 4.1 ASCII；全部参考参数及来源另存 `reference/10-vertical-start/analytic.json`。
 
-### 11-shifted-sparse-binary
+### 11-shifted-sparse
 
 `s=y−(2)`，`H=0.5`，`e=(1,0)`，`a=0 e`。
 `q∞=0+(0.8)z+(0)z(1−z)`。
@@ -210,7 +210,7 @@
 - top：u=0.8 e（t>0）。
 - 压力规范：`∫Ω p dΩ / |Ω| = 0`。
 输出时刻：`[0, 0.05, 0.15, 0.5, 1.5, 5, 15]` s。
-网格：n=48，稀疏 tag，MSH 4.1 binary；全部参考参数及来源另存 `reference/11-shifted-sparse-binary/analytic.json`。
+网格：n=48，稀疏 tag，MSH 4.1 ASCII；全部参考参数及来源另存 `reference/11-shifted-sparse/analytic.json`。
 
 ### 12-fast-viscous-start
 
@@ -275,7 +275,7 @@
 输出时刻：`[0, 0.02, 0.08, 0.24, 0.8, 2]` s。
 网格：n=48，连续 tag，MSH 4.1 ASCII；全部参考参数及来源另存 `reference/17-scaled-density-vortex/analytic.json`。
 
-### 18-sparse-binary-vortex
+### 18-sparse-vortex
 
 `a=(0,0)`，`c=(-0.4, 0.2)`。
 叠加涡旋：`C=[[1,0],[0,0]]`、`m=1`、`φ=(-0.2, 0.6)`；初值和参考由上述 ψ、u、p 公式生成。
@@ -283,7 +283,7 @@
 - bottom/top：u、p 及对应导数周期相等。
 - 压力规范：`∫Ω p dΩ / |Ω| = 0`。
 输出时刻：`[0, 0.01, 0.03, 0.1, 0.3, 1]` s。
-网格：n=48，稀疏 tag，MSH 4.1 binary；全部参考参数及来源另存 `reference/18-sparse-binary-vortex/analytic.json`。
+网格：n=48，稀疏 tag，MSH 4.1 ASCII；全部参考参数及来源另存 `reference/18-sparse-vortex/analytic.json`。
 
 ### 19-driven-nonzero-initial
 
@@ -348,7 +348,7 @@
 - top：u=0.4 e（t>0）。
 - 压力规范：`∫Ω p dΩ / |Ω| = 0`。
 输出时刻：`[0, 0.05, 0.15, 0.5, 1.5, 5, 15]` s。
-网格：n=64，稀疏 tag，MSH 4.1 binary；全部参考参数及来源另存 `reference/23-double-local-pulses/analytic.json`。
+网格：n=64，稀疏 tag，MSH 4.1 ASCII；全部参考参数及来源另存 `reference/23-double-local-pulses/analytic.json`。
 
 ### 24-initial-counter-walls
 
@@ -393,7 +393,7 @@
 输出时刻：`[0, 0.01, 0.028, 0.08, 0.22, 0.62, 1.3, 2]` s。
 网格：n=48，连续 tag，MSH 4.1 ASCII；全部参考参数及来源另存 `reference/27-mixed-scaled-density/analytic.json`。
 
-### 28-mixed-sparse-binary
+### 28-mixed-sparse
 
 `a=(0,0)`，`c=(0.3, -0.3)`。
 叠加涡旋：`C=[[0.55,-0.4],[0.3,0.2]]`、`m=1`、`φ=(0.6, -0.3)`；初值和参考由上述 ψ、u、p 公式生成。
@@ -401,7 +401,7 @@
 - bottom/top：u、p 及对应导数周期相等。
 - 压力规范：`∫Ω p dΩ / |Ω| = 0`。
 输出时刻：`[0, 0.005, 0.011, 0.029, 0.073, 0.18, 0.43, 0.7]` s。
-网格：n=64，稀疏 tag，MSH 4.1 binary；全部参考参数及来源另存 `reference/28-mixed-sparse-binary/analytic.json`。
+网格：n=64，稀疏 tag，MSH 4.1 ASCII；全部参考参数及来源另存 `reference/28-mixed-sparse/analytic.json`。
 
 ### 29-oblique-periodic-shear
 
@@ -441,4 +441,4 @@
 - bottom/top：u、p 及对应导数周期相等。
 - 压力规范：`∫Ω p dΩ / |Ω| = 0`。
 输出时刻：`[0, 0.005, 0.013, 0.037, 0.093, 0.21, 0.48, 1]` s。
-网格：n=64，稀疏 tag，MSH 4.1 binary；全部参考参数及来源另存 `reference/32-diagonal-periodic-shear/analytic.json`。
+网格：n=64，稀疏 tag，MSH 4.1 ASCII；全部参考参数及来源另存 `reference/32-diagonal-periodic-shear/analytic.json`。

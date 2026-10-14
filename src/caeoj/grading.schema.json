@@ -1,0 +1,306 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "version": {
+      "const": 1,
+      "type": "integer"
+    },
+    "fields": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/node"
+      }
+    }
+  },
+  "required": [
+    "version",
+    "fields"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "node": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "metric": {
+              "const": "pointwise"
+            },
+            "time": {
+              "enum": [
+                "per_time",
+                "pooled"
+              ]
+            },
+            "components": {
+              "enum": [
+                "per_component",
+                "joint"
+              ]
+            },
+            "weight_field": {
+              "type": "string",
+              "minLength": 1
+            },
+            "atol": {
+              "type": "number",
+              "minimum": 0
+            },
+            "rtol": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "metric",
+            "time",
+            "components",
+            "atol",
+            "rtol"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "metric": {
+              "const": "rmse"
+            },
+            "time": {
+              "enum": [
+                "per_time",
+                "pooled"
+              ]
+            },
+            "components": {
+              "enum": [
+                "per_component",
+                "joint"
+              ]
+            },
+            "weight_field": {
+              "type": "string",
+              "minLength": 1
+            },
+            "limit": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "metric",
+            "time",
+            "components",
+            "limit"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "metric": {
+              "const": "nrmse"
+            },
+            "time": {
+              "enum": [
+                "per_time",
+                "pooled"
+              ]
+            },
+            "components": {
+              "enum": [
+                "per_component",
+                "joint"
+              ]
+            },
+            "weight_field": {
+              "type": "string",
+              "minLength": 1
+            },
+            "limit": {
+              "type": "number",
+              "minimum": 0
+            },
+            "scale_floor": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          },
+          "required": [
+            "metric",
+            "time",
+            "components",
+            "limit",
+            "scale_floor"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "metric": {
+              "const": "max_abs"
+            },
+            "time": {
+              "enum": [
+                "per_time",
+                "pooled"
+              ]
+            },
+            "components": {
+              "enum": [
+                "per_component",
+                "joint"
+              ]
+            },
+            "weight_field": {
+              "type": "string",
+              "minLength": 1
+            },
+            "limit": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "metric",
+            "time",
+            "components",
+            "limit"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "metric": {
+              "const": "max_scaled"
+            },
+            "time": {
+              "enum": [
+                "per_time",
+                "pooled"
+              ]
+            },
+            "components": {
+              "enum": [
+                "per_component",
+                "joint"
+              ]
+            },
+            "weight_field": {
+              "type": "string",
+              "minLength": 1
+            },
+            "atol": {
+              "type": "number",
+              "minimum": 0
+            },
+            "rtol": {
+              "type": "number",
+              "minimum": 0
+            },
+            "limit": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "metric",
+            "time",
+            "components",
+            "atol",
+            "rtol",
+            "limit"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "metric": {
+              "const": "violation_fraction"
+            },
+            "time": {
+              "enum": [
+                "per_time",
+                "pooled"
+              ]
+            },
+            "components": {
+              "enum": [
+                "per_component",
+                "joint"
+              ]
+            },
+            "weight_field": {
+              "type": "string",
+              "minLength": 1
+            },
+            "atol": {
+              "type": "number",
+              "minimum": 0
+            },
+            "rtol": {
+              "type": "number",
+              "minimum": 0
+            },
+            "limit": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "count": {
+              "enum": [
+                "scalar_values",
+                "spatial_points"
+              ]
+            }
+          },
+          "required": [
+            "metric",
+            "time",
+            "components",
+            "atol",
+            "rtol",
+            "limit"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "all": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/node"
+              }
+            }
+          },
+          "required": [
+            "all"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "any": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/node"
+              }
+            }
+          },
+          "required": [
+            "any"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

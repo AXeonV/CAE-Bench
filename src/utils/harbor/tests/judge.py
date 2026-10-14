@@ -7,8 +7,10 @@ import shutil
 import stat
 import subprocess
 import tempfile
+import time
 
 from caeoj.grading import grade_files
+from caeoj.grading_policy import load_policy, validate_policy, policy_hash, legacy_policy
 from caeoj.sdk import load_problem, load_result
 
 TESTS = Path('/tests')
@@ -37,13 +39,20 @@ def freeze_submission():
         if not (stat.S_ISDIR(mode) or stat.S_ISREG(mode)):
             raise ValueError('Submission contains a link or special file')
         os.chown(path, 0, 0)
-        path.chmod(0o755 if stat.S_ISDIR(mode) else 0o644)
+        path.chmod(0o755 if stat.S_ISDIR(mode) or mode & 0o111 else 0o644)
     return (SUBMISSION / 'solve.py').is_file()
 
 
 def execute(directory, timeout, logs):
+    # Keep the canonical submission immutable, but give each invocation its own
+    # writable source tree for compiled helpers and caches. No changes survive
+    # into the next case.
+    working_submission = directory / 'submission'
+    shutil.copytree(SUBMISSION, working_submission)
+    for path in [working_submission, *working_submission.rglob('*')]:
+        os.chown(path, 1000, 1000)
     command = ['setpriv', '--reuid=1000', '--regid=1000', '--clear-groups',
-               '--no-new-privs', 'python', str(SUBMISSION / 'solve.py'),
+               '--no-new-privs', 'python', str(working_submission / 'solve.py'),
                '--input', str(directory / 'input/problem.json'),
                '--output', str(directory / 'result.npz')]
     # Credentials from the agent phase are never passed to solver processes.
@@ -67,6 +76,25 @@ def execute(directory, timeout, logs):
     return result
 
 
+def save_report(config, results, total, policy_sha256, *, complete=False):
+    passed = sum(row['score'] == 1 for row in results)
+    report = {'score': passed, 'total_cases': total, 'completed_cases': len(results),
+              'complete': complete, 'reward': passed / total, 'cases': results,
+              'policy_sha256': policy_sha256}
+    if 'atol' in config:
+        report['tolerance'] = {'atol': config['atol'], 'rtol': config['rtol']}
+    if config.get('stage'):
+        report['stage'] = config['stage']
+    report['limits'] = {'timeout_seconds': config['timeout_seconds'],
+                        'max_output_bytes': output_limit(config)}
+    temporary = LOGS / 'report.json.tmp'
+    temporary.write_text(json.dumps(report, indent=2, allow_nan=False) + '\n')
+    temporary.replace(LOGS / 'report.json')
+    if complete:
+        (LOGS / 'reward.txt').write_text(str(report['reward']) + '\n')
+    return report
+
+
 def main():
     LOGS.mkdir(parents=True, exist_ok=True)
     config = json.loads((TESTS / 'judge-config.json').read_text())
@@ -74,8 +102,16 @@ def main():
     paths = sorted((TESTS / 'cases').glob('*/problem.json'))
     if not paths:
         raise ValueError('No judge cases')
+    policy = load_policy(TESTS / 'grading.json') if (TESTS / 'grading.json').is_file() else None
+    if policy is not None and ('atol' in config or 'rtol' in config):
+        raise ValueError('Cannot combine grading.json with legacy tolerances')
+    grade_options = {'policy': policy} if policy is not None else {'atol': config['atol'], 'rtol': config['rtol']}
+    active_policy = policy if policy is not None else legacy_policy(load_problem(paths[0]), config['atol'], config['rtol'])
+    policy_sha256 = policy_hash(active_policy)
     # Validate trusted inputs/references before running any candidate code.
     for path in paths:
+        if policy is not None:
+            validate_policy(policy, load_problem(path))
         load_result(load_problem(path), TESTS / 'reference' / path.parent.name / 'reference.npz')
     try:
         submitted = freeze_submission()
@@ -89,13 +125,16 @@ def main():
         logs.mkdir()
         if submission_error:
             results.append({'case': case, 'score': 0, 'status': submission_error})
+            save_report(config, results, len(paths), policy_sha256)
             continue
         with tempfile.TemporaryDirectory(prefix='caeoj-') as temporary:
             directory = Path(temporary)
             shutil.copytree(path.parent, directory / 'input')
             os.chown(directory, 1000, 1000)
             directory.chmod(0o700)
+            started = time.monotonic()
             outcome = execute(directory, config['timeout_seconds'], logs)
+            elapsed = time.monotonic() - started
             output = directory / 'result.npz'
             if outcome is None:
                 if not output.exists():
@@ -106,20 +145,14 @@ def main():
                     shutil.copyfile(output, logs / 'result.npz')
                     outcome = grade_files(path, logs / 'result.npz',
                                           TESTS / 'reference' / case / 'reference.npz',
-                                          atol=config['atol'], rtol=config['rtol'])
+                                          **grade_options)
                     if outcome['score'] is None:
                         raise RuntimeError(f'Judge infrastructure error: {case}: {outcome}')
-            results.append({'case': case, **outcome})
-    passed = sum(row['score'] == 1 for row in results)
-    report = {'score': passed, 'total_cases': len(results),
-              'reward': passed / len(results), 'cases': results,
-              'tolerance': {'atol': config['atol'], 'rtol': config['rtol']}}
-    if config.get('stage'):
-        report['stage'] = config['stage']
-        report['limits'] = {'timeout_seconds': config['timeout_seconds'],
-                            'max_output_bytes': maximum_output_bytes}
-    (LOGS / 'report.json').write_text(json.dumps(report, indent=2) + '\n')
-    (LOGS / 'reward.txt').write_text(str(report['reward']) + '\n')
+            row = {'case': case, **outcome, 'elapsed_seconds': elapsed}
+            results.append(row)
+            (logs / 'report.json').write_text(json.dumps(row, indent=2, allow_nan=False) + '\n')
+            save_report(config, results, len(paths), policy_sha256)
+    report = save_report(config, results, len(paths), policy_sha256, complete=True)
     print(json.dumps({key: value for key, value in report.items() if key != 'cases'}))
 
 

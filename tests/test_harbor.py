@@ -43,6 +43,9 @@ class HarborTests(unittest.TestCase):
             target = self.root / name
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(data)
+        # A release contains a derived legacy policy; the author fixture keeps
+        # the original legacy config as its sole source, like the real task.
+        (self.root / 'tasks' / TASK / 'grading.json').unlink()
         source = ROOT / 'tasks' / TASK
         task = self.root / 'tasks' / TASK
         cases = sorted((source / 'cases').iterdir())[:2]
@@ -162,6 +165,55 @@ class HarborTests(unittest.TestCase):
         self.assertIn('1024 MB', instruction)
         self.assertIn(str(2*1024**3), instruction)
 
+    def test_public_policy_hash_and_private_grader_agree(self):
+        from caeoj.grading_policy import policy_hash
+        task = self.root / 'tasks' / TASK
+        policy = {'version': 1, 'fields': {'temperature': {
+            'all': [
+                {'metric': 'rmse', 'time': 'per_time', 'components': 'per_component', 'limit': .01},
+                {'metric': 'violation_fraction', 'time': 'per_time', 'components': 'joint',
+                 'count': 'spatial_points', 'atol': .02, 'rtol': 0, 'limit': .01}]}}}
+        (task / 'grading.json').write_text(json.dumps(policy))
+        config_path = task / 'judge-config.json'
+        config = json.loads(config_path.read_text())
+        del config['atol']; del config['rtol']
+        config_path.write_text(json.dumps(config))
+        directory = self.prepared()
+        self.assertIn('空间点', (directory / 'instruction.md').read_text())
+        self.assertIn(' 且 ', (directory / 'instruction.md').read_text())
+        with zipfile.ZipFile(directory / 'environment/agent.zip') as archive:
+            public = json.loads(archive.read(f'tasks/{TASK}/grading.json'))
+            self.assertEqual(policy_hash(public), policy_hash(policy))
+            self.assertIn('src/caeoj/grading.schema.json', archive.namelist())
+        private = directory / 'tests'; logs = self.root / 'policy-logs'
+        names = sorted(p.name for p in (private / 'cases').iterdir())
+        def execution(work, timeout, case_logs):
+            if case_logs.name == names[1]:
+                snapshot = json.loads((logs / 'report.json').read_text())
+                self.assertEqual(snapshot['completed_cases'], 1)
+                self.assertFalse(snapshot['complete'])
+                self.assertFalse((logs / 'reward.txt').exists())
+            with np.load(private / 'reference' / case_logs.name / 'reference.npz') as data:
+                arrays = {key: data[key].copy() for key in data.files}
+            if case_logs.name == names[1]: arrays['temperature'] += .02
+            np.savez(work / 'result.npz', **arrays)
+            return None
+        with patch.object(judge, 'TESTS', private), patch.object(judge, 'LOGS', logs), \
+                patch.object(judge, 'freeze_submission', return_value=True), \
+                patch.object(judge, 'execute', side_effect=execution), \
+                patch.object(judge.os, 'chown'):
+            judge.main()
+        report = json.loads((logs / 'report.json').read_text())
+        self.assertEqual(report['score'], 1)
+        self.assertTrue(report['complete'])
+        self.assertEqual(report['policy_sha256'], policy_hash(policy))
+        self.assertIn('elapsed_seconds', report['cases'][0])
+        self.assertEqual(report['cases'][1]['fields']['temperature']['operator'], 'all')
+        policy['fields']['temperature']['all'][0]['limit'] = .1
+        (task / 'grading.json').write_text(json.dumps(policy))
+        with self.assertRaisesRegex(ValueError, 'stale'):
+            prepare.prepare(TASK, self.root)
+
     def test_output_size_limit_is_configurable_and_retains_legacy_default(self):
         self.assertEqual(judge.output_limit({}),128*1024**2)
         for bad in (0,-1,True,1.5,'100'):
@@ -172,6 +224,35 @@ class HarborTests(unittest.TestCase):
         with path.open('wb') as stream:stream.truncate(129*1024**2)
         self.assertFalse(judge.output_within_limit(path,judge.output_limit({})))
         self.assertTrue(judge.output_within_limit(path,judge.output_limit({'max_output_bytes':2*1024**3})))
+
+    def test_compilation_uses_writable_per_case_copy_without_changing_submission(self):
+        submission = self.root / 'canonical-submission'
+        submission.mkdir()
+        (submission / 'solve.py').write_text('original source')
+        executable = submission / 'core'
+        executable.write_text('compiled helper')
+        executable.chmod(0o755)
+        with patch.object(judge, 'SUBMISSION', submission), patch.object(judge.os, 'chown'):
+            self.assertTrue(judge.freeze_submission())
+            self.assertTrue(executable.stat().st_mode & 0o111)
+            for index in range(2):
+                work = self.root / f'work-{index}'
+                logs = self.root / f'logs-{index}'
+                work.mkdir(); logs.mkdir()
+                def spawn(command, **kwargs):
+                    self.assertEqual(command[6], str(work / 'submission/solve.py'))
+                    self.assertEqual((work / 'submission/solve.py').read_text(), 'original source')
+                    (work / 'submission/solve.py').write_text('runtime change')
+                    (work / 'submission/core.so').write_text('runtime compiled helper')
+                    from unittest.mock import Mock
+                    process = Mock(pid=12345)
+                    process.wait.return_value = 0
+                    return process
+                with patch.object(judge.subprocess, 'Popen', side_effect=spawn), \
+                        patch.object(judge.os, 'killpg'):
+                    self.assertIsNone(judge.execute(work, 1, logs))
+                self.assertEqual((submission / 'solve.py').read_text(), 'original source')
+                self.assertFalse((submission / 'core.so').exists())
 
     def test_resource_overrides_cannot_change_judging_interface(self):
         (self.root / 'tasks' / TASK / 'harbor/task.toml').write_text(

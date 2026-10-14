@@ -4,7 +4,8 @@ from importlib.util import find_spec
 import json
 from pathlib import Path
 
-from .grading import DEFAULT_ATOL, DEFAULT_RTOL, grade_files
+from .grading import grade_files
+from .grading_policy import UNSET, load_policy
 from .validation import ContractError, validate_input, validate_output
 
 
@@ -20,8 +21,9 @@ def main(argv=None):
     grade_parser.add_argument("--input", required=True)
     grade_parser.add_argument("--output", required=True)
     grade_parser.add_argument("--reference", required=True)
-    grade_parser.add_argument("--atol", type=float, default=DEFAULT_ATOL)
-    grade_parser.add_argument("--rtol", type=float, default=DEFAULT_RTOL)
+    grade_parser.add_argument("--atol", type=float, default=UNSET)
+    grade_parser.add_argument("--rtol", type=float, default=UNSET)
+    grade_parser.add_argument("--grading", help="Public grading.json policy")
     # Author-only modules are omitted from the public release.
     if all(find_spec(f"{__package__}.{name}") is not None for name in ("examples", "smoke")):
         project_root = Path(__file__).resolve().parents[2]
@@ -43,7 +45,8 @@ def main(argv=None):
             count = make_cases(args.output)
             result = {"generated_cases": count, "directory": str(Path(args.output).resolve())}
         elif args.command == "grade":
-            result = grade_files(args.input, args.output, args.reference, atol=args.atol, rtol=args.rtol)
+            result = grade_files(args.input, args.output, args.reference, atol=args.atol, rtol=args.rtol,
+                                 policy=load_policy(args.grading) if args.grading else None)
         else:
             from .smoke import run_smoke
             if args.timeout <= 0:

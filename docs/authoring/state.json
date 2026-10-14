@@ -32,7 +32,8 @@
         "sample_preparation": "completed",
         "full_data": "registered_source_files_complete_larger_family_pending",
         "reference": "source_regression_only_new_physics_pending",
-        "numerical_acceptance": "not_executed"
+        "numerical_acceptance": "not_executed",
+        "independent_final_review": "draft_artifacts_accepted_formal_evaluation_blocked"
       },
       "checks": {
         "structure": {
@@ -76,7 +77,8 @@
       },
       "reviews": {
         "initial": "docs/authoring/reviews/initial.json",
-        "recheck": "docs/authoring/reviews/recheck.json"
+        "recheck": "docs/authoring/reviews/recheck.json",
+        "final": "docs/authoring/reviews/final.json"
       }
     },
     {
@@ -97,7 +99,8 @@
         "sample_preparation": "completed",
         "full_data": "registered_source_files_complete_larger_family_pending",
         "reference": "source_extracted_new_physics_pending",
-        "numerical_acceptance": "not_executed"
+        "numerical_acceptance": "not_executed",
+        "independent_final_review": "draft_artifacts_accepted_formal_evaluation_blocked"
       },
       "checks": {
         "structure": {
@@ -141,7 +144,8 @@
       },
       "reviews": {
         "initial": "docs/authoring/reviews/initial.json",
-        "recheck": "docs/authoring/reviews/recheck.json"
+        "recheck": "docs/authoring/reviews/recheck.json",
+        "final": "docs/authoring/reviews/final.json"
       }
     }
   ],
@@ -169,7 +173,7 @@
     "final_review": {
       "agent": "/root/final_audit",
       "model": "gpt-6.1-sol",
-      "status": "awaiting_actual_pr"
+      "status": "completed"
     }
   },
   "maximum_revision_rounds": 2,
@@ -182,8 +186,17 @@
     "default GB/TB full dataset download"
   ],
   "submission": {
-    "draft_pr": null,
-    "merged": false
+    "draft_pr": "https://github.com/AXeonV/CAE-Bench-OJ/pull/4",
+    "draft": true,
+    "merged": false,
+    "branch_pushed": true,
+    "independently_reviewed_head": "6f76712e7d3e535f56b0bf2e072a645ec79b690d",
+    "post_review_changes": "Only final review attestation, run report and coordinator state metadata",
+    "api_limitations": [
+      "GraphQL create HTTP499 twice; no duplicate existed",
+      "Draft PR created by REST structured fields; legacy gh GraphQL edit projectCards deprecated",
+      "Long file-body update rejected HTTP400; retained coherent English PR body and complete linked repository report"
+    ]
   },
   "source_failures": [
     {
@@ -237,5 +250,13 @@
       "bytes": 5241,
       "sha256": "acae8a4d644bbee8de3c1bf6c3a027726717a842451cfc0eb42ae52bb2e9f8f4"
     }
+  },
+  "final_review": {
+    "verdict": "draft static/pipeline artifacts accepted; formal evaluation blocked",
+    "path": "docs/authoring/reviews/final.json",
+    "sha256": "83e8ba2028e5a82f81b70964d80e0dbc892658c3f9738118556417483e1b1c4b",
+    "reviewed_head": "6f76712e7d3e535f56b0bf2e072a645ec79b690d",
+    "input_count": 10,
+    "paired_output_count": 7
   }
 }

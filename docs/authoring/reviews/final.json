@@ -1,0 +1,624 @@
+{
+  "reviewer": "/root/final_audit independent final reviewer, non-author/non-data/non-initial-review",
+  "reviewed_head": "6f76712e7d3e535f56b0bf2e072a645ec79b690d",
+  "pr_url": "https://github.com/AXeonV/CAE-Bench-OJ/pull/4",
+  "pr_draft": true,
+  "pr_file_count": 72,
+  "verdict": "draft static/pipeline artifacts accepted; formal evaluation blocked",
+  "input_count": 10,
+  "paired_output_count": 7,
+  "coverage": {
+    "calculix-truss": [
+      {
+        "input": "tasks/calculix-truss/cases/source-001/problem.json",
+        "arrays": {
+          "node_ids": {
+            "dtype": "int64",
+            "shape": [
+              3
+            ]
+          },
+          "bar_ids": {
+            "dtype": "int64",
+            "shape": [
+              2
+            ]
+          },
+          "support_ids": {
+            "dtype": "int64",
+            "shape": [
+              2
+            ]
+          },
+          "roller_ids": {
+            "dtype": "int64",
+            "shape": [
+              1
+            ]
+          },
+          "load_ids": {
+            "dtype": "int64",
+            "shape": [
+              1
+            ]
+          },
+          "times": {
+            "dtype": "float64",
+            "shape": [
+              1
+            ]
+          },
+          "applied_force": {
+            "dtype": "float64",
+            "shape": [
+              1,
+              1,
+              3
+            ]
+          }
+        },
+        "conditions": [
+          {
+            "role": "boundary",
+            "variable": "displacement",
+            "location": "supports",
+            "operator": "all_components_dirichlet",
+            "data": {
+              "value": {
+                "value": 0.0,
+                "unit": "m"
+              }
+            }
+          },
+          {
+            "role": "boundary",
+            "variable": "displacement",
+            "location": "roller",
+            "operator": "y_dirichlet",
+            "data": {
+              "value": {
+                "value": 0.0,
+                "unit": "m"
+              }
+            }
+          },
+          {
+            "role": "source",
+            "variable": "displacement",
+            "location": "loaded",
+            "operator": "nodal_force",
+            "data": {
+              "force": {
+                "field": "applied_force"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "input": "tasks/calculix-truss/cases/source-002/problem.json",
+        "arrays": {
+          "node_ids": {
+            "dtype": "int64",
+            "shape": [
+              3
+            ]
+          },
+          "bar_ids": {
+            "dtype": "int64",
+            "shape": [
+              2
+            ]
+          },
+          "support_ids": {
+            "dtype": "int64",
+            "shape": [
+              2
+            ]
+          },
+          "roller_ids": {
+            "dtype": "int64",
+            "shape": [
+              1
+            ]
+          },
+          "load_ids": {
+            "dtype": "int64",
+            "shape": [
+              1
+            ]
+          },
+          "times": {
+            "dtype": "float64",
+            "shape": [
+              1
+            ]
+          },
+          "applied_force": {
+            "dtype": "float64",
+            "shape": [
+              1,
+              1,
+              3
+            ]
+          }
+        },
+        "conditions": [
+          {
+            "role": "boundary",
+            "variable": "displacement",
+            "location": "supports",
+            "operator": "all_components_dirichlet",
+            "data": {
+              "value": {
+                "value": 0.0,
+                "unit": "m"
+              }
+            }
+          },
+          {
+            "role": "boundary",
+            "variable": "displacement",
+            "location": "roller",
+            "operator": "y_dirichlet",
+            "data": {
+              "value": {
+                "value": 0.0,
+                "unit": "m"
+              }
+            }
+          },
+          {
+            "role": "source",
+            "variable": "displacement",
+            "location": "loaded",
+            "operator": "nodal_force",
+            "data": {
+              "force": {
+                "field": "applied_force"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "input": "tasks/calculix-truss/samples/source-001/input/problem.json",
+        "arrays": {
+          "node_ids": {
+            "dtype": "int64",
+            "shape": [
+              3
+            ]
+          },
+          "bar_ids": {
+            "dtype": "int64",
+            "shape": [
+              2
+            ]
+          },
+          "support_ids": {
+            "dtype": "int64",
+            "shape": [
+              2
+            ]
+          },
+          "roller_ids": {
+            "dtype": "int64",
+            "shape": [
+              1
+            ]
+          },
+          "load_ids": {
+            "dtype": "int64",
+            "shape": [
+              1
+            ]
+          },
+          "times": {
+            "dtype": "float64",
+            "shape": [
+              1
+            ]
+          },
+          "applied_force": {
+            "dtype": "float64",
+            "shape": [
+              1,
+              1,
+              3
+            ]
+          }
+        },
+        "conditions": [
+          {
+            "role": "boundary",
+            "variable": "displacement",
+            "location": "supports",
+            "operator": "all_components_dirichlet",
+            "data": {
+              "value": {
+                "value": 0.0,
+                "unit": "m"
+              }
+            }
+          },
+          {
+            "role": "boundary",
+            "variable": "displacement",
+            "location": "roller",
+            "operator": "y_dirichlet",
+            "data": {
+              "value": {
+                "value": 0.0,
+                "unit": "m"
+              }
+            }
+          },
+          {
+            "role": "source",
+            "variable": "displacement",
+            "location": "loaded",
+            "operator": "nodal_force",
+            "data": {
+              "force": {
+                "field": "applied_force"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "input": "tasks/calculix-truss/author/pending/force-variant/problem.json",
+        "arrays": {
+          "node_ids": {
+            "dtype": "int64",
+            "shape": [
+              3
+            ]
+          },
+          "bar_ids": {
+            "dtype": "int64",
+            "shape": [
+              2
+            ]
+          },
+          "support_ids": {
+            "dtype": "int64",
+            "shape": [
+              2
+            ]
+          },
+          "roller_ids": {
+            "dtype": "int64",
+            "shape": [
+              1
+            ]
+          },
+          "load_ids": {
+            "dtype": "int64",
+            "shape": [
+              1
+            ]
+          },
+          "times": {
+            "dtype": "float64",
+            "shape": [
+              1
+            ]
+          },
+          "applied_force": {
+            "dtype": "float64",
+            "shape": [
+              1,
+              1,
+              3
+            ]
+          }
+        },
+        "conditions": [
+          {
+            "role": "boundary",
+            "variable": "displacement",
+            "location": "supports",
+            "operator": "all_components_dirichlet",
+            "data": {
+              "value": {
+                "value": 0.0,
+                "unit": "m"
+              }
+            }
+          },
+          {
+            "role": "boundary",
+            "variable": "displacement",
+            "location": "roller",
+            "operator": "y_dirichlet",
+            "data": {
+              "value": {
+                "value": 0.0,
+                "unit": "m"
+              }
+            }
+          },
+          {
+            "role": "source",
+            "variable": "displacement",
+            "location": "loaded",
+            "operator": "nodal_force",
+            "data": {
+              "force": {
+                "field": "applied_force"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "input": "tasks/calculix-truss/author/pending/material-variant/problem.json",
+        "arrays": {
+          "node_ids": {
+            "dtype": "int64",
+            "shape": [
+              3
+            ]
+          },
+          "bar_ids": {
+            "dtype": "int64",
+            "shape": [
+              2
+            ]
+          },
+          "support_ids": {
+            "dtype": "int64",
+            "shape": [
+              2
+            ]
+          },
+          "roller_ids": {
+            "dtype": "int64",
+            "shape": [
+              1
+            ]
+          },
+          "load_ids": {
+            "dtype": "int64",
+            "shape": [
+              1
+            ]
+          },
+          "times": {
+            "dtype": "float64",
+            "shape": [
+              1
+            ]
+          },
+          "applied_force": {
+            "dtype": "float64",
+            "shape": [
+              1,
+              1,
+              3
+            ]
+          }
+        },
+        "conditions": [
+          {
+            "role": "boundary",
+            "variable": "displacement",
+            "location": "supports",
+            "operator": "all_components_dirichlet",
+            "data": {
+              "value": {
+                "value": 0.0,
+                "unit": "m"
+              }
+            }
+          },
+          {
+            "role": "boundary",
+            "variable": "displacement",
+            "location": "roller",
+            "operator": "y_dirichlet",
+            "data": {
+              "value": {
+                "value": 0.0,
+                "unit": "m"
+              }
+            }
+          },
+          {
+            "role": "source",
+            "variable": "displacement",
+            "location": "loaded",
+            "operator": "nodal_force",
+            "data": {
+              "force": {
+                "field": "applied_force"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "pinnacle-poisson-cg": [
+      {
+        "input": "tasks/pinnacle-poisson-cg/cases/source-001/problem.json",
+        "arrays": {
+          "probe_ids": {
+            "dtype": "int64",
+            "shape": [
+              64
+            ]
+          },
+          "probe_coordinates": {
+            "dtype": "float64",
+            "shape": [
+              64,
+              2
+            ]
+          },
+          "times": {
+            "dtype": "float64",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "conditions": []
+      },
+      {
+        "input": "tasks/pinnacle-poisson-cg/cases/source-002/problem.json",
+        "arrays": {
+          "probe_ids": {
+            "dtype": "int64",
+            "shape": [
+              591
+            ]
+          },
+          "probe_coordinates": {
+            "dtype": "float64",
+            "shape": [
+              591,
+              2
+            ]
+          },
+          "times": {
+            "dtype": "float64",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "conditions": []
+      },
+      {
+        "input": "tasks/pinnacle-poisson-cg/cases/source-003/problem.json",
+        "arrays": {
+          "probe_ids": {
+            "dtype": "int64",
+            "shape": [
+              591
+            ]
+          },
+          "probe_coordinates": {
+            "dtype": "float64",
+            "shape": [
+              591,
+              2
+            ]
+          },
+          "times": {
+            "dtype": "float64",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "conditions": []
+      },
+      {
+        "input": "tasks/pinnacle-poisson-cg/samples/source-001/input/problem.json",
+        "arrays": {
+          "probe_ids": {
+            "dtype": "int64",
+            "shape": [
+              64
+            ]
+          },
+          "probe_coordinates": {
+            "dtype": "float64",
+            "shape": [
+              64,
+              2
+            ]
+          },
+          "times": {
+            "dtype": "float64",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "conditions": []
+      },
+      {
+        "input": "tasks/pinnacle-poisson-cg/author/pending/radius-variant/problem.json",
+        "arrays": {
+          "probe_ids": {
+            "dtype": "int64",
+            "shape": [
+              3
+            ]
+          },
+          "probe_coordinates": {
+            "dtype": "float64",
+            "shape": [
+              3,
+              2
+            ]
+          },
+          "times": {
+            "dtype": "float64",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "conditions": []
+      }
+    ]
+  },
+  "checks": [
+    "calculix-truss: actual fresh download size/SHA256 exact",
+    "calculix-truss: existing draft ZIP actual hash, private separation and all file hashes exact",
+    "Truss archive members hashes/bytes exact; all 8 source GP projections per bar consistent and paired reference projection exact; source deck read",
+    "pinnacle-poisson-cg: actual fresh download size/SHA256 exact",
+    "pinnacle-poisson-cg: existing draft ZIP actual hash, private separation and all file hashes exact",
+    "All three Poisson cases exact source-row/coordinate/value mapping; no interpolation or recomputation",
+    "All four durable prepare/package log bytes and hashes match committed state",
+    "Actual Draft PR4 head and all72 files exactly match pushed local diff origin/master...HEAD",
+    "Independent retrieval unittest7 passed (.928s); release gates unittest2 passed (.373s)",
+    "Read fetch/workflow/adapters/publish/Harbor gates, instructions/DATA/DESIGN and state/sources/initial/recheck/evidence records",
+    "Recovery: atomic status/log writes, hash verified cache, validated Range partial resume, bounded deadlines, explicit selected/all, per-candidate failures recorded; repeat actions resume preparation without claiming automatic model dispatch"
+  ],
+  "records": [
+    {
+      "id": "L1",
+      "file": "docs/authoring/evidence-queue.json; tasks/*/DESIGN.md",
+      "evidence": "Both release_ready false; licensing, source reference numerical accuracy, expanded parameter-family references and threshold/resource calibration pending",
+      "impact": "No formal numerical acceptance or evaluation permitted",
+      "revision_required": "Resolve independently in later authorized stage; keep release and Harbor gates blocked",
+      "status": "deferred_release_blocker"
+    },
+    {
+      "id": "N1",
+      "file": "docs/authoring/cold-download.json; docs/authoring/reviews/recheck.json",
+      "evidence": "Actual fresh files and recorded log hashes verified; prior urllib timeouts and independent45s curl timeout explicitly retained",
+      "impact": "Successful bounded cold retrieval demonstrated; repeated availability not guaranteed",
+      "revision_required": "Retain limitation and retry/resume bounded retrieval when needed",
+      "status": "known_limitation"
+    }
+  ],
+  "not_executed": [
+    "candidate solver",
+    "participant Agent benchmark",
+    "numerical grading",
+    "numerical reference accuracy acceptance",
+    "license clearance",
+    "threshold/resource calibration",
+    "new-family full reference generation"
+  ],
+  "revision_rounds_this_final": 0,
+  "scope_limits": [
+    "Source001 sample duplicates same physical source case; truss renumbering and Poisson observation partitions do not add independent physical instances",
+    "Public upstream outputs/developer PR are not secret; draft ZIP separation applies to contestant materials",
+    "Existing synthetic tool regression tests are not candidate solver evaluation"
+  ],
+  "actual_pr_diff": {
+    "bytes": 183929,
+    "sha256": "8a8ba11a1f70dd68d420f8953628fa3df808ede5e7a091b30f8f061805014423",
+    "exact_match_local_diff": false,
+    "content_match_after_hunk_function_label_normalization": true,
+    "difference": "Only four hunk function-label strings differ in publish_dist.py; all diff content is identical."
+  }
+}

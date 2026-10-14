@@ -6,7 +6,7 @@ import numpy as np
 from .grading_policy import UNSET, validate_policy, policy_hash
 from .grading_metrics import evaluate_field
 from .sdk import load_problem
-from .validation import ContractError, check_result, read_npz
+from .validation import ContractError, check_result, read_hdf5
 
 DEFAULT_ATOL = 1e-6
 DEFAULT_RTOL = 1e-5
@@ -85,7 +85,7 @@ def grade_files(input_path, output_path, reference_path, *, atol=UNSET, rtol=UNS
     if policy is not None:
         validate_policy(policy, problem)
     try:
-        reference = read_npz(reference_path)
+        reference = read_hdf5(reference_path)
     except ContractError as exc:
         return {"status": "reference_error", "score": None, "contract": exc.report}
     # Check the reference before inspecting a possibly invalid candidate file.
@@ -93,7 +93,7 @@ def grade_files(input_path, output_path, reference_path, *, atol=UNSET, rtol=UNS
     if not diagnostics["valid"]:
         return {"status": "reference_error", "score": None, "contract": diagnostics}
     try:
-        result = read_npz(output_path)
+        result = read_hdf5(output_path)
     except ContractError as exc:
         return {"status": "invalid_output", "score": 0, "contract": exc.report}
     return grade_arrays(problem, result, reference, atol=atol, rtol=rtol, policy=policy)

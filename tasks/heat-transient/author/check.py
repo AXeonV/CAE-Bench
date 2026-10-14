@@ -27,7 +27,7 @@ def run(program, *, time_mode='fixed', selected=None, output=None):
             continue
         logs = output/name
         logs.mkdir(exist_ok=True)
-        result = logs/'result.npz'
+        result = logs/'result.h5'
         if result.exists():
             result.unlink()
         command = [sys.executable, str(Path(program).resolve()), '--input', str(path), '--output', str(result)]
@@ -62,7 +62,7 @@ def run(program, *, time_mode='fixed', selected=None, output=None):
         if failure or process.returncode:
             report = {'status': failure or 'runtime_error', 'score': 0}
         else:
-            report = grade_files(path, result, ROOT/'reference'/name/'reference.npz',
+            report = grade_files(path, result, ROOT/'reference'/name/'reference.h5',
                                  atol=config['atol'], rtol=config['rtol'])
         stats_path = logs/'stdout.txt'
         try:

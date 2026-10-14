@@ -21,7 +21,7 @@ def run(root=ROOT,program=None,selected=None,output=None):
     for path in sorted((root/'cases').glob('*/problem.json')):
         if selected and path.parent.name not in selected: continue
         logs=output/path.parent.name;logs.mkdir(parents=True,exist_ok=True)
-        result=logs/'result.npz'
+        result=logs/'result.h5'
         env=os.environ.copy();env.update(PYTHONUTF8='1',OPENBLAS_NUM_THREADS='1',OMP_NUM_THREADS='1')
         start=time.perf_counter();peak=0;failure=None
         with (logs/'stdout.log').open('wb') as out,(logs/'stderr.log').open('wb') as err:
@@ -39,7 +39,7 @@ def run(root=ROOT,program=None,selected=None,output=None):
                 time.sleep(0.01)
             process.wait()
         report={'status':failure or 'runtime_error','score':0} if failure or process.returncode else grade_files(
-            path,result,root/'reference'/path.parent.name/'reference.npz',atol=config['atol'],rtol=config['rtol'])
+            path,result,root/'reference'/path.parent.name/'reference.h5',atol=config['atol'],rtol=config['rtol'])
         row={'case':path.parent.name,'wall_seconds':time.perf_counter()-start,'peak_rss_mib':peak/1024**2,**report}
         rows.append(row);print(json.dumps({k:v for k,v in row.items() if k!='fields'}),flush=True)
     if not rows:raise ValueError('No cases selected')

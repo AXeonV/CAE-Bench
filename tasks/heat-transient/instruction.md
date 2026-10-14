@@ -33,7 +33,7 @@ Dirichlet 边界的初始节点温度为零。其他条件要求在 t>0 满足�
 
 ## 输出与判分
 
-接口：`python solve.py --input problem.json --output result.npz`。
+接口：`python solve.py --input problem.json --output result.h5`。
 
 输出包含原样复制的 `node_ids`、`times`，以及 float64 `temperature`，shape `[输出时刻数,节点数,1]`，单位 K。t=0 的温度为输入给定的初始节点温度。
 
@@ -42,9 +42,9 @@ Dirichlet 边界的初始节点温度为零。其他条件要求在 t>0 满足�
 ## 示例
 
 完整输入：[samples/01/input/](samples/01/input/)，入口 [problem.json](samples/01/input/problem.json)。
-完整正确输出：[samples/01/output/result.npz](samples/01/output/result.npz)。
+完整正确输出：[samples/01/output/result.h5](samples/01/output/result.h5)。
 
 本例为单位正方形、k=C=1，9 个节点，四边定温为零，初始温度全零。
 输出 `node_ids=int64([1,2,3,4,5,6,7,8,9])`，`times=float64([0,0.003,0.007,0.016,0.035,0.08])`，`temperature` 为全零的 float64 `[6,9,1]` 数组。
 
-另有包含初始温度及四种边界条件的完整示例：[samples/02/input/](samples/02/input/) 和 [samples/02/output/result.npz](samples/02/output/result.npz)。
+另有包含初始温度及四种边界条件的完整示例：[samples/02/input/](samples/02/input/) 和 [samples/02/output/result.h5](samples/02/output/result.h5)。

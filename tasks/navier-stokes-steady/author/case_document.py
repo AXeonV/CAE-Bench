@@ -64,7 +64,7 @@ def write_case_document(destination, records, transient):
             for side in SIDES:lines += [f"- {side}：`u={vector if side==c['lid'] else (0,0)}`。"]
             transform=r['reference']['coordinate_transform']
             lines += [f"归一化坐标变换 `x̂=M ξ+b`，`M={transform['matrix']}`、`b={transform['offset']}`；速度同乘 M 和壁速幅值 {c['upper']:g}。",
-                      '只输出两个清单中的中线分量；坐标显式存于 NPZ，采样点 IDs 不代表网格 tag。']
+                      '只输出两个清单中的中线分量；坐标显式存于 HDF5，采样点 IDs 不代表网格 tag。']
         else:
             lines += [f"`a=(0,0)`，`c={tuple(c['drift'])}`。"]
             if c['pattern']=='shear':

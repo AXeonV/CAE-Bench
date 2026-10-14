@@ -41,7 +41,7 @@ class NSTests(unittest.TestCase):
         for task in ('navier-stokes-steady','navier-stokes-transient'):
             for path in sorted((ROOT/'tasks'/task/'cases').glob('*/problem.json')):
                 p=load_problem(path)
-                reference=load_result(p,ROOT/'tasks'/task/'reference'/path.parent.name/'reference.npz')
+                reference=load_result(p,ROOT/'tasks'/task/'reference'/path.parent.name/'reference.h5')
                 cls.inputs[task,path.parent.name]=(p,reference)
 
     def case(self,task,name):return self.inputs[task,name]
@@ -318,8 +318,8 @@ class NSTests(unittest.TestCase):
             for sample in samples:
                 root=ROOT/'tasks'/task/'samples'/sample
                 case=json.loads((root/'verification.json').read_text(encoding='utf-8'))['case']
-                result=grade_files(root/'input/problem.json',root/'output/result.npz',
-                    ROOT/'tasks'/task/'reference'/case/'reference.npz',atol=.02,rtol=0)
+                result=grade_files(root/'input/problem.json',root/'output/result.h5',
+                    ROOT/'tasks'/task/'reference'/case/'reference.h5',atol=.02,rtol=0)
                 self.assertEqual(result['score'],1)
 
 

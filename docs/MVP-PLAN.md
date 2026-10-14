@@ -7,24 +7,24 @@
 正式规范为 [CONTRACT.md](CONTRACT.md)。
 
 - Gmsh 生成网格，MSH 4.1 保留节点、单元、连接关系和 Physical Groups。
-- NumPy NPZ 保存场及编号／时间数组，不重新定义数组序列化。
+- HDF5 保存场及编号／时间数组，直接使用标准 HDF5 库读写。
 - JSON 声明文件引用、采样位置、字段单位与分量、参数、条件和输出要求。
 - 实体 IDs 固定且递增；场统一保留时间、实体、分量轴。空间矢量／张量采用全局坐标，其他多分量量明确标签。
-- 边界位置引用网格实体／组，条件类型和常量放 JSON，变化数值放 NPZ。初值、源项和材料场使用相同的数据引用方式。
+- 边界位置引用网格实体／组，条件类型和常量放 JSON，变化数值放 HDF5。初值、源项和材料场使用相同的数据引用方式。
 
 协议允许多个网格、独立采样点和多个时间轴，不限制物理模型为某一类 CFD 方程。题目必须明确方程、支持范围、条件算子和离散输入的数学含义。固定网格以外的扩展须先定义清楚，再更新协议与校验规则。
 
 ## 2. 结构校验工具
 
-元数据仅保留 `src/caeoj/problem.schema.json` 一个 Schema，不设版本注册和独立 Schema 子包。提供 `caeoj validate-input problem.json` 和 `caeoj validate-output --input problem.json --output result.npz`。检查清单结构、文件引用、数组 key、shape、dtype、分量、编号／时间轴和实体覆盖，返回 `valid/errors` JSON。
+元数据仅保留 `src/caeoj/problem.schema.json` 一个 Schema，不设版本注册和独立 Schema 子包。提供 `caeoj validate-input problem.json` 和 `caeoj validate-output --input problem.json --output result.h5`。检查清单结构、文件引用、数组 key、shape、dtype、分量、编号／时间轴和实体覆盖，返回 `valid/errors` JSON。
 
 校验器不修改、转置、重排或纠正数据，不匹配等价网格，不检查物理方程、参数正负、守恒、条件相容性或答案误差。合法结构中的错误数值由判分器处理。SDK 仅协助读写与复制固定输出轴。
 
 ## 3. 本地 smoke：已完成
 
-题目为原样回传输入场，不需要物理求解。统一启动方式：`python solve.py --input problem.json --output result.npz`。每例独立进程，独立判分器先校验输出再按默认误差阈值比较参考数值，每例 0/1 分。
+题目为原样回传输入场，不需要物理求解。统一启动方式：`python solve.py --input problem.json --output result.h5`。每例独立进程，独立判分器先校验输出再按默认误差阈值比较参考数值，每例 0/1 分。
 
-11 个样例覆盖：1D 线网格、2D 三角／四边形网格、3D 四面体网格、混合单元、非连续 tag、多种 dtype、二维矢量、完整张量及组分、边界／单元／独立点场、时间序列。网格统一由真实 Gmsh API 生成 MSH 4.1 ASCII 文件，输入／输出数组使用真实 NPZ。
+11 个样例覆盖：1D 线网格、2D 三角／四边形网格、3D 四面体网格、混合单元、非连续 tag、多种 dtype、二维矢量、完整张量及组分、边界／单元／独立点场、时间序列。网格统一由真实 Gmsh API 生成 MSH 4.1 ASCII 文件，输入／输出数组使用真实 HDF5。
 
 验收包括正确程序全部通过、结构错误被校验器报告、速度分量交换通过结构检查但被判错。判分在 `grading.py`，默认 `atol=1e-6`、`rtol=1e-5`；执行器不内置数值比较。本阶段不接入 Agent、Harbor，也不运行真实物理求解器。
 

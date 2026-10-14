@@ -25,13 +25,13 @@ def check(program, report_path, task_root=TASK_ROOT):
     for path in paths:
         directory = root / path.parent.name
         directory.mkdir(parents=True)
-        output = directory / "result.npz"
+        output = directory / "result.h5"
         try:
             problem = load_problem(path)
         except ContractError as exc:
             results.append({"case": path.parent.name, "score": None, "status": "input_error", "contract": exc.report})
             continue
-        reference = task_root / "reference" / path.parent.name / "reference.npz"
+        reference = task_root / "reference" / path.parent.name / "reference.h5"
         try:
             load_result(problem, reference)
         except ContractError as exc:

@@ -17,7 +17,7 @@ from caeoj.grading_policy import task_policy, validate_policy, render_policy
 from caeoj.validation import ContractError, validate_input, validate_output
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-TOOL_FILES = ("__init__.py", "__main__.py", "cli.py", "validation.py", "sdk.py",
+TOOL_FILES = ("__init__.py", "__main__.py", "cli.py", "validation.py", "sdk.py", "storage.py",
               "problem.schema.json", "grading.py", "grading_policy.py",
               "grading_metrics.py", "grading.schema.json")
 
@@ -42,15 +42,15 @@ def agent_readme(task):
 题面：`tasks/{task}/instruction.md`。通用数据协议：`docs/CONTRACT.md`。
 题目目录中的 DATA.md（若存在）也是输入约定的一部分。评分规则见 GRADING.md 和 grading.json。公开示例在 `tasks/{task}/samples/`。
 
-安装共享工具：`python -m pip install -e .`。NumPy、Gmsh、jsonschema 是协议依赖；求解所需额外依赖由程序选择。
+安装共享工具：`python -m pip install -e .`。h5py、NumPy、Gmsh、jsonschema 是协议依赖；求解所需额外依赖由程序选择。
 
 在理解输入、编写和调试程序时可随时使用：
 
 ```text
 python -m caeoj validate-input tasks/{task}/samples/<sample>/input/problem.json
-python solve.py --input tasks/{task}/samples/<sample>/input/problem.json --output result.npz
-python -m caeoj validate-output --input tasks/{task}/samples/<sample>/input/problem.json --output result.npz
-python -m caeoj grade --input tasks/{task}/samples/<sample>/input/problem.json --output result.npz --reference tasks/{task}/samples/<sample>/output/result.npz --grading tasks/{task}/grading.json
+python solve.py --input tasks/{task}/samples/<sample>/input/problem.json --output result.h5
+python -m caeoj validate-output --input tasks/{task}/samples/<sample>/input/problem.json --output result.h5
+python -m caeoj grade --input tasks/{task}/samples/<sample>/input/problem.json --output result.h5 --reference tasks/{task}/samples/<sample>/output/result.h5 --grading tasks/{task}/grading.json
 ```
 
 校验器只检查结构和引用，不验证或纠正物理结果。
@@ -108,7 +108,7 @@ def collect_materials(task, root=PROJECT_ROOT):
         if not diagnostics["valid"]:
             raise ContractError(diagnostics)
         sample = path.parent.parent
-        result = sample / "output/result.npz"
+        result = sample / "output/result.h5"
         add(result)
         diagnostics = validate_output(path, result)
         if not diagnostics["valid"]:

@@ -1,9 +1,8 @@
 """Thin helpers; array values, shapes and numbering are never repaired."""
-from pathlib import Path
-
 import numpy as np
 
-from .validation import ContractError, check_problem, check_result, output_support, read_npz
+from .storage import write_hdf5
+from .validation import ContractError, check_problem, check_result, output_support, read_hdf5
 
 
 def load_problem(path):
@@ -14,7 +13,7 @@ def load_problem(path):
 
 
 def load_result(problem, path):
-    arrays = read_npz(path)
+    arrays = read_hdf5(path)
     diagnostics = check_result(problem, arrays)
     if not diagnostics["valid"]:
         raise ContractError(diagnostics)
@@ -30,18 +29,18 @@ def read_constant(data):
 
 
 def read_field(problem, reference):
-    """Resolve {field: name} to its NPZ array; preserve dtype, shape and order."""
+    """Resolve {field: name} to its HDF5 array; preserve dtype, shape and order."""
     if not isinstance(reference, dict) or set(reference) != {"field"}:
         raise TypeError('Expected a {"field": name} reference; '
                         'use read_constant(data) for a constant.')
     name = reference["field"]
     if name not in problem.manifest["fields"]:
-        raise KeyError(f'Unknown input field: {name!r}; use the field name, not the NPZ key.')
+        raise KeyError(f'Unknown input field: {name!r}; use the field name, not the HDF5 key.')
     return problem.arrays[problem.manifest["fields"][name]["array"]]
 
 
 def write_result(path, problem, fields):
-    """fields maps required NPZ array keys to actual ndarrays; no dtype conversion."""
+    """fields maps required HDF5 array keys to actual ndarrays; no dtype conversion."""
     if any(not isinstance(a, np.ndarray) for a in fields.values()):
         raise TypeError("Pass ndarrays with the declared dtype and shape.")
     support = output_support(problem)
@@ -51,11 +50,7 @@ def write_result(path, problem, fields):
     diagnostics = check_result(problem, arrays)
     if not diagnostics["valid"]:
         raise ContractError(diagnostics)
-    path = Path(path)
-    if path.suffix != ".npz":
-        raise ValueError("Output path must end in .npz.")
-    path.parent.mkdir(parents=True, exist_ok=True)
-    np.savez(path, **arrays)
+    write_hdf5(path, arrays)
     return arrays
 
 

@@ -17,7 +17,7 @@ def main(argv=None):
     output_parser = commands.add_parser("validate-output", help="Check output contract, not answer accuracy")
     output_parser.add_argument("--input", required=True)
     output_parser.add_argument("--output", required=True)
-    grade_parser = commands.add_parser("grade", help="Grade result arrays against a supplied reference NPZ")
+    grade_parser = commands.add_parser("grade", help="Grade result arrays against a supplied reference HDF5")
     grade_parser.add_argument("--input", required=True)
     grade_parser.add_argument("--output", required=True)
     grade_parser.add_argument("--reference", required=True)

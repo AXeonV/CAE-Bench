@@ -1,4 +1,5 @@
 """Generate actual Gmsh inputs and analytic (not numerical-solver) references."""
+from caeoj.storage import write_hdf5
 import argparse
 import json
 from pathlib import Path
@@ -22,15 +23,15 @@ def publish_sample(destination):
     sample = destination / "samples" / "01"
     input_dir = sample / "input"
     input_dir.mkdir(parents=True, exist_ok=True)
-    for filename in ("problem.json", "input.npz", "mesh.msh", "mesh.geo"):
+    for filename in ("problem.json", "input.h5", "mesh.msh", "mesh.geo"):
         shutil.copyfile(destination / "cases" / name / filename, input_dir / filename)
     problem = load_problem(input_dir / "problem.json")
     # Explicit constant answer, independent of the polynomial reference evaluation.
     answer = np.full((1, len(problem.arrays["node_ids"]), 1), 4.0, dtype=np.float64)
-    output = sample / "output" / "result.npz"
+    output = sample / "output" / "result.h5"
     write_result(output, problem, {"temperature": answer})
     config = json.loads((TASK_ROOT / "judge-config.json").read_text(encoding="utf-8"))
-    report = grade_files(problem.path, output, destination / "reference" / name / "reference.npz",
+    report = grade_files(problem.path, output, destination / "reference" / name / "reference.h5",
                          atol=config["atol"], rtol=config["rtol"])
     write_json(sample / "verification.json", {"case": name, **report})
     if report["score"] != 1:
@@ -43,12 +44,12 @@ def publish_mixed_sample(destination):
     case = Case("sample-02-mixed-boundaries", {(0, 0): 1.0, (1, 0): 1.0, (0, 1): 1.0},
                 (D, N, F, R), nx=2, ny=2, alpha=1.0, beta_ratio=1.0)
     sample = Path(destination) / "samples/02"
-    reference = Path(destination) / "reference" / case.name / "reference.npz"
+    reference = Path(destination) / "reference" / case.name / "reference.h5"
     _, coordinates = generate_case(case, sample / "input", reference.parent)
     problem = load_problem(sample / "input/problem.json")
     # Evaluate independently of the coefficient-based reference generator.
     answer = (1.0 + coordinates[:, 0] + coordinates[:, 1])[None, :, None]
-    output = sample / "output/result.npz"
+    output = sample / "output/result.h5"
     write_result(output, problem, {"temperature": answer})
     config = json.loads((TASK_ROOT / "judge-config.json").read_text(encoding="utf-8"))
     report = grade_files(problem.path, output, reference, atol=config["atol"], rtol=config["rtol"])
@@ -114,7 +115,7 @@ def generate_case(case, directory, reference_dir):
     # Let the existing structural loader enumerate mesh entities/groups.
     from caeoj.validation import read_mesh
     topology = read_mesh(directory / "mesh.msh")
-    manifest = {"task": "heat-conduction", "spatial_dimension": 2, "data_file": "input.npz",
+    manifest = {"task": "heat-conduction", "spatial_dimension": 2, "data_file": "input.h5",
                 "geometries": {"rectangle": {"file": "mesh.geo", "format": "gmsh-geo"}},
                 "meshes": {"main": {"file": "mesh.msh", "geometry": "rectangle"}},
                 "locations": {"nodes": {"kind": "mesh", "mesh": "main", "entity": "node", "ids": "node_ids"}},
@@ -156,12 +157,12 @@ def generate_case(case, directory, reference_dir):
     manifest["outputs"]["temperature"] = {"array": "temperature", "quantity": "temperature", "location": "nodes",
         "time_axis": "steady", "dtype": "float64", "kind": "scalar", "component_shape": [1],
         "components": ["value"], "unit": "K", "value_kind": "point"}
-    np.savez_compressed(directory / "input.npz", **arrays)
+    write_hdf5(directory / 'input.h5', arrays, compression="gzip")
     write_json(directory / "problem.json", manifest)
     problem = load_problem(directory / "problem.json")
     uv = (coordinates - case.origin) / case.size
     temperature = polyval2d(uv[:, 0], uv[:, 1], case.temperature)[None, :, None]
-    write_result(reference_dir / "reference.npz", problem, {"temperature": temperature})
+    write_result(reference_dir / "reference.h5", problem, {"temperature": temperature})
     record = {"case": case.name, "temperature_coefficients": case.temperature.tolist(),
               "temperature": equation(case.temperature), "source": equation(source), "boundaries": boundaries,
               "mean_temperature": exact_mean(case), "node_count": len(ids), "cell_count": len(arrays["domain_ids"])}

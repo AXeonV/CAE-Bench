@@ -176,8 +176,8 @@ class ConversionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)
             problem=build_input(model,{'filename':'2D_DarcyFlow_beta1.0_Train.hdf5'},coords,np.array([0.]),values,root)
-            evidence=audit_reference(model,problem,values,coords,{},root/'result.npz')
-            result=load_result(problem,root/'result.npz')
+            evidence=audit_reference(model,problem,values,coords,{},root/'result.h5')
+            result=load_result(problem,root/'result.h5')
             # Each 2x2 corner has two zero-exterior faces; uniform 1.25 is
             # independently the solution for f=1, a=.1, h=.5.
             np.testing.assert_allclose(result['state'],1.25,atol=1e-14)
@@ -333,20 +333,20 @@ class PipelineTests(unittest.TestCase):
                     shutil.copyfile(path,destination)
             definitions={p:p.read_bytes() for p in copied.rglob('problem.json')}
             self.assertEqual(len(definitions),3)
-            self.assertFalse(list(copied.rglob('*.npz')))
+            self.assertFalse(list(copied.rglob('*.h5')))
             restored=prepare_task(model,catalog,copied,clone/'runtime/cache',clone/'runtime/staging',
                                   Budget([clone],100_000_000),local=local,max_cases=1)
             self.assertEqual(restored['status'],'references_prepared')
             for path,data in definitions.items():self.assertEqual(path.read_bytes(),data)
             p=load_problem(copied/'cases/001/problem.json')
-            load_result(p,copied/'reference/001/reference.npz')
+            load_result(p,copied/'reference/001/reference.h5')
             # A versioned definition edited by an author must never be silently
             # replaced with the generator's original mathematical problem.
             edited=copied/'samples/01/input/problem.json'
             manifest=json.loads(edited.read_text())
             manifest['physics']['parameters']['velocity']['value']+=1
             changed=json.dumps(manifest,indent=4)+'\n';edited.write_text(changed)
-            reference=copied/'author/sample-certificates/01/reference.npz';before=digest(reference)
+            reference=copied/'author/sample-certificates/01/reference.h5';before=digest(reference)
             failed=prepare_task(model,catalog,copied,clone/'runtime/cache',clone/'runtime/staging',
                                 Budget([clone],100_000_000),local=local,max_cases=1)
             self.assertEqual(failed['status'],'failed')
@@ -366,10 +366,10 @@ class PipelineTests(unittest.TestCase):
             self.assertFalse(sample_keys&hidden_keys)
             second=prepare_task(model,catalog,task,cache,stage,budget,**kwargs)
             self.assertTrue(all(r['reused'] for r in second['records']))
-            (task/'cases/001/input.npz').write_bytes(b'corrupt')
+            (task/'cases/001/input.h5').write_bytes(b'corrupt')
             third=prepare_task(model,catalog,task,cache,stage,budget,**kwargs)
             p=load_problem(task/'cases/001/problem.json')
-            result=load_result(p,task/'reference/001/reference.npz')
+            result=load_result(p,task/'reference/001/reference.h5')
             np.testing.assert_array_equal(result['state'][0:1],p.arrays['initial_state'])
             with self.assertRaisesRegex(PreparationError,'Frozen selection'):
                 prepare_task(model,catalog,task,cache,stage,budget,local=local,max_cases=2)
@@ -382,8 +382,8 @@ class PipelineTests(unittest.TestCase):
             result=prepare_task(model,catalog,task,cache,stage,budget,local=local,max_cases=1)
             self.assertEqual(result['status'],'references_prepared')
             p=load_problem(task/'cases/001/problem.json')
-            answer=load_result(p,task/'reference/001/reference.npz')['state']
-            candidate=load_result(p,task/'reference/001/official-candidate.npz')['state']
+            answer=load_result(p,task/'reference/001/reference.h5')['state']
+            candidate=load_result(p,task/'reference/001/official-candidate.h5')['state']
             self.assertGreater(float(np.max(np.abs(answer-candidate))),.01)
             certificate=json.loads((task/'reference/001/certificate.json').read_text())
             self.assertEqual(certificate['official_candidate']['status'],'unreviewed_do_not_grade')
@@ -402,11 +402,11 @@ class PipelineTests(unittest.TestCase):
             model,task,local,catalog,cache,stage,budget=self.fixture(root,'PDEBench_1D_ReactionDiffusion')
             prepare_task(model,catalog,task,cache,stage,budget,local=local,max_cases=1)
             problem=load_problem(task/'cases/001/problem.json')
-            original=digest(task/'cases/001/input.npz')
-            original_reference=digest(task/'reference/001/reference.npz')
+            original=digest(task/'cases/001/input.h5')
+            original_reference=digest(task/'reference/001/reference.h5')
             external=root/'reviewed'/model.task/'case/001';external.mkdir(parents=True)
             values=np.repeat(problem.arrays['initial_state'],len(problem.arrays['times']),axis=0)
-            write_result(external/'reference.npz',problem,{'state':values})
+            write_result(external/'reference.h5',problem,{'state':values})
             certificate=json.loads((task/'reference/001/certificate.json').read_text())
             audit={'status':'audited','method':'offline interface fixture only',
                    'error_evidence':{'scope':'test of importer, not a scientific reference'},
@@ -418,15 +418,15 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(failed['status'],'failed')
             self.assertEqual(len(failed['records']),2)
             self.assertIn('bind',failed['errors'][0]['error'])
-            self.assertEqual(original,digest(task/'cases/001/input.npz'))
-            self.assertEqual(original_reference,digest(task/'reference/001/reference.npz'))
-            audit['reference_sha256']=digest(external/'reference.npz')
+            self.assertEqual(original,digest(task/'cases/001/input.h5'))
+            self.assertEqual(original_reference,digest(task/'reference/001/reference.h5'))
+            audit['reference_sha256']=digest(external/'reference.h5')
             (external/'evidence.json').write_text(json.dumps(audit))
             report=prepare_task(model,catalog,task,cache,stage,budget,local=local,max_cases=1,
                                 reference_root=root/'reviewed')
             self.assertEqual(report['pending_references'],0)
-            load_result(problem,task/'reference/001/reference.npz')
-            self.assertEqual(original,digest(task/'cases/001/input.npz'))
+            load_result(problem,task/'reference/001/reference.h5')
+            self.assertEqual(original,digest(task/'cases/001/input.h5'))
 
 
 if __name__=='__main__':unittest.main()

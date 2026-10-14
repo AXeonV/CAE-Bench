@@ -6,7 +6,7 @@ import uuid
 
 from .grading import grade_arrays
 from .sdk import load_problem
-from .validation import ContractError, output_support, read_npz, write_json
+from .validation import ContractError, output_support, read_hdf5, write_json
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
@@ -22,7 +22,7 @@ def run_smoke(cases, program, report_path, timeout=10):
     for path in paths:
         directory = root / path.parent.name
         directory.mkdir()
-        output = directory / "result.npz"
+        output = directory / "result.h5"
         try:
             problem = load_problem(path)
             if problem.manifest.get("task") != "echo-field" or problem.manifest["fields"] != problem.manifest["outputs"]:
@@ -48,7 +48,7 @@ def run_smoke(cases, program, report_path, timeout=10):
                 grade = {"status": "missing_output", "score": 0}
             else:
                 try:
-                    grade = grade_arrays(problem, read_npz(output), reference)
+                    grade = grade_arrays(problem, read_hdf5(output), reference)
                 except ContractError as exc:
                     grade = {"status": "invalid_output", "score": 0, "contract": exc.report}
         except subprocess.TimeoutExpired:

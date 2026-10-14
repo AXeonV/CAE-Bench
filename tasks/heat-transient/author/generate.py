@@ -1,4 +1,5 @@
 """Generate transient inputs and converged continuum-series references."""
+from caeoj.storage import write_hdf5
 import argparse
 import json
 from pathlib import Path
@@ -57,7 +58,7 @@ def generate_case(case, destination):
             data['beta'] = {'value': case.beta[i], 'unit': 'W/(m.K)'}
         conditions.append({'role': 'boundary', 'variable': 'temperature', 'location': side,
                            'operator': op, 'data': data})
-    manifest = {'task': 'heat-transient', 'spatial_dimension': 2, 'data_file': 'input.npz',
+    manifest = {'task': 'heat-transient', 'spatial_dimension': 2, 'data_file': 'input.h5',
                 'geometries': {'rectangle': {'file': 'mesh.geo', 'format': 'gmsh-geo'}},
                 'meshes': {'main': {'file': 'mesh.msh', 'geometry': 'rectangle'}},
                 'locations': locations, 'time_axes': {'initial': 'initial_times', 'output': 'times'},
@@ -65,11 +66,11 @@ def generate_case(case, destination):
                 'physics': {'model': 'transient_heat_conduction', 'parameters': parameters},
                 'conditions': conditions}
     write_json(directory/'problem.json', manifest)
-    np.savez_compressed(directory/'input.npz', **arrays)
+    write_hdf5(directory / 'input.h5', arrays, compression="gzip")
     problem = load_problem(directory/'problem.json')
     temperature, certificate = reference(problem, xy, elements)
     reference_dir = destination/'reference'/case.name
-    write_result(reference_dir/'reference.npz', problem, {'temperature': temperature})
+    write_result(reference_dir/'reference.h5', problem, {'temperature': temperature})
     cell_vertices = xy[elements[2][1]]
     twice_area = np.abs(np.linalg.det(np.concatenate([np.ones((*cell_vertices.shape[:2], 1)), cell_vertices], axis=2)))
     lengths = np.linalg.norm(cell_vertices[:, [1, 2, 0]]-cell_vertices, axis=2)
@@ -91,11 +92,11 @@ def publish_samples(destination):
     for number, case_name in [('01', '01-zero'), ('02', '15-four-operators')]:
         sample = destination/'samples'/number
         (sample/'input').mkdir(parents=True, exist_ok=True)
-        for name in ('problem.json', 'input.npz', 'mesh.msh', 'mesh.geo'):
+        for name in ('problem.json', 'input.h5', 'mesh.msh', 'mesh.geo'):
             shutil.copyfile(destination/'cases'/case_name/name, sample/'input'/name)
         problem = load_problem(sample/'input/problem.json')
-        reference_path = destination/'reference'/case_name/'reference.npz'
-        output = sample/'output/result.npz'
+        reference_path = destination/'reference'/case_name/'reference.h5'
+        output = sample/'output/result.h5'
         output.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(reference_path, output)
         report = grade_files(problem.path, output, reference_path, atol=config['atol'], rtol=config['rtol'])

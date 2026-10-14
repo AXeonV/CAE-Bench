@@ -1,4 +1,6 @@
 """Public release isolation, reproducibility and standalone checker usability."""
+from caeoj.storage import write_hdf5
+from caeoj.validation import read_hdf5
 import hashlib
 import importlib.util
 import json
@@ -9,8 +11,6 @@ import sys
 import tempfile
 import unittest
 import zipfile
-
-import numpy as np
 
 from caeoj.smoke import PROJECT_ROOT
 from caeoj.validation import ContractError
@@ -42,8 +42,9 @@ class PublishTests(unittest.TestCase):
             names = bundle.namelist()
             self.assertEqual(len(names), len(set(names)))
             self.assertIn("src/caeoj/problem.schema.json", names)
-            self.assertIn("tasks/heat-conduction/samples/01/output/result.npz", names)
-            self.assertIn("tasks/heat-conduction/samples/02/output/result.npz", names)
+            self.assertIn("src/caeoj/storage.py", names)
+            self.assertIn("tasks/heat-conduction/samples/01/output/result.h5", names)
+            self.assertIn("tasks/heat-conduction/samples/02/output/result.h5", names)
             self.assertFalse(any(part in {"author", "cases", "reference", "__pycache__", "runs", ".git"}
                                  for name in names for part in Path(name).parts))
             self.assertFalse(any(name.endswith(("baseline.py", "TEST-CASES.md", "MVP-PLAN.md")) for name in names))
@@ -63,10 +64,10 @@ class PublishTests(unittest.TestCase):
         commands = [
             ["validate-input", "tasks/heat-conduction/samples/01/input/problem.json"],
             ["validate-output", "--input", "tasks/heat-conduction/samples/01/input/problem.json",
-             "--output", "tasks/heat-conduction/samples/01/output/result.npz"],
+             "--output", "tasks/heat-conduction/samples/01/output/result.h5"],
             ["validate-input", "tasks/heat-conduction/samples/02/input/problem.json"],
             ["validate-output", "--input", "tasks/heat-conduction/samples/02/input/problem.json",
-             "--output", "tasks/heat-conduction/samples/02/output/result.npz"],
+             "--output", "tasks/heat-conduction/samples/02/output/result.h5"],
         ]
         for command in commands:
             execution = subprocess.run([sys.executable, "-m", "caeoj", *command], cwd=root, env=env,
@@ -86,8 +87,8 @@ class PublishTests(unittest.TestCase):
             execution = subprocess.run(
                 [sys.executable, "-m", "caeoj", "grade", "--input",
                  f"tasks/heat-conduction/samples/{sample}/input/problem.json", "--output",
-                 f"tasks/heat-conduction/samples/{sample}/output/result.npz", "--reference",
-                 f"tasks/heat-conduction/samples/{sample}/output/result.npz", "--atol", "0.01", "--rtol", "0"],
+                 f"tasks/heat-conduction/samples/{sample}/output/result.h5", "--reference",
+                 f"tasks/heat-conduction/samples/{sample}/output/result.h5", "--atol", "0.01", "--rtol", "0"],
                 cwd=root, env=env, capture_output=True, text=True, timeout=30)
             self.assertEqual(execution.returncode, 0, execution.stderr)
             self.assertEqual(json.loads(execution.stdout)["score"], 1)
@@ -109,11 +110,10 @@ class PublishTests(unittest.TestCase):
         release = publisher.publish("heat-conduction", self.root / "new-dist", root)
         archive = Path(release["archive"])
         before = archive.read_bytes()
-        result = root / "tasks/heat-conduction/samples/01/output/result.npz"
-        with np.load(result, allow_pickle=False) as data:
-            arrays = {key: data[key] for key in data.files}
+        result = root / "tasks/heat-conduction/samples/01/output/result.h5"
+        arrays = read_hdf5(result)
         arrays["temperature"] = arrays["temperature"][0]
-        np.savez(result, **arrays)
+        write_hdf5(result, arrays)
         with self.assertRaises(ContractError):
             publisher.publish("heat-conduction", self.root / "new-dist", root)
         self.assertEqual(archive.read_bytes(), before)

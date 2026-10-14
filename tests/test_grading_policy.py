@@ -1,4 +1,5 @@
 """Analytical metric fixtures, logical quantifiers and publication contracts."""
+from caeoj.storage import write_hdf5
 from copy import deepcopy
 import json
 from pathlib import Path
@@ -190,10 +191,10 @@ class PolicyTests(unittest.TestCase):
 
     def test_cli_policy_and_conflict(self):
         with tempfile.TemporaryDirectory(dir=ROOT/'runs') as tmp:
-            root=Path(tmp);np.savez(root/'result.npz',**self.actual);np.savez(root/'reference.npz',**self.reference)
+            root=Path(tmp);write_hdf5(root / 'result.h5', self.actual);write_hdf5(root / 'reference.h5', self.reference)
             policy=root/'grading.json';policy.write_text(json.dumps(self.policy(self.leaf())))
-            args=[sys.executable,'-m','caeoj','grade','--input',str(self.problem.path),'--output',str(root/'result.npz'),
-                  '--reference',str(root/'reference.npz'),'--grading',str(policy)]
+            args=[sys.executable,'-m','caeoj','grade','--input',str(self.problem.path),'--output',str(root/'result.h5'),
+                  '--reference',str(root/'reference.h5'),'--grading',str(policy)]
             r=subprocess.run(args,capture_output=True,text=True)
             self.assertEqual(r.returncode,0,r.stderr);self.assertEqual(json.loads(r.stdout)['score'],1)
             r=subprocess.run(args+['--atol','.1'],capture_output=True,text=True)

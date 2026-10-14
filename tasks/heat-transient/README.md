@@ -13,7 +13,7 @@
 | `instruction.md`、`DATA.md` | 公开题面与必需输入约定 |
 | `samples/01/`、`samples/02/` | 完整公开输入与正确输出；验证记录留在出题端 |
 | `cases/<case>/` | Gmsh 网格、元数据和初始节点场 |
-| `reference/<case>/reference.npz` | 连续方程级数解在指定节点／时刻的标答 |
+| `reference/<case>/reference.h5` | 连续方程级数解在指定节点／时刻的标答 |
 | `reference/<case>/analytic.json` | 积分收敛、级数尾界及网格规模记录 |
 | `author/catalog.py` | **定义测试点**：初始节点值配方、边界和网格配置 |
 | `author/mesh.py` | **生成网格**：Gmsh 划分与 tag 关联 |

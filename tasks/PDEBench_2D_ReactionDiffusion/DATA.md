@@ -33,7 +33,7 @@
 | `initial_activator` | `activator` | `scalar` | `1` | `[1,N_initial,1]` | `initial` | u 的初始单元平均值 |
 | `initial_inhibitor` | `inhibitor` | `scalar` | `1` | `[1,N_initial,1]` | `initial` | v 的初始单元平均值 |
 
-`time_axes.initial="initial_times"` 引用 float64 `[0.0]`；`time_axes.output="times"` 引用含 0 且严格递增的请求时刻，范围以题面为准。输出时间轴仅规定采样时刻，不是内部时间步。程序不能重新生成十进制时间轴替换输入。未列出的字段不得加入输入 NPZ；几何/网格记录可引用包内文件，`data_file` 指向输入 NPZ。
+`time_axes.initial="initial_times"` 引用 float64 `[0.0]`；`time_axes.output="times"` 引用含 0 且严格递增的请求时刻，范围以题面为准。输出时间轴仅规定采样时刻，不是内部时间步。程序不能重新生成十进制时间轴替换输入。未列出的字段不得加入输入 HDF5；几何/网格记录可引用包内文件，`data_file` 指向输入 HDF5。
 
 边界从 t>0 生效，t=0 取给定初值；边界数据及其数学含义见条件表。相邻边角点条件一致。
 
@@ -57,7 +57,7 @@
 | `activator` | `activator` | `scalar` | `1` | `[T,N,1]` | u 的单元平均值 |
 | `inhibitor` | `inhibitor` | `scalar` | `1` | `[T,N,1]` | v 的单元平均值 |
 
-输出场沿用 `location=domain`、`time_axis=output`、float64 及上述标量/矢量规则。结果 NPZ 仅包含 outputs 指定的数值数组、原样复制的 `cell_ids` 和 `times`；多字段共享的轴只保存一次，不导出初始场、坐标、强迫或未要求的量。
+输出场沿用 `location=domain`、`time_axis=output`、float64 及上述标量/矢量规则。结果 HDF5 仅包含 outputs 指定的数值数组、原样复制的 `cell_ids` 和 `times`；多字段共享的轴只保存一次，不导出初始场、坐标、强迫或未要求的量。
 
 t=0 输出从完整初值中按 domain 的细单元 IDs 选取相应平均值，不能把初始数组按输出行号直接截断。
 

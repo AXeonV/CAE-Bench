@@ -42,7 +42,7 @@ class HeatTests(unittest.TestCase):
         for path in sorted((TASK / "cases").glob("*/problem.json")):
             problem = load_problem(path)
             reference_dir = TASK / "reference" / path.parent.name
-            reference = load_result(problem, reference_dir / "reference.npz")
+            reference = load_result(problem, reference_dir / "reference.h5")
             analytic = json.loads((reference_dir / "analytic.json").read_text(encoding="utf-8"))
             coordinates, elements = baseline.read_geometry(problem)
             cls.cases.append((problem, reference, analytic, coordinates, elements))
@@ -66,14 +66,14 @@ class HeatTests(unittest.TestCase):
     def test_complete_public_sample_matches_scoring_case_and_passes_grader(self):
         sample = TASK / "samples/01"
         original, reference, *_ = self.case("01")
-        for filename in ("problem.json", "input.npz", "mesh.msh", "mesh.geo"):
+        for filename in ("problem.json", "input.h5", "mesh.msh", "mesh.geo"):
             self.assertEqual((sample/"input"/filename).read_bytes(), (original.path.parent/filename).read_bytes())
         problem = load_problem(sample/"input/problem.json")
-        result = load_result(problem, sample/"output/result.npz")
+        result = load_result(problem, sample/"output/result.h5")
         np.testing.assert_array_equal(result["node_ids"], np.arange(1, 10, dtype=np.int64))
         np.testing.assert_array_equal(result["temperature"], np.full((1, 9, 1), 4.0))
         self.assertEqual(len(problem.arrays["domain_ids"]), 8)
-        report = grade_files(problem.path, sample/"output/result.npz", TASK/"reference"/original.path.parent.name/"reference.npz",
+        report = grade_files(problem.path, sample/"output/result.h5", TASK/"reference"/original.path.parent.name/"reference.h5",
                              atol=self.config["atol"], rtol=self.config["rtol"])
         self.assertEqual(report["score"], 1)
         self.assertEqual(report["fields"]["temperature"]["max_abs_error"], 0)
@@ -109,7 +109,7 @@ class HeatTests(unittest.TestCase):
     def test_mixed_public_sample_uses_sdk_and_passes_independent_solver(self):
         sample = TASK / "samples/02"
         problem = load_problem(sample / "input/problem.json")
-        reference = load_result(problem, sample / "output/result.npz")
+        reference = load_result(problem, sample / "output/result.h5")
         boundaries = [c for c in problem.manifest["conditions"] if c["role"] == "boundary"]
         self.assertEqual({c["operator"] for c in boundaries},
                          {"dirichlet", "normal_derivative", "normal_flux", "robin"})
@@ -127,8 +127,8 @@ class HeatTests(unittest.TestCase):
         np.testing.assert_allclose(reference["temperature"], expected_temperature, atol=1e-14, rtol=0)
         self.assertEqual(self.grade(problem, baseline.solve(problem), reference)["score"], 1)
         saved = json.loads((sample / "verification.json").read_text(encoding="utf-8"))
-        private_reference = TASK / "reference" / saved["case"] / "reference.npz"
-        report = grade_files(problem.path, sample / "output/result.npz", private_reference,
+        private_reference = TASK / "reference" / saved["case"] / "reference.h5"
+        report = grade_files(problem.path, sample / "output/result.h5", private_reference,
                              atol=self.config["atol"], rtol=self.config["rtol"])
         self.assertEqual(report["score"], 1)
         self.assertEqual(saved, {"case": saved["case"], **report})

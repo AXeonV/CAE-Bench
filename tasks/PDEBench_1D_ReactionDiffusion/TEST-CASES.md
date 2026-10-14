@@ -44,12 +44,12 @@
 ## 工具生成的目录与文件
 
 ```text
-samples/01/input/       # 工具生成：problem.json、mesh.msh、input.npz
-samples/01/output/      # 工具生成：result.npz
+samples/01/input/       # 工具生成：problem.json、mesh.msh、input.h5
+samples/01/output/      # 工具生成：result.h5
 samples/02/input/
 samples/02/output/
-cases/<case-ID>/        # 工具生成：problem.json、mesh.msh、input.npz
-reference/<case-ID>/    # 工具生成：reference.npz、certificate.json
+cases/<case-ID>/        # 工具生成：problem.json、mesh.msh、input.h5
+reference/<case-ID>/    # 工具生成：reference.h5、certificate.json
 author/                # 工具生成：selection.json、preparation.json、prepared/、sample-certificates/
 ```
 

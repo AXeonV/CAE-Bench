@@ -1,4 +1,5 @@
 """Threshold boundaries, exact auxiliary data and grading failure categories."""
+from caeoj.storage import write_hdf5
 from copy import deepcopy
 import json
 from pathlib import Path
@@ -119,9 +120,9 @@ class GradingTests(unittest.TestCase):
             np.testing.assert_array_equal(self.reference[key], before_reference[key])
 
     def write_files(self):
-        output, reference = self.root / "result.npz", self.root / "reference.npz"
-        np.savez(output, **self.result)
-        np.savez(reference, **self.reference)
+        output, reference = self.root / "result.h5", self.root / "reference.h5"
+        write_hdf5(output, self.result)
+        write_hdf5(reference, self.reference)
         return output, reference
 
     def test_file_grader_and_failure_categories(self):
@@ -142,7 +143,7 @@ class GradingTests(unittest.TestCase):
         self.assertEqual(execution.returncode, 0, execution.stderr)
         self.assertEqual(json.loads(execution.stdout)["score"], 1)
         self.result["velocity"][0, 0, 0] += 1
-        np.savez(output, **self.result)
+        write_hdf5(output, self.result)
         execution = subprocess.run(command, capture_output=True, text=True)
         self.assertEqual(execution.returncode, 1)
         self.assertEqual(json.loads(execution.stdout)["score"], 0)

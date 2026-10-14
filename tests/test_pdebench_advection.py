@@ -1,4 +1,5 @@
 """Verify complete official trajectories and the public/private boundary."""
+from caeoj.storage import write_hdf5
 import hashlib
 import json
 from pathlib import Path
@@ -22,7 +23,7 @@ class OfficialAdvectionTests(unittest.TestCase):
             with self.subTest(sample=index):
                 problem=load_problem(path)
                 directory=TASK/'reference'/path.parent.name
-                result=load_result(problem,directory/'reference.npz')
+                result=load_result(problem,directory/'reference.h5')
                 certificate=json.loads((directory/'certificate.json').read_text())
                 self.assertEqual(certificate['source_sample_index'],index)
                 self.assertEqual(result['state'].shape,(201,1024,1))
@@ -46,12 +47,12 @@ class OfficialAdvectionTests(unittest.TestCase):
         config=json.loads((TASK/'judge-config.json').read_text())
         for index in (1,2):
             sample=TASK/'samples'/f'{index:02d}'
-            path=sample/'input/problem.json';output=sample/'output/result.npz'
+            path=sample/'input/problem.json';output=sample/'output/result.h5'
             self.assertEqual(grade_files(path,output,output,atol=config['atol'],rtol=0)['score'],1)
         p=load_problem(path);values=load_result(p,output)
         values['state']=values['state'].copy();values['state'][-1,-1,0]+=0.16
         with tempfile.TemporaryDirectory(dir=ROOT/'runs') as temporary:
-            wrong=Path(temporary)/'wrong.npz';np.savez(wrong,**values)
+            wrong=Path(temporary)/'wrong.h5';write_hdf5(wrong, values)
             self.assertEqual(grade_files(path,wrong,output,atol=config['atol'],rtol=0)['score'],0)
 
     def test_release_contains_no_private_trajectory_or_solver(self):

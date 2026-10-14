@@ -1,4 +1,5 @@
-"""Convert entire official samples to Gmsh/JSON/NPZ without recomputing answers."""
+"""Convert entire official samples to Gmsh/JSON/HDF5 without recomputing answers."""
+from caeoj.storage import write_hdf5
 import argparse
 import hashlib
 import json
@@ -71,7 +72,7 @@ def generate(source=DEFAULT,destination=TASK):
             if len(set(map(int,mapping)))!=1024 or np.max(abs(x[mapping]-centers))>1e-8:
                 raise ValueError('Gmsh and official cell centers do not match')
             data=stream['tensor'][index,...].astype('float64')
-            manifest={'task':TASK.name,'spatial_dimension':1,'data_file':'input.npz',
+            manifest={'task':TASK.name,'spatial_dimension':1,'data_file':'input.h5',
                 'geometries':{},'meshes':{'main':{'file':'mesh.msh'}},
                 'locations':{'cells':{'kind':'mesh','mesh':'main','entity':'element',
                     'dimension':1,'ids':'cell_ids','physical_group':{'dimension':1,'tag':1}}},
@@ -83,12 +84,11 @@ def generate(source=DEFAULT,destination=TASK):
                     'data':{'value':{'field':'initial_state'}}},
                     {'role':'boundary','variable':'state','location':'cells','operator':'periodic',
                     'data':{'period':{'value':1.0,'unit':'m'}}}]}
-            np.savez_compressed(directory/'input.npz',cell_ids=ids,times=times,
-                initial_times=np.array([times[0]]),initial_values=data[0,mapping][None,:,None])
+            write_hdf5(directory / 'input.h5', {'cell_ids': ids, 'times': times, 'initial_times': np.array([times[0]]), 'initial_values': data[0, mapping][None, :, None]}, compression="gzip")
             write_json(directory/'problem.json',manifest)
             p=load_problem(directory/'problem.json')
             ref=destination/'reference'/name
-            write_result(ref/'reference.npz',p,{'state':data[:,mapping,None]})
+            write_result(ref/'reference.h5',p,{'state':data[:,mapping,None]})
             write_json(ref/'certificate.json',{'source_sample_index':index,
                 'source_shape':[201,1024],'source_dtype':'float32',
                 'source_sha256':provenance['samples'][index]['sha256'],
@@ -99,8 +99,8 @@ def generate(source=DEFAULT,destination=TASK):
     for number,case in enumerate(sorted((destination/'cases').iterdir())[:2],1):
         sample=destination/'samples'/f'{number:02d}'
         shutil.copytree(case,sample/'input',dirs_exist_ok=True)
-        output=sample/'output/result.npz';output.parent.mkdir(parents=True,exist_ok=True)
-        reference=destination/'reference'/case.name/'reference.npz'
+        output=sample/'output/result.h5';output.parent.mkdir(parents=True,exist_ok=True)
+        reference=destination/'reference'/case.name/'reference.h5'
         shutil.copyfile(reference,output)
         result=grade_files(sample/'input/problem.json',output,reference,
             atol=config['atol'],rtol=config['rtol'])

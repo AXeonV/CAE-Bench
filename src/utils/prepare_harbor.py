@@ -9,7 +9,7 @@ import tempfile
 import tomllib
 import zipfile
 
-from publish_dist import PROJECT_ROOT, read_public_file
+from publish_dist import PROJECT_ROOT, read_public_file, collect_materials
 from caeoj.grading_policy import task_policy, policy_hash, render_policy, validate_policy
 from caeoj.sdk import load_problem, load_result
 
@@ -62,6 +62,12 @@ def prepare(task, root=PROJECT_ROOT):
         raise ValueError(f'Run src/utils/publish_dist.py --task {task} first')
     with zipfile.ZipFile(archive) as bundle:
         manifest = json.loads(bundle.read('MANIFEST.json'))
+        current_files, _ = collect_materials(task, root)
+        names = bundle.namelist()
+        if (len(names) != len(current_files) or set(names) != set(current_files)
+                or any(bundle.read(name) != data for name, data in current_files.items())):
+            raise ValueError('Published materials are stale or modified; run publish_dist.py again')
+        del current_files
     if manifest['task'] != task or not manifest['public_samples']:
         raise ValueError('Published archive must match the task and include a sample')
     config_path = source / 'harbor/task.toml'

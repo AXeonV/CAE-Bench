@@ -65,6 +65,29 @@ class HarborTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'publish_dist.py'):
             prepare.prepare(TASK, self.root)
 
+    def test_changed_public_contract_requires_republishing(self):
+        publisher.publish(TASK, root=self.root)
+        contract = self.root / 'docs/CONTRACT.md'
+        contract.write_bytes(contract.read_bytes() + b'\nUpdated storage convention.\n')
+        with self.assertRaisesRegex(ValueError, 'stale.*publish_dist.py'):
+            prepare.prepare(TASK, self.root)
+        self.prepared()
+
+    def test_changed_sdk_requires_republishing(self):
+        publisher.publish(TASK, root=self.root)
+        sdk = self.root / 'src/caeoj/sdk.py'
+        sdk.write_bytes(sdk.read_bytes() + b'\n# Updated reader.\n')
+        with self.assertRaisesRegex(ValueError, 'stale.*publish_dist.py'):
+            prepare.prepare(TASK, self.root)
+
+    def test_modified_archive_requires_republishing(self):
+        publisher.publish(TASK, root=self.root)
+        archive = self.root / 'dist' / f'{TASK}-agent.zip'
+        with zipfile.ZipFile(archive, 'a') as bundle:
+            bundle.writestr('obsolete-tool.py', 'old interface')
+        with self.assertRaisesRegex(ValueError, 'stale.*publish_dist.py'):
+            prepare.prepare(TASK, self.root)
+
     def test_build_context_contains_only_public_release(self):
         directory = self.prepared()
         self.assertEqual(directory, self.root / 'runs/harbor/tasks' / TASK)

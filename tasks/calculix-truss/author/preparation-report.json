@@ -1,0 +1,56 @@
+{
+  "mode": "sample",
+  "downloaded_bytes": 0,
+  "elapsed_seconds": 0.03735177400812972,
+  "sources": [
+    {
+      "id": "calculix-2-20-tests",
+      "path": "/home/zhouzhiyu/code/CAE-Bench-OJ-zzy/runs/authoring-cache/calculix-truss/raw/ccx_2.20.test.tar.bz2",
+      "cache_hit": true,
+      "size_bytes": 12636197,
+      "sha256": "79848d88dd1e51839d1aed68fb547ff12ad3202c3561c02c2f3a8ceda0f2eb82",
+      "mapping": {
+        "source_members": [
+          "CalculiX/ccx_2.20/test/truss.inp",
+          "CalculiX/ccx_2.20/test/truss.dat.ref"
+        ],
+        "oj_input": "original 3 node coordinates and 2 T3D2 member connectivities; E/A/supports/nodal force",
+        "oj_reference": "first GP symmetric stress tensor projected onto member unit tangent; axial_stress[1,2,1]",
+        "verification": "all 8 GP axial projections per member agree to 1e-12",
+        "interpolation": false,
+        "averaging": false,
+        "selection": "only truss members converted; all mode means this task manifest, never entire CalculiX suite",
+        "units": "consistent SI adopted by OJ; upstream deck has no units",
+        "license_status": "not independently confirmed; no upstream raw file embedded in public task"
+      }
+    }
+  ],
+  "generated_cases": [
+    "source-001"
+  ],
+  "cases": 1,
+  "samples": 1,
+  "pending_inputs": 2,
+  "source_members_bytes": {
+    "truss.inp": 393,
+    "truss.dat.ref": 1676
+  },
+  "projection_checks": {
+    "1": {
+      "integration_points": 8,
+      "max_projection_difference": 0.0,
+      "selection": "first published GP; no averaging or interpolation"
+    },
+    "2": {
+      "integration_points": 8,
+      "max_projection_difference": 0.0,
+      "selection": "first published GP; no averaging or interpolation"
+    }
+  },
+  "reference_status": "source_extracted_projection",
+  "solver_executed": false,
+  "interpolation": false,
+  "validation": "generated cases and pending inputs valid; sample checked when selected",
+  "units": "OJ declares consistent SI interpretation; source deck itself has no unit declaration",
+  "license_status": "source data redistribution unconfirmed; draft remains blocked"
+}

@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "calculix-2-20-tests",
+      "url": "https://www.dhondt.de/ccx_2.20.test.tar.bz2",
+      "path": "raw/ccx_2.20.test.tar.bz2",
+      "sha256": "79848d88dd1e51839d1aed68fb547ff12ad3202c3561c02c2f3a8ceda0f2eb82",
+      "size_bytes": 12636197,
+      "sample": true,
+      "mapping": {
+        "source_members": [
+          "CalculiX/ccx_2.20/test/truss.inp",
+          "CalculiX/ccx_2.20/test/truss.dat.ref"
+        ],
+        "oj_input": "original 3 node coordinates and 2 T3D2 member connectivities; E/A/supports/nodal force",
+        "oj_reference": "first GP symmetric stress tensor projected onto member unit tangent; axial_stress[1,2,1]",
+        "verification": "all 8 GP axial projections per member agree to 1e-12",
+        "interpolation": false,
+        "averaging": false,
+        "selection": "only truss members converted; all mode means this task manifest, never entire CalculiX suite",
+        "units": "consistent SI adopted by OJ; upstream deck has no units",
+        "license_status": "not independently confirmed; no upstream raw file embedded in public task"
+      }
+    }
+  ]
+}

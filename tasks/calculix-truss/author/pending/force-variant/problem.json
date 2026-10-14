@@ -1,0 +1,139 @@
+{
+  "task": "calculix-truss",
+  "spatial_dimension": 3,
+  "data_file": "input.npz",
+  "geometries": {},
+  "meshes": {
+    "main": {
+      "file": "mesh.msh"
+    }
+  },
+  "locations": {
+    "nodes": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "node",
+      "ids": "node_ids"
+    },
+    "supports": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "node",
+      "ids": "support_ids"
+    },
+    "roller": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "node",
+      "ids": "roller_ids"
+    },
+    "loaded": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "node",
+      "ids": "load_ids"
+    },
+    "bars": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "element",
+      "dimension": 1,
+      "ids": "bar_ids"
+    }
+  },
+  "time_axes": {
+    "steady": "times"
+  },
+  "fields": {
+    "applied_force": {
+      "array": "applied_force",
+      "quantity": "force",
+      "location": "loaded",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "vector",
+      "component_shape": [
+        3
+      ],
+      "components": [
+        "x",
+        "y",
+        "z"
+      ],
+      "unit": "N",
+      "value_kind": "point"
+    }
+  },
+  "outputs": {
+    "axial_stress": {
+      "array": "axial_stress",
+      "quantity": "axial_stress",
+      "location": "bars",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "Pa",
+      "value_kind": "average"
+    }
+  },
+  "physics": {
+    "model": "linear_axial_truss",
+    "parameters": {
+      "young_modulus": {
+        "value": 10000000.0,
+        "unit": "Pa"
+      },
+      "cross_section_area": {
+        "value": 0.0625,
+        "unit": "m2"
+      },
+      "poisson_ratio": {
+        "value": 0.3,
+        "unit": "1"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "role": "boundary",
+      "variable": "displacement",
+      "location": "supports",
+      "operator": "all_components_dirichlet",
+      "data": {
+        "value": {
+          "value": 0.0,
+          "unit": "m"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "displacement",
+      "location": "roller",
+      "operator": "y_dirichlet",
+      "data": {
+        "value": {
+          "value": 0.0,
+          "unit": "m"
+        }
+      }
+    },
+    {
+      "role": "source",
+      "variable": "displacement",
+      "location": "loaded",
+      "operator": "nodal_force",
+      "data": {
+        "force": {
+          "field": "applied_force"
+        }
+      }
+    }
+  ]
+}

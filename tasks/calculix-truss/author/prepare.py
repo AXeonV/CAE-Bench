@@ -128,6 +128,8 @@ def prepare(cache=None, mode="sample", cases=(), allow_all=False):
         if key:p["physics"]["parameters"][key]["value"]=value
         else:a["applied_force"][0,0,0]=value
         mesh_file=p["meshes"]["main"]["file"]
+        for old_mesh in ("mesh.msh", "renumbered.msh"):
+            if old_mesh != mesh_file: (pending/old_mesh).unlink(missing_ok=True)
         shutil.copyfile(source/mesh_file,pending/mesh_file)
         (pending/"problem.json").write_text(json.dumps(p,indent=2)+"\n")
         np.savez(pending/"input.npz",**a);load_problem(pending/"problem.json")

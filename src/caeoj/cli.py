@@ -25,7 +25,7 @@ def main(argv=None):
     # Author-only modules are omitted from the public release.
     if all(find_spec(f"{__package__}.{name}") is not None for name in ("examples", "smoke")):
         project_root = Path(__file__).resolve().parents[2]
-        make_parser = commands.add_parser("make-cases", help="Write 12 local echo examples")
+        make_parser = commands.add_parser("make-cases", help="Write local echo examples")
         make_parser.add_argument("--output", default=str(project_root / "tasks/echo-field/cases"))
         smoke_parser = commands.add_parser("smoke", help="Run a local echo program; no Agent")
         smoke_parser.add_argument("--cases", default=str(project_root / "tasks/echo-field/cases"))

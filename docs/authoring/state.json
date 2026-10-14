@@ -1,0 +1,241 @@
+{
+  "version": 1,
+  "run_id": "2026-10-14-engineering-pilot",
+  "repository": "/home/zhouzhiyu/code/CAE-Bench-OJ-zzy",
+  "host": "titan",
+  "branch": "feat/automated-authoring-pilot",
+  "base_commit": "3ba5c19ef0c2da91f0414bbc306559fae48c3272",
+  "initial_checkout": {
+    "branch": "master",
+    "commit": "ffb82043315a8886ec45d59c1ef020a48e2c6648",
+    "dirty": false
+  },
+  "excluded_sources": [
+    "PDEBench",
+    "PDEAgent-Bench"
+  ],
+  "candidates": [
+    {
+      "id": "ccx-truss-2.20",
+      "task": "calculix-truss",
+      "classification": [
+        "structure",
+        "static",
+        "linear-elastic",
+        "discrete-truss"
+      ],
+      "deduplication_key": "ccx-2.20-two-member-T3D2-truss",
+      "source": "source-registry.json#structural_recommendation",
+      "stage": {
+        "draft": "completed",
+        "static_review": "passed_with_deferred_release_blockers",
+        "sample_preparation": "completed",
+        "full_data": "registered_source_files_complete_larger_family_pending",
+        "reference": "source_regression_only_new_physics_pending",
+        "numerical_acceptance": "not_executed"
+      },
+      "checks": {
+        "structure": {
+          "status": "passed",
+          "cases": 2,
+          "samples": 1,
+          "pending_inputs": 2,
+          "scope": "format and references only, not numerical accuracy"
+        }
+      },
+      "review_rounds": 2,
+      "release_ready": false,
+      "artifact": {
+        "path": "dist/calculix-truss-draft.zip",
+        "bytes": 44548,
+        "sha256": "06a9c1b0e2436c79c4db320da6726173edbae3cab2894a2898e5f61beb6f58ad",
+        "file_count": 22,
+        "separation_check": "passed_allowlist_and_manifest_hashes"
+      },
+      "last_action": {
+        "action": "package",
+        "status": "completed"
+      },
+      "data": {
+        "source_bytes": 12636197,
+        "source_files": [
+          {
+            "id": "calculix-2-20-tests",
+            "size_bytes": 12636197,
+            "sha256": "79848d88dd1e51839d1aed68fb547ff12ad3202c3561c02c2f3a8ceda0f2eb82"
+          }
+        ],
+        "cases_on_disk": 2,
+        "samples_on_disk": 1,
+        "pending_inputs": 2,
+        "payload_bytes": 16839,
+        "cold_sample_prepare_verified": true,
+        "transport": "curl",
+        "actual_cold_downloaded_bytes": 12636197,
+        "actual_cold_elapsed_seconds": 7.781645518000005
+      },
+      "reviews": {
+        "initial": "docs/authoring/reviews/initial.json",
+        "recheck": "docs/authoring/reviews/recheck.json"
+      }
+    },
+    {
+      "id": "pinnacle-poisson-classic",
+      "task": "pinnacle-poisson-cg",
+      "classification": [
+        "potential",
+        "elliptic",
+        "laplace",
+        "perforated-domain",
+        "public-numerical-field"
+      ],
+      "deduplication_key": "laplace-square-four-circular-holes-PINNacle-Classic",
+      "source": "source-registry.json#public_reference_field",
+      "stage": {
+        "draft": "completed",
+        "static_review": "passed_with_deferred_release_blockers",
+        "sample_preparation": "completed",
+        "full_data": "registered_source_files_complete_larger_family_pending",
+        "reference": "source_extracted_new_physics_pending",
+        "numerical_acceptance": "not_executed"
+      },
+      "checks": {
+        "structure": {
+          "status": "passed",
+          "cases": 3,
+          "samples": 1,
+          "pending_inputs": 1,
+          "scope": "format and references only, not numerical accuracy"
+        }
+      },
+      "review_rounds": 2,
+      "release_ready": false,
+      "artifact": {
+        "path": "dist/pinnacle-poisson-cg-draft.zip",
+        "bytes": 44313,
+        "sha256": "b8aaf947f60a9483678518572ec65b0b16f98536ae5a31c31d8277b2eb2a989e",
+        "file_count": 21,
+        "separation_check": "passed_allowlist_and_manifest_hashes"
+      },
+      "last_action": {
+        "action": "package",
+        "status": "completed"
+      },
+      "data": {
+        "source_bytes": 85477,
+        "source_files": [
+          {
+            "id": "comsol-poisson-cg",
+            "size_bytes": 85477,
+            "sha256": "2b9873fa4175fc26a8d62a7c4ea0f3e3239f9106b25ba622a77fd95fafa48490"
+          }
+        ],
+        "cases_on_disk": 3,
+        "samples_on_disk": 1,
+        "pending_inputs": 1,
+        "payload_bytes": 66908,
+        "cold_sample_prepare_verified": true,
+        "transport": "curl",
+        "actual_cold_downloaded_bytes": 85477,
+        "actual_cold_elapsed_seconds": 0.6962388159881812
+      },
+      "reviews": {
+        "initial": "docs/authoring/reviews/initial.json",
+        "recheck": "docs/authoring/reviews/recheck.json"
+      }
+    }
+  ],
+  "roles": {
+    "discovery": {
+      "agent": "/root/discovery",
+      "model": "gpt-6-luna",
+      "status": "completed"
+    },
+    "author": {
+      "agent": "/root/author",
+      "model": "gpt-6.1-sol",
+      "status": "completed"
+    },
+    "data": {
+      "agent": "/root/data",
+      "model": "gpt-6.1-sol",
+      "status": "completed"
+    },
+    "review": {
+      "agent": "/root/review",
+      "model": "gpt-6.1-sol",
+      "status": "completed"
+    },
+    "final_review": {
+      "agent": "/root/final_audit",
+      "model": "gpt-6.1-sol",
+      "status": "awaiting_actual_pr"
+    }
+  },
+  "maximum_revision_rounds": 2,
+  "never_executed": [
+    "participant agent benchmark",
+    "candidate solver execution",
+    "complete numerical accuracy acceptance",
+    "threshold calibration",
+    "runtime calibration",
+    "default GB/TB full dataset download"
+  ],
+  "submission": {
+    "draft_pr": null,
+    "merged": false
+  },
+  "source_failures": [
+    {
+      "source": "CalculiX beamlin",
+      "phase": "discovery",
+      "issue": "B32 reference cannot be reinterpreted as continuous axial bar",
+      "status": "rejected_replaced_by_truss"
+    },
+    {
+      "source": "PINNacle",
+      "phase": "cold_fetch",
+      "issue": "urllib body timeout; replaced auto transport with curl",
+      "status": "resolved_successful_cold_get_and_prepare"
+    },
+    {
+      "source": "PINNacle",
+      "phase": "independent_cold_recheck",
+      "issue": "Additional curl GET reached45s budget",
+      "status": "intermittent_network_limitation_retained_successful_gets_also_verified"
+    },
+    {
+      "source": "CalculiX truss",
+      "phase": "extract",
+      "issue": "tar member prefix ./ omitted initially",
+      "status": "resolved"
+    }
+  ],
+  "checks": {
+    "public_release_regression": "5 existing tests passed",
+    "harbor_tool_regression": "11 existing synthetic interface tests passed; no candidate solver evaluated",
+    "draft_release_gates": "2 tests passed",
+    "retrieval": "7 tests passed, independently rerun",
+    "prepared_payloads": "10 inputs and 7 source/sample output contracts passed; pending has no reference",
+    "inventory": "2 inventories, 7 source/sample inputs, no material gaps; separate pending validation",
+    "numerical_acceptance": "not_executed"
+  },
+  "log_evidence": {
+    "runs/authoring/calculix-truss/package.json": {
+      "bytes": 4029,
+      "sha256": "e06a804e09179df23923fe7f714c2a61ea50b9f7911821e2bde60098eb7099ce"
+    },
+    "runs/authoring/calculix-truss/prepare.json": {
+      "bytes": 5070,
+      "sha256": "12685e9d56079b335d62d2ee87b51571d0bf30e925ff35bedfa5b0cd0e28c357"
+    },
+    "runs/authoring/pinnacle-poisson-cg/package.json": {
+      "bytes": 4573,
+      "sha256": "9a2783b3d14ec0774733325b597eeace9c101934bc109892ca21bea5c06c011a"
+    },
+    "runs/authoring/pinnacle-poisson-cg/prepare.json": {
+      "bytes": 5241,
+      "sha256": "acae8a4d644bbee8de3c1bf6c3a027726717a842451cfc0eb42ae52bb2e9f8f4"
+    }
+  }
+}

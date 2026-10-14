@@ -1,10 +1,47 @@
 {
   "version": 1,
   "items": [
-    {"id":"LIC-CCX","task":"calculix-truss","status":"pending_evidence","issue":"Official test archive does not state asset-specific reuse conditions","required":"Confirm rights before formal redistribution/release"},
-    {"id":"LIC-PINN","task":"pinnacle-poisson-cg","status":"pending_evidence","issue":"Repository MIT license exists; separate COMSOL field/model reuse evidence unresolved","required":"Record explicit applicability to generated field assets before formal release"},
-    {"id":"NUM-CCX","task":"calculix-truss","status":"out_of_scope_pending","issue":"Source regression stresses have no independent numerical acceptance in this run","required":"Validate model equivalence, reference reliability, thresholds and runtime separately"},
-    {"id":"NUM-PINN","task":"pinnacle-poisson-cg","status":"out_of_scope_pending","issue":"COMSOL nodal values have no convergence/error evidence establishing scoring tolerance","required":"Independent numerical acceptance and threshold/resource calibration"},
-    {"id":"REF-NEW","task":"both","status":"pending_reference","issue":"New physical parameter inputs have no paired source output","required":"Establish reference solutions and coverage before scored inclusion"}
+    {
+      "id": "LIC-CCX",
+      "task": "calculix-truss",
+      "status": "pending_evidence",
+      "issue": "Official test archive does not state asset-specific reuse conditions",
+      "required": "Confirm rights before formal redistribution/release"
+    },
+    {
+      "id": "LIC-PINN",
+      "task": "pinnacle-poisson-cg",
+      "status": "pending_evidence",
+      "issue": "Repository MIT license exists; separate COMSOL field/model reuse evidence unresolved",
+      "required": "Record explicit applicability to generated field assets before formal release"
+    },
+    {
+      "id": "NUM-CCX",
+      "task": "calculix-truss",
+      "status": "out_of_scope_pending",
+      "issue": "Source regression stresses have no independent numerical acceptance in this run",
+      "required": "Validate model equivalence, reference reliability, thresholds and runtime separately"
+    },
+    {
+      "id": "NUM-PINN",
+      "task": "pinnacle-poisson-cg",
+      "status": "out_of_scope_pending",
+      "issue": "COMSOL nodal values have no convergence/error evidence establishing scoring tolerance",
+      "required": "Independent numerical acceptance and threshold/resource calibration"
+    },
+    {
+      "id": "REF-NEW",
+      "task": "both",
+      "status": "pending_reference",
+      "issue": "New physical parameter inputs have no paired source output",
+      "required": "Establish reference solutions and coverage before scored inclusion"
+    },
+    {
+      "id": "NET-PINN",
+      "task": "pinnacle-poisson-cg",
+      "status": "known_limitation",
+      "issue": "Cold GET succeeded in data and coordinator runs, but an extra independent GET timed out at45s",
+      "required": "Retry same command; partial files resume when supported; budget failure remains explicit, availability is not guaranteed"
+    }
   ]
 }

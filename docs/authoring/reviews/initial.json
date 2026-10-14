@@ -1,0 +1,102 @@
+{
+  "reviewer": "/root/review independent non-author",
+  "round": 0,
+  "verdict": "needs_revision; structural/provenance review only, not numerical acceptance",
+  "coverage": {
+    "pinnacle-poisson-cg": {
+      "cases": 3,
+      "samples": 1,
+      "pending": 1,
+      "variants": "same fixed four-hole PDE; N=64/591/591; pending hole_1_r=.11; conditions=[] with geometry and boundary parameters documented",
+      "key_mapping": "probe_ids/probe_coordinates/times -> DATA location/array paragraph; state[1,N,1] -> outputs paragraph; all 18 physics parameters -> parameters paragraph"
+    },
+    "calculix-truss": {
+      "cases": 2,
+      "samples": 1,
+      "pending": 2,
+      "variants": "original/renumbered tags and mesh filenames; three explicit condition operators; pending E and force changes",
+      "key_mapping": "node_ids/bar_ids/support_ids/roller_ids/load_ids/times/applied_force -> DATA array table; three condition data paths -> conditions; axial_stress[1,B,1] -> outputs"
+    }
+  },
+  "checks": [
+    "Both skill inventories executed: 4 and 3 case/sample inputs; current gaps 0",
+    "All 10 actual case/sample/pending inputs independently validate-input: valid",
+    "Read full manifest variants, NPZ headers and mesh headers via inventory; no numerical reference values read",
+    "Read source truss.inp from pinned archive; original nodes/connectivity/supports/material/load agree",
+    "Read Poisson source class cached /tmp/pinn-poisson.py and raw header: Laplace/four holes/outer1/inner0; raw explicitly Length unit:m u(1)",
+    "Both existing draft ZIPs draft=true; no author/reference/cases/pending/harbor; all manifest hashes correct",
+    "release gate unittest passed; tiny cache deadline failure reproduced after fix"
+  ],
+  "not_executed": [
+    "solver",
+    "numerical grading",
+    "reference accuracy acceptance",
+    "resource/tolerance calibration",
+    "source asset permission confirmation"
+  ],
+  "records": [
+    {
+      "id": "R1",
+      "file": "src/utils/authoring/fetch.py",
+      "location": "fetch download read loop and sha256 deadline",
+      "evidence": "Original cache fetch --max-seconds 0.000001 returned ok:true elapsed .0012368. Latest cache reproduction correctly exits 1. Network loop still calls response.read(1MiB), which may internally perform repeated socket reads under the same timeout.",
+      "impact": "Slow trickle can delay returning beyond global deadline.",
+      "revision_required": "Use response.read1 per iteration or an independent wallclock-bounded worker; retain cache deadline checks and verify slow-trickle fixture.",
+      "status": "open"
+    },
+    {
+      "id": "R2",
+      "file": "tasks/calculix-truss/DATA.md",
+      "location": "conditions nodal_force data.force",
+      "evidence": "All 3 official/sample and 2 pending inputs use data.force.field. Initial document named data.field; latest document now data.force.",
+      "impact": "Wrong JSON path prevents force reading.",
+      "revision_required": "Keep data.force matching every input.",
+      "status": "resolved_during_initial"
+    },
+    {
+      "id": "R3",
+      "file": "tasks/pinnacle-poisson-cg/instruction.md; tasks/calculix-truss/instruction.md",
+      "location": "sample links",
+      "evidence": "Initial samples/01 did not exist; latest samples/source-001 links match both existing public samples.",
+      "impact": "Broken advertised complete sample.",
+      "revision_required": "Keep actual sample paths.",
+      "status": "resolved_during_initial"
+    },
+    {
+      "id": "R4",
+      "file": "docs/authoring/source-registry.json",
+      "location": "public_reference_field.scope",
+      "evidence": "Scope says new sampling locations can reuse the source field; adapter only selects original published coordinate rows and performs no interpolation.",
+      "impact": "Could incorrectly grant reference validity to unseen coordinates.",
+      "revision_required": "Specify only subsets of published source rows at their original coordinates may reuse corresponding values; new coordinates require independent reference.",
+      "status": "open"
+    },
+    {
+      "id": "R5",
+      "file": "tasks/pinnacle-poisson-cg/README.md; tasks/calculix-truss/README.md",
+      "location": "preparation commands",
+      "evidence": "Initial nonexistent src/utils/authoring/prepare.py --profile minimum; latest uses workflow.py and task author/prepare.py --mode sample|selected|all.",
+      "impact": "Reproducibility command previously failed.",
+      "revision_required": "Retain real CLI and bounded explicit all.",
+      "status": "resolved_during_initial"
+    },
+    {
+      "id": "R6",
+      "file": "src/utils/publish_dist.py; src/utils/prepare_harbor.py",
+      "location": "release_ready gate",
+      "evidence": "Initial truthiness accepted string false. Latest code requires is True; both actual authoring-status.json are false; release gate unit test passes.",
+      "impact": "Malformed config could enable uncalibrated evaluation.",
+      "revision_required": "Retain strict bool gate and false statuses until independent numerical acceptance.",
+      "status": "resolved_during_initial"
+    },
+    {
+      "id": "L1",
+      "file": "tasks/calculix-truss/DESIGN.md; tasks/pinnacle-poisson-cg/DESIGN.md",
+      "location": "license/numerical acceptance",
+      "evidence": "Source-specific data rights unresolved, added physics cases lack references, source numerical error and resource calibration not independently verified.",
+      "impact": "Cannot conclude formal release or numerical correctness.",
+      "revision_required": "Keep release_ready false and evidence queue open; independently resolve before release.",
+      "status": "deferred_release_blocker"
+    }
+  ]
+}

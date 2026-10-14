@@ -1,0 +1,182 @@
+{
+  "reviewer": "/root/review",
+  "round": 2,
+  "maximum_rounds": 2,
+  "verdict": "static review passed with deferred release blockers and public-network availability limitation; not numerical acceptance",
+  "records": [
+    {
+      "id": "R1",
+      "file": "src/utils/authoring/fetch.py",
+      "location": "fetch download read loop and sha256 deadline",
+      "evidence": "Re-read deadline-aware sha256/cache/return checks plus response.read1 with refreshed socket timeout. Independent slow-trickle fixture sends one byte/50ms, body20bytes, max_seconds=.15: TimeoutError elapsed=.1511s. Tiny-budget cache now rejects instead of success.",
+      "impact": "Slow trickle can delay returning beyond global deadline.",
+      "revision_required": "Use response.read1 per iteration or an independent wallclock-bounded worker; retain cache deadline checks and verify slow-trickle fixture.",
+      "status": "resolved"
+    },
+    {
+      "id": "R2",
+      "file": "tasks/calculix-truss/DATA.md",
+      "location": "conditions nodal_force data.force",
+      "evidence": "All 3 official/sample and 2 pending inputs use data.force.field. Initial document named data.field; latest document now data.force.",
+      "impact": "Wrong JSON path prevents force reading.",
+      "revision_required": "Keep data.force matching every input.",
+      "status": "resolved"
+    },
+    {
+      "id": "R3",
+      "file": "tasks/pinnacle-poisson-cg/instruction.md; tasks/calculix-truss/instruction.md",
+      "location": "sample links",
+      "evidence": "Initial samples/01 did not exist; latest samples/source-001 links match both existing public samples.",
+      "impact": "Broken advertised complete sample.",
+      "revision_required": "Keep actual sample paths.",
+      "status": "resolved"
+    },
+    {
+      "id": "R4",
+      "file": "docs/authoring/source-registry.json",
+      "location": "public_reference_field.scope",
+      "evidence": "Re-read source-registry.json public_reference_field.scope: only source-row subsets at original published coordinates may reuse values; new coordinates/geometries/conditions/materials lack paired references.",
+      "impact": "Could incorrectly grant reference validity to unseen coordinates.",
+      "revision_required": "Specify only subsets of published source rows at their original coordinates may reuse corresponding values; new coordinates require independent reference.",
+      "status": "resolved"
+    },
+    {
+      "id": "R5",
+      "file": "tasks/pinnacle-poisson-cg/README.md; tasks/calculix-truss/README.md",
+      "location": "preparation commands",
+      "evidence": "Initial nonexistent src/utils/authoring/prepare.py --profile minimum; latest uses workflow.py and task author/prepare.py --mode sample|selected|all.",
+      "impact": "Reproducibility command previously failed.",
+      "revision_required": "Retain real CLI and bounded explicit all.",
+      "status": "resolved"
+    },
+    {
+      "id": "R6",
+      "file": "src/utils/publish_dist.py; src/utils/prepare_harbor.py",
+      "location": "release_ready gate",
+      "evidence": "Initial truthiness accepted string false. Latest code requires is True; both actual authoring-status.json are false; release gate unit test passes.",
+      "impact": "Malformed config could enable uncalibrated evaluation.",
+      "revision_required": "Retain strict bool gate and false statuses until independent numerical acceptance.",
+      "status": "resolved"
+    },
+    {
+      "id": "L1",
+      "file": "tasks/calculix-truss/DESIGN.md; tasks/pinnacle-poisson-cg/DESIGN.md",
+      "location": "license/numerical acceptance",
+      "evidence": "Source-specific data rights unresolved, added physics cases lack references, source numerical error and resource calibration not independently verified.",
+      "impact": "Cannot conclude formal release or numerical correctness.",
+      "revision_required": "Keep release_ready false and evidence queue open; independently resolve before release.",
+      "status": "deferred_release_blocker"
+    },
+    {
+      "id": "R7",
+      "file": "src/utils/authoring/fetch.py",
+      "location": "cold public-source retrieval",
+      "evidence": "Read docs/authoring/cold-download.json: actual curl cache_hit=false downloads 85477 bytes/1.818812s and 12636197 bytes/3.377466s. Independently hash/read byte counts of both fresh files: exact source-manifest size/SHA256 matches. Independently ran all 7 unittest retrieval tests: passed in .918s. Additional reviewer empty-temp-cache Poisson GET on current auto/curl timed out at 45s; correctly raised global-budget TimeoutError, and truss was not reached. Thus successful body retrieval is demonstrated, reliable every-attempt availability is not.",
+      "impact": "First-run public download reproducibility has not been demonstrated; cannot claim one-command cold preparation verified.",
+      "revision_required": "No remaining transport code revision required by reviewed evidence. Retain historical urllib failures and this intermittent live curl timeout; successful fresh retrieval does not guarantee network availability.",
+      "status": "resolved_with_availability_limitation"
+    }
+  ],
+  "checks": [
+    "Read final curl transport argv implementation: no shell; HTTP(S) only including redirects; remaining subprocess/curl walltime, connect-timeout, pinned filesize; strict resumed Content-Range; bounded unsupported-range restart; final size/SHA check",
+    "Independently ran tests/test_authoring_fetch.py: 7 tests passed; actual local curl and urllib paths included",
+    "Independently verified both data-agent fresh source files sizes and SHA256 against source manifests and cold-download.json",
+    "Retained round1 gate/JSON/path/inventory/sample separation checks; no solver or grader run"
+  ],
+  "limitations": [
+    "L1 source-specific redistribution permission, expanded physical references, numerical accuracy and resources remain deferred release blockers; release_ready stays false",
+    "Independent additional public Poisson cold curl GET timed out under 45-second global budget; observed failure is explicit and bounded; no guarantee of stable network availability"
+  ],
+  "history": [
+    {
+      "reviewer": "/root/review",
+      "round": 1,
+      "maximum_rounds": 2,
+      "verdict": "existing initial requested fixes resolved; cold-source retrieval needs verification; formal numerical release not accepted",
+      "records": [
+        {
+          "id": "R1",
+          "file": "src/utils/authoring/fetch.py",
+          "location": "fetch download read loop and sha256 deadline",
+          "evidence": "Re-read deadline-aware sha256/cache/return checks plus response.read1 with refreshed socket timeout. Independent slow-trickle fixture sends one byte/50ms, body20bytes, max_seconds=.15: TimeoutError elapsed=.1511s. Tiny-budget cache now rejects instead of success.",
+          "impact": "Slow trickle can delay returning beyond global deadline.",
+          "revision_required": "Use response.read1 per iteration or an independent wallclock-bounded worker; retain cache deadline checks and verify slow-trickle fixture.",
+          "status": "resolved"
+        },
+        {
+          "id": "R2",
+          "file": "tasks/calculix-truss/DATA.md",
+          "location": "conditions nodal_force data.force",
+          "evidence": "All 3 official/sample and 2 pending inputs use data.force.field. Initial document named data.field; latest document now data.force.",
+          "impact": "Wrong JSON path prevents force reading.",
+          "revision_required": "Keep data.force matching every input.",
+          "status": "resolved"
+        },
+        {
+          "id": "R3",
+          "file": "tasks/pinnacle-poisson-cg/instruction.md; tasks/calculix-truss/instruction.md",
+          "location": "sample links",
+          "evidence": "Initial samples/01 did not exist; latest samples/source-001 links match both existing public samples.",
+          "impact": "Broken advertised complete sample.",
+          "revision_required": "Keep actual sample paths.",
+          "status": "resolved"
+        },
+        {
+          "id": "R4",
+          "file": "docs/authoring/source-registry.json",
+          "location": "public_reference_field.scope",
+          "evidence": "Re-read source-registry.json public_reference_field.scope: only source-row subsets at original published coordinates may reuse values; new coordinates/geometries/conditions/materials lack paired references.",
+          "impact": "Could incorrectly grant reference validity to unseen coordinates.",
+          "revision_required": "Specify only subsets of published source rows at their original coordinates may reuse corresponding values; new coordinates require independent reference.",
+          "status": "resolved"
+        },
+        {
+          "id": "R5",
+          "file": "tasks/pinnacle-poisson-cg/README.md; tasks/calculix-truss/README.md",
+          "location": "preparation commands",
+          "evidence": "Initial nonexistent src/utils/authoring/prepare.py --profile minimum; latest uses workflow.py and task author/prepare.py --mode sample|selected|all.",
+          "impact": "Reproducibility command previously failed.",
+          "revision_required": "Retain real CLI and bounded explicit all.",
+          "status": "resolved"
+        },
+        {
+          "id": "R6",
+          "file": "src/utils/publish_dist.py; src/utils/prepare_harbor.py",
+          "location": "release_ready gate",
+          "evidence": "Initial truthiness accepted string false. Latest code requires is True; both actual authoring-status.json are false; release gate unit test passes.",
+          "impact": "Malformed config could enable uncalibrated evaluation.",
+          "revision_required": "Retain strict bool gate and false statuses until independent numerical acceptance.",
+          "status": "resolved"
+        },
+        {
+          "id": "L1",
+          "file": "tasks/calculix-truss/DESIGN.md; tasks/pinnacle-poisson-cg/DESIGN.md",
+          "location": "license/numerical acceptance",
+          "evidence": "Source-specific data rights unresolved, added physics cases lack references, source numerical error and resource calibration not independently verified.",
+          "impact": "Cannot conclude formal release or numerical correctness.",
+          "revision_required": "Keep release_ready false and evidence queue open; independently resolve before release.",
+          "status": "deferred_release_blocker"
+        },
+        {
+          "id": "R7",
+          "file": "src/utils/authoring/fetch.py",
+          "location": "cold public-source retrieval",
+          "evidence": "Read docs/authoring/cold-download.json: actual curl cache_hit=false downloads 85477 bytes/1.818812s and 12636197 bytes/3.377466s. Independently hash/read byte counts of both fresh files: exact source-manifest size/SHA256 matches. Independently ran all 7 unittest retrieval tests: passed in .918s. Additional reviewer empty-temp-cache Poisson GET on current auto/curl timed out at 45s; correctly raised global-budget TimeoutError, and truss was not reached. Thus successful body retrieval is demonstrated, reliable every-attempt availability is not.",
+          "impact": "First-run public download reproducibility has not been demonstrated; cannot claim one-command cold preparation verified.",
+          "revision_required": "No remaining transport code revision required by reviewed evidence. Retain historical urllib failures and this intermittent live curl timeout; successful fresh retrieval does not guarantee network availability.",
+          "status": "resolved_with_availability_limitation"
+        }
+      ],
+      "checks": [
+        "All prior document paths re-read and actual source-001 paths exist",
+        "Current strict release_ready is True gates inspected and unit test passed with False/string false/int1/None",
+        "Independent .15s slow-trickle fixture timed out in .1511s; cache tiny deadline fails",
+        "Full initial inventory and input coverage remains 10 inputs; no solve/grade executed"
+      ],
+      "limitations": [
+        "Source-specific asset rights, expanded-physics references, reference numerical accuracy and resource calibration remain unresolved",
+        "No successful independent live cold body retrieval in this recheck"
+      ]
+    }
+  ]
+}

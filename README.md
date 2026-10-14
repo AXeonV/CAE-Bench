@@ -144,3 +144,7 @@ python -m caeoj grade --input 'tasks/<task>/cases/<case>/problem.json' --output 
 1. **协议覆盖与读写便利**：验证通用数据协议能完整、无歧义地表达目标问题的数据与条件；完善文档、读取接口和结构诊断，减少 Agent 理解契约与实现输入输出的成本，使评测更集中于求解能力。
 2. **减少对实现选择的隐性引导**：审视题面、示例、SDK 和提交入口带来的偏向，尤其避免 Python 脚本与 `.py` 入口使 Agent 默认用 Python 承担核心计算。逐步提供语言中立的工具与提交约定，让 Agent 根据问题规模和性能要求自主选择语言、库与实现方式。
 3. **评测环境声明与资源配置一致**：在 IO Contract 中补充运行环境约定，明确可用 CPU 核数、内存、编译器及 MPI 等并行运行支持，供 Agent 选择实现和并行策略；同步调整 Harbor／Docker 的资源分配与启动配置，确保解题和判题环境的实际可用资源与声明一致，使性能结果可比较、可复现。
+
+## 自动化出题试运行
+
+可恢复的多 Agent 工作流、角色、来源记录、审查与数据准备命令见 [docs/authoring/README.md](docs/authoring/README.md)。首次试运行准备 CalculiX 桁架和 PINNacle 四孔 Laplace 两个草稿；未进行数值验收，正式发布与评测入口保持阻断。

@@ -119,7 +119,7 @@ harbor run -p 'runs/harbor/tasks/<task>' -e docker -a oracle -n 1 -o 'runs/harbo
 harbor run -p 'runs/harbor/tasks/<task>' -e docker -a codex -m 'openai/gpt-6-luna' --ak 'reasoning_effort=medium' -n 1 -o 'runs/harbor/jobs'
 ```
 
-HPC 运行可追加 `--override-cpus '<cpu-quota>' --override-memory-mb '<memory-mb>'`，值须与组装时声明的资源一致；`-n '<concurrency>'` 控制并发 trial 数，不是单个求解器的线程数。GPU／MPI 需统一配置解题与独立判题容器的工具链、运行库和设备映射；默认模板提供 CPU 环境。
+HPC 运行可追加 `--override-cpus '<cpu-quota>' --override-memory-mb '<memory-mb>'`，值须与组装时声明的资源一致；`-n '<concurrency>'` 控制并发 trial 数，不是单个求解器的线程数。默认模板提供 g++、OpenMP 和 Open MPI，解题与独立判题容器共用该工具链；GPU 需另行配置。
 
 **7. 查看成绩或复核单点。**
 

@@ -23,7 +23,6 @@ class Case:
     beta_ratio: float = 1.0
     unstructured: bool = False
     sparse_ids: bool = False
-    binary: bool = False
 
     @property
     def temperature(self):
@@ -66,7 +65,7 @@ CASES = [
     Case("24-quartic-four-operators", QUARTIC, (R, F, N, D), k=1.7, beta_ratio=2.0),
     Case("25-zero-solution", {}),
     Case("26-small-temperature", {(2, 0): 0.04, (0, 2): -0.025, (1, 1): 0.015}, (R, D, F, N)),
-    Case("27-sparse-tags-binary", AFFINE, (D, R, N, F), size=(1.2, 0.6), nx=12, ny=10, sparse_ids=True, binary=True),
+    Case("27-sparse-tags", AFFINE, (D, R, N, F), size=(1.2, 0.6), nx=12, ny=10, sparse_ids=True),
     Case("28-unstructured-quadratic", QUADRATIC, (D, F, R, N), unstructured=True, k=1.4),
     Case("29-bubble-coarser", BUBBLE, nx=16, ny=14),
     Case("30-bubble-refined", BUBBLE, nx=48, ny=42),

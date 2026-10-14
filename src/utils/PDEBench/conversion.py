@@ -31,7 +31,7 @@ def check_reference_initial(model, problem, values):
             raise PreparationError('Reference t=0 does not match the contracted initial data')
 
 
-def make_mesh(path, shape, bounds, sparse=False, binary=False):
+def make_mesh(path, shape, bounds, sparse=False):
     """Bulk-build aligned line/quad/hex cells, with C-order IDs and side groups."""
     dimension = len(shape)
     edges = [np.linspace(lo, hi, n+1) for n, (lo, hi) in zip(shape, bounds)]
@@ -79,7 +79,7 @@ def make_mesh(path, shape, bounds, sparse=False, binary=False):
                     gmsh.model.addPhysicalGroup(dimension-1,[entity],tag,side_name)
                     sides[side_name] = (tag,side_nodes)
             gmsh.option.setNumber('Mesh.MshFileVersion',4.1)
-            gmsh.option.setNumber('Mesh.Binary',int(binary))
+            gmsh.option.setNumber('Mesh.Binary',0)
             gmsh.option.setNumber('Mesh.SaveAll',1)
             gmsh.write(str(path))
         finally:
@@ -124,7 +124,7 @@ def build_input(model, source, coords, times, values, destination, variant=0, co
     if model.model=='reaction_diffusion_2d' and config is not None:
         from .source_audit import fhn_initial
         initial_shape,sample_axes,initial_values=fhn_initial(coords,values,config)
-    all_ids,sides = make_mesh(destination/'mesh.msh',initial_shape,model.bounds, bool(variant%2),bool(variant%2))
+    all_ids,sides = make_mesh(destination/'mesh.msh',initial_shape,model.bounds, sparse=bool(variant%2))
     ids=all_ids if sample_axes is None else all_ids.reshape(initial_shape)[np.ix_(*sample_axes)].ravel()
     arrays = {'times':np.asarray(times,dtype=np.float64)}
     locations = {}

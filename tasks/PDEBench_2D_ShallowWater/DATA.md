@@ -4,7 +4,7 @@
 
 ## 几何、位置与采样
 
-`main` 为 Gmsh MSH 4.1 ASCII/binary 网格，覆盖 [-2.5,2.5]×[-2.5,2.5] m²。域由 Physical Group `(dimension=2, tag=1)` 标记；`domain` 为该组的全部一阶域单元，`entity=element`、`dimension=2`、`ids="cell_ids"`。网格由等长一阶矩形四边形构成；不拆成三角形再沿用原单元平均值。
+`main` 为 Gmsh MSH 4.1 ASCII 网格，覆盖 [-2.5,2.5]×[-2.5,2.5] m²。域由 Physical Group `(dimension=2, tag=1)` 标记；`domain` 为该组的全部一阶域单元，`entity=element`、`dimension=2`、`ids="cell_ids"`。网格由等长一阶矩形四边形构成；不拆成三角形再沿用原单元平均值。
 
 每个初始状态值定义为所属单元内的常数，单元边界的单点取值不影响平均值。输出为每个原始单元上对应量的面积平均值。
 

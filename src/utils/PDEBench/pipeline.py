@@ -29,7 +29,7 @@ def tool_hash():
 def contract_hash(task):
     h=hashlib.sha256()
     for name in ('instruction.md','DATA.md'):
-        h.update(name.encode());h.update((Path(task)/name).read_bytes())
+        h.update(name.encode());h.update((Path(task)/name).read_bytes().replace(b'\r\n',b'\n'))
     return h.hexdigest()
 
 

@@ -51,6 +51,9 @@ def prepare(task, root=PROJECT_ROOT):
     if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9_.-]*[A-Za-z0-9_-])?', task):
         raise ValueError('Task must be a directory name')
     source = root / 'tasks' / task
+    status = source / 'authoring-status.json'
+    if status.exists() and json.loads(read_public_file(root, status)).get('release_ready') is not True:
+        raise ValueError('Task has not completed numerical acceptance; Harbor preparation is blocked')
     template = root / 'src/utils/harbor'
     cases = sorted((source / 'cases').glob('*/problem.json'))
     if not cases:
@@ -62,6 +65,8 @@ def prepare(task, root=PROJECT_ROOT):
         raise ValueError(f'Run src/utils/publish_dist.py --task {task} first')
     with zipfile.ZipFile(archive) as bundle:
         manifest = json.loads(bundle.read('MANIFEST.json'))
+    if manifest.get('draft', False):
+        raise ValueError('Draft material cannot be assembled for evaluation')
     if manifest['task'] != task or not manifest['public_samples']:
         raise ValueError('Published archive must match the task and include a sample')
     config_path = source / 'harbor/task.toml'

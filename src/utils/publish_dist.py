@@ -61,12 +61,15 @@ python -m caeoj grade --input tasks/{task}/samples/<sample>/input/problem.json -
 """.encode("utf-8")
 
 
-def collect_materials(task, root=PROJECT_ROOT):
+def collect_materials(task, root=PROJECT_ROOT, draft=False):
     root = Path(root).resolve()
     if not re.fullmatch(r"[A-Za-z0-9](?:[A-Za-z0-9_.-]*[A-Za-z0-9_-])?", task):
         raise ValueError("--task must be a task directory name, without paths")
     task_dir = root / "tasks" / task
     files = {}
+    status = task_dir / "authoring-status.json"
+    if status.exists() and json.loads(read_public_file(root, status)).get("release_ready") is not True and not draft:
+        raise ValueError("Task is not accepted for release; use --draft for review materials")
 
     def add(path):
         files[path.relative_to(root).as_posix()] = read_public_file(root, path)
@@ -81,9 +84,11 @@ def collect_materials(task, root=PROJECT_ROOT):
     paths = sorted((task_dir / "samples").glob("*/input/problem.json"))
     if not paths:
         raise ValueError(f"No complete public samples in tasks/{task}/samples; add them before publishing")
-    policy = task_policy(task_dir, load_problem(paths[0]), read_bytes=lambda p: read_public_file(root, p))
-    files[f'tasks/{task}/grading.json'] = (json.dumps(policy, ensure_ascii=False, indent=2) + '\n').encode()
-    files[f'tasks/{task}/GRADING.md'] = render_policy(policy).encode()
+    policy = None
+    if not draft:
+        policy = task_policy(task_dir, load_problem(paths[0]), read_bytes=lambda p: read_public_file(root, p))
+        files[f'tasks/{task}/grading.json'] = (json.dumps(policy, ensure_ascii=False, indent=2) + '\n').encode()
+        files[f'tasks/{task}/GRADING.md'] = render_policy(policy).encode()
     if task.startswith('PDEBench_'):
         key = f'tasks/{task}/instruction.md'
         text = files[key].decode()
@@ -103,7 +108,8 @@ def collect_materials(task, root=PROJECT_ROOT):
             if not asset.resolve().is_relative_to(path.parent.resolve()):
                 raise ValueError(f"Sample asset escapes its input directory: {name}")
             add(asset)
-        validate_policy(policy, load_problem(path))
+        if policy is not None:
+            validate_policy(policy, load_problem(path))
         diagnostics = validate_input(path)
         if not diagnostics["valid"]:
             raise ContractError(diagnostics)
@@ -114,19 +120,19 @@ def collect_materials(task, root=PROJECT_ROOT):
         if not diagnostics["valid"]:
             raise ContractError(diagnostics)
         samples.append(sample.name)
-    files["README.md"] = agent_readme(task)
-    manifest = {"task": task, "public_samples": samples,
+    files["README.md"] = (f"# Draft review materials\n\nTask: `tasks/{task}/instruction.md`; data: `tasks/{task}/DATA.md`.\nThis draft has not completed numerical acceptance. Scoring tolerances and runtime limits are unset.\nOnly public samples are included. Structural validity is not numerical accuracy.\nSubmission wrapper: `python solve.py --input problem.json --output result.npz`; core language is unrestricted.\n".encode() if draft else agent_readme(task))
+    manifest = {"task": task, "public_samples": samples, "draft": draft,
                 "files": {name: hashlib.sha256(data).hexdigest() for name, data in sorted(files.items())}}
     files["MANIFEST.json"] = (json.dumps(manifest, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
     return files, samples
 
 
-def publish(task, output=None, root=PROJECT_ROOT):
+def publish(task, output=None, root=PROJECT_ROOT, draft=False):
     root = Path(root).resolve()
-    files, samples = collect_materials(task, root)
+    files, samples = collect_materials(task, root, draft=draft)
     output = Path(output).resolve() if output is not None else root / "dist"
     output.mkdir(parents=True, exist_ok=True)
-    archive = output / f"{task}-agent.zip"
+    archive = output / f"{task}-{'draft' if draft else 'agent'}.zip"
     # Atomic replacement leaves an existing release intact if building fails.
     handle, temporary = tempfile.mkstemp(prefix=f".{task}-agent-", suffix=".tmp", dir=output)
     os.close(handle)
@@ -150,9 +156,10 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--task", required=True, help="Directory name under tasks/")
     parser.add_argument("--output", type=Path, default=PROJECT_ROOT / "dist", help="ZIP output directory")
+    parser.add_argument("--draft", action="store_true", help="Review-only package; no uncalibrated grading policy")
     args = parser.parse_args(argv)
     try:
-        result = publish(args.task, args.output)
+        result = publish(args.task, args.output, draft=args.draft)
     except (OSError, ValueError, KeyError, ContractError) as exc:
         parser.exit(1, f"Publish failed: {exc}\n")
     print(json.dumps(result, ensure_ascii=True, indent=2))

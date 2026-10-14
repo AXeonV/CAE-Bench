@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "policy": "Deduplicate by physical model, geometry family, boundary/load definition and reference lineage; interface variants are not additional physics coverage.",
+  "existing": [
+    {"task":"heat-conduction","domain":"thermal","model":"steady scalar conduction on rectangles","relation":"distinct from perforated-domain dimensionless potential"},
+    {"task":"heat-transient","domain":"thermal","model":"transient conduction","relation":"distinct"},
+    {"task":"navier-stokes-steady","domain":"fluid","model":"steady incompressible","relation":"distinct"},
+    {"task":"navier-stokes-transient","domain":"fluid","model":"transient incompressible","relation":"distinct"},
+    {"task":"echo-field","domain":"protocol","model":"I/O diagnostic","relation":"not engineering reference"},
+    {"task":"1D_Advection_Sols_beta0.4","domain":"PDEBench","relation":"excluded separately managed"},
+    {"task_pattern":"PDEBench_*","domain":"PDEBench","relation":"excluded separately managed"}
+  ],
+  "pilot": [
+    {"task":"calculix-truss","domain":"structure","model":"discrete axial elastic truss","duplicates":[],"interface_variants":"tag and filename relabeling do not count as physics changes"},
+    {"task":"pinnacle-poisson-cg","domain":"potential","model":"Laplace square with four circular holes","duplicates":[],"interface_variants":"source point subsets do not count as physics changes"}
+  ],
+  "backlog_domains": ["vibration","contact","electromagnetics","acoustics","thermal","multibody","geotechnics","battery","combustion","process simulation"],
+  "rejected_or_deferred": [
+    {"source":"CalculiX beamb","reason":"buckling preload and continuum boundary interpretation require more model evidence"},
+    {"source":"CalculiX beamlin","reason":"B32 beam reference cannot silently become exact continuous axial-bar model"}
+  ]
+}

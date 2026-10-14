@@ -1,0 +1,219 @@
+{
+  "report": "CAE-Bench-OJ source discovery",
+  "host": "titan",
+  "repository": "/home/zhouzhiyu/code/CAE-Bench-OJ-zzy",
+  "inspected_at": "2026-10-14",
+  "scope": "read-only; no solve/evaluation",
+  "instructions": {
+    "ancestor_AGENTS_md": [],
+    "repo_skill": ".agents/skills/caeoj-audit-data/SKILL.md",
+    "note": "Read skill; no-solving scope honored."
+  },
+  "structural_recommendation": {
+    "source": "CalculiX official verification examples 2.20",
+    "archive_url": "https://www.dhondt.de/ccx_2.20.test.tar.bz2",
+    "manual_url": "https://www.dhondt.de/ccx_2.20.pdf",
+    "archive_bytes": 12636197,
+    "archive_sha256": "79848d88dd1e51839d1aed68fb547ff12ad3202c3561c02c2f3a8ceda0f2eb82",
+    "license": "Archive/test-asset license not explicit; do not infer from solver's GPL-2.0 license.",
+    "case": "truss",
+    "files": [
+      {
+        "path": "CalculiX/ccx_2.20/test/truss.inp",
+        "bytes": 393,
+        "sha256": "842bfe382bce5e7472af5309b3f41894ff01ccbf6983ee15e29bbac6169cb056"
+      },
+      {
+        "path": "CalculiX/ccx_2.20/test/truss.dat.ref",
+        "bytes": 1676,
+        "sha256": "8d075907fa5f7da879c722991b35353f65df6ed631a169eb25b0cbecc2babc0b"
+      },
+      {
+        "path": "CalculiX/ccx_2.20/test/truss.frd.ref",
+        "bytes": 4795,
+        "sha256": "3aeb12c91590b3fae2d9b3ad333efffa4c87ea8fb1b2f3f2fc79178892bfb9e0"
+      }
+    ],
+    "model": {
+      "source_description": "two-element T3D2 truss; discrete engineering bars, no PDE needed",
+      "nodes": [
+        {
+          "id": 1,
+          "xyz": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": 2,
+          "xyz": [
+            5,
+            0,
+            5
+          ]
+        },
+        {
+          "id": 3,
+          "xyz": [
+            0,
+            0,
+            10
+          ]
+        }
+      ],
+      "elements": [
+        {
+          "id": 1,
+          "type": "T3D2",
+          "nodes": [
+            1,
+            2
+          ]
+        },
+        {
+          "id": 2,
+          "type": "T3D2",
+          "nodes": [
+            2,
+            3
+          ]
+        }
+      ],
+      "material": {
+        "name": "ALUM",
+        "young_modulus": 10000000,
+        "poisson_ratio": 0.3,
+        "area": 0.0625
+      },
+      "boundary": [
+        {
+          "node": 1,
+          "dofs": [
+            1,
+            2,
+            3
+          ],
+          "value": 0
+        },
+        {
+          "node": 2,
+          "dofs": [
+            2
+          ],
+          "value": 0
+        },
+        {
+          "node": 3,
+          "dofs": [
+            1,
+            2,
+            3
+          ],
+          "value": 0
+        }
+      ],
+      "load": {
+        "node": 2,
+        "dof": 1,
+        "force": 1
+      },
+      "step": "static",
+      "reference": {
+        "dat_ref": "integration-point stress components for two members, 8 points/member",
+        "frd_ref": "displacement U field, full text reference 86 lines / 4795 bytes"
+      },
+      "caveat": "FRD reference's T3D2-to-3D expanded visualization mesh does not retain original endpoint IDs in its displacement block; task interface must explicitly define scored locations/quantity. Source supports this fixed instance only; further geometry/load/material parameter cases need independent expected results."
+    },
+    "alternative": "beamlin is static linear B32 stepped beam: x nodes [0,50,100,125,150], sections 10x10 then 5x5, E=200000, nu=.3; node 1 DOFs 1-6 clamped; node 5 Fx=5000. Source tip Ux=.07480466 and continuous axial bar formula .075 would silently change the model, so use source values only for the B32 model."
+  },
+  "public_reference_field": {
+    "source": "PINNacle",
+    "repo": "https://github.com/i207M/PINNacle",
+    "commit": "6f8d69c9c84c41d19644e4ceebdc64c4a11d3adf",
+    "commit_date": "2026-07-24",
+    "repository_license": "MIT",
+    "data_license": "No separate license evidence for COMSOL generated field/source model; mark unresolved.",
+    "source_code_url": "https://raw.githubusercontent.com/i207M/PINNacle/6f8d69c9c84c41d19644e4ceebdc64c4a11d3adf/src/pde/poisson.py",
+    "source_class": "Poisson2D_Classic(datapath='ref/poisson1_cg_data.dat', scale=1)",
+    "file": {
+      "path": "ref/poisson1_cg_data.dat",
+      "url": "https://raw.githubusercontent.com/i207M/PINNacle/6f8d69c9c84c41d19644e4ceebdc64c4a11d3adf/ref/poisson1_cg_data.dat",
+      "bytes": 85477,
+      "lines": 1255,
+      "sha256": "2b9873fa4175fc26a8d62a7c4ea0f3e3239f9106b25ba622a77fd95fafa48490",
+      "header": {
+        "model": "poisson2d_cg_simple.mph",
+        "solver": "COMSOL 6.0.0.354",
+        "date": "2023-05-26",
+        "dimension": 2,
+        "nodes": 1246
+      },
+      "columns": [
+        "x",
+        "y",
+        "u"
+      ]
+    },
+    "physics": {
+      "rectangle": {
+        "xmin": -0.5,
+        "xmax": 0.5,
+        "ymin": -0.5,
+        "ymax": 0.5
+      },
+      "removed_disks": [
+        {
+          "center": [
+            0.3,
+            0.3
+          ],
+          "radius": 0.1
+        },
+        {
+          "center": [
+            -0.3,
+            0.3
+          ],
+          "radius": 0.1
+        },
+        {
+          "center": [
+            0.3,
+            -0.3
+          ],
+          "radius": 0.1
+        },
+        {
+          "center": [
+            -0.3,
+            -0.3
+          ],
+          "radius": 0.1
+        }
+      ],
+      "equation": "u_xx + u_yy = 0",
+      "boundary_conditions": [
+        {
+          "boundary": "outer rectangle",
+          "type": "Dirichlet",
+          "u": 1
+        },
+        {
+          "boundary": "four circular holes",
+          "type": "Dirichlet",
+          "u": 0
+        }
+      ],
+      "reference_quantity": "COMSOL nodal field values x,y,u"
+    },
+    "scope": "Only source-row subsets at the original published coordinates may reuse released values. New coordinates, geometries, conditions or materials lack paired reference outputs."
+  },
+  "materials_on_titan": [
+    "/tmp/ccx_2.20.test.tar.bz2",
+    "/tmp/ccx-full/CalculiX/ccx_2.20/test/truss.inp",
+    "/tmp/ccx-full/CalculiX/ccx_2.20/test/truss.dat.ref",
+    "/tmp/ccx-full/CalculiX/ccx_2.20/test/truss.frd.ref",
+    "/tmp/pinn-poisson1_cg_data.dat"
+  ]
+}

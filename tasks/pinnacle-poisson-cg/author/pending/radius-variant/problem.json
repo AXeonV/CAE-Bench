@@ -1,0 +1,114 @@
+{
+  "task": "pinnacle-poisson-cg",
+  "spatial_dimension": 2,
+  "data_file": "input.npz",
+  "geometries": {},
+  "meshes": {},
+  "locations": {
+    "observations": {
+      "kind": "points",
+      "ids": "probe_ids",
+      "coordinates": "probe_coordinates"
+    }
+  },
+  "time_axes": {
+    "steady": "times"
+  },
+  "fields": {},
+  "outputs": {
+    "state": {
+      "array": "state",
+      "quantity": "dimensionless_potential",
+      "location": "observations",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "1",
+      "value_kind": "point"
+    }
+  },
+  "conditions": [],
+  "physics": {
+    "model": "laplace_square_four_holes",
+    "parameters": {
+      "x_min": {
+        "value": -0.5,
+        "unit": "m"
+      },
+      "x_max": {
+        "value": 0.5,
+        "unit": "m"
+      },
+      "y_min": {
+        "value": -0.5,
+        "unit": "m"
+      },
+      "y_max": {
+        "value": 0.5,
+        "unit": "m"
+      },
+      "hole_1_x": {
+        "value": -0.3,
+        "unit": "m"
+      },
+      "hole_1_y": {
+        "value": -0.3,
+        "unit": "m"
+      },
+      "hole_1_r": {
+        "value": 0.11,
+        "unit": "m"
+      },
+      "hole_2_x": {
+        "value": -0.3,
+        "unit": "m"
+      },
+      "hole_2_y": {
+        "value": 0.3,
+        "unit": "m"
+      },
+      "hole_2_r": {
+        "value": 0.1,
+        "unit": "m"
+      },
+      "hole_3_x": {
+        "value": 0.3,
+        "unit": "m"
+      },
+      "hole_3_y": {
+        "value": -0.3,
+        "unit": "m"
+      },
+      "hole_3_r": {
+        "value": 0.1,
+        "unit": "m"
+      },
+      "hole_4_x": {
+        "value": 0.3,
+        "unit": "m"
+      },
+      "hole_4_y": {
+        "value": 0.3,
+        "unit": "m"
+      },
+      "hole_4_r": {
+        "value": 0.1,
+        "unit": "m"
+      },
+      "outer_value": {
+        "value": 1.0,
+        "unit": "1"
+      },
+      "inner_value": {
+        "value": 0.0,
+        "unit": "1"
+      }
+    }
+  }
+}

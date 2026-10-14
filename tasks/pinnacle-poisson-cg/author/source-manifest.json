@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "comsol-poisson-cg",
+      "url": "https://raw.githubusercontent.com/i207M/PINNacle/6f8d69c9c84c41d19644e4ceebdc64c4a11d3adf/ref/poisson1_cg_data.dat",
+      "path": "raw/poisson1_cg_data.dat",
+      "sha256": "2b9873fa4175fc26a8d62a7c4ea0f3e3239f9106b25ba622a77fd95fafa48490",
+      "size_bytes": 85477,
+      "sample": true,
+      "mapping": {
+        "source_columns": [
+          "x",
+          "y",
+          "u"
+        ],
+        "oj_input": "probe_coordinates=columns[0:2]; probe_ids=source row indices; times=[0]",
+        "oj_reference": "state=column[2] reshaped [1,1246,1]",
+        "selection": "all 1246 published rows in original order",
+        "interpolation": false,
+        "source_definition": "src/pde/poisson.py::Poisson2D_Classic (same pinned commit)",
+        "license_status": "repository MIT; independent data/COMSOL asset rights not confirmed"
+      }
+    }
+  ]
+}

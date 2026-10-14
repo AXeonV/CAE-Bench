@@ -7,11 +7,11 @@ name = "cae-bench-oj"
 version = "0.2.0"
 description = "CAE data protocol, structural validation and tolerance-based grading"
 requires-python = ">=3.11"
-dependencies = ["jsonschema==4.26.0", "numpy>=2.0,<3", "gmsh==4.15.2"]
+dependencies = ["jsonschema==4.26.0", "numpy>=2.0,<3", "gmsh==4.15.2", "h5py>=3.13,<4"]
 
 [project.optional-dependencies]
 heat = ["scipy>=1.17,<2"]
-pdebench = ["h5py>=3.13,<4", "requests>=2.32,<3", "PyYAML>=6,<7", "scipy>=1.17,<2"]
+pdebench = ["requests>=2.32,<3", "PyYAML>=6,<7", "scipy>=1.17,<2"]
 
 [project.scripts]
 caeoj = "caeoj.cli:main"

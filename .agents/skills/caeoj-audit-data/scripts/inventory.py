@@ -2,9 +2,8 @@
 import argparse
 import json
 from pathlib import Path
-import zipfile
+import h5py
 
-import numpy as np
 from caeoj.validation import read_json
 
 
@@ -17,21 +16,18 @@ def relative_file(base, name):
     return candidate
 
 
-def npz_headers(path):
+def hdf5_headers(path):
     arrays = []
-    with zipfile.ZipFile(path) as archive:
-        for member in archive.infolist():
-            if not member.filename.endswith('.npy'):
-                raise ValueError(f'Unexpected NPZ member: {member.filename}')
-            with archive.open(member) as stream:
-                version = np.lib.format.read_magic(stream)
-                readers = {(1, 0): np.lib.format.read_array_header_1_0,
-                           (2, 0): np.lib.format.read_array_header_2_0}
-                if version not in readers:
-                    raise ValueError(f'Inventory does not handle NPY header version {version}')
-                shape, fortran, dtype = readers[version](stream)
-            arrays.append({'key': member.filename[:-4], 'dtype': str(dtype),
-                           'shape': list(shape), 'fortran_order': fortran})
+    with h5py.File(path, 'r') as data:
+        for key in data:
+            if not isinstance(data.get(key, getlink=True), h5py.HardLink):
+                raise ValueError(f'Expected a self-contained dataset: {key}')
+            dataset = data[key]
+            if not isinstance(dataset, h5py.Dataset) or dataset.shape is None:
+                raise ValueError(f'Expected a dataset with a non-null dataspace: {key}')
+            arrays.append({'key': key, 'dtype': str(dataset.dtype),
+                           'shape': list(dataset.shape), 'chunks': dataset.chunks,
+                           'compression': dataset.compression})
     return arrays
 
 
@@ -40,7 +36,7 @@ def inspect_file(path, reader):
         return {'path': str(path), 'status': 'missing'}
     try:
         return {'path': str(path), 'status': 'read', 'content': reader(path)}
-    except (OSError, ValueError, EOFError, zipfile.BadZipFile) as exc:
+    except (OSError, ValueError, EOFError) as exc:
         return {'path': str(path), 'status': 'unreadable', 'error': str(exc)}
 
 
@@ -61,14 +57,14 @@ def inventory(task):
                 raise ValueError('Manifest must be a JSON object')
             entry['manifest'] = manifest
             data = relative_file(path.parent, manifest.get('data_file'))
-            entry['arrays'] = inspect_file(data, npz_headers)
+            entry['arrays'] = inspect_file(data, hdf5_headers)
             entry['meshes'] = []
             for name, mesh in manifest.get('meshes', {}).items():
                 file = relative_file(path.parent, mesh.get('file'))
                 entry['meshes'].append({'mesh': name, **inspect_file(file, mesh_header)})
             if entry['kind'] == 'sample':
-                output = path.parent.parent / 'output/result.npz'
-                entry['sample_output'] = inspect_file(output, npz_headers)
+                output = path.parent.parent / 'output/result.h5'
+                entry['sample_output'] = inspect_file(output, hdf5_headers)
         except (OSError, ValueError, TypeError, AttributeError) as exc:
             entry['inventory_error'] = str(exc)
         inputs.append(entry)

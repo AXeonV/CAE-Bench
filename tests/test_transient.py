@@ -1,4 +1,5 @@
 """Transient interpretation, independent series checks and numerical budgets."""
+from caeoj.storage import write_hdf5
 from copy import copy, deepcopy
 import importlib.util
 import json
@@ -39,7 +40,7 @@ class TransientTests(unittest.TestCase):
         for path in sorted((TASK/'cases').glob('*/problem.json')):
             p = load_problem(path)
             ref = TASK/'reference'/path.parent.name
-            cls.cases[path.parent.name] = (p, load_result(p, ref/'reference.npz'),
+            cls.cases[path.parent.name] = (p, load_result(p, ref/'reference.h5'),
                                           json.loads((ref/'analytic.json').read_text()))
 
     def case(self, prefix):
@@ -182,8 +183,8 @@ class TransientTests(unittest.TestCase):
             directory = TASK/'samples'/sample
             p = load_problem(directory/'input/problem.json')
             saved = json.loads((directory/'verification.json').read_text())
-            report = grade_files(p.path, directory/'output/result.npz',
-                                 TASK/'reference'/saved['case']/'reference.npz', atol=self.config['atol'], rtol=0)
+            report = grade_files(p.path, directory/'output/result.h5',
+                                 TASK/'reference'/saved['case']/'reference.h5', atol=self.config['atol'], rtol=0)
             self.assertEqual(report['score'], 1)
         with tempfile.TemporaryDirectory(dir=PROJECT/'runs') as tmp:
             directory = Path(tmp)
@@ -192,10 +193,10 @@ class TransientTests(unittest.TestCase):
             env.update(OPENBLAS_NUM_THREADS='1', OMP_NUM_THREADS='1', PYTHONUTF8='1')
             p = TASK/'samples/02/input/problem.json'
             process = subprocess.run([sys.executable, str(directory/'solve.py'), '--input', str(p),
-                                      '--output', str(directory/'result.npz')], cwd=directory, env=env,
+                                      '--output', str(directory/'result.h5')], cwd=directory, env=env,
                                      capture_output=True, timeout=self.config['timeout_seconds'])
             self.assertEqual(process.returncode, 0, process.stderr)
-            self.assertEqual(grade_files(p, directory/'result.npz', TASK/'samples/02/output/result.npz',
+            self.assertEqual(grade_files(p, directory/'result.h5', TASK/'samples/02/output/result.h5',
                                         atol=self.config['atol'], rtol=0)['score'], 1)
 
     def test_public_release_excludes_author_formulas_and_resources(self):
@@ -223,7 +224,7 @@ class TransientTests(unittest.TestCase):
                     group = loc['physical_group']
                     arrays[loc['ids']] = groups[group['dimension'], group['tag']]
             (directory/'problem.json').write_text(json.dumps(m), encoding='utf-8')
-            np.savez(directory/'input.npz', **arrays)
+            write_hdf5(directory / 'input.h5', arrays)
             p = load_problem(directory/'problem.json')
             self.assertEqual(len(ids), 10)
             self.assertEqual(len(arrays['domain_ids']), 8)

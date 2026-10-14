@@ -28,7 +28,7 @@
 |---|---|---|---|---|---|---|
 | `diffusivity` | `diffusivity` | `scalar` | `m2/s` | `[1,N,1]` | `output` | 正系数 a 的中心点采样，仅取 0.1 或 1 |
 
-稳态采用 `time_axes.output="times"`，`times=float64([0.0])`，没有初始场时间轴。 输出原样复制该稳态时间轴。未列出的字段不得加入输入 NPZ；几何/网格记录可引用包内文件，`data_file` 指向输入 NPZ。
+稳态采用 `time_axes.output="times"`，`times=float64([0.0])`，没有初始场时间轴。 输出原样复制该稳态时间轴。未列出的字段不得加入输入 HDF5；几何/网格记录可引用包内文件，`data_file` 指向输入 HDF5。
 
 边界常量在条件 `data` 中显式给出，稳态边界始终生效；各边条件对原单元外侧面的内部点成立，面与面相交的单点不额外约束。
 
@@ -50,7 +50,7 @@
 |---|---|---|---|---|---|
 | `state` | `state` | `scalar` | `1` | `[T,N,1]` | 稳态标量 u 的单元平均值 |
 
-输出场沿用 `location=domain`、`time_axis=output`、float64 及上述标量/矢量规则。结果 NPZ 仅包含 outputs 指定的数值数组、原样复制的 `cell_ids` 和 `times`；多字段共享的轴只保存一次，不导出初始场、坐标、强迫或未要求的量。
+输出场沿用 `location=domain`、`time_axis=output`、float64 及上述标量/矢量规则。结果 HDF5 仅包含 outputs 指定的数值数组、原样复制的 `cell_ids` 和 `times`；多字段共享的轴只保存一次，不导出初始场、坐标、强迫或未要求的量。
 
 T=1 表示稳态解，不表示在 t=0 求瞬态初值。
 

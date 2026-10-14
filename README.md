@@ -6,7 +6,7 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 ## 设计
 
-- **通用数据协议**：Gmsh 存网格，NPZ 存数组，JSON 声明字段和条件；各题目明确方程与输入范围，求解程序按同一协议读写。
+- **通用数据协议**：Gmsh 存网格，HDF5 存数组，JSON 声明字段和条件；各题目明确方程与输入范围，求解程序按同一协议读写。
 - **纠正 Agent I/O**：Agent 在理解输入、编写和调试程序时可随时调用**结构校验器**，根据诊断修改读写实现，减少输入输出理解错误的负担。*校验器只检查格式与引用，不验证或纠正物理结果。*
 - **提交后独立评测**：逐例执行提交程序，重新校验输出并按题目误差阈值与标答比较，每点 0/1 分，汇总结果和日志。
 
@@ -18,6 +18,7 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 | `src/caeoj/problem.schema.json` | JSON 元数据 Schema |
 | `src/caeoj/validation.py` | 基于通用数据协议的**结构校验器** |
 | `src/caeoj/sdk.py` | 常量／字段读取与输出帮助 |
+| `src/caeoj/storage.py` | 基于 h5py 的标准 HDF5 数组读写 |
 | `src/caeoj/grading.py` | 与参考输出比较的**独立判分器** |
 | `src/caeoj/cli.py` | 校验与判分命令入口 |
 | `src/utils/publish_dist.py` | 打包单题的公开解题材料到 dist |
@@ -95,7 +96,7 @@ python src/utils/PDEBench/prepare.py --tasks '<task>' --budget-gb 60 --no-bootst
 
 ```sh
 python -m caeoj validate-input 'tasks/<task>/cases/<case>/problem.json'
-python -m caeoj validate-output --input 'tasks/<task>/cases/<case>/problem.json' --output 'tasks/<task>/reference/<case>/reference.npz'
+python -m caeoj validate-output --input 'tasks/<task>/cases/<case>/problem.json' --output 'tasks/<task>/reference/<case>/reference.h5'
 ```
 
 **4. 发布材料并统一组装 Harbor 环境。** 依赖补充放在题目的 `harbor/requirements.txt`，CPU／内存配额与时限放在 `harbor/task.toml`；修改配置后重新组装。
@@ -119,7 +120,7 @@ harbor run -p 'runs/harbor/tasks/<task>' -e docker -a oracle -n 1 -o 'runs/harbo
 harbor run -p 'runs/harbor/tasks/<task>' -e docker -a codex -m 'openai/gpt-6-luna' --ak 'reasoning_effort=medium' -n 1 -o 'runs/harbor/jobs'
 ```
 
-HPC 运行可追加 `--override-cpus '<cpu-quota>' --override-memory-mb '<memory-mb>'`，值须与组装时声明的资源一致；`-n '<concurrency>'` 控制并发 trial 数，不是单个求解器的线程数。默认模板提供 g++、OpenMP 和 Open MPI，解题与独立判题容器共用该工具链；GPU 需另行配置。
+HPC 运行可追加 `--override-cpus '<cpu-quota>' --override-memory-mb '<memory-mb>'`，值须与组装时声明的资源一致；`-n '<concurrency>'` 控制并发 trial 数，不是单个求解器的线程数。默认模板提供 g++、OpenMP、Open MPI 及 HDF5 开发库（`h5cc`／`h5c++`、`h5dump`），解题与独立判题容器共用该工具链；GPU 需另行配置。
 
 **7. 查看成绩或复核单点。**
 
@@ -130,9 +131,9 @@ harbor view 'runs/harbor/jobs'
 trial 的 `verifier/report.json` 保存逐点得分与误差，`reward.txt` 保存通过率。也可单独运行提交并判分：
 
 ```sh
-python '<solver.py>' --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.npz'
-python -m caeoj validate-output --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.npz'
-python -m caeoj grade --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.npz' --reference 'tasks/<task>/reference/<case>/reference.npz' --atol '<atol>' --rtol '<rtol>'
+python '<solver.py>' --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5'
+python -m caeoj validate-output --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5'
+python -m caeoj grade --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5' --reference 'tasks/<task>/reference/<case>/reference.h5' --atol '<atol>' --rtol '<rtol>'
 ```
 
 新策略使用 `--grading tasks/<task>/grading.json` 替代 `--atol/--rtol`；支持按字段的 RMSE、NRMSE、最大误差、超限比例及 AND／OR 条件。旧配置保持原判分行为。

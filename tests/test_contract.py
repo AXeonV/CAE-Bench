@@ -1,6 +1,6 @@
 """Standard-file protocol behavior and checker/judge separation."""
+from caeoj.storage import write_hdf5
 from copy import deepcopy
-import io
 import json
 from pathlib import Path
 import re
@@ -9,17 +9,16 @@ import subprocess
 import sys
 import tempfile
 import unittest
-import warnings
-import zipfile
 
 import gmsh
+import h5py
 import numpy as np
 
 from caeoj.sdk import id_to_row, load_problem, load_result, read_constant, read_field, target_ids, write_result
 from caeoj.grading import grade_arrays
 from caeoj.examples import CASE_NAMES
 from caeoj.smoke import PROJECT_ROOT, run_smoke
-from caeoj.validation import ContractError, output_support, read_json, read_npz, validate_input, validate_output, write_json
+from caeoj.validation import ContractError, output_support, read_json, read_hdf5, validate_input, validate_output, write_json
 
 CASES = PROJECT_ROOT / "tasks/echo-field/cases"
 
@@ -42,11 +41,11 @@ class ContractTests(unittest.TestCase):
         shutil.copytree(CASES / name, self.case, dirs_exist_ok=True)
         self.path = self.case / "problem.json"
         self.m = read_json(self.path)
-        self.a = read_npz(self.case / "input.npz")
+        self.a = read_hdf5(self.case / "input.h5")
 
     def save(self):
         write_json(self.path, self.m)
-        np.savez(self.case / "input.npz", **self.a)
+        write_hdf5(self.case / 'input.h5', self.a)
 
     def codes(self, diagnostics):
         self.assertFalse(diagnostics["valid"], diagnostics)
@@ -58,23 +57,23 @@ class ContractTests(unittest.TestCase):
 
     def output(self):
         p = load_problem(self.path)
-        arrays = write_result(self.root / "result.npz", p,
+        arrays = write_result(self.root / "result.h5", p,
                               {s["array"]: p.arrays[s["array"]].copy() for s in p.manifest["outputs"].values()})
         return p, arrays
 
     def bad_output(self, mutate, code):
         p, arrays = self.output()
         mutate(arrays)
-        np.savez(self.root / "bad.npz", **arrays)
-        self.assertIn(code, self.codes(validate_output(self.path, self.root / "bad.npz")))
+        write_hdf5(self.root / 'bad.h5', arrays)
+        self.assertIn(code, self.codes(validate_output(self.path, self.root / "bad.h5")))
 
-    def test_real_mesh_and_npz_roundtrips(self):
+    def test_real_mesh_and_hdf5_roundtrips(self):
         self.assertEqual({p.parent.name for p in CASES.glob("*/problem.json")}, set(CASE_NAMES))
         for path in sorted(CASES.glob("*/problem.json")):
             with self.subTest(case=path.parent.name):
                 self.assertEqual((path.parent / "mesh.msh").read_bytes().splitlines()[1], b"4.1 0 8")
                 p = load_problem(path)
-                result = write_result(self.root / "result.npz", p,
+                result = write_result(self.root / "result.h5", p,
                     {s["array"]: p.arrays[s["array"]].copy() for s in p.manifest["outputs"].values()})
                 self.assertEqual(grade_arrays(p, result, echo_reference(p))["score"], 1)
 
@@ -84,7 +83,7 @@ class ContractTests(unittest.TestCase):
             self.bad_output(lambda a: a.update(velocity=change(a["velocity"])), "E_SHAPE")
 
     def test_wrong_dtype_without_casting(self):
-        for dtype in ("float32", "int64", "bool", "complex128", "U10"):
+        for dtype in ("float32", "int64", "bool", "complex128"):
             self.bad_output(lambda a: a.update(velocity=a["velocity"].astype(dtype)), "E_DTYPE")
 
     def test_nonfinite_fields(self):
@@ -100,15 +99,15 @@ class ContractTests(unittest.TestCase):
     def test_output_ids_and_times_are_fixed(self):
         self.bad_output(lambda a: a.update(node_ids=a["node_ids"][::-1]), "E_ORDER")
         self.bad_output(lambda a: a.update(times=a["times"] + 1), "E_ORDER")
-        self.bad_output(lambda a: a.update(times=a["times"].astype("datetime64[s]")), "E_DTYPE")
-        self.bad_output(lambda a: a.update(node_ids=a["node_ids"].astype("U20")), "E_DTYPE")
+        self.bad_output(lambda a: a.update(times=a["times"].astype("int64")), "E_DTYPE")
+        self.bad_output(lambda a: a.update(node_ids=a["node_ids"].astype("float64")), "E_DTYPE")
 
     def test_swapped_components_and_rows_are_judge_errors(self):
         for change in (lambda x: x[..., ::-1].copy(), lambda x: x[:, ::-1, :].copy()):
             p, arrays = self.output()
             arrays["velocity"] = change(arrays["velocity"])
-            np.savez(self.root / "wrong.npz", **arrays)
-            self.assertTrue(validate_output(self.path, self.root / "wrong.npz")["valid"])
+            write_hdf5(self.root / 'wrong.h5', arrays)
+            self.assertTrue(validate_output(self.path, self.root / "wrong.h5")["valid"])
             self.assertEqual(grade_arrays(p, arrays, echo_reference(p))["status"], "wrong_answer")
 
     def test_standard_storage_layout_compression_and_byte_order(self):
@@ -116,25 +115,28 @@ class ContractTests(unittest.TestCase):
         original = arrays["velocity"].copy()
         for array in (np.asfortranarray(original), original.astype(">f8")):
             arrays["velocity"] = array
-            np.savez_compressed(self.root / "standard.npz", **arrays)
-            self.assertEqual(grade_arrays(p, load_result(p, self.root / "standard.npz"), echo_reference(p))["score"], 1)
+            write_hdf5(self.root / 'standard.h5', arrays, compression="gzip")
+            self.assertEqual(grade_arrays(p, load_result(p, self.root / "standard.h5"), echo_reference(p))["score"], 1)
             np.testing.assert_array_equal(arrays["velocity"], original)
 
-    def test_object_arrays_and_corrupt_npz(self):
-        self.bad_output(lambda a: a.update(velocity=np.array([{}], dtype=object)), "E_NPZ")
-        (self.root / "bad.npz").write_bytes(b"not a zip")
-        self.assertIn("E_NPZ", self.codes(validate_output(self.path, self.root / "bad.npz")))
+    def test_strings_and_corrupt_hdf5(self):
+        with h5py.File(self.root / "bad.h5", "w") as data:
+            data.create_dataset("velocity", data=["not numeric"])
+        self.assertIn("E_HDF5", self.codes(validate_output(self.path, self.root / "bad.h5")))
+        (self.root / "bad.h5").write_bytes(b"not an HDF5 file")
+        self.assertIn("E_HDF5", self.codes(validate_output(self.path, self.root / "bad.h5")))
 
-    def test_duplicate_or_nested_npz_members(self):
-        stream = io.BytesIO()
-        np.save(stream, np.zeros(1))
-        for entries in (["velocity.npy", "velocity.npy"], ["folder/velocity.npy"], ["metadata.txt"]):
-            with warnings.catch_warnings():
-                warnings.simplefilter("ignore", UserWarning)
-                with zipfile.ZipFile(self.root / "bad.npz", "w") as archive:
-                    for entry in entries:
-                        archive.writestr(entry, stream.getvalue())
-            self.assertIn("E_NPZ", self.codes(validate_output(self.path, self.root / "bad.npz")))
+    def test_nested_groups_links_aliases_and_attributes_are_rejected(self):
+        def group(data): data.create_dataset("folder/velocity", data=[0.])
+        def soft(data): data["velocity"] = h5py.SoftLink("/missing")
+        def external(data): data["velocity"] = h5py.ExternalLink("other.h5", "/velocity")
+        def alias(data): data["alias"] = data.create_dataset("velocity", data=[0.])
+        def root_attribute(data): data.attrs["unit"] = "m/s"
+        def dataset_attribute(data): data.create_dataset("velocity", data=[0.]).attrs["unit"] = "m/s"
+        for change in (group, soft, external, alias, root_attribute, dataset_attribute):
+            with h5py.File(self.root / "bad.h5", "w") as data:
+                change(data)
+            self.assertIn("E_HDF5", self.codes(validate_output(self.path, self.root / "bad.h5")))
 
     def test_metadata_missing_unknown_and_types(self):
         original = deepcopy(self.m)
@@ -182,7 +184,7 @@ class ContractTests(unittest.TestCase):
         self.bad_input("E_COMPONENTS")
 
     def test_package_relative_file_rules(self):
-        for value in ("../input.npz", "C:/temp/input.npz", "/input.npz", "foo\\input.npz", "absent.npz", "mesh.msh"):
+        for value in ("../input.h5", "C:/temp/input.h5", "/input.h5", "foo\\input.h5", "absent.h5", "mesh.msh"):
             self.m["data_file"] = value
             self.bad_input("E_FILE")
 
@@ -327,18 +329,20 @@ class ContractTests(unittest.TestCase):
         finally:
             gmsh.finalize()
 
-    def test_reserved_array_keys_are_rejected(self):
-        for key in ("file", "allow_pickle"):
-            self.m["outputs"]["velocity"]["array"] = key
-            self.bad_input("E_SCHEMA")
+    def test_dataset_names_are_not_python_keyword_arguments(self):
+        self.m["outputs"]["velocity"]["array"] = "file"
+        self.save()
+        problem = load_problem(self.path)
+        write_result(self.root / "result.h5", problem, {"file": self.a["velocity"]})
+        self.assertTrue(validate_output(self.path, self.root / "result.h5")["valid"])
 
     def test_sdk_does_not_repair_or_mutate_data(self):
         p, arrays = self.output()
         before = {k: a.copy() for k, a in p.arrays.items()}
         self.assertEqual(id_to_row(target_ids(p, "nodes"))[int(p.arrays["node_ids"][0])], 0)
         with self.assertRaises(ContractError):
-            write_result(self.root / "refused.npz", p, {"velocity": arrays["velocity"][0]})
-        self.assertFalse((self.root / "refused.npz").exists())
+            write_result(self.root / "refused.h5", p, {"velocity": arrays["velocity"][0]})
+        self.assertFalse((self.root / "refused.h5").exists())
         for key, a in before.items():
             np.testing.assert_array_equal(a, p.arrays[key])
 
@@ -346,7 +350,7 @@ class ContractTests(unittest.TestCase):
         constant = {"value": 3.0, "unit": "cm"}
         self.assertEqual(read_constant(constant), 3.0)
         self.assertEqual(constant["unit"], "cm")
-        # Field names may differ from the NPZ key; this is a real valid input.
+        # Field names may differ from the HDF5 key; this is a real valid input.
         self.m["fields"]["flow"] = self.m["fields"].pop("velocity")
         self.save()
         problem = load_problem(self.path)
@@ -355,7 +359,7 @@ class ContractTests(unittest.TestCase):
         np.testing.assert_array_equal(values, self.a["velocity"])
         self.assertEqual(values.shape, self.a["velocity"].shape)
         self.assertEqual(values.dtype, self.a["velocity"].dtype)
-        with self.assertRaisesRegex(KeyError, 'field name, not the NPZ key'):
+        with self.assertRaisesRegex(KeyError, 'field name, not the HDF5 key'):
             read_field(problem, {"field": "velocity"})
 
     def test_sdk_wrong_data_source_has_actionable_error(self):
@@ -372,7 +376,7 @@ class ContractTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertTrue(json.loads(result.stdout)["valid"])
         result = subprocess.run([sys.executable, "-m", "caeoj", "validate-output", "--input", str(self.path),
-                                 "--output", str(self.root / "absent.npz")], capture_output=True, text=True)
+                                 "--output", str(self.root / "absent.h5")], capture_output=True, text=True)
         self.assertEqual(result.returncode, 1)
         self.assertFalse(json.loads(result.stdout)["valid"])
 

@@ -19,7 +19,7 @@ def check(program,output):
     rows=[]
     for path in sorted((TASK/'cases').glob('*/problem.json')):
         logs=output/path.parent.name;logs.mkdir(parents=True,exist_ok=True)
-        result=logs/'result.npz'
+        result=logs/'result.h5'
         if result.exists():result.unlink()
         env=os.environ.copy();env.update(PYTHONUTF8='1')
         start=time.perf_counter();peak=0;failure=None
@@ -39,7 +39,7 @@ def check(program,output):
                 time.sleep(0.01)
             process.wait()
         grade={'status':failure or 'runtime_error','score':0} if failure or process.returncode else grade_files(
-            path,result,TASK/'reference'/path.parent.name/'reference.npz',atol=config['atol'],rtol=config['rtol'])
+            path,result,TASK/'reference'/path.parent.name/'reference.h5',atol=config['atol'],rtol=config['rtol'])
         row={'case':path.parent.name,'wall_seconds':time.perf_counter()-start,'peak_rss_mib':peak/1024**2,**grade}
         rows.append(row);print(json.dumps({k:v for k,v in row.items() if k!='fields'}),flush=True)
     if not rows:raise ValueError('No cases generated')

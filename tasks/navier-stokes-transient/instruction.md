@@ -18,7 +18,7 @@
 
 ## 输入范围
 
-输入使用 Gmsh 网格、NPZ 数组和 JSON 元数据，遵守[通用数据协议](../../docs/CONTRACT.md)。初始场的连续含义及条件字段见 [DATA.md](DATA.md)，该说明是题目的一部分。
+输入使用 Gmsh 网格、HDF5 数组和 JSON 元数据，遵守[通用数据协议](../../docs/CONTRACT.md)。初始场的连续含义及条件字段见 [DATA.md](DATA.md)，该说明是题目的一部分。
 
 | 项目 | 范围 |
 |---|---|
@@ -35,7 +35,7 @@
 
 ## 输出与判分
 
-接口：`python solve.py --input problem.json --output result.npz`。
+接口：`python solve.py --input problem.json --output result.h5`。
 
 输出原样复制 `node_ids`、`times`，并提供 float64 `velocity[T,N,2]`（m/s，x/y 顺序）、`pressure[T,N,1]`（Pa）。t=0 的速度为输入给定的初始节点速度；压力由方程约束决定，输入不提供初始压力。
 
@@ -45,14 +45,14 @@
 
 ### 示例输入
 
-完整输入目录：[samples/01/input/](samples/01/input/)，入口 [problem.json](samples/01/input/problem.json)。包含 `problem.json`、`mesh.geo`、`mesh.msh`、`input.npz`。
+完整输入目录：[samples/01/input/](samples/01/input/)，入口 [problem.json](samples/01/input/problem.json)。包含 `problem.json`、`mesh.geo`、`mesh.msh`、`input.h5`。
 
 本例为单位正方形，ρ=1、μ=0.01，25 个节点；左右周期、上下静止，初始速度和体加速度全零，`times=[0,0.1,0.3,1,3,10,30]`。
 
 ### 示例输出
 
-完整正确输出：[samples/01/output/result.npz](samples/01/output/result.npz)。包含 float64 全零 `velocity[7,25,2]`、`pressure[7,25,1]`，以及原样复制输入的 `node_ids=int64[25]`、`times=float64[7]`。
+完整正确输出：[samples/01/output/result.h5](samples/01/output/result.h5)。包含 float64 全零 `velocity[7,25,2]`、`pressure[7,25,1]`，以及原样复制输入的 `node_ids=int64[25]`、`times=float64[7]`。
 
 ## 示例 2、3
 
-运动壁面与非零驱动的完整示例：[samples/02/input/](samples/02/input/) 与 [samples/02/output/result.npz](samples/02/output/result.npz)。双周期非零初始场的完整示例：[samples/03/input/](samples/03/input/) 与 [samples/03/output/result.npz](samples/03/output/result.npz)。
+运动壁面与非零驱动的完整示例：[samples/02/input/](samples/02/input/) 与 [samples/02/output/result.h5](samples/02/output/result.h5)。双周期非零初始场的完整示例：[samples/03/input/](samples/03/input/) 与 [samples/03/output/result.h5](samples/03/output/result.h5)。

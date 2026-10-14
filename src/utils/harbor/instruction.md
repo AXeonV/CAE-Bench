@@ -4,7 +4,7 @@
 实现题面范围内的通用求解程序，提交入口为 `/app/submission/solve.py`：
 
 ```text
-python /app/submission/solve.py --input <problem.json> --output <result.npz>
+python /app/submission/solve.py --input <problem.json> --output <result.h5>
 ```
 
 共享工具与题目声明的依赖已安装。可用 `caeoj.sdk` 的 `load_problem`、
@@ -18,10 +18,10 @@ python /app/submission/solve.py --input <problem.json> --output <result.npz>
 
 ```bash
 python -m caeoj validate-input /app/tasks/${task}/samples/${sample}/input/problem.json
-python /app/submission/solve.py --input /app/tasks/${task}/samples/${sample}/input/problem.json --output /app/sample-result.npz
-python -m caeoj validate-output --input /app/tasks/${task}/samples/${sample}/input/problem.json --output /app/sample-result.npz
+python /app/submission/solve.py --input /app/tasks/${task}/samples/${sample}/input/problem.json --output /app/sample-result.h5
+python -m caeoj validate-output --input /app/tasks/${task}/samples/${sample}/input/problem.json --output /app/sample-result.h5
 ```
 
 公开样例目录：${samples}。
 校验器仅检查数据协议；数值正确性由独立判分器检查。
-公开示例的完整正确输出位于 `/app/tasks/${task}/samples/${sample}/output/result.npz`。
+公开示例的完整正确输出位于 `/app/tasks/${task}/samples/${sample}/output/result.h5`。

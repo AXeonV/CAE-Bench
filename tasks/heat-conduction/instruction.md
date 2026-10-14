@@ -23,7 +23,7 @@
 
 ## 输入范围
 
-输入使用 Gmsh 网格、NPZ 数组及 JSON 元数据，遵守[通用数据协议](../../docs/CONTRACT.md)。源项为至多二次多项式，边界右端为至多四次多项式；输入给出 NumPy 升幂系数。字段读取和函数定义见[输入说明](DATA.md)，该说明是题目的一部分。
+输入使用 Gmsh 网格、HDF5 数组及 JSON 元数据，遵守[通用数据协议](../../docs/CONTRACT.md)。源项为至多二次多项式，边界右端为至多四次多项式；输入给出 NumPy 升幂系数。字段读取和函数定义见[输入说明](DATA.md)，该说明是题目的一部分。
 
 | 项目 | 范围 |
 |---|---|
@@ -40,9 +40,9 @@
 
 ## 输出与判分
 
-程序接口：`python solve.py --input problem.json --output result.npz`。
+程序接口：`python solve.py --input problem.json --output result.h5`。
 
-输出 NPZ 包含原样复制的 `node_ids`、`times`，及 float64 `temperature`，shape `[1,节点数,1]`，按节点 IDs 行序，单位 K。
+输出 HDF5 包含原样复制的 `node_ids`、`times`，及 float64 `temperature`，shape `[1,节点数,1]`，按节点 IDs 行序，单位 K。
 
 每测试点所有节点满足 `|T−Tref|≤0.01 K` 得 1 分，否则 0 分。32 个测试点满分 32，单点时间上限 **1 秒**，内存上限 **1024 MB**（按 1 MB=2²⁰ 字节计）。
 
@@ -57,14 +57,14 @@ samples/01/input/
 ├── problem.json
 ├── mesh.msh
 ├── mesh.geo
-└── input.npz
+└── input.h5
 ```
 
 该输入为单位正方形、k=1、q=0，四边均为 T=4 K；网格有 9 个节点、8 个三角形。
 
 ### 示例输出
 
-完整正确输出目录：[samples/01/output/](samples/01/output/)，答案文件为 [result.npz](samples/01/output/result.npz)。文件包含以下全部数组：
+完整正确输出目录：[samples/01/output/](samples/01/output/)，答案文件为 [result.h5](samples/01/output/result.h5)。文件包含以下全部数组：
 
 ```text
 node_ids    int64   [9]     = [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -75,11 +75,11 @@ temperature float64 [1,9,1] = [[[4.0], [4.0], [4.0], [4.0], [4.0], [4.0], [4.0],
 ## 示例 2：四种边界条件
 
 完整输入：[samples/02/input/](samples/02/input/)，入口为 [problem.json](samples/02/input/problem.json)。
-完整正确输出：[samples/02/output/result.npz](samples/02/output/result.npz)。
+完整正确输出：[samples/02/output/result.h5](samples/02/output/result.h5)。
 
 单位正方形、k=1、q=0，仍为 9 个节点、8 个三角形。四条边分别为：
 
-| 边 | `operator` | 边界方程 | NPZ 中的升幂系数 c |
+| 边 | `operator` | 边界方程 | HDF5 中的升幂系数 c |
 |---|---|---|---|
 | left | `dirichlet` | T=1+y | `[1,1,0,0,0]` |
 | right | `normal_derivative` | ∂T/∂n=1 | `[1,0,0,0,0]` |
@@ -97,4 +97,4 @@ top 的条件数据为：
 ```
 
 输出仍只含 `node_ids`、`times`、`temperature`；按 tag 1～9，温度约为
-`[1,2,3,2,1.5,2.5,2.5,1.5,2]` K，完整精度见 NPZ。
+`[1,2,3,2,1.5,2.5,2.5,1.5,2]` K，完整精度见 HDF5。

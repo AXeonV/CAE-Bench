@@ -1,4 +1,6 @@
 """Check public/private task separation and Harbor score aggregation."""
+from caeoj.storage import write_hdf5
+from caeoj.validation import read_hdf5
 import importlib.util
 import json
 from pathlib import Path
@@ -9,8 +11,6 @@ import tomllib
 import unittest
 from unittest.mock import patch
 import zipfile
-
-import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 TASK = 'heat-conduction'
@@ -72,7 +72,7 @@ class HarborTests(unittest.TestCase):
                          {'Dockerfile', 'agent.zip', 'requirements.txt'})
         with zipfile.ZipFile(directory / 'environment/agent.zip') as bundle:
             self.assertFalse(any('/reference/' in p or '/author/' in p or '/cases/' in p for p in bundle.namelist()))
-        self.assertEqual(len(list((directory / 'tests/reference').glob('*/reference.npz'))), 2)
+        self.assertEqual(len(list((directory / 'tests/reference').glob('*/reference.h5'))), 2)
         self.assertTrue((directory / 'solution/baseline.py').is_file())
         self.assertEqual((directory / 'environment/requirements.txt').read_text().strip(), 'scipy==1.18.1')
         instruction = (directory / 'instruction.md').read_text(encoding='utf-8')
@@ -143,6 +143,17 @@ class HarborTests(unittest.TestCase):
         self.assertNotIn('cpus', config['environment'])
         self.assertNotIn('memory_mb', config['environment'])
 
+    def test_legacy_tolerances_allow_different_output_fields_per_case(self):
+        source = self.root / 'tasks' / TASK
+        path = sorted((source / 'cases').glob('*/problem.json'))[-1]
+        manifest = json.loads(path.read_text())
+        manifest['outputs']['other_temperature'] = manifest['outputs'].pop('temperature')
+        path.write_text(json.dumps(manifest))
+        # The array key and reference stay identical; only the logical field
+        # name varies. Legacy tolerances apply equally to either field name.
+        directory = self.prepared()
+        self.assertTrue((directory / 'tests/cases' / path.parent.name / 'problem.json').is_file())
+
     def test_no_baseline_task_assembles_and_declares_provisional_limits(self):
         (self.root / 'tasks' / TASK / 'author/baseline.py').unlink()
         config_path = self.root / 'tasks' / TASK / 'judge-config.json'
@@ -193,10 +204,9 @@ class HarborTests(unittest.TestCase):
                 self.assertEqual(snapshot['completed_cases'], 1)
                 self.assertFalse(snapshot['complete'])
                 self.assertFalse((logs / 'reward.txt').exists())
-            with np.load(private / 'reference' / case_logs.name / 'reference.npz') as data:
-                arrays = {key: data[key].copy() for key in data.files}
+            arrays = read_hdf5(private / 'reference' / case_logs.name / 'reference.h5')
             if case_logs.name == names[1]: arrays['temperature'] += .02
-            np.savez(work / 'result.npz', **arrays)
+            write_hdf5(work / 'result.h5', arrays)
             return None
         with patch.object(judge, 'TESTS', private), patch.object(judge, 'LOGS', logs), \
                 patch.object(judge, 'freeze_submission', return_value=True), \
@@ -218,9 +228,9 @@ class HarborTests(unittest.TestCase):
         self.assertEqual(judge.output_limit({}),128*1024**2)
         for bad in (0,-1,True,1.5,'100'):
             with self.assertRaises(ValueError):judge.output_limit({'max_output_bytes':bad})
-        path=self.root/'large-result.npz'
+        path=self.root/'large-result.h5'
         # Sparse file tests the actual size guard without allocating a large
-        # array; subsequent NPZ/contract validation remains the grader's job.
+        # array; subsequent HDF5/contract validation remains the grader's job.
         with path.open('wb') as stream:stream.truncate(129*1024**2)
         self.assertFalse(judge.output_within_limit(path,judge.output_limit({})))
         self.assertTrue(judge.output_within_limit(path,judge.output_limit({'max_output_bytes':2*1024**3})))
@@ -274,11 +284,10 @@ class HarborTests(unittest.TestCase):
         names = sorted(p.name for p in (private / 'cases').iterdir())
 
         def execution(work, timeout, case_logs):
-            with np.load(private / 'reference' / case_logs.name / 'reference.npz') as data:
-                arrays = {key: data[key].copy() for key in data.files}
+            arrays = read_hdf5(private / 'reference' / case_logs.name / 'reference.h5')
             if case_logs.name == names[1]:
                 arrays['temperature'] += 0.02
-            np.savez(work / 'result.npz', **arrays)
+            write_hdf5(work / 'result.h5', arrays)
             return None
 
         with patch.object(judge, 'TESTS', private), patch.object(judge, 'LOGS', logs), \
@@ -298,8 +307,8 @@ class HarborTests(unittest.TestCase):
     def test_bad_reference_is_infrastructure_error_without_reward(self):
         directory = self.prepared()
         private = directory / 'tests'
-        reference = next((private / 'reference').glob('*/reference.npz'))
-        reference.write_bytes(b'invalid NPZ')
+        reference = next((private / 'reference').glob('*/reference.h5'))
+        reference.write_bytes(b'invalid HDF5')
         logs = self.root / 'judge-logs'
         with patch.object(judge, 'TESTS', private), patch.object(judge, 'LOGS', logs), \
                 patch.object(judge, 'execute') as execute:

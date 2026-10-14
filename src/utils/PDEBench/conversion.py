@@ -1,4 +1,5 @@
-"""Structured Gmsh/JSON/NPZ conversion and an exact advection reference."""
+"""Structured Gmsh/JSON/HDF5 conversion and an exact advection reference."""
+from caeoj.storage import write_hdf5
 import hashlib
 import json
 from pathlib import Path
@@ -149,7 +150,7 @@ def build_input(model, source, coords, times, values, destination, variant=0, co
         points=np.meshgrid(*coords,indexing='ij')
         arrays['coefficient_coordinates']=np.stack([p.ravel() for p in points],axis=1)
         locations['coefficient_samples']={'kind':'points','ids':'coefficient_ids','coordinates':'coefficient_coordinates'}
-    metadata = {'task':model.task,'spatial_dimension':model.dimension,'data_file':'input.npz',
+    metadata = {'task':model.task,'spatial_dimension':model.dimension,'data_file':'input.h5',
                 'geometries':{},'meshes':{'main':{'file':'mesh.msh'}},'locations':locations,
                 'time_axes':{'output':'times'},'fields':{},'outputs':{},
                 'physics':{'model':model.model,'parameters':parameters(model,source)},'conditions':[]}
@@ -214,7 +215,7 @@ def build_input(model, source, coords, times, values, destination, variant=0, co
             condition('boundary','kinematic_pressure','mean',{'value':constant(0,'m2/s2')})
         else:
             for side in sides: condition('boundary','fluid_state','extrapolate',{'order':constant(0,'1')},side)
-    np.savez(destination/'input.npz',**arrays)
+    write_hdf5(destination / 'input.h5', arrays)
     atomic_json(destination/'problem.json',metadata)
     problem=load_problem(destination/'problem.json')
     return problem
@@ -233,4 +234,4 @@ def write_analytic_reference(problem,path):
 def input_identity(problem):
     """Bind reference evidence to the actual input files and current contract."""
     path=problem.path
-    return {name:digest(path.parent/name) for name in ('problem.json','input.npz','mesh.msh')}
+    return {name:digest(path.parent/name) for name in ('problem.json','input.h5','mesh.msh')}

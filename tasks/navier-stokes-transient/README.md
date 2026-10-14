@@ -11,8 +11,8 @@
 | `instruction.md` | 简洁题面、范围、输出与完整示例引用 |
 | `DATA.md` | 矢量初值、跨壁插值、周期映射、输出时间和压力规范 |
 | `DESIGN.md`、`TEST-CASES.md` | 通道级数、二维解析公式与测试点配方，不发布 |
-| `cases/<case>/` | Gmsh 网格、JSON 清单和 NPZ 输入 |
-| `reference/<case>/reference.npz, analytic.json` | 独立解析参考及参数、截断尾界，不发布 |
+| `cases/<case>/` | Gmsh 网格、JSON 清单和 HDF5 输入 |
+| `reference/<case>/reference.h5, analytic.json` | 独立解析参考及参数、截断尾界，不发布 |
 | `samples/<sample>/input/, output/` | 零场、非零驱动、双周期初始场的完整公开示例 |
 | `judge-config.json` | 固定判分阈值及资源限制 |
 | `author/generate.py` | **生成题库**：复用稳态作者工具，生成瞬态输入、解析标答和样例。 |

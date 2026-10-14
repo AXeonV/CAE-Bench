@@ -19,7 +19,7 @@
 
 ## 输出与判分
 
-接口：`python solve.py --input problem.json --output result.npz`。
+接口：`python solve.py --input problem.json --output result.h5`。
 
 输出 float64 单元平均场 `state[201,1024,1]`，原样附带输入中的 `cell_ids` 和 `times`。t=0 的结果为初值。
 
@@ -29,7 +29,7 @@
 
 ## 示例
 
-完整输入：[samples/01/input/](samples/01/input/)，入口 [problem.json](samples/01/input/problem.json)。完整正确输出：[samples/01/output/result.npz](samples/01/output/result.npz)。
+完整输入：[samples/01/input/](samples/01/input/)，入口 [problem.json](samples/01/input/problem.json)。完整正确输出：[samples/01/output/result.h5](samples/01/output/result.h5)。
 
-另一组完整初值与输出：[samples/02/input/](samples/02/input/) 和 [samples/02/output/result.npz](samples/02/output/result.npz)。两组均包含全部 1024 个单元与 201 个时刻。
+另一组完整初值与输出：[samples/02/input/](samples/02/input/) 和 [samples/02/output/result.h5](samples/02/output/result.h5)。两组均包含全部 1024 个单元与 201 个时刻。
 

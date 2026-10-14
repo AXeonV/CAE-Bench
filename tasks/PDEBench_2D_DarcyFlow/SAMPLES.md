@@ -9,9 +9,9 @@
 
 ## 输入与输出
 
-输入目录为 `samples/<ID>/input/`，由工具生成 `problem.json`、`mesh.msh`、`input.npz`；几何 `.geo` 仅在需要记录几何来源时生成，不是必需输入。JSON 与数组完全遵守 [DATA.md](DATA.md)，不加入来源文件名、源索引、种子、MD5 或参考审核字段。
+输入目录为 `samples/<ID>/input/`，由工具生成 `problem.json`、`mesh.msh`、`input.h5`；几何 `.geo` 仅在需要记录几何来源时生成，不是必需输入。JSON 与数组完全遵守 [DATA.md](DATA.md)，不加入来源文件名、源索引、种子、MD5 或参考审核字段。
 
-输出目录为 `samples/<ID>/output/`，参考准备通过后生成完整 `result.npz`，包含本题要求的全部字段与位置，以及原样复制的 IDs 和 `times`。t=0 规则与题面一致；不能用示意数组、截图或全零占位结果代替真实输出。
+输出目录为 `samples/<ID>/output/`，参考准备通过后生成完整 `result.h5`，包含本题要求的全部字段与位置，以及原样复制的 IDs 和 `times`。t=0 规则与题面一致；不能用示意数组、截图或全零占位结果代替真实输出。
 
 稳态采用唯一时刻 [0.0]。
 

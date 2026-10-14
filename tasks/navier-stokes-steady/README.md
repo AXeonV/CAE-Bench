@@ -11,8 +11,8 @@
 | `instruction.md` | 简洁题面、范围、输出与完整示例引用 |
 | `DATA.md` | 材料、矢量条件、周期映射、压力规范和采样点的程序语义 |
 | `DESIGN.md`、`TEST-CASES.md` | 出题公式、Ghia 来源、逐点参数与覆盖范围，不发布 |
-| `cases/<case>/` | Gmsh 网格、JSON 清单和 NPZ 输入 |
-| `reference/<case>/reference.npz, analytic.json` | 独立参考输出及解析／论文数据来源，不发布 |
+| `cases/<case>/` | Gmsh 网格、JSON 清单和 HDF5 输入 |
+| `reference/<case>/reference.h5, analytic.json` | 独立参考输出及解析／论文数据来源，不发布 |
 | `samples/<sample>/input/, output/` | 完整公开输入与已按本题阈值验证的正确输出 |
 | `judge-config.json` | 判分阈值、单点时限与内存限制 |
 | `author/catalog.py` | **定义测试点**：稳态、瞬态的私有参数配方。 |

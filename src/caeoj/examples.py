@@ -1,4 +1,5 @@
-"""Real Gmsh mesh/NPZ fixtures with asymmetric values."""
+"""Real Gmsh mesh/HDF5 fixtures with asymmetric values."""
+from caeoj.storage import write_hdf5
 from pathlib import Path
 
 import gmsh
@@ -72,7 +73,7 @@ def generate_mesh(path, dimension=2, quads=False, mixed=False, sparse=False):
 
 def base(dimension):
     return {"task": "echo-field", "spatial_dimension": dimension,
-            "data_file": "input.npz", "geometries": {}, "meshes": {"main": {"file": "mesh.msh"}},
+            "data_file": "input.h5", "geometries": {}, "meshes": {"main": {"file": "mesh.msh"}},
             "locations": {"nodes": {"kind": "mesh", "mesh": "main", "entity": "node", "ids": "node_ids"}},
             "time_axes": {"steady": "times"}, "fields": {}, "outputs": {}, "conditions": []}
 
@@ -171,6 +172,6 @@ def make_cases(destination):
             add_field(m, arrays, "velocity", kind="vector", unit="m/s")
         else:
             add_field(m, arrays, "temperature", unit="K")
-        np.savez(directory / "input.npz", **arrays)
+        write_hdf5(directory / 'input.h5', arrays)
         write_json(directory / "problem.json", m)
     return len(CASE_NAMES)

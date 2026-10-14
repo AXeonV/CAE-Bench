@@ -1,4 +1,4 @@
-"""Structural checks for Gmsh meshes, NumPy arrays and thin JSON metadata.
+"""Structural checks for Gmsh meshes, HDF5 arrays and thin JSON metadata.
 
 No interpolation, value repair, physics checks or answer comparison lives here.
 """
@@ -11,16 +11,14 @@ import itertools
 import json
 import math
 from pathlib import Path, PureWindowsPath
-import re
 import threading
 import uuid
-import zipfile
 
 import gmsh
 import numpy as np
 from jsonschema import Draft202012Validator, validators
+from .storage import read_arrays
 
-NAME = re.compile(r"^[A-Za-z][A-Za-z0-9_]*$")
 GMSH_LOCK = threading.Lock()
 Validator = validators.extend(Draft202012Validator, type_checker=
     Draft202012Validator.TYPE_CHECKER.redefine("integer", lambda _, x: type(x) is int))
@@ -134,19 +132,11 @@ def resolve_file(base, name, suffixes):
     return path
 
 
-def read_npz(path):
+def read_hdf5(path):
     try:
-        with zipfile.ZipFile(path) as archive:
-            entries = archive.namelist()
-            names = [n[:-4] for n in entries]
-            if (len(set(entries)) != len(entries) or
-                    any(not n.endswith(".npy") or not NAME.fullmatch(k) or k in ("file", "allow_pickle")
-                        for n, k in zip(entries, names))):
-                raise ValueError("NPZ must contain unique named .npy arrays without directories.")
-        with np.load(path, allow_pickle=False) as archive:
-            return {name: archive[name] for name in names}
-    except (OSError, ValueError, EOFError, zipfile.BadZipFile) as exc:
-        raise ContractError(report([issue("E_NPZ", str(path), "named numeric NPZ arrays", str(exc),
+        return read_arrays(path)
+    except (OSError, ValueError, TypeError, KeyError) as exc:
+        raise ContractError(report([issue("E_HDF5", str(path), "named numeric HDF5 arrays", str(exc),
                                           "Cannot read array payload.")])) from exc
 
 
@@ -390,7 +380,7 @@ def check_problem(path):
         if errors:
             return None, report(errors)
         base = path.parent
-        arrays = read_npz(resolve_file(base, m["data_file"], {".npz"}))
+        arrays = read_hdf5(resolve_file(base, m["data_file"], {".h5"}))
         p = Problem(path, m, arrays)
         for name, geometry in m["geometries"].items():
             suffixes = {"gmsh-geo": {".geo"}, "step": {".step", ".stp"}, "brep": {".brep"}}
@@ -440,18 +430,18 @@ def check_result(problem, arrays):
     errors = []
     checker = Checker(problem, errors)
     required = output_support(problem) | {s["array"] for s in problem.manifest["outputs"].values()}
-    checker.expect(sorted(arrays), sorted(required), "$npz.keys", "E_ARRAYS")
+    checker.expect(sorted(arrays), sorted(required), "$h5.keys", "E_ARRAYS")
     for key in sorted(output_support(problem)):
         expected = problem.arrays[key]
-        actual = checker.array(key, expected.dtype.name, expected.shape, "$npz." + key, arrays)
+        actual = checker.array(key, expected.dtype.name, expected.shape, "$h5." + key, arrays)
         if (actual is not None and actual.dtype.name == expected.dtype.name and
                 actual.dtype.fields is None and actual.shape == expected.shape and
                 not np.array_equal(actual, expected)):
-            checker.fail("E_ORDER", "$npz." + key, "exact input IDs/time values in input order", actual,
+            checker.fail("E_ORDER", "$h5." + key, "exact input IDs/time values in input order", actual,
                          "Support axis differs from the prescribed axis; no reordering.")
     for name, spec in problem.manifest["outputs"].items():
         shape = checker.field_spec(spec, "$.outputs." + name)
-        checker.array(spec["array"], spec["dtype"], shape, "$npz." + spec["array"], arrays)
+        checker.array(spec["array"], spec["dtype"], shape, "$h5." + spec["array"], arrays)
     return report(errors)
 
 
@@ -460,6 +450,6 @@ def validate_output(input_path, output_path):
     if not diagnostics["valid"]:
         return diagnostics
     try:
-        return check_result(p, read_npz(output_path))
+        return check_result(p, read_hdf5(output_path))
     except ContractError as exc:
         return exc.report

@@ -14,8 +14,8 @@
 | `DATA.md` | 题目必需的字段与连续函数解释 |
 | `samples/01/input/`、`samples/01/output/` | 题面引用的完整公开示例输入与正确输出，复用题库第 01 点 |
 | `samples/01/verification.json` | 示例答案按本题阈值判分的验证记录 |
-| `cases/<case>/problem.json, input.npz, mesh.msh, mesh.geo` | 32 组输入，遵守通用数据协议 |
-| `reference/<case>/reference.npz` | 在实际网格节点处代入解析解生成的标答 |
+| `cases/<case>/problem.json, input.h5, mesh.msh, mesh.geo` | 32 组输入，遵守通用数据协议 |
+| `reference/<case>/reference.h5` | 在实际网格节点处代入解析解生成的标答 |
 | `reference/<case>/analytic.json` | 解析温度系数、源项和每条边的公式，可审计标答 |
 | `TEST-CASES.md` | 全部解析解和逐边条件的可读清单 |
 | `judge-config.json` | 冻结的误差阈值及单点时限 |

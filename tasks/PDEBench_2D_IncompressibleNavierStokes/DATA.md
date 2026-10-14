@@ -30,7 +30,7 @@
 | `initial_tracer` | `tracer` | `scalar` | `1` | `[1,N,1]` | `initial` | 随流输运标量 χ₀，允许正负值，不是流体质量密度 |
 | `forcing` | `forcing` | `vector` | `m/s2` | `[1,N,2]` | `initial` | 不随时间变化的空间强迫 f |
 
-`time_axes.initial="initial_times"` 引用 float64 `[0.0]`；`time_axes.output="times"` 引用含 0 且严格递增的请求时刻，范围以题面为准。`forcing` 使用 initial 时间轴，其值在整个求解区间恒定。 输出时间轴仅规定采样时刻，不是内部时间步。程序不能重新生成十进制时间轴替换输入。未列出的字段不得加入输入 NPZ；几何/网格记录可引用包内文件，`data_file` 指向输入 NPZ。
+`time_axes.initial="initial_times"` 引用 float64 `[0.0]`；`time_axes.output="times"` 引用含 0 且严格递增的请求时刻，范围以题面为准。`forcing` 使用 initial 时间轴，其值在整个求解区间恒定。 输出时间轴仅规定采样时刻，不是内部时间步。程序不能重新生成十进制时间轴替换输入。未列出的字段不得加入输入 HDF5；几何/网格记录可引用包内文件，`data_file` 指向输入 HDF5。
 
 四个壁速字段均为必需输入场，关联关系如下：
 
@@ -41,7 +41,7 @@
 | `wall_velocity_bottom` | `bottom` |
 | `wall_velocity_top` | `top` |
 
-它们均采用 quantity=`velocity`、float64 `[1,N_boundary,2]`、`kind=vector`、`component_shape=[2]`、`components=["x","y"]`、单位 `m/s`、`value_kind=point`，所有值为零。字段对象名与默认数组 key 相同；角点重复记录均为同一零值。四场均引用 `time_axis=conditions`；`time_axes.conditions="condition_times"` 映射到输入 NPZ 的 `condition_times=float64([0.0])`，表示整个 t>0 区间恒定，不表示只作用一次。
+它们均采用 quantity=`velocity`、float64 `[1,N_boundary,2]`、`kind=vector`、`component_shape=[2]`、`components=["x","y"]`、单位 `m/s`、`value_kind=point`，所有值为零。字段对象名与默认数组 key 相同；角点重复记录均为同一零值。四场均引用 `time_axis=conditions`；`time_axes.conditions="condition_times"` 映射到输入 HDF5 的 `condition_times=float64([0.0])`，表示整个 t>0 区间恒定，不表示只作用一次。
 
 ## 条件记录
 
@@ -63,7 +63,7 @@
 |---|---|---|---|---|---|
 | `velocity` | `velocity` | `vector` | `m/s` | `[T,N,2]` | 连续速度 v 的点值 |
 
-输出场沿用 `location=domain`、`time_axis=output`、float64 及上述标量/矢量规则。结果 NPZ 仅包含 outputs 指定的数值数组、原样复制的 `point_ids` 和 `times`；多字段共享的轴只保存一次，不导出初始场、坐标、强迫或未要求的量。
+输出场沿用 `location=domain`、`time_axis=output`、float64 及上述标量/矢量规则。结果 HDF5 仅包含 outputs 指定的数值数组、原样复制的 `point_ids` 和 `times`；多字段共享的轴只保存一次，不导出初始场、坐标、强迫或未要求的量。
 
 t=0 是预投影初始记录，velocity 必须原样输出 initial_velocity；t>0 输出投影演化后的连续速度点值。t=0 记录不要求满足散度约束；右初值 v(0+)=P(w₀) 仍按题面的 Helmholtz 投影定义。不输出 χ 或压力。
 

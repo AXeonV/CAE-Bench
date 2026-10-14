@@ -24,7 +24,7 @@ c_in=1，ℓ 为输入给出的出口耦合长度。条件在 t>0 生效，t=0 �
 
 ## 输入范围
 
-输入遵守[通用数据协议](../../docs/CONTRACT.md)，采用 Gmsh 网格、JSON 元数据和 NPZ 场。采样值的连续含义见 [DATA.md](DATA.md)。
+输入遵守[通用数据协议](../../docs/CONTRACT.md)，采用 Gmsh 网格、JSON 元数据和 HDF5 场。采样值的连续含义见 [DATA.md](DATA.md)。
 
 1024 个等长线单元；0≤t≤500 s；整域初始浓度为 [0,0.2] 中一个常数；只支持参数表中的固定物理配置。
 
@@ -45,9 +45,9 @@ c_in=1，ℓ 为输入给出的出口耦合长度。条件在 t>0 生效，t=0 �
 
 ## 输出与提交
 
-接口：`python solve.py --input problem.json --output result.npz`。Python 入口可以调用其他语言实现，题面不要求核心计算使用 Python。
+接口：`python solve.py --input problem.json --output result.h5`。Python 入口可以调用其他语言实现，题面不要求核心计算使用 Python。
 
-输入中的包内文件路径相对 `problem.json` 所在目录解析。读取 JSON 声明的文件和数组引用；按每个输出的 `location` 与 `time_axis` 排列空间行和时间行，将结果写入其 `array` 指定的 NPZ 键。IDs 和时间轴原样复制，结果保存到 `--output` 指定路径。
+输入中的包内文件路径相对 `problem.json` 所在目录解析。读取 JSON 声明的文件和数组引用；按每个输出的 `location` 与 `time_axis` 排列空间行和时间行，将结果写入其 `array` 指定的 HDF5 键。IDs 和时间轴原样复制，结果保存到 `--output` 指定路径。
 
 输出 `concentration[T,N,1]`（1），并原样附带输入的 IDs 和 `times`；N 为要求输出的位置数量，T 为请求时刻数。字段均为 float64，具体 quantity、location、value_kind、分量顺序和时间轴见 [DATA.md](DATA.md)。
 

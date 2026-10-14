@@ -4,7 +4,7 @@
 
 ## 文件与入口
 
-程序接收 `problem.json` 的路径。清单通过 `meshes.main.file` 引用网格，通过 `data_file` 引用 NPZ；路径相对于清单所在目录解析。输入使用 `mesh.msh`、`input.npz`，可附 `mesh.geo`。
+程序接收 `problem.json` 的路径。清单通过 `meshes.main.file` 引用网格，通过 `data_file` 引用 HDF5；路径相对于清单所在目录解析。输入使用 `mesh.msh`、`input.h5`，可附 `mesh.geo`。
 
 `task="heat-conduction"`、`spatial_dimension=2`、`physics.model="steady_heat_conduction"`。网格固定为 MSH 4.1 ASCII，一阶三角形和边界线段；连接关系以 `.msh` 为准。`mesh.geo` 仅为可选几何文件，无需重新划分网格。
 
@@ -12,7 +12,7 @@
 
 ## 参数与平均温度
 
-以下参数均位于 **`physics.parameters`**，每项都是 `{"value": 数值, "unit": 单位字符串}` 对象；不是裸数，也不存放在 NPZ 或 `conditions` 中。
+以下参数均位于 **`physics.parameters`**，每项都是 `{"value": 数值, "unit": 单位字符串}` 对象；不是裸数，也不存放在 HDF5 或 `conditions` 中。
 
 | 参数名 | 含义 | `unit` | 出现条件 |
 |---|---|---|---|
@@ -40,7 +40,7 @@
 
 所有 `locations` 项均为 `kind="mesh"`、`mesh="main"`；`nodes` 不声明 `dimension`，其他位置声明下表中的单元维度。记 N 为全部节点数、E 为域三角形数，M_side 为某条边的线段数。
 
-| `locations` 名称 | `entity` | 维度 | Physical Group `(dimension, tag)` | NPZ 中的 `ids` |
+| `locations` 名称 | `entity` | 维度 | Physical Group `(dimension, tag)` | HDF5 中的 `ids` |
 |---|---|---|---|---|
 | `nodes` | `node` | — | 不指定；包含全部节点 | `node_ids` |
 | `domain` | `element` | 2 | `(2,1)` | `domain_ids` |
@@ -51,13 +51,13 @@
 
 边界的 `*_ids` 是**线段单元 tag，不是边界节点 tag**。坐标和单元的节点连接关系从 MSH 读取；tag 可以不连续，不等于数组下标。每个 IDs 数组均为 int64、严格递增；场的位置轴按其引用的 IDs 排列。
 
-`time_axes={"steady":"times"}`，NPZ 中 `times=float64([0.0])`。本题没有初始条件，所有输入场与输出场均引用 `steady`，保留长度为 1 的时间轴。
+`time_axes={"steady":"times"}`，HDF5 中 `times=float64([0.0])`。本题没有初始条件，所有输入场与输出场均引用 `steady`，保留长度为 1 的时间轴。
 
-## NPZ 数组与字段描述
+## HDF5 数组与字段描述
 
 下表中的 `<side>` 分别替换为 `left`、`right`、`bottom`、`top`；例如 `left_ids`、`left_coefficients`，输入中不存在字面名称 `<side>_ids`。
 
-| NPZ key | dtype | shape | 含义 |
+| HDF5 key | dtype | shape | 含义 |
 |---|---|---|---|
 | `node_ids` | int64 | `[N]` | 全部节点 tag |
 | `domain_ids` | int64 | `[E]` | 域三角形 tag |
@@ -66,7 +66,7 @@
 | `source_coefficients` | float64 | `[1,E,3,3]` | 源项多项式系数 |
 | 四个 `<side>_coefficients` | float64 | `[1,M_side,5]` | 各边右端函数 g 的多项式系数 |
 
-`fields` 声明五个系数字段。字段名、`array` 和 `quantity` 均使用相同的 `source_coefficients` 或 `<side>_coefficients` 名称。条件中的 `{"field": 名称}` 引用 **`fields` 中的字段名**，再通过该字段的 `array` 找到 NPZ key。
+`fields` 声明五个系数字段。字段名、`array` 和 `quantity` 均使用相同的 `source_coefficients` 或 `<side>_coefficients` 名称。条件中的 `{"field": 名称}` 引用 **`fields` 中的字段名**，再通过该字段的 `array` 找到 HDF5 key。
 
 | 字段 | `location` | `component_shape` | `components` | `unit` |
 |---|---|---|---|---|
@@ -186,6 +186,6 @@ if "mean_temperature" in parameters:
 
 `outputs.temperature` 声明 `array="temperature"`、`quantity="temperature"`、`location="nodes"`、`time_axis="steady"`、`dtype="float64"`、`kind="scalar"`、`component_shape=[1]`、`components=["value"]`、`unit="K"`、`value_kind="point"`。
 
-输出 NPZ 只包含 `node_ids`、`times`、`temperature`。前两者原样复制输入；温度 shape 为 `[1,N,1]`，`temperature[0,i,0]` 对应 tag=`node_ids[i]` 的节点温度。无需输出系数、边界 IDs、平均温度或额外诊断数组。
+输出 HDF5 只包含 `node_ids`、`times`、`temperature`。前两者原样复制输入；温度 shape 为 `[1,N,1]`，`temperature[0,i,0]` 对应 tag=`node_ids[i]` 的节点温度。无需输出系数、边界 IDs、平均温度或额外诊断数组。
 
-可用 `caeoj validate-input problem.json` 和 `caeoj validate-output --input problem.json --output result.npz` 检查读写格式。它们只检查通用数据协议结构，不验证本题的参数范围、边界组合、方程、条件相容性或数值正确性，不纠正答案。
+可用 `caeoj validate-input problem.json` 和 `caeoj validate-output --input problem.json --output result.h5` 检查读写格式。它们只检查通用数据协议结构，不验证本题的参数范围、边界组合、方程、条件相容性或数值正确性，不纠正答案。

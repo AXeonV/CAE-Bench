@@ -45,7 +45,7 @@
 
 以上是仅输出速度的配置示例，数值不代表任何题目的正式校准阈值。表示全部值满足较宽的逐值容差，且满足以下两者之一：全部时刻与分量 NRMSE 达标，或者每个时刻至少 95% 的空间点满足较严格的容差。
 
-`fields` 的键必须恰好覆盖 `problem.json.outputs` 的全部 float64 输出，用逻辑字段名关联 NPZ 数组。各字段必须同时通过。整数与布尔输出始终精确比较，不在此配置中声明。
+`fields` 的键必须恰好覆盖 `problem.json.outputs` 的全部 float64 输出，用逻辑字段名关联 HDF5 数组。各字段必须同时通过。整数与布尔输出始终精确比较，不在此配置中声明。
 
 `all` 表示 AND，`any` 表示 OR，可嵌套至 32 层，子节点不能为空。叶节点是指标。未知属性、指标、负阈值、非有限数值、漏配或多配字段均是配置错误，不会变成选手的答案错误。版本必须为整数 1；JSON 重复键也会被拒绝。不执行自定义表达式，不提供 NOT 或跨字段 OR。
 
@@ -85,7 +85,7 @@
 
 ```bash
 python -m caeoj grade \
-  --input problem.json --output result.npz --reference reference.npz \
+  --input problem.json --output result.h5 --reference reference.h5 \
   --grading grading.json
 ```
 

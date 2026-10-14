@@ -32,7 +32,7 @@ memory_mb 是 Harbor 环境的容器内存上限，不是 judge-config 中逐例
 
 ## 无 baseline 的运行路径
 
-baseline 已改为可选。没有 author/baseline.py 的题目也可以组装，组装结果标记 oracle_available=false；直接运行 Codex/Luna，跳过 Oracle。判分仍与已有 reference.npz 比较。旧任务有 baseline 时保留原 Oracle 入口。
+baseline 已改为可选。没有 author/baseline.py 的题目也可以组装，组装结果标记 oracle_available=false；直接运行 Codex/Luna，跳过 Oracle。判分仍与已有 reference.h5 比较。旧任务有 baseline 时保留原 Oracle 入口。
 
 在数据已补齐、Docker 和 Harbor 可用的环境中，可自行运行下列命令；本次配置补齐没有启动它们：
 

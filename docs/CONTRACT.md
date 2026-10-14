@@ -13,10 +13,16 @@
 | 问题与元数据 | `problem.json` | 声明文件引用、物理模型、参数、条件、字段含义和输出要求 |
 | 几何，可选 | `.geo`、`.step/.stp`、`.brep` | 复用 Gmsh 几何描述或 CAD 文件，不在 JSON 中重新定义 CAD |
 | 网格 | Gmsh `.msh` | 节点、坐标、单元、连接关系、几何实体和 Physical Groups |
-| 输入数组 | 一个 `.npz` | 实体编号、时间、独立采样点坐标及输入场 |
-| 输出数组 | 一个 `.npz` | 必需输出场及固定编号／时间轴，不重复导出网格和元数据 |
+| 输入数组 | 一个 `.h5` | 实体编号、时间、独立采样点坐标及输入场 |
+| 输出数组 | 一个 `.h5` | 必需输出场及固定编号／时间轴，不重复导出网格和元数据 |
 
-场数据固定使用 NumPy NPZ，即包含多个具名 NPY 数组的标准容器。NPY 保存 dtype、shape、字节序和存储布局，协议补充各数组的语义。[NumPy 格式规范](https://numpy.org/doc/stable/reference/generated/numpy.lib.format.html)
+场数据固定使用标准 HDF5，文件扩展名为 `.h5`。每个数组对应根组 `/` 下的一个 dataset，例如 key `velocity` 对应 `/velocity`；JSON 中只写 `velocity`，不带 `/`。使用 HDF5 官方 C/C++ 库或 Python h5py 即可读写，无需专用二进制编码器。[HDF5 数据集接口](https://docs.h5py.org/en/stable/high/dataset.html)
+
+文件必须自包含且为扁平结构：只允许根组中的具名 dataset，不允许子组、软链接、外部链接、多个名称指向同一 dataset、外部存储或虚拟 dataset。根组和 dataset 不带属性，物理量、单位、轴含义和条件只由 `problem.json` 声明。dataset 的实际 shape 就是数组逻辑 shape，不以一维缓冲区加额外元数据代替。
+
+协议中的 `float64` 对应 IEEE 754 双精度浮点，`int64` 对应有符号 64 位整数，`bool` 对应 HDF5 枚举（底层有符号 8 位整数，`FALSE=0`、`TRUE=1`，即 h5py 的 NumPy `bool` dataset），不能用整数 0/1 dataset 代替 bool。大小端均可。字符串、复合类型、变长类型、对象及引用不属于协议数组；其他数值 dtype 也不能替代声明的 dtype。
+
+可使用连续存储或分块存储；压缩只允许 HDF5 标准 gzip（deflate），可附加无损 shuffle 和 Fletcher32 校验。不得使用有损 scale-offset 或额外插件过滤器。分块大小、压缩级别和文件内部布局不影响语义；提交前须完成写入并关闭文件。
 
 数据包示例：
 
@@ -25,7 +31,7 @@ case/
   problem.json
   mesh.msh
   mesh.geo       # 可选
-  input.npz
+  input.h5
 ```
 
 文件名没有隐含物理意义，实际名称由 JSON 声明。清单中的路径必须相对 `problem.json` 所在目录，使用 `/` 分隔；禁止绝对路径、盘符、反斜杠、空路径段及 `.`、`..` 路径段。不能通过符号链接引用包外文件。程序改变工作目录不影响引用含义。
@@ -34,25 +40,25 @@ case/
 
 JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元数据必须使用整数，`2.0` 和 `true` 都不是维度整数。
 
-顶层及各记录对象只允许 Schema 定义的字段。`geometries`、`meshes`、`locations`、`time_axes`、`fields`、`outputs` 的条目名，以及 `physics.parameters` 的参数名和条件 `data` 的参数名，由任务定义，使用 `[A-Za-z][A-Za-z0-9_]*`，区分大小写。NPZ key 也遵守该命名规则。`task`、`physics.model`、`quantity`、`variable`、`operator` 是任务定义的非空字符串，不是通用校验器内置的物理名称枚举。
+顶层及各记录对象只允许 Schema 定义的字段。`geometries`、`meshes`、`locations`、`time_axes`、`fields`、`outputs` 的条目名，以及 `physics.parameters` 的参数名和条件 `data` 的参数名，由任务定义，使用 `[A-Za-z][A-Za-z0-9_]*`，区分大小写。HDF5 key 也遵守该命名规则。`task`、`physics.model`、`quantity`、`variable`、`operator` 是任务定义的非空字符串，不是通用校验器内置的物理名称枚举。
 
 | 顶层字段 | 类型 | 要求与含义 |
 |---|---|---|
 | `task` | string | 可选，任务标识；通用校验器不按它限制物理模型 |
 | `spatial_dimension` | integer | 必填，1、2 或 3；决定独立点坐标和空间场的分量 |
-| `data_file` | string | 必填，输入 NPZ 的相对路径 |
+| `data_file` | string | 必填，输入 HDF5 的相对路径 |
 | `geometries` | object | 必填，几何文件表，可为 `{}` |
 | `meshes` | object | 必填，网格表，可为 `{}`；独立点数据不必有网格 |
 | `locations` | object | 必填，采样位置表 |
-| `time_axes` | object | 必填，时间轴名到输入 NPZ key 的映射 |
+| `time_axes` | object | 必填，时间轴名到输入 HDF5 key 的映射 |
 | `fields` | object | 必填，输入场描述表 |
 | `outputs` | object | 必填，要求输出的场描述表；不要求存在对应输入场 |
 | `physics` | object | 可选，模型标识与全局标量参数 |
 | `conditions` | array | 必填，条件记录，可为 `[]` |
 
-例如 `fields.velocity` 是元数据对象名，里面的 `array: "u_values"` 才是 NPZ key。引用场使用对象名，访问数值使用数组 key，二者可以不同。
+例如 `fields.velocity` 是元数据对象名，里面的 `array: "u_values"` 才是 HDF5 key。引用场使用对象名，访问数值使用数组 key，二者可以不同。
 
-一个清单可以声明多个网格、多个位置和多个时间轴。不同表中的对象名分别拥有自己的命名空间。NPZ key 不得使用 NumPy 写入接口的保留参数名 `file`、`allow_pickle`。
+一个清单可以声明多个网格、多个位置和多个时间轴。不同表中的对象名分别拥有自己的命名空间。
 
 ## 3. 几何与网格
 
@@ -100,7 +106,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 }
 ```
 
-`ids` 指向输入 NPZ 中的 `int64[N]`。编号必须非空、唯一且严格递增，必须属于引用网格的节点。没有 `physical_group` 时，数组明确给出所选节点，可以是全部节点或子集，不猜测覆盖范围。
+`ids` 指向输入 HDF5 中的 `int64[N]`。编号必须非空、唯一且严格递增，必须属于引用网格的节点。没有 `physical_group` 时，数组明确给出所选节点，可以是全部节点或子集，不猜测覆盖范围。
 
 声明 `physical_group` 时，IDs 必须恰好是该组单元涉及的全部节点，按 tag 递增，包括高阶节点。节点 location 不允许写单元 `dimension`；组的 dimension 可以是边界或区域的维度。
 
@@ -137,7 +143,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 {"steady": "times", "transient": "transient_times"}
 ```
 
-每个 key 引用输入 NPZ 中的非空 `float64[T]`，单位固定为 s，数值有限且严格递增。允许负时间。稳态采用 T=1，通常使用 `[0.0]`；时间值由清单数据确定。
+每个 key 引用输入 HDF5 中的非空 `float64[T]`，单位固定为 s，数值有限且严格递增。允许负时间。稳态采用 T=1，通常使用 `[0.0]`；时间值由清单数据确定。
 
 所有场保留时间轴，没有“无时间维”的另一种表示。同一数据包可有不同时间轴，每个场显式引用自己的轴。协议只定义这些时刻上的采样，不自动定义时间插值、外推或迭代步数。
 
@@ -158,7 +164,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 
 | 字段 | 规则 |
 |---|---|
-| `array` | 对应 NPZ key；输入场从输入 NPZ 取值，输出场从结果 NPZ 取值 |
+| `array` | 对应 HDF5 key；输入场从输入 HDF5 取值，输出场从结果 HDF5 取值 |
 | `quantity` | 物理量名称，由任务定义，例如 temperature、velocity、stress |
 | `location` | 已声明的 location 名称 |
 | `time_axis` | 已声明的时间轴名称 |
@@ -192,7 +198,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 
 场数组必须是规则数值 ndarray，禁止 object、字符串、复数、结构化 dtype。浮点值必须有限。整数／布尔场也使用相同的时间、实体、分量轴。不得省略轴、展平或隐式广播。
 
-输入 NPZ 必须恰好包含 locations 的 IDs／点坐标、time_axes 的时间数组、fields 的输入场数组；不允许未引用数组。一个 key 不能同时代表不同角色。不同位置显式引用同一个 IDs 数组、不同时间轴引用同一时间数组是允许的。
+输入 HDF5 必须恰好包含 locations 的 IDs／点坐标、time_axes 的时间数组、fields 的输入场数组；不允许未引用数组。一个 key 不能同时代表不同角色。不同位置显式引用同一个 IDs 数组、不同时间轴引用同一时间数组是允许的。
 
 ## 7. 单位、参数与物理模型
 
@@ -254,9 +260,9 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 {"field": "left_temperature"}
 ```
 
-引用 `fields.left_temperature`，其 location 必须与条件完全一致，单位、时间、分量从场描述继承。变化的边界数据、矢量和张量条件统一存 NPZ；均匀矢量也用显式场表示，不增加内联数组格式。
+引用 `fields.left_temperature`，其 location 必须与条件完全一致，单位、时间、分量从场描述继承。变化的边界数据、矢量和张量条件统一存 HDF5；均匀矢量也用显式场表示，不增加内联数组格式。
 
-边界条件通过 `location` 指定作用位置：网格位置引用 `.msh` 实体／Physical Groups，独立点位置引用 NPZ 坐标。条件类型存 JSON，变化数值存 NPZ。初始场用 `role: "initial"` 引用；均匀标量初值可写带单位常数。
+边界条件通过 `location` 指定作用位置：网格位置引用 `.msh` 实体／Physical Groups，独立点位置引用 HDF5 坐标。条件类型存 JSON，变化数值存 HDF5。初始场用 `role: "initial"` 引用；均匀标量初值可写带单位常数。
 
 以下是算子名称及数学含义的示例。**通用协议不按 `operator` 固定 `data` 内的参数名**；每道题必须在 DATA.md 中列出允许的算子、边界方程、全部必需／可选参数及其常量／场引用表示。
 
@@ -276,17 +282,17 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 
 ## 9. 输出与唯一性
 
-`outputs` 是完整输出语义声明，由输入清单固定。结果 NPZ 仅包含：
+`outputs` 是完整输出语义声明，由输入清单固定。结果 HDF5 仅包含：
 
 1. 每个输出场 `array` 指定的数值数组。
 2. 每个输出场 location 的 IDs 数组，与输入的 dtype、shape、值和顺序一致。
 3. 每个输出场 time_axis 的时间数组，同样与输入完全一致。
 
-共享的 IDs／时间 key 只存一份。不重复输出点坐标、网格、无关输入场或字段元数据。所有额外或缺失 key 均不合法。字段 key 不能同时代表 ID、时间或坐标；`fields` 表内各场的 `array` 必须互不相同，`outputs` 表内亦然。输入 NPZ 和结果 NPZ 是不同文件，两者可以使用相同的场数组 key。
+共享的 IDs／时间 key 只存一份。不重复输出点坐标、网格、无关输入场或字段元数据。所有额外或缺失 key 均不合法。字段 key 不能同时代表 ID、时间或坐标；`fields` 表内各场的 `array` 必须互不相同，`outputs` 表内亦然。输入 HDF5 和结果 HDF5 是不同文件，两者可以使用相同的场数组 key。
 
 唯一性体现为：每个字段只有一个位置、时间、单位、分量和 dtype 声明；IDs 递增且输出使用给定轴；稳态、标量、张量只有一种逻辑形状；组由 `(dimension, tag)` 标识。校验器不接受重排、不同编号或另一张等价网格。
 
-**不要求文件字节唯一。**NPZ 压缩、ZIP 元数据、NPY 大小端及正确标记的 C/F 存储顺序可不同，标准读取器恢复同一逻辑数组即可。校验器不自己实施格式归一化或数据重排。
+**不要求文件字节唯一。**HDF5 分块、允许的无损压缩、字节序和文件内部布局可不同，标准读取器恢复同一 dtype、shape 和索引值即可。HDF5 不声明 NumPy 的 C/F 内存顺序；写入时必须让 dataset 的各轴符合协议，不能靠内存布局改变轴含义。校验器不实施转置或数据重排。形状相同而数值放错位置属于数值错误，结构校验不能推断其原意。
 
 校验器能发现错误 shape、轴长度、dtype、编号／时间及引用。它不能发现合法结构中的内容错误：shape 没变的转置、交换 u/v、使用正确 IDs 却填入其他节点的值。这些属于答案内容，由判分器处理。
 
@@ -298,7 +304,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 {
   "task": "echo-field",
   "spatial_dimension": 2,
-  "data_file": "input.npz",
+  "data_file": "input.h5",
   "geometries": {},
   "meshes": {"main": {"file": "mesh.msh"}},
   "locations": {
@@ -329,13 +335,13 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 
 ```python
 import numpy as np
+import h5py
 
-np.savez(
-    "input.npz",
-    node_ids=np.array([10, 20, 30], dtype=np.int64),
-    times=np.array([0.0], dtype=np.float64),
-    velocity=np.array([[[1.0, 101.0], [2.0, 202.0], [-3.0, 303.0]]], dtype=np.float64),
-)
+with h5py.File("input.h5", "w") as data:
+    data.create_dataset("node_ids", data=np.array([10, 20, 30], dtype=np.int64))
+    data.create_dataset("times", data=np.array([0.0], dtype=np.float64))
+    data.create_dataset("velocity", data=np.array(
+        [[[1.0, 101.0], [2.0, 202.0], [-3.0, 303.0]]], dtype=np.float64))
 ```
 
 `velocity[0,1,1] == 202.0` 表示 t=0 s、tag=20 节点的 y 方向速度为 202 m/s。
@@ -345,12 +351,13 @@ np.savez(
 ```python
 from pathlib import Path
 import json
-import numpy as np
+import h5py
 
 input_path = Path("case/problem.json")
 metadata = json.loads(input_path.read_text(encoding="utf-8"))
-with np.load(input_path.parent / metadata["data_file"], allow_pickle=False) as data:
-    np.savez("result.npz", node_ids=data["node_ids"], times=data["times"], velocity=data["velocity"])
+with h5py.File(input_path.parent / metadata["data_file"], "r") as data, h5py.File("result.h5", "w") as result:
+    for key in ("node_ids", "times", "velocity"):
+        result.create_dataset(key, data=data[key][()])
 ```
 
 SDK 是可选帮助：
@@ -363,17 +370,19 @@ problem = load_problem("case/problem.json")
 # SDK 不执行转置、dtype 转换或数值纠正。
 velocity = read_field(problem, {"field": "velocity"})
 output_key = problem.manifest["outputs"]["velocity"]["array"]
-write_result("result.npz", problem, {output_key: velocity.copy()})
+write_result("result.h5", problem, {output_key: velocity.copy()})
 ```
 
 | SDK 接口 | 输入与返回值 |
 |---|---|
 | `read_constant(data)` | 接收 `{"value": 100.0, "unit": "K"}`，返回其中的数值；单位字符串保留在 data 中，不换算单位 |
-| `read_field(problem, reference)` | 接收 `{"field": "velocity"}`，按 `fields.velocity.array` 找到 NPZ 数组并返回；保留完整时间、位置、分量轴与 dtype |
-| `write_result(path, problem, fields)` | `fields` 为输出 NPZ key → ndarray 的映射，key 必须取自 `outputs.<名称>.array`，不使用输出对象名代替；自动复制必需 IDs／时间轴并校验输出 |
+| `read_field(problem, reference)` | 接收 `{"field": "velocity"}`，按 `fields.velocity.array` 找到 HDF5 数组并返回；保留完整时间、位置、分量轴与 dtype |
+| `write_result(path, problem, fields)` | `fields` 为输出 HDF5 key → ndarray 的映射，key 必须取自 `outputs.<名称>.array`，不使用输出对象名代替；自动复制必需 IDs／时间轴并校验输出 |
 
 读取接口用于 `load_problem` 已校验的元数据，数据来源类型不符会报错。
-返回的场数组与输入共享数据，修改前可调用 `.copy()`。SDK 不求值边界函数、不插值、不修正数值。
+`load_problem` 和 `load_result` 完整读取并关闭 HDF5 文件，返回内存中的 NumPy 数组；`read_field` 返回其中的原数组，修改前可调用 `.copy()`。需要按片读取输入或逐时刻写入结果时，可直接使用 h5py 的 dataset 切片／HDF5 hyperslab，仍须遵守同一 dataset 名称、dtype 和完整 shape。SDK 不求值边界函数、不插值、不修正数值。
+
+C/C++ 程序同样使用 HDF5 dataset：例如创建 rank=3、dims=`{T,N,2}` 的 `H5T_IEEE_F64LE` dataset，再按 `[t,i,c]` 写入速度；IDs 使用 `H5T_STD_I64LE`。镜像提供 `libhdf5-dev`、`h5cc`／`h5c++` 和 `h5dump`。当前 Python h5py 使用串行 HDF5；MPI 计算不要求并行写文件，可由一个 rank 汇总写入。MPI 并行 HDF5 I/O 不在当前环境的保证范围内。
 
 SDK 写入时复制必需的 IDs／时间轴；判分时仍独立重新校验文件，不信任程序是否调用 SDK。
 
@@ -383,7 +392,7 @@ SDK 写入时复制必需的 IDs／时间轴；判分时仍独立重新校验文
 
 ```sh
 python -m caeoj validate-input 'problem.json'
-python -m caeoj validate-output --input 'problem.json' --output 'result.npz'
+python -m caeoj validate-output --input 'problem.json' --output 'result.h5'
 ```
 
 校验返回纯 JSON，退出码 0 合法、1 不合法，CLI 参数错误为 2：
@@ -392,7 +401,7 @@ python -m caeoj validate-output --input 'problem.json' --output 'result.npz'
 {
   "valid": false,
   "errors": [{
-    "code": "E_SHAPE", "path": "$npz.velocity",
+    "code": "E_SHAPE", "path": "$h5.velocity",
     "expected": [1, 9, 2], "actual": [1, 2, 9],
     "message": "Does not match the declared contract."
   }]
@@ -403,7 +412,7 @@ python -m caeoj validate-output --input 'problem.json' --output 'result.npz'
 |---|---|
 | E_JSON / E_DUPLICATE_KEY | JSON 读取及重复键 |
 | E_SCHEMA | 元数据字段、类型和枚举 |
-| E_FILE / E_MESH / E_NPZ | 文件引用及标准载荷能否读取 |
+| E_FILE / E_MESH / E_HDF5 | 文件引用及标准载荷能否读取 |
 | E_REFERENCE | 网格、位置、时间轴、条件场、tag、组等引用 |
 | E_ARRAY / E_ARRAYS | 单数组引用、别名冲突及整体 key 集合 |
 | E_SHAPE / E_DTYPE / E_COMPONENTS | 数组形状、dtype、分量约定 |
@@ -413,7 +422,7 @@ python -m caeoj validate-output --input 'problem.json' --output 'result.npz'
 
 校验器检查结构和声明，不修改数据，不重排或匹配等价网格，不验证 CAD、网格质量、PDE、守恒、材料正负、条件物理相容性或解误差。
 
-判分由独立模块 `src/caeoj/grading.py` 实现，输出与参考 NPZ 必须满足同一个输出契约。可通过公开 `grading.json` 配置按字段的逐值容差、RMSE、NRMSE、最大误差和超限比例，并用 AND／OR 组合条件。聚合范围、零参考场处理、配置格式与示例见 [数值评分策略](GRADING.md)。这些评分参数不进入 `problem.json` 通用数据协议。
+判分由独立模块 `src/caeoj/grading.py` 实现，输出与参考 HDF5 必须满足同一个输出契约。可通过公开 `grading.json` 配置按字段的逐值容差、RMSE、NRMSE、最大误差和超限比例，并用 AND／OR 组合条件。聚合范围、零参考场处理、配置格式与示例见 [数值评分策略](GRADING.md)。这些评分参数不进入 `problem.json` 通用数据协议。
 
 未提供评分策略时，浮点场逐分量使用：
 
@@ -424,13 +433,13 @@ python -m caeoj validate-output --input 'problem.json' --output 'result.npz'
 使用评分策略：
 
 ```sh
-python -m caeoj grade --input 'problem.json' --output 'result.npz' --reference 'reference.npz' --grading 'grading.json'
+python -m caeoj grade --input 'problem.json' --output 'result.h5' --reference 'reference.h5' --grading 'grading.json'
 ```
 
 使用逐值容差：
 
 ```sh
-python -m caeoj grade --input 'problem.json' --output 'result.npz' --reference 'reference.npz' --atol '<atol>' --rtol '<rtol>'
+python -m caeoj grade --input 'problem.json' --output 'result.h5' --reference 'reference.h5' --atol '<atol>' --rtol '<rtol>'
 ```
 
 不提供 `--grading` 时仍可使用 `--atol`、`--rtol`；两种方式不能同时指定。`grade` 退出码为 0（通过）、1（答案错误或非法输出）、2（输入／参考数据错误或配置、命令参数错误）。参考输出由出题方提供，不要求与输入场相同。
@@ -439,7 +448,7 @@ python -m caeoj grade --input 'problem.json' --output 'result.npz' --reference '
 
 ## 12. 支持范围与扩展规则
 
-当前支持固定网格与固定采样位置下的 Gmsh 网格／分组、NPZ 场数组、时间轴、带单位参数及条件记录。网格运动、自适应拓扑、局部坐标基、额外自由度／积分点和通用连续表达式求值尚未定义。周期等专用条件可由题目通过已有条件记录定义，并明确网格中的配对关系；通用协议尚未统一其物理语义。
+当前支持固定网格与固定采样位置下的 Gmsh 网格／分组、HDF5 场数组、时间轴、带单位参数及条件记录。网格运动、自适应拓扑、局部坐标基、额外自由度／积分点和通用连续表达式求值尚未定义。周期等专用条件可由题目通过已有条件记录定义，并明确网格中的配对关系；通用协议尚未统一其物理语义。
 
 **边界条件的表达仍需后续仔细设计，并通过实际求解器验证支持范围。** 重点包括边界函数的表示、坐标／法向约定、算子参数和条件组合。现有条件记录与题目约定是初步方案，不代表已支持任意边界条件；协议的目标是统一求解器程序的数据接口，校验器仍只检查结构。
 

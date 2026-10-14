@@ -1,4 +1,5 @@
 """Build both task banks, analytic/published references and complete public samples."""
+from caeoj.storage import write_hdf5
 import argparse
 import json
 from pathlib import Path
@@ -111,17 +112,17 @@ def generate_case(case, destination, transient):
                  'pressure':field('pressure','nodes','output','pressure',unit='Pa')}
     axes={'output':'times','conditions':'condition_times'}
     if transient: axes['initial']='initial_times'
-    manifest={'task':destination.name,'spatial_dimension':2,'data_file':'input.npz',
+    manifest={'task':destination.name,'spatial_dimension':2,'data_file':'input.h5',
         'geometries':{'rectangle':{'file':'mesh.geo','format':'gmsh-geo'}},
         'meshes':{'main':{'file':'mesh.msh','geometry':'rectangle'}},'locations':locations,
         'time_axes':axes,'fields':fields,'outputs':outputs,
         'physics':{'model':'incompressible_navier_stokes','parameters':parameters},'conditions':conditions}
-    np.savez_compressed(directory/'input.npz',**arrays)
+    write_hdf5(directory / 'input.h5', arrays, compression="gzip")
     write_json(directory/'problem.json',manifest)
     problem=load_problem(directory/'problem.json')
     values,certificate=reference(case,xy,times,initial)
     refdir=destination/'reference'/case.name
-    write_result(refdir/'reference.npz',problem,values)
+    write_result(refdir/'reference.h5',problem,values)
     record={'case':case.name,'family':case.family,'nodes':len(ids),'triangles':2*case.n**2,
             'recipe':case.__dict__,'output_times_s':times.tolist(),'reference':certificate}
     write_json(refdir/'analytic.json',record)
@@ -140,8 +141,8 @@ def generate(destination=ROOT,transient=False,selected=None):
             sample=destination/'samples'/f'{i:02d}'
             shutil.copytree(destination/'cases'/name,sample/'input',dirs_exist_ok=True)
             (sample/'output').mkdir(parents=True,exist_ok=True)
-            target=sample/'output/result.npz'
-            ref=destination/'reference'/name/'reference.npz'
+            target=sample/'output/result.h5'
+            ref=destination/'reference'/name/'reference.h5'
             shutil.copyfile(ref,target)
             report=grade_files(sample/'input/problem.json',target,ref,atol=config['atol'],rtol=0)
             if report['score']!=1: raise RuntimeError('Sample grading failed')

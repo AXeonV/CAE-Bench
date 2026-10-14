@@ -18,7 +18,7 @@
 
 ## 输入范围
 
-输入使用 Gmsh 网格、NPZ 数组和 JSON 元数据，遵守[通用数据协议](../../docs/CONTRACT.md)。字段与条件的程序语义见 [DATA.md](DATA.md)，该说明是题目的一部分。
+输入使用 Gmsh 网格、HDF5 数组和 JSON 元数据，遵守[通用数据协议](../../docs/CONTRACT.md)。字段与条件的程序语义见 [DATA.md](DATA.md)，该说明是题目的一部分。
 
 | 项目 | 范围 |
 |---|---|
@@ -33,7 +33,7 @@
 
 ## 输出与判分
 
-接口：`python solve.py --input problem.json --output result.npz`。
+接口：`python solve.py --input problem.json --output result.h5`。
 
 按清单 `outputs` 写出指定字段及其原始编号、时间轴。通道要求网格节点速度 `[1,N,2]` 与压力 `[1,N,1]`；方腔要求独立采样点处的 `u_centerline`、`v_centerline`，各为 `[1,17,1]`，分别表示全局 x、y 速度分量，不要求其他分量或压力。全部数值为 float64。
 
@@ -43,14 +43,14 @@
 
 ### 示例输入
 
-完整输入目录：[samples/01/input/](samples/01/input/)，入口 [problem.json](samples/01/input/problem.json)。目录包含 `problem.json`、`mesh.geo`、`mesh.msh`、`input.npz`。
+完整输入目录：[samples/01/input/](samples/01/input/)，入口 [problem.json](samples/01/input/problem.json)。目录包含 `problem.json`、`mesh.geo`、`mesh.msh`、`input.h5`。
 
 本例为单位正方形，25 个节点，左右周期、上下静止，ρ=1、μ=0.01，无体加速度。
 
 ### 示例输出
 
-完整正确输出：[samples/01/output/result.npz](samples/01/output/result.npz)。包含 `velocity=float64` 全零数组 `[1,25,2]`、`pressure=float64` 全零数组 `[1,25,1]`，以及原样复制输入的 `node_ids=int64[25]` 和 `times=float64([0.0])`。
+完整正确输出：[samples/01/output/result.h5](samples/01/output/result.h5)。包含 `velocity=float64` 全零数组 `[1,25,2]`、`pressure=float64` 全零数组 `[1,25,1]`，以及原样复制输入的 `node_ids=int64[25]` 和 `times=float64([0.0])`。
 
 ## 示例 2
 
-带有运动壁面和非零体加速度的完整示例：[samples/02/input/](samples/02/input/) 与 [samples/02/output/result.npz](samples/02/output/result.npz)。
+带有运动壁面和非零体加速度的完整示例：[samples/02/input/](samples/02/input/) 与 [samples/02/output/result.h5](samples/02/output/result.h5)。

@@ -23,6 +23,10 @@ def tool_hash():
     h=hashlib.sha256()
     for name in ('models.py','sources.py','conversion.py','pipeline.py','storage.py','references.py','source_audit.py'):
         h.update(name.encode());h.update((Path(__file__).parent/name).read_bytes())
+    # A storage/SDK change also invalidates byte-bound preparation records.
+    for name in ('storage.py', 'sdk.py', 'validation.py', 'problem.schema.json'):
+        h.update(('caeoj/' + name).encode())
+        h.update((Path(__file__).parents[2] / 'caeoj' / name).read_bytes())
     return h.hexdigest()
 
 
@@ -237,7 +241,7 @@ def prepare_entry(model,source,entry,task,cache,staging,budget,local,timeout,ref
         if reusable and not reference_root: return {**previous,'reused':True}
         if reusable and reference_root and previous.get('status')=='reference_prepared':
             external=Path(reference_root)/model.task/entry['kind']/entry['id']
-            if not (external/'reference.npz').exists() and not (external/'evidence.json').exists():
+            if not (external/'reference.h5').exists() and not (external/'evidence.json').exists():
                 return {**previous,'reused':True}
     else:
         definition=target/'input/problem.json' if public else target/'problem.json'
@@ -274,12 +278,12 @@ def prepare_entry(model,source,entry,task,cache,staging,budget,local,timeout,ref
                      'source_coordinate_axes':[c.tolist() for c in coords],
                      'coordinate_interpretation':'source cell averages; FHN uses reconstructed full initial grid and a subset of original output cells' if not model.points else 'source centered samples on the published unit Box, checked against short-time tracer transport'}
         ref_dir=stage/'reference';ref_dir.mkdir()
-        reference=ref_dir/'reference.npz'
-        candidate=ref_dir/'official-candidate.npz'
+        reference=ref_dir/'reference.h5'
+        candidate=ref_dir/'official-candidate.h5'
         from caeoj.sdk import write_result
         write_result(candidate,problem,{name:values[name].reshape(len(times),-1,c)
                                         for name,_,_,c in model.fields})
-        certificate['official_candidate']={'filename':'official-candidate.npz',
+        certificate['official_candidate']={'filename':'official-candidate.h5',
                 'sha256':digest(candidate),'status':'unreviewed_do_not_grade',
                 'meaning':'converted source values; not asserted to solve this continuous task'}
         if reference_mode=='official' and not reference_root:
@@ -297,9 +301,9 @@ def prepare_entry(model,source,entry,task,cache,staging,budget,local,timeout,ref
             certificate['status']='reference_prepared'
         elif reference_root:
             external=Path(reference_root)/model.task/entry['kind']/entry['id']
-            supplied=external/'reference.npz';evidence=external/'evidence.json'
+            supplied=external/'reference.h5';evidence=external/'evidence.json'
             if supplied.exists()!=evidence.exists():
-                raise PreparationError('External reference.npz and evidence.json must both exist')
+                raise PreparationError('External reference.h5 and evidence.json must both exist')
             if supplied.exists() and evidence.exists():
                 audit=json.loads(evidence.read_text())
                 if (audit.get('status')!='audited' or audit.get('contract_sha256')!=contract or
@@ -326,7 +330,7 @@ def prepare_entry(model,source,entry,task,cache,staging,budget,local,timeout,ref
         if public:
             sample=stage/'sample';sample.mkdir();input_dir.rename(sample/'input')
             output=sample/'output';output.mkdir()
-            if reference.exists(): shutil.copyfile(reference,output/'result.npz')
+            if reference.exists(): shutil.copyfile(reference,output/'result.h5')
             install_directory(sample,target)
             private=task/'author'/'sample-certificates'/entry['id']
             install_directory(ref_dir,private)

@@ -4,7 +4,7 @@
 
 ## 网格与参数
 
-`problem.json` 引用 `mesh.msh` 和 `input.npz`；可附 `mesh.geo`。求解域和三角形连接关系以 MSH 为准。
+`problem.json` 引用 `mesh.msh` 和 `input.h5`；可附 `mesh.geo`。求解域和三角形连接关系以 MSH 为准。
 
 `physics.parameters` 给出带单位常量：`conductivity`、`volumetric_heat_capacity`、`x0`、`y0`、`length_x`、`length_y`。热扩散系数为 k/C。
 

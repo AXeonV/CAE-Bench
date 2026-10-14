@@ -56,7 +56,7 @@ def prepare(task, root=PROJECT_ROOT):
     if not cases:
         raise ValueError('Generate task cases before preparing Harbor')
     for path in cases:
-        load_result(load_problem(path), source / 'reference' / path.parent.name / 'reference.npz')
+        load_result(load_problem(path), source / 'reference' / path.parent.name / 'reference.h5')
     archive = root / 'dist' / f'{task}-agent.zip'
     if not archive.is_file():
         raise ValueError(f'Run src/utils/publish_dist.py --task {task} first')
@@ -73,8 +73,11 @@ def prepare(task, root=PROJECT_ROOT):
         samples=', '.join(f'`/app/tasks/{task}/samples/{name}/`' for name in manifest['public_samples']))
     resources = tomllib.loads(rendered_config)
     policy = task_policy(source, load_problem(cases[0]), read_bytes=lambda p: read_public_file(root, p))
-    for path in cases:
-        validate_policy(policy, load_problem(path))
+    if (source / 'grading.json').is_file():
+        for path in cases:
+            validate_policy(policy, load_problem(path))
+    # Legacy atol/rtol apply to each case's declared outputs. Different cases
+    # can request different field sets; the first sample is not their schema.
     with zipfile.ZipFile(archive) as bundle:
         policy_key = f'tasks/{task}/grading.json'
         if policy_key not in bundle.namelist() or policy_hash(json.loads(bundle.read(policy_key))) != policy_hash(policy):
@@ -82,7 +85,7 @@ def prepare(task, root=PROJECT_ROOT):
     instruction += '\n评分规则：\n' + render_policy(policy)
     if not (source / 'grading.json').is_file():
         instruction += f"绝对误差容限={judge_config['atol']}，相对误差容限={judge_config['rtol']}。\n"
-    instruction += f"公开样例判分：python -m caeoj grade --input /app/tasks/{task}/samples/{manifest['public_samples'][0]}/input/problem.json --output /app/sample-result.npz --reference /app/tasks/{task}/samples/{manifest['public_samples'][0]}/output/result.npz --grading /app/tasks/{task}/grading.json\n"
+    instruction += f"公开样例判分：python -m caeoj grade --input /app/tasks/{task}/samples/{manifest['public_samples'][0]}/input/problem.json --output /app/sample-result.h5 --reference /app/tasks/{task}/samples/{manifest['public_samples'][0]}/output/result.h5 --grading /app/tasks/{task}/grading.json\n"
     environment = resources['environment']
     if 'cpus' in environment:
         instruction += f"本次环境 CPU 配额：{environment['cpus']} 核。\n"
@@ -137,8 +140,8 @@ def prepare(task, root=PROJECT_ROOT):
             for asset in path.parent.iterdir():
                 if asset.is_file():
                     copy(asset, Path('tests/cases') / path.parent.name / asset.name)
-            copy(source / 'reference' / path.parent.name / 'reference.npz',
-                 Path('tests/reference') / path.parent.name / 'reference.npz')
+            copy(source / 'reference' / path.parent.name / 'reference.h5',
+                 Path('tests/reference') / path.parent.name / 'reference.h5')
         # Replace only the checked generated task directory; preserve job logs.
         if destination.exists():
             shutil.rmtree(destination)

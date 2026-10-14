@@ -54,7 +54,7 @@ def execute(directory, timeout, logs):
     command = ['setpriv', '--reuid=1000', '--regid=1000', '--clear-groups',
                '--no-new-privs', 'python', str(working_submission / 'solve.py'),
                '--input', str(directory / 'input/problem.json'),
-               '--output', str(directory / 'result.npz')]
+               '--output', str(directory / 'result.h5')]
     # Credentials from the agent phase are never passed to solver processes.
     env = {'PATH': '/usr/local/bin:/usr/bin:/bin', 'HOME': '/home/solver',
            'PYTHONDONTWRITEBYTECODE': '1'}
@@ -112,7 +112,7 @@ def main():
     for path in paths:
         if policy is not None:
             validate_policy(policy, load_problem(path))
-        load_result(load_problem(path), TESTS / 'reference' / path.parent.name / 'reference.npz')
+        load_result(load_problem(path), TESTS / 'reference' / path.parent.name / 'reference.h5')
     try:
         submitted = freeze_submission()
         submission_error = 'missing_submission' if not submitted else None
@@ -135,16 +135,16 @@ def main():
             started = time.monotonic()
             outcome = execute(directory, config['timeout_seconds'], logs)
             elapsed = time.monotonic() - started
-            output = directory / 'result.npz'
+            output = directory / 'result.h5'
             if outcome is None:
                 if not output.exists():
                     outcome = {'score': 0, 'status': 'missing_output'}
                 elif not output_within_limit(output, maximum_output_bytes):
                     outcome = {'score': 0, 'status': 'invalid_output_file'}
                 else:
-                    shutil.copyfile(output, logs / 'result.npz')
-                    outcome = grade_files(path, logs / 'result.npz',
-                                          TESTS / 'reference' / case / 'reference.npz',
+                    shutil.copyfile(output, logs / 'result.h5')
+                    outcome = grade_files(path, logs / 'result.h5',
+                                          TESTS / 'reference' / case / 'reference.h5',
                                           **grade_options)
                     if outcome['score'] is None:
                         raise RuntimeError(f'Judge infrastructure error: {case}: {outcome}')

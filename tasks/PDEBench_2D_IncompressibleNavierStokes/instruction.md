@@ -21,7 +21,7 @@
 
 ## 输入范围
 
-输入遵守[通用数据协议](../../docs/CONTRACT.md)，采用 Gmsh 网格、JSON 元数据和 NPZ 场。采样值的连续含义见 [DATA.md](DATA.md)。
+输入遵守[通用数据协议](../../docs/CONTRACT.md)，采用 Gmsh 网格、JSON 元数据和 HDF5 场。采样值的连续含义见 [DATA.md](DATA.md)。
 
 512×512 个单元中心点构成完整等距点阵；0≤t≤4.995 s；初始速度、输运标量和强迫均有限；没有障碍物或重力配置。
 
@@ -35,9 +35,9 @@
 
 ## 输出与提交
 
-接口：`python solve.py --input problem.json --output result.npz`。Python 入口可以调用其他语言实现，题面不要求核心计算使用 Python。
+接口：`python solve.py --input problem.json --output result.h5`。Python 入口可以调用其他语言实现，题面不要求核心计算使用 Python。
 
-输入中的包内文件路径相对 `problem.json` 所在目录解析。读取 JSON 声明的文件和数组引用；按每个输出的 `location` 与 `time_axis` 排列空间行和时间行，将结果写入其 `array` 指定的 NPZ 键。IDs 和时间轴原样复制，结果保存到 `--output` 指定路径。
+输入中的包内文件路径相对 `problem.json` 所在目录解析。读取 JSON 声明的文件和数组引用；按每个输出的 `location` 与 `time_axis` 排列空间行和时间行，将结果写入其 `array` 指定的 HDF5 键。IDs 和时间轴原样复制，结果保存到 `--output` 指定路径。
 
 输出 `velocity[T,N,2]`（m/s），并原样附带输入的 IDs 和 `times`；N 为要求输出的位置数量，T 为请求时刻数。字段均为 float64，具体 quantity、location、value_kind、分量顺序和时间轴见 [DATA.md](DATA.md)。
 

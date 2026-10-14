@@ -201,7 +201,7 @@ class HarborTests(unittest.TestCase):
         with patch.object(judge, 'TESTS', private), patch.object(judge, 'LOGS', logs), \
                 patch.object(judge, 'freeze_submission', return_value=True), \
                 patch.object(judge, 'execute', side_effect=execution), \
-                patch.object(judge.os, 'chown'):
+                patch.object(judge.os, 'chown', create=True):
             judge.main()
         report = json.loads((logs / 'report.json').read_text())
         self.assertEqual(report['score'], 1)
@@ -232,9 +232,10 @@ class HarborTests(unittest.TestCase):
         executable = submission / 'core'
         executable.write_text('compiled helper')
         executable.chmod(0o755)
-        with patch.object(judge, 'SUBMISSION', submission), patch.object(judge.os, 'chown'):
+        with patch.object(judge, 'SUBMISSION', submission), patch.object(judge.os, 'chown', create=True):
             self.assertTrue(judge.freeze_submission())
-            self.assertTrue(executable.stat().st_mode & 0o111)
+            if sys.platform != 'win32':
+                self.assertTrue(executable.stat().st_mode & 0o111)
             for index in range(2):
                 work = self.root / f'work-{index}'
                 logs = self.root / f'logs-{index}'
@@ -249,7 +250,8 @@ class HarborTests(unittest.TestCase):
                     process.wait.return_value = 0
                     return process
                 with patch.object(judge.subprocess, 'Popen', side_effect=spawn), \
-                        patch.object(judge.os, 'killpg'):
+                        patch.object(judge.os, 'killpg', create=True), \
+                        patch.object(judge.signal, 'SIGKILL', 9, create=True):
                     self.assertIsNone(judge.execute(work, 1, logs))
                 self.assertEqual((submission / 'solve.py').read_text(), 'original source')
                 self.assertFalse((submission / 'core.so').exists())

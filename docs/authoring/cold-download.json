@@ -1,0 +1,72 @@
+{
+  "date": "2026-10-14",
+  "python": "/home/zhouzhiyu/venvs/caeoj/bin/python",
+  "cold_downloads": [
+    {
+      "task": "pinnacle-poisson-cg",
+      "cache_path": "/home/zhouzhiyu/code/CAE-Bench-OJ-zzy/runs/fresh-data-agent-20261014/poisson",
+      "transport": "curl",
+      "cache_hit": false,
+      "downloaded_bytes": 85477,
+      "elapsed_seconds": 1.8188122730061878,
+      "sha256": "2b9873fa4175fc26a8d62a7c4ea0f3e3239f9106b25ba622a77fd95fafa48490",
+      "size_and_sha256_verified": true,
+      "max_bytes": 85477,
+      "max_seconds": 120
+    },
+    {
+      "task": "calculix-truss",
+      "cache_path": "/home/zhouzhiyu/code/CAE-Bench-OJ-zzy/runs/fresh-data-agent-20261014/truss",
+      "transport": "curl",
+      "cache_hit": false,
+      "downloaded_bytes": 12636197,
+      "elapsed_seconds": 3.3774656080058776,
+      "sha256": "79848d88dd1e51839d1aed68fb547ff12ad3202c3561c02c2f3a8ceda0f2eb82",
+      "size_and_sha256_verified": true,
+      "max_bytes": 12636197,
+      "max_seconds": 120
+    }
+  ],
+  "total_actual_cold_download_bytes": 12721674,
+  "earlier_failures": [
+    {
+      "task": "pinnacle-poisson-cg",
+      "transport": "urllib",
+      "error": "The read operation timed out",
+      "stage": "TLS response body read",
+      "note": "Initial preparation imported discovery's already downloaded source into cache and verified its pinned hash; this was not claimed as a cold download. Parent repeated cold urllib retrieval and observed same failure."
+    },
+    {
+      "task": "calculix-truss",
+      "stage": "source conversion",
+      "error": "tar member lacked leading ./",
+      "resolution": "Exact pinned tar member path corrected; rerun passed"
+    }
+  ],
+  "transport_resolution": "auto selects installed curl; explicit --transport urllib or curl is supported. Curl runs argv without shell, enforces remaining wall time/connect timeout/pinned size/protocols and validates resumed Content-Range. Unsupported ranges permit a bounded full restart; incompatible 206 ranges are rejected.",
+  "tests": {
+    "command": "/home/zhouzhiyu/venvs/caeoj/bin/python tests/test_authoring_fetch.py -v",
+    "result": "7 tests passed",
+    "elapsed_seconds": 0.921,
+    "transports": [
+      "urllib",
+      "curl"
+    ],
+    "coverage": [
+      "cold fixture fetch",
+      "cache rehash",
+      "Range resume",
+      "corrupt cache rejection",
+      "explicit all/selection/budget guards",
+      "unsafe paths and symlinks",
+      "required hash/size/mapping",
+      "incompatible resumed Range rejection",
+      "unsupported Range bounded restart",
+      "cache deadline",
+      "continuous slow stream deadline"
+    ],
+    "pytest_attempt": "venv does not include pytest; repository unittest module executed directly"
+  },
+  "solver_executed": false,
+  "numerical_grading_executed": false
+}

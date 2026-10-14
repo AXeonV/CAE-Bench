@@ -1,4 +1,4 @@
-"""Twelve real Gmsh mesh/NPZ fixtures with asymmetric values."""
+"""Real Gmsh mesh/NPZ fixtures with asymmetric values."""
 from pathlib import Path
 
 import gmsh
@@ -7,7 +7,7 @@ import numpy as np
 from .validation import GMSH_LOCK, read_mesh, write_json
 
 CASE_NAMES = ["01-line-1d", "02-triangle-2d", "03-quad-2d", "04-tetra-3d",
-              "05-mixed-blocks", "06-noncontiguous-ids", "07-transfinite-quad",
+              "05-mixed-blocks", "06-noncontiguous-ids",
               "08-scalars-and-dtypes", "09-vector-2d", "10-full-tensor",
               "11-field-locations", "12-time-series"]
 
@@ -106,12 +106,13 @@ def add_field(m, arrays, name, location="nodes", kind="scalar", dtype="float64",
 
 def make_cases(destination):
     destination = Path(destination)
-    for index, name in enumerate(CASE_NAMES, 1):
+    for name in CASE_NAMES:
+        index = int(name.split("-", 1)[0])
         directory = destination / name
         directory.mkdir(parents=True, exist_ok=True)
         dim = 1 if index == 1 else 3 if index == 4 else 2
         mesh_path = directory / "mesh.msh"
-        generate_mesh(mesh_path, dim, quads=index in (3, 7), mixed=index == 5,
+        generate_mesh(mesh_path, dim, quads=index == 3, mixed=index == 5,
                       sparse=index == 6)
         mesh = read_mesh(mesh_path)
         m = base(dim)

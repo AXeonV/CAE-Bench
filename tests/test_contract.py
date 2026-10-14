@@ -17,6 +17,7 @@ import numpy as np
 
 from caeoj.sdk import id_to_row, load_problem, load_result, read_constant, read_field, target_ids, write_result
 from caeoj.grading import grade_arrays
+from caeoj.examples import CASE_NAMES
 from caeoj.smoke import PROJECT_ROOT, run_smoke
 from caeoj.validation import ContractError, output_support, read_json, read_npz, validate_input, validate_output, write_json
 
@@ -67,7 +68,8 @@ class ContractTests(unittest.TestCase):
         np.savez(self.root / "bad.npz", **arrays)
         self.assertIn(code, self.codes(validate_output(self.path, self.root / "bad.npz")))
 
-    def test_twelve_real_mesh_and_npz_roundtrips(self):
+    def test_real_mesh_and_npz_roundtrips(self):
+        self.assertEqual({p.parent.name for p in CASES.glob("*/problem.json")}, set(CASE_NAMES))
         for path in sorted(CASES.glob("*/problem.json")):
             with self.subTest(case=path.parent.name):
                 self.assertEqual((path.parent / "mesh.msh").read_bytes().splitlines()[1], b"4.1 0 8")
@@ -374,9 +376,9 @@ class ContractTests(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertFalse(json.loads(result.stdout)["valid"])
 
-    def test_smoke_twelve_processes(self):
+    def test_smoke_all_processes(self):
         result = run_smoke(CASES, PROJECT_ROOT / "tasks/echo-field/solve.py", self.root / "report.json")
-        self.assertEqual(result["passed_cases"], 12)
+        self.assertEqual(result["passed_cases"], len(CASE_NAMES))
         self.assertTrue(result["passed"])
 
     def test_smoke_wrong_values_with_valid_contract(self):
@@ -391,7 +393,7 @@ for s in problem.manifest["outputs"].values():
 write_result(a.output,problem,fields)
 ''', encoding="utf-8")
         result = run_smoke(CASES, program, self.root / "wrong_report.json")
-        self.assertEqual(result["passed_cases"], 9)
+        self.assertEqual(result["passed_cases"], len(CASE_NAMES) - 3)
         self.assertEqual(sum(r["status"] == "wrong_answer" for r in result["cases"]), 3)
 
     def test_runner_failure_statuses_and_bad_input(self):

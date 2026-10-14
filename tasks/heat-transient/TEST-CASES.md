@@ -27,7 +27,7 @@
 | 18-fast-diffusion | bubble | robin / dirichlet / normal_flux / normal_derivative | 2401 | 4608 | 7.5e-05 / 0.002 |
 | 19-slow-diffusion | signed | normal_derivative / robin / dirichlet / normal_flux | 2401 | 4608 | 1.2 / 32 |
 | 20-shifted-rectangle | lobes | dirichlet / normal_flux / robin / normal_derivative | 2145 | 4096 | 0.012 / 0.32 |
-| 21-sparse-binary | bubble | normal_flux / dirichlet / normal_derivative / robin | 1353 | 2560 | 0.003 / 0.08 |
+| 21-sparse-tags | bubble | normal_flux / dirichlet / normal_derivative / robin | 1353 | 2560 | 0.003 / 0.08 |
 | 22-unstructured | lobes | robin / normal_derivative / normal_flux / dirichlet | 2798 | 5402 | 0.003 / 0.08 |
 | 23-initial-boundary-layer | plate | dirichlet / dirichlet / dirichlet / dirichlet | 7921 | 15488 | 0.003 / 0.08 |
 | 24-insulated-gradient | gradient | normal_derivative / normal_flux / normal_flux / normal_derivative | 2401 | 4608 | 0.003 / 0.12 |

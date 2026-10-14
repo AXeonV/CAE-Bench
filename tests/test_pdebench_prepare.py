@@ -21,7 +21,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'src'))
 from utils.PDEBench.conversion import advection_average, build_input, check_reference_initial
 from utils.PDEBench.models import MODELS, BY_TASK
-from utils.PDEBench.pipeline import prepare_task
+from utils.PDEBench.pipeline import contract_hash, prepare_task
 from utils.PDEBench.sources import Reader, frame_indices
 from utils.PDEBench.storage import Budget, PreparationError, RangeReader, digest
 from utils.PDEBench.references import burgers_average, logistic_diffusion
@@ -217,7 +217,24 @@ class ConversionTests(unittest.TestCase):
         np.testing.assert_allclose(actual[1],expected,rtol=0,atol=2e-13)
         np.testing.assert_allclose(burgers_average(np.full(8,2.3),[0.,.1,2.],.001),2.3,atol=1e-12)
 
-    def test_all_contracts_ascii_and_sparse_binary(self):
+    def test_frozen_selections_match_current_contracts(self):
+        for model in MODELS:
+            task=ROOT/'tasks'/model.task
+            selection=json.loads((task/'author/selection.json').read_text(encoding='utf-8'))
+            with self.subTest(task=model.task):
+                self.assertEqual(selection['contract_sha256'],contract_hash(task))
+
+    def test_contract_binding_is_portable_across_line_endings(self):
+        with tempfile.TemporaryDirectory(dir=ROOT/'runs') as tmp:
+            task=Path(tmp)
+            for name in ('instruction.md','DATA.md'):
+                (task/name).write_bytes(b'first\nsecond\n')
+            expected=contract_hash(task)
+            for name in ('instruction.md','DATA.md'):
+                (task/name).write_bytes(b'first\r\nsecond\r\n')
+            self.assertEqual(contract_hash(task),expected)
+
+    def test_all_contracts_ascii_and_sparse_numbering(self):
         for model in MODELS:
             for variant in (0,1):
                 with self.subTest(task=model.task,variant=variant), tempfile.TemporaryDirectory() as tmp:
@@ -236,6 +253,7 @@ class ConversionTests(unittest.TestCase):
                           'CFD_Rand_Eta0.01_Zeta0.01_periodic_Train.hdf5')
                     times=np.array([0.]) if model.model=='darcy_flow_2d' else np.array([0.,.5,1.])
                     problem=build_input(model,{'filename':name},coords,times,values,Path(tmp),variant)
+                    self.assertEqual((Path(tmp)/'mesh.msh').read_bytes().splitlines()[1],b'4.1 0 8')
                     arrays=problem.arrays
                     self.assertEqual(problem.manifest['physics']['model'],model.model)
                     if model.points:

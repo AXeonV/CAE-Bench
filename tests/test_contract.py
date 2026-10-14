@@ -17,6 +17,7 @@ import numpy as np
 
 from caeoj.sdk import id_to_row, load_problem, load_result, read_constant, read_field, target_ids, write_result
 from caeoj.grading import grade_arrays
+from caeoj.examples import CASE_NAMES
 from caeoj.smoke import PROJECT_ROOT, run_smoke
 from caeoj.validation import ContractError, output_support, read_json, read_npz, validate_input, validate_output, write_json
 
@@ -67,9 +68,11 @@ class ContractTests(unittest.TestCase):
         np.savez(self.root / "bad.npz", **arrays)
         self.assertIn(code, self.codes(validate_output(self.path, self.root / "bad.npz")))
 
-    def test_twelve_real_mesh_and_npz_roundtrips(self):
+    def test_real_mesh_and_npz_roundtrips(self):
+        self.assertEqual({p.parent.name for p in CASES.glob("*/problem.json")}, set(CASE_NAMES))
         for path in sorted(CASES.glob("*/problem.json")):
             with self.subTest(case=path.parent.name):
+                self.assertEqual((path.parent / "mesh.msh").read_bytes().splitlines()[1], b"4.1 0 8")
                 p = load_problem(path)
                 result = write_result(self.root / "result.npz", p,
                     {s["array"]: p.arrays[s["array"]].copy() for s in p.manifest["outputs"].values()})
@@ -189,6 +192,29 @@ class ContractTests(unittest.TestCase):
         self.copy_case("04-tetra-3d")
         self.m["spatial_dimension"] = 2
         self.bad_input("E_DIMENSION")
+
+    def test_binary_mesh_is_rejected_without_conversion(self):
+        mesh = self.case / "mesh.msh"
+        gmsh.initialize([], readConfigFiles=False)
+        try:
+            gmsh.option.setNumber("General.Terminal", 0)
+            gmsh.open(str(mesh))
+            gmsh.option.setNumber("Mesh.Binary", 1)
+            gmsh.option.setNumber("Mesh.SaveAll", 1)
+            gmsh.write(str(mesh))
+        finally:
+            gmsh.finalize()
+        original = mesh.read_bytes()
+        self.assertEqual(original.splitlines()[1], b"4.1 1 8")
+        diagnostics = validate_input(self.path)
+        self.assertIn("E_MESH", self.codes(diagnostics))
+        self.assertIn("4.1 0 8", diagnostics["errors"][0]["expected"])
+        self.assertEqual(mesh.read_bytes(), original)
+
+    def test_mesh_data_size_is_fixed(self):
+        mesh = self.case / "mesh.msh"
+        mesh.write_bytes(mesh.read_bytes().replace(b"4.1 0 8", b"4.1 0 4", 1))
+        self.bad_input("E_MESH")
 
     def test_geometry_is_a_reference_not_executed_code(self):
         self.m["meshes"]["main"]["geometry"] = "missing"
@@ -350,9 +376,9 @@ class ContractTests(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertFalse(json.loads(result.stdout)["valid"])
 
-    def test_smoke_twelve_processes(self):
+    def test_smoke_all_processes(self):
         result = run_smoke(CASES, PROJECT_ROOT / "tasks/echo-field/solve.py", self.root / "report.json")
-        self.assertEqual(result["passed_cases"], 12)
+        self.assertEqual(result["passed_cases"], len(CASE_NAMES))
         self.assertTrue(result["passed"])
 
     def test_smoke_wrong_values_with_valid_contract(self):
@@ -367,7 +393,7 @@ for s in problem.manifest["outputs"].values():
 write_result(a.output,problem,fields)
 ''', encoding="utf-8")
         result = run_smoke(CASES, program, self.root / "wrong_report.json")
-        self.assertEqual(result["passed_cases"], 9)
+        self.assertEqual(result["passed_cases"], len(CASE_NAMES) - 3)
         self.assertEqual(sum(r["status"] == "wrong_answer" for r in result["cases"]), 3)
 
     def test_runner_failure_statuses_and_bad_input(self):

@@ -16,15 +16,7 @@
 | 输入数组 | 一个 `.npz` | 实体编号、时间、独立采样点坐标及输入场 |
 | 输出数组 | 一个 `.npz` | 必需输出场及固定编号／时间轴，不重复导出网格和元数据 |
 
-场数据选用 NumPy NPZ。NPZ 是多个具名 NPY 数组的标准容器，NPY 已保存 dtype、shape、字节序和存储布局。协议只补充数组语义，不重新定义数值存储格式。[NumPy 格式规范](https://numpy.org/doc/stable/reference/generated/numpy.lib.format.html)
-
-| 候选 | 适用情形 | 当前选择 |
-|---|---|---|
-| NPZ | 小到中等规模数据，Python 直接读取多维数组 | 唯一场数据载荷格式，易于生成和检查 |
-| HDF5 | 大规模场、分块读取、逐步追加及部分 I/O | 确有需求再定义载荷约定，不加入当前流程 |
-| VTK/XDMF | 网格与场的交换、可视化 | 可作为后续导出格式，当前不要求提交 |
-
-以上是针对本项目的选择。HDF5 有成熟的分块和部分 I/O 能力；VTK/XDMF 有现成的网格与场表达。当前协议使用固定 Gmsh 网格和简单数组读写，不同时引入多种载荷。[HDF5 分块说明](https://portal.hdfgroup.org/documentation/hdf5/latest/hdf5_chunking.html)、[VTK 格式](https://docs.vtk.org/en/latest/vtk_file_formats/vtkxml_file_format.html)、[XDMF 数据模型](https://www.xdmf.org/index.php/XDMF_Model_and_Format)
+场数据固定使用 NumPy NPZ，即包含多个具名 NPY 数组的标准容器。NPY 保存 dtype、shape、字节序和存储布局，协议补充各数组的语义。[NumPy 格式规范](https://numpy.org/doc/stable/reference/generated/numpy.lib.format.html)
 
 数据包示例：
 
@@ -40,7 +32,9 @@ case/
 
 ## 2. 元数据清单
 
-JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元数据必须使用整数，`2.0` 和 `true` 都不是维度整数。未定义字段不允许出现。表中对象名称及 NPZ key 使用 `[A-Za-z][A-Za-z0-9_]*`，区分大小写。
+JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元数据必须使用整数，`2.0` 和 `true` 都不是维度整数。
+
+顶层及各记录对象只允许 Schema 定义的字段。`geometries`、`meshes`、`locations`、`time_axes`、`fields`、`outputs` 的条目名，以及 `physics.parameters` 的参数名和条件 `data` 的参数名，由任务定义，使用 `[A-Za-z][A-Za-z0-9_]*`，区分大小写。NPZ key 也遵守该命名规则。`task`、`physics.model`、`quantity`、`variable`、`operator` 是任务定义的非空字符串，不是通用校验器内置的物理名称枚举。
 
 | 顶层字段 | 类型 | 要求与含义 |
 |---|---|---|
@@ -78,7 +72,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 {"main": {"file": "meshes/domain.msh", "geometry": "shape"}}
 ```
 
-固定采用 **Gmsh MSH 4.1**，允许官方 ASCII 和 binary 编码。读取和单元节点顺序直接采用 Gmsh 标准，协议不提供另一份单元类型目录或 JSON 连接关系。
+固定采用 **Gmsh MSH 4.1 ASCII**，`$MeshFormat` 下一行必须为 `4.1 0 8`（版本 4.1、ASCII 编码、数据尺寸 8 字节）。所有题目使用这一种网格编码；校验器拒绝其他版本、binary 编码或数据尺寸，不做自动转换。Gmsh 导出时设置 `Mesh.MshFileVersion=4.1`、`Mesh.Binary=0`。读取和单元节点顺序直接采用 Gmsh 标准，协议不提供另一份单元类型目录或 JSON 连接关系。
 
 - Gmsh 节点 tag、单元 tag 是身份，不是数组下标；必须为正且能由 `int64` 表示。
 - 节点和单元各有自己的 tag 空间；不同网格也各有自己的 tag 空间。
@@ -133,7 +127,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 {"probes": {"kind": "points", "ids": "probe_ids", "coordinates": "probe_coordinates"}}
 ```
 
-`probe_ids` 为严格递增的非负 `int64[N]`，身份只在该 location 内有效，不引用 Gmsh tag。`probe_coordinates` 为有限的 `float64[N,D]`，单位 m、分量按 x/y/z 顺序。探针、评测点、显式单元中心点均可这样表示；协议不猜测中心或执行插值。
+`probe_ids` 为非空、严格递增的非负 `int64[N]`，身份只在该 location 内有效，不引用 Gmsh tag。`probe_coordinates` 为有限的 `float64[N,D]`，单位 m、分量按 x/y/z 顺序。探针、评测点、显式单元中心点均可这样表示；协议不猜测中心或执行插值。
 
 第 i 个场值始终对应 IDs 数组第 i 项。不得按网格文件读取顺序、坐标位置或自行生成的编号解释场。
 
@@ -151,7 +145,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 
 ## 6. 场数组与物理量
 
-输入 `fields` 与 `outputs` 使用相同的描述结构：
+输入 `fields` 与 `outputs` 使用相同的描述结构，下列字段均必填：
 
 ```json
 {
@@ -262,9 +256,9 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 
 引用 `fields.left_temperature`，其 location 必须与条件完全一致，单位、时间、分量从场描述继承。变化的边界数据、矢量和张量条件统一存 NPZ；均匀矢量也用显式场表示，不增加内联数组格式。
 
-边界位置存 `.msh` 实体／Physical Groups，条件类型存 JSON，变化数值存 NPZ。初始场数值存 NPZ，用 `role: "initial"` 引用；均匀标量初值可写带单位常数。
+边界条件通过 `location` 指定作用位置：网格位置引用 `.msh` 实体／Physical Groups，独立点位置引用 NPZ 坐标。条件类型存 JSON，变化数值存 NPZ。初始场用 `role: "initial"` 引用；均匀标量初值可写带单位常数。
 
-推荐任务采用以下名称，并写出完整数学定义：
+以下是算子名称及数学含义的示例。**通用协议不按 `operator` 固定 `data` 内的参数名**；每道题必须在 DATA.md 中列出允许的算子、边界方程、全部必需／可选参数及其常量／场引用表示。
 
 | role / operator | 含义 |
 |---|---|
@@ -272,11 +266,11 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 | boundary / dirichlet | 指定变量值，例如 `T=g` |
 | boundary / normal_derivative | 指定计算域向外单位法向导数，例如 `∂T/∂n=g` |
 | boundary / normal_flux | 指定向外通量，例如热传导 `-k∇T·n=g` |
-| boundary / robin | 例如 `αT+β∂T/∂n=g`，data 提供 alpha、beta、value |
+| boundary / robin | 例如 `αT+β∂T/∂n=g`；α、β、g 的表示和参数名由任务定义 |
 | source / assign | 方程源项赋值，任务明确其在方程中的符号 |
 | material / assign | 区域材料系数赋值 |
 
-这是数据约定，不要求求解器实现全部算子。自定义算子可使用，但任务必须定义其数学含义及参数名。条件列表顺序不代表优先级，多条记录同时声明约束；角点重合、材料界面、作用时间范围等规则由题目明确，校验器不推断或消解冲突。
+求解器需支持该题声明的算子及数据表示。上面的 `dirichlet` JSON 仅演示均匀标量常量，不规定所有题目都使用 `data.value`。自定义算子也必须由任务定义数学含义及参数名。条件列表顺序不代表优先级，多条记录同时声明约束；角点重合、材料界面、作用时间范围等规则由题目明确，校验器不推断或消解冲突。
 
 离散场仅定义指定实体／点和时刻上的值。若求解需要其他位置或时刻，题目必须说明使用方法或插值规则，不能把采样自动当成解析函数。当前协议不接受可执行函数、任意代码或未定义表达式字符串。
 
@@ -288,7 +282,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 2. 每个输出场 location 的 IDs 数组，与输入的 dtype、shape、值和顺序一致。
 3. 每个输出场 time_axis 的时间数组，同样与输入完全一致。
 
-共享的 IDs／时间 key 只存一份。不重复输出点坐标、网格、无关输入场或字段元数据。所有额外或缺失 key 均不合法。字段 key 不能同时代表 ID、时间或坐标；同一方向的两个场不能共享 array key。
+共享的 IDs／时间 key 只存一份。不重复输出点坐标、网格、无关输入场或字段元数据。所有额外或缺失 key 均不合法。字段 key 不能同时代表 ID、时间或坐标；`fields` 表内各场的 `array` 必须互不相同，`outputs` 表内亦然。输入 NPZ 和结果 NPZ 是不同文件，两者可以使用相同的场数组 key。
 
 唯一性体现为：每个字段只有一个位置、时间、单位、分量和 dtype 声明；IDs 递增且输出使用给定轴；稳态、标量、张量只有一种逻辑形状；组由 `(dimension, tag)` 标识。校验器不接受重排、不同编号或另一张等价网格。
 
@@ -362,19 +356,21 @@ with np.load(input_path.parent / metadata["data_file"], allow_pickle=False) as d
 SDK 是可选帮助：
 
 ```python
-from caeoj.sdk import load_problem, read_constant, read_field, write_result
+from caeoj.sdk import load_problem, read_field, write_result
 
 problem = load_problem("case/problem.json")
 # problem.manifest 为元数据，problem.arrays 为 key -> ndarray。
 # SDK 不执行转置、dtype 转换或数值纠正。
 velocity = read_field(problem, {"field": "velocity"})
-write_result("result.npz", problem, {"velocity": velocity.copy()})
+output_key = problem.manifest["outputs"]["velocity"]["array"]
+write_result("result.npz", problem, {output_key: velocity.copy()})
 ```
 
-| 读取接口 | 输入与返回值 |
+| SDK 接口 | 输入与返回值 |
 |---|---|
 | `read_constant(data)` | 接收 `{"value": 100.0, "unit": "K"}`，返回其中的数值；单位字符串保留在 data 中，不换算单位 |
 | `read_field(problem, reference)` | 接收 `{"field": "velocity"}`，按 `fields.velocity.array` 找到 NPZ 数组并返回；保留完整时间、位置、分量轴与 dtype |
+| `write_result(path, problem, fields)` | `fields` 为输出 NPZ key → ndarray 的映射，key 必须取自 `outputs.<名称>.array`，不使用输出对象名代替；自动复制必需 IDs／时间轴并校验输出 |
 
 读取接口用于 `load_problem` 已校验的元数据，数据来源类型不符会报错。
 返回的场数组与输入共享数据，修改前可调用 `.copy()`。SDK 不求值边界函数、不插值、不修正数值。
@@ -419,10 +415,22 @@ python -m caeoj validate-output --input 'problem.json' --output 'result.npz'
 
 判分由独立模块 `src/caeoj/grading.py` 实现，输出与参考 NPZ 必须满足同一个输出契约。可通过公开 `grading.json` 配置按字段的逐值容差、RMSE、NRMSE、最大误差和超限比例，并用 AND／OR 组合条件。聚合范围、零参考场处理、配置格式与示例见 [数值评分策略](GRADING.md)。这些评分参数不进入 `problem.json` 通用数据协议。
 
-未提供策略时保持旧规则：浮点场逐分量满足 `|result-reference| ≤ atol + rtol·|reference|`，默认 `atol=1e-6`、`rtol=1e-5`；全部值通过才得 1 分。整数／布尔场始终精确一致，IDs 和时间轴始终由契约校验要求精确一致。新策略也不能绕过这些要求。
+未提供评分策略时，浮点场逐分量使用：
+
+`|result-reference| ≤ atol + rtol·|reference|`
+
+`atol`、`rtol` 由题目明确并在评测前固定，全部值通过才得 1 分。整数／布尔场必须完全一致；IDs 和时间轴必须与输入精确一致，评分策略不能放宽这些要求。
+
+使用评分策略：
 
 ```sh
-python -m caeoj grade --input problem.json --output result.npz --reference reference.npz --grading grading.json
+python -m caeoj grade --input 'problem.json' --output 'result.npz' --reference 'reference.npz' --grading 'grading.json'
+```
+
+使用逐值容差：
+
+```sh
+python -m caeoj grade --input 'problem.json' --output 'result.npz' --reference 'reference.npz' --atol '<atol>' --rtol '<rtol>'
 ```
 
 不提供 `--grading` 时仍可使用 `--atol`、`--rtol`；两种方式不能同时指定。`grade` 退出码为 0（通过）、1（答案错误或非法输出）、2（输入／参考数据错误或配置、命令参数错误）。参考输出由出题方提供，不要求与输入场相同。

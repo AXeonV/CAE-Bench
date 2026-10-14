@@ -19,13 +19,13 @@
 | 06-counter-moving-walls | 通道 | P/P/D/D | 0.01 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 1089 / 2048 |
 | 07-vertical-channel | 通道 | D/D/P/P | 0.01 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 1089 / 2048 |
 | 08-long-shifted-channel | 通道 | P/P/D/D | 0.005 / 1.0 | (-1, 2); (2, 0.5) | 1089 / 2048 |
-| 09-sparse-binary-channel | 通道 | P/P/D/D | 0.01 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 2401 / 4608 |
+| 09-sparse-channel | 通道 | P/P/D/D | 0.01 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 2401 / 4608 |
 | 10-density-viscosity | 通道 | P/P/D/D | 0.02 / 2 | (0.0, 0.0); (1.0, 1.0) | 1089 / 2048 |
 | 11-low-re-channel | 通道 | P/P/D/D | 0.05 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 1089 / 2048 |
 | 12-opposing-shear-and-drive | 通道 | P/P/D/D | 0.01 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 1089 / 2048 |
 | 13-cavity-32 | 方腔 top + | D/D/D/D | 0.01 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 1089 / 2048 |
 | 14-cavity-48 | 方腔 top + | D/D/D/D | 0.01 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 2401 / 4608 |
-| 15-cavity-64-binary | 方腔 top + | D/D/D/D | 0.01 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 4225 / 8192 |
+| 15-cavity-64-sparse | 方腔 top + | D/D/D/D | 0.01 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 4225 / 8192 |
 | 16-cavity-scaled-shifted | 方腔 top + | D/D/D/D | 0.01 / 2 | (1, -2); (2, 2) | 2401 / 4608 |
 | 17-zero-net-flux | 通道 | P/P/D/D | 0.01 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 2401 / 4608 |
 | 18-interior-reversal | 通道 | P/P/D/D | 0.01 / 1.0 | (0.0, 0.0); (1.0, 1.0) | 4225 / 8192 |
@@ -142,7 +142,7 @@
 - 压力规范：`∫Ω p dΩ / |Ω| = 0`。
 网格：n=32，连续 tag，MSH 4.1 ASCII；全部参考参数及来源另存 `reference/08-long-shifted-channel/analytic.json`。
 
-### 09-sparse-binary-channel
+### 09-sparse-channel
 
 `s=y−(0)`，`H=1`，`e=(1,0)`，`a=0.08 e`。
 `q∞=0+(0)z+(4)z(1−z)`。
@@ -152,7 +152,7 @@
 - bottom：u=0 e。
 - top：u=0 e。
 - 压力规范：`∫Ω p dΩ / |Ω| = 0`。
-网格：n=48，稀疏 tag，MSH 4.1 binary；全部参考参数及来源另存 `reference/09-sparse-binary-channel/analytic.json`。
+网格：n=48，稀疏 tag，MSH 4.1 ASCII；全部参考参数及来源另存 `reference/09-sparse-channel/analytic.json`。
 
 ### 10-density-viscosity
 
@@ -214,7 +214,7 @@
 - 压力规范：`∫Ω p dΩ / |Ω| = 0`。
 网格：n=48，连续 tag，MSH 4.1 ASCII；全部参考参数及来源另存 `reference/14-cavity-48/analytic.json`。
 
-### 15-cavity-64-binary
+### 15-cavity-64-sparse
 
 `a=(0,0)`；Re=100。运动边开区间为恒定壁速，两个端点为零。
 - left：`u=(0, 0)`。
@@ -224,7 +224,7 @@
 归一化坐标变换 `x̂=M ξ+b`，`M=[[1, 0], [0, 1]]`、`b=[0, 0]`；速度同乘 M 和壁速幅值 1。
 只输出两个清单中的中线分量；坐标显式存于 NPZ，采样点 IDs 不代表网格 tag。
 - 压力规范：`∫Ω p dΩ / |Ω| = 0`。
-网格：n=64，稀疏 tag，MSH 4.1 binary；全部参考参数及来源另存 `reference/15-cavity-64-binary/analytic.json`。
+网格：n=64，稀疏 tag，MSH 4.1 ASCII；全部参考参数及来源另存 `reference/15-cavity-64-sparse/analytic.json`。
 
 ### 16-cavity-scaled-shifted
 
@@ -332,7 +332,7 @@
 - bottom：u=0.4 e。
 - top：u=-0.2 e。
 - 压力规范：`∫Ω p dΩ / |Ω| = 0`。
-网格：n=24，稀疏 tag，MSH 4.1 binary；全部参考参数及来源另存 `reference/24-asymmetric-shifted/analytic.json`。
+网格：n=24，稀疏 tag，MSH 4.1 ASCII；全部参考参数及来源另存 `reference/24-asymmetric-shifted/analytic.json`。
 
 ### 25-cavity-top-reverse
 
@@ -404,7 +404,7 @@
 归一化坐标变换 `x̂=M ξ+b`，`M=[[0, 1], [1, 0]]`、`b=[0, 0]`；速度同乘 M 和壁速幅值 1。
 只输出两个清单中的中线分量；坐标显式存于 NPZ，采样点 IDs 不代表网格 tag。
 - 压力规范：`∫Ω p dΩ / |Ω| = 0`。
-网格：n=48，连续 tag，MSH 4.1 binary；全部参考参数及来源另存 `reference/30-cavity-right-positive/analytic.json`。
+网格：n=48，连续 tag，MSH 4.1 ASCII；全部参考参数及来源另存 `reference/30-cavity-right-positive/analytic.json`。
 
 ### 31-cavity-right-negative
 
@@ -428,4 +428,4 @@
 归一化坐标变换 `x̂=M ξ+b`，`M=[[-1, 0], [0, -1]]`、`b=[1, 1]`；速度同乘 M 和壁速幅值 1。
 只输出两个清单中的中线分量；坐标显式存于 NPZ，采样点 IDs 不代表网格 tag。
 - 压力规范：`∫Ω p dΩ / |Ω| = 0`。
-网格：n=48，稀疏 tag，MSH 4.1 binary；全部参考参数及来源另存 `reference/32-cavity-small-shifted/analytic.json`。
+网格：n=48，稀疏 tag，MSH 4.1 ASCII；全部参考参数及来源另存 `reference/32-cavity-small-shifted/analytic.json`。

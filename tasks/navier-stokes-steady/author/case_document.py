@@ -75,5 +75,5 @@ def write_case_document(destination, records, transient):
             lines += ['- left/right：u、p 及对应导数周期相等。','- bottom/top：u、p 及对应导数周期相等。']
         lines += ['- 压力规范：`∫Ω p dΩ / |Ω| = 0`。']
         if transient:lines += ['输出时刻：`['+', '.join(f'{t:.9g}' for t in r['output_times_s'])+']` s。']
-        lines += [f"网格：n={c['n']}，{'稀疏' if c['sparse'] else '连续'} tag，MSH 4.1 {'binary' if c['binary'] else 'ASCII'}；全部参考参数及来源另存 `reference/{r['case']}/analytic.json`。"]
+        lines += [f"网格：n={c['n']}，{'稀疏' if c['sparse'] else '连续'} tag，MSH 4.1 ASCII；全部参考参数及来源另存 `reference/{r['case']}/analytic.json`。"]
     (destination/'TEST-CASES.md').write_text('\n'.join(lines)+'\n',encoding='utf-8')

@@ -167,7 +167,7 @@ def check_cfd(problem, errors):
         if not set(required)<=set(actual) or set(actual)-set(required)-set(optional):
             fail(path,{'required':required,'optional':optional},list(actual),'Invalid condition parameters.');return False
         return True
-    boundary_seen=set();facet_seen=set();initial=set();anchored=False;periodic={}
+    boundary_seen=set();facet_seen=set();initial=set();anchored=False;density_anchored=False;periodic={}
     for i,c in enumerate(m['conditions']):
         path=f'$.conditions[{i}]';name=c['location'];role=c['role'];op=c['operator'];values=c['data']
         if role=='material':fail(path,'material table only',c,'Do not duplicate material declarations.');continue
@@ -218,7 +218,9 @@ def check_cfd(problem, errors):
                             v=condition_values(problem,c,'velocity',float(time))
                             if not np.allclose(np.sum(v*normal,axis=-1),0.,rtol=0,atol=1e-12):fail(path+'.data.velocity','tangential velocity on fixed geometry',values['velocity'],'Normal wall motion needs moving geometry, outside CFD 2.1.')
                     except (ValueError,KeyError):pass
-                if compressible and op=='velocity':data(values['density'],'kg/m3','scalar',name,path+'.data.density',True)
+                if compressible and op=='velocity':
+                    density_anchored=True
+                    data(values['density'],'kg/m3','scalar',name,path+'.data.density',True)
         elif op=='pressure_outlet':
             anchored=True
             if keys(values,['pressure','backflow'],[],path+'.data'):
@@ -237,7 +239,9 @@ def check_cfd(problem, errors):
                 data(values['rate'],'m2/s' if d==2 else 'm3/s','scalar',name,path+'.data.rate',True)
                 if 'field' in values['rate'] and m['fields'][values['rate']['field']].get('sampling',{}).get('space')!='uniform':fail(path+'.data.rate','uniform rate over the region',values['rate'],'A global flow rate cannot vary spatially.')
                 data(values['shape'],'1','scalar',name,path+'.data.shape',True)
-                if compressible:data(values['density'],'kg/m3','scalar',name,path+'.data.density',True)
+                if compressible:
+                    density_anchored=True
+                    data(values['density'],'kg/m3','scalar',name,path+'.data.density',True)
         elif op=='periodic':
             required=['partner']+[f'translation_{x}' for x in 'xyz'[:d]]
             if keys(values,required,[],path+'.data'):
@@ -256,6 +260,25 @@ def check_cfd(problem, errors):
             if not np.allclose(delta,-other,rtol=0,atol=1e-12):raise ValueError('Periodic translations must be opposite')
             periodic_face_pairs(problem,name,partner,delta)
         except (ValueError,KeyError) as exc:fail('$.conditions','matching translational periodic facets',str(exc),'Invalid periodic map.')
+    inventory=a.get('mean_density')
+    needs_inventory=compressible and not transient and not (anchored or density_anchored)
+    if needs_inventory:
+        if inventory is None:
+            fail('$.analysis.mean_density','positive mean density in kg/m3',None,
+                 'Closed/periodic compressible steady flow needs physical mass inventory.')
+        else:
+            mean_density=constant(inventory,'kg/m3','$.analysis.mean_density',True)
+            if mean_density is not None and material['density']['kind']=='linear_barotropic':
+                parameters=material['density']['parameters']
+                if all(k in parameters for k in DENSITY['linear_barotropic']):
+                    dp={k:v['value'] for k,v in parameters.items()}
+                    mean_pressure=dp['reference_pressure']+(mean_density-dp['reference_density'])*float(dp['sound_speed'])*float(dp['sound_speed'])
+                    if not np.isfinite(mean_pressure) or mean_pressure<=0:
+                        fail('$.analysis.mean_density','mean state with positive absolute pressure',mean_density,
+                             'Mean density is outside the linear material response domain.')
+    elif inventory is not None:
+        fail('$.analysis.mean_density','absent for incompressible/transient/open-anchored flow',inventory,
+             'Do not duplicate the pressure/density boundary state or transient mass inventory.')
     gauge=a.get('pressure_gauge')
     if not compressible:
         if anchored and gauge:fail('$.analysis.pressure_gauge','absent with pressure/traction boundary',gauge,'Do not overconstrain pressure.')

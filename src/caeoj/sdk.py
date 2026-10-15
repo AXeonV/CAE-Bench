@@ -162,3 +162,52 @@ def periodic_face_pairs(problem, condition):
     d=problem.manifest['spatial_dimension'];data=condition['data']
     return pair(problem,condition['location'],data['partner']['location'],
                 [read_constant(data['translation_'+x]) for x in 'xyz'[:d]])
+
+# Chapter-2 helpers are imported lazily so legacy readers pay no domain startup
+# cost and keep the same optional, explicit interpretation of physical data.
+def fluid_energy_properties(problem, temperature, pressure=None):
+    """Evaluate the explicitly declared thermal material; no closure selection."""
+    from .fluid_energy import fluid_energy_properties as evaluate
+    return evaluate(problem, temperature, pressure)
+
+
+def fluid_energy_condition_values(problem, condition, parameter, time):
+    """Sample the energy profile's declared numeric condition in physical time."""
+    from .fluid_energy import fluid_energy_condition_values as sample
+    return sample(problem, condition, parameter, time)
+
+
+def fluid_energy_statistics(times, velocity, temperature=None):
+    """Compute the energy profile's public sample means and central products."""
+    from .fluid_energy import fluid_energy_statistics as compute
+    return compute(times, velocity, temperature)
+
+
+def multiphase_parameters(problem):
+    """Read the multiphase profile parameters without conversion or defaults."""
+    from .fluid_multiphase import multiphase_parameters as read
+    return read(problem)
+
+
+def multiphase_phase_mass(problem, alpha, cell_measures, phase='a'):
+    """Integrate declared phase mass using caller supplied physical measures."""
+    from .fluid_multiphase import multiphase_phase_mass as integrate
+    return integrate(problem, alpha, cell_measures, phase=phase)
+
+
+def reduced_parameters(problem):
+    """Read the reduced/complex-fluid profile's declared physical parameters."""
+    from .fluid_reduced import reduced_parameters as read
+    return read(problem)
+
+
+def reduced_viscosity(model, params, shear_rate, temperature=None, structure=None):
+    """Evaluate the reduced profile's specified viscosity response."""
+    from .fluid_reduced import reduced_viscosity as evaluate
+    return evaluate(model, params, shear_rate, temperature, structure)
+
+
+def maxwellian(number_density, velocity, temperature, mass, molecular_velocity):
+    """Evaluate a molecular velocity distribution using explicit SI arguments."""
+    from .fluid_reduced import maxwellian as evaluate
+    return evaluate(number_density, velocity, temperature, mass, molecular_velocity)

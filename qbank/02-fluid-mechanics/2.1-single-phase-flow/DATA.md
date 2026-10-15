@@ -25,6 +25,7 @@ HDF5 为无属性、无子组的根 dataset 集合。编号为严格递增的 in
 | `pressure.representation` | `absolute` 或 `gauge`，单位均为 Pa |
 | `pressure.reference_pressure` | 仅 gauge 时必有，正的带单位绝对压力；absolute 时禁止 |
 | `time_interval` | 仅 transient 时必有，`{"start":0,"end":1}`，秒，start < end；steady 禁止 |
+| `mean_density` | 可压缩稳态且无压力出口或velocity/flow_rate密度边界时必填正的带单位常量kg/m3；其他情况禁止，含义见下文 |
 | `pressure_gauge` | 下述不可压缩压力规范，按条件出现；可压缩禁止 |
 
 表压满足 `p_absolute = p + reference_pressure`。所有输入压力、输出压力和压力规范采用同一表示，密度响应用绝对压力。这里的压力为静压，单位 Pa，不是除以密度的运动学压力或去静水压量。
@@ -34,7 +35,7 @@ HDF5 为无属性、无子组的根 dataset 集合。编号为严格递增的 in
 - `{"kind":"mean","location":"domain","value":{"value":0,"unit":"Pa"}}`：全流体域面积／体积平均压力等于 value，location 必须是材料 region。
 - `{"kind":"point","location":"pressure_probe","value":{"value":0,"unit":"Pa"}}`：一个独立点处的压力等于 value，location 是含一个点的独立点位置。
 
-上述对象均为 `analysis.pressure_gauge` 的完整值示例，位置名通过清单解析。规范不等于对整个域逐点赋相同压力。可压缩流的绝对压力水平由状态确定，不允许去均值。
+上述对象均为 `analysis.pressure_gauge` 的完整值示例，位置名通过清单解析。规范不等于对整个域逐点赋相同压力。可压缩瞬态的绝对压力水平由初始密度及后续边界确定；稳态由压力出口或速度／流率入口的密度确定。没有这些状态边界的封闭／全周期可压缩稳态必须给 `analysis.mean_density`，表示全域总质量除以面积／体积，不是逐点密度。其值为严格正kg/m3常量，与状态响应共同确定压力水平；其他情况禁止重复声明。线性响应下库存须对应正的平均绝对压力。不允许去均值，库存也不是压力规范。
 
 ## 材料
 

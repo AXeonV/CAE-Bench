@@ -442,7 +442,9 @@ def check_problem(path):
                 errors.append(issue("E_REFERENCE", "$.meshes." + name + ".geometry", "geometry ID", spec["geometry"], "Unknown geometry."))
             try:
                 p.meshes[name] = read_mesh(resolve_file(base, spec["file"], {".msh"}),
-                                           geometry=m.get('profile') == 'cfd-2.1')
+                                           geometry=(m.get('profile') == 'cfd-2.1' or
+                                                     m.get('physics', {}).get('model', '').startswith(
+                                                         ('fluid-energy-', 'fluid-multiphase-', 'fluid-reduced-'))))
                 if p.meshes[name]["dimension"] > m["spatial_dimension"]:
                     errors.append(issue("E_DIMENSION", "$.meshes." + name, "topology <= spatial_dimension",
                                         p.meshes[name]["dimension"], "Topology exceeds the declared space."))
@@ -461,6 +463,17 @@ def check_problem(path):
         if m.get('profile') == 'cfd-2.1' and not errors:
             from .cfd import check_cfd
             check_cfd(p, errors)
+        if not errors:
+            model = m.get('physics', {}).get('model', '')
+            if model.startswith('fluid-energy-'):
+                from .fluid_energy import check_fluid_energy
+                check_fluid_energy(p, errors)
+            elif model.startswith('fluid-multiphase-'):
+                from .fluid_multiphase import check_fluid_multiphase
+                check_fluid_multiphase(p, errors)
+            elif model.startswith('fluid-reduced-'):
+                from .fluid_reduced import check_fluid_reduced
+                check_fluid_reduced(p, errors)
         checker.expect(sorted(arrays), sorted(checker.used), "$.data_file", "E_ARRAYS")
         return p, report(errors)
     except ContractError as exc:

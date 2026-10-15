@@ -10,6 +10,8 @@
 
 既有输入省略版本字段，继续使用原有协议。为题库 2.1 节新增的 `contract_version: 2`、`profile: "cfd-2.1"`、`analysis` 与 `materials` 必须成组声明，启用 [CFD 2.1 配置](CFD-2.1.md) 的共同物理语义及相容性检查。该配置不要求题面列出控制方程，也不固定考生的软件、建模实现或离散方法。
 
+第二章 2.2—2.11 的领域配置复用 `physics.model` 显式启用：[能量与湍流](FLUID-ENERGY.md)、[多相流](FLUID-MULTIPHASE.md)、[降维／稀薄／复杂流体](FLUID-REDUCED.md)。`fluid-energy-`、`fluid-multiphase-`、`fluid-reduced-` 前缀下仅允许各规范列出的版本化 model；`physics.parameters`、场及条件的完整键集合和相容性由相应配置定义并检查。这些配置禁止同时出现 `contract_version`、`profile`、`analysis`、`materials`，不改变旧 `cfd-2.1` 或其他旧 `physics.model` 的语义。结构复用不表示仅做通用检查。
+
 新增结构须通过 Schema 声明，不能自行添加未知字段。通用检查与物理配置检查分别报告结构错误和声明相容性错误；均不证明物理解或数值结果正确。
 
 ## 1. 文件分工与格式选择
@@ -436,6 +438,7 @@ python -m caeoj validate-output --input 'problem.json' --output 'result.h5'
 | E_ID / E_TIME / E_ORDER | 编号唯一性／顺序、时间顺序及固定输出轴 |
 | E_FINITE | 非有限数值 |
 | E_DIMENSION / E_METADATA | 维度或跨字段声明不一致 |
+| E_FLUID | 第二章显式领域配置的参数、单位、状态、采样及条件相容性 |
 | E_CFD | 显式 CFD 配置的单位、范围、条件、材料及跨字段声明不相容 |
 
 通用校验器检查结构和声明，不修改数据，不重排或匹配等价网格。显式 CFD 配置另检查规定的单位、材料范围、条件覆盖和声明相容性。它们不验证 CAD、网格质量、PDE、守恒、完整物理适用性或解误差。

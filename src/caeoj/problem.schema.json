@@ -591,6 +591,9 @@
         },
         "pressure_gauge": {
           "$ref": "#/$defs/cfd_gauge"
+        },
+        "mean_density": {
+          "$ref": "#/$defs/constant"
         }
       },
       "required": [
@@ -719,6 +722,51 @@
               }
             }
           }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "physics"
+        ],
+        "properties": {
+          "physics": {
+            "required": [
+              "model"
+            ],
+            "properties": {
+              "model": {
+                "pattern": "^fluid-(energy|multiphase|reduced)-"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "contract_version"
+              ]
+            },
+            {
+              "required": [
+                "profile"
+              ]
+            },
+            {
+              "required": [
+                "analysis"
+              ]
+            },
+            {
+              "required": [
+                "materials"
+              ]
+            }
+          ]
         }
       }
     }

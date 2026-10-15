@@ -76,6 +76,7 @@ def make_example(destination, dimension=2, transient=False, viscosity='newtonian
     conditions=[{'role':'boundary','variable':'flow','location':label,'operator':'no_slip','data':{}} for label in boundaries]
     inputs={};sampling={'space':'uniform','time':'constant','extrapolation':'forbid'}
     density=float(material_density(material,101325.,300.))
+    if compressible and not transient:analysis['mean_density']=const(density,'kg/m3')
     if transient:
         inputs['initial_velocity']=field('initial_velocity','velocity','domain','initial','vector','m/s',sampling)
         arrays['initial_velocity']=np.zeros((1,len(cell_ids),dimension))

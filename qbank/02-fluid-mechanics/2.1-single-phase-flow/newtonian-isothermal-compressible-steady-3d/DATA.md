@@ -14,6 +14,7 @@
 | materials 中唯一材料的 viscosity.kind | `newtonian` |
 | 黏性参数 | dynamic_viscosity 和 bulk_viscosity 必有 |
 | 初态 | 无 initial 条件；无 time_interval |
+| 质量库存 | 无pressure_outlet或velocity/flow_rate密度边界时必须声明analysis.mean_density（kg/m3，全域质量/面积或体积）；有上述边界时禁止重复库存 |
 | 压力规范 | 禁止 pressure_gauge，绝对水平由物理状态决定 |
 | 边界 | 公共数据说明中除 traction 外的全部边界；入口同时给密度 |
 | 输出 | 至少速度、压力；可请求公共数据说明的其他适用观测，全部 float64 |

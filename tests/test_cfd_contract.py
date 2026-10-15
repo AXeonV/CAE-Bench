@@ -340,4 +340,41 @@ class CFDContractTests(unittest.TestCase):
         self.assertEqual(result.returncode,0,result.stderr)
 
 
+    def test_closed_compressible_steady_requires_physical_mass_inventory(self):
+        self.copy(transient=False,family='compressible')
+        self.assertTrue(validate_input(self.path)['valid'])
+        self.assertGreater(load_problem(self.path).manifest['analysis']['mean_density']['value'],0.)
+        original=deepcopy(self.m)
+        for mutation in ('missing','unit','negative'):
+            self.m=deepcopy(original)
+            if mutation=='missing':self.m['analysis'].pop('mean_density')
+            elif mutation=='unit':self.m['analysis']['mean_density']['unit']='kg'
+            else:self.m['analysis']['mean_density']['value']=-1.
+            with self.subTest(mutation=mutation):self.assertIn('E_CFD',self.bad())
+
+    def test_mass_inventory_is_not_an_extra_open_boundary_or_transient_constraint(self):
+        self.copy(transient=False,family='compressible')
+        self.outlet()
+        self.assertIn('E_CFD',self.bad())
+        self.m['analysis'].pop('mean_density');self.save()
+        self.assertTrue(validate_input(self.path)['valid'])
+        self.copy(transient=True,family='compressible')
+        self.m['analysis']['mean_density']=c(1.,'kg/m3')
+        self.assertIn('E_CFD',self.bad())
+        self.copy(transient=False,family='newtonian')
+        self.m['analysis']['mean_density']=c(1.,'kg/m3')
+        self.assertIn('E_CFD',self.bad())
+
+    def test_linear_response_mass_inventory_positive_pressure_domain(self):
+        self.copy(transient=False,family='compressible')
+        self.m['materials']['fluid']['density']={'kind':'linear_barotropic','parameters':{
+            'reference_density':c(2.,'kg/m3'),'reference_pressure':c(100.,'Pa'),
+            'sound_speed':c(10.,'m/s')}}
+        self.m['analysis']['mean_density']=c(2.,'kg/m3');self.save()
+        self.assertTrue(validate_input(self.path)['valid'])
+        # Independent EOS inversion: rho=1 gives p=100+(1-2)*100=0.
+        self.m['analysis']['mean_density']['value']=1.
+        self.assertIn('E_CFD',self.bad())
+
+
 if __name__=='__main__':unittest.main()

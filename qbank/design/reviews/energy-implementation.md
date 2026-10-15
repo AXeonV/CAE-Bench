@@ -6,7 +6,7 @@
 
 | 需求 | 公开声明／拥有层 | 实施 |
 |---|---|---|
-| 层流热反馈、无黏/黏性气体、平均与统计目标 | physics.model显式14型号，不以task暗藏物理 | docs/FLUID-ENERGY.md、fluid_energy.MODELS |
+| 层流热反馈、无黏/黏性气体、平均与统计目标 | physics.model显式14型号，不以task暗藏物理 | qbank/maintenance/protocols/FLUID-ENERGY.md、fluid_energy.MODELS |
 | 物性随状态变化、Boussinesq与气体质量库存 | physics.parameters带单位固定标量 | 精确参数集合、单位/范围/物性端点可表示性检查、SDK物性助手 |
 | 固定封闭域、机械与热边界 | conditions + element locations + fields | 复用既有结构；连通性、外边界覆盖、纯切向壁速、热锚检查 |
 | 初态、连续源项、重建 | 条件typed-data、HDF5采样 | 必需变量、域覆盖、单位、正值、时间范围、piecewise_constant/constant或linear |

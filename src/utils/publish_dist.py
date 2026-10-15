@@ -17,6 +17,7 @@ from caeoj.grading_policy import task_policy, validate_policy, render_policy
 from caeoj.validation import ContractError, validate_input, validate_output
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PUBLIC_FILES = ("pyproject.toml", "LICENSE", "docs/CONTRACT.md", "docs/GRADING.md")
 TOOL_FILES = ("__init__.py", "__main__.py", "cli.py", "validation.py", "sdk.py", "storage.py",
               "problem.schema.json", "grading.py", "grading_policy.py",
               "grading_metrics.py", "grading.schema.json", "cfd.py", "mesh_geometry.py",
@@ -72,8 +73,7 @@ def collect_materials(task, root=PROJECT_ROOT):
     def add(path):
         files[path.relative_to(root).as_posix()] = read_public_file(root, path)
 
-    for name in ("pyproject.toml", "LICENSE", "docs/CONTRACT.md", "docs/GRADING.md", "docs/CFD-2.1.md",
-                 "docs/FLUID-ENERGY.md", "docs/FLUID-MULTIPHASE.md", "docs/FLUID-REDUCED.md"):
+    for name in PUBLIC_FILES:
         add(root / name)
     for name in TOOL_FILES:
         add(root / "src/caeoj" / name)

@@ -115,7 +115,7 @@ def check_fluid_energy(problem, errors):
     family, energy, method, analysis = MODELS[model]; gas = family in ('inviscid', 'compressible', 'isothermal')
     d = m['spatial_dimension']; locs = m['locations']; arrays = problem.arrays
     if d not in (2, 3) or (method in ('urans', 'resolved') and d != 3) or (method != 'laminar' and energy and d != 3) or (family == 'isothermal' and d != 3):
-        fail('$.spatial_dimension', 'supported model dimension; see FLUID-ENERGY', d)
+        fail('$.spatial_dimension', 'supported model dimension; see task DATA.md', d)
     params = physics['parameters']; expected = parameter_units(model)
     if set(params) != set(expected): fail('$.physics.parameters', sorted(expected), sorted(params)); return
     p = {}

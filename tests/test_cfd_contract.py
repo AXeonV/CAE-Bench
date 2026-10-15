@@ -322,7 +322,7 @@ class CFDContractTests(unittest.TestCase):
         for name in ('pyproject.toml','LICENSE'):shutil.copy2(ROOT/name,root/name)
         shutil.copytree(ROOT/'docs',root/'docs');shutil.copytree(ROOT/'src/caeoj',root/'src/caeoj')
         task=root/'tasks/cfd-fixture';task.mkdir(parents=True)
-        for name,text in [('instruction.md','Uniform rest contract fixture.'),('DATA.md','See docs/CFD-2.1.md.'),('judge-config.json',json.dumps({'atol':0.,'rtol':0.,'timeout_seconds':1}))]:
+        for name,text in [('instruction.md','Uniform rest contract fixture.'),('DATA.md','Packaging fixture; file structure follows docs/CONTRACT.md.'),('judge-config.json',json.dumps({'atol':0.,'rtol':0.,'timeout_seconds':1}))]:
             (task/name).write_text(text)
         sample=task/'samples/01';shutil.copytree(self.case,sample/'input')
         (sample/'input/reference.h5').unlink();(sample/'output').mkdir();shutil.copyfile(self.case/'reference.h5',sample/'output/result.h5')
@@ -332,7 +332,11 @@ class CFDContractTests(unittest.TestCase):
         for name,data in files.items():
             destination=self.root/'release'/name;destination.parent.mkdir(parents=True,exist_ok=True);destination.write_bytes(data)
         for name in ('cfd.py','mesh_geometry.py'):self.assertIn('src/caeoj/'+name,files)
-        self.assertIn('docs/CFD-2.1.md',files)
+        self.assertIn('docs/CONTRACT.md',files)
+        for name in ('CFD-2.1.md','FLUID-ENERGY.md','FLUID-MULTIPHASE.md','FLUID-REDUCED.md'):
+            self.assertNotIn('docs/'+name,files)
+            self.assertNotIn('qbank/maintenance/protocols/'+name,files)
+        self.assertFalse(any(path.startswith('qbank/maintenance/') for path in files))
         code='from pathlib import Path; import caeoj; assert Path(caeoj.__file__).resolve()==Path("src/caeoj/__init__.py").resolve(); from caeoj.sdk import load_problem, dynamic_viscosity; p=load_problem("tasks/cfd-fixture/samples/01/input/problem.json"); assert float(dynamic_viscosity(p,0)) == .01'
         import os
         env={**os.environ,'PYTHONPATH':str(self.root/'release/src')}

@@ -1,6 +1,6 @@
 """Opt-in finite multiphase declarations, not a multiphase solver.
 
-Public semantics: docs/FLUID-MULTIPHASE.md. Generic structure/reference checks
+Public semantics: each task DATA.md; implementation notes are maintained separately. Generic structure/reference checks
 must succeed before this checker runs. No legacy input is reinterpreted.
 """
 import numpy as np

@@ -35,11 +35,15 @@ class FluidPublicToolsTests(unittest.TestCase):
                 destination = root/'src/caeoj'/name
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(ROOT/'src/caeoj'/name, destination)
-            for name in ('CONTRACT.md','GRADING.md','CFD-2.1.md',
-                         'FLUID-ENERGY.md','FLUID-MULTIPHASE.md','FLUID-REDUCED.md'):
-                destination = root/'docs'/name
+            for name in publisher.PUBLIC_FILES:
+                if not name.startswith('docs/'):
+                    continue
+                destination = root/name
                 destination.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(ROOT/'docs'/name, destination)
+                shutil.copy2(ROOT/name, destination)
+            self.assertEqual({p.name for p in (root/'docs').iterdir()},
+                             {'CONTRACT.md', 'GRADING.md'})
+            self.assertFalse((root/'qbank/maintenance').exists())
             fixtures = root/'fixtures'
             fixtures.mkdir()
             energy.fixture(fixtures/'energy', 'fluid-energy-lowmach-laminar-transient-v1')

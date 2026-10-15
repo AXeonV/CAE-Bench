@@ -2,7 +2,7 @@
 
 > 维护方实现参考，不是第二章考生的额外协议依赖。每题完整要求以该题 instruction.md、DATA.md 及通用 CONTRACT.md 为准。
 
-本规范使用[通用协议](CONTRACT.md)的 `physics`、带单位标量、场与条件，定义第二章 2.2—2.4 的有限首版。`physics.model` 显式启用下表模型；`task` 不携带任何物理缺省。不得同时使用 CFD 2.1 的 contract_version/profile/analysis/materials 四键。既有无此前缀的输入保持旧语义；此前缀的未知模型必须拒绝。以下规范、题目 DATA.md 与 COMMON.md 共同构成公开契约。
+本规范使用[通用协议](../../../docs/CONTRACT.md)的 `physics`、带单位标量、场与条件，定义第二章 2.2—2.4 的有限首版。`physics.model` 显式启用下表模型；`task` 不携带任何物理缺省。不得同时使用 CFD 2.1 的 contract_version/profile/analysis/materials 四键。既有无此前缀的输入保持旧语义；此前缀的未知模型必须拒绝。本文记录维护方的模型与实现约定；考生契约仅由本题 instruction.md、DATA.md 与通用 CONTRACT.md 构成。
 
 ## 模型与维度
 

@@ -10,7 +10,7 @@
 - DATA.md 完整给出本题模型标识、参数、材料响应、条件键、单位、时空重建、初态及观测；不再从其他题或领域配置文件补足含义。
 - CONTRACT.md 只提供通用文件、数组、身份、引用和结构规则，不再要求跳到领域或评分文档寻找本题定义。
 - 删除 11 节共 22 份节级 COMMON.md／共享 DATA.md；各节 README 仅导航并记录维护状态。
-- docs/CFD-2.1.md、FLUID-ENERGY.md、FLUID-MULTIPHASE.md、FLUID-REDUCED.md 保留为维护方实现参考，明确不构成考生额外依赖；重要语义澄清同步记录。
+- qbank/maintenance/protocols/CFD-2.1.md、FLUID-ENERGY.md、FLUID-MULTIPHASE.md、FLUID-REDUCED.md 保留为维护方实现参考，明确不构成考生额外依赖；重要语义澄清同步记录。
 - 原审阅文件及 SHA 清单保留作历史证据，已加说明：不自动覆盖这次改写。当前版本以本记录及新的散列为准。
 
 没有将整份领域规范机械贴到每题：按各题材料、维度、稳态／瞬态／统计和条件分支展开，去掉其他题型的模型选择、边界、参数与观测。

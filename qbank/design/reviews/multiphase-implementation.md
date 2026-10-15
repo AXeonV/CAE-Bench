@@ -26,7 +26,7 @@
 
 | 需求 | 实际声明 | 拥有/实现 |
 |---|---|---|
-| 方法、维度和材料 | physics.model、spatial_dimension、闭合的parameters集合 | docs/FLUID-MULTIPHASE.md；fluid_multiphase.py |
+| 方法、维度和材料 | physics.model、spatial_dimension、闭合的parameters集合 | qbank/maintenance/protocols/FLUID-MULTIPHASE.md；fluid_multiphase.py |
 | 物理初态/驱动 | initial/assign、显式acceleration/source，全域实体平均场 | 专用检查：变量集合、空间覆盖、值域、时间轴、sampling |
 | 壁面/储槽 | flow/wall、pressure_reservoir，精确data参数和option | 专用检查：真实外面全覆盖、重叠、允许模型、单位与入流状态 |
 | 多相观测 | alpha、velocity或flux_a/b，适用热/质/相变率 | 专用检查：恰好输出集合、位置/单位/shape/时间；通用输出器 |

@@ -8,7 +8,7 @@
 
 | 物理需要 | 实际声明 | 拥有层 |
 |---|---|---|
-| 固定完整模型、材料和分析 | physics.model=fluid-reduced-{slug}-v1；精确带单位parameters | docs/FLUID-REDUCED.md + fluid_reduced.MODELS |
+| 固定完整模型、材料和分析 | physics.model=fluid-reduced-{slug}-v1；精确带单位parameters | qbank/maintenance/protocols/FLUID-REDUCED.md + fluid_reduced.MODELS |
 | 几何、间隙/床高与初态 | domain全节点location；material/geometry、initial/assign条件 | 既有CONTRACT场/条件结构 + 领域检查 |
 | 实际边界与条件 | exterior simplex facet分区、精确variable/operator/data集 | 领域规范、boundary_rules及覆盖检查 |
 | 连续采样 | 域节点分片线性、边界分片常量；时间linear/constant、forbid外推 | 复用既有sampling结构 |

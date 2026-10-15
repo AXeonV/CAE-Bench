@@ -2,7 +2,7 @@
 
 > 维护方实现参考，不是第二章考生的额外协议依赖。每题完整要求以该题 instruction.md、DATA.md 及通用 CONTRACT.md 为准。
 
-本文规范 2.8—2.11 的首版给定模型。使用通用 [CONTRACT](CONTRACT.md) 的既有 physics、conditions、fields、outputs 和 aggregate 结构，不启用 CFD 的四键声明。`physics.model` 必须是下表完整版本标识，未知 `fluid-reduced-` 名称拒绝。题号不决定物理；模型版本决定物理。没有缺省参数或自动单位换算。相同 JSON 的物理解释不随章节、来源软件或求解方法改变。
+本文规范 2.8—2.11 的首版给定模型。使用通用 [CONTRACT](../../../docs/CONTRACT.md) 的既有 physics、conditions、fields、outputs 和 aggregate 结构，不启用 CFD 的四键声明。`physics.model` 必须是下表完整版本标识，未知 `fluid-reduced-` 名称拒绝。题号不决定物理；模型版本决定物理。没有缺省参数或自动单位换算。相同 JSON 的物理解释不随章节、来源软件或求解方法改变。
 
 ## 1. 共用几何、数组及采样
 

@@ -19,7 +19,7 @@ python -m caeoj_tools.cli smoke
 
 - `src/caeoj/`：通用数组、对象、Schema、诊断、几何、基础 SDK、评分和 runtime；不写物理模型／章节分派。
 - `qbank/extensions/caeoj_ext/fluid/`：single_phase、thermal_flow、turbulence、multiphase、thin_film、depth_averaged、rarefied、complex_fluid；公共声明与几何适配按需复用。
-- `qbank/extensions/caeoj_bundle/runtime.json`：可信开发注册描述，包括 extensions、tasks、SDK aliases、旧模块 modules 和模型名字空间诊断；当前125题均显式绑定。tasks 的值是直接扩展 ID 列表，空列表明确表示该题使用通用声明检查，不是遗漏装配。
+- `qbank/extensions/caeoj_bundle/runtime.json`：可信开发注册描述，包括 extensions、tasks、SDK aliases、旧模块 modules 和模型名字空间诊断；当前135题均显式绑定。tasks 的值是直接扩展 ID 列表，空列表明确表示该题使用通用声明检查，不是遗漏装配。
 - `src/caeoj_tools/`：定位题目、策略读取、作者入口、依赖锁定与装配。publish_dist.py、prepare_harbor.py 仍为现有维护命令入口，均消费同一装配逻辑。
 - smoke-test 的 examples、smoke 在其 author 目录，维护工具显式加载。测试使用维护 loader，不从核心借题库根路径。
 
@@ -90,3 +90,5 @@ python src/utils/publish_dist.py --task heat-conduction-steady-2d --task heat-co
 第四章新增通用entities身份表和multibody.mechanics共享声明检查，不使用伪points坐标，不扩充发布器文件清单。12题普通安装与CLI／SDK验证及平台限制见[第四章实施记录](../design/reviews/chapter-04-implementation.md)。
 
 第五章新增thermal.transport共享热学声明检查与局部焓图映射，复用现有mesh／entities及SDK，无核心或发布器改动；13题独立普通安装与CLI／SDK验证见[第五章记录](../design/reviews/chapter-05-implementation.md)。
+
+第六章新增acoustic.linear共享声学声明检查、封闭表面与接收点支持检查及自由场核组件，复用既有mesh／points／entities及SDK，无核心或发布器改动；10题独立普通安装与CLI／SDK验证见[第六章记录](../design/reviews/chapter-06-implementation.md)。

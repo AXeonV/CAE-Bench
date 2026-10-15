@@ -18,7 +18,7 @@ from caeoj.sdk import load_problem, load_result
 from caeoj.validation import check_result, output_support, validate_input
 
 PROJECT = Path(__file__).resolve().parents[1]
-TASK = PROJECT/'tasks/heat-transient'
+TASK = PROJECT/'tasks/heat-conduction-transient-2d'
 
 
 def author(name):
@@ -203,7 +203,7 @@ class TransientTests(unittest.TestCase):
         spec = importlib.util.spec_from_file_location('transient_publish', PROJECT/'src/utils/publish_dist.py')
         publisher = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(publisher)
-        files, samples = publisher.collect_materials('heat-transient')
+        files, samples = publisher.collect_materials('heat-conduction-transient-2d')
         self.assertEqual(samples, ['01', '02'])
         for path in files:
             self.assertFalse(set(Path(path).parts) & {'author', 'reference', 'cases'})

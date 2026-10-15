@@ -36,7 +36,7 @@ Harbor 适配只负责启动任务和汇总结果，需实际运行 Agent 和 ve
 
 ## 5. 热传导题：完成题面和数据设计
 
-已完成二维稳态热传导的[题面](../tasks/heat-conduction/instruction.md)和 [32 个解析测试点的数据设计](../tasks/heat-conduction/TEST-CASES.md)。后续继续设计和验证边界条件接口，再接入 Agent 评测。
+已完成二维稳态热传导的[题面](../tasks/heat-conduction-steady-2d/instruction.md)和 [32 个解析测试点的数据设计](../tasks/heat-conduction-steady-2d/TEST-CASES.md)。后续继续设计和验证边界条件接口，再接入 Agent 评测。
 
 ## 6. 交付顺序
 

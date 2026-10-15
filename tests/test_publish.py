@@ -28,23 +28,23 @@ class PublishTests(unittest.TestCase):
         self.root = Path(temporary.name)
 
     def extracted_bundle(self):
-        report = publisher.publish("heat-conduction", self.root / "dist")
+        report = publisher.publish("heat-conduction-steady-2d", self.root / "dist")
         extracted = self.root / "agent"
         with zipfile.ZipFile(report["archive"]) as bundle:
             bundle.extractall(extracted)
         return extracted, report
 
     def test_manifest_reproducibility_and_public_only_contents(self):
-        first = publisher.publish("heat-conduction", self.root)
-        second = publisher.publish("heat-conduction", self.root)
+        first = publisher.publish("heat-conduction-steady-2d", self.root)
+        second = publisher.publish("heat-conduction-steady-2d", self.root)
         self.assertEqual(first["sha256"], second["sha256"])
         with zipfile.ZipFile(first["archive"]) as bundle:
             names = bundle.namelist()
             self.assertEqual(len(names), len(set(names)))
             self.assertIn("src/caeoj/problem.schema.json", names)
             self.assertIn("src/caeoj/storage.py", names)
-            self.assertIn("tasks/heat-conduction/samples/01/output/result.h5", names)
-            self.assertIn("tasks/heat-conduction/samples/02/output/result.h5", names)
+            self.assertIn("tasks/heat-conduction-steady-2d/samples/01/output/result.h5", names)
+            self.assertIn("tasks/heat-conduction-steady-2d/samples/02/output/result.h5", names)
             self.assertFalse(any(part in {"author", "cases", "reference", "__pycache__", "runs", ".git"}
                                  for name in names for part in Path(name).parts))
             self.assertFalse(any(name.endswith(("baseline.py", "TEST-CASES.md", "MVP-PLAN.md")) for name in names))
@@ -62,12 +62,12 @@ class PublishTests(unittest.TestCase):
         env = os.environ.copy()
         env["PYTHONPATH"] = str(root / "src")
         commands = [
-            ["validate-input", "tasks/heat-conduction/samples/01/input/problem.json"],
-            ["validate-output", "--input", "tasks/heat-conduction/samples/01/input/problem.json",
-             "--output", "tasks/heat-conduction/samples/01/output/result.h5"],
-            ["validate-input", "tasks/heat-conduction/samples/02/input/problem.json"],
-            ["validate-output", "--input", "tasks/heat-conduction/samples/02/input/problem.json",
-             "--output", "tasks/heat-conduction/samples/02/output/result.h5"],
+            ["validate-input", "tasks/heat-conduction-steady-2d/samples/01/input/problem.json"],
+            ["validate-output", "--input", "tasks/heat-conduction-steady-2d/samples/01/input/problem.json",
+             "--output", "tasks/heat-conduction-steady-2d/samples/01/output/result.h5"],
+            ["validate-input", "tasks/heat-conduction-steady-2d/samples/02/input/problem.json"],
+            ["validate-output", "--input", "tasks/heat-conduction-steady-2d/samples/02/input/problem.json",
+             "--output", "tasks/heat-conduction-steady-2d/samples/02/output/result.h5"],
         ]
         for command in commands:
             execution = subprocess.run([sys.executable, "-m", "caeoj", *command], cwd=root, env=env,
@@ -86,40 +86,40 @@ class PublishTests(unittest.TestCase):
         for sample in ("01", "02"):
             execution = subprocess.run(
                 [sys.executable, "-m", "caeoj", "grade", "--input",
-                 f"tasks/heat-conduction/samples/{sample}/input/problem.json", "--output",
-                 f"tasks/heat-conduction/samples/{sample}/output/result.h5", "--reference",
-                 f"tasks/heat-conduction/samples/{sample}/output/result.h5", "--atol", "0.01", "--rtol", "0"],
+                 f"tasks/heat-conduction-steady-2d/samples/{sample}/input/problem.json", "--output",
+                 f"tasks/heat-conduction-steady-2d/samples/{sample}/output/result.h5", "--reference",
+                 f"tasks/heat-conduction-steady-2d/samples/{sample}/output/result.h5", "--atol", "0.01", "--rtol", "0"],
                 cwd=root, env=env, capture_output=True, text=True, timeout=30)
             self.assertEqual(execution.returncode, 0, execution.stderr)
             self.assertEqual(json.loads(execution.stdout)["score"], 1)
 
     def test_unlisted_files_never_enter_release(self):
         root, _ = self.extracted_bundle()
-        for name in (".env", "src/caeoj/secret.py", "tasks/heat-conduction/author/baseline.py",
+        for name in (".env", "src/caeoj/secret.py", "tasks/heat-conduction-steady-2d/author/baseline.py",
                      "src/caeoj/examples.py", "src/caeoj/smoke.py",
-                     "tasks/heat-conduction/samples/01/verification.json",
-                     "tasks/heat-conduction/samples/01/input/notes.txt"):
+                     "tasks/heat-conduction-steady-2d/samples/01/verification.json",
+                     "tasks/heat-conduction-steady-2d/samples/01/input/notes.txt"):
             path = root / name
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text("PRIVATE MATERIAL", encoding="utf-8")
-        files, _ = publisher.collect_materials("heat-conduction", root)
+        files, _ = publisher.collect_materials("heat-conduction-steady-2d", root)
         self.assertFalse(any(b"PRIVATE MATERIAL" in data for data in files.values()))
 
     def test_invalid_public_output_does_not_replace_existing_release(self):
         root, _ = self.extracted_bundle()
-        release = publisher.publish("heat-conduction", self.root / "new-dist", root)
+        release = publisher.publish("heat-conduction-steady-2d", self.root / "new-dist", root)
         archive = Path(release["archive"])
         before = archive.read_bytes()
-        result = root / "tasks/heat-conduction/samples/01/output/result.h5"
+        result = root / "tasks/heat-conduction-steady-2d/samples/01/output/result.h5"
         arrays = read_hdf5(result)
         arrays["temperature"] = arrays["temperature"][0]
         write_hdf5(result, arrays)
         with self.assertRaises(ContractError):
-            publisher.publish("heat-conduction", self.root / "new-dist", root)
+            publisher.publish("heat-conduction-steady-2d", self.root / "new-dist", root)
         self.assertEqual(archive.read_bytes(), before)
 
     def test_bad_task_names_and_missing_samples_fail(self):
-        for name in ("../heat-conduction", "/tmp", "heat-conduction/author"):
+        for name in ("../heat-conduction-steady-2d", "/tmp", "heat-conduction-steady-2d/author"):
             with self.assertRaises(ValueError):
                 publisher.collect_materials(name)
         with self.assertRaisesRegex(ValueError, "No complete public samples"):

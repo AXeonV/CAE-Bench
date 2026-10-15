@@ -13,7 +13,7 @@ from unittest.mock import patch
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK = 'heat-conduction'
+TASK = 'heat-conduction-steady-2d'
 
 
 def module(name, path):

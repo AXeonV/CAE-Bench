@@ -14,7 +14,7 @@ from caeoj.sdk import load_problem, load_result, read_constant, read_field
 from caeoj.smoke import PROJECT_ROOT
 from caeoj.validation import check_result, output_support
 
-TASK = PROJECT_ROOT / "tasks/heat-conduction"
+TASK = PROJECT_ROOT / "tasks/heat-conduction-steady-2d"
 
 
 def import_author(name):

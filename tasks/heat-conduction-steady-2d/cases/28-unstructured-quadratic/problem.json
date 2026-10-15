@@ -1,0 +1,298 @@
+{
+  "task": "heat-conduction-steady-2d",
+  "spatial_dimension": 2,
+  "data_file": "input.h5",
+  "geometries": {
+    "rectangle": {
+      "file": "mesh.geo",
+      "format": "gmsh-geo"
+    }
+  },
+  "meshes": {
+    "main": {
+      "file": "mesh.msh",
+      "geometry": "rectangle"
+    }
+  },
+  "locations": {
+    "nodes": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "node",
+      "ids": "node_ids"
+    },
+    "domain": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "element",
+      "dimension": 2,
+      "ids": "domain_ids",
+      "physical_group": {
+        "dimension": 2,
+        "tag": 1
+      }
+    },
+    "left": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "element",
+      "dimension": 1,
+      "ids": "left_ids",
+      "physical_group": {
+        "dimension": 1,
+        "tag": 2
+      }
+    },
+    "right": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "element",
+      "dimension": 1,
+      "ids": "right_ids",
+      "physical_group": {
+        "dimension": 1,
+        "tag": 3
+      }
+    },
+    "bottom": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "element",
+      "dimension": 1,
+      "ids": "bottom_ids",
+      "physical_group": {
+        "dimension": 1,
+        "tag": 4
+      }
+    },
+    "top": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "element",
+      "dimension": 1,
+      "ids": "top_ids",
+      "physical_group": {
+        "dimension": 1,
+        "tag": 5
+      }
+    }
+  },
+  "time_axes": {
+    "steady": "times"
+  },
+  "fields": {
+    "source_coefficients": {
+      "array": "source_coefficients",
+      "quantity": "source_coefficients",
+      "location": "domain",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "components",
+      "component_shape": [
+        3,
+        3
+      ],
+      "components": [
+        "c00",
+        "c01",
+        "c02",
+        "c10",
+        "c11",
+        "c12",
+        "c20",
+        "c21",
+        "c22"
+      ],
+      "unit": "W/m3",
+      "value_kind": "average"
+    },
+    "left_coefficients": {
+      "array": "left_coefficients",
+      "quantity": "left_coefficients",
+      "location": "left",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "components",
+      "component_shape": [
+        5
+      ],
+      "components": [
+        "c0",
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "unit": "K",
+      "value_kind": "average"
+    },
+    "right_coefficients": {
+      "array": "right_coefficients",
+      "quantity": "right_coefficients",
+      "location": "right",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "components",
+      "component_shape": [
+        5
+      ],
+      "components": [
+        "c0",
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "unit": "W/m2",
+      "value_kind": "average"
+    },
+    "bottom_coefficients": {
+      "array": "bottom_coefficients",
+      "quantity": "bottom_coefficients",
+      "location": "bottom",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "components",
+      "component_shape": [
+        5
+      ],
+      "components": [
+        "c0",
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "unit": "W/m2",
+      "value_kind": "average"
+    },
+    "top_coefficients": {
+      "array": "top_coefficients",
+      "quantity": "top_coefficients",
+      "location": "top",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "components",
+      "component_shape": [
+        5
+      ],
+      "components": [
+        "c0",
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "unit": "K/m",
+      "value_kind": "average"
+    }
+  },
+  "outputs": {
+    "temperature": {
+      "array": "temperature",
+      "quantity": "temperature",
+      "location": "nodes",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "K",
+      "value_kind": "point"
+    }
+  },
+  "conditions": [
+    {
+      "role": "source",
+      "variable": "temperature",
+      "location": "domain",
+      "operator": "polynomial",
+      "data": {
+        "coefficients": {
+          "field": "source_coefficients"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "temperature",
+      "location": "left",
+      "operator": "dirichlet",
+      "data": {
+        "coefficients": {
+          "field": "left_coefficients"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "temperature",
+      "location": "right",
+      "operator": "normal_flux",
+      "data": {
+        "coefficients": {
+          "field": "right_coefficients"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "temperature",
+      "location": "bottom",
+      "operator": "robin",
+      "data": {
+        "coefficients": {
+          "field": "bottom_coefficients"
+        },
+        "alpha": {
+          "value": 2.0,
+          "unit": "W/(m2.K)"
+        },
+        "beta": {
+          "value": 1.4,
+          "unit": "W/(m.K)"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "temperature",
+      "location": "top",
+      "operator": "normal_derivative",
+      "data": {
+        "coefficients": {
+          "field": "top_coefficients"
+        }
+      }
+    }
+  ],
+  "physics": {
+    "model": "steady_heat_conduction",
+    "parameters": {
+      "conductivity": {
+        "value": 1.4,
+        "unit": "W/(m.K)"
+      },
+      "x0": {
+        "value": 0.0,
+        "unit": "m"
+      },
+      "y0": {
+        "value": 0.0,
+        "unit": "m"
+      },
+      "length_x": {
+        "value": 1.0,
+        "unit": "m"
+      },
+      "length_y": {
+        "value": 1.0,
+        "unit": "m"
+      }
+    }
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "task": "heat-conduction-transient-2d",
+  "spatial_dimension": 2,
+  "data_file": "input.h5",
+  "geometries": {
+    "rectangle": {
+      "file": "mesh.geo",
+      "format": "gmsh-geo"
+    }
+  },
+  "meshes": {
+    "main": {
+      "file": "mesh.msh",
+      "geometry": "rectangle"
+    }
+  },
+  "locations": {
+    "nodes": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "node",
+      "ids": "node_ids"
+    },
+    "domain": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "element",
+      "dimension": 2,
+      "ids": "domain_ids",
+      "physical_group": {
+        "dimension": 2,
+        "tag": 1
+      }
+    },
+    "left": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "element",
+      "dimension": 1,
+      "ids": "left_ids",
+      "physical_group": {
+        "dimension": 1,
+        "tag": 2
+      }
+    },
+    "right": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "element",
+      "dimension": 1,
+      "ids": "right_ids",
+      "physical_group": {
+        "dimension": 1,
+        "tag": 3
+      }
+    },
+    "bottom": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "element",
+      "dimension": 1,
+      "ids": "bottom_ids",
+      "physical_group": {
+        "dimension": 1,
+        "tag": 4
+      }
+    },
+    "top": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "element",
+      "dimension": 1,
+      "ids": "top_ids",
+      "physical_group": {
+        "dimension": 1,
+        "tag": 5
+      }
+    }
+  },
+  "time_axes": {
+    "initial": "initial_times",
+    "output": "times"
+  },
+  "fields": {
+    "initial_temperature": {
+      "array": "initial_temperature",
+      "quantity": "temperature",
+      "location": "nodes",
+      "time_axis": "initial",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "K",
+      "value_kind": "point"
+    }
+  },
+  "outputs": {
+    "temperature": {
+      "array": "temperature",
+      "quantity": "temperature",
+      "location": "nodes",
+      "time_axis": "output",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "K",
+      "value_kind": "point"
+    }
+  },
+  "physics": {
+    "model": "transient_heat_conduction",
+    "parameters": {
+      "conductivity": {
+        "value": 1.0,
+        "unit": "W/(m.K)"
+      },
+      "volumetric_heat_capacity": {
+        "value": 1.0,
+        "unit": "J/(m3.K)"
+      },
+      "x0": {
+        "value": -1.5,
+        "unit": "m"
+      },
+      "y0": {
+        "value": 2.0,
+        "unit": "m"
+      },
+      "length_x": {
+        "value": 2.0,
+        "unit": "m"
+      },
+      "length_y": {
+        "value": 0.8,
+        "unit": "m"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "role": "initial",
+      "variable": "temperature",
+      "location": "nodes",
+      "operator": "assign",
+      "data": {
+        "value": {
+          "field": "initial_temperature"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "temperature",
+      "location": "left",
+      "operator": "dirichlet",
+      "data": {
+        "value": {
+          "value": 0.0,
+          "unit": "K"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "temperature",
+      "location": "right",
+      "operator": "normal_flux",
+      "data": {
+        "value": {
+          "value": 0.0,
+          "unit": "W/m2"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "temperature",
+      "location": "bottom",
+      "operator": "robin",
+      "data": {
+        "value": {
+          "value": 0.0,
+          "unit": "W/m2"
+        },
+        "alpha": {
+          "value": 0.5,
+          "unit": "W/(m2.K)"
+        },
+        "beta": {
+          "value": 1.5,
+          "unit": "W/(m.K)"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "temperature",
+      "location": "top",
+      "operator": "normal_derivative",
+      "data": {
+        "value": {
+          "value": 0.0,
+          "unit": "K/m"
+        }
+      }
+    }
+  ]
+}

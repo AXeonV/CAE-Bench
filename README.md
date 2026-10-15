@@ -41,8 +41,8 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 | 目录 | 问题 | 要求输出 |
 |---|---|---|
 | [echo-field](tasks/echo-field/instruction.md) | 输入场回传，检查协议与校验链路 | 输入要求回传的场 |
-| [heat-conduction](tasks/heat-conduction/README.md) | 稳态热传导 | temperature |
-| [heat-transient](tasks/heat-transient/README.md) | 瞬态热传导 | temperature |
+| [heat-conduction-steady-2d](tasks/heat-conduction-steady-2d/README.md) | 稳态热传导 | temperature |
+| [heat-conduction-transient-2d](tasks/heat-conduction-transient-2d/README.md) | 瞬态热传导 | temperature |
 | [advection-1d](tasks/advection-1d/README.md) | 一维周期线性平流 | state |
 | [burgers-1d](tasks/burgers-1d/README.md) | 一维周期黏性 Burgers 方程 | state |
 | [reaction-diffusion-1d](tasks/reaction-diffusion-1d/README.md) | 一维 logistic 反应扩散 | state |

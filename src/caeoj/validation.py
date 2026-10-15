@@ -275,6 +275,8 @@ class Checker:
                 if ids is not None and len(ids) != 1:
                     self.fail('E_SHAPE', path+'.ids', 'one aggregate ID', ids, 'Aggregate has one result entity.')
                 continue
+            if loc["kind"] == "entities":
+                continue
             if loc["kind"] == "points":
                 if ids is not None:
                     self.array(loc["coordinates"], "float64", [len(ids), self.m["spatial_dimension"]],
@@ -338,7 +340,7 @@ class Checker:
             self.expect(labels, ["".join(x) for x in itertools.product(axes, repeat=rank)],
                         path + ".components", "E_COMPONENTS")
         self.expect(len(labels), math.prod(shape), path + ".components", "E_COMPONENTS")
-        if loc["kind"] == "points" or loc.get("entity") == "node":
+        if loc["kind"] in ("points", "entities") or loc.get("entity") == "node":
             self.expect(spec["value_kind"], "point", path + ".value_kind")
         elif loc['kind'] == 'aggregate':
             self.expect(spec['value_kind'], 'integral' if loc['operation']=='sum' else 'average',

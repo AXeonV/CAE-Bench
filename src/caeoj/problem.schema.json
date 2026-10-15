@@ -330,6 +330,23 @@
             "operation"
           ],
           "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "entities"
+            },
+            "ids": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+            }
+          },
+          "required": [
+            "kind",
+            "ids"
+          ],
+          "additionalProperties": false
         }
       ]
     },

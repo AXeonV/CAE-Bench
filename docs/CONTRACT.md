@@ -152,6 +152,12 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 
 `{"kind":"aggregate","source":"boundary_faces","ids":"observation_ids","operation":"sum"}` 声明一个整体观测。source 必须引用 mesh element location，不能循环引用或指向另一聚合位置；ids 是恰含一项的 int64 观测编号。sum 对应 integral，mean 对应 average；输出仍为 `[T,1,*component_shape]`，不使用伪造的采样点坐标。聚合位置不用于条件。物理积分、平均的定义由本题 DATA.md 说明，协议校验器不自动计算结果。
 
+### 4.5 离散实体身份
+
+`{"kind":"entities","ids":"body_ids"}` 表示没有固定空间采样坐标的离散对象表，例如刚体、关节、有限维模态系统；不是网格节点、空间探针或区域聚合。记录恰含kind、ids，不能携带coordinates、mesh、entity、source或其他键。ids为非空、非负、严格递增int64[N]，身份仅在该location内有效。字段仍为[T,N,*component_shape]，value_kind固定point，表示该对象自身的状态或属性，不表示连续空间点值、区域平均或积分。不同实体间没有默认插值、距离或邻接关系。
+
+每题DATA必须明确对象含义、跨location引用、状态分量及离散参数解释；数值位置若是物理未知量，使用有明确单位的字段。此类型不自动赋予任意广义坐标或物理模型语义，也不能替代已有网格区域聚合。结果和SDK沿用相同ID／时间复制规则，不导出伪坐标。该表示为向后兼容的新增分支，不改变既有mesh、points、aggregate含义。
+
 ## 5. 时间轴
 
 ```json
@@ -211,7 +217,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 - `average`：Gmsh 单元所代表实体上的平均值。
 - `integral`：该实体上的积分值，单位包含积分后的量纲。
 
-节点和独立点只允许 `point`；单元只允许 `average` 或 `integral`。整体观测使用 4.4 节约定的 average／integral。单元中心点值必须提供独立 point location，避免同一“cell value”被默认为不同含义。
+节点、独立点和离散实体只允许 `point`；单元只允许 `average` 或 `integral`。整体观测使用 4.4 节约定的 average／integral。单元中心点值必须提供独立 point location，避免同一“cell value”被默认为不同含义。
 
 场数组必须是规则数值 ndarray，禁止 object、字符串、复数、结构化 dtype。浮点值必须有限。整数／布尔场也使用相同的时间、实体、分量轴。不得省略轴、展平或隐式广播。
 
@@ -469,7 +475,7 @@ python -m caeoj grade --input 'problem.json' --output 'result.h5' --reference 'r
 
 ## 12. 支持范围与扩展规则
 
-当前支持固定网格与固定采样位置下的 Gmsh 网格／分组、HDF5 场数组、时间轴、带单位参数及条件记录。网格运动、自适应拓扑、局部坐标基、额外自由度／积分点和通用连续表达式求值尚未定义。周期等专用条件可由题目通过已有条件记录定义，并明确网格中的配对关系；通用协议尚未统一其物理语义。
+当前支持固定网格与固定采样位置下的 Gmsh 网格／分组、HDF5 场数组、时间轴、带单位参数及条件记录。网格运动、自适应拓扑、局部坐标基、连续体额外自由度／积分点和通用连续表达式求值尚未定义；离散对象状态可用4.5节entities及任务定义的components表示。周期等专用条件可由题目通过已有条件记录定义，并明确网格中的配对关系；通用协议尚未统一其物理语义。
 
 **通用条件机制不等于全部边界语义都已定义。** 各题 DATA.md 必须就地说明边界函数表示、坐标／法向、算子参数和条件组合；不得依靠额外协议引用补足。同一存储结构不代表支持任意物理或边界组合。校验器检查通用结构及已实现的领域声明相容性，不验证数值解。
 

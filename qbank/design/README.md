@@ -4,7 +4,7 @@
 
 本文件确定章级规划，后续逐章展开节、子节及具体题目。规划独立于算例来源、数据就绪程度和实施顺序；列入目录不表示已完成题目或参考验证。设计原则见 [PHILOSOPHY.md](../PHILOSOPHY.md)。
 
-执行流程见 [Agent 章节出题工作流](AUTHORING.md)，可通过仓库技能 `caeoj-author-section` 完成指定章／节的题面、协议核查与独立考生审阅。
+执行流程见 [Agent 章节出题工作流](AUTHORING.md)，具体错误与修复经验见 [经验清单](AUTHORING-LESSONS.md)；可通过仓库技能 `caeoj-author-section` 完成指定章／节的题面、协议核查与独立考生审阅。
 
 ## 章级目录
 

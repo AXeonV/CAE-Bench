@@ -70,13 +70,13 @@ CFD 输入不再声明 `physics`，避免与 `analysis`、`materials` 两套定�
 
 | 黏性 kind | parameters | 动力黏度 μ（Pa.s） |
 |---|---|---|
-| `newtonian` | `dynamic_viscosity`：Pa.s | μ 固定；可压缩材料还必须给 `bulk_viscosity`：Pa.s，非负，表示体积黏性响应 |
+| `newtonian` | `dynamic_viscosity`：Pa.s | μ 固定；可压缩材料还必须给 `bulk_viscosity`：Pa.s，非负，表示三维材料纯体积应变的黏性系数（不是第二黏度系数） |
 | `power_law` | `reference_viscosity`：Pa.s；`reference_shear_rate`、`minimum_shear_rate`、`maximum_shear_rate`：1/s；`power_index`：1 | μ = μ_ref [clip(γ̇, γ̇_min, γ̇_max)/γ̇_ref]^(n−1)，min ≤ reference ≤ max |
 | `cross` | `zero_shear_viscosity`、`infinite_shear_viscosity`：Pa.s；`relaxation_time`：s；`cross_exponent`：1 | μ = μ_inf + (μ_zero−μ_inf)/[1+(λγ̇)^m] |
 | `carreau` | 同上，但将 `cross_exponent` 换为 `power_index`：1 | μ = μ_inf + (μ_zero−μ_inf)[1+(λγ̇)²]^((n−1)/2) |
 | `carreau_yasuda` | Carreau 参数再加 `transition_index`：1 | μ = μ_inf + (μ_zero−μ_inf)[1+(λγ̇)^a]^((n−1)/a) |
 
-平台型响应要求 μ_zero ≥ μ_inf，Carreau／Carreau–Yasuda 还要求 0 < n ≤ 1。这些标签定义输入材料响应，不要求求解器采用某种离散形式。屈服、黏弹性、触变和空间变化的材料参数尚不在本配置中；若题目需要，须先扩展声明和验证范围，不得只在题面暗示支持。
+平台型响应要求 μ_zero ≥ μ_inf，Carreau／Carreau–Yasuda 还要求 0 < n ≤ 1。总应力由 −pI、剪切黏性应力及体积黏性应力相加；偏应变从三维对称速度梯度中去除三分之一的体积应变。二维仍使用该三维材料约定。这些标签定义输入材料响应，不要求求解器采用某种离散形式。屈服、黏弹性、触变和空间变化的材料参数尚不在本配置中；若题目需要，须先扩展声明和验证范围，不得只在题面暗示支持。
 
 ## 条件与连续数据
 
@@ -89,9 +89,9 @@ CFD 输入不再声明 `physics`，避免与 `analysis`、`materials` 两套定�
 | `slip` | `{}` | 静止不穿透、零切向牵引边界 |
 | `symmetry` | `{}` | 平面镜像对称；相关法向通量为零，须由出题方保证几何及工况相容 |
 | `velocity` | `velocity`：m/s 矢量场 | 给定流入速度；可压缩流还必须给 `density`：kg/m3 |
-| `pressure_outlet` | `pressure`：Pa 标量；`backflow: {"option":"forbid"}` | 给定出口静压，只支持无回流工况。出题方保证出口物理适用性，程序和判分验证不得把实际回流忽略为合法结果；速度外推等数值处理由方法决定 |
+| `pressure_outlet` | `pressure`：Pa 标量；`backflow: {"option":"forbid"}` | 外压牵引出口：pressure 表示外部储槽静压 p_ext，总牵引 σn = −p_ext n，切向总牵引为零。采用声明的压力表示，只支持无回流工况；不另外强制域内边界 p = p_ext、速度零法向梯度或出口密度。出题方保证物理适用性，不得忽略实际回流 |
 | `traction` | `traction`：Pa 矢量场 | 外界施加在流体上的总牵引 σn；本配置仅用于不可压缩流 |
-| `flow_rate` | `rate`：严格正的标量常量／空间均匀场；`shape`：正的无量纲标量常量／边界单元场 | 指定体积流入率，切向速度为零。按 `u_i = −Q shape_i n_i / sum_j(shape_j measure_j)` 定义该采样边界上的速度；2D Q 单位 m2/s，3D 为 m3/s。可压缩流还给 `density` |
+| `flow_rate` | `rate`：严格正的标量常量／空间均匀场；`shape`：正的无量纲标量常量／边界场 | 指定体积流入率，切向速度为零。节点形状场先按声明重建并取边界实体平均，再按 `u_i = −Q shape_i n_i / sum_j(shape_j measure_j)` 定义该采样边界上的速度；2D Q 单位 m2/s，3D 为 m3/s。可压缩流还给 `density` |
 | `periodic` | `partner: {"location":"other"}`；`translation_x/y[/z]`：m 常量 | 成对互引，平移把本侧映射到对侧，反向平移相反。压力、速度及密度周期，不包含压力跳跃；不按数组行号配对 |
 
 数值数据使用通用常量或 `{field: name}`。场可直接位于条件的单元 location，也可位于覆盖该区域全部节点的同网格 node location；后者必须按实际节点集合匹配，不能按数量或行号猜测。数值采用平均／点值，不接受把实体积分当作边界值。矢量一律引用 HDF5 场；无参数条件使用空 data，无需伪造数值参数。新增 `{option: string}` 表达类别选项、`{location: name}` 表达位置引用，均有结构／引用检查。
@@ -109,7 +109,7 @@ CFD 输入不再声明 `physics`，避免与 `analysis`、`materials` 两套定�
 | time | `constant`：仅在分析起点给一帧，在整个区间有效；`linear`：相邻样本线性插值；`previous`：在 [t_i,t_(i+1)) 取前值，最后样本时刻取最后值 |
 | extrapolation | `forbid`：不允许在采样区间外求值，变化的边界数据须覆盖整个分析区间；`hold`：区间外取最近端值。constant 的单帧按其定义始终有效 |
 
-稳态起点标记为 0；瞬态起点由 time_interval.start 确定。初值仅一帧且在起点。输出时间不控制边界采样时间或内部积分步长。当前不支持任意函数代码、表达式求值或从散点自动推断空间插值。
+稳态所有输入场只有 `[0.0]` 一帧且 time 为 constant；瞬态起点由 time_interval.start 确定。初值仅一帧且在起点。输出时间不控制边界采样时间或内部积分步长。当前不支持任意函数代码、表达式求值或从散点自动推断空间插值。
 
 ## 观测与输出
 

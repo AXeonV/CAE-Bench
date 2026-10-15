@@ -2,11 +2,11 @@
 
 CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕通用数据协议、结构校验、测试数据和独立判分组织，支持持续增加不同物理模型的题目和测试。
 
-通用数据协议见 [CONTRACT.md](docs/CONTRACT.md)，2.1 节流动分析的共同输入输出语义见 [CFD-2.1.md](docs/CFD-2.1.md)，多指标评分配置见 [GRADING.md](docs/GRADING.md)，初版实施规划见 [MVP-PLAN.md](docs/MVP-PLAN.md)，Agent 测试记录见 [AGENT-RESULTS.md](docs/AGENT-RESULTS.md)。各题目的方程、输入范围、测试设计、依赖和运行说明保存在对应的 `tasks/<task>/` 目录。
+通用数据协议见 [CONTRACT.md](docs/CONTRACT.md)，2.1 节流动分析的共同输入输出语义见 [CFD-2.1.md](docs/CFD-2.1.md)，多指标评分配置见 [GRADING.md](docs/GRADING.md)，初版实施规划见 [MVP-PLAN.md](docs/MVP-PLAN.md)，Agent 测试记录见 [AGENT-RESULTS.md](docs/AGENT-RESULTS.md)。既有题目的物理／数学描述、输入范围、测试设计、依赖和运行说明保存在 `tasks/<task>/`；新题库按 [qbank 总体设计](qbank/design/README.md) 建设，已撰写 [2.1 节的 12 道题面](qbank/02-fluid-mechanics/2.1-single-phase-flow/README.md)，数值数据后续补充。
 
 ## 设计
 
-- **通用数据协议**：Gmsh 存网格，HDF5 存数组，JSON 声明字段和条件；各题目明确方程与输入范围，求解程序按同一协议读写。
+- **通用数据协议**：Gmsh 存网格，HDF5 存数组，JSON 声明字段和条件；各题目明确物理或数学问题与输入范围，求解程序按同一协议读写。
 - **纠正 Agent I/O**：Agent 在理解输入、编写和调试程序时可随时调用**结构校验器**，根据诊断修改读写实现，减少输入输出理解错误的负担。*校验器只检查格式与引用，不验证或纠正物理结果。*
 - **提交后独立评测**：逐例执行提交程序，重新校验输出并按题目误差阈值与标答比较，每点 0/1 分，汇总结果和日志。
 
@@ -25,6 +25,7 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 | `src/utils/prepare_harbor.py` | **统一组装** Harbor 临时任务环境 |
 | `src/utils/harbor/` | 通用 Harbor 模板与逐例判题逻辑 |
 | `src/utils/PDEBench/` | PDEBench 数据获取、协议转换与参考审核 |
+| `qbank/` | 统一题库设计及按章、节组织的新题面 |
 | `tasks/<task>/` | 各题目的题面、数据、标答及出题工具 |
 | `legacy/` | 已归档的旧题目与回归测试，见 [归档说明](legacy/README.md) |
 | `tests/` | 协议、校验、判分和题目数据的自动测试 |

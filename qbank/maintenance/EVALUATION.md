@@ -28,7 +28,7 @@ v2偏置只允许已公开的数值或显式 `{"parameter":"pressure_reference"}
 
 ## 数据就绪与使用
 
-当前配置覆盖145题：第0章1题、第1章13题、第2章65题、第3章21题、第4章12题、第5章13题、第6章10题、第7章10题。第七章配置消费与验证见[第七章记录](../design/reviews/chapter-07-implementation.md)，正式数据与参考留后。第六章配置消费与验证见[第六章记录](../design/reviews/chapter-06-implementation.md)，正式数据与参考留后。第五章配置消费、独立安装及验证边界见[第五章记录](../design/reviews/chapter-05-implementation.md)，正式数据与参考留后。第3、4章的配置消费与验证分别见[第三章记录](../design/reviews/chapter-03-progress.md)、[第四章记录](../design/reviews/chapter-04-implementation.md)，两章正式数据及参考均留后；此总数不是已可运行评测数。第0章可用原11例运行本地 smoke，消费本题评分与时限配置；尚无Harbor所需的公开samples与独立reference文件，不为通过组装制造假数据。第一章已有292份清单，其中60份热传导输入及对应参考／公开输出完整，其余232份缺载荷；第二章仍无正式输入或参考。
+当前配置覆盖153题：第0章1题、第1章13题、第2章65题、第3章21题、第4章12题、第5章13题、第6章10题、第7章10题、第8章8题。第八章配置消费与验证见[第八章记录](../design/reviews/chapter-08-implementation.md)，正式数据与参考留后。第七章配置消费与验证见[第七章记录](../design/reviews/chapter-07-implementation.md)，正式数据与参考留后。第六章配置消费与验证见[第六章记录](../design/reviews/chapter-06-implementation.md)，正式数据与参考留后。第五章配置消费、独立安装及验证边界见[第五章记录](../design/reviews/chapter-05-implementation.md)，正式数据与参考留后。第3、4章的配置消费与验证分别见[第三章记录](../design/reviews/chapter-03-progress.md)、[第四章记录](../design/reviews/chapter-04-implementation.md)，两章正式数据及参考均留后；此总数不是已可运行评测数。第0章可用原11例运行本地 smoke，消费本题评分与时限配置；尚无Harbor所需的公开samples与独立reference文件，不为通过组装制造假数据。第一章已有292份清单，其中60份热传导输入及对应参考／公开输出完整，其余232份缺载荷；第二章仍无正式输入或参考。
 
 可用两道热传导验证本地公开包与Harbor组装：
 

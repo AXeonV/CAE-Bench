@@ -54,3 +54,5 @@
 第五章已按[章规划](chapter-05-heat-transfer.md)完成6节13题、自包含DATA、热学共享扩展、评分执行配置及独立考生复核；见[整章目录](../05-heat-transfer/README.md)和[最终进度与限制](reviews/chapter-05-progress.md)。正式数据、独立参考、预算／容差校准及发布留后。
 
 第七章已按[章规划](chapter-07-electromagnetics.md)完成7节10题、自包含DATA、电磁共享扩展、评分执行配置及独立考生复核；见[整章目录](../07-electromagnetics/README.md)和[最终进度与限制](reviews/chapter-07-progress.md)。正式数据、独立参考、预算／容差校准及发布留后。
+
+第八章已按[章规划](chapter-08-optics.md)完成6节8题、自包含DATA、光学共享扩展、评分执行配置和独立考生复核；见[整章目录](../08-optics/README.md)和[最终进度与限制](reviews/chapter-08-progress.md)。正式数据、独立参考、模型适用性、预算／容差校准及发布留后。

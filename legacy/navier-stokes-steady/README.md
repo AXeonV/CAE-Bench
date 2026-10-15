@@ -28,13 +28,13 @@
 沿用[项目 README](../../README.md#运行) 的 Python 环境，在项目根目录执行：
 
 ```sh
-python tasks/navier-stokes-steady/author/generate.py
-python tasks/navier-stokes-steady/author/check.py
+python legacy/navier-stokes-steady/author/generate.py
+python legacy/navier-stokes-steady/author/check.py
 ```
 
 `generate.py` 覆盖生成题库及样例；`check.py --program <solver.py>` 可检查其他提交，报告位于 `runs/navier-stokes-steady/baseline/`。作者生成工具由瞬态题复用；两题的 baseline 均为可独立部署的单文件。
 
-两题共用的出题侧回归测试见 [tests/test_navier_stokes.py](../../tests/test_navier_stokes.py)，检查题库范围、边界数据与周期映射、解析解与 Ghia 中线变换、baseline 对数据引用的适配，以及样例判分和公开材料范围。
+两题共用的出题侧回归测试见 [legacy/tests/test_navier_stokes.py](../tests/test_navier_stokes.py)，检查题库范围、边界数据与周期映射、解析解与 Ghia 中线变换、baseline 对数据引用的适配，以及样例判分和公开材料范围。
 
 ## 判分
 

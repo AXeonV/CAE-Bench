@@ -26,6 +26,7 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 | `src/utils/harbor/` | 通用 Harbor 模板与逐例判题逻辑 |
 | `src/utils/PDEBench/` | PDEBench 数据获取、协议转换与参考审核 |
 | `tasks/<task>/` | 各题目的题面、数据、标答及出题工具 |
+| `legacy/` | 已归档的旧题目与回归测试，见 [归档说明](legacy/README.md) |
 | `tests/` | 协议、校验、判分和题目数据的自动测试 |
 | `runs/` | 本地输出、临时 Harbor 任务和运行报告，不纳入版本控制 |
 
@@ -42,8 +43,6 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 | [echo-field](tasks/echo-field/instruction.md) | 输入场回传，检查协议与校验链路 | 输入要求回传的场 |
 | [heat-conduction](tasks/heat-conduction/README.md) | 稳态热传导 | temperature |
 | [heat-transient](tasks/heat-transient/README.md) | 瞬态热传导 | temperature |
-| [navier-stokes-steady](tasks/navier-stokes-steady/README.md) | 稳态不可压缩 Navier–Stokes | velocity、pressure |
-| [navier-stokes-transient](tasks/navier-stokes-transient/README.md) | 瞬态不可压缩 Navier–Stokes | velocity、pressure |
 
 ### PDEBench
 
@@ -81,7 +80,7 @@ python 'tasks/<task>/author/generate.py'
 python -m unittest discover -s tests -p '<test-file>.py' -v
 ```
 
-`<test-file>` 取对应题目 README 中的测试文件；NS 的测试同时依赖稳态与瞬态两题数据。全量测试命令 `python -m unittest discover -s tests -v` 需先准备全部自主设计题目及单文件平流适配题的数据。
+`<test-file>` 取对应题目 README 中的测试文件。全量测试命令 `python -m unittest discover -s tests -v` 需先准备当前题目的数据；归档题目的测试见 [legacy/README.md](legacy/README.md)。
 
 PDEBench 方程族任务通过统一工具获取、转换并审核外部数据，不要求另写 generator 或 baseline：
 
@@ -90,7 +89,7 @@ python -m pip install -e '.[pdebench]' harbor
 python src/utils/PDEBench/prepare.py --tasks '<task>' --budget-gb 60 --no-bootstrap
 ```
 
-`<task>` 使用 `PDEBench_*` 目录名，准备全部方程族可用 `--tasks all`。单文件适配题 `1D_Advection_Sols_beta0.4` 使用其 README 中的数据转换入口。
+`<task>` 使用 `PDEBench_*` 目录名，准备全部方程族可用 `--tasks all`。
 
 **3. 检查输入与参考输出的结构。**
 

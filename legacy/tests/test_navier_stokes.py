@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import sys
 import unittest
+from legacy.tests.materials import collect_archived_materials
 
 import gmsh
 import numpy as np
@@ -13,8 +14,8 @@ from caeoj.grading import grade_arrays, grade_files
 from caeoj.sdk import load_problem, load_result
 from caeoj.validation import check_result, output_support, validate_input, Checker
 
-ROOT=Path(__file__).resolve().parents[1]
-AUTHOR=ROOT/'tasks/navier-stokes-steady/author'
+ROOT=Path(__file__).resolve().parents[2]
+AUTHOR=ROOT/'legacy/navier-stokes-steady/author'
 
 
 def module(name,file):
@@ -39,9 +40,9 @@ class NSTests(unittest.TestCase):
     def setUpClass(cls):
         cls.inputs={}
         for task in ('navier-stokes-steady','navier-stokes-transient'):
-            for path in sorted((ROOT/'tasks'/task/'cases').glob('*/problem.json')):
+            for path in sorted((ROOT/'legacy'/task/'cases').glob('*/problem.json')):
                 p=load_problem(path)
-                reference=load_result(p,ROOT/'tasks'/task/'reference'/path.parent.name/'reference.h5')
+                reference=load_result(p,ROOT/'legacy'/task/'reference'/path.parent.name/'reference.h5')
                 cls.inputs[task,path.parent.name]=(p,reference)
 
     def case(self,task,name):return self.inputs[task,name]
@@ -311,15 +312,15 @@ class NSTests(unittest.TestCase):
 
     def test_samples_grade_and_public_archive_has_no_reference_material(self):
         for task in ('navier-stokes-steady','navier-stokes-transient'):
-            files,samples=publisher.collect_materials(task)
+            files,samples=collect_archived_materials(publisher.collect_materials,task)
             self.assertGreaterEqual(len(samples),2)
             self.assertFalse(any('/author/' in n or '/reference/' in n or '/cases/' in n or
                                  n.endswith(('DESIGN.md','TEST-CASES.md','baseline.py','ghia.py')) for n in files))
             for sample in samples:
-                root=ROOT/'tasks'/task/'samples'/sample
+                root=ROOT/'legacy'/task/'samples'/sample
                 case=json.loads((root/'verification.json').read_text(encoding='utf-8'))['case']
                 result=grade_files(root/'input/problem.json',root/'output/result.h5',
-                    ROOT/'tasks'/task/'reference'/case/'reference.h5',atol=.02,rtol=0)
+                    ROOT/'legacy'/task/'reference'/case/'reference.h5',atol=.02,rtol=0)
                 self.assertEqual(result['score'],1)
 
 

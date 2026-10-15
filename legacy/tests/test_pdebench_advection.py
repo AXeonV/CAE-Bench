@@ -5,13 +5,14 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from legacy.tests.materials import collect_archived_materials
 
 import numpy as np
 from caeoj.grading import grade_files
 from caeoj.sdk import load_problem,load_result
 
-ROOT=Path(__file__).resolve().parents[1]
-TASK=ROOT/'tasks/1D_Advection_Sols_beta0.4'
+ROOT=Path(__file__).resolve().parents[2]
+TASK=ROOT/'legacy/1D_Advection_Sols_beta0.4'
 
 
 class OfficialAdvectionTests(unittest.TestCase):
@@ -60,7 +61,7 @@ class OfficialAdvectionTests(unittest.TestCase):
         sys.path.insert(0,str(ROOT/'src/utils'))
         try:
             from publish_dist import collect_materials
-            files,samples=collect_materials('1D_Advection_Sols_beta0.4')
+            files,samples=collect_archived_materials(collect_materials,'1D_Advection_Sols_beta0.4')
         finally:sys.path.pop(0)
         self.assertEqual(samples,['01','02'])
         self.assertFalse(any('/reference/' in name or '/author/' in name or '/cases/' in name for name in files))

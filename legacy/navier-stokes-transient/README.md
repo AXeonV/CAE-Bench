@@ -26,13 +26,13 @@
 沿用[项目 README](../../README.md#运行) 的 Python 环境，在项目根目录执行：
 
 ```sh
-python tasks/navier-stokes-transient/author/generate.py
-python tasks/navier-stokes-transient/author/check.py
+python legacy/navier-stokes-transient/author/generate.py
+python legacy/navier-stokes-transient/author/check.py
 ```
 
 `generate.py` 覆盖题库及公开样例；`check.py --program <solver.py>` 检查其他求解器。资源与判分报告保存于 `runs/navier-stokes-transient/baseline/`。单文件 baseline 可直接用于独立判题环境。
 
-两题共用的出题侧回归测试见 [tests/test_navier_stokes.py](../../tests/test_navier_stokes.py)，检查初值与边界数据、周期映射、通道级数和二维周期解、压力规范，以及样例判分和公开材料范围。
+两题共用的出题侧回归测试见 [legacy/tests/test_navier_stokes.py](../tests/test_navier_stokes.py)，检查初值与边界数据、周期映射、通道级数和二维周期解、压力规范，以及样例判分和公开材料范围。
 
 ## 判分与时间
 

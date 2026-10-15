@@ -2,11 +2,11 @@
 
 本题用于简单测试输入输出协议、校验和判题链路。
 
-实现一个程序，读取 `problem.json` 及其引用的 `.msh`、`.h5`，将输入场按 `outputs` 要求原样写入结果 HDF5。保持实体、时间、分量和数值的对应关系。
+实现一个程序，读取 `problem.json` 及其引用的输入 HDF5，将输入场按 `outputs` 要求原样写入结果 HDF5。保持实体、时间、分量和数值的对应关系。本题无需解析网格或几何文件。
 
 启动方式：`python solve.py --input problem.json --output result.h5`。
 
-通用数据协议的完整约定见 `docs/CONTRACT.md`。元数据满足 `src/caeoj/problem.schema.json`；输入场由 `fields` 描述。本任务中 `fields` 与 `outputs` 的描述完全相同，这属于回传任务规则，不是通用协议限制。
+本题的数据定义见 [DATA.md](DATA.md)，通用存储与引用规则见 [CONTRACT.md](../../../../docs/CONTRACT.md)。本任务中 `fields` 与 `outputs` 的描述完全相同，这属于回传任务规则，不是通用协议限制。
 
 输出必须包含要求的场数组，以及它们引用的固定 IDs 和时间轴数组；不得增加或遗漏 key。所有场保留时间、实体和分量轴，即使稳态或标量也不省略轴。SDK 可协助复制支持数组，但不纠正错误数据。
 

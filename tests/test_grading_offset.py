@@ -16,7 +16,7 @@ ROOT=Path(__file__).resolve().parents[1]
 
 class ReferenceOffsetTests(unittest.TestCase):
     def setUp(self):
-        self.problem=load_problem(ROOT/'tasks/smoke-test/cases/09-vector-2d/problem.json')
+        self.problem=load_problem(ROOT/'qbank/00-basic-tests/0.1-io/smoke-test/cases/09-vector-2d/problem.json')
         keys=output_support(self.problem)|{s['array'] for s in self.problem.manifest['outputs'].values()}
         self.reference={k:self.problem.arrays[k].copy() for k in keys}
         self.actual=deepcopy(self.reference)

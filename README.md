@@ -2,7 +2,7 @@
 
 CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕通用数据协议、结构校验、测试数据和独立判分组织，支持持续增加不同物理模型的题目和测试。
 
-通用数据协议见 [CONTRACT.md](docs/CONTRACT.md)，第二章考生只需本题 instruction.md、DATA.md 和 CONTRACT.md；[CFD-2.1.md](qbank/maintenance/protocols/CFD-2.1.md) 等领域文档仅供维护实现参考，多指标评分配置见 [GRADING.md](docs/GRADING.md)，初版实施规划见 [MVP-PLAN.md](docs/MVP-PLAN.md)，Agent 测试记录见 [AGENT-RESULTS.md](docs/AGENT-RESULTS.md)。既有题目的物理／数学描述、输入范围、测试设计、依赖和运行说明保存在 `tasks/<task>/`；新题库按 [qbank 总体设计](qbank/design/README.md) 建设，已撰写 [第二章的 65 道题面](qbank/02-fluid-mechanics/README.md)，数值数据后续补充。
+通用数据协议见 [CONTRACT.md](docs/CONTRACT.md)，第二章考生只需本题 instruction.md、DATA.md 和 CONTRACT.md；[CFD-2.1.md](qbank/maintenance/protocols/CFD-2.1.md) 等领域文档仅供维护实现参考，多指标评分配置见 [GRADING.md](docs/GRADING.md)，初版实施规划见 [MVP-PLAN.md](docs/MVP-PLAN.md)，Agent 测试记录见 [AGENT-RESULTS.md](docs/AGENT-RESULTS.md)。尚待迁移的既有题目保存在 `tasks/<task>/`；统一题库按 [qbank 总体设计](qbank/design/README.md) 建设，已撰写 [第二章的 65 道题面](qbank/02-fluid-mechanics/README.md)，数值数据后续补充。
 
 ## 设计
 
@@ -25,8 +25,8 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 | `src/utils/prepare_harbor.py` | **统一组装** Harbor 临时任务环境 |
 | `src/utils/harbor/` | 通用 Harbor 模板与逐例判题逻辑 |
 | `src/utils/PDEBench/` | PDEBench 数据获取、协议转换与参考审核 |
-| `qbank/` | 统一题库设计及按章、节组织的新题面 |
-| `tasks/<task>/` | 各题目的题面、数据、标答及出题工具 |
+| `qbank/` | 统一题库设计及按章、节组织的题目；[第 0 章](qbank/00-basic-tests/README.md)包含已迁移的 smoke-test |
+| `tasks/<task>/` | 尚待迁移的既有题目、数据、标答及出题工具 |
 | `legacy/` | 已归档的旧题目与回归测试，见 [归档说明](legacy/README.md) |
 | `tests/` | 协议、校验、判分和题目数据的自动测试 |
 | `runs/` | 本地输出、临时 Harbor 任务和运行报告，不纳入版本控制 |
@@ -41,7 +41,7 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 | 目录 | 问题 | 要求输出 |
 |---|---|---|
-| [smoke-test](tasks/smoke-test/instruction.md) | 简单测试：回传输入场，检查读写与判题链路 | 输入要求回传的场 |
+| [smoke-test](qbank/00-basic-tests/0.1-io/smoke-test/instruction.md) | 简单测试：回传输入场，检查读写与判题链路 | 输入要求回传的场 |
 | [heat-conduction-steady-2d](tasks/heat-conduction-steady-2d/README.md) | 稳态热传导 | temperature |
 | [heat-conduction-transient-2d](tasks/heat-conduction-transient-2d/README.md) | 瞬态热传导 | temperature |
 | [advection-1d](tasks/advection-1d/README.md) | 一维周期线性平流 | state |
@@ -57,6 +57,8 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 | [incompressible-navier-stokes-2d](tasks/incompressible-navier-stokes-2d/README.md) | 二维非均匀强迫不可压缩流 | velocity |
 
 ## 运行
+
+第 0 章的本地输入输出测试使用 `python -m caeoj smoke`，详见[基础测试说明](qbank/00-basic-tests/README.md)。以下 Harbor 流程适用于仍在 `tasks/` 中的题目。
 
 选择本地或 HPC 作为执行主机，在该主机的项目根目录运行后续流程。先激活自行配置的 Python 3.11+ 环境；`python`、`harbor` 和 `docker` 应来自该主机，尖括号内容均为待替换的占位符。下述单行命令可在 PowerShell 或 Bash 中执行。
 

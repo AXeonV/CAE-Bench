@@ -5,6 +5,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import shutil
 from pathlib import Path
 import subprocess
 import sys
@@ -122,8 +123,10 @@ class PublishTests(unittest.TestCase):
         for name in ("../heat-conduction-steady-2d", "/tmp", "heat-conduction-steady-2d/author"):
             with self.assertRaises(ValueError):
                 publisher.collect_materials(name)
+        root, _ = self.extracted_bundle()
+        shutil.rmtree(root / "tasks/heat-conduction-steady-2d/samples")
         with self.assertRaisesRegex(ValueError, "No complete public samples"):
-            publisher.collect_materials("smoke-test")
+            publisher.collect_materials("heat-conduction-steady-2d", root)
 
 
 if __name__ == "__main__":

@@ -28,10 +28,10 @@ def main(argv=None):
     if all(find_spec(f"{__package__}.{name}") is not None for name in ("examples", "smoke")):
         project_root = Path(__file__).resolve().parents[2]
         make_parser = commands.add_parser("make-cases", help="Write simple test cases")
-        make_parser.add_argument("--output", default=str(project_root / "tasks/smoke-test/cases"))
+        make_parser.add_argument("--output", default=str(project_root / "qbank/00-basic-tests/0.1-io/smoke-test/cases"))
         smoke_parser = commands.add_parser("smoke", help="Run the local smoke test; no Agent")
-        smoke_parser.add_argument("--cases", default=str(project_root / "tasks/smoke-test/cases"))
-        smoke_parser.add_argument("--program", default=str(project_root / "tasks/smoke-test/solve.py"))
+        smoke_parser.add_argument("--cases", default=str(project_root / "qbank/00-basic-tests/0.1-io/smoke-test/cases"))
+        smoke_parser.add_argument("--program", default=str(project_root / "qbank/00-basic-tests/0.1-io/smoke-test/solve.py"))
         smoke_parser.add_argument("--report", default=str(project_root / "runs/smoke/report.json"))
         smoke_parser.add_argument("--timeout", type=float, default=10)
     args = parser.parse_args(argv)

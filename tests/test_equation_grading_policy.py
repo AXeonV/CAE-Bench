@@ -39,7 +39,7 @@ class EquationPolicyTests(unittest.TestCase):
                 self.assertGreater(config['timeout_seconds'], 0)
 
     def test_exact_fraction_boundary_and_component_union(self):
-        p = load_problem(ROOT / 'tasks/smoke-test/cases/09-vector-2d/problem.json')
+        p = load_problem(ROOT / 'qbank/00-basic-tests/0.1-io/smoke-test/cases/09-vector-2d/problem.json')
         spec = p.manifest['outputs']['velocity']
         loc = p.manifest['locations'][spec['location']]
         p.arrays[loc['ids']] = np.arange(1, 1001, dtype=np.int64)

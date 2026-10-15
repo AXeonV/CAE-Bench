@@ -50,3 +50,5 @@
 第三章已按[章规划](chapter-03-solid-mechanics.md)完成9节21题、自包含DATA、固体扩展、评测配置及独立考生复核；见[整章目录](../03-solid-mechanics/README.md)、[最终进度](reviews/chapter-03-progress.md)和[实现与审阅记录](reviews/chapter-03-implementation.md)。正式数据、参考、预算／容差校准及发布留后。
 
 第四章已按[章规划](chapter-04-multibody-mechanics.md)完成6节12题、自包含DATA、entities通用身份表、多体共享扩展、评测配置及独立考生复核；见[整章目录](../04-multibody-mechanics/README.md)和[最终进度与限制](reviews/chapter-04-progress.md)。正式数据、独立参考、预算／容差校准及发布留后。
+
+第五章已按[章规划](chapter-05-heat-transfer.md)完成6节13题、自包含DATA、热学共享扩展、评分执行配置及独立考生复核；见[整章目录](../05-heat-transfer/README.md)和[最终进度与限制](reviews/chapter-05-progress.md)。正式数据、独立参考、预算／容差校准及发布留后。

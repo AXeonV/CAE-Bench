@@ -153,9 +153,11 @@ def check(problem, errors):
         if t[0] < p['start_time'] or t[-1] > p['end_time']:
             fail('$.time_axes.'+output_axis,'within start/end interval',t)
 
-    refs=set(); seen={}; used_boundary={}; contact=set(); interface=set(); fixed_nodes=set(); facet_loads=set(); cyclic_axes=set()
+    refs=set(); seen={}; used_boundary={}; contact=set(); interface=set(); interface_plus=set(); fixed_nodes=set(); facet_loads=set(); cyclic_axes=set()
     def typed_value(value, spec, locname, role, path):
         if 'value' in value:
+            if not top and role == 'source':
+                fail(path, 'cycle-block field reference, including constant histories', value); return None
             if spec['kind'] != 'scalar' or value['unit'] != spec['unit']:
                 fail(path, 'scalar constant in '+spec['unit'], value); return None
             return np.asarray([value['value']])
@@ -196,7 +198,8 @@ def check(problem, errors):
         if rule is None: fail(path+'.operator',list(cfg['rules']),op);continue
         role,var,where,data,_=rule;locname=c['location'];loc=locs[locname];tags=ids(loc)
         if c['role']!=role or c['variable']!=var:fail(path,'correct role and variable',[c['role'],c['variable']])
-        if not support(locname,where):fail(path+'.location',where,locname)
+        if not support(locname,where):
+            fail(path+'.location',where,locname); continue
         if where=='cells' and tags!=cells:fail(path+'.location','all cells',locname)
         if role=='initial' and locname!=('domain' if top else 'sites'):fail(path+'.location','domain or sites',locname)
         if role=='boundary' and where=='nodes' and slug!='elastic-truss' and not tags<=boundary_nodes:
@@ -217,7 +220,10 @@ def check(problem, errors):
                 partner=locs.get(value.get('location'),{})
                 if set(value)!={'location'} or not partner or not support(value['location'],'facets'):
                     fail(path+'.data.'+key,'partner facets',value);continue
-                partner_tags=ids(partner);interface.update(tags)
+                partner_tags=ids(partner)
+                if tags & (interface | interface_plus) or partner_tags & (interface | interface_plus):
+                    fail(path+'.data.'+key, 'each interface facet paired once', value)
+                interface.update(tags); interface_plus.update(partner_tags)
                 # Match facets by their complete vertex coordinates, not tag order.
                 def signatures(tagset):
                     return {tuple(sorted(tuple(mesh['node_coordinates'][n]) for n in exterior[tag])) for tag in tagset}
@@ -225,6 +231,18 @@ def check(problem, errors):
                     fail(path+'.data.'+key,'geometrically coincident distinct interface facets',value)
                 minus_nodes={n for tag in tags for n in exterior[tag]}; plus_nodes={n for tag in partner_tags for n in exterior[tag]}
                 if minus_nodes & plus_nodes:fail(path+'.data.'+key,'distinct interface node tags',value)
+                # The normal is geometric, independent of exported segment order.
+                for side, tagset, sign in [('minus', tags, 1), ('plus', partner_tags, -1)]:
+                    for tag in tagset:
+                        face = exterior[tag]
+                        x = np.array([mesh['node_coordinates'][n][:d] for n in face])
+                        conn = mesh['connectivity'][owner[face]][1]
+                        center = np.mean([mesh['node_coordinates'][n][:d] for n in conn], axis=0)
+                        tangent = x[1] - x[0]
+                        if (abs(tangent @ normal) > 1e-10*np.linalg.norm(tangent) or
+                                sign*((x.mean(axis=0)-center) @ normal) <= 0):
+                            fail(path+'.data.'+key, 'normal outward from minus and inward to plus',
+                                 {'side': side, 'facet': tag})
             else:
                 result=typed_value(value,spec,locname,role,path+'.data.'+key)
                 if result is None:continue
@@ -281,7 +299,10 @@ def check(problem, errors):
     if top>=2 and facet_loads:
         for tag in facet_loads:
             if set(exterior[tag])<=fixed_nodes:fail('$.conditions','no whole-facet traction/Dirichlet overlap',tag)
-    if interface & facet_loads:fail('$.conditions','no external interface traction','overlap')
+    all_interface = interface | interface_plus
+    if all_interface & facet_loads:fail('$.conditions','no external interface traction on either side','overlap')
+    if any(set(exterior[tag]) <= fixed_nodes for tag in all_interface):
+        fail('$.conditions','no whole-facet interface/Dirichlet overlap on either side','overlap')
     present=set(); total_input=sum(arrays[f['array']].size for f in m['fields'].values());total_output=0
     for name,spec in m['outputs'].items():
         q=spec['quantity'];entry=cfg['output_specs'].get(q);path='$.outputs.'+name

@@ -128,106 +128,150 @@ for cfg in CAT.values():
 def param_table(cfg):
  s='| 参数名（physics.parameters 下） | 单位 | 值域与含义 |\n|---|---|---|\n'
  for name,x in cfg['parameters'].items():
-  bound=('；下界'+('≥' if x['closed'] else '>')+str(x['lower']) if x['lower'] is not None else '')+('；上界≤'+str(x['upper']) if x['upper'] is not None else '')
+  bound=('；下界'+('≥' if x['closed'] else '>')+str(x['lower']) if x['lower'] is not None else '')+('；上界'+('<' if name=='residual_stiffness' else '≤')+str(x['upper']) if x['upper'] is not None else '')
   s+=f"| `{name}` | `{x['unit']}` | {x['description']}{bound} |\n"
  return s if cfg['parameters'] else '`physics.parameters={}`，本题无全局标量参数；EI由材料条件给出。\n'
 
 
 def data_text(cfg):
  d=cfg['dimension'];slug=cfg['slug'];hist=cfg['mode']=='history';top=cfg['topology']
+ fatigue=not top
+ rule_values=[x for rule in cfg['rules'].values() for x in rule[3].values() if 'kind' in x]
+ kinds={x['kind'] for x in rule_values}; places={rule[2] for rule in cfg['rules'].values()}
+ has_initial=any(rule[0]=='initial' for rule in cfg['rules'].values())
  s=f'''# {slug} 数据契约
 
-本题与instruction、通用CONTRACT共同构成完整契约。入口为UTF-8 `problem.json`，MSH 4.1 ASCII和扁平HDF5；文件相对清单解析，名称不携带物理条件。`physics`恰为model与parameters，`physics.model="{cfg['model']}"`；`task`若出现必须为`{slug}`。`spatial_dimension={d}`。不使用CFD的profile、analysis、materials或contract_version，不能混写多个模型。
+本题与instruction、通用CONTRACT共同构成完整契约。入口为UTF-8 `problem.json`和扁平HDF5{ '，网格为MSH 4.1 ASCII' if top else '' }；文件相对清单解析，名称不携带物理条件。`physics`恰为model与parameters，`physics.model="{cfg['model']}"`；`task`若出现必须为`{slug}`。`spatial_dimension={d}`。只接受本题定义的模型和键。
 
 ## 分析与材料
 
 {cfg['detail']}
 
 {param_table(cfg)}
-以上参数全部必填；每项恰为`{{"value":有限标量,"unit":"表中单位"}}`，无隐藏缺省或额外参数。除mode_count必须为整数值外，数值均为有限实数，布尔值不能作为数值。小应变弹性各题的ε均是完整张量，剪切εxy不是工程剪切γxy；μ=E/[2(1+ν)]、λ=Eν/[(1+ν)(1−2ν)]，只有平面应力使用其专用λps。
-
-## 几何、位置与数组身份
-
 '''
+ s+='以上参数全部必填；每项恰为`{"value":有限标量,"unit":"表中单位"}`，无隐藏缺省或额外参数。' if cfg['parameters'] else ''
+ s+=('除mode_count必须为整数值外，' if slug=='elastic-modes' else '')+'数值均为有限实数，布尔值不能作为数值。'
+ if top>=2 and slug!='elastic-truss':
+  if slug not in ('elastic-plate','hyperelastic-solid'):
+   s+='ε是完整张量，剪切εxy不是工程剪切γxy。'
+  if slug=='plane-stress':s+='本题使用材料段的平面应力λps。'
+  elif slug!='elastic-plate':s+='μ=E/[2(1+ν)]、λ=Eν/[(1+ν)(1−2ν)]。'
+ s+='\n\n## 几何、位置与数组身份\n\n'
  if top:
   types={1:'非退化一阶直线段（Gmsh type 1）',2:'非退化一阶三角形（type 2）',3:'非退化一阶四面体（type 4）'}
-  s+=f'''`meshes`恰含main，`locations.domain`是main全部顶维单元所用节点，`locations.cells`是main全部{top}维单元；IDs按tag递增。计算域是输入{types[top]}拼成的精确参考域，不以可选CAD替代。未用坐标为0；几何在加载中使用参考位置，即使变形也不重排采样身份。内部分网、升阶或重网格自由，但输出映回固定身份。除明确双体界面／裂面和杆系外，域连通无悬挂节点。体单元共享tag的公共面是完美粘结界面。
-
-其他mesh位置允许同一main的顶维cells单元子集（只用于输出）、节点子集或边界{max(top-1,0)}维单元子集。输入须导出每个外边界实体；边界面方向由相邻体决定，不能由节点存储方向猜。位移条件引用边界节点，牵引和接触引用外边界单元。连续体每条位移／fixed／实虚位移条件实际作用在全部顶点均属于该记录IDs的完整外边界单元之并；该节点集必须恰为这些完整面／边的顶点并，禁止孤立点或棱支撑。杆系与梁端点按其专用节点条件处理。内部材料／体力使用cells；不将单元平均误当中心点值。每条边界记录的实体集合由它引用的location IDs明确给出，Physical Group若声明须与这些IDs完全一致。除cohesive_pair的配对内部界面外，不把内面当外边界。
-
-'''
-  if slug=='elastic-truss':s+='杆系的位移和集中力可作用任意杆节点（包括连接节点）；cells是全部杆，domain是全部杆端节点。N为每根直杆平均内力。不存在体面牵引。\n\n'
-  if slug=='elastic-beam':s+='梁只有一条无分叉区间，domain包括其全部节点；ends位置恰含一个实际端点节点，按x最小／最大确定左右。梁内部单元端点不允许clamp或end_load。\n\n'
- else:s+='`meshes={}`、`geometries={}`；`locations.sites`为独立实际观测点，含递增非负IDs及float64[N,2]坐标（m），点之间独立、不插值。同一观测点的循环与裂长状态始终按ID行对应；坐标不决定隐含几何因子。不得新增参数曲线伪装成空间探针。\n\n'
- s+='''locations中整体观测可用aggregate，source引用cells或明确的边界实体集合，sum对应integral、mean对应average；IDs恰含一项。点／节点值用point，单元值用average，聚合不是虚构点坐标。字段对象名、HDF5 key和tag是三种身份：条件`{"field":"logical_name"}`引用fields对象；`fields.logical_name.array`才是HDF5 key。各对象名自由选择（domain、cells、sites保留位置名除外），不得由名称推断quantity或数组key。
-
-## 时间、连续解释和输入场
-
-'''
+  s+=f'`meshes`恰含main，`locations.domain`是main全部顶维单元所用节点，`locations.cells`是main全部{top}维单元；IDs按tag递增。计算域是输入{types[top]}拼成的精确参考域，不以可选CAD替代。未用坐标为0；输出采样身份始终使用参考位置。内部分网、升阶或重网格自由，但输出映回固定身份。'
+  if slug not in ('elastic-truss','cohesive-interface','linear-elastic-fracture'):s+='域连通无悬挂节点。'
+  if top>=2 and slug!='elastic-plate':s+='体单元共享tag的公共面是完美粘结界面。'
+  s+='\n\n其他mesh位置允许同一main的顶维cells单元子集（只用于输出）、节点子集或边界'+str(max(top-1,0))+'维单元子集。输入须导出每个外边界实体。每条边界记录的实体集合由引用的location IDs明确给出，Physical Group若声明须与这些IDs完全一致。'
+  if top>=2:
+   s+='边界面外法向由相邻体决定，不能由节点存储方向猜。'
+   if slug!='elastic-plate':
+    bc_name='实部和虚部位移' if slug=='elastic-harmonic' else ('fixed' if slug=='elastic-modes' else '位移')
+    s+=f'{bc_name}条件引用边界节点，实际作用在全部顶点均属于该记录IDs的完整外边界单元之并；该节点集必须恰为这些完整面／边的顶点并，禁止孤立点或棱支撑。'
+   if any(op.startswith('traction') for op in cfg['rules']):s+=('名义牵引引用参考外边界单元。' if slug=='hyperelastic-solid' else '牵引引用外边界单元。')
+   if 'rigid_plane' in cfg['rules']:s+='接触引用候选外边界单元。'
+   if 'cells' in places:s+=('横向面载荷使用全部cells。' if slug=='elastic-plate' else '体力使用全部cells。')
+   s+=('配对界面按下文cohesive_pair处理。' if slug=='cohesive-interface' else '不把内部面当外边界。')
+  if slug=='elastic-truss':s+='杆系的位移和集中力可作用任意杆节点（包括连接节点）；cells是全部杆，domain是全部杆端节点。N为每根直杆平均内力。'
+  if slug=='elastic-beam':s+='梁只有一条无分叉区间，domain包括其全部节点；ends位置恰含一个实际端点节点，按x最小／最大确定左右。梁内部单元端点不允许clamp或end_load。'
+  s+='\n\n'
+ else:
+  state='循环与裂长状态' if slug=='fatigue-crack-growth' else '循环与损伤状态'
+  s+=f'`meshes={{}}`、`geometries={{}}`；`locations.sites`为独立实际观测点，含递增非负IDs及float64[N,2]坐标（m），点之间独立、不插值。同一观测点的{state}始终按ID行对应。'+('坐标不决定隐含几何因子。' if slug=='fatigue-crack-growth' else '')+'\n\n'
+ if top:
+  s+='aggregate位置仅支持source引用覆盖整个域的cells，IDs恰含一项；operation=sum对应integral，operation=mean对应average。具体观测按本题输出表请求，不接受边界或单元子集聚合。'
+ else:s+='本题仅使用sites独立点point输出。'
+ s+='字段对象名、HDF5 key和tag是三种身份：条件`{"field":"logical_name"}`引用fields对象；`fields.logical_name.array`才是HDF5 key。各对象名自由选择（'+('domain、cells' if top else 'sites')+'保留位置名除外），不得由名称推断quantity或数组key。\n\n## 时间、连续解释和输入场\n\n'
  if hist:
-  s+='''`start_time=t0<end_time=tf`；输出轴恰为一个名为response的轴，时刻全部位于[t0,tf]，可包括初态。输入条件非初态多帧场必须首末恰为t0、tf；单帧constant加载场的定义域直接为整个[t0,tf]，这属于显式全程常量而非外推；其存储时刻必须为t0；初态场单帧且时刻恰为t0。每个输入场可引用不同轴；输出时刻不是求解器内部时间步，不可跳过未输出的中间加载历史。
-
-'''
- else:s+='所有时间轴恰为单帧[0.0]，输出引用steady轴；它是静力、特征值或复幅标记，不是物理启动初态；不接受多帧边界或时间插值。\n\n'
- s+='''输入场恰为被条件引用的fields，全部float64。标量kind=scalar、component_shape=[1]、components=["value"]；vector使用全局前D坐标；tensor使用[D,D]及xx,xy,…的全矩阵。数组始终[T,N,*component_shape]，不得省略任何轴。每个数据参数允许表中单位的带单位常量（仅标量），或同location、相同quantity／unit／kind的显式field；向量即使均匀也用field。只允许表中列出的参数，无额外选项或默认单位。
-
-每个输入field必须显式sampling。节点场space=piecewise_linear，沿一阶输入单元用唯一P1重建（边界节点在边界线段／三角面上重建）；element场space=piecewise_constant，表内average表示其上的常值。sites场space=uniform表示每个独立点的时间记录、不进行跨点重建。所有场extrapolation=forbid，禁止范围外外推。初态／静态场time=constant；普通加载场time=linear，时间节点间逐分量线性；单帧加载场time=constant且声明为全程常量。先空间重建再时间插值，两者均线性；输出应力／状态的平均必须由求解场积分，不能用平均位移代替。
-
-'''
- if slug in ('stress-life-fatigue','fatigue-crack-growth'):s+='疲劳循环块另有唯一覆盖规则：所有source场共享同一不少于2帧的载荷轴，首末为t0、tf，sampling.time=previous（不接受linear）；[ti,ti+1)取第i帧，末帧仅作闭区间存储标记并与倒数第二帧相等。初始裂长仍用单帧constant。输出在断点上包含此前完整块的累积贡献，与采用右块继续演化相容。\n\n'
- s+='''## 条件全集
-
-每条记录的role、variable、operator、location及data全部显式。下表列出本题唯一允许的operator；不在表中的条件非法。不得通过列表顺序覆盖冲突条件。
-
-| operator | role／variable | 位置类别 | data精确键与类型 | 含义与组合 |
-|---|---|---|---|---|
-'''
+  s+='`start_time=t0<end_time=tf`；输出轴恰为一个名为response的轴，时刻全部位于[t0,tf]，可包括初态。'
+  if fatigue:
+   s+='所有source场共享同一不少于2帧的载荷轴，首末恰为t0、tf。'
+   if has_initial:s+='初态场单帧且时刻恰为t0。'
+   s+='输出时刻不改变块的累计历史。'
+  else:
+   s+='非初态多帧输入场必须首末恰为t0、tf；单帧constant加载场定义域为整个[t0,tf]，存储时刻必须为t0，这是显式全程常量而非外推。'
+   if has_initial:s+='初态场单帧且时刻恰为t0。'
+   s+='各输入场可引用不同轴；输出时刻不是求解器内部时间步，不可跳过未输出的中间加载历史。'
+ else:
+  marker={'elastic-modes':'固有频率','elastic-buckling':'屈曲倍率','elastic-harmonic':'复幅'}.get(slug,'静力')
+  s+=f'所有时间轴恰为单帧[0.0]，输出引用steady轴；它是{marker}存储标记，不是物理启动初态；不接受多帧条件或时间插值。'
+ s+='\n\n输入场恰为被条件引用的fields，全部float64。'
+ if 'scalar' in kinds:s+='标量kind=scalar、component_shape=[1]、components=["value"]；'
+ if 'vector' in kinds:s+=f'vector使用全局前{d}坐标，component_shape=[{d}]、components='+('["x","y"]' if d==2 else '["x","y","z"]')+'；'
+ s+='数组始终[T,N,*component_shape]，不得省略任何轴。'
+ if fatigue:
+  s+='所有source数据参数必须显式使用同location、表中quantity／unit／kind的field引用；即使恒幅或各点相同，也不能用带单位常量简写。'
+  if has_initial:s+='initial_length.value可用单位m的标量常量，或同sites、quantity=crack_length、unit=m、kind=scalar的field。'
+ else:
+  if 'scalar' in kinds:s+='标量数据参数允许表中单位的带单位常量，或同location、相同quantity／unit／kind的显式field。'
+  if 'vector' in kinds:s+='向量数据参数必须使用同location、相同quantity／unit／kind的显式field，即使均匀也不能使用常量简写。'
+ s+='只允许条件表列出的参数，无额外选项或默认单位。\n\n每个输入field必须显式sampling。'
+ if fatigue:s+='sites场space=uniform表示每个独立点的时间记录，不进行跨点重建。'
+ else:
+  if places & {'nodes','ends'}:s+='节点场space=piecewise_linear，沿一阶输入单元唯一P1重建（边界节点在边界单元上重建）。'
+  if places & {'cells','facets'}:s+='element场space=piecewise_constant，表示每个单元上的常值。'
+ s+='所有场extrapolation=forbid，禁止范围外外推。'
+ if fatigue:
+  s+='source场sampling.time=previous；[ti,ti+1)取第i帧，末帧仅作闭区间存储标记并与倒数第二帧相等。不接受linear或constant循环源场。'
+  if has_initial:s+='初始裂长场sampling.time=constant。'
+  s+='输出在断点上包含此前完整块的累积贡献，与采用右块继续演化相容。'
+ elif hist:
+  if has_initial:s+='初态场time=constant；'
+  s+='多帧加载场time=linear，时间节点间逐分量线性；单帧加载场time=constant且为全程常量。先空间重建再时间插值。'
+ else:s+='所有输入场time=constant。'
+ s+='\n\n## 条件全集\n\n每条记录的role、variable、operator、location及data全部显式。下表是本题唯一允许的operator；不得通过列表顺序覆盖冲突条件。\n\n| operator | role／variable | 位置类别 | data精确键与类型 | 含义与组合 |\n|---|---|---|---|---|\n'
  for op,(role,var,where,data,desc) in cfg['rules'].items():
   entries=[]
   for name,x in data.items():
    if 'option' in x:entries.append(f'`{name}={{"option":"{x["option"]}"}}`')
    elif 'location' in x:entries.append(f'`{name}={{"location":"plus位置名"}}`')
    else:entries.append(f'`{name}`：{x["kind"]}，`{x["unit"]}`，quantity=`{x["quantity"]}`；{x["description"]}')
-  s+=f'| `{op}` | `{role}`／`{var}` | {where} | '+ '<br>'.join(entries)+f' | {desc} |\n'
- s+='\n'+('必须出现：'+', '.join('`'+x+'`' for x in cfg['required'])+'。' if cfg['required'] else '')
- s+='cells类的每个算子恰一条且覆盖全部cells；initial类恰一条且覆盖domain或sites；sites类每个算子恰一条覆盖sites。一般节点边界允许多条互不重叠记录。不同来源的nodal_force可累加。固定约束必须足以排除刚体和机构；无条件的边界按本题零自然载荷处理，不能添加隐含对称或弹簧。\n\n'
+  if slug=='elastic-harmonic':desc=desc.replace('同一节点只允许一条位移记录','同一节点在同一幅部只允许一条位移记录')
+  s+=f'| `{op}` | `{role}`／`{var}` | {where} | '+'<br>'.join(entries)+f' | {desc} |\n'
+ s+='\n必须出现：'+', '.join('`'+x+'`' for x in cfg['required'])+'。'
+ if 'cells' in places:s+='cells类的每个算子恰一条且覆盖全部cells。'
+ if has_initial:s+='initial类恰一条且覆盖'+('sites' if fatigue else 'domain')+'。'
+ if fatigue:s+='sites类每个算子恰一条覆盖sites。'
+ else:
+  if places & {'nodes','ends'}:s+=('每个幅部内的节点边界允许多条互不重叠记录。' if slug=='elastic-harmonic' else '节点边界允许多条互不重叠记录。')
+  if slug=='elastic-truss':s+='不同来源的nodal_force可累加。'
+  s+='固定约束必须足以排除刚体和机构；无条件的边界按本题零自然载荷处理，不能添加隐含对称或弹簧。'
+ s+='\n\n'
  if top>=2:
-  s+='体域中同一实体同种边界只能一条；受位移约束节点所在边界面的其余未约束自由度按自然条件处理。给定牵引与位移可在共享棱边交会，但不能在整面重合。除这种相容交会外，数据不含相互矛盾约束；位移边界重叠节点不得重复声明。\n\n'
+  if slug=='elastic-harmonic':s+='边界记录在实部、虚部内分别去重；同一节点不得重复声明同一幅部的位移，实部与虚部必须覆盖相同节点。每个幅部内给定牵引与位移可在共享棱边交会，但不能在整面重合。'
+  elif slug=='elastic-plate':s+='同一边界单元不能重复声明plate_clamp；夹持条件覆盖全部外边界。'
+  else:
+   s+='同一实体同种边界只能一条；位移边界重叠节点不得重复声明。'
+   if any(op.startswith('traction') for op in cfg['rules']):s+='给定牵引与位移可在共享棱边交会，但不能在整面重合。'
+  s+='数据不含相互矛盾约束。\n\n'
  if slug in ('hyperelastic-solid','frictionless-contact','frictional-contact','j2-plasticity','linear-viscoelastic','power-law-creep','gradient-damage','cohesive-interface'):s+='起始全域位移与本题内部状态由材料段明确为0，无需initial记录；全部给定位移、牵引、体力的起始值必须0。给定加载场须多帧覆盖端点或显式全程零常量；不允许用非零常量瞬间加载。历史初态与迭代初猜不同。\n\n'
  if slug=='cohesive-interface':s+='cohesive_pair的location是minus侧边界线单元，partner是plus侧线单元。两集合几何逐段完全重合，按端点坐标双射配对，节点tag不同；n与minus侧外法向一致，plus侧相反。两侧不能再声明traction、接触或位移边界；沿界面端点与外界夹持交会时，位移须相容。全域cells包含两体；opening与cohesive_traction只在minus集合输出，每段恰一次。不得按两集合IDs的行号配对。\n\n'
- if slug in ('frictionless-contact','frictional-contact'):s+='rigid_plane各location合并为候选面集合；它不与traction实体重叠、也不含任何被位移约束的节点。法向参数(n_x,n_y,n_z)的欧氏长度为1（声明数值允许1e-10误差），所有候选面初始在允许半空间；接触输出可选候选面的子集，不含非候选面。\n\n'
- s+='''## 请求输出与结果HDF5
-
-outputs中的逻辑名称及array key自由，quantity必须来自下表。每个必需quantity至少出现一次，可在不同允许采样子集重复请求。结果只包含每个输出array及其IDs和时间轴，严格沿用输入行序、dtype及全部轴；不得重复坐标或输入场。所有输出float64且有限，不返回复数dtype。
-
-| quantity（均必需） | 单位 | kind／位置与采样 | 定义 |
-|---|---|---|---|
-'''
+ if slug in ('frictionless-contact','frictional-contact'):s+='rigid_plane各location合并为候选面集合；它不与traction实体重叠、也不含任何被位移约束的节点。法向参数(normal_x,normal_y,normal_z)的欧氏长度为1（声明数值允许1e-10误差），所有候选面初始在允许半空间；接触输出可选候选面的子集，不含非候选面。\n\n'
+ s+='## 请求输出与结果HDF5\n\noutputs中的逻辑名称及array key自由，quantity必须来自下表。每个必需quantity至少出现一次，可在不同允许采样子集重复请求。结果只包含每个输出array及其IDs和时间轴，严格沿用输入行序、dtype及全部轴；不得重复坐标或输入场。所有输出float64且有限。\n\n| quantity（均必需） | 单位 | kind／位置与采样 | 定义 |\n|---|---|---|---|\n'
  for q,x in cfg['output_specs'].items():
   where={'nodes':'domain或其节点子集的point；不接受单元中心替代','cells':'cells或其单元子集，average','sum':'aggregate(sum)，source=cells且覆盖整个域，integral','mean':'aggregate(mean)，source=cells且覆盖整个域，average','sites':'sites，point','contact':'候选接触边界单元，average','interface':'minus侧界面线单元，average'}[x['where']]
   kind=x['kind'] if x['kind']!='spectrum' else 'components，shape=[k]，components=[f1,…,fk]'
-  s+=f'| `{q}` | `{x["unit"]}` | {kind}；{where} | {x["description"]} |\n'
- s+='\n节点输出取连续解在给定节点的值；单元average按参考长度／面积／体积的Lebesgue测度作积分再除测度，不取节点算术均值。所有单元值使用参考域，即使超弹性Cauchy应力也以参考单元测度加权。线弹性储能U=½∫ε:σ，整体储能积分使用参考体积；二维平面应力乘实际thickness，其余二维按单位z长度输出。phase-field损伤energy按材料段含梯度项，其余elastic energy不含外力势；超弹性energy使用W。\n\n'
- if 'frequency' in cfg['outputs'] or 'load_factor' in cfg['outputs']:s+='谱量在真实域cells的aggregate(mean)处输出：把同一整体谱／倍率视为域上空间常量后的体积平均；这只是全局属性的明确承载方式，不要求构造局部频率。frequency的k由mode_count确定；load_factor标量shape=[1]。不输出振型，因此没有基向量比较歧义。\n\n'
- s+='''## 合法范围与保证
-
-除上文明确的自由键和时间轴名外不增加字段或条件组合。数据制作方须证明材料适用、网格非退化、载荷与约束相容、解在规定分支上可确定、所请求平均存在，并在题面预算内用独立基准达到目标精度。非线性分支保证是正式数据接收条件，不是校验器已经证明的事实。参数正值、JSON合法或低残差均不替代这些证据。尚无正式数据时不声称这些保证已获验证。
-'''
- if 'young_modulus' not in cfg['parameters']:
-  s=s.replace('小应变弹性各题的ε均是完整张量，剪切εxy不是工程剪切γxy；μ=E/[2(1+ν)]、λ=Eν/[(1+ν)(1−2ν)]，只有平面应力使用其专用λps。','')
- if slug not in ('elastic-modes',):s=s.replace('除mode_count必须为整数值外，','')
- if not top:
-  s=s.replace('locations中整体观测可用aggregate，source引用cells或明确的边界实体集合，sum对应integral、mean对应average；IDs恰含一项。点／节点值用point，单元值用average，聚合不是虚构点坐标。','本题仅使用sites独立点point输出。')
-  start=s.index('节点输出取连续解')
-  end=s.index('## 合法范围与保证',start)
-  s=s[:start]+s[end:]
- if slug=='hyperelastic-solid':s=s.replace('牵引和接触引用外边界单元','名义牵引引用参考外边界单元')
- if not any(rule[0]=='initial' for rule in cfg['rules'].values()):
-  s=s.replace('initial类恰一条且覆盖domain或sites；','')
- if top:s=s.replace('sites类每个算子恰一条覆盖sites。','')
- if slug!='elastic-truss':s=s.replace('不同来源的nodal_force可累加。','')
- if not top:
-  s=s.replace('cells类的每个算子恰一条且覆盖全部cells；','').replace('一般节点边界允许多条互不重叠记录。','').replace('固定约束必须足以排除刚体和机构；无条件的边界按本题零自然载荷处理，不能添加隐含对称或弹簧。','')
+  description='Cauchy应力，完整对称矩阵' if slug=='hyperelastic-solid' and q=='stress' else x['description']
+  s+=f'| `{q}` | `{x["unit"]}` | {kind}；{where} | {description} |\n'
+ if any(x['kind']=='vector' for x in cfg['output_specs'].values()):s+=f'\n输出vector的component_shape=[{d}]，components='+('["x","y"]' if d==2 else '["x","y","z"]')+'。'
+ if any(x['kind']=='tensor' for x in cfg['output_specs'].values()):s+=f'\n输出tensor的component_shape=[{d},{d}]，components按xx,xy'+(',xz,yx,yy,yz,zx,zy,zz' if d==3 else ',yx,yy')+'完整行优先排列，不只存对称矩阵的独立项。'
+ if any(x['kind']=='scalar' for x in cfg['output_specs'].values()):s+='\n输出scalar的component_shape=[1]，components=["value"]。'
+ if top:
+  measure={1:'长度',2:'面积',3:'体积'}[top]
+  if any(x['where']=='nodes' for x in cfg['output_specs'].values()):s+='\n节点输出取连续解在给定节点的值。'
+  if any(x['where'] in ('cells','contact','interface') for x in cfg['output_specs'].values()):s+=f'单元average按参考{measure}（边界按其自身维数的测度）积分再除测度，不取节点算术均值或单元中心点值。'
+  if 'energy' in cfg['outputs']:
+   if slug=='hyperelastic-solid':s+='energy=∫W dV，Cauchy应力的单元平均也按参考体积加权。'
+   elif slug=='gradient-damage':s+='energy按材料段包含弹性储能及正则化裂纹能，不含外力势；二维按单位z长度。'
+   else:s+='energy=½∫ε:σ，使用参考域测度，不含外力势。'+('二维平面应力乘实际thickness。' if slug=='plane-stress' else '二维按单位z长度。' if d==2 else '')
+  if 'frequency' in cfg['outputs']:s+='frequency在全域cells的aggregate(mean)输出：把同一整体谱视为空间常量后的体积平均，不要求构造局部频率。k由mode_count确定，不输出振型。'
+  if 'load_factor' in cfg['outputs']:s+='load_factor在全域cells的aggregate(mean)输出：把同一整体倍率视为空间常量后的体积平均，不要求构造局部倍率，不输出振型。'
+ s+='\n\n## 合法范围与保证\n\n除上文明确的自由键和时间轴名外不增加字段或条件组合。'
+ if fatigue:s+='数据制作方须确认材料模型适用、循环块与初态合法、各请求时刻的累计响应有限且可确定，并在题面预算内用独立基准达到目标精度。'
+ else:s+='数据制作方须确认材料适用、网格非退化、载荷与约束相容、解在规定分支上可确定、所请求点值及平均存在，并在题面预算内用独立基准达到目标精度。'
+ if slug=='elastic-transient':s+='所有请求节点和时刻的速度必须存在唯一经典点值；排除波前或折点处没有唯一时间导数的速度观测。此正则性要求是正式数据接收条件，不能由P1初态或位移边界的相容性自动推出。'
+ if hist and not fatigue and slug!='elastic-transient':s+='规定的连续稳定分支须在正式数据接收时核验。'
+ s+='这些是数据接收条件，不是结构校验器已经证明的事实；尚无正式数据时不声称已获验证。\n'
  return s
 
 
@@ -242,19 +286,32 @@ def render(batch=None):
    number=sec.split('-')[0]+'.'+str(i)
    index+=f'| {number} | [{name}]({slug}/instruction.md) |\n'
    sizes=cfg['limits'];rule_rows='\n'.join(f'| `{q}` | {x["atol"]} `{x["unit"]}` |' for q,x in cfg['output_specs'].items())
+   mesh=bool(cfg['topology']);history=cfg['mode']=='history'
+   varying='几何、参数、载荷、支撑'+('、历史' if history else '')+'与观测' if mesh else '材料参数、循环块'+('、初始裂长' if slug=='fatigue-crack-growth' else '')+'与观测'
+   geometry='输入网格定义精确参考几何及采样支持，不是强制有限元离散。' if mesh else '各观测点独立演化，无空间网格或跨点重建。'
+   scope_notes=[]
+   if mesh:scope_notes.append('首版不承诺任意病态网格')
+   if 'poisson_ratio' in cfg['parameters'] and slug!='elastic-plate':scope_notes.append('Poisson比范围按DATA给定')
+   if history:scope_notes.append('历史长度和采样规模受本题上限约束')
+   if slug=='elastic-modes':scope_notes.append('模态至多12阶')
+   limits_note='；'.join(scope_notes)+'。' if scope_notes else ''
+   size_note=f"每例至多{sizes['cells']}个顶维单元、{sizes['nodes']}个网格节点" if mesh else f"每例至多{sizes['nodes']}个独立点"
+   spectral='谱量也是逐分量比较且保留重数。' if slug=='elastic-modes' else ''
+   velocity_note='所有请求节点与时刻的速度观测须具有唯一经典点值，正式数据须核验这一接收条件，排除波前或折点处未定义的速度点值。' if slug=='elastic-transient' else ''
+   method='考生负责选择相容的积分与累计方法并控制误差；给定的材料响应及循环历史不能改写。允许任意语言、软件或解析方法，只要覆盖公开问题族；不要求复现参考软件。' if not mesh else '考生负责由物理描述建立相容的连续问题、选择模型允许范围内的适当表示和求解方法、离散与误差控制；给定的材料响应、降维假设和历史不能改写。允许任意语言、软件、内部网格、解析或降阶方法，只要覆盖公开问题族；不要求复现参考软件和参考离散。'
    instr=f'''# {number} {name}
 
-实现本题范围内可复用求解器，冻结后处理多个未见算例。能力范围：{scope}。具体几何、参数、载荷、支撑、历史与观测由算例给定。任务目标是{ '、'.join(cfg['outputs']) }对应的物理量，含义以本题DATA就地定义。
+实现本题范围内可复用求解器，冻结后处理多个未见算例。能力范围：{scope}。具体{varying}由算例给定。任务目标是{ '、'.join(cfg['outputs']) }对应的物理量，含义以本题DATA就地定义。
 
-{cfg['detail']}
+{cfg['detail']}{velocity_note}
 
-考生负责由物理描述建立相容的连续问题、选择模型允许范围内的适当表示和求解方法、离散与误差控制；给定的材料响应、降维假设和历史不能改写。允许任意语言、软件、内部网格、解析或降阶方法，只要覆盖公开问题族；不要求复现参考软件和参考离散。输入网格定义精确参考几何及采样支持，不是强制有限元离散。不同方法输出须满足相同观测；没有其他隐藏模型变量。
+{method}{geometry}不同方法输出须满足相同观测。
 
-阅读[本题DATA](DATA.md)和[通用数据协议](../../../../docs/CONTRACT.md)即可确定全部输入输出。模型仅为`{cfg['model']}`；其他模型、任意跨物理组合及材料温度反馈不在本题范围。
+阅读[本题DATA](DATA.md)和[通用数据协议](../../../../docs/CONTRACT.md)即可确定全部输入输出。模型仅为`{cfg['model']}`；只接受本题定义的模型与组合。
 
 ## 规模与运行
 
-每例至多{sizes['cells']}个顶维单元、{sizes['nodes']}个网格节点（无网格题至多{sizes['nodes']}个独立点），每个轴至多{sizes['frames']}帧，全部输入和输出场分别至多{sizes['components']}个float64分量。模态至多12阶；首版不承诺任意病态网格、任意逼近不可压缩极限或任意长历史。数据制作方须用独立基准证明同预算可达到设计精度；当前规模、预算及容差尚待正式数据校准。
+{size_note}，每个轴至多{sizes['frames']}帧，全部输入和输出场分别至多{sizes['components']}个float64分量。{limits_note}数据制作方须用独立基准证明同预算可达到设计精度；当前规模、预算及容差尚待正式数据校准。
 
 入口：`python solve.py --input /path/problem.json --output /path/result.h5`。每例Linux AMD64、{cfg['timeout']}秒墙钟、4CPU、8192MB内存、0GPU；启动与全部读写计时，逐例无网络。依赖提前准备，可用Python3、NumPy、SciPy、h5py、Gmsh、jsonschema、C++/OpenMP/OpenMPI/HDF5；不强制使用Python计算。程序以0退出，输出为完整HDF5，路径以命令行参数为准；无独立输出字节限额，shape规模仍受限。生成求解器时间为3600秒，构建环境最多1800秒。
 
@@ -262,7 +319,7 @@ def render(batch=None):
 
 每例正常退出、结构合法且全部请求quantity通过得1分，否则0分；本题成绩为通过有效例数／有效例数。输入、配置和参考错误属于基础设施问题，不计考生失败；没有正式有效例时不产生成绩。
 
-每个float64输出在全部时刻、实体与分量上逐值满足 `|结果−参考| ≤ atol(quantity)+0.01|参考|`。不去均值、平移、重排、拟合偏置、豁免少数超限点或按整体RMSE替代。全部字段同时通过，阈值等号接受；谱量也是逐分量比较且保留重数。IDs／时间、shape、dtype及有限值严格遵守CONTRACT。
+每个float64输出在全部时刻、实体与分量上逐值满足 `|结果−参考| ≤ atol(quantity)+0.01|参考|`。不去均值、平移、重排、拟合偏置、豁免少数超限点或按整体RMSE替代。全部字段同时通过，阈值等号接受。{spectral}IDs／时间、shape、dtype及有限值严格遵守CONTRACT。
 
 | quantity | atol（单位同输出） |
 |---|---|

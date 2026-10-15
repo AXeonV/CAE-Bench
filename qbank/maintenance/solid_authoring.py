@@ -117,7 +117,7 @@ for cfg in CAT.values():
   rule=list(cfg['rules']['traction']);rule[3]={'value':v('Pa','vector','traction','facets','外界对固体的参考名义死载t0=P N；N为参考外法向，每参考面积')};cfg['rules']['traction']=rule
  cfg['output_specs']={q:dict(zip(['unit','kind','atol','where','description'],Q[q])) for q in cfg['outputs']}
  if cfg['dimension']==2 and 'energy' in cfg['outputs'] and cfg['slug']!='plane-stress':cfg['output_specs']['energy']['unit']='J/m'
- if cfg['slug']=='gradient-damage':cfg['output_specs']['energy']['description']='完整内部能∫[g(d)ψ0+Gc(d²/(2ℓ)+ℓ|∇d|²/2)]dA，含裂纹正则化能' 
+ if cfg['slug']=='gradient-damage':cfg['output_specs']['energy']['description']='完整内部能∫[g(d)ψ0+Gc(d²/(2ℓ)+ℓ|∇d|²/2)]dA，含裂纹正则化能'
  cfg['model']='solid-'+cfg['slug']+'-v1'
  if cfg['slug']=='elastic-harmonic':cfg['parameters']['mass_damping']['closed']=False
  if cfg['slug']=='hyperelastic-solid':cfg['parameters']['poisson_ratio']['lower']=0;cfg['parameters']['poisson_ratio']['closed']=True

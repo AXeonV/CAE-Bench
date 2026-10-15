@@ -490,6 +490,50 @@
         "caeoj_ext/acoustic/geometry.py",
         "caeoj_ext/acoustic/models.json"
       ]
+    },
+    "electromagnetic.linear": {
+      "version": 1,
+      "requires": [],
+      "geometry": true,
+      "selectors": [
+        {
+          "physics.model": "electromagnetic-electrostatic-v1"
+        },
+        {
+          "physics.model": "electromagnetic-floating-electrode-v1"
+        },
+        {
+          "physics.model": "electromagnetic-dc-conduction-v1"
+        },
+        {
+          "physics.model": "electromagnetic-dielectric-relaxation-v1"
+        },
+        {
+          "physics.model": "electromagnetic-magnetostatic-v1"
+        },
+        {
+          "physics.model": "electromagnetic-harmonic-eddy-v1"
+        },
+        {
+          "physics.model": "electromagnetic-maxwell-cavity-v1"
+        },
+        {
+          "physics.model": "electromagnetic-rlc-transient-v1"
+        },
+        {
+          "physics.model": "electromagnetic-rlc-harmonic-v1"
+        },
+        {
+          "physics.model": "electromagnetic-coil-circuit-v1"
+        }
+      ],
+      "check": "caeoj_ext.electromagnetic:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/electromagnetic/__init__.py",
+        "caeoj_ext/electromagnetic/geometry.py",
+        "caeoj_ext/electromagnetic/models.json"
+      ]
     }
   },
   "tasks": {
@@ -869,6 +913,36 @@
     ],
     "modal-vibroacoustics": [
       "acoustic.linear"
+    ],
+    "electrostatic": [
+      "electromagnetic.linear"
+    ],
+    "floating-electrode": [
+      "electromagnetic.linear"
+    ],
+    "dc-conduction": [
+      "electromagnetic.linear"
+    ],
+    "dielectric-relaxation": [
+      "electromagnetic.linear"
+    ],
+    "magnetostatic": [
+      "electromagnetic.linear"
+    ],
+    "harmonic-eddy": [
+      "electromagnetic.linear"
+    ],
+    "maxwell-cavity": [
+      "electromagnetic.linear"
+    ],
+    "rlc-transient": [
+      "electromagnetic.linear"
+    ],
+    "rlc-harmonic": [
+      "electromagnetic.linear"
+    ],
+    "coil-circuit": [
+      "electromagnetic.linear"
     ]
   },
   "aliases": {
@@ -900,7 +974,8 @@
     "solid-",
     "multibody-",
     "thermal-",
-    "acoustic-"
+    "acoustic-",
+    "electromagnetic-"
   ],
   "model_namespace_diagnostics": {
     "fluid-energy-": "E_FLUID",
@@ -909,6 +984,7 @@
     "solid-": "E_SOLID",
     "multibody-": "E_MULTIBODY",
     "thermal-": "E_THERMAL",
-    "acoustic-": "E_ACOUSTIC"
+    "acoustic-": "E_ACOUSTIC",
+    "electromagnetic-": "E_ELECTROMAGNETIC"
   }
 }

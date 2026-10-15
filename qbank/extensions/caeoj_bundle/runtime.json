@@ -446,6 +446,50 @@
         "caeoj_ext/thermal/__init__.py",
         "caeoj_ext/thermal/models.json"
       ]
+    },
+    "acoustic.linear": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model": "acoustic-acoustic-transient-v1"
+        },
+        {
+          "physics.model": "acoustic-acoustic-harmonic-v1"
+        },
+        {
+          "physics.model": "acoustic-surface-radiation-v1"
+        },
+        {
+          "physics.model": "acoustic-rigid-scattering-v1"
+        },
+        {
+          "physics.model": "acoustic-equivalent-fluid-v1"
+        },
+        {
+          "physics.model": "acoustic-thermoviscous-acoustics-v1"
+        },
+        {
+          "physics.model": "acoustic-uniform-flow-acoustics-v1"
+        },
+        {
+          "physics.model": "acoustic-lighthill-radiation-v1"
+        },
+        {
+          "physics.model": "acoustic-resonator-wall-v1"
+        },
+        {
+          "physics.model": "acoustic-modal-vibroacoustics-v1"
+        }
+      ],
+      "geometry": true,
+      "check": "caeoj_ext.acoustic:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/acoustic/__init__.py",
+        "caeoj_ext/acoustic/geometry.py",
+        "caeoj_ext/acoustic/models.json"
+      ]
     }
   },
   "tasks": {
@@ -795,6 +839,36 @@
     ],
     "isothermal-stefan": [
       "thermal.transport"
+    ],
+    "acoustic-transient": [
+      "acoustic.linear"
+    ],
+    "acoustic-harmonic": [
+      "acoustic.linear"
+    ],
+    "surface-radiation": [
+      "acoustic.linear"
+    ],
+    "rigid-scattering": [
+      "acoustic.linear"
+    ],
+    "equivalent-fluid": [
+      "acoustic.linear"
+    ],
+    "thermoviscous-acoustics": [
+      "acoustic.linear"
+    ],
+    "uniform-flow-acoustics": [
+      "acoustic.linear"
+    ],
+    "lighthill-radiation": [
+      "acoustic.linear"
+    ],
+    "resonator-wall": [
+      "acoustic.linear"
+    ],
+    "modal-vibroacoustics": [
+      "acoustic.linear"
     ]
   },
   "aliases": {
@@ -825,7 +899,8 @@
     "fluid-reduced-",
     "solid-",
     "multibody-",
-    "thermal-"
+    "thermal-",
+    "acoustic-"
   ],
   "model_namespace_diagnostics": {
     "fluid-energy-": "E_FLUID",
@@ -833,6 +908,7 @@
     "fluid-reduced-": "E_FLUID",
     "solid-": "E_SOLID",
     "multibody-": "E_MULTIBODY",
-    "thermal-": "E_THERMAL"
+    "thermal-": "E_THERMAL",
+    "acoustic-": "E_ACOUSTIC"
   }
 }

@@ -108,13 +108,15 @@ python src/utils/prepare_harbor.py --task '<task>'
 **5. 可选 Oracle 检查。** 有 baseline 时可先运行以下命令确认判题链路；没有 baseline 时跳过，直接运行 Agent。
 
 ```sh
-harbor run -p 'runs/harbor/<task-dir>' -e docker -a oracle -n 1 -o 'runs/harbor/jobs'
+harbor run -p 'runs/harbor/tasks/<task>' -e docker -a oracle -n 1 -o 'runs/harbor/jobs'
 ```
+
+需要 Agent 自动完成就绪检查、冻结运行条件、启动本地监控及汇总时，使用 [caeoj-run-benchmark](.agents/skills/caeoj-run-benchmark/SKILL.md)。监控默认使用执行主机的 8080 端口，先核对页面可用再启动 trial；已有无关服务占用时不自动结束它或换端口。
 
 **6. 运行 Agent 并独立判题。** 例如 Codex + Luna：
 
 ```sh
-harbor run -p 'runs/harbor/<task-dir>' -e docker -a codex -m 'openai/gpt-6-luna' --ak 'reasoning_effort=medium' -n 1 -o 'runs/harbor/jobs'
+harbor run -p 'runs/harbor/tasks/<task>' -e docker -a codex -m 'openai/gpt-6-luna' --ak 'reasoning_effort=medium' -n 1 -o 'runs/harbor/jobs'
 ```
 
 HPC 运行可追加 `--override-cpus '<cpu-quota>' --override-memory-mb '<memory-mb>'`，值须与组装时声明的资源一致；`-n '<concurrency>'` 控制并发 trial 数，不是单个求解器的线程数。默认模板提供 g++、OpenMP、Open MPI 及 HDF5 开发库（`h5cc`／`h5c++`、`h5dump`），解题与独立判题容器共用该工具链；GPU 需另行配置。
@@ -122,7 +124,7 @@ HPC 运行可追加 `--override-cpus '<cpu-quota>' --override-memory-mb '<memory
 **7. 查看成绩或复核单点。**
 
 ```sh
-harbor view 'runs/harbor/jobs'
+harbor view 'runs/harbor/jobs' --jobs --host 0.0.0.0 --port 8080
 ```
 
 trial 的 `verifier/report.json` 保存逐点得分与误差，`reward.txt` 保存通过率。也可单独运行提交并判分：

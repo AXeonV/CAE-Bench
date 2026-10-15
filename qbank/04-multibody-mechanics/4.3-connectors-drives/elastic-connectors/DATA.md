@@ -20,7 +20,7 @@ parameters恰为下表全部项，各项为带单位有限标量的value/unit对
 
 ## 位置与身份
 
-`meshes={}`、`geometries={}`。locations全部为CONTRACT的entities，记录恰为kind=entities及ids引用；没有coordinates或伪造网格。每个实体的状态或参数保留自己的ID，物理位置来自输入场及条件参数。实际ID可不连续，不能用数组行号代替ID。保留位置名`bodies`，N=1..32。每个ID是一个可动刚体，不含地面。辅助位置仅供下列关节／驱动／连接记录使用，每个含一个ID，不得与bodies同名；每个辅助位置必须被且仅被一条记录使用。a、b、body参数引用bodies中的实际ID；仅关节和弹簧允许-1地面，且不得两端均为地面。同一无序体对允许不同锚点连接，但不得有冗余约束。最多129个locations；所有ID为CONTRACT规定的非负、严格递增int64，辅助位置ID不跨location配对。
+`meshes={}`、`geometries={}`。locations全部为CONTRACT的entities，记录恰为kind=entities及ids引用；没有coordinates或伪造网格。每个实体的状态或参数保留自己的ID，物理位置来自输入场及条件参数。实际ID可不连续，不能用数组行号代替ID。保留位置名`bodies`，N=1..32。每个ID是一个可动刚体，不含地面。辅助位置仅供下列关节／连接记录使用，每个含一个ID，不得与bodies同名；每个辅助位置必须被且仅被一条记录使用。a、b参数引用bodies中的实际ID；仅关节和弹簧允许-1地面，且不得两端均为地面。同一无序体对允许不同锚点连接，但不得有冗余约束。最多129个locations；所有ID为CONTRACT规定的非负、严格递增int64，辅助位置ID不跨location配对。
 
 ## 时间和字段
 
@@ -93,8 +93,8 @@ role=`source`、variable=`connector`、operator=`spring`；location=任意单ID�
 | `ay` | 常量`{"value":数值,"unit":"m"}`；a体局部锚点y |
 | `bx` | 常量`{"value":数值,"unit":"m"}`；b体局部锚点x |
 | `by` | 常量`{"value":数值,"unit":"m"}`；b体局部锚点y |
-| `stiffness` | 常量`{"value":数值,"unit":"N/m"}`；轴向刚度k≥0；≥0 |
-| `damping` | 常量`{"value":数值,"unit":"kg/s"}`；轴向黏性系数c≥0；≥0 |
+| `stiffness` | 常量`{"value":数值,"unit":"N/m"}`；轴向刚度k≥0 |
+| `damping` | 常量`{"value":数值,"unit":"kg/s"}`；轴向黏性系数c≥0 |
 | `rest_length` | 常量`{"value":数值,"unit":"m"}`；无应力长度l0>0 |
 
 body及loads均恰一条覆盖bodies，不允许按子集拆分。未列出的算子一律不允许；字段正值要求见表。常量参数不能使用field替代。

@@ -345,6 +345,55 @@
         "caeoj_ext/solid/__init__.py",
         "caeoj_ext/solid/models.json"
       ]
+    },
+    "multibody.mechanics": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model": "multibody-planar-kinematics-v1"
+        },
+        {
+          "physics.model": "multibody-planar-inverse-dynamics-v1"
+        },
+        {
+          "physics.model": "multibody-planar-multibody-v1"
+        },
+        {
+          "physics.model": "multibody-spatial-free-rigid-v1"
+        },
+        {
+          "physics.model": "multibody-elastic-connectors-v1"
+        },
+        {
+          "physics.model": "multibody-prescribed-drive-v1"
+        },
+        {
+          "physics.model": "multibody-normal-contact-v1"
+        },
+        {
+          "physics.model": "multibody-regularized-friction-v1"
+        },
+        {
+          "physics.model": "multibody-normal-impact-v1"
+        },
+        {
+          "physics.model": "multibody-frictional-impact-v1"
+        },
+        {
+          "physics.model": "multibody-modal-flexible-v1"
+        },
+        {
+          "physics.model": "multibody-translating-flexible-v1"
+        }
+      ],
+      "geometry": false,
+      "check": "caeoj_ext.multibody:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/multibody/__init__.py",
+        "caeoj_ext/multibody/models.json"
+      ]
     }
   },
   "tasks": {
@@ -619,6 +668,42 @@
     ],
     "fatigue-crack-growth": [
       "solid.mechanics"
+    ],
+    "planar-kinematics": [
+      "multibody.mechanics"
+    ],
+    "planar-inverse-dynamics": [
+      "multibody.mechanics"
+    ],
+    "planar-multibody": [
+      "multibody.mechanics"
+    ],
+    "spatial-free-rigid": [
+      "multibody.mechanics"
+    ],
+    "elastic-connectors": [
+      "multibody.mechanics"
+    ],
+    "prescribed-drive": [
+      "multibody.mechanics"
+    ],
+    "normal-contact": [
+      "multibody.mechanics"
+    ],
+    "regularized-friction": [
+      "multibody.mechanics"
+    ],
+    "normal-impact": [
+      "multibody.mechanics"
+    ],
+    "frictional-impact": [
+      "multibody.mechanics"
+    ],
+    "modal-flexible": [
+      "multibody.mechanics"
+    ],
+    "translating-flexible": [
+      "multibody.mechanics"
     ]
   },
   "aliases": {
@@ -647,12 +732,14 @@
     "fluid-energy-",
     "fluid-multiphase-",
     "fluid-reduced-",
-    "solid-"
+    "solid-",
+    "multibody-"
   ],
   "model_namespace_diagnostics": {
     "fluid-energy-": "E_FLUID",
     "fluid-multiphase-": "E_FLUID",
     "fluid-reduced-": "E_FLUID",
-    "solid-": "E_SOLID"
+    "solid-": "E_SOLID",
+    "multibody-": "E_MULTIBODY"
   }
 }

@@ -16,7 +16,7 @@ parameters恰为下表全部项，各项为带单位有限标量的value/unit对
 
 ## 位置与身份
 
-`meshes={}`、`geometries={}`。locations全部为CONTRACT的entities，记录恰为kind=entities及ids引用；没有coordinates或伪造网格。每个实体的状态或参数保留自己的ID，物理位置来自输入场及条件参数。实际ID可不连续，不能用数组行号代替ID。保留位置名`bodies`，N=1..32。每个ID是一个可动刚体，不含地面。辅助位置每个含一个ID，恰被一条collision或contact记录使用；a、b均是bodies中的实际ID，且a≠b，同一无序体对不得重复。所有bodies被互不共享的碰撞对恰好覆盖。最多129个locations；所有ID为CONTRACT规定的非负、严格递增int64，辅助位置ID不跨location配对。
+`meshes={}`、`geometries={}`。locations全部为CONTRACT的entities，记录恰为kind=entities及ids引用；没有coordinates或伪造网格。每个实体的状态或参数保留自己的ID，物理位置来自输入场及条件参数。实际ID可不连续，不能用数组行号代替ID。保留位置名`bodies`，N=1..32。每个ID是一个可动刚体，不含地面。辅助位置每个含一个ID，恰被一条collision记录使用；a、b均是bodies中的实际ID，且a≠b，同一无序体对不得重复。所有bodies被互不共享的碰撞对恰好覆盖。最多129个locations；所有ID为CONTRACT规定的非负、严格递增int64，辅助位置ID不跨location配对。
 
 ## 时间和字段
 

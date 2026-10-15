@@ -1,7 +1,8 @@
 """Read-only structural checks for direct-child qbank problem statements.
 
 Checks ordinary inline Markdown file links (not anchors, reference-style links or
-HTML), strict JSON fenced blocks and topic document presence. Never runs a
+HTML), the candidate's three-document link boundary, strict JSON fenced blocks
+and topic document presence. Public sample assets may be linked. Never runs a
 solver, fetches URLs, reads numerical data or judges physics/review readiness.
 """
 import argparse
@@ -14,6 +15,7 @@ from urllib.parse import unquote, urlsplit
 
 FENCE = re.compile(r'^```([^\n]*)\n(.*?)^```\s*$', re.M | re.S)
 LINK = re.compile(r'\]\((<[^>]+>|[^\s)]+)(?:\s+"[^"]*")?\)')
+DEFAULT_CONTRACT = Path(__file__).resolve().parents[4] / 'docs/CONTRACT.md'
 
 
 def unique_object(pairs):
@@ -36,7 +38,8 @@ def finite_float(value):
     return number
 
 
-def inspect(section):
+def inspect(section, contract=DEFAULT_CONTRACT):
+    section, contract = Path(section).resolve(), Path(contract).resolve()
     errors = []
     topics = []
     documents = sorted(section.rglob('*.md'))
@@ -51,6 +54,8 @@ def inspect(section):
                 errors.append({'file': str(topic / name), 'issue': 'missing_topic_document'})
     if not topics:
         errors.append({'file': str(section), 'issue': 'no_direct_child_topics'})
+    candidate_files = {section / topic / name for topic in topics
+                       for name in ('instruction.md', 'DATA.md')}
     for path in documents:
         try:
             text = path.read_text(encoding='utf-8')
@@ -71,11 +76,26 @@ def inspect(section):
         for match in LINK.finditer(prose):
             target = match.group(1).strip('<>')
             url = urlsplit(target)
-            if url.scheme or url.netloc or not url.path:
+            candidate = path in candidate_files
+            if url.scheme or url.netloc:
+                if candidate:
+                    errors.append({'file': str(path), 'issue': 'external_candidate_link',
+                                   'target': target})
+                continue
+            if not url.path:
                 continue
             links += 1
-            if not (path.parent / unquote(url.path)).exists():
+            destination = (path.parent / unquote(url.path)).resolve()
+            if not destination.exists():
                 errors.append({'file': str(path), 'issue': 'missing_link_target', 'target': target})
+            if candidate:
+                allowed = {path.parent / 'instruction.md', path.parent / 'DATA.md', contract}
+                sample_asset = destination.suffix.lower() != '.md' and any(
+                    destination.is_relative_to(path.parent / folder)
+                    for folder in ('examples', 'samples'))
+                if destination not in allowed and not sample_asset:
+                    errors.append({'file': str(path), 'issue': 'extra_candidate_dependency',
+                                   'target': target})
     data_files = []
     for topic in topics:
         for folder in ('examples', 'references', 'cases', 'samples'):
@@ -83,26 +103,31 @@ def inspect(section):
             if base.is_dir():
                 data_files.extend(str(p.relative_to(section)) for p in sorted(base.rglob('*'))
                                   if p.is_file() and p.name != '.gitkeep')
-    return {'section': str(section), 'topics': topics, 'documents': len(documents),
+    return {'section': str(section), 'contract': str(contract),
+            'topics': topics, 'documents': len(documents),
             'json_blocks': json_blocks, 'local_file_links': links, 'errors': errors,
             'data_directory_files': data_files,
             'static_checks': 'failed' if errors else 'passed',
             'planning_alignment': 'not_evaluated', 'candidate_review': 'not_evaluated',
             'data_validation': 'not_evaluated', 'physics_validation': 'not_evaluated',
-            'notice': 'Only structural checks; Markdown anchors and full Markdown syntax are not validated.'}
+            'notice': 'Only structural/link checks; plain-text dependencies, anchors, full Markdown syntax and physical self-sufficiency are not validated.'}
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--section', type=Path, required=True)
+    parser.add_argument('--contract', type=Path, default=DEFAULT_CONTRACT,
+                        help='Shared CONTRACT.md; defaults to this repository contract')
     parser.add_argument('--output', type=Path)
     args = parser.parse_args()
     section = args.section.resolve()
     if not section.is_dir():
         parser.error('--section must be an existing directory')
+    if not args.contract.is_file():
+        parser.error('--contract must be an existing file')
     if args.output and args.output.resolve().is_relative_to(section):
         parser.error('write the report outside the section directory')
-    result = inspect(section)
+    result = inspect(section, args.contract)
     encoded = json.dumps(result, ensure_ascii=False, indent=2) + '\n'
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)

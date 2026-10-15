@@ -62,3 +62,103 @@ def id_to_row(ids):
     if len(set(map(int, ids))) != len(ids):
         raise ValueError("Entity IDs must be unique.")
     return {int(tag): row for row, tag in enumerate(ids)}
+
+
+def read_option(data):
+    """Read a declared categorical option, without interpreting its meaning."""
+    if not isinstance(data, dict) or set(data) != {'option'}:
+        raise TypeError('Expected an {"option": string} value.')
+    return data['option']
+
+
+def absolute_pressure(problem, pressure):
+    """Convert CFD profile pressure values to absolute Pa, preserving shape."""
+    spec = problem.manifest['analysis']['pressure']
+    offset = spec['reference_pressure']['value'] if spec['representation']=='gauge' else 0.
+    return np.asarray(pressure) + offset
+
+
+def fluid_material(problem):
+    """Return the single material description of a validated CFD 2.1 problem."""
+    if problem.manifest.get('profile') != 'cfd-2.1':
+        raise ValueError('Expected cfd-2.1 profile')
+    return next(iter(problem.manifest['materials'].values()))
+
+
+def density_at_pressure(problem, pressure):
+    """Evaluate declared material response; input follows profile pressure representation."""
+    from .cfd import material_density
+    return material_density(fluid_material(problem), absolute_pressure(problem, pressure),
+                            problem.manifest['analysis']['temperature']['value'])
+
+
+def dynamic_viscosity(problem, shear_rate):
+    """Evaluate declared dynamic viscosity at sqrt(2 D:D) in inverse seconds."""
+    from .cfd import material_viscosity
+    return material_viscosity(fluid_material(problem), shear_rate)
+
+
+def sample_field(problem, name, time):
+    """Sample an input field in time; returns [N,*components] without spatial remapping.
+
+    Explicitly applies its sampling declaration. Does not infer continuity from
+    output times; previous means right-continuous zero-order hold.
+    """
+    if not np.isfinite(time):raise ValueError('Sample time must be finite')
+    spec=problem.manifest['fields'][name];sampling=spec['sampling']
+    times=problem.arrays[problem.manifest['time_axes'][spec['time_axis']]]
+    values=problem.arrays[spec['array']]
+    if sampling['time']=='constant':return values[0].copy()
+    if time<times[0] or time>times[-1]:
+        if sampling['extrapolation']=='forbid':raise ValueError('Time extrapolation forbidden')
+        return values[0 if time<times[0] else -1].copy()
+    i=int(np.searchsorted(times,time,side='right')-1)
+    if sampling['time']=='previous' or i==len(times)-1:return values[i].copy()
+    w=(time-times[i])/(times[i+1]-times[i])
+    return (1-w)*values[i]+w*values[i+1]
+
+
+def boundary_geometry(problem, location):
+    """Facet centroids, outward unit normals and measures in prescribed ID order."""
+    from .mesh_geometry import boundary_geometry as geometry
+    return geometry(problem,location)
+
+
+def boundary_integral(problem, location, values):
+    """Integrate facet-average [T,N,*components] values; output [T,1,*components]."""
+    values=np.asarray(values)
+    _,_,measure=boundary_geometry(problem,location)
+    if values.ndim<3 or values.shape[1]!=len(measure):raise ValueError('Expected [T,N,*components] facet averages')
+    return np.sum(values*measure.reshape((1,len(measure))+((1,)*(values.ndim-2))),axis=1,keepdims=True)
+
+
+def condition_values(problem, condition, parameter, time):
+    """Read numerical CFD condition data on its region's element rows.
+
+    Scalars stay scalars. Nodal input is averaged over each linear simplex;
+    uniform nodal data also work on other supported first-order cells. This is
+    the exact entity average of the declared linear/uniform reconstruction.
+    """
+    value=condition['data'][parameter]
+    if 'value' in value:return read_constant(value)
+    if set(value)!={'field'}:raise TypeError('Expected a numerical condition value')
+    spec=problem.manifest['fields'][value['field']]
+    sampled=sample_field(problem,value['field'],time)
+    if spec['location']==condition['location']:return sampled
+    source=problem.manifest['locations'][spec['location']]
+    target=problem.manifest['locations'][condition['location']]
+    if (source['kind']!='mesh' or source['entity']!='node' or target['kind']!='mesh'
+            or target['entity']!='element' or source['mesh']!=target['mesh']):
+        raise ValueError('Condition requires the exact nodes of its element region')
+    rows=id_to_row(problem.arrays[source['ids']]);mesh=problem.meshes[source['mesh']]
+    return np.array([np.mean([sampled[rows[n]] for n in mesh['connectivity'][int(tag)][1]],axis=0)
+                     for tag in problem.arrays[target['ids']]])
+
+
+def periodic_face_pairs(problem, condition):
+    """Return (this-side facet ID, partner facet ID) pairs for a periodic condition."""
+    from .mesh_geometry import periodic_face_pairs as pair
+    if condition['operator']!='periodic':raise ValueError('Expected a periodic boundary')
+    d=problem.manifest['spatial_dimension'];data=condition['data']
+    return pair(problem,condition['location'],data['partner']['location'],
+                [read_constant(data['translation_'+x]) for x in 'xyz'[:d]])

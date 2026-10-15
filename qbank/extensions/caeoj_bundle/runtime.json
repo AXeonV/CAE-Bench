@@ -269,6 +269,82 @@
         "caeoj_ext/fluid/_compat_reduced.py",
         "caeoj_ext/fluid/_sdk_compat.py"
       ]
+    },
+    "solid.mechanics": {
+      "version": 1,
+      "requires": [],
+      "geometry": true,
+      "selectors": [
+        {
+          "physics.model": "solid-plane-stress-v1"
+        },
+        {
+          "physics.model": "solid-plane-strain-v1"
+        },
+        {
+          "physics.model": "solid-elastic-solid-3d-v1"
+        },
+        {
+          "physics.model": "solid-elastic-truss-v1"
+        },
+        {
+          "physics.model": "solid-elastic-beam-v1"
+        },
+        {
+          "physics.model": "solid-elastic-plate-v1"
+        },
+        {
+          "physics.model": "solid-elastic-modes-v1"
+        },
+        {
+          "physics.model": "solid-elastic-transient-v1"
+        },
+        {
+          "physics.model": "solid-elastic-harmonic-v1"
+        },
+        {
+          "physics.model": "solid-hyperelastic-solid-v1"
+        },
+        {
+          "physics.model": "solid-elastic-buckling-v1"
+        },
+        {
+          "physics.model": "solid-frictionless-contact-v1"
+        },
+        {
+          "physics.model": "solid-frictional-contact-v1"
+        },
+        {
+          "physics.model": "solid-j2-plasticity-v1"
+        },
+        {
+          "physics.model": "solid-linear-viscoelastic-v1"
+        },
+        {
+          "physics.model": "solid-power-law-creep-v1"
+        },
+        {
+          "physics.model": "solid-gradient-damage-v1"
+        },
+        {
+          "physics.model": "solid-linear-elastic-fracture-v1"
+        },
+        {
+          "physics.model": "solid-cohesive-interface-v1"
+        },
+        {
+          "physics.model": "solid-stress-life-fatigue-v1"
+        },
+        {
+          "physics.model": "solid-fatigue-crack-growth-v1"
+        }
+      ],
+      "check": "caeoj_ext.solid:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/solid/__init__.py",
+        "caeoj_ext/solid/models.json"
+      ]
     }
   },
   "tasks": {
@@ -480,6 +556,33 @@
     ],
     "viscoelastic-transient": [
       "fluid.complex_fluid"
+    ],
+    "plane-stress": [
+      "solid.mechanics"
+    ],
+    "plane-strain": [
+      "solid.mechanics"
+    ],
+    "elastic-solid-3d": [
+      "solid.mechanics"
+    ],
+    "elastic-truss": [
+      "solid.mechanics"
+    ],
+    "elastic-beam": [
+      "solid.mechanics"
+    ],
+    "elastic-plate": [
+      "solid.mechanics"
+    ],
+    "elastic-modes": [
+      "solid.mechanics"
+    ],
+    "elastic-transient": [
+      "solid.mechanics"
+    ],
+    "elastic-harmonic": [
+      "solid.mechanics"
     ]
   },
   "aliases": {
@@ -507,11 +610,13 @@
   "model_namespaces": [
     "fluid-energy-",
     "fluid-multiphase-",
-    "fluid-reduced-"
+    "fluid-reduced-",
+    "solid-"
   ],
   "model_namespace_diagnostics": {
     "fluid-energy-": "E_FLUID",
     "fluid-multiphase-": "E_FLUID",
-    "fluid-reduced-": "E_FLUID"
+    "fluid-reduced-": "E_FLUID",
+    "solid-": "E_SOLID"
   }
 }

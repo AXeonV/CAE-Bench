@@ -1,0 +1,2747 @@
+{
+  "plane-stress": {
+    "slug": "plane-stress",
+    "dimension": 2,
+    "topology": 2,
+    "mode": "static",
+    "outputs": [
+      "displacement",
+      "stress",
+      "energy"
+    ],
+    "parameters": {
+      "young_modulus": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Young模量E"
+      },
+      "poisson_ratio": {
+        "unit": "1",
+        "lower": 0,
+        "upper": 0.49,
+        "closed": true,
+        "description": "Poisson比ν，严格小于0.5"
+      },
+      "thickness": {
+        "unit": "m",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "实际恒定厚度h"
+      }
+    },
+    "rules": {
+      "displacement": [
+        "boundary",
+        "displacement",
+        "nodes",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "vector",
+            "quantity": "displacement",
+            "where": "nodes",
+            "description": "位移向量；所有分量均被约束"
+          }
+        },
+        "给定全部位移分量，边界P1迹；同一节点只允许一条位移记录"
+      ],
+      "traction": [
+        "boundary",
+        "traction",
+        "facets",
+        {
+          "value": {
+            "unit": "Pa",
+            "kind": "vector",
+            "quantity": "traction",
+            "where": "facets",
+            "description": "外界对固体牵引t=σn"
+          }
+        },
+        "在参考边界实体上分片常数；未声明的外边界为零牵引"
+      ],
+      "body_force": [
+        "source",
+        "body_force",
+        "cells",
+        {
+          "value": {
+            "unit": "N/m3",
+            "kind": "vector",
+            "quantity": "body_force",
+            "where": "cells",
+            "description": "每参考体积的外力"
+          }
+        },
+        "按输入单元分片常数；必须一条覆盖cells，零载也须给出"
+      ]
+    },
+    "required": [
+      "body_force"
+    ],
+    "detail": "平面应力σzz=σxz=σyz=0；ε= sym∇u，σ=2με+λps tr(ε)I，μ=E/[2(1+ν)]，λps=Eν/(1−ν²)。厚度只乘体积与边界积分，载荷仍为Pa和N/m3。 静力平衡divσ+b=0。体无初始应力、无本征应变、材料均匀；位移约束排除刚体模态。",
+    "output_specs": {
+      "displacement": {
+        "unit": "m",
+        "kind": "vector",
+        "atol": 1e-06,
+        "where": "nodes",
+        "description": "位移u，参考全局坐标分量"
+      },
+      "stress": {
+        "unit": "Pa",
+        "kind": "tensor",
+        "atol": 100.0,
+        "where": "cells",
+        "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
+      },
+      "energy": {
+        "unit": "J",
+        "kind": "scalar",
+        "atol": 1e-05,
+        "where": "sum",
+        "description": "参考域上弹性储能积分"
+      }
+    },
+    "model": "solid-plane-stress-v1",
+    "limits": {
+      "cells": 5000,
+      "nodes": 15000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 900
+  },
+  "plane-strain": {
+    "slug": "plane-strain",
+    "dimension": 2,
+    "topology": 2,
+    "mode": "static",
+    "outputs": [
+      "displacement",
+      "stress",
+      "energy"
+    ],
+    "parameters": {
+      "young_modulus": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Young模量E"
+      },
+      "poisson_ratio": {
+        "unit": "1",
+        "lower": 0,
+        "upper": 0.49,
+        "closed": true,
+        "description": "Poisson比ν，严格小于0.5"
+      }
+    },
+    "rules": {
+      "displacement": [
+        "boundary",
+        "displacement",
+        "nodes",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "vector",
+            "quantity": "displacement",
+            "where": "nodes",
+            "description": "位移向量；所有分量均被约束"
+          }
+        },
+        "给定全部位移分量，边界P1迹；同一节点只允许一条位移记录"
+      ],
+      "traction": [
+        "boundary",
+        "traction",
+        "facets",
+        {
+          "value": {
+            "unit": "Pa",
+            "kind": "vector",
+            "quantity": "traction",
+            "where": "facets",
+            "description": "外界对固体牵引t=σn"
+          }
+        },
+        "在参考边界实体上分片常数；未声明的外边界为零牵引"
+      ],
+      "body_force": [
+        "source",
+        "body_force",
+        "cells",
+        {
+          "value": {
+            "unit": "N/m3",
+            "kind": "vector",
+            "quantity": "body_force",
+            "where": "cells",
+            "description": "每参考体积的外力"
+          }
+        },
+        "按输入单元分片常数；必须一条覆盖cells，零载也须给出"
+      ]
+    },
+    "required": [
+      "body_force"
+    ],
+    "detail": "平面应变εzz=εxz=εyz=0；σxy块=2με+λ tr(ε)I，μ=E/[2(1+ν)]，λ=Eν/[(1+ν)(1−2ν)]；σzz=λtr(ε)，输出stress只含xy块。所有力／能量按单位z长度。 静力平衡divσ+b=0。体无初始应力、无本征应变、材料均匀；位移约束排除刚体模态。",
+    "output_specs": {
+      "displacement": {
+        "unit": "m",
+        "kind": "vector",
+        "atol": 1e-06,
+        "where": "nodes",
+        "description": "位移u，参考全局坐标分量"
+      },
+      "stress": {
+        "unit": "Pa",
+        "kind": "tensor",
+        "atol": 100.0,
+        "where": "cells",
+        "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
+      },
+      "energy": {
+        "unit": "J/m",
+        "kind": "scalar",
+        "atol": 1e-05,
+        "where": "sum",
+        "description": "参考域上弹性储能积分"
+      }
+    },
+    "model": "solid-plane-strain-v1",
+    "limits": {
+      "cells": 5000,
+      "nodes": 15000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 900
+  },
+  "elastic-solid-3d": {
+    "slug": "elastic-solid-3d",
+    "dimension": 3,
+    "topology": 3,
+    "mode": "static",
+    "outputs": [
+      "displacement",
+      "stress",
+      "energy"
+    ],
+    "parameters": {
+      "young_modulus": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Young模量E"
+      },
+      "poisson_ratio": {
+        "unit": "1",
+        "lower": 0,
+        "upper": 0.49,
+        "closed": true,
+        "description": "Poisson比ν，严格小于0.5"
+      }
+    },
+    "rules": {
+      "displacement": [
+        "boundary",
+        "displacement",
+        "nodes",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "vector",
+            "quantity": "displacement",
+            "where": "nodes",
+            "description": "位移向量；所有分量均被约束"
+          }
+        },
+        "给定全部位移分量，边界P1迹；同一节点只允许一条位移记录"
+      ],
+      "traction": [
+        "boundary",
+        "traction",
+        "facets",
+        {
+          "value": {
+            "unit": "Pa",
+            "kind": "vector",
+            "quantity": "traction",
+            "where": "facets",
+            "description": "外界对固体牵引t=σn"
+          }
+        },
+        "在参考边界实体上分片常数；未声明的外边界为零牵引"
+      ],
+      "body_force": [
+        "source",
+        "body_force",
+        "cells",
+        {
+          "value": {
+            "unit": "N/m3",
+            "kind": "vector",
+            "quantity": "body_force",
+            "where": "cells",
+            "description": "每参考体积的外力"
+          }
+        },
+        "按输入单元分片常数；必须一条覆盖cells，零载也须给出"
+      ]
+    },
+    "required": [
+      "body_force"
+    ],
+    "detail": "三维各向同性小应变；ε=sym∇u，σ=2με+λtr(ε)I，μ=E/[2(1+ν)]，λ=Eν/[(1+ν)(1−2ν)]。 静力平衡divσ+b=0。体无初始应力、无本征应变、材料均匀；位移约束排除刚体模态。",
+    "output_specs": {
+      "displacement": {
+        "unit": "m",
+        "kind": "vector",
+        "atol": 1e-06,
+        "where": "nodes",
+        "description": "位移u，参考全局坐标分量"
+      },
+      "stress": {
+        "unit": "Pa",
+        "kind": "tensor",
+        "atol": 100.0,
+        "where": "cells",
+        "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
+      },
+      "energy": {
+        "unit": "J",
+        "kind": "scalar",
+        "atol": 1e-05,
+        "where": "sum",
+        "description": "参考域上弹性储能积分"
+      }
+    },
+    "model": "solid-elastic-solid-3d-v1",
+    "limits": {
+      "cells": 5000,
+      "nodes": 15000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 900
+  },
+  "elastic-truss": {
+    "slug": "elastic-truss",
+    "dimension": 2,
+    "topology": 1,
+    "mode": "static",
+    "outputs": [
+      "displacement",
+      "axial_force"
+    ],
+    "parameters": {
+      "young_modulus": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Young模量E"
+      }
+    },
+    "rules": {
+      "displacement": [
+        "boundary",
+        "displacement",
+        "nodes",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "vector",
+            "quantity": "displacement",
+            "where": "nodes",
+            "description": "位移向量；所有分量均被约束"
+          }
+        },
+        "给定全部位移分量，边界P1迹；同一节点只允许一条位移记录"
+      ],
+      "nodal_force": [
+        "source",
+        "force",
+        "nodes",
+        {
+          "value": {
+            "unit": "N",
+            "kind": "vector",
+            "quantity": "force",
+            "where": "nodes",
+            "description": "作用于节点的外力"
+          }
+        },
+        "同一节点的已声明力相加；未声明为0"
+      ],
+      "cross_section": [
+        "material",
+        "area",
+        "cells",
+        {
+          "value": {
+            "unit": "m2",
+            "kind": "scalar",
+            "quantity": "area",
+            "where": "cells",
+            "description": "每杆横截面积A>0"
+          }
+        },
+        "必须一条覆盖全部杆，杆内常数"
+      ]
+    },
+    "required": [
+      "cross_section"
+    ],
+    "detail": "输入为xy平面铰接直杆网络，节点共享tag表示铰接；交叉但不共享节点的杆不连接。忽略弯曲、剪切、自重和惯性。每杆轴向应变等于其两端位移差在初始杆轴的投影除以杆长；N=EAε，受拉为正；节点向量平衡。E全局，A每杆给定。支撑为全分量位移；不含机构、孤立节点或预应力。",
+    "output_specs": {
+      "displacement": {
+        "unit": "m",
+        "kind": "vector",
+        "atol": 1e-06,
+        "where": "nodes",
+        "description": "位移u，参考全局坐标分量"
+      },
+      "axial_force": {
+        "unit": "N",
+        "kind": "scalar",
+        "atol": 0.01,
+        "where": "cells",
+        "description": "轴向内力，受拉为正"
+      }
+    },
+    "model": "solid-elastic-truss-v1",
+    "limits": {
+      "cells": 5000,
+      "nodes": 15000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 900
+  },
+  "elastic-beam": {
+    "slug": "elastic-beam",
+    "dimension": 1,
+    "topology": 1,
+    "mode": "static",
+    "outputs": [
+      "deflection",
+      "slope",
+      "bending_moment"
+    ],
+    "parameters": {},
+    "rules": {
+      "clamp": [
+        "boundary",
+        "deflection",
+        "ends",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "scalar",
+            "quantity": "deflection",
+            "where": "ends",
+            "description": "端挠度"
+          },
+          "rotation": {
+            "unit": "rad",
+            "kind": "scalar",
+            "quantity": "slope",
+            "where": "ends",
+            "description": "dw/dx"
+          }
+        },
+        "同时固定w与w′"
+      ],
+      "end_load": [
+        "boundary",
+        "end_load",
+        "ends",
+        {
+          "force": {
+            "unit": "N",
+            "kind": "scalar",
+            "quantity": "force",
+            "where": "ends",
+            "description": "端横向集中力"
+          },
+          "moment": {
+            "unit": "N.m",
+            "kind": "scalar",
+            "quantity": "moment",
+            "where": "ends",
+            "description": "与w′共轭的端弯矩"
+          }
+        },
+        "虚功Fδw+Mδw′；未声明端自由，默认F=M=0"
+      ],
+      "line_load": [
+        "source",
+        "line_load",
+        "cells",
+        {
+          "value": {
+            "unit": "N/m",
+            "kind": "scalar",
+            "quantity": "line_load",
+            "where": "cells",
+            "description": "沿正横向的均布线载荷q"
+          }
+        },
+        "一条覆盖cells，每单元常数"
+      ],
+      "flexural_rigidity": [
+        "material",
+        "rigidity",
+        "cells",
+        {
+          "value": {
+            "unit": "N.m2",
+            "kind": "scalar",
+            "quantity": "rigidity",
+            "where": "cells",
+            "description": "EI>0"
+          }
+        },
+        "一条覆盖cells，每单元常数"
+      ]
+    },
+    "required": [
+      "line_load",
+      "flexural_rigidity"
+    ],
+    "detail": "一根沿全局x轴严格递增的直梁，线性Euler–Bernoulli弯曲；横向w是抽象横向挠度而非x位移。连续方程(EIw″)″=q。跨单元w、w′及无集中力偶处内力连续。端力按虚功定义，右端F=−(EIw″)′、M=EIw″，左端符号相反。不求轴向伸长、扭转或剪切变形；恰有一个端点clamp，另一个端点可end_load。",
+    "output_specs": {
+      "deflection": {
+        "unit": "m",
+        "kind": "scalar",
+        "atol": 1e-06,
+        "where": "nodes",
+        "description": "沿正横向的挠度w"
+      },
+      "slope": {
+        "unit": "rad",
+        "kind": "scalar",
+        "atol": 1e-05,
+        "where": "nodes",
+        "description": "梁截面转角dw/dx"
+      },
+      "bending_moment": {
+        "unit": "N.m",
+        "kind": "scalar",
+        "atol": 0.01,
+        "where": "cells",
+        "description": "梁弯矩EI·w″，按长度平均"
+      }
+    },
+    "model": "solid-elastic-beam-v1",
+    "limits": {
+      "cells": 5000,
+      "nodes": 15000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 900
+  },
+  "elastic-plate": {
+    "slug": "elastic-plate",
+    "dimension": 2,
+    "topology": 2,
+    "mode": "static",
+    "outputs": [
+      "deflection",
+      "curvature"
+    ],
+    "parameters": {
+      "young_modulus": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Young模量E"
+      },
+      "poisson_ratio": {
+        "unit": "1",
+        "lower": 0,
+        "upper": 0.49,
+        "closed": true,
+        "description": "Poisson比ν，严格小于0.5"
+      },
+      "thickness": {
+        "unit": "m",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "恒定厚度h"
+      }
+    },
+    "rules": {
+      "plate_clamp": [
+        "boundary",
+        "deflection",
+        "facets",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "scalar",
+            "quantity": "deflection",
+            "where": "facets",
+            "description": "挠度w=0"
+          },
+          "slope": {
+            "unit": "rad",
+            "kind": "scalar",
+            "quantity": "normal_slope",
+            "where": "facets",
+            "description": "外法向导数∂nw=0"
+          }
+        },
+        "覆盖全部外边界；首版只支持齐次夹持，两个值必须均为零"
+      ],
+      "pressure_load": [
+        "source",
+        "pressure",
+        "cells",
+        {
+          "value": {
+            "unit": "Pa",
+            "kind": "scalar",
+            "quantity": "pressure",
+            "where": "cells",
+            "description": "沿正z方向压力q"
+          }
+        },
+        "一条覆盖cells，单元内常数"
+      ]
+    },
+    "required": [
+      "pressure_load",
+      "plate_clamp"
+    ],
+    "detail": "各向同性Kirchhoff–Love薄板，参考中面xy，w沿+z；弯曲刚度D=Eh³/[12(1−ν²)]，DΔ²w=q。全边界w=∂nw=0；无膜力、横向剪切变形、剪切锁定的隐藏离散要求或转动惯性。评价连续板弯曲而非输入网格的有限元刚度矩阵；厚度满足薄板适用条件由算例保证。",
+    "output_specs": {
+      "deflection": {
+        "unit": "m",
+        "kind": "scalar",
+        "atol": 1e-06,
+        "where": "nodes",
+        "description": "沿正横向的挠度w"
+      },
+      "curvature": {
+        "unit": "1/m",
+        "kind": "tensor",
+        "atol": 1e-05,
+        "where": "cells",
+        "description": "板曲率张量−Hessian(w)，全局xy完整矩阵"
+      }
+    },
+    "model": "solid-elastic-plate-v1",
+    "limits": {
+      "cells": 5000,
+      "nodes": 15000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 900
+  },
+  "elastic-modes": {
+    "slug": "elastic-modes",
+    "dimension": 3,
+    "topology": 3,
+    "mode": "static",
+    "outputs": [
+      "frequency"
+    ],
+    "parameters": {
+      "young_modulus": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Young模量E"
+      },
+      "poisson_ratio": {
+        "unit": "1",
+        "lower": 0,
+        "upper": 0.49,
+        "closed": true,
+        "description": "Poisson比ν，严格小于0.5"
+      },
+      "density": {
+        "unit": "kg/m3",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "质量密度ρ"
+      },
+      "mode_count": {
+        "unit": "1",
+        "lower": 1,
+        "upper": 12,
+        "closed": true,
+        "description": "正整数k，1≤k≤12"
+      }
+    },
+    "rules": {
+      "fixed": [
+        "boundary",
+        "displacement",
+        "nodes",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "vector",
+            "quantity": "displacement",
+            "where": "nodes",
+            "description": "齐次固定边界u=0"
+          }
+        },
+        "至少一条，全部值必须0"
+      ]
+    },
+    "required": [
+      "fixed"
+    ],
+    "detail": "三维均匀各向同性小应变自由振动，divσ=ρü；约束排除刚体，未约束边界零牵引，无预应力与阻尼。求连续弹性问题前k个正固有频率f=ω/(2π)，升序排列并保留重数；不评分振型符号、归一化或重复特征值子空间中的基。",
+    "output_specs": {
+      "frequency": {
+        "unit": "Hz",
+        "kind": "spectrum",
+        "atol": 0.001,
+        "where": "mean",
+        "description": "前k个正固有频率，升序，重数保留"
+      }
+    },
+    "model": "solid-elastic-modes-v1",
+    "limits": {
+      "cells": 5000,
+      "nodes": 15000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 900
+  },
+  "elastic-transient": {
+    "slug": "elastic-transient",
+    "dimension": 3,
+    "topology": 3,
+    "mode": "history",
+    "outputs": [
+      "displacement",
+      "velocity",
+      "stress"
+    ],
+    "parameters": {
+      "young_modulus": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Young模量E"
+      },
+      "poisson_ratio": {
+        "unit": "1",
+        "lower": 0,
+        "upper": 0.49,
+        "closed": true,
+        "description": "Poisson比ν，严格小于0.5"
+      },
+      "density": {
+        "unit": "kg/m3",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "质量密度ρ"
+      },
+      "mass_damping": {
+        "unit": "1/s",
+        "lower": 0,
+        "upper": null,
+        "closed": true,
+        "description": "质量比例黏性阻尼α≥0"
+      },
+      "start_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "末时刻tf，严格大于t0"
+      }
+    },
+    "rules": {
+      "displacement": [
+        "boundary",
+        "displacement",
+        "nodes",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "vector",
+            "quantity": "displacement",
+            "where": "nodes",
+            "description": "位移向量；所有分量均被约束"
+          }
+        },
+        "给定全部位移分量，边界P1迹；同一节点只允许一条位移记录"
+      ],
+      "traction": [
+        "boundary",
+        "traction",
+        "facets",
+        {
+          "value": {
+            "unit": "Pa",
+            "kind": "vector",
+            "quantity": "traction",
+            "where": "facets",
+            "description": "外界对固体牵引t=σn"
+          }
+        },
+        "在参考边界实体上分片常数；未声明的外边界为零牵引"
+      ],
+      "body_force": [
+        "source",
+        "body_force",
+        "cells",
+        {
+          "value": {
+            "unit": "N/m3",
+            "kind": "vector",
+            "quantity": "body_force",
+            "where": "cells",
+            "description": "每参考体积的外力"
+          }
+        },
+        "按输入单元分片常数；必须一条覆盖cells，零载也须给出"
+      ],
+      "initial_displacement": [
+        "initial",
+        "displacement",
+        "nodes",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "vector",
+            "quantity": "displacement",
+            "where": "nodes",
+            "description": "初始全域状态"
+          }
+        },
+        "恰一条覆盖domain；采样单帧t0，节点P1重建"
+      ],
+      "initial_velocity": [
+        "initial",
+        "velocity",
+        "nodes",
+        {
+          "value": {
+            "unit": "m/s",
+            "kind": "vector",
+            "quantity": "velocity",
+            "where": "nodes",
+            "description": "初始全域状态"
+          }
+        },
+        "恰一条覆盖domain；采样单帧t0，节点P1重建"
+      ]
+    },
+    "required": [
+      "body_force",
+      "initial_displacement",
+      "initial_velocity"
+    ],
+    "detail": "三维线弹性，ρü+αρu̇−divσ=b，ε=sym∇u，σ=2με+λtrεI，λ与μ由E、ν确定。无预应力；给定物理位移与速度初态，不能把迭代初猜当初态。位移边界随时间只允许全程仿射（多帧需共线），因此不含速度折点；初位移及速度与边界的起点值和全程导数相容，不施加脉冲载荷。体力和牵引仍可按一般连续分段线性历史给定。",
+    "output_specs": {
+      "displacement": {
+        "unit": "m",
+        "kind": "vector",
+        "atol": 1e-06,
+        "where": "nodes",
+        "description": "位移u，参考全局坐标分量"
+      },
+      "velocity": {
+        "unit": "m/s",
+        "kind": "vector",
+        "atol": 1e-05,
+        "where": "nodes",
+        "description": "位移对物理时间导数"
+      },
+      "stress": {
+        "unit": "Pa",
+        "kind": "tensor",
+        "atol": 100.0,
+        "where": "cells",
+        "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
+      }
+    },
+    "model": "solid-elastic-transient-v1",
+    "limits": {
+      "cells": 5000,
+      "nodes": 15000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 1500
+  },
+  "elastic-harmonic": {
+    "slug": "elastic-harmonic",
+    "dimension": 3,
+    "topology": 3,
+    "mode": "static",
+    "outputs": [
+      "displacement_real",
+      "displacement_imag",
+      "stress_real",
+      "stress_imag"
+    ],
+    "parameters": {
+      "young_modulus": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Young模量E"
+      },
+      "poisson_ratio": {
+        "unit": "1",
+        "lower": 0,
+        "upper": 0.49,
+        "closed": true,
+        "description": "Poisson比ν，严格小于0.5"
+      },
+      "density": {
+        "unit": "kg/m3",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "质量密度ρ"
+      },
+      "mass_damping": {
+        "unit": "1/s",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "质量比例黏性阻尼α≥0"
+      },
+      "angular_frequency": {
+        "unit": "rad/s",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "单个驱动角频率ω"
+      }
+    },
+    "rules": {
+      "displacement_real": [
+        "boundary",
+        "displacement_real",
+        "nodes",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "vector",
+            "quantity": "displacement_real",
+            "where": "nodes",
+            "description": "位移向量；所有分量均被约束"
+          }
+        },
+        "给定全部位移分量，边界P1迹；同一节点只允许一条位移记录；real幅部"
+      ],
+      "traction_real": [
+        "boundary",
+        "traction_real",
+        "facets",
+        {
+          "value": {
+            "unit": "Pa",
+            "kind": "vector",
+            "quantity": "traction_real",
+            "where": "facets",
+            "description": "外界对固体牵引t=σn"
+          }
+        },
+        "在参考边界实体上分片常数；未声明的外边界为零牵引；real幅部"
+      ],
+      "body_force_real": [
+        "source",
+        "body_force_real",
+        "cells",
+        {
+          "value": {
+            "unit": "N/m3",
+            "kind": "vector",
+            "quantity": "body_force_real",
+            "where": "cells",
+            "description": "每参考体积的外力"
+          }
+        },
+        "按输入单元分片常数；必须一条覆盖cells，零载也须给出；real幅部"
+      ],
+      "displacement_imag": [
+        "boundary",
+        "displacement_imag",
+        "nodes",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "vector",
+            "quantity": "displacement_imag",
+            "where": "nodes",
+            "description": "位移向量；所有分量均被约束"
+          }
+        },
+        "给定全部位移分量，边界P1迹；同一节点只允许一条位移记录；imag幅部"
+      ],
+      "traction_imag": [
+        "boundary",
+        "traction_imag",
+        "facets",
+        {
+          "value": {
+            "unit": "Pa",
+            "kind": "vector",
+            "quantity": "traction_imag",
+            "where": "facets",
+            "description": "外界对固体牵引t=σn"
+          }
+        },
+        "在参考边界实体上分片常数；未声明的外边界为零牵引；imag幅部"
+      ],
+      "body_force_imag": [
+        "source",
+        "body_force_imag",
+        "cells",
+        {
+          "value": {
+            "unit": "N/m3",
+            "kind": "vector",
+            "quantity": "body_force_imag",
+            "where": "cells",
+            "description": "每参考体积的外力"
+          }
+        },
+        "按输入单元分片常数；必须一条覆盖cells，零载也须给出；imag幅部"
+      ]
+    },
+    "required": [
+      "body_force_real",
+      "body_force_imag"
+    ],
+    "detail": "三维线弹性谐响应，采用Re(û exp(iωt))；−ρω²û+iαρ ωû−divσ̂=b̂，σ̂=2μsym∇û+λtr(sym∇û)I。所有实虚载荷、位移边界分别给出且几何覆盖相同，缺失幅部不得猜零。阻尼α>0；避开病态共振。时间轴[0]只是复幅存储标记；没有启动瞬态或多频扫频。",
+    "output_specs": {
+      "displacement_real": {
+        "unit": "m",
+        "kind": "vector",
+        "atol": 1e-06,
+        "where": "nodes",
+        "description": "复位移幅实部"
+      },
+      "displacement_imag": {
+        "unit": "m",
+        "kind": "vector",
+        "atol": 1e-06,
+        "where": "nodes",
+        "description": "复位移幅虚部"
+      },
+      "stress_real": {
+        "unit": "Pa",
+        "kind": "tensor",
+        "atol": 100.0,
+        "where": "cells",
+        "description": "复应力幅实部"
+      },
+      "stress_imag": {
+        "unit": "Pa",
+        "kind": "tensor",
+        "atol": 100.0,
+        "where": "cells",
+        "description": "复应力幅虚部"
+      }
+    },
+    "model": "solid-elastic-harmonic-v1",
+    "limits": {
+      "cells": 5000,
+      "nodes": 15000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 900
+  },
+  "hyperelastic-solid": {
+    "slug": "hyperelastic-solid",
+    "dimension": 3,
+    "topology": 3,
+    "mode": "history",
+    "outputs": [
+      "displacement",
+      "stress",
+      "energy"
+    ],
+    "parameters": {
+      "young_modulus": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Young模量E"
+      },
+      "poisson_ratio": {
+        "unit": "1",
+        "lower": 0,
+        "upper": 0.49,
+        "closed": true,
+        "description": "Poisson比ν，严格小于0.5"
+      },
+      "start_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "末时刻tf，严格大于t0"
+      }
+    },
+    "rules": {
+      "displacement": [
+        "boundary",
+        "displacement",
+        "nodes",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "vector",
+            "quantity": "displacement",
+            "where": "nodes",
+            "description": "位移向量；所有分量均被约束"
+          }
+        },
+        "给定全部位移分量，边界P1迹；同一节点只允许一条位移记录"
+      ],
+      "traction": [
+        "boundary",
+        "traction",
+        "facets",
+        {
+          "value": {
+            "unit": "Pa",
+            "kind": "vector",
+            "quantity": "traction",
+            "where": "facets",
+            "description": "外界对固体的参考名义死载t0=P N；N为参考外法向，每参考面积"
+          }
+        },
+        "在参考边界实体上分片常数；未声明的外边界为零牵引"
+      ],
+      "body_force": [
+        "source",
+        "body_force",
+        "cells",
+        {
+          "value": {
+            "unit": "N/m3",
+            "kind": "vector",
+            "quantity": "body_force",
+            "where": "cells",
+            "description": "每参考体积的外力"
+          }
+        },
+        "按输入单元分片常数；必须一条覆盖cells，零载也须给出"
+      ]
+    },
+    "required": [
+      "body_force"
+    ],
+    "detail": "三维可压缩Neo-Hookean材料。F=I+Grad u，J=detF>0，W=μ/2(tr(FᵀF)−3)−μ lnJ+λ/2(lnJ)²，μ、λ由E、ν确定且ν≥0；P=∂W/∂F，DivP+b=0，σ=PFᵀ/J。牵引是参考面上的名义死载Pn，body_force是每参考体积死载；不支持随动压力。由t0零位移、零载荷无应力参考态沿连续局部稳定分支准静态加载，支撑位移控制、无极限点跳跃；伪时间仅为加载参数。不改变输入拓扑，允许内部更新几何。",
+    "output_specs": {
+      "displacement": {
+        "unit": "m",
+        "kind": "vector",
+        "atol": 1e-06,
+        "where": "nodes",
+        "description": "位移u，参考全局坐标分量"
+      },
+      "stress": {
+        "unit": "Pa",
+        "kind": "tensor",
+        "atol": 100.0,
+        "where": "cells",
+        "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
+      },
+      "energy": {
+        "unit": "J",
+        "kind": "scalar",
+        "atol": 1e-05,
+        "where": "sum",
+        "description": "参考域上弹性储能积分"
+      }
+    },
+    "model": "solid-hyperelastic-solid-v1",
+    "limits": {
+      "cells": 5000,
+      "nodes": 15000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 1500
+  },
+  "elastic-buckling": {
+    "slug": "elastic-buckling",
+    "dimension": 3,
+    "topology": 3,
+    "mode": "static",
+    "outputs": [
+      "load_factor"
+    ],
+    "parameters": {
+      "young_modulus": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Young模量E"
+      },
+      "poisson_ratio": {
+        "unit": "1",
+        "lower": 0,
+        "upper": 0.49,
+        "closed": true,
+        "description": "Poisson比ν，严格小于0.5"
+      }
+    },
+    "rules": {
+      "displacement": [
+        "boundary",
+        "displacement",
+        "nodes",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "vector",
+            "quantity": "displacement",
+            "where": "nodes",
+            "description": "位移向量；所有分量均被约束"
+          }
+        },
+        "给定全部位移分量，边界P1迹；同一节点只允许一条位移记录"
+      ],
+      "traction": [
+        "boundary",
+        "traction",
+        "facets",
+        {
+          "value": {
+            "unit": "Pa",
+            "kind": "vector",
+            "quantity": "traction",
+            "where": "facets",
+            "description": "外界对固体牵引t=σn"
+          }
+        },
+        "在参考边界实体上分片常数；未声明的外边界为零牵引"
+      ],
+      "body_force": [
+        "source",
+        "body_force",
+        "cells",
+        {
+          "value": {
+            "unit": "N/m3",
+            "kind": "vector",
+            "quantity": "body_force",
+            "where": "cells",
+            "description": "每参考体积的外力"
+          }
+        },
+        "按输入单元分片常数；必须一条覆盖cells，零载也须给出"
+      ]
+    },
+    "required": [
+      "body_force"
+    ],
+    "detail": "三维小应变各向同性弹性结构；齐次支撑先解参考死载下的线弹性应力σ0。对同一齐次增量约束，求a(v,w)+λ gσ0(v,w)=0的最小正λ，a=∫ε(v):C:ε(w)dV，g=∫σ0_ij ∂i v_k ∂j w_k dV。总临界载荷为λ乘全部给定牵引和体力，不能乘支撑；位移条件必须全零。正根存在且隔离，不求后屈曲或振型，不含接触或材料失稳。",
+    "output_specs": {
+      "load_factor": {
+        "unit": "1",
+        "kind": "scalar",
+        "atol": 0.0001,
+        "where": "mean",
+        "description": "首个正屈曲载荷倍率"
+      }
+    },
+    "model": "solid-elastic-buckling-v1",
+    "limits": {
+      "cells": 5000,
+      "nodes": 15000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 900
+  },
+  "frictionless-contact": {
+    "slug": "frictionless-contact",
+    "dimension": 3,
+    "topology": 3,
+    "mode": "history",
+    "outputs": [
+      "displacement",
+      "stress",
+      "contact_pressure",
+      "contact_traction"
+    ],
+    "parameters": {
+      "young_modulus": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Young模量E"
+      },
+      "poisson_ratio": {
+        "unit": "1",
+        "lower": 0,
+        "upper": 0.49,
+        "closed": true,
+        "description": "Poisson比ν，严格小于0.5"
+      },
+      "normal_x": {
+        "unit": "1",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "平面单位法向nx"
+      },
+      "normal_y": {
+        "unit": "1",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "平面单位法向ny"
+      },
+      "normal_z": {
+        "unit": "1",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "平面单位法向nz"
+      },
+      "plane_offset": {
+        "unit": "m",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "平面n·x=c的c"
+      },
+      "start_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "末时刻tf，严格大于t0"
+      }
+    },
+    "rules": {
+      "displacement": [
+        "boundary",
+        "displacement",
+        "nodes",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "vector",
+            "quantity": "displacement",
+            "where": "nodes",
+            "description": "位移向量；所有分量均被约束"
+          }
+        },
+        "给定全部位移分量，边界P1迹；同一节点只允许一条位移记录"
+      ],
+      "traction": [
+        "boundary",
+        "traction",
+        "facets",
+        {
+          "value": {
+            "unit": "Pa",
+            "kind": "vector",
+            "quantity": "traction",
+            "where": "facets",
+            "description": "外界对固体牵引t=σn"
+          }
+        },
+        "在参考边界实体上分片常数；未声明的外边界为零牵引"
+      ],
+      "body_force": [
+        "source",
+        "body_force",
+        "cells",
+        {
+          "value": {
+            "unit": "N/m3",
+            "kind": "vector",
+            "quantity": "body_force",
+            "where": "cells",
+            "description": "每参考体积的外力"
+          }
+        },
+        "按输入单元分片常数；必须一条覆盖cells，零载也须给出"
+      ],
+      "rigid_plane": [
+        "boundary",
+        "contact",
+        "facets",
+        {
+          "mode": {
+            "option": "unilateral"
+          }
+        },
+        "声明候选外表面；不得同时作用位移或给定牵引；全候选面可分成多个互不重叠记录"
+      ]
+    },
+    "required": [
+      "body_force",
+      "rigid_plane"
+    ],
+    "detail": "三维小应变各向同性弹性准静态接触，平面刚性固定。允许区域n·(X+u)≤c；g=c−n·(X+u)≥0，p≥0，pg=0；障碍对固体法向牵引−pn。初态零位移零载荷，候选面g≥0，排除初始侵入；未声明边界零牵引，所有载荷在参考域定义；法向不随变形更新。切向牵引严格为0，无黏附。 支撑排除刚体自由度，保证连续唯一稳定解，无大滑动／转动或接触冲击。",
+    "output_specs": {
+      "displacement": {
+        "unit": "m",
+        "kind": "vector",
+        "atol": 1e-06,
+        "where": "nodes",
+        "description": "位移u，参考全局坐标分量"
+      },
+      "stress": {
+        "unit": "Pa",
+        "kind": "tensor",
+        "atol": 100.0,
+        "where": "cells",
+        "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
+      },
+      "contact_pressure": {
+        "unit": "Pa",
+        "kind": "scalar",
+        "atol": 100.0,
+        "where": "contact",
+        "description": "刚性障碍对固体的压应力大小p≥0，非接触处0"
+      },
+      "contact_traction": {
+        "unit": "Pa",
+        "kind": "vector",
+        "atol": 100.0,
+        "where": "contact",
+        "description": "刚性障碍对固体的总接触牵引，包含法向与切向"
+      }
+    },
+    "model": "solid-frictionless-contact-v1",
+    "limits": {
+      "cells": 5000,
+      "nodes": 15000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 1500
+  },
+  "frictional-contact": {
+    "slug": "frictional-contact",
+    "dimension": 3,
+    "topology": 3,
+    "mode": "history",
+    "outputs": [
+      "displacement",
+      "stress",
+      "contact_pressure",
+      "contact_traction"
+    ],
+    "parameters": {
+      "young_modulus": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Young模量E"
+      },
+      "poisson_ratio": {
+        "unit": "1",
+        "lower": 0,
+        "upper": 0.49,
+        "closed": true,
+        "description": "Poisson比ν，严格小于0.5"
+      },
+      "normal_x": {
+        "unit": "1",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "平面单位法向nx"
+      },
+      "normal_y": {
+        "unit": "1",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "平面单位法向ny"
+      },
+      "normal_z": {
+        "unit": "1",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "平面单位法向nz"
+      },
+      "plane_offset": {
+        "unit": "m",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "平面n·x=c的c"
+      },
+      "friction_coefficient": {
+        "unit": "1",
+        "lower": 0,
+        "upper": 1,
+        "closed": true,
+        "description": "库仑系数μf∈[0,1]"
+      },
+      "start_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "末时刻tf，严格大于t0"
+      }
+    },
+    "rules": {
+      "displacement": [
+        "boundary",
+        "displacement",
+        "nodes",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "vector",
+            "quantity": "displacement",
+            "where": "nodes",
+            "description": "位移向量；所有分量均被约束"
+          }
+        },
+        "给定全部位移分量，边界P1迹；同一节点只允许一条位移记录"
+      ],
+      "traction": [
+        "boundary",
+        "traction",
+        "facets",
+        {
+          "value": {
+            "unit": "Pa",
+            "kind": "vector",
+            "quantity": "traction",
+            "where": "facets",
+            "description": "外界对固体牵引t=σn"
+          }
+        },
+        "在参考边界实体上分片常数；未声明的外边界为零牵引"
+      ],
+      "body_force": [
+        "source",
+        "body_force",
+        "cells",
+        {
+          "value": {
+            "unit": "N/m3",
+            "kind": "vector",
+            "quantity": "body_force",
+            "where": "cells",
+            "description": "每参考体积的外力"
+          }
+        },
+        "按输入单元分片常数；必须一条覆盖cells，零载也须给出"
+      ],
+      "rigid_plane": [
+        "boundary",
+        "contact",
+        "facets",
+        {
+          "mode": {
+            "option": "unilateral"
+          }
+        },
+        "声明候选外表面；不得同时作用位移或给定牵引；全候选面可分成多个互不重叠记录"
+      ]
+    },
+    "required": [
+      "body_force",
+      "rigid_plane"
+    ],
+    "detail": "三维小应变各向同性弹性准静态接触，平面刚性固定。允许区域n·(X+u)≤c；g=c−n·(X+u)≥0，p≥0，pg=0；障碍对固体法向牵引−pn。初态零位移零载荷，候选面g≥0，排除初始侵入；未声明边界零牵引，所有载荷在参考域定义；法向不随变形更新。相对切向速度vT=(I−n⊗n)u̇；|tT|≤μf p，滑动时tT=−μf p vT/|vT|，粘着时vT=0。初始切向接触力和滑移均0，按给定加载历史选择粘滑状态；开离时接触力为0。无正则化摩擦或罚刚度材料参数。 支撑排除刚体自由度，保证连续唯一稳定解，无大滑动／转动或接触冲击。",
+    "output_specs": {
+      "displacement": {
+        "unit": "m",
+        "kind": "vector",
+        "atol": 1e-06,
+        "where": "nodes",
+        "description": "位移u，参考全局坐标分量"
+      },
+      "stress": {
+        "unit": "Pa",
+        "kind": "tensor",
+        "atol": 100.0,
+        "where": "cells",
+        "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
+      },
+      "contact_pressure": {
+        "unit": "Pa",
+        "kind": "scalar",
+        "atol": 100.0,
+        "where": "contact",
+        "description": "刚性障碍对固体的压应力大小p≥0，非接触处0"
+      },
+      "contact_traction": {
+        "unit": "Pa",
+        "kind": "vector",
+        "atol": 100.0,
+        "where": "contact",
+        "description": "刚性障碍对固体的总接触牵引，包含法向与切向"
+      }
+    },
+    "model": "solid-frictional-contact-v1",
+    "limits": {
+      "cells": 5000,
+      "nodes": 15000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 1500
+  },
+  "j2-plasticity": {
+    "slug": "j2-plasticity",
+    "dimension": 3,
+    "topology": 3,
+    "mode": "history",
+    "outputs": [
+      "displacement",
+      "stress",
+      "plastic_strain",
+      "equivalent_plastic_strain"
+    ],
+    "parameters": {
+      "young_modulus": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Young模量E"
+      },
+      "poisson_ratio": {
+        "unit": "1",
+        "lower": 0,
+        "upper": 0.49,
+        "closed": true,
+        "description": "Poisson比ν，严格小于0.5"
+      },
+      "yield_stress": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "初始屈服应力σy"
+      },
+      "hardening_modulus": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "各向同性硬化H"
+      },
+      "start_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "末时刻tf，严格大于t0"
+      }
+    },
+    "rules": {
+      "displacement": [
+        "boundary",
+        "displacement",
+        "nodes",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "vector",
+            "quantity": "displacement",
+            "where": "nodes",
+            "description": "位移向量；所有分量均被约束"
+          }
+        },
+        "给定全部位移分量，边界P1迹；同一节点只允许一条位移记录"
+      ],
+      "traction": [
+        "boundary",
+        "traction",
+        "facets",
+        {
+          "value": {
+            "unit": "Pa",
+            "kind": "vector",
+            "quantity": "traction",
+            "where": "facets",
+            "description": "外界对固体牵引t=σn"
+          }
+        },
+        "在参考边界实体上分片常数；未声明的外边界为零牵引"
+      ],
+      "body_force": [
+        "source",
+        "body_force",
+        "cells",
+        {
+          "value": {
+            "unit": "N/m3",
+            "kind": "vector",
+            "quantity": "body_force",
+            "where": "cells",
+            "description": "每参考体积的外力"
+          }
+        },
+        "按输入单元分片常数；必须一条覆盖cells，零载也须给出"
+      ]
+    },
+    "required": [
+      "body_force"
+    ],
+    "detail": "三维等温小应变材料，divσ+b=0，准静态加载卸载；C为E、ν确定的各向同性刚度。εe=ε−εp，σ=C:εe；s=devσ，σeq=√(3s:s/2)，f=σeq−(σy+Hp)≤0，ε̇p=γ̇(3s/2σeq)，ṗ=γ̇，γ̇≥0，γ̇f=0；σeq=0时塑性流动为0。无运动硬化、有限应变或应变率效应。 从t0零位移、零应力、所有内部状态0开始，起始边界载荷0；输出在加载或卸载任意给定时刻的物理历史，不能逐帧重置状态。算例保证唯一稳定响应。",
+    "output_specs": {
+      "displacement": {
+        "unit": "m",
+        "kind": "vector",
+        "atol": 1e-06,
+        "where": "nodes",
+        "description": "位移u，参考全局坐标分量"
+      },
+      "stress": {
+        "unit": "Pa",
+        "kind": "tensor",
+        "atol": 100.0,
+        "where": "cells",
+        "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
+      },
+      "plastic_strain": {
+        "unit": "1",
+        "kind": "tensor",
+        "atol": 1e-05,
+        "where": "cells",
+        "description": "完整小应变塑性应变，不是工程剪切"
+      },
+      "equivalent_plastic_strain": {
+        "unit": "1",
+        "kind": "scalar",
+        "atol": 1e-05,
+        "where": "cells",
+        "description": "累积等效塑性应变p"
+      }
+    },
+    "model": "solid-j2-plasticity-v1",
+    "limits": {
+      "cells": 5000,
+      "nodes": 15000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 1500
+  },
+  "linear-viscoelastic": {
+    "slug": "linear-viscoelastic",
+    "dimension": 3,
+    "topology": 3,
+    "mode": "history",
+    "outputs": [
+      "displacement",
+      "stress",
+      "branch_stress"
+    ],
+    "parameters": {
+      "young_modulus": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Young模量E"
+      },
+      "poisson_ratio": {
+        "unit": "1",
+        "lower": 0,
+        "upper": 0.49,
+        "closed": true,
+        "description": "Poisson比ν，严格小于0.5"
+      },
+      "branch_shear_modulus": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Maxwell偏支剪切模量G1"
+      },
+      "relaxation_time": {
+        "unit": "s",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "偏支松弛时间τ"
+      },
+      "start_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "末时刻tf，严格大于t0"
+      }
+    },
+    "rules": {
+      "displacement": [
+        "boundary",
+        "displacement",
+        "nodes",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "vector",
+            "quantity": "displacement",
+            "where": "nodes",
+            "description": "位移向量；所有分量均被约束"
+          }
+        },
+        "给定全部位移分量，边界P1迹；同一节点只允许一条位移记录"
+      ],
+      "traction": [
+        "boundary",
+        "traction",
+        "facets",
+        {
+          "value": {
+            "unit": "Pa",
+            "kind": "vector",
+            "quantity": "traction",
+            "where": "facets",
+            "description": "外界对固体牵引t=σn"
+          }
+        },
+        "在参考边界实体上分片常数；未声明的外边界为零牵引"
+      ],
+      "body_force": [
+        "source",
+        "body_force",
+        "cells",
+        {
+          "value": {
+            "unit": "N/m3",
+            "kind": "vector",
+            "quantity": "body_force",
+            "where": "cells",
+            "description": "每参考体积的外力"
+          }
+        },
+        "按输入单元分片常数；必须一条覆盖cells，零载也须给出"
+      ]
+    },
+    "required": [
+      "body_force"
+    ],
+    "detail": "三维等温小应变材料，divσ+b=0，准静态加载卸载；C为E、ν确定的各向同性刚度。E、ν定义平衡弹簧K=E/[3(1−2ν)]、G∞=E/[2(1+ν)]；σ=K trε I+2G∞devε+q，q̇+q/τ=2G1 dev ε̇，q为偏应力；体积响应纯弹性。初始ε=q=0，禁止擅自把E解释成瞬时模量。 从t0零位移、零应力、所有内部状态0开始，起始边界载荷0；输出在加载或卸载任意给定时刻的物理历史，不能逐帧重置状态。算例保证唯一稳定响应。",
+    "output_specs": {
+      "displacement": {
+        "unit": "m",
+        "kind": "vector",
+        "atol": 1e-06,
+        "where": "nodes",
+        "description": "位移u，参考全局坐标分量"
+      },
+      "stress": {
+        "unit": "Pa",
+        "kind": "tensor",
+        "atol": 100.0,
+        "where": "cells",
+        "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
+      },
+      "branch_stress": {
+        "unit": "Pa",
+        "kind": "tensor",
+        "atol": 100.0,
+        "where": "cells",
+        "description": "Maxwell偏支的偏应力q"
+      }
+    },
+    "model": "solid-linear-viscoelastic-v1",
+    "limits": {
+      "cells": 5000,
+      "nodes": 15000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 1500
+  },
+  "power-law-creep": {
+    "slug": "power-law-creep",
+    "dimension": 3,
+    "topology": 3,
+    "mode": "history",
+    "outputs": [
+      "displacement",
+      "stress",
+      "creep_strain"
+    ],
+    "parameters": {
+      "young_modulus": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Young模量E"
+      },
+      "poisson_ratio": {
+        "unit": "1",
+        "lower": 0,
+        "upper": 0.49,
+        "closed": true,
+        "description": "Poisson比ν，严格小于0.5"
+      },
+      "creep_rate": {
+        "unit": "1/s",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "应力参考尺度下速率A"
+      },
+      "reference_stress": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "蠕变参考应力σr"
+      },
+      "creep_exponent": {
+        "unit": "1",
+        "lower": 1,
+        "upper": 10,
+        "closed": true,
+        "description": "幂指数n≥1"
+      },
+      "start_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "末时刻tf，严格大于t0"
+      }
+    },
+    "rules": {
+      "displacement": [
+        "boundary",
+        "displacement",
+        "nodes",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "vector",
+            "quantity": "displacement",
+            "where": "nodes",
+            "description": "位移向量；所有分量均被约束"
+          }
+        },
+        "给定全部位移分量，边界P1迹；同一节点只允许一条位移记录"
+      ],
+      "traction": [
+        "boundary",
+        "traction",
+        "facets",
+        {
+          "value": {
+            "unit": "Pa",
+            "kind": "vector",
+            "quantity": "traction",
+            "where": "facets",
+            "description": "外界对固体牵引t=σn"
+          }
+        },
+        "在参考边界实体上分片常数；未声明的外边界为零牵引"
+      ],
+      "body_force": [
+        "source",
+        "body_force",
+        "cells",
+        {
+          "value": {
+            "unit": "N/m3",
+            "kind": "vector",
+            "quantity": "body_force",
+            "where": "cells",
+            "description": "每参考体积的外力"
+          }
+        },
+        "按输入单元分片常数；必须一条覆盖cells，零载也须给出"
+      ]
+    },
+    "required": [
+      "body_force"
+    ],
+    "detail": "三维等温小应变材料，divσ+b=0，准静态加载卸载；C为E、ν确定的各向同性刚度。σ=C:(ε−εc)，s=devσ，σeq=√(3s:s/2)，ε̇c=(3/2)A(σeq/σr)^n s/σeq；σeq=0时导数0。蠕变无体积应变，不含屈服、硬化、损伤或温度方程。 从t0零位移、零应力、所有内部状态0开始，起始边界载荷0；输出在加载或卸载任意给定时刻的物理历史，不能逐帧重置状态。算例保证唯一稳定响应。",
+    "output_specs": {
+      "displacement": {
+        "unit": "m",
+        "kind": "vector",
+        "atol": 1e-06,
+        "where": "nodes",
+        "description": "位移u，参考全局坐标分量"
+      },
+      "stress": {
+        "unit": "Pa",
+        "kind": "tensor",
+        "atol": 100.0,
+        "where": "cells",
+        "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
+      },
+      "creep_strain": {
+        "unit": "1",
+        "kind": "tensor",
+        "atol": 1e-05,
+        "where": "cells",
+        "description": "完整偏蠕变应变张量"
+      }
+    },
+    "model": "solid-power-law-creep-v1",
+    "limits": {
+      "cells": 5000,
+      "nodes": 15000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 1500
+  },
+  "gradient-damage": {
+    "slug": "gradient-damage",
+    "dimension": 2,
+    "topology": 2,
+    "mode": "history",
+    "outputs": [
+      "displacement",
+      "damage",
+      "energy"
+    ],
+    "parameters": {
+      "young_modulus": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Young模量E"
+      },
+      "poisson_ratio": {
+        "unit": "1",
+        "lower": 0,
+        "upper": 0.49,
+        "closed": true,
+        "description": "Poisson比ν，严格小于0.5"
+      },
+      "fracture_energy": {
+        "unit": "J/m2",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "断裂能Gc"
+      },
+      "length_scale": {
+        "unit": "m",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "内部长度ℓ"
+      },
+      "residual_stiffness": {
+        "unit": "1",
+        "lower": 0,
+        "upper": 1,
+        "closed": false,
+        "description": "残余刚度η，严格0<η<1"
+      },
+      "start_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "末时刻tf，严格大于t0"
+      }
+    },
+    "rules": {
+      "displacement": [
+        "boundary",
+        "displacement",
+        "nodes",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "vector",
+            "quantity": "displacement",
+            "where": "nodes",
+            "description": "位移向量；所有分量均被约束"
+          }
+        },
+        "给定全部位移分量，边界P1迹；同一节点只允许一条位移记录"
+      ],
+      "traction": [
+        "boundary",
+        "traction",
+        "facets",
+        {
+          "value": {
+            "unit": "Pa",
+            "kind": "vector",
+            "quantity": "traction",
+            "where": "facets",
+            "description": "外界对固体牵引t=σn"
+          }
+        },
+        "在参考边界实体上分片常数；未声明的外边界为零牵引"
+      ],
+      "body_force": [
+        "source",
+        "body_force",
+        "cells",
+        {
+          "value": {
+            "unit": "N/m3",
+            "kind": "vector",
+            "quantity": "body_force",
+            "where": "cells",
+            "description": "每参考体积的外力"
+          }
+        },
+        "按输入单元分片常数；必须一条覆盖cells，零载也须给出"
+      ]
+    },
+    "required": [
+      "body_force"
+    ],
+    "detail": "二维平面应变，单位z长度；ε=sym∇u，ψ0=με:ε+λ(trε)²/2，g(d)=(1−η)(1−d)²+η。能量泛函E=∫[g(d)ψ0+Gc(d²/(2ℓ)+ℓ|∇d|²/2)]dA−外力势；本题是拉压对称正则化损伤，无张压谱分解，允许压缩损伤。t0的u=d=0、载荷0。u满足力平衡；d∈[0,1]、ḋ≥0，以每一时刻满足不可逆变分不等式的连续局部稳定分支演化，外边界∂nd=0。算例限定此分支唯一且无跳跃；不允许改成每步无历史全局最小值。energy输出含弹性储能及正则化裂纹能，不含外力势；不评价网格依赖局部软化。",
+    "output_specs": {
+      "displacement": {
+        "unit": "m",
+        "kind": "vector",
+        "atol": 1e-06,
+        "where": "nodes",
+        "description": "位移u，参考全局坐标分量"
+      },
+      "damage": {
+        "unit": "1",
+        "kind": "scalar",
+        "atol": 0.0001,
+        "where": "nodes",
+        "description": "不可逆连续损伤d∈[0,1]"
+      },
+      "energy": {
+        "unit": "J/m",
+        "kind": "scalar",
+        "atol": 1e-05,
+        "where": "sum",
+        "description": "完整内部能∫[g(d)ψ0+Gc(d²/(2ℓ)+ℓ|∇d|²/2)]dA，含裂纹正则化能"
+      }
+    },
+    "model": "solid-gradient-damage-v1",
+    "limits": {
+      "cells": 5000,
+      "nodes": 15000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 1500
+  },
+  "linear-elastic-fracture": {
+    "slug": "linear-elastic-fracture",
+    "dimension": 2,
+    "topology": 2,
+    "mode": "static",
+    "outputs": [
+      "displacement",
+      "stress",
+      "energy"
+    ],
+    "parameters": {
+      "young_modulus": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Young模量E"
+      },
+      "poisson_ratio": {
+        "unit": "1",
+        "lower": 0,
+        "upper": 0.49,
+        "closed": true,
+        "description": "Poisson比ν，严格小于0.5"
+      }
+    },
+    "rules": {
+      "displacement": [
+        "boundary",
+        "displacement",
+        "nodes",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "vector",
+            "quantity": "displacement",
+            "where": "nodes",
+            "description": "位移向量；所有分量均被约束"
+          }
+        },
+        "给定全部位移分量，边界P1迹；同一节点只允许一条位移记录"
+      ],
+      "traction": [
+        "boundary",
+        "traction",
+        "facets",
+        {
+          "value": {
+            "unit": "Pa",
+            "kind": "vector",
+            "quantity": "traction",
+            "where": "facets",
+            "description": "外界对固体牵引t=σn"
+          }
+        },
+        "在参考边界实体上分片常数；未声明的外边界为零牵引"
+      ],
+      "body_force": [
+        "source",
+        "body_force",
+        "cells",
+        {
+          "value": {
+            "unit": "N/m3",
+            "kind": "vector",
+            "quantity": "body_force",
+            "where": "cells",
+            "description": "每参考体积的外力"
+          }
+        },
+        "按输入单元分片常数；必须一条覆盖cells，零载也须给出"
+      ]
+    },
+    "required": [
+      "body_force"
+    ],
+    "detail": "二维各向同性平面应变，单位z长度，固定贯穿裂纹；裂纹由同坐标不同tag的裂面节点及不跨裂缝的三角网格显式给出，连通未断区仍共享节点。两侧无载裂面显式traction=0，裂面互不粘结、不发生接触，裂尖无人工钝化。线弹性小应变divσ+b=0。应力输出为裂尖邻域也有定义的单元积分平均，位移可含裂尖节点；不请求裂尖点应力、裂纹扩展路径或由离散能量差猜J积分。energy=∫ε:C:ε/2 dA。算例保证裂面张开、无相互穿透。",
+    "output_specs": {
+      "displacement": {
+        "unit": "m",
+        "kind": "vector",
+        "atol": 1e-06,
+        "where": "nodes",
+        "description": "位移u，参考全局坐标分量"
+      },
+      "stress": {
+        "unit": "Pa",
+        "kind": "tensor",
+        "atol": 100.0,
+        "where": "cells",
+        "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
+      },
+      "energy": {
+        "unit": "J/m",
+        "kind": "scalar",
+        "atol": 1e-05,
+        "where": "sum",
+        "description": "参考域上弹性储能积分"
+      }
+    },
+    "model": "solid-linear-elastic-fracture-v1",
+    "limits": {
+      "cells": 5000,
+      "nodes": 15000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 900
+  },
+  "cohesive-interface": {
+    "slug": "cohesive-interface",
+    "dimension": 2,
+    "topology": 2,
+    "mode": "history",
+    "outputs": [
+      "displacement",
+      "stress",
+      "opening",
+      "cohesive_traction"
+    ],
+    "parameters": {
+      "young_modulus": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Young模量E"
+      },
+      "poisson_ratio": {
+        "unit": "1",
+        "lower": 0,
+        "upper": 0.49,
+        "closed": true,
+        "description": "Poisson比ν，严格小于0.5"
+      },
+      "normal_x": {
+        "unit": "1",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "minus指向plus的单位法向nx"
+      },
+      "normal_y": {
+        "unit": "1",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "minus指向plus的单位法向ny"
+      },
+      "interface_stiffness": {
+        "unit": "Pa/m",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "初始法向刚度Kn"
+      },
+      "peak_traction": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "峰值T0"
+      },
+      "fracture_energy": {
+        "unit": "J/m2",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "界面开裂耗能Gc"
+      },
+      "start_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "末时刻tf，严格大于t0"
+      }
+    },
+    "rules": {
+      "displacement": [
+        "boundary",
+        "displacement",
+        "nodes",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "vector",
+            "quantity": "displacement",
+            "where": "nodes",
+            "description": "位移向量；所有分量均被约束"
+          }
+        },
+        "给定全部位移分量，边界P1迹；同一节点只允许一条位移记录"
+      ],
+      "traction": [
+        "boundary",
+        "traction",
+        "facets",
+        {
+          "value": {
+            "unit": "Pa",
+            "kind": "vector",
+            "quantity": "traction",
+            "where": "facets",
+            "description": "外界对固体牵引t=σn"
+          }
+        },
+        "在参考边界实体上分片常数；未声明的外边界为零牵引"
+      ],
+      "body_force": [
+        "source",
+        "body_force",
+        "cells",
+        {
+          "value": {
+            "unit": "N/m3",
+            "kind": "vector",
+            "quantity": "body_force",
+            "where": "cells",
+            "description": "每参考体积的外力"
+          }
+        },
+        "按输入单元分片常数；必须一条覆盖cells，零载也须给出"
+      ],
+      "cohesive_pair": [
+        "boundary",
+        "interface",
+        "facets",
+        {
+          "partner": {
+            "location": true
+          }
+        },
+        "一条minus界面与plus界面配对，按坐标逐顶点一一对应；禁止按行号配对"
+      ]
+    },
+    "required": [
+      "body_force",
+      "cohesive_pair"
+    ],
+    "detail": "两个二维平面应变线弹性体，单位厚度；直线预设界面两侧几何重合、节点tag不同，无跨界单元。n从minus体指向plus体；δ=(uplus−uminus)·n≥0，切向位移跳跃为0（严格粘结），无压缩接触分支。δ0=T0/Kn，δf=2Gc/T0>δ0；κ=max历史δ，κ≤δ0时d=0，δ0<κ<δf时d=δf(κ−δ0)/[κ(δf−δ0)]，κ≥δf时d=1；T=(1−d)Knδ。minus体界面法向牵引+Tn、plus体−Tn；切向反力由零切向跳跃约束确定，反力在两体上大小相等方向相反，不强制为零；T只表示法向内聚牵引。卸载按已损伤割线回原点。起始u=κ=0，无牵引；载荷位移控制，保证唯一连续稳定、无回闭／压缩／跳跃分支。界面完全断开后切向仍严格约束，只评价给定纯I型问题族。",
+    "output_specs": {
+      "displacement": {
+        "unit": "m",
+        "kind": "vector",
+        "atol": 1e-06,
+        "where": "nodes",
+        "description": "位移u，参考全局坐标分量"
+      },
+      "stress": {
+        "unit": "Pa",
+        "kind": "tensor",
+        "atol": 100.0,
+        "where": "cells",
+        "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
+      },
+      "opening": {
+        "unit": "m",
+        "kind": "scalar",
+        "atol": 1e-06,
+        "where": "interface",
+        "description": "界面正法向张开量，按初始界面长度平均"
+      },
+      "cohesive_traction": {
+        "unit": "Pa",
+        "kind": "scalar",
+        "atol": 100.0,
+        "where": "interface",
+        "description": "内聚拉应力T，按初始界面长度平均"
+      }
+    },
+    "model": "solid-cohesive-interface-v1",
+    "limits": {
+      "cells": 5000,
+      "nodes": 15000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 1500
+  },
+  "stress-life-fatigue": {
+    "slug": "stress-life-fatigue",
+    "dimension": 2,
+    "topology": 0,
+    "mode": "history",
+    "outputs": [
+      "fatigue_damage"
+    ],
+    "parameters": {
+      "fatigue_strength": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Basquin参考强度S"
+      },
+      "fatigue_exponent": {
+        "unit": "1",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "指数m"
+      },
+      "ultimate_strength": {
+        "unit": "Pa",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Goodman极限强度Su"
+      },
+      "start_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "末时刻tf，严格大于t0"
+      }
+    },
+    "rules": {
+      "cycle_blocks": [
+        "source",
+        "fatigue",
+        "sites",
+        {
+          "amplitude": {
+            "unit": "Pa",
+            "kind": "scalar",
+            "quantity": "stress_amplitude",
+            "where": "sites",
+            "description": "已计数循环的非负幅值σa"
+          },
+          "mean": {
+            "unit": "Pa",
+            "kind": "scalar",
+            "quantity": "mean_stress",
+            "where": "sites",
+            "description": "均值σm，必须小于Su"
+          },
+          "rate": {
+            "unit": "1/s",
+            "kind": "scalar",
+            "quantity": "cycle_rate",
+            "where": "sites",
+            "description": "非负完整循环数率r，非反转数率"
+          }
+        },
+        "一条覆盖sites；每个时间区间是一块已计数恒幅循环，不执行雨流计数"
+      ]
+    },
+    "required": [
+      "cycle_blocks"
+    ],
+    "detail": "给定每个真实材料观测点的完整循环块；σeff=σa/[1−max(σm,0)/Su]；σeff>0时破坏循环数N=(S/σeff)^m，σeff=0时损伤率0；D(t)=∫t0^t r/N dt，D(t0)=0。所有块只按输入次序累计，无序列效应、耐久极限、应力场重算或裂纹反馈。D允许超过1，D=1是本模型失效判据；本题只输出有限的累计损伤，不以无穷寿命作为HDF5值。观测点不承载网格求解。",
+    "output_specs": {
+      "fatigue_damage": {
+        "unit": "1",
+        "kind": "scalar",
+        "atol": 0.0001,
+        "where": "sites",
+        "description": "已累计Miner损伤，可大于1，不截断"
+      }
+    },
+    "model": "solid-stress-life-fatigue-v1",
+    "limits": {
+      "cells": 0,
+      "nodes": 1000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 1500
+  },
+  "fatigue-crack-growth": {
+    "slug": "fatigue-crack-growth",
+    "dimension": 2,
+    "topology": 0,
+    "mode": "history",
+    "outputs": [
+      "crack_length"
+    ],
+    "parameters": {
+      "growth_rate": {
+        "unit": "m",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "参考ΔKr下每完整循环增长C0，循环计数无量纲"
+      },
+      "reference_intensity_squared": {
+        "unit": "Pa2.m",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "参考应力强度范围的平方ΔKr²>0"
+      },
+      "growth_exponent": {
+        "unit": "1",
+        "lower": 0,
+        "upper": 8,
+        "closed": false,
+        "description": "Paris指数m"
+      },
+      "width": {
+        "unit": "m",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "路径尺度W"
+      },
+      "geometry_constant": {
+        "unit": "1",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "Y0>0"
+      },
+      "geometry_linear": {
+        "unit": "1",
+        "lower": 0,
+        "upper": null,
+        "closed": true,
+        "description": "Y1≥0"
+      },
+      "geometry_quadratic": {
+        "unit": "1",
+        "lower": 0,
+        "upper": null,
+        "closed": true,
+        "description": "Y2≥0"
+      },
+      "critical_intensity_squared": {
+        "unit": "Pa2.m",
+        "lower": 0,
+        "upper": null,
+        "closed": false,
+        "description": "临界应力强度平方Kc²>0"
+      },
+      "start_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "lower": null,
+        "upper": null,
+        "closed": false,
+        "description": "末时刻tf，严格大于t0"
+      }
+    },
+    "rules": {
+      "initial_length": [
+        "initial",
+        "crack_length",
+        "sites",
+        {
+          "value": {
+            "unit": "m",
+            "kind": "scalar",
+            "quantity": "crack_length",
+            "where": "sites",
+            "description": "初始裂长a0，0<a0<width"
+          }
+        },
+        "一条覆盖sites，单帧t0"
+      ],
+      "stress_cycles": [
+        "source",
+        "fatigue",
+        "sites",
+        {
+          "range": {
+            "unit": "Pa",
+            "kind": "scalar",
+            "quantity": "stress_range",
+            "where": "sites",
+            "description": "非负完整循环应力范围Δσ，不是半幅"
+          },
+          "rate": {
+            "unit": "1/s",
+            "kind": "scalar",
+            "quantity": "cycle_rate",
+            "where": "sites",
+            "description": "非负完整循环数率r"
+          }
+        },
+        "一条覆盖sites，各加载块内恒定"
+      ]
+    },
+    "required": [
+      "initial_length",
+      "stress_cycles"
+    ],
+    "detail": "观测点标识一条给定直线路径的初始裂尖位置；只解标量裂长ODE，固定位置不是移动网格节点。Y(a)=Y0+Y1(a/W)+Y2(a/W)²，ΔK=Y(a)Δσ√(πa)，ΔKr=√reference_intensity_squared，Kc=√critical_intensity_squared；da/dt=r C0(ΔK/ΔKr)^m。平方参数使用Pa2.m以保持整数幂SI单位。应力比固定R=0，故Kmax=ΔK；不包含闭合、阈值、过载迟滞或裂纹相互作用。初值显式给出，全部请求时刻位于a<W且ΔK<Kc的增长阶段，不允许跨失稳延长模型。临界状态与路径改变属于数据不合法，不要求编造失效后裂长。",
+    "output_specs": {
+      "crack_length": {
+        "unit": "m",
+        "kind": "scalar",
+        "atol": 1e-06,
+        "where": "sites",
+        "description": "给定一维裂纹路径上的标量裂长a"
+      }
+    },
+    "model": "solid-fatigue-crack-growth-v1",
+    "limits": {
+      "cells": 0,
+      "nodes": 1000,
+      "frames": 201,
+      "components": 3000000
+    },
+    "timeout": 1500
+  }
+}

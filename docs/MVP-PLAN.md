@@ -1,5 +1,7 @@
 # CAE Bench OJ MVP 任务计划书
 
+> 本文保留初版实施规划。当前题库已统一迁入 qbank，目录与运行入口以[项目说明](../README.md)和[题库设计](../qbank/design/README.md)为准。
+
 目标：建立清晰的通用数据协议，再逐步完成“文字题目 → 编写求解程序 → 多测试点执行 → 逐点 0/1 判分”。工作区为 `C:\Users\Admin\Workspace\CAE-Bench-OJ`，Python 使用 `C:\Users\Admin\.conda\envs\expr\python.exe`。
 
 ## 1. 通用数据协议
@@ -36,7 +38,7 @@ Harbor 适配只负责启动任务和汇总结果，需实际运行 Agent 和 ve
 
 ## 5. 热传导题：完成题面和数据设计
 
-已完成二维稳态热传导的[题面](../tasks/heat-conduction-steady-2d/instruction.md)和 [32 个解析测试点的数据设计](../tasks/heat-conduction-steady-2d/TEST-CASES.md)。后续继续设计和验证边界条件接口，再接入 Agent 评测。
+已完成二维稳态热传导的[题面](../qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/instruction.md)和 [32 个解析测试点的数据设计](../qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/TEST-CASES.md)。后续继续设计和验证边界条件接口，再接入 Agent 评测。
 
 ## 6. 交付顺序
 

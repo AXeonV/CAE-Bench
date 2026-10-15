@@ -49,14 +49,14 @@ runs/pdebench/cache/candidates/       绑定来源和读取器版本的候选特
 runs/pdebench/staging/               临时转换目录
 runs/pdebench/reports/latest.json    每题状态、错误、当前占用和估算峰值
 
-tasks/<task>/reference/selection.json    已冻结的源文件、样本索引、特征分组、ID、格式变体
-tasks/<task>/author/preparation.json  当前准备状态（本地生成）
-tasks/<task>/samples/01/input/        公开输入：problem.json、mesh.msh、input.h5
-tasks/<task>/samples/01/output/       源对齐审核通过后生成 result.h5
+<task-dir>/reference/selection.json    已冻结的源文件、样本索引、特征分组、ID、格式变体
+<task-dir>/author/preparation.json  当前准备状态（本地生成）
+<task-dir>/samples/01/input/        公开输入：problem.json、mesh.msh、input.h5
+<task-dir>/samples/01/output/       源对齐审核通过后生成 result.h5
                                         samples/02 同结构
-tasks/<task>/cases/<ID>/             隐藏输入
-tasks/<task>/reference/<ID>/         certificate.json、official-candidate.h5；审核或稳态修正通过后生成 reference.h5
-tasks/<task>/reference/sample-certificates/  公开样例的私有证书
+<task-dir>/cases/<ID>/             隐藏输入
+<task-dir>/reference/<ID>/         certificate.json、official-candidate.h5；审核或稳态修正通过后生成 reference.h5
+<task-dir>/reference/sample-certificates/  公开样例的私有证书
 ```
 
 选定源轨迹留在私有缓存。工具保存原始转换对照 official-candidate.h5 及审核状态，公开样例的原始对照只位于 reference/sample-certificates/。Darcy 的原始快照与修正答案分别保存，证书记录稳态残差和改变量；一维反应扩散保留官方轨迹与同一 PDE 重算结果的差异；其余族审核通过后以官方数值轨迹生成答案。原始对照和证书不进入 Agent 包。远程子集不能用整文件 MD5 验证：工具记录源身份、Content-Range/长度、ETag（有则使用）、块 SHA-256 和选定载荷 SHA-256；只有 --source-dir 的完整文件执行整文件 MD5。
@@ -125,3 +125,5 @@ python -m unittest discover -s tests -p 'test_pdebench_prepare.py' -v
 不可压缩流的时间戳逐个存储在压缩块中。候选只读取真实 t=0，选定轨迹只读取所需输出帧的真实时间戳，域尺度审核只读取真实前三帧时间；不会为获取时间轴扫描所有无关帧，也不按配置重新生成时间值。
 
 本地测试覆盖范围读取、缓存损坏修复和恢复、拒绝整文件回退、预算、11 族协议与编号关联、FHN 空间轴、平流积分参考、拆分复用，以及未审核轨迹不会变成标答。这些是工具验证，不是其余族的连续 PDE 数值参考验证。
+
+默认按唯一题目标识定位 `qbank/<chapter>/<section>/<task>/`，上文 `<task-dir>` 即该目录；`--output-root` 显式指定时仍使用临时扁平 `<output-root>/<task>/`。题目归属由[第一章规划](../../../qbank/design/chapter-01-prescribed-pdes.md)决定，来源适配器不维护另一套题库目录。

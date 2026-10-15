@@ -9,6 +9,7 @@ import numpy as np
 from caeoj.grading import grade_arrays
 from caeoj.grading_policy import load_policy, validate_policy
 from caeoj.sdk import load_problem
+from caeoj.task_paths import task_directory
 from caeoj.validation import output_support
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,7 +25,7 @@ class EquationPolicyTests(unittest.TestCase):
             'compressible-navier-stokes-2d': (.1, .2), 'compressible-navier-stokes-3d': (.1, .2),
             'incompressible-navier-stokes-2d': (.1, .2)}
         for family, (atol, rtol) in tolerances.items():
-            task = ROOT / 'tasks' / family
+            task = task_directory(family, ROOT)
             with self.subTest(task=task.name):
                 policy = load_policy(task / 'grading.json')
                 manifest = json.loads(next((task / 'samples').glob('*/input/problem.json')).read_text())

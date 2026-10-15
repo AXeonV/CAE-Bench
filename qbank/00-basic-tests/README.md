@@ -25,4 +25,4 @@ python -m caeoj make-cases --output runs/smoke-generated/cases
 python -m caeoj smoke --cases runs/smoke-generated/cases
 ```
 
-本次迁移不新增 Harbor 配置或发布材料包；当前发布与 Harbor 组装入口仍面向 `tasks/<task>`，本题继续使用专用 smoke 命令。
+本题没有 Harbor 配置或完整公开样例包，继续使用专用 smoke 命令。发布与 Harbor 工具现可定位 qbank 题目，但这不表示本基础测试已具备对应发布材料。

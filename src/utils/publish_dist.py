@@ -8,11 +8,11 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import re
 import tempfile
 import zipfile
 
 from caeoj.sdk import load_problem
+from caeoj.task_paths import task_directory
 from caeoj.grading_policy import task_policy, validate_policy, render_policy
 from caeoj.validation import ContractError, validate_input, validate_output
 
@@ -38,21 +38,20 @@ def read_public_file(root, path):
     return path.read_bytes()
 
 
-def agent_readme(task):
+def agent_readme(task_path):
     return f"""# 解题材料
 
-题面：`tasks/{task}/instruction.md`。通用数据协议：`docs/CONTRACT.md`。
-题目目录中的 DATA.md（若存在）也是输入约定的一部分。评分规则见 GRADING.md 和 grading.json。公开示例在 `tasks/{task}/samples/`。
+阅读 `{task_path}/instruction.md`、同题 DATA.md 和 `docs/CONTRACT.md` 即可确定完整任务与数据规则。公开示例在 `{task_path}/samples/`；grading.json 与 GRADING.md 是供工具使用的评分策略及其可读表示。
 
 安装共享工具：`python -m pip install -e .`。h5py、NumPy、Gmsh、jsonschema 是协议依赖；求解所需额外依赖由程序选择。
 
 在理解输入、编写和调试程序时可随时使用：
 
 ```text
-python -m caeoj validate-input tasks/{task}/samples/<sample>/input/problem.json
-python solve.py --input tasks/{task}/samples/<sample>/input/problem.json --output result.h5
-python -m caeoj validate-output --input tasks/{task}/samples/<sample>/input/problem.json --output result.h5
-python -m caeoj grade --input tasks/{task}/samples/<sample>/input/problem.json --output result.h5 --reference tasks/{task}/samples/<sample>/output/result.h5 --grading tasks/{task}/grading.json
+python -m caeoj validate-input {task_path}/samples/<sample>/input/problem.json
+python solve.py --input {task_path}/samples/<sample>/input/problem.json --output result.h5
+python -m caeoj validate-output --input {task_path}/samples/<sample>/input/problem.json --output result.h5
+python -m caeoj grade --input {task_path}/samples/<sample>/input/problem.json --output result.h5 --reference {task_path}/samples/<sample>/output/result.h5 --grading {task_path}/grading.json
 ```
 
 校验器只检查结构和引用，不验证或纠正物理结果。
@@ -65,9 +64,8 @@ python -m caeoj grade --input tasks/{task}/samples/<sample>/input/problem.json -
 
 def collect_materials(task, root=PROJECT_ROOT):
     root = Path(root).resolve()
-    if not re.fullmatch(r"[A-Za-z0-9](?:[A-Za-z0-9_.-]*[A-Za-z0-9_-])?", task):
-        raise ValueError("--task must be a task directory name, without paths")
-    task_dir = root / "tasks" / task
+    task_dir = task_directory(task, root)
+    task_path = task_dir.relative_to(root).as_posix()
     files = {}
 
     def add(path):
@@ -82,10 +80,10 @@ def collect_materials(task, root=PROJECT_ROOT):
         add(task_dir / "DATA.md")
     paths = sorted((task_dir / "samples").glob("*/input/problem.json"))
     if not paths:
-        raise ValueError(f"No complete public samples in tasks/{task}/samples; add them before publishing")
+        raise ValueError(f"No complete public samples in {task_path}/samples; add them before publishing")
     policy = task_policy(task_dir, load_problem(paths[0]), read_bytes=lambda p: read_public_file(root, p))
-    files[f'tasks/{task}/grading.json'] = (json.dumps(policy, ensure_ascii=False, indent=2) + '\n').encode()
-    files[f'tasks/{task}/GRADING.md'] = render_policy(policy).encode()
+    files[f'{task_path}/grading.json'] = (json.dumps(policy, ensure_ascii=False, indent=2) + '\n').encode()
+    files[f'{task_path}/GRADING.md'] = render_policy(policy).encode()
     samples = []
     for path in paths:
         # Check the path before allowing the contract loader to read it.
@@ -110,7 +108,7 @@ def collect_materials(task, root=PROJECT_ROOT):
         if not diagnostics["valid"]:
             raise ContractError(diagnostics)
         samples.append(sample.name)
-    files["README.md"] = agent_readme(task)
+    files["README.md"] = agent_readme(task_path)
     manifest = {"task": task, "public_samples": samples,
                 "files": {name: hashlib.sha256(data).hexdigest() for name, data in sorted(files.items())}}
     files["MANIFEST.json"] = (json.dumps(manifest, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
@@ -144,7 +142,7 @@ def publish(task, output=None, root=PROJECT_ROOT):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--task", required=True, help="Directory name under tasks/")
+    parser.add_argument("--task", required=True, help="Unique task directory name under qbank/<chapter>/<section>/")
     parser.add_argument("--output", type=Path, default=PROJECT_ROOT / "dist", help="ZIP output directory")
     args = parser.parse_args(argv)
     try:

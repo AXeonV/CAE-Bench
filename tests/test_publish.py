@@ -44,8 +44,8 @@ class PublishTests(unittest.TestCase):
             self.assertEqual(len(names), len(set(names)))
             self.assertIn("src/caeoj/problem.schema.json", names)
             self.assertIn("src/caeoj/storage.py", names)
-            self.assertIn("tasks/heat-conduction-steady-2d/samples/01/output/result.h5", names)
-            self.assertIn("tasks/heat-conduction-steady-2d/samples/02/output/result.h5", names)
+            self.assertIn("qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/01/output/result.h5", names)
+            self.assertIn("qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/02/output/result.h5", names)
             self.assertFalse(any(part in {"author", "cases", "reference", "__pycache__", "runs", ".git"}
                                  for name in names for part in Path(name).parts))
             self.assertFalse(any(name.endswith(("baseline.py", "TEST-CASES.md", "MVP-PLAN.md")) for name in names))
@@ -63,12 +63,12 @@ class PublishTests(unittest.TestCase):
         env = os.environ.copy()
         env["PYTHONPATH"] = str(root / "src")
         commands = [
-            ["validate-input", "tasks/heat-conduction-steady-2d/samples/01/input/problem.json"],
-            ["validate-output", "--input", "tasks/heat-conduction-steady-2d/samples/01/input/problem.json",
-             "--output", "tasks/heat-conduction-steady-2d/samples/01/output/result.h5"],
-            ["validate-input", "tasks/heat-conduction-steady-2d/samples/02/input/problem.json"],
-            ["validate-output", "--input", "tasks/heat-conduction-steady-2d/samples/02/input/problem.json",
-             "--output", "tasks/heat-conduction-steady-2d/samples/02/output/result.h5"],
+            ["validate-input", "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/01/input/problem.json"],
+            ["validate-output", "--input", "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/01/input/problem.json",
+             "--output", "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/01/output/result.h5"],
+            ["validate-input", "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/02/input/problem.json"],
+            ["validate-output", "--input", "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/02/input/problem.json",
+             "--output", "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/02/output/result.h5"],
         ]
         for command in commands:
             execution = subprocess.run([sys.executable, "-m", "caeoj", *command], cwd=root, env=env,
@@ -87,19 +87,19 @@ class PublishTests(unittest.TestCase):
         for sample in ("01", "02"):
             execution = subprocess.run(
                 [sys.executable, "-m", "caeoj", "grade", "--input",
-                 f"tasks/heat-conduction-steady-2d/samples/{sample}/input/problem.json", "--output",
-                 f"tasks/heat-conduction-steady-2d/samples/{sample}/output/result.h5", "--reference",
-                 f"tasks/heat-conduction-steady-2d/samples/{sample}/output/result.h5", "--atol", "0.01", "--rtol", "0"],
+                 f"qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/{sample}/input/problem.json", "--output",
+                 f"qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/{sample}/output/result.h5", "--reference",
+                 f"qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/{sample}/output/result.h5", "--atol", "0.01", "--rtol", "0"],
                 cwd=root, env=env, capture_output=True, text=True, timeout=30)
             self.assertEqual(execution.returncode, 0, execution.stderr)
             self.assertEqual(json.loads(execution.stdout)["score"], 1)
 
     def test_unlisted_files_never_enter_release(self):
         root, _ = self.extracted_bundle()
-        for name in (".env", "src/caeoj/secret.py", "tasks/heat-conduction-steady-2d/author/baseline.py",
+        for name in (".env", "src/caeoj/secret.py", "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/author/baseline.py",
                      "src/caeoj/examples.py", "src/caeoj/smoke.py",
-                     "tasks/heat-conduction-steady-2d/samples/01/verification.json",
-                     "tasks/heat-conduction-steady-2d/samples/01/input/notes.txt"):
+                     "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/01/verification.json",
+                     "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/01/input/notes.txt"):
             path = root / name
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text("PRIVATE MATERIAL", encoding="utf-8")
@@ -111,7 +111,7 @@ class PublishTests(unittest.TestCase):
         release = publisher.publish("heat-conduction-steady-2d", self.root / "new-dist", root)
         archive = Path(release["archive"])
         before = archive.read_bytes()
-        result = root / "tasks/heat-conduction-steady-2d/samples/01/output/result.h5"
+        result = root / "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/01/output/result.h5"
         arrays = read_hdf5(result)
         arrays["temperature"] = arrays["temperature"][0]
         write_hdf5(result, arrays)
@@ -124,7 +124,7 @@ class PublishTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 publisher.collect_materials(name)
         root, _ = self.extracted_bundle()
-        shutil.rmtree(root / "tasks/heat-conduction-steady-2d/samples")
+        shutil.rmtree(root / "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples")
         with self.assertRaisesRegex(ValueError, "No complete public samples"):
             publisher.collect_materials("heat-conduction-steady-2d", root)
 

@@ -8,6 +8,9 @@ import sys
 import tempfile
 import threading
 import unittest
+from unittest.mock import patch
+from contextlib import redirect_stdout
+import io
 
 try:
     import h5py
@@ -27,6 +30,29 @@ from utils.PDEBench.storage import Budget, PreparationError, RangeReader, digest
 from utils.PDEBench.references import burgers_average, logistic_diffusion
 from utils.PDEBench.source_audit import fhn_initial, audit_reference,transport_residual
 from caeoj.sdk import load_problem, load_result, write_result
+from caeoj.task_paths import task_directory
+
+
+class PreparationEntryTests(unittest.TestCase):
+    def test_single_task_routes_without_any_unselected_task_directories(self):
+        from utils.PDEBench import prepare as entry
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            canonical=root/'qbank/01-pdes/1.3-transport/advection-1d'
+            canonical.mkdir(parents=True)
+            for name in ('instruction.md','DATA.md'):
+                (canonical/name).write_text('Contract',encoding='utf-8')
+            for output in (None,root/'alternative'):
+                args=['--tasks','advection-1d','--cache-root',str(root/'runtime'),'--no-bootstrap']
+                if output is not None:args+=['--output-root',str(output)]
+                with self.subTest(output=output), patch.object(entry,'ROOT',root), \
+                     patch.object(entry,'bootstrap'), \
+                     patch('utils.PDEBench.pipeline.prepare_task',return_value={'status':'references_prepared'}) as prepare, \
+                     redirect_stdout(io.StringIO()):
+                    self.assertEqual(entry.main(args),0)
+                    expected=canonical if output is None else output/'advection-1d'
+                    self.assertEqual(prepare.call_args.args[2],expected.resolve())
+                    self.assertTrue((expected/'DATA.md').is_file())
 
 
 class RangeTests(unittest.TestCase):
@@ -219,7 +245,7 @@ class ConversionTests(unittest.TestCase):
 
     def test_frozen_selections_match_current_contracts(self):
         for model in MODELS:
-            task=ROOT/'tasks'/model.task
+            task=task_directory(model.task,ROOT)
             selection=json.loads((task/'reference/selection.json').read_text(encoding='utf-8'))
             with self.subTest(task=model.task):
                 self.assertEqual(selection['contract_sha256'],contract_hash(task))
@@ -297,8 +323,8 @@ class ConversionTests(unittest.TestCase):
 class PipelineTests(unittest.TestCase):
     def fixture(self,root,model_name='advection-1d'):
         model=BY_TASK[model_name]
-        task=root/'tasks'/model.task;task.mkdir(parents=True)
-        for name in ('instruction.md','DATA.md'):shutil.copyfile(ROOT/'tasks'/model.task/name,task/name)
+        task=root/task_directory(model.task,ROOT).relative_to(ROOT);task.mkdir(parents=True)
+        for name in ('instruction.md','DATA.md'):shutil.copyfile(task_directory(model.task,ROOT)/name,task/name)
         local=root/'local';local.mkdir();files=[]
         labels=[.1,.2,.4,.7,1.,2.,4.,7.] if model.model=='advection_1d' else [.001,.002,.004,.01,.02,.04,.1,.2,.4,1.,2.,4.]
         if model.model=='reaction_diffusion_1d':labels=[(nu,r) for nu in [.5,1.,2.,5.] for r in [1.,2.,5.,10.]]
@@ -316,7 +342,7 @@ class PipelineTests(unittest.TestCase):
             files.append({'id':i+1,'filename':name,'directory':model.prefix.rstrip('/'),
                           'bytes':p.stat().st_size,'md5':digest(p,'md5'),'url':'https://invalid.test/'+name})
         catalog={'dataset':'offline-fixture','version':'test','files':files}
-        cache=root/'runtime/cache';stage=root/'runtime/staging';budget=Budget([root/'runtime',root/'tasks'],100_000_000)
+        cache=root/'runtime/cache';stage=root/'runtime/staging';budget=Budget([root/'runtime',root/'qbank'],100_000_000)
         return model,task,local,catalog,cache,stage,budget
 
     def test_metadata_only_clone_restores_payloads_and_preserves_definitions(self):
@@ -324,7 +350,7 @@ class PipelineTests(unittest.TestCase):
             root=Path(tmp)
             model,task,local,catalog,cache,stage,budget=self.fixture(root)
             prepare_task(model,catalog,task,cache,stage,budget,local=local,max_cases=1)
-            clone=root/'clone';copied=clone/'tasks'/model.task;copied.mkdir(parents=True)
+            clone=root/'clone';copied=clone/task_directory(model.task,ROOT).relative_to(ROOT);copied.mkdir(parents=True)
             for path in task.rglob('*'):
                 relative=path.relative_to(task)
                 if not path.is_file():continue

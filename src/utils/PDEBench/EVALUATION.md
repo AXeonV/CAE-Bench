@@ -40,7 +40,7 @@ baseline 已改为可选。没有 author/baseline.py 的题目也可以组装，
 .venv/bin/python src/utils/publish_dist.py --task advection-1d
 .venv/bin/python src/utils/prepare_harbor.py --task advection-1d
 export CODEX_AUTH_JSON_PATH="$HOME/.codex/auth.json"
-harbor run -p runs/harbor/tasks/advection-1d \
+harbor run -p runs/harbor/qbank/01-prescribed-pdes/1.3-scalar-transport/advection-1d \
   -e docker -a codex -m openai/gpt-6-luna \
   --ak reasoning_effort=medium -n 1 -o runs/harbor/jobs
 ```

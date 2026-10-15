@@ -14,6 +14,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 TASK = 'heat-conduction-steady-2d'
+TASK_PATH = Path('qbank/01-prescribed-pdes/1.1-elliptic') / TASK
 
 
 def module(name, path):
@@ -45,9 +46,9 @@ class HarborTests(unittest.TestCase):
             target.write_bytes(data)
         # A release contains a derived legacy policy; the author fixture keeps
         # the original legacy config as its sole source, like the real task.
-        (self.root / 'tasks' / TASK / 'grading.json').unlink()
-        source = ROOT / 'tasks' / TASK
-        task = self.root / 'tasks' / TASK
+        (self.root / TASK_PATH / 'grading.json').unlink()
+        source = ROOT / TASK_PATH
+        task = self.root / TASK_PATH
         cases = sorted((source / 'cases').iterdir())[:2]
         for case in cases:
             shutil.copytree(case, task / 'cases' / case.name)
@@ -99,8 +100,8 @@ class HarborTests(unittest.TestCase):
         self.assertTrue((directory / 'solution/baseline.py').is_file())
         self.assertEqual((directory / 'environment/requirements.txt').read_text().strip(), 'scipy==1.18.1')
         instruction = (directory / 'instruction.md').read_text(encoding='utf-8')
-        self.assertIn(f'/app/tasks/{TASK}/samples/01/input/problem.json', instruction)
-        self.assertIn(f'/app/tasks/{TASK}/samples/02/', instruction)
+        self.assertIn(f'/app/{TASK_PATH.as_posix()}/samples/01/input/problem.json', instruction)
+        self.assertIn(f'/app/{TASK_PATH.as_posix()}/samples/02/', instruction)
         self.assertIn('read_constant', instruction)
         self.assertIn('read_field', instruction)
         self.assertNotIn('${', instruction)
@@ -131,8 +132,8 @@ class HarborTests(unittest.TestCase):
 
     def test_another_task_reuses_templates_and_overrides_resources(self):
         task = '1D_Advection_Sols_beta0.2'
-        source = self.root / 'tasks' / task
-        shutil.copytree(self.root / 'tasks' / TASK, source)
+        source = self.root / TASK_PATH.parent / task
+        shutil.copytree(self.root / TASK_PATH, source)
         (source / 'harbor/task.toml').write_text(
             '[agent]\ntimeout_sec = 240.0\n[environment]\ncpus = 1\nmemory_mb = 1024\n'
             '[verifier]\ntimeout_sec = 60.0\n')
@@ -149,14 +150,14 @@ class HarborTests(unittest.TestCase):
         self.assertEqual(config['verifier']['timeout_sec'], 60)
         self.assertEqual(config['verifier']['environment_mode'], 'separate')
         instruction = (directory / 'instruction.md').read_text(encoding='utf-8')
-        self.assertIn(f'/app/tasks/{task}/samples/01/', instruction)
+        self.assertIn(f'/app/{(TASK_PATH.parent / task).as_posix()}/samples/01/', instruction)
         self.assertIn('15 秒', instruction)
         self.assertNotIn(TASK, instruction)
 
     def test_task_without_harbor_config_uses_shared_defaults(self):
-        requirements = self.root / 'tasks' / TASK / 'harbor/requirements.txt'
+        requirements = self.root / TASK_PATH / 'harbor/requirements.txt'
         requirements.unlink()
-        resource_config = self.root / 'tasks' / TASK / 'harbor/task.toml'
+        resource_config = self.root / TASK_PATH / 'harbor/task.toml'
         if resource_config.exists():
             resource_config.unlink()
         directory = self.prepared()
@@ -167,7 +168,7 @@ class HarborTests(unittest.TestCase):
         self.assertNotIn('memory_mb', config['environment'])
 
     def test_legacy_tolerances_allow_different_output_fields_per_case(self):
-        source = self.root / 'tasks' / TASK
+        source = self.root / TASK_PATH
         path = sorted((source / 'cases').glob('*/problem.json'))[-1]
         manifest = json.loads(path.read_text())
         manifest['outputs']['other_temperature'] = manifest['outputs'].pop('temperature')
@@ -178,8 +179,8 @@ class HarborTests(unittest.TestCase):
         self.assertTrue((directory / 'tests/cases' / path.parent.name / 'problem.json').is_file())
 
     def test_no_baseline_task_assembles_and_declares_provisional_limits(self):
-        (self.root / 'tasks' / TASK / 'author/baseline.py').unlink()
-        config_path = self.root / 'tasks' / TASK / 'judge-config.json'
+        (self.root / TASK_PATH / 'author/baseline.py').unlink()
+        config_path = self.root / TASK_PATH / 'judge-config.json'
         config = json.loads(config_path.read_text())
         config.update(stage='provisional', atol=0.1, rtol=0.2, max_output_bytes=2*1024**3)
         config_path.write_text(json.dumps(config))
@@ -201,7 +202,7 @@ class HarborTests(unittest.TestCase):
 
     def test_public_policy_hash_and_private_grader_agree(self):
         from caeoj.grading_policy import policy_hash
-        task = self.root / 'tasks' / TASK
+        task = self.root / TASK_PATH
         policy = {'version': 1, 'fields': {'temperature': {
             'all': [
                 {'metric': 'rmse', 'time': 'per_time', 'components': 'per_component', 'limit': .01},
@@ -216,7 +217,7 @@ class HarborTests(unittest.TestCase):
         self.assertIn('空间点', (directory / 'instruction.md').read_text())
         self.assertIn(' 且 ', (directory / 'instruction.md').read_text())
         with zipfile.ZipFile(directory / 'environment/agent.zip') as archive:
-            public = json.loads(archive.read(f'tasks/{TASK}/grading.json'))
+            public = json.loads(archive.read(f'{TASK_PATH.as_posix()}/grading.json'))
             self.assertEqual(policy_hash(public), policy_hash(policy))
             self.assertIn('src/caeoj/grading.schema.json', archive.namelist())
         private = directory / 'tests'; logs = self.root / 'policy-logs'
@@ -290,7 +291,7 @@ class HarborTests(unittest.TestCase):
                 self.assertFalse((submission / 'core.so').exists())
 
     def test_resource_overrides_cannot_change_judging_interface(self):
-        (self.root / 'tasks' / TASK / 'harbor/task.toml').write_text(
+        (self.root / TASK_PATH / 'harbor/task.toml').write_text(
             '[verifier]\nenvironment_mode = "same"\n')
         publisher.publish(TASK, root=self.root)
         with self.assertRaisesRegex(ValueError, 'Unsupported Harbor config field'):

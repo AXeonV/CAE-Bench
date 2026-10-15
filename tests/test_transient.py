@@ -18,7 +18,7 @@ from caeoj.sdk import load_problem, load_result
 from caeoj.validation import check_result, output_support, validate_input
 
 PROJECT = Path(__file__).resolve().parents[1]
-TASK = PROJECT/'tasks/heat-conduction-transient-2d'
+TASK = PROJECT/'qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d'
 
 
 def author(name):

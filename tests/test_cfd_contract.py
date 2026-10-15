@@ -321,7 +321,7 @@ class CFDContractTests(unittest.TestCase):
         root=self.root/'public_project';root.mkdir()
         for name in ('pyproject.toml','LICENSE'):shutil.copy2(ROOT/name,root/name)
         shutil.copytree(ROOT/'docs',root/'docs');shutil.copytree(ROOT/'src/caeoj',root/'src/caeoj')
-        task=root/'tasks/cfd-fixture';task.mkdir(parents=True)
+        task=root/'qbank/99-test/99.1-fixtures/cfd-fixture';task.mkdir(parents=True)
         for name,text in [('instruction.md','Uniform rest contract fixture.'),('DATA.md','Packaging fixture; file structure follows docs/CONTRACT.md.'),('judge-config.json',json.dumps({'atol':0.,'rtol':0.,'timeout_seconds':1}))]:
             (task/name).write_text(text)
         sample=task/'samples/01';shutil.copytree(self.case,sample/'input')
@@ -337,7 +337,7 @@ class CFDContractTests(unittest.TestCase):
             self.assertNotIn('docs/'+name,files)
             self.assertNotIn('qbank/maintenance/protocols/'+name,files)
         self.assertFalse(any(path.startswith('qbank/maintenance/') for path in files))
-        code='from pathlib import Path; import caeoj; assert Path(caeoj.__file__).resolve()==Path("src/caeoj/__init__.py").resolve(); from caeoj.sdk import load_problem, dynamic_viscosity; p=load_problem("tasks/cfd-fixture/samples/01/input/problem.json"); assert float(dynamic_viscosity(p,0)) == .01'
+        code='from pathlib import Path; import caeoj; assert Path(caeoj.__file__).resolve()==Path("src/caeoj/__init__.py").resolve(); from caeoj.sdk import load_problem, dynamic_viscosity; p=load_problem("qbank/99-test/99.1-fixtures/cfd-fixture/samples/01/input/problem.json"); assert float(dynamic_viscosity(p,0)) == .01'
         import os
         env={**os.environ,'PYTHONPATH':str(self.root/'release/src')}
         result=subprocess.run([sys.executable,'-c',code],cwd=self.root/'release',env=env,capture_output=True,text=True)

@@ -2,7 +2,7 @@
 
 CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕通用数据协议、结构校验、测试数据和独立判分组织，支持持续增加不同物理模型的题目和测试。
 
-通用数据协议见 [CONTRACT.md](docs/CONTRACT.md)，第二章考生只需本题 instruction.md、DATA.md 和 CONTRACT.md；[CFD-2.1.md](qbank/maintenance/protocols/CFD-2.1.md) 等领域文档仅供维护实现参考，多指标评分配置见 [GRADING.md](docs/GRADING.md)，初版实施规划见 [MVP-PLAN.md](docs/MVP-PLAN.md)，Agent 测试记录见 [AGENT-RESULTS.md](docs/AGENT-RESULTS.md)。尚待迁移的既有题目保存在 `tasks/<task>/`；统一题库按 [qbank 总体设计](qbank/design/README.md) 建设，已撰写 [第二章的 65 道题面](qbank/02-fluid-mechanics/README.md)，数值数据后续补充。
+通用数据协议见 [CONTRACT.md](docs/CONTRACT.md)，考生只需本题 instruction.md、DATA.md 和 CONTRACT.md；[CFD-2.1.md](qbank/maintenance/protocols/CFD-2.1.md) 等领域文档仅供维护实现参考，多指标评分配置见 [GRADING.md](docs/GRADING.md)，初版实施规划见 [MVP-PLAN.md](docs/MVP-PLAN.md)，Agent 测试记录见 [AGENT-RESULTS.md](docs/AGENT-RESULTS.md)。题目统一保存在 `qbank/<章>/<节>/<题目>/`，按 [qbank 总体设计](qbank/design/README.md) 建设，第一章已有 [13 道给定 PDE 题](qbank/01-prescribed-pdes/README.md)，第二章已撰写 [65 道题面](qbank/02-fluid-mechanics/README.md)，数值数据后续补充。
 
 ## 设计
 
@@ -26,7 +26,6 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 | `src/utils/harbor/` | 通用 Harbor 模板与逐例判题逻辑 |
 | `src/utils/PDEBench/` | PDEBench 数据获取、协议转换与参考审核 |
 | `qbank/` | 统一题库设计及按章、节组织的题目；[第 0 章](qbank/00-basic-tests/README.md)包含已迁移的 smoke-test |
-| `tasks/<task>/` | 尚待迁移的既有题目、数据、标答及出题工具 |
 | `legacy/` | 已归档的旧题目与回归测试，见 [归档说明](legacy/README.md) |
 | `tests/` | 协议、校验、判分和题目数据的自动测试 |
 | `runs/` | 本地输出、临时 Harbor 任务和运行报告，不纳入版本控制 |
@@ -42,23 +41,25 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 | 目录 | 问题 | 要求输出 |
 |---|---|---|
 | [smoke-test](qbank/00-basic-tests/0.1-io/smoke-test/instruction.md) | 简单测试：回传输入场，检查读写与判题链路 | 输入要求回传的场 |
-| [heat-conduction-steady-2d](tasks/heat-conduction-steady-2d/README.md) | 稳态热传导 | temperature |
-| [heat-conduction-transient-2d](tasks/heat-conduction-transient-2d/README.md) | 瞬态热传导 | temperature |
-| [advection-1d](tasks/advection-1d/README.md) | 一维周期线性平流 | state |
-| [burgers-1d](tasks/burgers-1d/README.md) | 一维周期黏性 Burgers 方程 | state |
-| [reaction-diffusion-1d](tasks/reaction-diffusion-1d/README.md) | 一维 logistic 反应扩散 | state |
-| [diffusion-sorption-1d](tasks/diffusion-sorption-1d/README.md) | 一维 Freundlich 迟滞扩散 | concentration |
-| [reaction-diffusion-2d](tasks/reaction-diffusion-2d/README.md) | 二维 FitzHugh–Nagumo 反应扩散 | activator、inhibitor |
-| [darcy-flow-2d](tasks/darcy-flow-2d/README.md) | 二维空间变系数 Darcy 型稳态问题 | state |
-| [shallow-water-2d](tasks/shallow-water-2d/README.md) | 二维浅水方程 | depth |
-| [compressible-navier-stokes-1d](tasks/compressible-navier-stokes-1d/README.md) | 一维可压缩 Navier–Stokes | density、velocity、pressure |
-| [compressible-navier-stokes-2d](tasks/compressible-navier-stokes-2d/README.md) | 二维可压缩 Navier–Stokes | density、velocity、pressure |
-| [compressible-navier-stokes-3d](tasks/compressible-navier-stokes-3d/README.md) | 三维可压缩 Navier–Stokes | density、velocity、pressure |
-| [incompressible-navier-stokes-2d](tasks/incompressible-navier-stokes-2d/README.md) | 二维非均匀强迫不可压缩流 | velocity |
+| [heat-conduction-steady-2d](qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/README.md) | 稳态热传导 | temperature |
+| [heat-conduction-transient-2d](qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d/README.md) | 瞬态热传导 | temperature |
+| [advection-1d](qbank/01-prescribed-pdes/1.3-scalar-transport/advection-1d/README.md) | 一维周期线性平流 | state |
+| [burgers-1d](qbank/01-prescribed-pdes/1.5-advection-diffusion/burgers-1d/README.md) | 一维周期黏性 Burgers 方程 | state |
+| [reaction-diffusion-1d](qbank/01-prescribed-pdes/1.2-diffusion-reaction/reaction-diffusion-1d/README.md) | 一维 logistic 反应扩散 | state |
+| [diffusion-sorption-1d](qbank/01-prescribed-pdes/1.2-diffusion-reaction/diffusion-sorption-1d/README.md) | 一维 Freundlich 迟滞扩散 | concentration |
+| [reaction-diffusion-2d](qbank/01-prescribed-pdes/1.2-diffusion-reaction/reaction-diffusion-2d/README.md) | 二维 FitzHugh–Nagumo 反应扩散 | activator、inhibitor |
+| [darcy-flow-2d](qbank/01-prescribed-pdes/1.1-elliptic/darcy-flow-2d/README.md) | 二维空间变系数 Darcy 型稳态问题 | state |
+| [shallow-water-2d](qbank/01-prescribed-pdes/1.4-hyperbolic/shallow-water-2d/README.md) | 二维浅水方程 | depth |
+| [compressible-navier-stokes-1d](qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-1d/README.md) | 一维可压缩 Navier–Stokes | density、velocity、pressure |
+| [compressible-navier-stokes-2d](qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-2d/README.md) | 二维可压缩 Navier–Stokes | density、velocity、pressure |
+| [compressible-navier-stokes-3d](qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-3d/README.md) | 三维可压缩 Navier–Stokes | density、velocity、pressure |
+| [incompressible-navier-stokes-2d](qbank/01-prescribed-pdes/1.6-constrained-systems/incompressible-navier-stokes-2d/README.md) | 二维非均匀强迫不可压缩流 | velocity |
 
 ## 运行
 
-第 0 章的本地输入输出测试使用 `python -m caeoj smoke`，详见[基础测试说明](qbank/00-basic-tests/README.md)。以下 Harbor 流程适用于仍在 `tasks/` 中的题目。
+第 0 章的本地输入输出测试使用 `python -m caeoj smoke`，详见[基础测试说明](qbank/00-basic-tests/README.md)。以下流程适用于已具备真实数据及公开样例的 qbank 题目。题目位置见[第一章目录](qbank/01-prescribed-pdes/README.md)；第二章目前仅完成题面。
+
+`<task>` 是稳定题目标识，例如 `heat-conduction-steady-2d`；`<task-dir>` 是其真实目录，例如 `qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d`。发布器和组装器按标识自动定位，不接受路径作为 `--task`。
 
 选择本地或 HPC 作为执行主机，在该主机的项目根目录运行后续流程。先激活自行配置的 Python 3.11+ 环境；`python`、`harbor` 和 `docker` 应来自该主机，尖括号内容均为待替换的占位符。下述单行命令可在 PowerShell 或 Bash 中执行。
 
@@ -72,7 +73,7 @@ Docker、Python 环境和 Agent 认证需先配置好。认证由执行主机的
 
 ```sh
 python -m pip install -e '.[heat,pdebench]' harbor
-python 'tasks/<task>/author/generate.py'
+python '<task-dir>/author/generate.py'
 python -m unittest discover -s tests -p '<test-file>.py' -v
 ```
 
@@ -92,8 +93,8 @@ python src/utils/PDEBench/prepare.py --tasks '<task>' --budget-gb 60 --no-bootst
 **3. 检查输入与参考输出的结构。**
 
 ```sh
-python -m caeoj validate-input 'tasks/<task>/cases/<case>/problem.json'
-python -m caeoj validate-output --input 'tasks/<task>/cases/<case>/problem.json' --output 'tasks/<task>/reference/<case>/reference.h5'
+python -m caeoj validate-input '<task-dir>/cases/<case>/problem.json'
+python -m caeoj validate-output --input '<task-dir>/cases/<case>/problem.json' --output '<task-dir>/reference/<case>/reference.h5'
 ```
 
 **4. 发布材料并统一组装 Harbor 环境。** 依赖补充放在题目的 `harbor/requirements.txt`，CPU／内存配额与时限放在 `harbor/task.toml`；修改配置后重新组装。
@@ -108,13 +109,13 @@ python src/utils/prepare_harbor.py --task '<task>'
 **5. 可选 Oracle 检查。** 有 baseline 时可先运行以下命令确认判题链路；没有 baseline 时跳过，直接运行 Agent。
 
 ```sh
-harbor run -p 'runs/harbor/tasks/<task>' -e docker -a oracle -n 1 -o 'runs/harbor/jobs'
+harbor run -p 'runs/harbor/<task-dir>' -e docker -a oracle -n 1 -o 'runs/harbor/jobs'
 ```
 
 **6. 运行 Agent 并独立判题。** 例如 Codex + Luna：
 
 ```sh
-harbor run -p 'runs/harbor/tasks/<task>' -e docker -a codex -m 'openai/gpt-6-luna' --ak 'reasoning_effort=medium' -n 1 -o 'runs/harbor/jobs'
+harbor run -p 'runs/harbor/<task-dir>' -e docker -a codex -m 'openai/gpt-6-luna' --ak 'reasoning_effort=medium' -n 1 -o 'runs/harbor/jobs'
 ```
 
 HPC 运行可追加 `--override-cpus '<cpu-quota>' --override-memory-mb '<memory-mb>'`，值须与组装时声明的资源一致；`-n '<concurrency>'` 控制并发 trial 数，不是单个求解器的线程数。默认模板提供 g++、OpenMP、Open MPI 及 HDF5 开发库（`h5cc`／`h5c++`、`h5dump`），解题与独立判题容器共用该工具链；GPU 需另行配置。
@@ -128,12 +129,12 @@ harbor view 'runs/harbor/jobs'
 trial 的 `verifier/report.json` 保存逐点得分与误差，`reward.txt` 保存通过率。也可单独运行提交并判分：
 
 ```sh
-python '<solver.py>' --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5'
-python -m caeoj validate-output --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5'
-python -m caeoj grade --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5' --reference 'tasks/<task>/reference/<case>/reference.h5' --atol '<atol>' --rtol '<rtol>'
+python '<solver.py>' --input '<task-dir>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5'
+python -m caeoj validate-output --input '<task-dir>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5'
+python -m caeoj grade --input '<task-dir>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5' --reference '<task-dir>/reference/<case>/reference.h5' --atol '<atol>' --rtol '<rtol>'
 ```
 
-新策略使用 `--grading tasks/<task>/grading.json` 替代 `--atol/--rtol`；支持按字段的 RMSE、NRMSE、最大误差、超限比例及 AND／OR 条件。旧配置保持原判分行为。
+新策略使用 `--grading <task-dir>/grading.json` 替代 `--atol/--rtol`；支持按字段的 RMSE、NRMSE、最大误差、超限比例及 AND／OR 条件。旧配置保持原判分行为。
 
 阈值取题目判分配置。校验输出 `valid/errors` JSON；判分每点为 0/1，退出码 2 表示输入、参考或参数异常。
 

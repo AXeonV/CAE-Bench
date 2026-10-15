@@ -9,7 +9,7 @@ description: "审核 CAE Bench OJ 题目的 DATA.md，逐项对照题面、通�
 
 ## 输入与范围
 
-定位用户指定的 `tasks/<task>/` 和仓库根目录，使用用户指定或项目已激活的 Python 环境。读取该题的 `instruction.md`、`DATA.md`、`docs/CONTRACT.md`，以及实际 `cases/*/problem.json` 和 `samples/*/input/problem.json`。不要求题目存在 generator 或 baseline。
+定位用户指定的题目目录（既有 tasks 或新 qbank）和仓库根目录，使用用户指定或项目已激活的 Python 环境。读取该题的 `instruction.md`、`DATA.md`、引用的公共题面／数据说明、`docs/CONTRACT.md` 及领域配置，并枚举 cases、samples、examples 内全部实际输入与公开输出。不要求题目存在 generator 或 baseline。
 
 默认只审核并输出报告；用户明确要求修复时再修改公开文档。题面、协议、实际输入相互冲突时，记录冲突并确认依据，不能默认实际输入必然正确，也不能修改数据迁就实现错误。
 
@@ -20,6 +20,8 @@ description: "审核 CAE Bench OJ 题目的 DATA.md，逐项对照题面、通�
 ```sh
 python <skill-dir>/scripts/inventory.py --task tasks/<task> --output runs/data-audit/<task>/inventory.json
 ```
+
+命令的 --task 可传实际 qbank 题目路径，不限定 tasks。脚本当前仅自动发现 cases/*/problem.json 与 samples/*/input/problem.json；对 examples 以及其他布局另行完整枚举并补充同类盘点，不得把脚本返回零输入当作不存在数据。
 
 脚本只盘点完整 JSON、HDF5 dataset 元数据和网格文件头，不求解方程、不读取数值标答内容、不执行题目代码。它不是校验器，更不判断文档是否合格；退出成功仅表示盘点完成。检查报告中的缺失或不可读文件，必要时使用现有 `caeoj validate-input`／`validate-output` 核对结构。
 
@@ -50,4 +52,4 @@ python <skill-dir>/scripts/inventory.py --task tasks/<task> --output runs/data-a
 2. **问题表**：严重程度、缺漏／歧义／冲突、实际字段路径、文档位置、输入证据、对程序的影响、最小修订建议。将文档问题、数据问题和资料不足分别说明。
 3. **验证与结论**：运行的检查及结果；结论为“通过”“需修订”或“资料不足，未完成”。存在影响读取的未定义字段／分支或未解决冲突时不能判为通过。
 
-若授权修订，仅补足接口定义和必要的格式示例；修改后重跑示例及相关检查，并通过现有 `publish_dist.py` 同步受影响的本地公开材料包。保持题目数值数据、解法与通用评测流程的修改在用户授权范围内。
+若授权修订，仅补足接口定义和必要的格式示例；修改后重跑可用示例及相关检查。已支持发布且有真实公开样例的题目，通过现有 publish_dist.py 同步受影响的本地公开材料包；qbank 或其他尚未接入的布局不得假定发布器已经支持。没有数据或不在发布范围时记录“未打包／未发布”，不为执行发布器而生成假样例、移动题目或扩大任务。保持题目数值数据、解法与通用评测流程的修改在用户授权范围内。

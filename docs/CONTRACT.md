@@ -1,6 +1,6 @@
 # 通用数据协议
 
-本文是通用数据协议的规范性说明，与 `src/caeoj/problem.schema.json` 和结构校验器共同定义输入输出契约。
+本文定义通用存储与引用规则。每题的 instruction.md 给出任务、资源和评分，DATA.md 完整定义本题物理字段、条件、采样及观测；考生只需阅读这三份文件。Schema 和校验工具用于检查实现，不作为补足题意的阅读前提。
 
 协议描述几何文件、网格、采样位置、时间轴、物理量、场、材料参数以及初始／边界条件的数据关联。它不绑定某个求解器或某道 OJ 题，也不定义求解算法。热传导、流体、结构等任务可以使用同一套数据表示；具体物理或数学问题、支持的条件和判分规则由任务声明。
 
@@ -8,9 +8,9 @@
 
 ## 协议版本与物理配置
 
-既有输入省略版本字段，继续使用原有协议。为题库 2.1 节新增的 `contract_version: 2`、`profile: "cfd-2.1"`、`analysis` 与 `materials` 必须成组声明，启用 [CFD 2.1 配置](CFD-2.1.md) 的共同物理语义及相容性检查。该配置不要求题面列出控制方程，也不固定考生的软件、建模实现或离散方法。
+既有输入省略版本字段，继续使用其题目约定。使用 `contract_version: 2`、`profile: "cfd-2.1"` 的输入必须同时提供 analysis、materials；四键成组出现且禁止 physics。各题 DATA.md 就地定义所需的分析与材料结构、合法参数和条件，不要求阅读额外领域规范。
 
-第二章 2.2—2.11 的领域配置复用 `physics.model` 显式启用：[能量与湍流](FLUID-ENERGY.md)、[多相流](FLUID-MULTIPHASE.md)、[降维／稀薄／复杂流体](FLUID-REDUCED.md)。`fluid-energy-`、`fluid-multiphase-`、`fluid-reduced-` 前缀下仅允许各规范列出的版本化 model；`physics.parameters`、场及条件的完整键集合和相容性由相应配置定义并检查。这些配置禁止同时出现 `contract_version`、`profile`、`analysis`、`materials`，不改变旧 `cfd-2.1` 或其他旧 `physics.model` 的语义。结构复用不表示仅做通用检查。
+使用 physics 的领域输入通过 physics.model 显式声明模型；准确标识、parameters 的全部参数、条件及相容性在本题 DATA.md 列明。第二章的 fluid-energy-、fluid-multiphase-、fluid-reduced- 版本化模型禁止同时出现 contract_version、profile、analysis、materials。模型不由 task 或文件名推断；复用通用结构不表示忽略领域声明检查。
 
 新增结构须通过 Schema 声明，不能自行添加未知字段。通用检查与物理配置检查分别报告结构错误和声明相容性错误；均不证明物理解或数值结果正确。
 
@@ -61,7 +61,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 | `time_axes` | object | 必填，时间轴名到输入 HDF5 key 的映射 |
 | `fields` | object | 必填，输入场描述表 |
 | `outputs` | object | 必填，要求输出的场描述表；不要求存在对应输入场 |
-| `physics` | object | 旧式模型标识与全局标量参数；CFD 配置使用 analysis/materials |
+| `physics` | object | 任务模型标识与全局标量参数；CFD 配置使用 analysis/materials |
 | `contract_version`、`profile` | integer、string | CFD 配置显式启用标记，见版本说明 |
 | `analysis` | object | CFD 分析类型、等温约束、压力表示及物理时间范围 |
 | `materials` | object | CFD 区域材料、密度与流变响应 |
@@ -150,7 +150,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 
 ### 4.4 区域整体观测
 
-`{"kind":"aggregate","source":"boundary_faces","ids":"observation_ids","operation":"sum"}` 声明一个整体观测。source 必须引用 mesh element location，不能循环引用或指向另一聚合位置；ids 是恰含一项的 int64 观测编号。sum 对应 integral，mean 对应 average；输出仍为 `[T,1,*component_shape]`，不使用伪造的采样点坐标。聚合位置不用于条件。物理积分、平均的定义由题目或配置说明，协议校验器不自动计算结果。
+`{"kind":"aggregate","source":"boundary_faces","ids":"observation_ids","operation":"sum"}` 声明一个整体观测。source 必须引用 mesh element location，不能循环引用或指向另一聚合位置；ids 是恰含一项的 int64 观测编号。sum 对应 integral，mean 对应 average；输出仍为 `[T,1,*component_shape]`，不使用伪造的采样点坐标。聚合位置不用于条件。物理积分、平均的定义由本题 DATA.md 说明，协议校验器不自动计算结果。
 
 ## 5. 时间轴
 
@@ -190,7 +190,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 | `unit` | 必填、非空的单位代码，见第 7 节 |
 | `value_kind` | `point`、`average` 或 `integral`，定义采样含义 |
 
-输入场还可声明 `sampling`，明确空间重建、时间重建和外推；CFD 配置要求所有输入场显式提供它，取值与限制见 [CFD 2.1](CFD-2.1.md)。旧任务没有该字段时，仍按其 DATA.md 定义连续解释；不得由 SDK 猜测。
+输入场可声明 `sampling`，其结构为 `{ "space": "uniform", "time": "constant", "extrapolation": "forbid" }`。space 可取 uniform、piecewise_constant、piecewise_linear；time 可取 constant、linear、previous；extrapolation 可取 forbid、hold。具体允许组合、空间重建、时间重建和外推的物理含义由本题 DATA.md 完整定义；不能只按枚举名推断。题目要求显式 sampling 时不得省略；旧任务没有该字段时按本题 DATA.md 的连续解释，不由 SDK 猜测。
 
 设时间数为 T、实体数为 N、空间维度为 D。**数组形状统一为 `[T,N,*component_shape]`**：
 
@@ -244,7 +244,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 }
 ```
 
-`physics.model` 是旧式任务模型标识。给定 PDE 的题目须明确其数学模型；以物理描述定义的 CAE 题目须明确物理与方法要求及 Agent 的建模责任，不默认要求预先列出方程。CFD 配置通过 analysis/materials 区分分析要求和物理材料信息，不与 physics 重复声明。每个参数是带单位的有限标量，不在 JSON 中存大数组。空间变化材料系数、源项等使用输入场，由条件记录引用。协议不内置全部物理量名称，也不根据名称猜测方程或数值范围。
+`physics.model` 是显式任务模型标识。给定 PDE 的题目须明确其数学模型；以物理描述定义的 CAE 题目须明确物理与方法要求及 Agent 的建模责任，不默认要求预先列出方程。CFD 配置通过 analysis/materials 区分分析要求和物理材料信息，不与 physics 重复声明。每个参数是带单位的有限标量，不在 JSON 中存大数组。空间变化材料系数、源项等使用输入场，由条件记录引用。协议不内置全部物理量名称，也不根据名称猜测方程或数值范围。
 
 ## 8. 边界条件、初始条件、源项与材料
 
@@ -283,7 +283,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 
 边界条件通过 `location` 指定作用位置：网格位置引用 `.msh` 实体／Physical Groups，独立点位置引用 HDF5 坐标。条件类型存 JSON，变化数值存 HDF5。初始场用 `role: "initial"` 引用；均匀标量初值可写带单位常数。
 
-以下是算子名称及数学含义的示例。**通用协议不按 `operator` 固定 `data` 内的参数名**；每道题必须在 DATA.md 中列出或引用共用配置中的允许条件、物理／数学含义、全部必需／可选参数及其数据表示。
+以下是算子名称及数学含义的示例。**通用协议不按 `operator` 固定 `data` 内的参数名**；每道题必须在自己的 DATA.md 中完整列出允许条件、物理／数学含义、全部必需／可选参数及其数据表示，不能要求考生追踪章节共享说明或领域配置文档。
 
 | role / operator | 含义 |
 |---|---|
@@ -443,7 +443,7 @@ python -m caeoj validate-output --input 'problem.json' --output 'result.h5'
 
 通用校验器检查结构和声明，不修改数据，不重排或匹配等价网格。显式 CFD 配置另检查规定的单位、材料范围、条件覆盖和声明相容性。它们不验证 CAD、网格质量、PDE、守恒、完整物理适用性或解误差。
 
-判分由独立模块 `src/caeoj/grading.py` 实现，输出与参考 HDF5 必须满足同一个输出契约。可通过公开 `grading.json` 配置按字段的逐值容差、RMSE、NRMSE、最大误差和超限比例，并用 AND／OR 组合条件。聚合范围、零参考场处理、配置格式与示例见 [数值评分策略](GRADING.md)。这些评分参数不进入 `problem.json` 通用数据协议。
+判分由独立模块 `src/caeoj/grading.py` 实现，输出与参考 HDF5 必须满足同一个输出契约。可通过公开 `grading.json` 配置按字段的逐值容差、RMSE、NRMSE、最大误差和超限比例，并用 AND／OR 组合条件。本题 instruction.md 必须完整给出实际采用的指标、聚合范围、阈值和任何固定偏置；不需要考生另读评分规范来补足判据。grading.json 是对应的机器配置，这些评分参数不进入 problem.json 物理输入。
 
 未提供评分策略时，浮点场逐分量使用：
 
@@ -471,6 +471,6 @@ python -m caeoj grade --input 'problem.json' --output 'result.h5' --reference 'r
 
 当前支持固定网格与固定采样位置下的 Gmsh 网格／分组、HDF5 场数组、时间轴、带单位参数及条件记录。网格运动、自适应拓扑、局部坐标基、额外自由度／积分点和通用连续表达式求值尚未定义。周期等专用条件可由题目通过已有条件记录定义，并明确网格中的配对关系；通用协议尚未统一其物理语义。
 
-**通用条件机制不等于全部边界语义都已定义。** [CFD 2.1](CFD-2.1.md) 为其声明范围提供共同语义、检查与 SDK；范围以外的边界条件仍需设计，并通过实际求解器验证。 重点包括边界函数的表示、坐标／法向约定、算子参数和条件组合。现有条件记录与题目约定是初步方案，不代表已支持任意边界条件；协议的目标是统一求解器程序的数据接口，校验器仍只检查结构。
+**通用条件机制不等于全部边界语义都已定义。** 各题 DATA.md 必须就地说明边界函数表示、坐标／法向、算子参数和条件组合；不得依靠额外协议引用补足。同一存储结构不代表支持任意物理或边界组合。校验器检查通用结构及已实现的领域声明相容性，不验证数值解。
 
 题目必须明确字段和条件的物理／数学含义，不能将离散场样本隐式视为连续函数。新增通用数据结构须同步更新文档、Schema、校验器及样例，并验证程序能按声明读取和处理。

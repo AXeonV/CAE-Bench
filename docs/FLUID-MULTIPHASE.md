@@ -1,5 +1,7 @@
 # 流体多相配置 v1（2.5—2.7）
 
+> 维护方实现参考，不是第二章考生的额外协议依赖。每题完整要求以该题 instruction.md、DATA.md 及通用 CONTRACT.md 为准。
+
 本规范与 [通用契约](CONTRACT.md) 一起定义公开输入。它是固定 Euler 位置上的有限首版，不描述逐粒轨迹、移动坐标或碰撞接触网络。数值离散、界面追踪、线性代数、软件和内部网格由考生选择；以下物理响应、平均方式和交换定律不能更换。
 
 ## 启用、模型与范围
@@ -54,7 +56,7 @@
 
 ### 解析无相变界面
 
-free-surface 在液体区域解常密度牛顿质量与动量守恒，界面物质输运、应力牵引为 −pressure_reference n，气体不求动量。气体中的输出速度扩展为零、压力扩展为 pressure_reference，故穿界面单元的输出是此扩展场的体积平均；不是液体内条件平均。immiscible/wetting 双方各自质量、牛顿动量守恒，界面速度连续且无相变。immiscible 牵引连续。wetting 令界面法向 n 从 a 指向 b、κ=div(n)，满足 `(stress_b−stress_a)n=surface_tension κ n`。壁面静态接触角按穿过 a 相定义，始终采用该角，无滞后；壁面无穿透、切向牵引为 `−mu*u_t/slip_length`。接触线数值表示由考生选择，不能以网格相关滑移长度替代输入值。
+free-surface 在液体区域解常密度牛顿质量与动量守恒，界面物质输运、应力牵引为 −pressure_reference n，气体不求动量。气体中的输出速度扩展为零、压力扩展为 pressure_reference，故穿界面单元的输出是此扩展场的体积平均；不是液体内条件平均。immiscible/wetting 双方各自质量、牛顿动量守恒，界面速度连续且无相变。immiscible 牵引连续。wetting 令界面法向 n 从 a 指向 b、κ=div(n)，满足 `(stress_b−stress_a)n=surface_tension κ n`。壁面静态接触角按穿过 a 相定义，始终采用该角，无滞后；壁面无穿透、以壁面流体域外法向 n_w、P_t=I−n_w⊗n_w 定义各相切向牵引 `P_t stress_i n_w=−mu_i P_t u_i/slip_length`。接触线数值表示由考生选择，不能以网格相关滑移长度替代输入值。
 
 初始 α 只能为 0 或 1，解释为每个输入体单元内精确相指示量，其边界集合确定初始界面，不能自选亚单元界面；初始两相都必须存在。随后 α 的观测是精确相指示函数的单元体积平均。无表面张力题不要求接触角。
 
@@ -94,7 +96,7 @@ interphase-exchange 采用共速、div(u)=0、α 物质输运，混合密度和�
 
 ### 熔凝
 
-a 是液态、b 是固定固体骨架，rho_b=rho_a，cp_b=cp_a，k_b=k_a，不重复输入。令 `f(T)=clip((T−T_s)/(T_l−T_s),0,1)`，α=f(T)，不用另给 α 初态。体积焓 `H=rho_a[cp_a(T−T_s)+L α]`，`∂tH+div(H u)=div(k_a grad T)`。速度满足 div(u)=0 和牛顿混合动量，加入 `−A(1−α)²/(α³+epsilon) u` 阻力；骨架速度固定为零。该有限 mushy 模型允许低于液相线的阻尼运动，不另解弹性或收缩。相变率输出按液体→固体为正，`m=−rho_a D_t α`，不是单纯 `−rho_a ∂t α`。
+a 是液态、b 是固定固体骨架，rho_b=rho_a，cp_b=cp_a，k_b=k_a，不重复输入。令 `f(T)=clip((T−T_s)/(T_l−T_s),0,1)`，α=f(T)，不用另给 α 初态。体积焓 `H=rho_a[cp_a(T−T_s)+L α]`，`∂tH+div(H u)=div(k_a grad T)`。速度满足 div(u)=0，且全域使用常黏度 mu_a=viscosity_a：`rho_a(∂t u+u·∇u)=−grad(p)+div(2 mu_a D(u))+rho_a g−A(1−α)²/(α³+epsilon)u`。不作 α 加权黏度；骨架速度固定为零。该有限 mushy 模型允许低于液相线的阻尼运动，不另解弹性或收缩。相变率输出按液体→固体为正，`m=−rho_a D_t α`，不是单纯 `−rho_a ∂t α`。
 
 ## 位置、场和时间的完整表示
 
@@ -168,3 +170,5 @@ alpha和phase_change_rate的真实单元平均乘单元体积，可精确复算�
 `check_fluid_multiphase` 在通用结构/引用检查通过后执行，错误类别 E_FLUID。它核查 model、独立参数集合/单位/范围、维度、外面覆盖、初态、时间覆盖、quantity 组合和不相容声明。它不求解方程，不证明物理适定、网格精度、离散相轨迹、全程体积分数范围或参考真实性。
 
 最小合法接口 fixture、非法组合与独立相质量手算预期由 `python -m unittest discover -s tests -p 'test_fluid_multiphase.py'` 临时生成/验证；该命令只在临时目录写网格和 HDF5，不为题库生成 examples/references/cases，也不发布评测。
+
+维护补注：尖锐蒸冷输出 j δ_interface 的单元平均时，与流体单元公共面重合的界面测度各分配一半给两侧单元；相变界面不在外部储槽边界上占据正面积。熔凝 phase_change_rate 除起点有限唯一右迹外，仅在单元平均物质导数存在有限唯一经典值的时刻请求，不对左右导数不同的相线折点强行输出。

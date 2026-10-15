@@ -1,5 +1,7 @@
 # 2.8—2.11 独立考生审阅与最终复核
 
+> 本记录及其散列针对简化前版本；当前自包含题面的独立复核见 [协议引用简化审阅](chapter-02-simplification.md)。历史验证不自动覆盖本次改写。
+
 日期：2026-10-15。作者 `/root/reduced_complex`，独立考生审阅者 `/root/review_reduced`。只读四节COMMON/公共DATA、17题instruction/DATA、CONTRACT、FLUID-REDUCED、GRADING；未读源码、tests、设计/维护记录、隐藏材料或答案。
 
 | 节 | 题数 | 最终复核 |

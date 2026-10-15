@@ -1,38 +1,67 @@
 # 2.7.4 数据契约
 
-继承 [本节公共数据说明](../DATA.md) 与 [多相配置](../../../../docs/FLUID-MULTIPHASE.md)。完整模型标识为 `fluid-multiphase-cavitation-v1`；spatial_dimension必须为3，不可用task代替model。输入使用固定Euler网格，不要求也不接受隐含移动粒子坐标。
+本文件与[本题要求](instruction.md)、[通用契约](../../../../docs/CONTRACT.md) 定义本题输入输出。`spatial_dimension` 必须为 3，`physics.model` 必须为 `fluid-multiphase-cavitation-v1`；task 不携带物理含义。采用 `physics: {model, parameters}`，禁止同时出现 `profile`、`contract_version`、`analysis`、`materials`。
 
-## 参数与条件
+## 全局参数
 
-physics.parameters必须恰含下表各项，每项为带单位有限标量；严格正值/非负值及跨字段限制按协议参数表，不允许额外的求解器控制参数或未声明物理参数：
+`physics.parameters` 必须恰含下表各项，每项为 `{value: 有限数, unit: 表中代码}`。不接受选项、场引用、单位转换、额外物理参数或求解器控制参数。
 
-| name | unit |
+| name | unit | 范围与含义 |
+|---|---|---|
+| time_start | s | 物理积分起点，任意有限实数 |
+| time_end | s | 物理积分终点，严格大于 time_start |
+| density_a | kg/m3 | a 相常密度，严格正 |
+| viscosity_a | Pa.s | a 相动力黏度，严格正 |
+| pressure_reference | Pa | 绝对压力基准，严格正 |
+| density_b | kg/m3 | b 相常密度，严格正 |
+| viscosity_b | Pa.s | b 相动力黏度，严格正 |
+| saturation_pressure | Pa | 饱和绝对静压 p_sat，严格正 |
+| pressure_rate | kg/(m3.s.Pa) | 压力线性质量率系数 C，严格正 |
+| nuclei_fraction | 1 | 核体积分数，0 < value < 1 |
+
+## 网格、位置与采样
+
+恰好一个固定 Gmsh MSH 4.1 ASCII 一阶 D 维、按公共面连通的域；允许四面体、六面体、棱柱、金字塔，外边界必须导出一阶三角形或平面四边形。一个全域 location（名称可变）恰覆盖全部 D 维单元，初态、acceleration 和全部输出共用它。边界 location 恰好分割全部外边界，不重叠；不得用内部面。所有条件位置均为 mesh element，不使用独立点或节点条件。实体 ID 是身份，不按读取行号配对。
+
+全部场为 float64、`value_kind: average`，表示给定单元或边界实体上的物理平均。标量 kind=scalar、component_shape=[1]、components=["value"]、shape=[T,N,1]；向量 kind=vector、component_shape=[D]、components=["x","y","z"]、shape=[T,N,D]。不可省略轴、展平或广播。
+
+每个输入场显式声明 `sampling={space: uniform或piecewise_constant, time: constant或linear, extrapolation: forbid}`。空间重建为实体内常值；uniform 还要求同一帧所有实体值相等。constant 轴恰一个时刻，其值在物理区间内恒定（初态单帧仅作初态标记）；linear 轴至少覆盖 time_start—time_end，相邻样本线性插值，禁止外推。初态场时间轴恰含 time_start。输出时刻不规定内部时间步。
+
+## 字段与条件
+
+允许的 quantity、类型、单位如下；不接受其他 quantity 或单位，不转换单位。输入字段须被条件引用，quantity 必须匹配条件要求；字段对象名与 array 键可不同，均按显式引用解释。
+
+| quantity | kind | unit | 含义 |
+|---|---|---|---|
+| alpha | scalar | 1 | a 相体积分数 α，0≤α≤1 |
+| velocity | vector | m/s | 本题物理响应中定义的 Euler 速度场 |
+| acceleration | vector | m/s2 | 各相共同外部体加速度 g，含全部重力；无隐含地球重力 |
+| phase_change_rate | scalar | kg/(m3.s) | 每混合体积从 a 到 b 为正的质量率 m，仅输出 |
+| pressure | scalar | Pa | 绝对静压，非去静水压 |
+
+条件仅用 CONTRACT 规定键，data 不得为空；没有 material 条件。标量数值使用 `{value: 数值, unit: 对应单位}` 或 `{field: 输入字段对象名}`；向量只允许场引用，不允许 JSON 内联数组。标量常数在整个作用区域和时间内均匀恒定。option 不可代替数值或场。引用场的 location 必须与条件相同。
+
+全域初态变量恰为 **alpha, velocity**，各恰好一条 `role=initial, variable=变量名, operator=assign, location=全域, data={value: 数值数据}`。向量 value 必须为场引用。
+
+每例恰好一条 `role=source, variable=acceleration, operator=assign, location=全域, data={value:{field:字段名}}`。即使零加速度也必须显式给零向量场。
+
+每个外边界实体恰被一条 `role=boundary, variable=flow` 条件覆盖；不能用不同 tag 对同一几何面叠加条件，不按组名称猜物理。允许的 operator 与完整 data 为：
+
+| operator | data 与物理含义 |
 |---|---|
-| time_start | s |
-| time_end | s |
-| density_a | kg/m3 |
-| viscosity_a | Pa.s |
-| pressure_reference | Pa |
-| density_b | kg/m3 |
-| viscosity_b | Pa.s |
-| saturation_pressure | Pa |
-| pressure_rate | kg/(m3.s.Pa) |
-| nuclei_fraction | 1 |
+| wall | `{mechanical:{option:no_slip}}`；静止固壁；无滑移 |
+| pressure_reservoir | `{alpha:数值数据}`；牵引 `−pressure_reference n`，黏性切向牵引为零；流出 α法向导数为零，流入用给定值；无额外法向速度约束。α 是来流相状态，非流出强制含率 |
 
-全域初态变量恰为：**alpha, velocity**；每个变量一个initial/assign条件，data恰为value。初态空间含义、相标识和相容性按模型定义。另必须有一个全域source/acceleration/assign条件，即使加速度为零亦显式提供向量场。
+至少一个 pressure_reservoir，余边界可为 wall。储槽外压为 pressure_reference。储槽 α 可在 [0,1] 内取分数含率，可使用上述线性时间变化。
 
-支持wall和pressure_reservoir，至少一个压力储槽；外部绝对压力为pressure_reference，流入相含率必须完整给定（本题不求温度），流出标量零法向梯度。
+初态须满足本题散度、边界及材料范围约束；不会通过数值投影偷偷修改初态。全程适用范围与连续问题相容性是输入保证，结构检查不能代替其物理证据。
 
-所有条件data键、数值类型、场单位、温度和含率范围、外面覆盖及不相容组合均由公共协议“条件清单与组合”规定。未列算子、未知参数、缺初态、重叠边界、错误维度/单位/shape均拒绝；不以网格组名称猜边界物理。
+## 输出与观测
 
-## 输出
+必需输出 quantity 恰为 **alpha, phase_change_rate, pressure, velocity**，逐项一份，均使用初态同一全域 location、float64、average 和上述单位/分量。全部共用同一请求时间轴，位于 [time_start,time_end] 内，末时刻必须为 time_end。
 
-必需quantity恰为：**alpha, phase_change_rate, pressure, velocity**。逐项一份，全域体单元、float64、average，同一请求轴，末时刻time_end；单位和分量轴按公共协议。场对象名与HDF5 dataset键可不同，按声明引用，不按行号或名字猜测。
+pressure 和派生 phase_change_rate 在 time_start 若被请求，必须是连续问题确定且有证据的有限、唯一右迹（包括单元平均）。无此保证时，公共输出轴必须全部严格晚于 time_start 开始；不能用低残差、离散步长有限值、任意初始压力或差分率替代连续右迹。
 
-相体积、常相密度下相质量及已请求的总相变率可由单元平均场线性积分复算。分散模型的总动量可由rho_a*flux_a+rho_b*flux_b线性积分；共速变密度动量、溶质量和热量/焓含乘积相关项，不能由各因子单元均值精确恢复，只可作带重建误差的近似，不能据此严格守恒判分。二维结果按单位出平面厚度；压力不在判分时重新定零。允许输出的精确物理含义和本题相变率符号（若适用）按model规范，不能替换为内部平滑/颗粒专有量。
+phase_change_rate 为本题响应给出的 m 的单元平均。α 的真实单元平均乘体积可线性复算相体积及常相密度下的相质量；phase_change_rate 可线性积分总质量率。含 rho*u的乘积量，不能由各因子的单元均值精确恢复，只能作带重建误差的近似，不据此严格守恒判分。不要求模型内部平滑变量或额外观测，不为整体量伪造点坐标；压力不重新定零。
 
-pressure和派生phase_change_rate在time_start若被请求，必须是制作方已证明有限且唯一的连续问题右迹；未建立该证据时输出公共轴必须严格晚于time_start开始。检查器不靠求解验证该制作方保证。
-
-## 数据状态
-
-examples、references、cases尚无数据。当前交付是可审查的题面和协议，正式算例、参考、数值/物理适用性和资源校准留待后续。没有可运行样例不表示可以自选缺失物理；公开协议已经定义本题输入支持集合。
+结果仅含 outputs.array 所声明 dataset 及其引用的 IDs、时间数组，支持轴与输入逐值一致，共享键只写一次；禁止额外数组或属性、网格、点坐标和包外文件。可用 `caeoj.sdk.load_problem/write_result` 结构读写，物理求解由程序承担。

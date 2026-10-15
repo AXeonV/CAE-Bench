@@ -1,5 +1,7 @@
 # 2.5—2.7 独立考生审阅与最终复核
 
+> 本记录及其散列针对简化前版本；当前自包含题面的独立复核见 [协议引用简化审阅](chapter-02-simplification.md)。历史验证不自动覆盖本次改写。
+
 日期：2026-10-15。作者 `/root/multiphase`，独立审阅者 `/root/review_multiphase`。审阅只读三节COMMON/公共DATA、15题instruction/DATA、CONTRACT、FLUID-MULTIPHASE、GRADING；禁止源码、tests、隐藏输入输出、参考及维护记录。
 
 | 节 | 实际题数 | 最终结论 |

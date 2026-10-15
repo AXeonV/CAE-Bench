@@ -1,5 +1,7 @@
 # 第二章 2.1—2.4 独立考生审阅与最终复核
 
+> 本记录及其散列针对简化前版本；当前自包含题面的独立复核见 [协议引用简化审阅](chapter-02-simplification.md)。历史验证不自动覆盖本次改写。
+
 日期：2026-10-15。审阅者：独立 subagent `/root/review_energy`；作者为根代理与 `/root/energy_turbulence`。审阅任务明确只读公开 COMMON/DATA、逐题 instruction/DATA、CONTRACT、CFD-2.1、FLUID-ENERGY、GRADING；禁止实现、tests、隐藏数据、参考答案、设计与作者记录。本记录不属于考生材料。
 
 实际覆盖 33 题：2.1 十二题、2.2 十二题、2.3 五题、2.4 四题。首轮消息曾误写32，审阅者最终逐题清点确认是计数笔误，isothermal-rans-3d 已实际读取，未漏审。

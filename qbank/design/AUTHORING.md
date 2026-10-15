@@ -77,7 +77,9 @@
 
 每题 instruction.md 先明确任务目标、物理／材料范围、建模与方法责任、资源及评分，再调用 [caeoj-design-data](../../.agents/skills/caeoj-design-data/SKILL.md) 设计自包含 DATA.md。DATA 设计从题面建立参数、条件、采样及输出契约；发现物理欠定或矛盾时返回出题环节，提出具体方案并同步两份文件，不能在接口里暗加模型或缩小目标。
 
-只有现有结构或工具不足时才拓展基础设施。足够时复用 CONTRACT 和实现，不为了新章节先写一套领域规范。确需扩展时按影响同步 Schema、校验器、SDK、兼容性与验证；CONTRACT 不累加题目专用细节。维护说明放 qbank/maintenance/protocols，仅作内部实现参考，不是考生契约。
+只有现有结构或工具不足时才拓展基础设施。先按[核心与扩展职责](CORE-AND-EXTENSIONS.md)判断归属：`src/caeoj/` 只拥有中性数据、校验、评分和扩展接口；共享物理能力在 `qbank/extensions/caeoj_ext/`，不可复用的公开运行规则按需在本题 `extension/`；共用维护与装配在 `src/caeoj_tools/`，数据和参考制作在本题 `author/`。领域按物理组织，不以章号或题号命名。普通新增题目不修改核心或发布脚本，通用表示／扩展接口确有缺口时才改核心。
+
+确需扩展时同步必要的领域 Schema、校验器、公开辅助接口、兼容性与验证；CONTRACT 不累加题目专用细节。候选工具由维护装配一次交付，统一 `pip install .`、固定公共命令和 `caeoj.sdk` 基础入口；考生不挑选扩展、注册路径或处理版本冲突，详见[公开接口设计](PUBLIC-INTERFACE.md)。开发安装核心及 `qbank/extensions` 的独立 provider，不把 editable 环境当作公开包可用性证据。维护说明放 qbank/maintenance/protocols，仅作内部实现参考，不是考生契约。
 
 ### 3. 撰写公开材料
 

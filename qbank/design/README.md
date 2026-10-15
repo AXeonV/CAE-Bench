@@ -6,7 +6,7 @@
 
 执行流程见 [Agent 章节出题工作流](AUTHORING.md)，具体错误与修复经验见 [经验清单](AUTHORING-LESSONS.md)；可通过仓库技能 `caeoj-author-section` 完成指定章／节的题面，通过 `caeoj-design-data` 设计自包含 DATA，并完成独立考生审阅；需要评测配置或框架适配时使用 `caeoj-configure-judge`。
 
-基础设施重构的职责边界、逐模块依赖与迁移归属见[核心、题库扩展与维护工具设计](CORE-AND-EXTENSIONS.md)。该文档为设计目标，当前尚未迁移实现；领域能力按物理组织，不绑定章节编号。
+基础设施重构的职责边界、逐模块依赖与迁移归属见[核心、题库扩展与维护工具设计](CORE-AND-EXTENSIONS.md)，实际配置与验证见[运行装配维护说明](../maintenance/RUNTIME.md)和[实施记录](reviews/runtime-refactor.md)。领域能力按物理组织，不绑定章节编号。
 
 考生获得的材料、一次安装、统一命令和稳定 SDK，以及单题／多题装配的验收要求见[考生侧公开接口与材料装配](PUBLIC-INTERFACE.md)；内部拆分不应增加考生使用负担。
 

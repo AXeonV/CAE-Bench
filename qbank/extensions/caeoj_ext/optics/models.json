@@ -1,0 +1,851 @@
+{
+  "layered-rays": {
+    "name": "平行分层介质射线",
+    "spatial_dimension": 3,
+    "mesh": false,
+    "parameters": {
+      "input_index": {
+        "unit": "1",
+        "meaning": "z<0的入射介质n0>0",
+        "positive": true
+      },
+      "output_index": {
+        "unit": "1",
+        "meaning": "z>H的出射介质nout>0",
+        "positive": true
+      }
+    },
+    "records": {
+      "layers": {
+        "role": "material",
+        "variable": "optical_layer",
+        "location": "layers",
+        "data": {
+          "index": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "各层实折射率n>0",
+            "positive": true
+          },
+          "thickness": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "m",
+            "meaning": "各层厚度h>0",
+            "positive": true
+          }
+        }
+      },
+      "launch": {
+        "role": "source",
+        "variable": "ray",
+        "location": "rays",
+        "data": {
+          "origin": {
+            "kind": "vector",
+            "shape": [
+              3
+            ],
+            "unit": "m",
+            "meaning": "在z=0的起点"
+          },
+          "direction": {
+            "kind": "vector",
+            "shape": [
+              3
+            ],
+            "unit": "1",
+            "meaning": "入射单位方向，d_z≥1e−4"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "terminal_position": {
+        "kind": "vector",
+        "shape": [
+          3
+        ],
+        "unit": "m",
+        "meaning": "终点坐标",
+        "location": "rays",
+        "atol": 1e-08,
+        "rtol": 0
+      },
+      "terminal_direction": {
+        "kind": "vector",
+        "shape": [
+          3
+        ],
+        "unit": "1",
+        "meaning": "终点方向",
+        "location": "rays",
+        "atol": 1e-08,
+        "rtol": 0
+      },
+      "optical_path": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "m",
+        "meaning": "从发射到终止的∫n ds",
+        "location": "rays",
+        "atol": 1e-08,
+        "rtol": 1e-06
+      },
+      "termination": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "1",
+        "meaning": "0=成功出射，1=首次全反射后终止",
+        "location": "rays",
+        "atol": 0,
+        "rtol": 0
+      }
+    },
+    "locations": {
+      "layers": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 32,
+        "meaning": "按IDs行序沿正轴排列的有限层；ID本身不表示厚度或坐标"
+      },
+      "rays": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 128,
+        "meaning": "各独立入射射线"
+      }
+    },
+    "timeout": 180
+  },
+  "coherent-interference": {
+    "name": "单频相干光干涉",
+    "spatial_dimension": 3,
+    "mesh": false,
+    "parameters": {
+      "wavelength": {
+        "unit": "m",
+        "meaning": "真空波长λ0>0",
+        "positive": true
+      },
+      "refractive_index": {
+        "unit": "1",
+        "meaning": "均匀背景折射率n>0",
+        "positive": true
+      },
+      "impedance": {
+        "unit": "Ohm",
+        "meaning": "背景波阻抗Z>0；仅用于给定强度归一化",
+        "positive": true
+      },
+      "wave_count": {
+        "unit": "1",
+        "meaning": "模态数w，JSON整数1..32",
+        "integer": true,
+        "lower": 1,
+        "upper": 32
+      }
+    },
+    "records": {
+      "waves": {
+        "role": "source",
+        "variable": "optical_wave",
+        "location": "waves",
+        "data": {
+          "direction": {
+            "kind": "vector",
+            "shape": [
+              3
+            ],
+            "unit": "1",
+            "meaning": "单位传播方向d_j"
+          },
+          "reference": {
+            "kind": "vector",
+            "shape": [
+              3
+            ],
+            "unit": "m",
+            "meaning": "每个模式的相位参考点r_j"
+          },
+          "amplitude": {
+            "kind": "components",
+            "shape": [
+              2
+            ],
+            "unit": "V/m",
+            "meaning": "参考点处复振幅a_j"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "amplitude": {
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "unit": "V/m",
+        "meaning": "相干标量复场U",
+        "location": "receivers",
+        "atol": 1e-06,
+        "rtol": 0.005
+      },
+      "intensity": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "W/m2",
+        "meaning": "平均强度",
+        "location": "receivers",
+        "atol": 1e-08,
+        "rtol": 0.005
+      }
+    },
+    "locations": {
+      "waves": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 32,
+        "meaning": "恰w个平面波，IDs固定0..w−1，矩阵索引按此顺序"
+      },
+      "receivers": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 256,
+        "meaning": "真实三维接收点"
+      }
+    },
+    "timeout": 180
+  },
+  "partial-coherence": {
+    "name": "部分相干光强",
+    "spatial_dimension": 3,
+    "mesh": false,
+    "parameters": {
+      "wavelength": {
+        "unit": "m",
+        "meaning": "真空波长λ0>0",
+        "positive": true
+      },
+      "refractive_index": {
+        "unit": "1",
+        "meaning": "均匀背景折射率n>0",
+        "positive": true
+      },
+      "impedance": {
+        "unit": "Ohm",
+        "meaning": "背景波阻抗Z>0；仅用于给定强度归一化",
+        "positive": true
+      },
+      "wave_count": {
+        "unit": "1",
+        "meaning": "模态数w，JSON整数1..32",
+        "integer": true,
+        "lower": 1,
+        "upper": 32
+      }
+    },
+    "records": {
+      "waves": {
+        "role": "source",
+        "variable": "optical_wave",
+        "location": "waves",
+        "data": {
+          "direction": {
+            "kind": "vector",
+            "shape": [
+              3
+            ],
+            "unit": "1",
+            "meaning": "单位传播方向d_j"
+          },
+          "reference": {
+            "kind": "vector",
+            "shape": [
+              3
+            ],
+            "unit": "m",
+            "meaning": "每个模式的相位参考点r_j"
+          }
+        }
+      },
+      "coherence": {
+        "role": "material",
+        "variable": "covariance",
+        "location": "ensemble",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "w",
+              "w",
+              2
+            ],
+            "unit": "V2/m2",
+            "meaning": "C_jl=E[c_j c_l*]；Hermitian半正定，完整矩阵，含对角与非对角"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "intensity": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "W/m2",
+        "meaning": "平均强度",
+        "location": "receivers",
+        "atol": 1e-08,
+        "rtol": 0.005
+      }
+    },
+    "locations": {
+      "waves": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 32,
+        "meaning": "恰w个平面波，IDs固定0..w−1，矩阵索引按此顺序"
+      },
+      "receivers": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 256,
+        "meaning": "真实三维接收点"
+      },
+      "ensemble": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一随机系综参数对象"
+      }
+    },
+    "timeout": 180
+  },
+  "fresnel-aperture": {
+    "name": "有限孔径近轴衍射",
+    "spatial_dimension": 3,
+    "mesh": true,
+    "parameters": {
+      "wavelength": {
+        "unit": "m",
+        "meaning": "真空波长λ0>0",
+        "positive": true
+      },
+      "refractive_index": {
+        "unit": "1",
+        "meaning": "均匀背景折射率n>0",
+        "positive": true
+      },
+      "impedance": {
+        "unit": "Ohm",
+        "meaning": "背景波阻抗Z>0；仅用于给定强度归一化",
+        "positive": true
+      }
+    },
+    "records": {
+      "aperture_field": {
+        "role": "source",
+        "variable": "amplitude",
+        "location": "aperture",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              2
+            ],
+            "unit": "V/m",
+            "meaning": "输入孔径复场U0，逐三角形常值，孔径外为0"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "amplitude": {
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "unit": "V/m",
+        "meaning": "有限距离复场U",
+        "location": "receivers",
+        "atol": 1e-06,
+        "rtol": 0.005
+      },
+      "intensity": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "W/m2",
+        "meaning": "|U|²/(2Z)",
+        "location": "receivers",
+        "atol": 1e-08,
+        "rtol": 0.005
+      }
+    },
+    "locations": {
+      "domain": {
+        "kind": "mesh",
+        "entity": "node",
+        "meaning": "孔径全部节点"
+      },
+      "aperture": {
+        "kind": "mesh",
+        "entity": "element",
+        "dimension": 2,
+        "meaning": "孔径全部三角形"
+      },
+      "receivers": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 256,
+        "meaning": "真实三维接收点，z>0"
+      }
+    },
+    "timeout": 900
+  },
+  "farfield-aperture": {
+    "name": "有限孔径角分布衍射",
+    "spatial_dimension": 3,
+    "mesh": true,
+    "parameters": {
+      "wavelength": {
+        "unit": "m",
+        "meaning": "真空波长λ0>0",
+        "positive": true
+      },
+      "refractive_index": {
+        "unit": "1",
+        "meaning": "均匀背景折射率n>0",
+        "positive": true
+      },
+      "impedance": {
+        "unit": "Ohm",
+        "meaning": "背景波阻抗Z>0；仅用于给定强度归一化",
+        "positive": true
+      }
+    },
+    "records": {
+      "aperture_field": {
+        "role": "source",
+        "variable": "amplitude",
+        "location": "aperture",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              2
+            ],
+            "unit": "V/m",
+            "meaning": "输入孔径复场U0，逐三角形常值，孔径外为0"
+          }
+        }
+      },
+      "directions": {
+        "role": "source",
+        "variable": "direction",
+        "location": "directions",
+        "data": {
+          "value": {
+            "kind": "vector",
+            "shape": [
+              3
+            ],
+            "unit": "1",
+            "meaning": "单位出射方向s，s_z≥1e−4"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "far_amplitude": {
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "unit": "V",
+        "meaning": "远场系数A(s)",
+        "location": "directions",
+        "atol": 1e-08,
+        "rtol": 0.005
+      },
+      "radiant_intensity": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "W/sr",
+        "meaning": "每单位立体角功率|A|²/(2Z)",
+        "location": "directions",
+        "atol": 1e-09,
+        "rtol": 0.005
+      }
+    },
+    "locations": {
+      "domain": {
+        "kind": "mesh",
+        "entity": "node",
+        "meaning": "孔径全部节点"
+      },
+      "aperture": {
+        "kind": "mesh",
+        "entity": "element",
+        "dimension": 2,
+        "meaning": "孔径全部三角形"
+      },
+      "directions": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 256,
+        "meaning": "出射方向对象，无空间接收距离"
+      }
+    },
+    "timeout": 600
+  },
+  "jones-chain": {
+    "name": "被动偏振元件链",
+    "spatial_dimension": 1,
+    "mesh": false,
+    "parameters": {
+      "impedance": {
+        "unit": "Ohm",
+        "meaning": "背景波阻抗Z>0",
+        "positive": true
+      }
+    },
+    "records": {
+      "elements": {
+        "role": "material",
+        "variable": "jones_matrix",
+        "location": "elements",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              2,
+              2,
+              2
+            ],
+            "unit": "1",
+            "meaning": "复Jones矩阵J；J†J≼I，被动无增益"
+          }
+        }
+      },
+      "states": {
+        "role": "source",
+        "variable": "jones",
+        "location": "states",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              2,
+              2
+            ],
+            "unit": "V/m",
+            "meaning": "Ex、Ey复振幅，最内层实虚"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "jones": {
+        "kind": "components",
+        "shape": [
+          2,
+          2
+        ],
+        "unit": "V/m",
+        "meaning": "输出Ex、Ey复振幅",
+        "location": "states",
+        "atol": 1e-06,
+        "rtol": 0.005
+      },
+      "stokes": {
+        "kind": "components",
+        "shape": [
+          4
+        ],
+        "unit": "V2/m2",
+        "meaning": "按S0,S1,S2,S3顺序",
+        "location": "states",
+        "atol": 1e-07,
+        "rtol": 0.005
+      },
+      "intensity": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "W/m2",
+        "meaning": "S0/(2Z)",
+        "location": "states",
+        "atol": 1e-08,
+        "rtol": 0.005
+      }
+    },
+    "locations": {
+      "elements": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 64,
+        "meaning": "同一固定xy横向基底下的有序Jones元件，按IDs行序依次作用"
+      },
+      "states": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 64,
+        "meaning": "彼此独立的输入偏振态"
+      }
+    },
+    "timeout": 180
+  },
+  "thin-film": {
+    "name": "多层薄膜相干响应",
+    "spatial_dimension": 1,
+    "mesh": false,
+    "parameters": {
+      "wavelength": {
+        "unit": "m",
+        "meaning": "真空波长λ0>0",
+        "positive": true
+      },
+      "input_index": {
+        "unit": "1",
+        "meaning": "入射半空间实折射率n0>0",
+        "positive": true
+      },
+      "output_index": {
+        "unit": "1",
+        "meaning": "出射半空间实折射率ns>0",
+        "positive": true
+      },
+      "vacuum_impedance": {
+        "unit": "Ohm",
+        "meaning": "真空波阻抗Z0>0",
+        "positive": true
+      },
+      "incidence_sine": {
+        "unit": "1",
+        "meaning": "sinθ0，0≤s<1",
+        "lower": 0,
+        "upper_exclusive": 1
+      },
+      "polarization": {
+        "unit": "1",
+        "meaning": "JSON整数0=TE，1=TM",
+        "integer": true,
+        "lower": 0,
+        "upper": 1
+      }
+    },
+    "records": {
+      "layers": {
+        "role": "material",
+        "variable": "optical_layer",
+        "location": "layers",
+        "data": {
+          "index": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "各层实折射率n>0",
+            "positive": true
+          },
+          "thickness": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "m",
+            "meaning": "各层厚度h>0",
+            "positive": true
+          }
+        }
+      }
+    },
+    "outputs": {
+      "reflection": {
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "unit": "1",
+        "meaning": "固定切向电场基底的复振幅系数r",
+        "location": "system",
+        "atol": 1e-07,
+        "rtol": 0.002
+      },
+      "transmission": {
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "unit": "1",
+        "meaning": "固定切向电场基底的复振幅系数t",
+        "location": "system",
+        "atol": 1e-07,
+        "rtol": 0.002
+      },
+      "reflectance": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "1",
+        "meaning": "功率反射率R",
+        "location": "system",
+        "atol": 1e-08,
+        "rtol": 0.002
+      },
+      "transmittance": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "1",
+        "meaning": "功率透射率T",
+        "location": "system",
+        "atol": 1e-08,
+        "rtol": 0.002
+      }
+    },
+    "locations": {
+      "layers": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 32,
+        "meaning": "按IDs行序沿正轴排列的有限层；ID本身不表示厚度或坐标"
+      },
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一完整层系对象"
+      }
+    },
+    "timeout": 300
+  },
+  "slab-modes": {
+    "name": "分层平板导波模态",
+    "spatial_dimension": 1,
+    "mesh": false,
+    "parameters": {
+      "wavelength": {
+        "unit": "m",
+        "meaning": "真空波长λ0>0",
+        "positive": true
+      },
+      "left_index": {
+        "unit": "1",
+        "meaning": "x<0包层折射率nL>0",
+        "positive": true
+      },
+      "right_index": {
+        "unit": "1",
+        "meaning": "x>H包层折射率nR>0",
+        "positive": true
+      },
+      "polarization": {
+        "unit": "1",
+        "meaning": "JSON整数0=TE(Ey)，1=TM(Hy)",
+        "integer": true,
+        "lower": 0,
+        "upper": 1
+      },
+      "mode_count": {
+        "unit": "1",
+        "meaning": "请求m个导模，JSON整数1..8；数据保证至少存在m个",
+        "integer": true,
+        "lower": 1,
+        "upper": 8
+      }
+    },
+    "records": {
+      "layers": {
+        "role": "material",
+        "variable": "optical_layer",
+        "location": "layers",
+        "data": {
+          "index": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "各层实折射率n>0",
+            "positive": true
+          },
+          "thickness": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "m",
+            "meaning": "各层厚度h>0",
+            "positive": true
+          }
+        }
+      }
+    },
+    "outputs": {
+      "effective_index": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "1",
+        "meaning": "neff=β/k0，按从大到小排序",
+        "location": "modes",
+        "atol": 1e-07,
+        "rtol": 0
+      },
+      "mode_profile": {
+        "kind": "components",
+        "shape": [
+          "m"
+        ],
+        "unit": "m^(-1/2)",
+        "meaning": "所有m个实归一化剖面；分量顺序同modes IDs",
+        "location": "receivers",
+        "atol": 1e-05,
+        "rtol": 0.005
+      }
+    },
+    "locations": {
+      "layers": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 32,
+        "meaning": "按IDs行序沿正轴排列的有限层；ID本身不表示厚度或坐标"
+      },
+      "modes": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 8,
+        "meaning": "恰m个导模，IDs固定0..m−1，对应neff从大到小"
+      },
+      "receivers": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 256,
+        "meaning": "真实横向采样点(x,0,0)，可在芯层或包层"
+      }
+    },
+    "timeout": 1200
+  }
+}

@@ -534,6 +534,43 @@
         "caeoj_ext/electromagnetic/geometry.py",
         "caeoj_ext/electromagnetic/models.json"
       ]
+    },
+    "optics.linear": {
+      "version": 1,
+      "requires": [],
+      "geometry": true,
+      "selectors": [
+        {
+          "physics.model": "optics-layered-rays-v1"
+        },
+        {
+          "physics.model": "optics-coherent-interference-v1"
+        },
+        {
+          "physics.model": "optics-partial-coherence-v1"
+        },
+        {
+          "physics.model": "optics-fresnel-aperture-v1"
+        },
+        {
+          "physics.model": "optics-farfield-aperture-v1"
+        },
+        {
+          "physics.model": "optics-jones-chain-v1"
+        },
+        {
+          "physics.model": "optics-thin-film-v1"
+        },
+        {
+          "physics.model": "optics-slab-modes-v1"
+        }
+      ],
+      "check": "caeoj_ext.optics:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/optics/__init__.py",
+        "caeoj_ext/optics/models.json"
+      ]
     }
   },
   "tasks": {
@@ -943,6 +980,30 @@
     ],
     "coil-circuit": [
       "electromagnetic.linear"
+    ],
+    "layered-rays": [
+      "optics.linear"
+    ],
+    "coherent-interference": [
+      "optics.linear"
+    ],
+    "partial-coherence": [
+      "optics.linear"
+    ],
+    "fresnel-aperture": [
+      "optics.linear"
+    ],
+    "farfield-aperture": [
+      "optics.linear"
+    ],
+    "jones-chain": [
+      "optics.linear"
+    ],
+    "thin-film": [
+      "optics.linear"
+    ],
+    "slab-modes": [
+      "optics.linear"
     ]
   },
   "aliases": {
@@ -975,7 +1036,8 @@
     "multibody-",
     "thermal-",
     "acoustic-",
-    "electromagnetic-"
+    "electromagnetic-",
+    "optics-"
   ],
   "model_namespace_diagnostics": {
     "fluid-energy-": "E_FLUID",
@@ -985,6 +1047,7 @@
     "multibody-": "E_MULTIBODY",
     "thermal-": "E_THERMAL",
     "acoustic-": "E_ACOUSTIC",
-    "electromagnetic-": "E_ELECTROMAGNETIC"
+    "electromagnetic-": "E_ELECTROMAGNETIC",
+    "optics-": "E_OPTICS"
   }
 }

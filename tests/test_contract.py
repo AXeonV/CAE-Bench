@@ -20,7 +20,7 @@ from caeoj.examples import CASE_NAMES
 from caeoj.smoke import PROJECT_ROOT, run_smoke
 from caeoj.validation import ContractError, output_support, read_json, read_hdf5, validate_input, validate_output, write_json
 
-CASES = PROJECT_ROOT / "tasks/echo-field/cases"
+CASES = PROJECT_ROOT / "tasks/smoke-test/cases"
 
 
 def echo_reference(problem):
@@ -381,7 +381,7 @@ class ContractTests(unittest.TestCase):
         self.assertFalse(json.loads(result.stdout)["valid"])
 
     def test_smoke_all_processes(self):
-        result = run_smoke(CASES, PROJECT_ROOT / "tasks/echo-field/solve.py", self.root / "report.json")
+        result = run_smoke(CASES, PROJECT_ROOT / "tasks/smoke-test/solve.py", self.root / "report.json")
         self.assertEqual(result["passed_cases"], len(CASE_NAMES))
         self.assertTrue(result["passed"])
 

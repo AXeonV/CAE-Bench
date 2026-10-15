@@ -21,7 +21,7 @@ class GradingTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory(dir=PROJECT_ROOT / "runs")
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        self.path = PROJECT_ROOT / "tasks/echo-field/cases/09-vector-2d/problem.json"
+        self.path = PROJECT_ROOT / "tasks/smoke-test/cases/09-vector-2d/problem.json"
         self.problem = load_problem(self.path)
         self.use_problem(self.problem)
 
@@ -49,7 +49,7 @@ class GradingTests(unittest.TestCase):
             self.assertEqual(self.grade()["score"], score)
 
     def test_all_values_and_fields_must_pass(self):
-        p = load_problem(PROJECT_ROOT / "tasks/echo-field/cases/08-scalars-and-dtypes/problem.json")
+        p = load_problem(PROJECT_ROOT / "tasks/smoke-test/cases/08-scalars-and-dtypes/problem.json")
         self.use_problem(p)
         self.result["temperature"][0, -1, 0] += 1
         result = self.grade()
@@ -59,14 +59,14 @@ class GradingTests(unittest.TestCase):
         self.assertEqual(result["fields"]["temperature"]["max_abs_error"], 1)
 
     def test_integer_comparison_is_exact_above_float_precision(self):
-        p = load_problem(PROJECT_ROOT / "tasks/echo-field/cases/08-scalars-and-dtypes/problem.json")
+        p = load_problem(PROJECT_ROOT / "tasks/smoke-test/cases/08-scalars-and-dtypes/problem.json")
         self.use_problem(p)
         self.reference["region_label"][0, 0, 0] = np.iinfo(np.int64).max
         self.result["region_label"][0, 0, 0] = np.iinfo(np.int64).max - 1
         self.assertEqual(self.grade(atol=100, rtol=100)["score"], 0)
 
     def test_boolean_comparison_is_exact(self):
-        p = load_problem(PROJECT_ROOT / "tasks/echo-field/cases/08-scalars-and-dtypes/problem.json")
+        p = load_problem(PROJECT_ROOT / "tasks/smoke-test/cases/08-scalars-and-dtypes/problem.json")
         self.use_problem(p)
         self.result["mask"][0, 0, 0] = ~self.result["mask"][0, 0, 0]
         self.assertEqual(self.grade(atol=100, rtol=100)["score"], 0)

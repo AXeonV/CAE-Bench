@@ -9,8 +9,8 @@ def main():
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
     problem = load_problem(args.input)
-    if problem.manifest.get("task") != "echo-field":
-        raise ValueError("This program implements echo-field only.")
+    if problem.manifest.get("task") != "smoke-test":
+        raise ValueError("This program implements smoke-test only.")
     write_result(args.output, problem, {spec["array"]: problem.arrays[spec["array"]].copy()
                                       for spec in problem.manifest["outputs"].values()})
 

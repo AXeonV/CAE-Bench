@@ -1,5 +1,5 @@
 {
-  "task": "echo-field",
+  "task": "smoke-test",
   "spatial_dimension": 2,
   "data_file": "input.h5",
   "geometries": {
@@ -20,47 +20,52 @@
       "mesh": "main",
       "entity": "node",
       "ids": "node_ids"
+    },
+    "cells": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "element",
+      "dimension": 2,
+      "ids": "cell_ids"
     }
   },
   "time_axes": {
     "steady": "times"
   },
   "fields": {
-    "velocity": {
-      "array": "velocity",
-      "quantity": "velocity",
-      "location": "nodes",
+    "cell_temperature": {
+      "array": "cell_temperature",
+      "quantity": "cell_temperature",
+      "location": "cells",
       "time_axis": "steady",
       "dtype": "float64",
-      "kind": "vector",
+      "kind": "scalar",
       "component_shape": [
-        2
+        1
       ],
       "components": [
-        "x",
-        "y"
+        "value"
       ],
-      "unit": "m/s",
-      "value_kind": "point"
+      "unit": "K",
+      "value_kind": "average"
     }
   },
   "outputs": {
-    "velocity": {
-      "array": "velocity",
-      "quantity": "velocity",
-      "location": "nodes",
+    "cell_temperature": {
+      "array": "cell_temperature",
+      "quantity": "cell_temperature",
+      "location": "cells",
       "time_axis": "steady",
       "dtype": "float64",
-      "kind": "vector",
+      "kind": "scalar",
       "component_shape": [
-        2
+        1
       ],
       "components": [
-        "x",
-        "y"
+        "value"
       ],
-      "unit": "m/s",
-      "value_kind": "point"
+      "unit": "K",
+      "value_kind": "average"
     }
   },
   "conditions": []

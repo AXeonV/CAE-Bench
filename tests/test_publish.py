@@ -123,7 +123,7 @@ class PublishTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 publisher.collect_materials(name)
         with self.assertRaisesRegex(ValueError, "No complete public samples"):
-            publisher.collect_materials("echo-field")
+            publisher.collect_materials("smoke-test")
 
 
 if __name__ == "__main__":

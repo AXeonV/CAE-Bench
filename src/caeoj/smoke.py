@@ -25,9 +25,9 @@ def run_smoke(cases, program, report_path, timeout=10):
         output = directory / "result.h5"
         try:
             problem = load_problem(path)
-            if problem.manifest.get("task") != "echo-field" or problem.manifest["fields"] != problem.manifest["outputs"]:
+            if problem.manifest.get("task") != "smoke-test" or problem.manifest["fields"] != problem.manifest["outputs"]:
                 raise ContractError({"valid": False, "errors": [{"code": "E_ECHO", "path": "$",
-                    "expected": "echo-field with identical input/output field declarations", "actual": "different",
+                    "expected": "smoke-test with identical input/output field declarations", "actual": "different",
                     "message": "Invalid echo task fixture; this rule belongs to the smoke runner."}]})
         except ContractError as exc:
             results.append({"case": path.parent.name, "status": "input_error", "score": None,
@@ -58,7 +58,7 @@ def run_smoke(cases, program, report_path, timeout=10):
         results.append({"case": path.parent.name, **grade, "output": str(output)})
     infrastructure_ok = all(r["score"] is not None for r in results)
     passed = sum(r["score"] == 1 for r in results)
-    report = {"task": "echo-field", "status": "graded" if infrastructure_ok else "runner_error",
+    report = {"task": "smoke-test", "status": "graded" if infrastructure_ok else "runner_error",
               "passed_cases": passed, "total_cases": len(results),
               "score": passed if infrastructure_ok else None,
               "passed": infrastructure_ok and passed == len(results), "cases": results}

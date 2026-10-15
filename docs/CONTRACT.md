@@ -302,7 +302,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 
 ```json
 {
-  "task": "echo-field",
+  "task": "smoke-test",
   "spatial_dimension": 2,
   "data_file": "input.h5",
   "geometries": {},

@@ -1,5 +1,5 @@
 {
-  "task": "echo-field",
+  "task": "smoke-test",
   "spatial_dimension": 2,
   "data_file": "input.h5",
   "geometries": {
@@ -26,38 +26,40 @@
     "steady": "times"
   },
   "fields": {
-    "temperature": {
-      "array": "temperature",
-      "quantity": "temperature",
+    "velocity": {
+      "array": "velocity",
+      "quantity": "velocity",
       "location": "nodes",
       "time_axis": "steady",
       "dtype": "float64",
-      "kind": "scalar",
+      "kind": "vector",
       "component_shape": [
-        1
+        2
       ],
       "components": [
-        "value"
+        "x",
+        "y"
       ],
-      "unit": "K",
+      "unit": "m/s",
       "value_kind": "point"
     }
   },
   "outputs": {
-    "temperature": {
-      "array": "temperature",
-      "quantity": "temperature",
+    "velocity": {
+      "array": "velocity",
+      "quantity": "velocity",
       "location": "nodes",
       "time_axis": "steady",
       "dtype": "float64",
-      "kind": "scalar",
+      "kind": "vector",
       "component_shape": [
-        1
+        2
       ],
       "components": [
-        "value"
+        "x",
+        "y"
       ],
-      "unit": "K",
+      "unit": "m/s",
       "value_kind": "point"
     }
   },

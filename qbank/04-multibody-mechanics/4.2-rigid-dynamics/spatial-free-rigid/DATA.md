@@ -64,7 +64,7 @@ outputs逻辑名及array key自由；每个quantity必须出现，允许重复�
 | `quaternion` | components [4]；1；体到全局的四元数w,x,y,z，连续沿用初态符号 | `bodies`全部IDs |
 | `angular_velocity` | components [3]；rad/s；体坐标角速度wx,wy,wz | `bodies`全部IDs |
 
-结果HDF5仅含输出arrays、所需IDs及时间轴，不重复坐标或输入字段；严格遵守输入行序。不能对角度取模、对速度作平移拟合或按量级重新归一化。
+结果HDF5仅含输出arrays、所需IDs及时间轴，不重复坐标或输入字段；严格遵守输入行序。不能对四元数逐帧切换符号、对速度作平移拟合或按量级重新归一化。
 
 ## 接收边界
 

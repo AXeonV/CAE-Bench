@@ -129,6 +129,8 @@ def clean(text,slug,cfg):
  if slug=='elastic-connectors':
   text=text.replace('辅助位置仅供下列关节／驱动／连接记录使用','辅助位置仅供下列关节／连接记录使用')
   text=text.replace('a、b、body参数引用','a、b参数引用')
+ if slug=='planar-inverse-dynamics':text=text.replace('关节／驱动／连接记录','关节／驱动记录')
+ if cfg['family']=='spatial':text=text.replace('不能对角度取模、对速度作平移拟合或按量级重新归一化。','不能对四元数逐帧切换符号、对速度作平移拟合或按量级重新归一化。')
  if slug=='planar-multibody':
   text=text.replace('辅助位置仅供下列关节／驱动／连接记录使用','辅助位置仅供下列关节记录使用')
   text=text.replace('a、b、body参数引用','a、b参数引用')
@@ -170,7 +172,7 @@ def main():
    policy=dict(version=2,quantities={q:dict(unit=s['unit'],rule=dict(metric='pointwise',time='per_time',components='per_component',atol=s['atol'],rtol=.01)) for q,s in cfg['outputs'].items()})
    (td/'grading.json').write_text(json.dumps(policy,indent=2)+'\n')
    (td/'judge-config.json').write_text(json.dumps(dict(timeout_seconds=cfg['timeout'],max_output_bytes=None,stage='provisional',verifier_budget=dict(base_seconds=300,per_case_overhead_seconds=60)),indent=2)+'\n')
-   (td/'harbor').mkdir(exist_ok=True);(td/'harbor/task.toml').write_text('[agent]\ntimeout_sec = 3600.0\n\n[environment]\nbuild_timeout_sec = 1800.0\ncpus = 4\nmemory_mb = 8192\ngpus = 0\nos = "linux"\n\n[verifier]\nnetwork_mode = "no-network"\n')
+   (td/'harbor').mkdir(exist_ok=True);(td/'harbor/requirements.txt').write_text('scipy==1.18.1\n');(td/'harbor/task.toml').write_text('[agent]\ntimeout_sec = 3600.0\n\n[environment]\nbuild_timeout_sec = 1800.0\ncpus = 4\nmemory_mb = 8192\ngpus = 0\nos = "linux"\n\n[verifier]\nnetwork_mode = "no-network"\n')
   (sd/'README.md').write_text(f'# {sec.split("-")[0]} {title}\n\n'+'\n'.join(sr)+'\n')
   toc.append(f'- [{sec.split("-")[0]} {title}]({sec}/README.md)')
  (CH/'README.md').write_text('# 第四章 多体系统力学分析\n\n6节12题；每题instruction与DATA自包含，结合通用CONTRACT即可实现。正式数据、参考和评测发布留后。\n\n'+'\n'.join(toc)+'\n\n维护入口：[章规划](../design/chapter-04-multibody-mechanics.md)、[逐题清单](../design/chapter-04-task-plan.md)、[进度与证据](../design/reviews/chapter-04-progress.md)。\n')

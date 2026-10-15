@@ -17,4 +17,4 @@
 | 4.6.1 | `modal-flexible` | 固定参考系柔性体模态响应 | 耦合模态质量刚度阻尼与时域响应 |
 | 4.6.2 | `translating-flexible` | 平移刚体与柔性模态耦合 | 浮动平移载体与柔性模态双向惯性反馈 |
 
-接口复用通用points、fields、conditions及HDF5；身体／关节身份是离散标签，points坐标仅为固定身份参考点，不是运动网格。全部物理语义在逐题DATA展开。新增声明检查归共享`caeoj_ext.multibody`；不改核心、发布器或考生命令。
+接口复用通用entities、fields、conditions及HDF5；刚体／关节身份是离散标签，不使用伪坐标或运动网格。全部物理语义在逐题DATA展开。新增声明检查归共享`caeoj_ext.multibody`；核心只补通用entities表示；不改发布器或考生命令。

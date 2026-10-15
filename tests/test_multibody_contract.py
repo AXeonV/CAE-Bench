@@ -75,6 +75,7 @@ class MultibodyTests(unittest.TestCase):
         for slug,cfg in models().items():
             task=task_directory(slug,ROOT);config=json.loads((task/'judge-config.json').read_text());override=tomllib.loads((task/'harbor/task.toml').read_text())
             merged=tomllib.loads(prepare.task_config(template,override,judge_config=config,case_count=3))
+            self.assertEqual((task/'harbor/requirements.txt').read_text().strip(),'scipy==1.18.1')
             self.assertEqual(config['timeout_seconds'],cfg['timeout'])
             self.assertEqual(merged['agent']['timeout_sec'],3600.)
             self.assertEqual(merged['environment']['build_timeout_sec'],1800.)

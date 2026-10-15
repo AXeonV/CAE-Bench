@@ -394,6 +394,58 @@
         "caeoj_ext/multibody/__init__.py",
         "caeoj_ext/multibody/models.json"
       ]
+    },
+    "thermal.transport": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model": "thermal-thermal-steady-v1"
+        },
+        {
+          "physics.model": "thermal-thermal-transient-v1"
+        },
+        {
+          "physics.model": "thermal-anisotropic-conduction-v1"
+        },
+        {
+          "physics.model": "thermal-nonlinear-conductivity-v1"
+        },
+        {
+          "physics.model": "thermal-nonlinear-capacity-v1"
+        },
+        {
+          "physics.model": "thermal-thermal-contact-v1"
+        },
+        {
+          "physics.model": "thermal-thin-sheet-heat-v1"
+        },
+        {
+          "physics.model": "thermal-prescribed-advection-heat-v1"
+        },
+        {
+          "physics.model": "thermal-conjugate-prescribed-flow-v1"
+        },
+        {
+          "physics.model": "thermal-radiative-boundary-v1"
+        },
+        {
+          "physics.model": "thermal-gray-enclosure-v1"
+        },
+        {
+          "physics.model": "thermal-mushy-enthalpy-v1"
+        },
+        {
+          "physics.model": "thermal-isothermal-stefan-v1"
+        }
+      ],
+      "geometry": true,
+      "check": "caeoj_ext.thermal:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/thermal/__init__.py",
+        "caeoj_ext/thermal/models.json"
+      ]
     }
   },
   "tasks": {
@@ -704,6 +756,45 @@
     ],
     "translating-flexible": [
       "multibody.mechanics"
+    ],
+    "thermal-steady": [
+      "thermal.transport"
+    ],
+    "thermal-transient": [
+      "thermal.transport"
+    ],
+    "anisotropic-conduction": [
+      "thermal.transport"
+    ],
+    "nonlinear-conductivity": [
+      "thermal.transport"
+    ],
+    "nonlinear-capacity": [
+      "thermal.transport"
+    ],
+    "thermal-contact": [
+      "thermal.transport"
+    ],
+    "thin-sheet-heat": [
+      "thermal.transport"
+    ],
+    "prescribed-advection-heat": [
+      "thermal.transport"
+    ],
+    "conjugate-prescribed-flow": [
+      "thermal.transport"
+    ],
+    "radiative-boundary": [
+      "thermal.transport"
+    ],
+    "gray-enclosure": [
+      "thermal.transport"
+    ],
+    "mushy-enthalpy": [
+      "thermal.transport"
+    ],
+    "isothermal-stefan": [
+      "thermal.transport"
     ]
   },
   "aliases": {
@@ -733,13 +824,15 @@
     "fluid-multiphase-",
     "fluid-reduced-",
     "solid-",
-    "multibody-"
+    "multibody-",
+    "thermal-"
   ],
   "model_namespace_diagnostics": {
     "fluid-energy-": "E_FLUID",
     "fluid-multiphase-": "E_FLUID",
     "fluid-reduced-": "E_FLUID",
     "solid-": "E_SOLID",
-    "multibody-": "E_MULTIBODY"
+    "multibody-": "E_MULTIBODY",
+    "thermal-": "E_THERMAL"
   }
 }

@@ -84,12 +84,6 @@ def collect_materials(task, root=PROJECT_ROOT):
     policy = task_policy(task_dir, load_problem(paths[0]), read_bytes=lambda p: read_public_file(root, p))
     files[f'tasks/{task}/grading.json'] = (json.dumps(policy, ensure_ascii=False, indent=2) + '\n').encode()
     files[f'tasks/{task}/GRADING.md'] = render_policy(policy).encode()
-    if task.startswith('PDEBench_'):
-        key = f'tasks/{task}/instruction.md'
-        text = files[key].decode()
-        text = text.replace('判分规则、误差阈值、执行时限及内存限制：**后续补充**。当前尚未接入评测。',
-                            '评分规则见 [GRADING.md](GRADING.md)，运行限制见运行入口。')
-        files[key] = text.encode()
     samples = []
     for path in paths:
         # Check the path before allowing the contract loader to read it.

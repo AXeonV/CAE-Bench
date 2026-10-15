@@ -125,7 +125,7 @@ class ConversionTests(unittest.TestCase):
                 h.create_dataset('velocity',shape=(1,5,4,4,2),dtype='f4')
                 h.create_dataset('t',data=[[0.,np.nan,.011,.02,.027]],chunks=(1,1),compression='lzf')
             with h5py.File(path,'r') as h:
-                reader=Reader(h,BY_TASK['PDEBench_2D_IncompressibleNavierStokes'])
+                reader=Reader(h,BY_TASK['incompressible-navier-stokes-2d'])
                 coords,times,_=reader.metadata(0,frames=np.array([0,2,4]))
                 np.testing.assert_array_equal(times,[0.,.011,.027])
                 np.testing.assert_array_equal(coords[0],[.125,.375,.625,.875])
@@ -147,7 +147,7 @@ class ConversionTests(unittest.TestCase):
         self.assertGreater(transport_residual(velocity,tracer,times,float(n),10),.9)
 
     def test_fhn_complete_initial_data_and_output_subset(self):
-        model=BY_TASK['PDEBench_2D_ReactionDiffusion'];seed=17;n=8
+        model=BY_TASK['reaction-diffusion-2d'];seed=17;n=8
         rng=np.random.RandomState(seed)
         full={name:rng.standard_normal(n*n).reshape(n,n).T.astype('float32').astype(float)
               for name in ('activator','inhibitor')}
@@ -171,7 +171,7 @@ class ConversionTests(unittest.TestCase):
         with self.assertRaisesRegex(PreparationError,'reproduce'):fhn_initial(coords,values,config)
 
     def test_darcy_audit_repairs_nonsteady_source_snapshot(self):
-        model=BY_TASK['PDEBench_2D_DarcyFlow'];coords=[np.array([.25,.75])]*2
+        model=BY_TASK['darcy-flow-2d'];coords=[np.array([.25,.75])]*2
         values={'state':np.zeros((1,2,2,1)),'diffusivity':np.full((1,2,2,1),.1)}
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)
@@ -220,7 +220,7 @@ class ConversionTests(unittest.TestCase):
     def test_frozen_selections_match_current_contracts(self):
         for model in MODELS:
             task=ROOT/'tasks'/model.task
-            selection=json.loads((task/'author/selection.json').read_text(encoding='utf-8'))
+            selection=json.loads((task/'reference/selection.json').read_text(encoding='utf-8'))
             with self.subTest(task=model.task):
                 self.assertEqual(selection['contract_sha256'],contract_hash(task))
 
@@ -287,7 +287,7 @@ class ConversionTests(unittest.TestCase):
                 h.create_dataset('0000/grid/y',data=np.arange(3))
                 h.create_dataset('0000/grid/t',data=[0.,1.])
             with h5py.File(path,'r') as h:
-                reader=Reader(h,BY_TASK['PDEBench_2D_ReactionDiffusion'])
+                reader=Reader(h,BY_TASK['reaction-diffusion-2d'])
                 result=reader.values(0,np.array([0,1]))
                 self.assertEqual(result['activator'].shape,(2,4,3,1))
                 self.assertEqual(result['inhibitor'][1,2,1,0],data[1,1,2,1])
@@ -295,7 +295,7 @@ class ConversionTests(unittest.TestCase):
 
 
 class PipelineTests(unittest.TestCase):
-    def fixture(self,root,model_name='PDEBench_1D_Advection'):
+    def fixture(self,root,model_name='advection-1d'):
         model=BY_TASK[model_name]
         task=root/'tasks'/model.task;task.mkdir(parents=True)
         for name in ('instruction.md','DATA.md'):shutil.copyfile(ROOT/'tasks'/model.task/name,task/name)
@@ -346,7 +346,7 @@ class PipelineTests(unittest.TestCase):
             manifest=json.loads(edited.read_text())
             manifest['physics']['parameters']['velocity']['value']+=1
             changed=json.dumps(manifest,indent=4)+'\n';edited.write_text(changed)
-            reference=copied/'author/sample-certificates/01/reference.h5';before=digest(reference)
+            reference=copied/'reference/sample-certificates/01/reference.h5';before=digest(reference)
             failed=prepare_task(model,catalog,copied,clone/'runtime/cache',clone/'runtime/staging',
                                 Budget([clone],100_000_000),local=local,max_cases=1)
             self.assertEqual(failed['status'],'failed')
@@ -360,7 +360,7 @@ class PipelineTests(unittest.TestCase):
             kwargs={'local':local,'max_cases':1}
             first=prepare_task(model,catalog,task,cache,stage,budget,**kwargs)
             self.assertEqual(first['status'],'references_prepared')
-            selection=json.loads((task/'author/selection.json').read_text())
+            selection=json.loads((task/'reference/selection.json').read_text())
             sample_keys={(e['source_id'],e['index']) for e in selection['entries'] if e['kind']=='sample'}
             hidden_keys={(e['source_id'],e['index']) for e in selection['entries'] if e['kind']=='case'}
             self.assertFalse(sample_keys&hidden_keys)
@@ -378,7 +378,7 @@ class PipelineTests(unittest.TestCase):
 
     def test_unreviewed_official_values_never_become_answers(self):
         with tempfile.TemporaryDirectory() as tmp:
-            model,task,local,catalog,cache,stage,budget=self.fixture(Path(tmp),'PDEBench_1D_ReactionDiffusion')
+            model,task,local,catalog,cache,stage,budget=self.fixture(Path(tmp),'reaction-diffusion-1d')
             result=prepare_task(model,catalog,task,cache,stage,budget,local=local,max_cases=1)
             self.assertEqual(result['status'],'references_prepared')
             p=load_problem(task/'cases/001/problem.json')
@@ -399,7 +399,7 @@ class PipelineTests(unittest.TestCase):
     def test_external_review_binds_exact_input_and_failure_preserves_case(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)
-            model,task,local,catalog,cache,stage,budget=self.fixture(root,'PDEBench_1D_ReactionDiffusion')
+            model,task,local,catalog,cache,stage,budget=self.fixture(root,'reaction-diffusion-1d')
             prepare_task(model,catalog,task,cache,stage,budget,local=local,max_cases=1)
             problem=load_problem(task/'cases/001/problem.json')
             original=digest(task/'cases/001/input.h5')

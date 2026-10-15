@@ -77,7 +77,7 @@ def main(argv=None):
     from utils.PDEBench.models import BY_TASK,MODELS,source_files
     chosen=[]
     for name in args.tasks:
-        matches=MODELS if name=='all' else [m for m in MODELS if name in (m.task,m.task.removeprefix('PDEBench_'))]
+        matches=MODELS if name=='all' else [m for m in MODELS if name == m.task]
         if not matches:parser().error('Unknown task: '+name)
         for model in matches:
             if model not in chosen:chosen.append(model)

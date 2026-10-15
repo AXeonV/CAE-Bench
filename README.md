@@ -34,7 +34,7 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 ## 任务
 
-### 自主设计题目
+### 题目列表
 
 题面、输入输出约定、数据生成与验证方法见各题 README。
 
@@ -43,24 +43,17 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 | [echo-field](tasks/echo-field/instruction.md) | 输入场回传，检查协议与校验链路 | 输入要求回传的场 |
 | [heat-conduction](tasks/heat-conduction/README.md) | 稳态热传导 | temperature |
 | [heat-transient](tasks/heat-transient/README.md) | 瞬态热传导 | temperature |
-
-### PDEBench
-
-以下为 PDEBench 方程族题目。每个目录包含 instruction.md、DATA.md、DESIGN.md 和 README.md。样例与隐藏测试分组已规划；[PDEBench 数据准备工具](src/utils/PDEBench/README.md)支持克隆后一条命令获取所需源片段并转换输入，问题定义 problem.json、冻结清单和参考证书 JSON 纳入 Git；数值数组及网格不进入 Git，由工具补齐。默认逐例审核源对齐的官方数值轨迹并补齐答案；二维反应扩散恢复完整细网格初值，Darcy 修正未收敛快照至源算子稳态，一维反应扩散重算存在非物理停滞的官方轨迹。数值参考并非未经误差审核的精确连续真解。现已提供[宽松试运行评测配置](src/utils/PDEBench/EVALUATION.md)，无 baseline 也可组装并运行 Agent。正式误差阈值、资源限制和参考精度仍待校准，试运行成绩不作为正式 Benchmark 结论。
-
-| 目录 | 问题 | 要求输出 |
-|---|---|---|
-| [PDEBench_1D_Advection](tasks/PDEBench_1D_Advection/README.md) | 一维周期线性平流 | state |
-| [PDEBench_1D_Burgers](tasks/PDEBench_1D_Burgers/README.md) | 一维周期黏性 Burgers 方程 | state |
-| [PDEBench_1D_ReactionDiffusion](tasks/PDEBench_1D_ReactionDiffusion/README.md) | 一维 logistic 反应扩散 | state |
-| [PDEBench_1D_DiffusionSorption](tasks/PDEBench_1D_DiffusionSorption/README.md) | 一维 Freundlich 迟滞扩散 | concentration |
-| [PDEBench_2D_ReactionDiffusion](tasks/PDEBench_2D_ReactionDiffusion/README.md) | 二维 FitzHugh–Nagumo 反应扩散 | activator、inhibitor |
-| [PDEBench_2D_DarcyFlow](tasks/PDEBench_2D_DarcyFlow/README.md) | 二维空间变系数 Darcy 型稳态问题 | state |
-| [PDEBench_2D_ShallowWater](tasks/PDEBench_2D_ShallowWater/README.md) | 二维浅水径向溃坝 | depth |
-| [PDEBench_1D_CompressibleNavierStokes](tasks/PDEBench_1D_CompressibleNavierStokes/README.md) | 一维可压缩 Navier–Stokes | density、velocity、pressure |
-| [PDEBench_2D_CompressibleNavierStokes](tasks/PDEBench_2D_CompressibleNavierStokes/README.md) | 二维可压缩 Navier–Stokes | density、velocity、pressure |
-| [PDEBench_3D_CompressibleNavierStokes](tasks/PDEBench_3D_CompressibleNavierStokes/README.md) | 三维可压缩 Navier–Stokes | density、velocity、pressure |
-| [PDEBench_2D_IncompressibleNavierStokes](tasks/PDEBench_2D_IncompressibleNavierStokes/README.md) | 二维非均匀强迫不可压缩流 | velocity |
+| [advection-1d](tasks/advection-1d/README.md) | 一维周期线性平流 | state |
+| [burgers-1d](tasks/burgers-1d/README.md) | 一维周期黏性 Burgers 方程 | state |
+| [reaction-diffusion-1d](tasks/reaction-diffusion-1d/README.md) | 一维 logistic 反应扩散 | state |
+| [diffusion-sorption-1d](tasks/diffusion-sorption-1d/README.md) | 一维 Freundlich 迟滞扩散 | concentration |
+| [reaction-diffusion-2d](tasks/reaction-diffusion-2d/README.md) | 二维 FitzHugh–Nagumo 反应扩散 | activator、inhibitor |
+| [darcy-flow-2d](tasks/darcy-flow-2d/README.md) | 二维空间变系数 Darcy 型稳态问题 | state |
+| [shallow-water-2d](tasks/shallow-water-2d/README.md) | 二维浅水方程 | depth |
+| [compressible-navier-stokes-1d](tasks/compressible-navier-stokes-1d/README.md) | 一维可压缩 Navier–Stokes | density、velocity、pressure |
+| [compressible-navier-stokes-2d](tasks/compressible-navier-stokes-2d/README.md) | 二维可压缩 Navier–Stokes | density、velocity、pressure |
+| [compressible-navier-stokes-3d](tasks/compressible-navier-stokes-3d/README.md) | 三维可压缩 Navier–Stokes | density、velocity、pressure |
+| [incompressible-navier-stokes-2d](tasks/incompressible-navier-stokes-2d/README.md) | 二维非均匀强迫不可压缩流 | velocity |
 
 ## 运行
 
@@ -70,9 +63,9 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 Docker、Python 环境和 Agent 认证需先配置好。认证由执行主机的环境变量提供，也可在 Agent 运行命令中追加 `--env-file '<agent-env-file>'`；Codex 的 `CODEX_AUTH_JSON_PATH` 指向自行配置的登录文件。
 
-**2. 按题目来源准备数据。** 两类入口任选其一，之后共用步骤 3～7。
+**2. 准备所选算例的数据。** 使用对应数据生成器或来源适配器，之后共用步骤 3～7。
 
-自主设计题目沿用“安装依赖 → 生成输入与标答 → 运行测试”的流程。以下安装项覆盖全仓库测试依赖，题目专用依赖与生成参数见对应 README：
+提供独立生成器的题目沿用“安装依赖 → 生成输入与标答 → 运行测试”的流程。以下安装项覆盖全仓库测试依赖，题目专用依赖与生成参数见对应 README：
 
 ```sh
 python -m pip install -e '.[heat,pdebench]' harbor
@@ -82,14 +75,16 @@ python -m unittest discover -s tests -p '<test-file>.py' -v
 
 `<test-file>` 取对应题目 README 中的测试文件。全量测试命令 `python -m unittest discover -s tests -v` 需先准备当前题目的数据；归档题目的测试见 [legacy/README.md](legacy/README.md)。
 
-PDEBench 方程族任务通过统一工具获取、转换并审核外部数据，不要求另写 generator 或 baseline：
+当前部分题目的算例来自 PDEBench；其来源适配器负责获取、转换并审核数据。具体来源、样本索引和参考证据见各题 `reference/`，数据集不作为题目分类或题目 ID：
 
 ```sh
 python -m pip install -e '.[pdebench]' harbor
 python src/utils/PDEBench/prepare.py --tasks '<task>' --budget-gb 60 --no-bootstrap
 ```
 
-`<task>` 使用 `PDEBench_*` 目录名，准备全部方程族可用 `--tasks all`。
+`<task>` 使用通用题目目录名，例如 `advection-1d`；`--tasks all` 准备该适配器当前支持的全部题目。后续加入其他来源时，应复用同一题目契约，并在算例或参考记录中标明来源。
+
+当前配置用于试运行，正式参考误差和资源限制仍需校准，详见[评测说明](src/utils/PDEBench/EVALUATION.md)。
 
 **3. 检查输入与参考输出的结构。**
 

@@ -1,17 +1,26 @@
 """Local smoke execution and aggregation; grading lives in grading.py."""
 from pathlib import Path
+import json
+import math
 import subprocess
 import sys
 import uuid
 
 from .grading import grade_arrays
+from .grading_policy import task_policy
 from .sdk import load_problem
 from .validation import ContractError, output_support, read_hdf5, write_json
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
-def run_smoke(cases, program, report_path, timeout=10):
+def run_smoke(cases, program, report_path, timeout=None):
+    task_dir = Path(cases).resolve().parent
+    config_path = task_dir / 'judge-config.json'
+    config = json.loads(config_path.read_text()) if config_path.is_file() else {}
+    timeout = config.get('timeout_seconds', 10) if timeout is None else timeout
+    if type(timeout) not in (int, float) or not math.isfinite(timeout) or timeout <= 0:
+        raise ValueError('Smoke timeout must be positive finite seconds')
     paths = sorted(Path(cases).glob("*/problem.json"))
     if not paths:
         raise ValueError("No smoke inputs found; run make-cases first.")
@@ -35,6 +44,7 @@ def run_smoke(cases, program, report_path, timeout=10):
             continue
         reference_keys = output_support(problem) | {s["array"] for s in problem.manifest["outputs"].values()}
         reference = {key: problem.arrays[key] for key in reference_keys}
+        policy = task_policy(task_dir, problem)
         try:
             execution = subprocess.run(
                 [sys.executable, str(program), "--input", str(path.resolve()), "--output", str(output)],
@@ -48,7 +58,8 @@ def run_smoke(cases, program, report_path, timeout=10):
                 grade = {"status": "missing_output", "score": 0}
             else:
                 try:
-                    grade = grade_arrays(problem, read_hdf5(output), reference)
+                    grade = grade_arrays(problem, read_hdf5(output), reference,
+                                         policy=policy)
                 except ContractError as exc:
                     grade = {"status": "invalid_output", "score": 0, "contract": exc.report}
         except subprocess.TimeoutExpired:

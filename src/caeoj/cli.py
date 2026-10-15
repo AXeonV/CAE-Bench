@@ -33,7 +33,7 @@ def main(argv=None):
         smoke_parser.add_argument("--cases", default=str(project_root / "qbank/00-basic-tests/0.1-io/smoke-test/cases"))
         smoke_parser.add_argument("--program", default=str(project_root / "qbank/00-basic-tests/0.1-io/smoke-test/solve.py"))
         smoke_parser.add_argument("--report", default=str(project_root / "runs/smoke/report.json"))
-        smoke_parser.add_argument("--timeout", type=float, default=10)
+        smoke_parser.add_argument("--timeout", type=float, help="Override task judge timeout (default: task config or 10 seconds)")
     args = parser.parse_args(argv)
     try:
         if args.command == "validate-input":
@@ -49,7 +49,7 @@ def main(argv=None):
                                  policy=load_policy(args.grading) if args.grading else None)
         else:
             from .smoke import run_smoke
-            if args.timeout <= 0:
+            if args.timeout is not None and args.timeout <= 0:
                 parser.error("--timeout must be positive")
             result = run_smoke(args.cases, args.program, args.report, args.timeout)
     except ContractError as exc:

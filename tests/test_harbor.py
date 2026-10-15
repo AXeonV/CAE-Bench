@@ -62,6 +62,93 @@ class HarborTests(unittest.TestCase):
         publisher.publish(TASK, root=self.root)
         return Path(prepare.prepare(TASK, self.root)['task_directory'])
 
+    def test_actual_case_count_drives_verifier_budget_and_keeps_larger_override(self):
+        template = (ROOT / 'src/utils/harbor/task.toml').read_text()
+        config = {'timeout_seconds': 600,
+                  'verifier_budget': {'base_seconds': 300, 'per_case_overhead_seconds': 60}}
+        merged = tomllib.loads(prepare.task_config(template, {}, judge_config=config, case_count=3))
+        self.assertEqual(merged['verifier']['timeout_sec'], 2280)
+        self.assertEqual(merged['verifier']['network_mode'], 'no-network')
+        self.assertEqual(merged['environment']['gpus'], 0)
+        merged = tomllib.loads(prepare.task_config(template, {'verifier': {'timeout_sec': 5000}},
+                                                   judge_config=config, case_count=3))
+        self.assertEqual(merged['verifier']['timeout_sec'], 5000)
+
+    def test_unknown_case_count_and_invalid_budget_are_not_silently_guessed(self):
+        template = (ROOT / 'src/utils/harbor/task.toml').read_text()
+        config = {'timeout_seconds': 600,
+                  'verifier_budget': {'base_seconds': 300, 'per_case_overhead_seconds': 60}}
+        for count in (None, 0, True, 1.5):
+            with self.subTest(count=count), self.assertRaises(ValueError):
+                prepare.task_config(template, {}, judge_config=config, case_count=count)
+        for budget in ({}, {'base_seconds': 300, 'per_case_overhead_seconds': -1},
+                       {'base_seconds': float('nan'), 'per_case_overhead_seconds': 60}):
+            with self.subTest(budget=budget), self.assertRaises(ValueError):
+                prepare.task_config(template, {}, judge_config={**config, 'verifier_budget': budget}, case_count=3)
+
+    def test_output_byte_cap_is_optional_but_regular_file_is_always_required(self):
+        output = self.root / 'out.h5'
+        output.write_bytes(b'12345')
+        self.assertIsNone(judge.output_limit({'max_output_bytes': None}))
+        self.assertEqual(judge.output_limit({}), 128 * 1024**2)
+        self.assertTrue(judge.output_within_limit(output, None))
+        self.assertFalse(judge.output_within_limit(output, 4))
+        self.assertFalse(judge.output_within_limit(self.root, None))
+
+    def test_quantity_policy_is_bound_per_case_in_real_private_grader(self):
+        from caeoj.grading_policy import policy_hash
+        task = self.root / TASK_PATH
+        policy = {'version': 2, 'quantities': {'temperature': {'unit': 'K', 'rule': {
+            'metric': 'pointwise', 'time': 'per_time', 'components': 'per_component',
+            'atol': .01, 'rtol': 0}}}}
+        (task / 'grading.json').write_text(json.dumps(policy))
+        config_path = task / 'judge-config.json'
+        config = json.loads(config_path.read_text())
+        del config['atol']; del config['rtol']
+        config_path.write_text(json.dumps(config))
+        cases = sorted((task / 'cases').glob('*/problem.json'))
+        manifest = json.loads(cases[1].read_text())
+        manifest['outputs']['renamed_observation'] = manifest['outputs'].pop('temperature')
+        cases[1].write_text(json.dumps(manifest))
+        directory = self.prepared()
+        private = directory / 'tests'; logs = self.root / 'quantity-logs'
+        def execute(work, timeout, case_logs):
+            arrays = read_hdf5(private / 'reference' / case_logs.name / 'reference.h5')
+            if case_logs.name == cases[1].parent.name:
+                arrays['temperature'] += .02
+            write_hdf5(work / 'result.h5', arrays)
+        with patch.object(judge, 'TESTS', private), patch.object(judge, 'LOGS', logs), \
+             patch.object(judge, 'freeze_submission', return_value=True), \
+             patch.object(judge, 'execute', side_effect=execute), patch.object(judge.os, 'chown', create=True):
+            judge.main()
+        report = json.loads((logs / 'report.json').read_text())
+        self.assertEqual(report['score'], 1)
+        self.assertEqual(report['reward'], .5)
+        self.assertEqual(report['policy_sha256'], policy_hash(policy))
+        self.assertEqual(set(report['cases'][1]['fields']), {'renamed_observation'})
+        self.assertIn('bound_policy_sha256', report['cases'][1])
+
+    def test_unknown_quantity_fails_preflight_before_submission_execution(self):
+        task = self.root / TASK_PATH
+        (task / 'grading.json').write_text(json.dumps({'version': 2, 'quantities': {
+            'temperature': {'unit': 'K', 'rule': {'metric': 'pointwise', 'time': 'per_time',
+            'components': 'per_component', 'atol': .01, 'rtol': 0}}}}))
+        config_path = task / 'judge-config.json'
+        config = json.loads(config_path.read_text()); del config['atol']; del config['rtol']
+        config_path.write_text(json.dumps(config))
+        directory = self.prepared()
+        path = next((directory / 'tests/cases').glob('*/problem.json'))
+        manifest = json.loads(path.read_text())
+        manifest['outputs']['temperature']['quantity'] = 'unknown'
+        path.write_text(json.dumps(manifest))
+        logs = self.root / 'bad-quantity-logs'
+        with patch.object(judge, 'TESTS', directory / 'tests'), patch.object(judge, 'LOGS', logs), \
+             patch.object(judge, 'freeze_submission') as freeze, patch.object(judge, 'execute') as execute:
+            with self.assertRaisesRegex(ValueError, 'No grading rule'):
+                judge.main()
+            freeze.assert_not_called(); execute.assert_not_called()
+        self.assertFalse((logs / 'reward.txt').exists())
+
     def test_prepare_requires_published_materials(self):
         with self.assertRaisesRegex(ValueError, 'publish_dist.py'):
             prepare.prepare(TASK, self.root)
@@ -147,7 +234,7 @@ class HarborTests(unittest.TestCase):
         self.assertEqual(config['agent']['timeout_sec'], 240)
         self.assertEqual(config['environment']['cpus'], 1)
         self.assertEqual(config['environment']['memory_mb'], 1024)
-        self.assertEqual(config['verifier']['timeout_sec'], 60)
+        self.assertEqual(config['verifier']['timeout_sec'], 450)  # 300 + 2 * (15 + 60)
         self.assertEqual(config['verifier']['environment_mode'], 'separate')
         instruction = (directory / 'instruction.md').read_text(encoding='utf-8')
         self.assertIn(f'/app/{(TASK_PATH.parent / task).as_posix()}/samples/01/', instruction)
@@ -325,7 +412,7 @@ class HarborTests(unittest.TestCase):
         self.assertEqual(report['total_cases'], 2)
         self.assertEqual(report['stage'], 'provisional')
         self.assertEqual(report['limits']['timeout_seconds'], config['timeout_seconds'])
-        self.assertEqual(report['limits']['max_output_bytes'], 128*1024**2)
+        self.assertIsNone(report['limits']['max_output_bytes'])
         self.assertEqual(float((logs / 'reward.txt').read_text()), 0.5)
 
     def test_bad_reference_is_infrastructure_error_without_reward(self):

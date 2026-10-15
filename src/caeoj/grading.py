@@ -3,7 +3,7 @@ import math
 
 import numpy as np
 
-from .grading_policy import UNSET, validate_policy, policy_hash
+from .grading_policy import UNSET, validate_policy, policy_hash, resolve_policy
 from .grading_metrics import evaluate_field
 from .sdk import load_problem
 from .validation import ContractError, check_result, read_hdf5
@@ -32,7 +32,8 @@ def grade_arrays(problem, result, reference, *, atol=UNSET, rtol=UNSET, policy=N
     if policy is not None:
         if atol is not UNSET or rtol is not UNSET:
             raise ValueError('Cannot combine a grading policy with atol/rtol')
-        validate_policy(policy, problem)
+        source_policy = policy
+        policy = resolve_policy(policy, problem)
         tolerance = None
     else:
         tolerance = _tolerance(DEFAULT_ATOL if atol is UNSET else atol,
@@ -63,8 +64,8 @@ def grade_arrays(problem, result, reference, *, atol=UNSET, rtol=UNSET, policy=N
     if policy is not None:
         accepted = all(f.get('passed', f.get('failed_values') == 0) for f in fields.values())
         return {'status': 'accepted' if accepted else 'wrong_answer', 'score': int(accepted),
-                'policy_version': policy['version'], 'policy_sha256': policy_hash(policy),
-                'fields': fields}
+                'policy_version': source_policy['version'], 'policy_sha256': policy_hash(source_policy),
+                'bound_policy_sha256': policy_hash(policy), 'fields': fields}
     accepted = all(f["failed_values"] == 0 for f in fields.values())
     return {"status": "accepted" if accepted else "wrong_answer", "score": int(accepted),
             "tolerance": tolerance, "fields": fields}

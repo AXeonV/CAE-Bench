@@ -136,6 +136,8 @@ python -m caeoj grade --input '<task-dir>/cases/<case>/problem.json' --output 'r
 
 新策略使用 `--grading <task-dir>/grading.json` 替代 `--atol/--rtol`；支持按字段的 RMSE、NRMSE、最大误差、超限比例及 AND／OR 条件。旧配置保持原判分行为。
 
+当前 qbank 全部79题已有 judge／Harbor 设置；第二章的评分模板按每例 quantity 与单位绑定实际输出名。配置消费点、总预算计算与数据就绪边界见[维护说明](qbank/maintenance/EVALUATION.md)，配置完成不代表正式数据或评测发布完成。
+
 阈值取题目判分配置。校验输出 `valid/errors` JSON；判分每点为 0/1，退出码 2 表示输入、参考或参数异常。
 
 ## TODO

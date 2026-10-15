@@ -6,6 +6,8 @@
 
 启动方式：`python solve.py --input problem.json --output result.h5`。
 
+每例墙钟上限 10 秒，包括启动、读取和写出。本题不设专用 CPU／内存配额；评测采用 Linux AMD64、无 GPU 环境。
+
 本题的数据定义见 [DATA.md](DATA.md)，通用存储与引用规则见 [CONTRACT.md](../../../../docs/CONTRACT.md)。本任务中 `fields` 与 `outputs` 的描述完全相同，这属于回传任务规则，不是通用协议限制。
 
 输出必须包含要求的场数组，以及它们引用的固定 IDs 和时间轴数组；不得增加或遗漏 key。所有场保留时间、实体和分量轴，即使稳态或标量也不省略轴。SDK 可协助复制支持数组，但不纠正错误数据。

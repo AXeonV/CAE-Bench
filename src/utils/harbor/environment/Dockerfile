@@ -1,4 +1,4 @@
-FROM python:3.14-slim
+FROM --platform=linux/amd64 python:3.14-slim
 RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.list.d/debian.sources \
     && apt-get update && apt-get install -y --no-install-recommends \
     bash git curl ca-certificates g++ openmpi-bin libopenmpi-dev libhdf5-dev hdf5-tools libglu1-mesa libgl1 util-linux \

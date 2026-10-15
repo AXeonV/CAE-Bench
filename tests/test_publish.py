@@ -106,6 +106,34 @@ class PublishTests(unittest.TestCase):
         files, _ = publisher.collect_materials("heat-conduction-steady-2d", root)
         self.assertFalse(any(b"PRIVATE MATERIAL" in data for data in files.values()))
 
+    def test_quantity_policy_runs_from_extracted_bundle_with_varying_logical_names(self):
+        root, _ = self.extracted_bundle()
+        task = root / 'qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d'
+        policy = {'version': 2, 'quantities': {'temperature': {'unit': 'K', 'rule': {
+            'metric': 'pointwise', 'time': 'per_time', 'components': 'per_component',
+            'atol': .01, 'rtol': 0}}}}
+        (task / 'grading.json').write_text(json.dumps(policy))
+        path = task / 'samples/02/input/problem.json'
+        manifest = json.loads(path.read_text())
+        manifest['outputs']['other_name'] = manifest['outputs'].pop('temperature')
+        path.write_text(json.dumps(manifest))
+        released = publisher.publish('heat-conduction-steady-2d', self.root / 'quantity-dist', root)
+        extracted = self.root / 'quantity-agent'
+        with zipfile.ZipFile(released['archive']) as bundle:
+            bundle.extractall(extracted)
+        env = os.environ.copy(); env['PYTHONPATH'] = str(extracted / 'src')
+        task_path = task.relative_to(root)
+        for sample in ('01', '02'):
+            sample_path = task_path / f'samples/{sample}'
+            command = [sys.executable, '-m', 'caeoj', 'grade', '--input', str(sample_path / 'input/problem.json'),
+                '--output', str(sample_path / 'output/result.h5'), '--reference', str(sample_path / 'output/result.h5'),
+                '--grading', str(task_path / 'grading.json')]
+            result = subprocess.run(command, cwd=extracted, env=env, capture_output=True, text=True, timeout=30)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            report = json.loads(result.stdout)
+            self.assertEqual(report['policy_version'], 2)
+            self.assertEqual(report['score'], 1)
+
     def test_invalid_public_output_does_not_replace_existing_release(self):
         root, _ = self.extracted_bundle()
         release = publisher.publish("heat-conduction-steady-2d", self.root / "new-dist", root)

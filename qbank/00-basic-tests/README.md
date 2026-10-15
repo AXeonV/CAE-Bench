@@ -25,4 +25,4 @@ python -m caeoj make-cases --output runs/smoke-generated/cases
 python -m caeoj smoke --cases runs/smoke-generated/cases
 ```
 
-本题没有 Harbor 配置或完整公开样例包，继续使用专用 smoke 命令。发布与 Harbor 工具现可定位 qbank 题目，但这不表示本基础测试已具备对应发布材料。
+本题已配置 judge、评分模板及 Harbor 设置，本地 smoke 命令读取本题的时限和评分。尚无 Harbor 所需的完整公开 samples 与独立 reference 文件，继续使用上述本地命令；配置完成不表示对应数据和发布材料已完成。维护说明见[评测配置](../maintenance/EVALUATION.md)。

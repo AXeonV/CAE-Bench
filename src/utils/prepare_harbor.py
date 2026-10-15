@@ -1,6 +1,7 @@
 """Assemble a temporary Harbor task under runs/ from a published public ZIP."""
 import argparse
 import json
+import math
 from pathlib import Path
 import shutil
 from string import Template
@@ -16,11 +17,11 @@ from caeoj.task_paths import task_directory
 TEMPLATE_FILES = ('environment/Dockerfile', 'solution/solve.sh',
                   'tests/test.sh', 'tests/judge.py')
 RESOURCE_FIELDS = {'agent': ('timeout_sec',),
-                   'environment': ('build_timeout_sec', 'cpus', 'memory_mb'),
-                   'verifier': ('timeout_sec',)}
+                   'environment': ('build_timeout_sec', 'cpus', 'memory_mb', 'gpus', 'os'),
+                   'verifier': ('timeout_sec', 'network_mode')}
 
 
-def task_config(template, overrides):
+def task_config(template, overrides, *, judge_config=None, case_count=None):
     """Keep the shared execution interface; allow task-specific resource limits."""
     config = tomllib.loads(template)
     for section, values in overrides.items():
@@ -29,11 +30,36 @@ def task_config(template, overrides):
         for name, value in values.items():
             if name not in RESOURCE_FIELDS[section]:
                 raise ValueError(f'Unsupported Harbor config field: {section}.{name}')
+            if name in ('os', 'network_mode'):
+                allowed = ('linux',) if name == 'os' else ('no-network',)
+                if value not in allowed:
+                    raise ValueError(f'Unsupported Harbor policy: {section}.{name}')
+                config[section][name] = value
+                continue
             expected = int if name in ('cpus', 'memory_mb') else float
+            if name == 'gpus':
+                if type(value) is not int or value != 0:
+                    raise ValueError('This runner supports CPU-only tasks (gpus=0)')
+                config[section][name] = value
+                continue
             types = (int, float) if expected is float else (expected,)
-            if type(value) not in types or value <= 0:
+            if type(value) not in types or value <= 0 or not math.isfinite(value):
                 raise ValueError(f'Harbor resource must be positive: {section}.{name}')
             config[section][name] = value
+    if judge_config is not None and 'verifier_budget' in judge_config:
+        budget = judge_config['verifier_budget']
+        if not isinstance(budget, dict) or set(budget) != {'base_seconds', 'per_case_overhead_seconds'}:
+            raise ValueError('Invalid verifier_budget keys')
+        values = [*budget.values(), judge_config['timeout_seconds']]
+        if any(type(v) not in (int, float) or not math.isfinite(v) or v <= 0 for v in values):
+            raise ValueError('Verifier budget and solver timeout must be positive finite seconds')
+        if type(case_count) is not int or case_count <= 0:
+            raise ValueError('Auto verifier budget requires the actual positive case count')
+        required = budget['base_seconds'] + case_count * (
+            judge_config['timeout_seconds'] + budget['per_case_overhead_seconds'])
+        if not math.isfinite(required):
+            raise ValueError('Verifier budget overflow')
+        config['verifier']['timeout_sec'] = max(config['verifier']['timeout_sec'], required)
     # These config values are TOML-compatible scalar values or arrays of strings.
     lines = []
     for name, value in config.items():
@@ -71,8 +97,9 @@ def prepare(task, root=PROJECT_ROOT):
         raise ValueError('Published archive must match the task and include a sample')
     config_path = source / 'harbor/task.toml'
     overrides = tomllib.loads(read_public_file(root, config_path).decode('utf-8')) if config_path.is_file() else {}
-    rendered_config = task_config(read_public_file(root, template / 'task.toml').decode('utf-8'), overrides)
     judge_config = json.loads(read_public_file(root, source / 'judge-config.json'))
+    rendered_config = task_config(read_public_file(root, template / 'task.toml').decode('utf-8'), overrides,
+                                  judge_config=judge_config, case_count=len(cases))
     instruction = Template(read_public_file(root, template / 'instruction.md').decode('utf-8')).substitute(
         task=task, task_path=task_path, sample=manifest['public_samples'][0], timeout_seconds=judge_config['timeout_seconds'],
         samples=', '.join(f'`/app/{task_path}/samples/{name}/`' for name in manifest['public_samples']))
@@ -96,7 +123,7 @@ def prepare(task, root=PROJECT_ROOT):
         instruction += f"本次环境 CPU 配额：{environment['cpus']} 核。\n"
     if 'memory_mb' in environment:
         instruction += f"可用内存：{environment['memory_mb']} MB。\n"
-    if 'max_output_bytes' in judge_config:
+    if judge_config.get('max_output_bytes') is not None:
         instruction += f"每例结果文件大小上限：{judge_config['max_output_bytes']} 字节。\n"
     baseline = source / 'author/baseline.py'
     destination = root / 'runs/harbor/tasks' / task

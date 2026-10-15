@@ -2,6 +2,8 @@
 
 本章每道题的考生材料仅由本题 instruction.md、DATA.md 和通用 docs/CONTRACT.md 组成：instruction.md 给出任务、方法要求、资源和评分；DATA.md 就地定义该题全部物理参数、条件、采样与输出。无需阅读章节共享文件、领域协议、其他题目或维护记录。各节目录只承担导航作用。
 
+65题的评分模板、judge及Harbor配置已按题面补齐，采用逐例quantity绑定；正式输入、参考及执行校准仍待建设。维护方流程与状态见[评测配置说明](../maintenance/EVALUATION.md)。
+
 | 节 | 目录 | 题数 |
 |---|---|---:|
 | 2.1 | [无能量、无湍流单相流动](2.1-single-phase-flow/README.md) | 12 |

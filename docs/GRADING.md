@@ -51,7 +51,7 @@
 
 ## 指标定义
 
-令误差 `e = result − reference`，局部容差 `τ = atol + rtol × |reference|`。
+令误差 `e = result − reference`，局部容差 `τ = atol + rtol × |reference − reference_offset|`，其中 reference_offset 默认为0。
 
 | metric | value | 必需参数 |
 |---|---|---|
@@ -63,6 +63,12 @@
 | `violation_fraction` | 不满足局部容差的数量 / 总数量 | limit ∈ [0,1]、atol、rtol |
 
 所有比较采用 `≤`。RMSE、最大绝对误差、atol 和 scale_floor 使用对应字段单位，rtol、NRMSE、缩放误差及比例无量纲；不转换单位，不将密度、压力和速度原始数值混在一起平均。
+
+`pointwise`、`violation_fraction`、`max_scaled` 的叶节点允许可选 `reference_offset`，必须是有限的带符号数值（禁止bool/字符串），单位与输出字段一致；其他指标和逻辑节点禁止此键。它是公开评分策略中冻结的常量，不能是物理字段引用、动态表达式或由task隐含的数值。不改写物理输入、参考或提交输出；误差始终直接计算 `result-reference`，只在相对容差尺度中使用 `abs(reference-reference_offset)`。RMSE、NRMSE、最大绝对误差及报告的最大绝对误差位置不受它影响。同一树的不同叶可以使用不同公开偏置，统计缓存按偏置区分。
+
+例如绝对压力输出 `reference=100010 Pa`、`result=100012 Pa`，公开 `reference_offset=100000 Pa`、atol=0.5 Pa、rtol=0.1，则允许误差为1.5 Pa，实际误差2 Pa，判失败；省略偏置时允许误差10001.5 Pa。偏置并非允许改变压力基准：两份HDF5仍存绝对静压。需要以每例输入中的pressure_reference固定偏置时，由数据建设流程逐例公开并冻结对应评分配置常量，评分器不会自行读取或推断该输入字段。没有真实算例时仅能验证该接口，不能据此宣称逐例评分配置已建设或发布。
+
+省略或显式给0完全保留旧评分行为。非零偏置的计算以浮点尾数/指数处理可能溢出的差与容差乘积，避免把有限输入中的巨大相对尺度错误当作无条件通过，也避免先减去两个背景值后再相减造成额外消减。
 
 `max_scaled` 的 τ 为零时，零误差记为 0，非零误差记为 ∞。报告将非有限的指标值写为字符串 `overflow`，不输出非法 JSON 的 Infinity。有限数组产生非常大的误差属于答案错误；非有限的提交数组先由结构校验拒绝。
 

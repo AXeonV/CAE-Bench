@@ -107,14 +107,15 @@ def render_policy(policy):
         metric = node['metric']
         scope = ('每个输出时刻' if node['time'] == 'per_time' else '合并全部输出时刻')
         scope += '、' + ('每个分量分别计算' if node['components'] == 'per_component' else '合并全部分量')
-        tolerance = f"|输出−参考| ≤ {node.get('atol')} + {node.get('rtol')}×|参考|"
+        reference_scale = f"|参考−({node['reference_offset']})|" if node.get('reference_offset', 0) != 0 else "|参考|"
+        tolerance = f"|输出−参考| ≤ {node.get('atol')} + {node.get('rtol')}×{reference_scale}"
         if metric == 'pointwise':
             text = '全部值满足 ' + tolerance
         elif metric == 'violation_fraction':
             count = '空间点（该点所有分量均满足才算通过）' if node.get('count') == 'spatial_points' else '标量值'
             text = f"不满足 {tolerance} 的{count}比例 ≤ {node['limit']}"
         elif metric == 'max_scaled':
-            text = f"max(|误差|/(atol+rtol×|参考|)) ≤ {node['limit']}，atol={node['atol']}，rtol={node['rtol']}"
+            text = f"max(|误差|/(atol+rtol×{reference_scale})) ≤ {node['limit']}，atol={node['atol']}，rtol={node['rtol']}"
         elif metric == 'nrmse':
             text = f"RMSE / max(参考 RMS, {node['scale_floor']}) ≤ {node['limit']}"
         else:
@@ -125,7 +126,8 @@ def render_policy(policy):
              'RMSE、最大绝对误差和 scale_floor 使用字段单位；NRMSE、比例及缩放误差无量纲。',
              'RMSE=√加权平均(误差²)，参考 RMS=√加权平均(参考²)。所有阈值包含等号。',
              '合并时刻采用等时刻权重；空间权重仅影响 RMS，比例按数量计数。',
-             '缩放误差分母为零时，零误差记为0，非零误差记为∞。']
+             '缩放误差分母为零时，零误差记为0，非零误差记为∞。',
+             'reference_offset是与字段同单位的公开固定评分常量，默认0；只改变相对尺度，不改变误差、输入或输出。']
     lines.extend(f'- `{name}`：{describe(tree)}。' for name, tree in sorted(policy['fields'].items()))
     return '\n'.join(lines) + '\n'
 

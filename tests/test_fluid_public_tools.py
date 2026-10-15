@@ -30,19 +30,18 @@ class FluidPublicToolsTests(unittest.TestCase):
         reduced = module('fluid_tool_reduced_fixture', ROOT/'tests/test_fluid_reduced.py')
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            # This is the publisher's real allow-list, not a directory-wide copy.
-            for name in publisher.TOOL_FILES:
-                destination = root/'src/caeoj'/name
-                destination.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(ROOT/'src/caeoj'/name, destination)
-            for name in publisher.PUBLIC_FILES:
-                if not name.startswith('docs/'):
-                    continue
+            from caeoj_tools.assembly import runtime_materials
+            from caeoj_tools.task_paths import task_directory
+            import json
+            catalog = json.loads((ROOT/'qbank/extensions/caeoj_bundle/runtime.json').read_text())
+            selected = {}
+            for key, extension in [('energy','fluid.thermal_flow'), ('multiphase','fluid.multiphase'), ('reduced','fluid.complex_fluid')]:
+                selected[key] = next(task for task, names in catalog['tasks'].items() if names == [extension])
+            files, _ = runtime_materials({task:task_directory(task, ROOT) for task in selected.values()}, ROOT)
+            for name, data in files.items():
                 destination = root/name
                 destination.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(ROOT/name, destination)
-            self.assertEqual({p.name for p in (root/'docs').iterdir()},
-                             {'CONTRACT.md', 'GRADING.md'})
+                destination.write_bytes(data)
             self.assertFalse((root/'qbank/maintenance').exists())
             fixtures = root/'fixtures'
             fixtures.mkdir()
@@ -50,6 +49,10 @@ class FluidPublicToolsTests(unittest.TestCase):
             multiphase.make_fixture(fixtures/'multiphase')
             (fixtures/'reduced').mkdir()
             reduced.make_fixture(fixtures/'reduced','fluid-reduced-viscoelastic-transient-v1')
+            for kind, task in selected.items():
+                path = fixtures/kind/'problem.json'
+                manifest = json.loads(path.read_text()); manifest['task'] = task
+                path.write_text(json.dumps(manifest))
             code = '''
 from pathlib import Path
 import numpy as np
@@ -58,8 +61,9 @@ from caeoj.sdk import load_problem, write_result, load_result
 from caeoj.validation import validate_input, validate_output
 import caeoj.fluid_energy, caeoj.fluid_multiphase, caeoj.fluid_reduced
 expected = Path('src/caeoj').resolve()
-for mod in (caeoj, caeoj.fluid_energy, caeoj.fluid_multiphase, caeoj.fluid_reduced):
-    assert Path(mod.__file__).resolve().parent == expected, mod.__file__
+assert Path(caeoj.__file__).resolve().parent == expected
+for mod in (caeoj.fluid_energy, caeoj.fluid_multiphase, caeoj.fluid_reduced):
+    assert Path(mod.__file__).resolve().is_relative_to(Path('src/caeoj_ext').resolve()), mod.__file__
 for path in sorted(Path('fixtures').glob('*/problem.json')):
     assert validate_input(path)['valid'], validate_input(path)
     p = load_problem(path)

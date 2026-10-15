@@ -3,7 +3,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from caeoj.task_paths import task_directory
+from caeoj_tools.task_paths import task_directory
 
 
 class TaskPathTests(unittest.TestCase):

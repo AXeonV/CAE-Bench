@@ -221,6 +221,10 @@ class HarborTests(unittest.TestCase):
         task = '1D_Advection_Sols_beta0.2'
         source = self.root / TASK_PATH.parent / task
         shutil.copytree(self.root / TASK_PATH, source)
+        for path in source.rglob('problem.json'):
+            problem = json.loads(path.read_text())
+            problem['task'] = task
+            path.write_text(json.dumps(problem))
         (source / 'harbor/task.toml').write_text(
             '[agent]\ntimeout_sec = 240.0\n[environment]\ncpus = 1\nmemory_mb = 1024\n'
             '[verifier]\ntimeout_sec = 60.0\n')
@@ -228,6 +232,10 @@ class HarborTests(unittest.TestCase):
         judge_config = json.loads(config_path.read_text())
         judge_config['timeout_seconds'] = 15
         config_path.write_text(json.dumps(judge_config))
+        binding_path = self.root/'src/caeoj_bundle/runtime.json'
+        binding = json.loads(binding_path.read_text())
+        binding['tasks'][task] = []
+        binding_path.write_text(json.dumps(binding))
         publisher.publish(task, root=self.root)
         directory = Path(prepare.prepare(task, self.root)['task_directory'])
         config = tomllib.loads((directory / 'task.toml').read_text())

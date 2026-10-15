@@ -1,0 +1,298 @@
+{
+  "properties": {
+    "contract_version": {
+      "const": 2,
+      "type": "integer"
+    },
+    "profile": {
+      "const": "cfd-2.1"
+    },
+    "analysis": {
+      "$ref": "#/$defs/cfd_analysis"
+    },
+    "materials": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+      },
+      "minProperties": 1,
+      "maxProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/cfd_material"
+      }
+    }
+  },
+  "$defs": {
+    "cfd_pressure": {
+      "type": "object",
+      "properties": {
+        "representation": {
+          "enum": [
+            "absolute",
+            "gauge"
+          ]
+        },
+        "reference_pressure": {
+          "$ref": "#/$defs/constant"
+        }
+      },
+      "required": [
+        "representation"
+      ],
+      "additionalProperties": false
+    },
+    "cfd_gauge": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "mean",
+            "point"
+          ]
+        },
+        "location": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+        },
+        "value": {
+          "$ref": "#/$defs/constant"
+        }
+      },
+      "required": [
+        "kind",
+        "location",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "cfd_analysis": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "steady",
+            "transient"
+          ]
+        },
+        "compressibility": {
+          "enum": [
+            "incompressible",
+            "isothermal_compressible"
+          ]
+        },
+        "flow_regime": {
+          "const": "laminar"
+        },
+        "temperature": {
+          "$ref": "#/$defs/constant"
+        },
+        "pressure": {
+          "$ref": "#/$defs/cfd_pressure"
+        },
+        "time_interval": {
+          "type": "object",
+          "properties": {
+            "start": {
+              "type": "number"
+            },
+            "end": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "start",
+            "end"
+          ],
+          "additionalProperties": false
+        },
+        "pressure_gauge": {
+          "$ref": "#/$defs/cfd_gauge"
+        },
+        "mean_density": {
+          "$ref": "#/$defs/constant"
+        }
+      },
+      "required": [
+        "type",
+        "compressibility",
+        "flow_regime",
+        "temperature",
+        "pressure"
+      ],
+      "additionalProperties": false
+    },
+    "cfd_material": {
+      "type": "object",
+      "properties": {
+        "region": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+        },
+        "density": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": [
+                "constant",
+                "isothermal_ideal_gas",
+                "linear_barotropic"
+              ]
+            },
+            "parameters": {
+              "type": "object",
+              "propertyNames": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+              },
+              "additionalProperties": {
+                "$ref": "#/$defs/constant"
+              }
+            }
+          },
+          "required": [
+            "kind",
+            "parameters"
+          ],
+          "additionalProperties": false
+        },
+        "viscosity": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": [
+                "newtonian",
+                "power_law",
+                "cross",
+                "carreau",
+                "carreau_yasuda"
+              ]
+            },
+            "parameters": {
+              "type": "object",
+              "propertyNames": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+              },
+              "additionalProperties": {
+                "$ref": "#/$defs/constant"
+              }
+            }
+          },
+          "required": [
+            "kind",
+            "parameters"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "region",
+        "density",
+        "viscosity"
+      ],
+      "additionalProperties": false
+    },
+    "condition": {
+      "properties": {
+        "data": {
+          "minProperties": 0
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "anyOf": [
+          {
+            "required": [
+              "contract_version"
+            ]
+          },
+          {
+            "required": [
+              "profile"
+            ]
+          },
+          {
+            "required": [
+              "analysis"
+            ]
+          },
+          {
+            "required": [
+              "materials"
+            ]
+          }
+        ]
+      },
+      "then": {
+        "required": [
+          "contract_version",
+          "profile",
+          "analysis",
+          "materials"
+        ]
+      },
+      "else": {
+        "properties": {
+          "conditions": {
+            "items": {
+              "properties": {
+                "data": {
+                  "minProperties": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "physics"
+        ],
+        "properties": {
+          "physics": {
+            "required": [
+              "model"
+            ],
+            "properties": {
+              "model": {
+                "pattern": "^fluid-(energy|multiphase|reduced)-"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "contract_version"
+              ]
+            },
+            {
+              "required": [
+                "profile"
+              ]
+            },
+            {
+              "required": [
+                "analysis"
+              ]
+            },
+            {
+              "required": [
+                "materials"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

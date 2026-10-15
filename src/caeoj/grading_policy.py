@@ -8,6 +8,20 @@ from pathlib import Path
 import jsonschema
 import numpy as np
 
+DEFAULT_ATOL = 1e-6
+DEFAULT_RTOL = 1e-5
+
+
+def _tolerance(atol, rtol):
+    try:
+        valid = math.isfinite(atol) and math.isfinite(rtol) and atol >= 0 and rtol >= 0
+    except (TypeError, OverflowError):
+        valid = False
+    if not valid:
+        raise ValueError("atol and rtol must be finite nonnegative numbers.")
+    return {"atol": float(atol), "rtol": float(rtol)}
+
+
 UNSET = object()
 METRICS = ('pointwise', 'rmse', 'nrmse', 'max_abs', 'max_scaled', 'violation_fraction')
 
@@ -194,23 +208,3 @@ def render_policy(policy):
         if 'default' in policy:
             lines.append('- 其他 float64 输出：' + describe(policy['default']) + '。')
     return '\n'.join(lines) + '\n'
-
-
-def task_policy(task_dir, problem, *, read_bytes=None):
-    """Resolve public policy or legacy tolerances; prohibit ambiguous sources."""
-    task_dir = Path(task_dir)
-    read = read_bytes or (lambda path: path.read_bytes())
-    config_path = task_dir / 'judge-config.json'
-    config = json.loads(read(config_path)) if config_path.is_file() else {}
-    path = task_dir / 'grading.json'
-    if path.is_file():
-        if 'atol' in config or 'rtol' in config:
-            raise ValueError('grading.json and legacy judge-config atol/rtol cannot coexist')
-        policy = parse_policy(read(path))
-    else:
-        # Import here to keep grading's legacy public API independent of task assembly.
-        from .grading import _tolerance, DEFAULT_ATOL, DEFAULT_RTOL
-        tolerance = _tolerance(config.get('atol', DEFAULT_ATOL), config.get('rtol', DEFAULT_RTOL))
-        policy = legacy_policy(problem, **tolerance)
-    validate_policy(policy, problem)
-    return policy

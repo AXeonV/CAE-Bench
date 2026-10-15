@@ -1,25 +1,14 @@
-"""Closed-domain energy and turbulence declarations, sampling and statistics.
-
-This module implements a public I/O contract, not a flow solver.
-"""
+"""Thermal-flow material response and physical declaration validation."""
 import numpy as np
+from .._geometry import boundary_geometry, exterior_facets
 
-from .mesh_geometry import boundary_geometry, exterior_facets
-
-# family, energy, method, analysis; the model is physical opt-in, never a task ID.
 MODELS = {}
 for _family in ('lowmach', 'inviscid', 'compressible'):
     for _analysis in ('steady', 'transient'):
         MODELS[f'fluid-energy-{_family}-laminar-{_analysis}-v1'] = (_family, True, 'laminar', _analysis)
-for _family, _energy in (('incompressible', False), ('lowmach', True)):
-    for _method, _analysis in (('rans', 'steady'), ('urans', 'transient'), ('resolved', 'statistics')):
-        MODELS[f'fluid-energy-{_family}-{_method}-{_analysis}-v1'] = (_family, _energy, _method, _analysis)
-for _family, _energy in (('isothermal', False), ('compressible', True)):
-    MODELS[f'fluid-energy-{_family}-rans-steady-v1'] = (_family, _energy, 'rans', 'steady')
 
-
-def parameter_units(model):
-    family, energy, method, analysis = MODELS[model]
+def parameter_units(model, models=None):
+    family, energy, method, analysis = (MODELS if models is None else models)[model]
     gas = family in ('inviscid', 'compressible', 'isothermal')
     p = {'reference_temperature': 'K', 'minimum_temperature': 'K', 'maximum_temperature': 'K'}
     if gas:
@@ -39,13 +28,13 @@ def parameter_units(model):
     return p
 
 
-def fluid_energy_properties(problem, temperature, pressure=None):
+def fluid_energy_properties(problem, temperature, pressure=None, *, model_config=None):
     """Return physical rho, mu, k, cp at T [K], gas absolute p [Pa].
 
     Boussinesq density remains rho0; buoyancy is a separate force described by
     the protocol. No eddy viscosity or closure is selected by this helper.
     """
-    model = problem.manifest['physics']['model']; family, energy, _, _ = MODELS[model]
+    model = problem.manifest['physics']['model']; family, energy, _, _ = MODELS[model] if model_config is None else model_config
     p = {k: v['value'] for k, v in problem.manifest['physics']['parameters'].items()}
     t = np.asarray(temperature, dtype=float)
     if np.any(~np.isfinite(t)) or np.any(t < p['minimum_temperature']) or np.any(t > p['maximum_temperature']):
@@ -81,42 +70,22 @@ def fluid_energy_condition_values(problem, condition, parameter, time):
     return (1 - w) * values[i] + w * values[i + 1]
 
 
-def fluid_energy_statistics(times, velocity, temperature=None):
-    """Equal-weight mean and central products of public instantaneous samples.
-
-    velocity shape [S,N,D]; optional temperature [S,N,1]. Population denominator
-    S, not S-1; no density weighting. Returns arrays without an output time axis.
-    """
-    times = np.asarray(times); u = np.asarray(velocity, dtype=float)
-    if times.ndim != 1 or len(times) < 2 or not np.all(np.isfinite(times)) or np.any(np.diff(times) <= 0) or u.ndim != 3 or len(u) != len(times) or not np.all(np.isfinite(u)):
-        raise ValueError('Finite increasing times and finite [S,N,D] velocity required')
-    if not np.allclose(np.diff(times), np.diff(times)[0], rtol=1e-10, atol=1e-12): raise ValueError('Statistics samples must be equally spaced')
-    mean = u.mean(axis=0); du = u - mean
-    result = {'velocity': mean, 'velocity_covariance': np.einsum('sni,snj->nij', du, du) / len(times)}
-    if temperature is not None:
-        t = np.asarray(temperature, dtype=float)
-        if t.shape != (*u.shape[:2], 1) or not np.all(np.isfinite(t)): raise ValueError('Temperature must be finite [S,N,1]')
-        mt = t.mean(axis=0); dt = t - mt
-        result.update(temperature=mt, temperature_variance=(dt * dt).mean(axis=0), turbulent_heat_flux=(du * dt).mean(axis=0))
-    return result
-
-
-def check_fluid_energy(problem, errors):
+def check_declaration(problem, errors, models):
     """Check after generic validation; append E_FLUID diagnostics, never repair."""
-    from .validation import issue
+    from caeoj.validation import issue
     m = problem.manifest; physics = m.get('physics', {}); model = physics.get('model', '')
     if not model.startswith('fluid-energy-'): return
     def fail(path, expected, actual, message='Invalid fluid-energy declaration.'):
         errors.append(issue('E_FLUID', path, expected, actual, message))
-    if model not in MODELS:
-        fail('$.physics.model', sorted(MODELS), model); return
+    if model not in models:
+        fail('$.physics.model', sorted(models), model); return
     if any(k in m for k in ('contract_version', 'profile', 'analysis', 'materials')):
         fail('$', 'physics only; no cfd-2.1 quartet', 'conflicting physical declarations'); return
-    family, energy, method, analysis = MODELS[model]; gas = family in ('inviscid', 'compressible', 'isothermal')
+    family, energy, method, analysis = models[model]; gas = family in ('inviscid', 'compressible', 'isothermal')
     d = m['spatial_dimension']; locs = m['locations']; arrays = problem.arrays
     if d not in (2, 3) or (method in ('urans', 'resolved') and d != 3) or (method != 'laminar' and energy and d != 3) or (family == 'isothermal' and d != 3):
         fail('$.spatial_dimension', 'supported model dimension; see task DATA.md', d)
-    params = physics['parameters']; expected = parameter_units(model)
+    params = physics['parameters']; expected = parameter_units(model, models)
     if set(params) != set(expected): fail('$.physics.parameters', sorted(expected), sorted(params)); return
     p = {}
     nonnegative = {'thermal_expansion', 'bulk_viscosity'}
@@ -132,7 +101,7 @@ def check_fluid_energy(problem, errors):
         fail('$.physics.parameters.thermal_expansion', 'beta*max|T-Tref| <= 0.1 (Boussinesq)', p['thermal_expansion'])
     if errors: return
     try:
-        endpoints = fluid_energy_properties(problem, np.array([p['minimum_temperature'], p['maximum_temperature']]), 1. if gas else None)
+        endpoints = fluid_energy_properties(problem, np.array([p['minimum_temperature'], p['maximum_temperature']]), 1. if gas else None, model_config=models[model])
         for quantity, value in endpoints.items():
             if value is not None and np.any(~np.isfinite(value)):
                 fail('$.physics.parameters', 'finite material response throughout validity interval', quantity)
@@ -258,3 +227,11 @@ def check_fluid_energy(problem, errors):
         if analysis == 'statistics' and times.tolist() != [p['statistics_end']]: fail(path + '.time_axis', '[statistics_end]', times.tolist())
         if analysis == 'transient' and (times[0] < start or times[-1] > end): fail(path + '.time_axis', 'within [start,end]', times.tolist())
     if present != quantities.keys(): fail('$.outputs', sorted(quantities), sorted(present), 'All public common observables required.')
+
+
+
+def check(problem, errors):
+    if problem.manifest.get("physics", {}).get("model") in MODELS:
+        check_declaration(problem, errors, MODELS)
+
+check_fluid_energy = check

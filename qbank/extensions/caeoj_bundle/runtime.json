@@ -1,0 +1,517 @@
+{
+  "version": 1,
+  "id": "qbank-development",
+  "strict_tasks": false,
+  "extensions": {
+    "fluid.common": {
+      "version": 1,
+      "requires": [],
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/fluid/__init__.py",
+        "caeoj_ext/fluid/_geometry.py",
+        "caeoj_ext/fluid/_sampling.py",
+        "caeoj_ext/fluid/_declaration_checks.py",
+        "caeoj_ext/fluid/_rheology.py"
+      ]
+    },
+    "fluid.single_phase": {
+      "version": 1,
+      "requires": [
+        "fluid.common"
+      ],
+      "selectors": [
+        {
+          "profile": "cfd-2.1"
+        }
+      ],
+      "geometry": true,
+      "check": "caeoj_ext.fluid.single_phase:check",
+      "files": [
+        "caeoj_ext/fluid/single_phase/__init__.py",
+        "caeoj_ext/fluid/single_phase/schema.json"
+      ],
+      "schemas": [
+        "caeoj_ext.fluid.single_phase:schema.json"
+      ],
+      "condition_compatibility": "caeoj_ext.fluid.single_phase:condition_location_compatible",
+      "schema_overrides": [
+        "$defs.condition.properties.data.minProperties"
+      ]
+    },
+    "fluid.thermal_flow": {
+      "version": 1,
+      "requires": [
+        "fluid.common"
+      ],
+      "selectors": [
+        {
+          "physics.model": "fluid-energy-lowmach-laminar-steady-v1"
+        },
+        {
+          "physics.model": "fluid-energy-lowmach-laminar-transient-v1"
+        },
+        {
+          "physics.model": "fluid-energy-inviscid-laminar-steady-v1"
+        },
+        {
+          "physics.model": "fluid-energy-inviscid-laminar-transient-v1"
+        },
+        {
+          "physics.model": "fluid-energy-compressible-laminar-steady-v1"
+        },
+        {
+          "physics.model": "fluid-energy-compressible-laminar-transient-v1"
+        }
+      ],
+      "geometry": true,
+      "check": "caeoj_ext.fluid.thermal_flow:check",
+      "files": [
+        "caeoj_ext/fluid/thermal_flow/__init__.py",
+        "caeoj_ext/fluid/_compat_energy.py"
+      ]
+    },
+    "fluid.turbulence": {
+      "version": 1,
+      "requires": [
+        "fluid.common",
+        "fluid.thermal_flow"
+      ],
+      "selectors": [
+        {
+          "physics.model": "fluid-energy-incompressible-rans-steady-v1"
+        },
+        {
+          "physics.model": "fluid-energy-incompressible-urans-transient-v1"
+        },
+        {
+          "physics.model": "fluid-energy-incompressible-resolved-statistics-v1"
+        },
+        {
+          "physics.model": "fluid-energy-lowmach-rans-steady-v1"
+        },
+        {
+          "physics.model": "fluid-energy-lowmach-urans-transient-v1"
+        },
+        {
+          "physics.model": "fluid-energy-lowmach-resolved-statistics-v1"
+        },
+        {
+          "physics.model": "fluid-energy-isothermal-rans-steady-v1"
+        },
+        {
+          "physics.model": "fluid-energy-compressible-rans-steady-v1"
+        }
+      ],
+      "geometry": true,
+      "check": "caeoj_ext.fluid.turbulence:check",
+      "files": [
+        "caeoj_ext/fluid/turbulence/__init__.py",
+        "caeoj_ext/fluid/_compat_energy.py"
+      ]
+    },
+    "fluid.multiphase": {
+      "version": 1,
+      "requires": [
+        "fluid.common"
+      ],
+      "selectors": [
+        {
+          "physics.model": "fluid-multiphase-free-surface-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-immiscible-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-wetting-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-passive-particles-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-coupled-particles-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-bubbles-droplets-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-dense-dispersed-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-interphase-exchange-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-evaporation-condensation-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-boiling-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-cavitation-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-melting-solidification-v1"
+        }
+      ],
+      "geometry": true,
+      "check": "caeoj_ext.fluid.multiphase:check",
+      "files": [
+        "caeoj_ext/fluid/multiphase/__init__.py"
+      ]
+    },
+    "fluid.thin_film": {
+      "version": 1,
+      "requires": [
+        "fluid.common"
+      ],
+      "selectors": [
+        {
+          "physics.model": "fluid-reduced-liquid-lubrication-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-gas-film-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-thermal-film-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-nonnewtonian-film-v1"
+        }
+      ],
+      "geometry": true,
+      "check": "caeoj_ext.fluid.thin_film:check",
+      "files": [
+        "caeoj_ext/fluid/thin_film/__init__.py",
+        "caeoj_ext/fluid/_compat_reduced.py",
+        "caeoj_ext/fluid/_sdk_compat.py"
+      ]
+    },
+    "fluid.depth_averaged": {
+      "version": 1,
+      "requires": [
+        "fluid.common"
+      ],
+      "selectors": [
+        {
+          "physics.model": "fluid-reduced-fully-wet-steady-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-fully-wet-transient-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-wetting-drying-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-two-layer-v1"
+        }
+      ],
+      "geometry": true,
+      "check": "caeoj_ext.fluid.depth_averaged:check",
+      "files": [
+        "caeoj_ext/fluid/depth_averaged/__init__.py",
+        "caeoj_ext/fluid/_compat_reduced.py",
+        "caeoj_ext/fluid/_sdk_compat.py"
+      ]
+    },
+    "fluid.rarefied": {
+      "version": 1,
+      "requires": [
+        "fluid.common"
+      ],
+      "selectors": [
+        {
+          "physics.model": "fluid-reduced-isothermal-slip-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-thermal-slip-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-transition-gas-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-free-molecular-v1"
+        }
+      ],
+      "geometry": true,
+      "check": "caeoj_ext.fluid.rarefied:check",
+      "files": [
+        "caeoj_ext/fluid/rarefied/__init__.py",
+        "caeoj_ext/fluid/_compat_reduced.py",
+        "caeoj_ext/fluid/_sdk_compat.py"
+      ]
+    },
+    "fluid.complex_fluid": {
+      "version": 1,
+      "requires": [
+        "fluid.common"
+      ],
+      "selectors": [
+        {
+          "physics.model": "fluid-reduced-viscoelastic-steady-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-viscoelastic-transient-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-thixotropic-transient-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-thermal-generalized-newtonian-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-thermal-viscoelastic-v1"
+        }
+      ],
+      "geometry": true,
+      "check": "caeoj_ext.fluid.complex_fluid:check",
+      "files": [
+        "caeoj_ext/fluid/complex_fluid/__init__.py",
+        "caeoj_ext/fluid/_compat_reduced.py",
+        "caeoj_ext/fluid/_sdk_compat.py"
+      ]
+    }
+  },
+  "tasks": {
+    "compressible-navier-stokes-3d": [],
+    "compressible-navier-stokes-1d": [],
+    "compressible-navier-stokes-2d": [],
+    "incompressible-navier-stokes-2d": [],
+    "advection-1d": [],
+    "shallow-water-2d": [],
+    "heat-conduction-transient-2d": [],
+    "reaction-diffusion-1d": [],
+    "reaction-diffusion-2d": [],
+    "diffusion-sorption-1d": [],
+    "burgers-1d": [],
+    "heat-conduction-steady-2d": [],
+    "darcy-flow-2d": [],
+    "smoke-test": [],
+    "passive-particles-3d": [
+      "fluid.multiphase"
+    ],
+    "bubbles-droplets-3d": [
+      "fluid.multiphase"
+    ],
+    "dense-dispersed-3d": [
+      "fluid.multiphase"
+    ],
+    "coupled-particles-3d": [
+      "fluid.multiphase"
+    ],
+    "compressible-thermal-rans-3d": [
+      "fluid.turbulence"
+    ],
+    "thermal-urans-3d": [
+      "fluid.turbulence"
+    ],
+    "thermal-statistics-3d": [
+      "fluid.turbulence"
+    ],
+    "thermal-rans-3d": [
+      "fluid.turbulence"
+    ],
+    "immiscible-interface-3d": [
+      "fluid.multiphase"
+    ],
+    "capillary-wetting-3d": [
+      "fluid.multiphase"
+    ],
+    "free-surface-3d": [
+      "fluid.multiphase"
+    ],
+    "free-surface-2d": [
+      "fluid.multiphase"
+    ],
+    "capillary-wetting-2d": [
+      "fluid.multiphase"
+    ],
+    "immiscible-interface-2d": [
+      "fluid.multiphase"
+    ],
+    "thermal-film": [
+      "fluid.thin_film"
+    ],
+    "liquid-lubrication": [
+      "fluid.thin_film"
+    ],
+    "gas-film": [
+      "fluid.thin_film"
+    ],
+    "nonnewtonian-film": [
+      "fluid.thin_film"
+    ],
+    "boiling-3d": [
+      "fluid.multiphase"
+    ],
+    "interphase-exchange-3d": [
+      "fluid.multiphase"
+    ],
+    "evaporation-condensation-2d": [
+      "fluid.multiphase"
+    ],
+    "cavitation-3d": [
+      "fluid.multiphase"
+    ],
+    "melting-solidification-2d": [
+      "fluid.multiphase"
+    ],
+    "newtonian-incompressible-steady-3d": [
+      "fluid.single_phase"
+    ],
+    "newtonian-isothermal-compressible-transient-3d": [
+      "fluid.single_phase"
+    ],
+    "generalized-newtonian-incompressible-steady-3d": [
+      "fluid.single_phase"
+    ],
+    "generalized-newtonian-incompressible-transient-2d": [
+      "fluid.single_phase"
+    ],
+    "newtonian-isothermal-compressible-steady-3d": [
+      "fluid.single_phase"
+    ],
+    "newtonian-incompressible-transient-2d": [
+      "fluid.single_phase"
+    ],
+    "newtonian-incompressible-transient-3d": [
+      "fluid.single_phase"
+    ],
+    "generalized-newtonian-incompressible-transient-3d": [
+      "fluid.single_phase"
+    ],
+    "newtonian-isothermal-compressible-steady-2d": [
+      "fluid.single_phase"
+    ],
+    "generalized-newtonian-incompressible-steady-2d": [
+      "fluid.single_phase"
+    ],
+    "newtonian-isothermal-compressible-transient-2d": [
+      "fluid.single_phase"
+    ],
+    "newtonian-incompressible-steady-2d": [
+      "fluid.single_phase"
+    ],
+    "rans-steady-3d": [
+      "fluid.turbulence"
+    ],
+    "urans-transient-3d": [
+      "fluid.turbulence"
+    ],
+    "rans-steady-2d": [
+      "fluid.turbulence"
+    ],
+    "isothermal-rans-3d": [
+      "fluid.turbulence"
+    ],
+    "resolved-statistics-3d": [
+      "fluid.turbulence"
+    ],
+    "newtonian-lowmach-transient-3d": [
+      "fluid.thermal_flow"
+    ],
+    "newtonian-lowmach-steady-3d": [
+      "fluid.thermal_flow"
+    ],
+    "inviscid-compressible-transient-3d": [
+      "fluid.thermal_flow"
+    ],
+    "newtonian-compressible-steady-2d": [
+      "fluid.thermal_flow"
+    ],
+    "newtonian-compressible-transient-3d": [
+      "fluid.thermal_flow"
+    ],
+    "inviscid-compressible-steady-3d": [
+      "fluid.thermal_flow"
+    ],
+    "inviscid-compressible-steady-2d": [
+      "fluid.thermal_flow"
+    ],
+    "newtonian-compressible-transient-2d": [
+      "fluid.thermal_flow"
+    ],
+    "newtonian-compressible-steady-3d": [
+      "fluid.thermal_flow"
+    ],
+    "inviscid-compressible-transient-2d": [
+      "fluid.thermal_flow"
+    ],
+    "newtonian-lowmach-transient-2d": [
+      "fluid.thermal_flow"
+    ],
+    "newtonian-lowmach-steady-2d": [
+      "fluid.thermal_flow"
+    ],
+    "wetting-drying": [
+      "fluid.depth_averaged"
+    ],
+    "fully-wet-transient": [
+      "fluid.depth_averaged"
+    ],
+    "fully-wet-steady": [
+      "fluid.depth_averaged"
+    ],
+    "two-layer": [
+      "fluid.depth_averaged"
+    ],
+    "isothermal-slip": [
+      "fluid.rarefied"
+    ],
+    "transition-gas": [
+      "fluid.rarefied"
+    ],
+    "free-molecular": [
+      "fluid.rarefied"
+    ],
+    "thermal-slip": [
+      "fluid.rarefied"
+    ],
+    "viscoelastic-steady": [
+      "fluid.complex_fluid"
+    ],
+    "thixotropic-transient": [
+      "fluid.complex_fluid"
+    ],
+    "thermal-viscoelastic": [
+      "fluid.complex_fluid"
+    ],
+    "thermal-generalized-newtonian": [
+      "fluid.complex_fluid"
+    ],
+    "viscoelastic-transient": [
+      "fluid.complex_fluid"
+    ]
+  },
+  "aliases": {
+    "absolute_pressure": "caeoj_ext.fluid.single_phase:absolute_pressure",
+    "fluid_material": "caeoj_ext.fluid.single_phase:fluid_material",
+    "density_at_pressure": "caeoj_ext.fluid.single_phase:density_at_pressure",
+    "dynamic_viscosity": "caeoj_ext.fluid.single_phase:dynamic_viscosity",
+    "condition_values": "caeoj_ext.fluid.single_phase:condition_values",
+    "periodic_face_pairs": "caeoj_ext.fluid.single_phase:periodic_condition_pairs",
+    "fluid_energy_properties": "caeoj_ext.fluid._compat_energy:fluid_energy_properties",
+    "fluid_energy_condition_values": "caeoj_ext.fluid._compat_energy:fluid_energy_condition_values",
+    "fluid_energy_statistics": "caeoj_ext.fluid._compat_energy:fluid_energy_statistics",
+    "multiphase_parameters": "caeoj_ext.fluid.multiphase:multiphase_parameters",
+    "multiphase_phase_mass": "caeoj_ext.fluid.multiphase:multiphase_phase_mass",
+    "reduced_parameters": "caeoj_ext.fluid._compat_reduced:reduced_parameters",
+    "reduced_viscosity": "caeoj_ext.fluid._sdk_compat:reduced_viscosity",
+    "maxwellian": "caeoj_ext.fluid._sdk_compat:maxwellian"
+  },
+  "modules": {
+    "caeoj.cfd": "caeoj_ext.fluid.single_phase",
+    "caeoj.fluid_energy": "caeoj_ext.fluid._compat_energy",
+    "caeoj.fluid_multiphase": "caeoj_ext.fluid.multiphase",
+    "caeoj.fluid_reduced": "caeoj_ext.fluid._compat_reduced"
+  },
+  "model_namespaces": [
+    "fluid-energy-",
+    "fluid-multiphase-",
+    "fluid-reduced-"
+  ],
+  "model_namespace_diagnostics": {
+    "fluid-energy-": "E_FLUID",
+    "fluid-multiphase-": "E_FLUID",
+    "fluid-reduced-": "E_FLUID"
+  }
+}

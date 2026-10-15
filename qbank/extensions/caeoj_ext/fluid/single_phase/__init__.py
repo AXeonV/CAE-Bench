@@ -1,7 +1,9 @@
-"""Opt-in CFD 2.1 declarations and material/condition checks; never a CFD solver."""
+"""Opt-in single-phase flow profile declarations and material/condition checks; never a CFD solver."""
 import numpy as np
 
-from .mesh_geometry import boundary_geometry, exterior_facets, periodic_face_pairs
+from .._geometry import boundary_geometry, exterior_facets
+from caeoj.mesh_geometry import periodic_face_pairs
+from caeoj.sdk import read_constant, sample_field, id_to_row
 
 DENSITY = {
     'constant': {'density':'kg/m3'},
@@ -58,7 +60,7 @@ def check_cfd(problem, errors):
     Does not establish mesh quality, well-posedness, absence of outlet backflow,
     laminar validity, existence of a steady solution or numerical accuracy.
     """
-    from .validation import issue
+    from caeoj.validation import issue
     m=problem.manifest;a=m['analysis'];d=m['spatial_dimension'];locs=m['locations']
     def fail(path,expected,actual,message):errors.append(issue('E_CFD',path,expected,actual,message))
     def constant(value,unit,path,positive=False):
@@ -74,8 +76,8 @@ def check_cfd(problem, errors):
             fail(path,f'mesh element region of dimension {dimension}',name,'Invalid region.');return None
         return loc
     if 'physics' in m:fail('$.physics','analysis and materials only',m['physics'],'Avoid conflicting physical declarations in the CFD profile.')
-    if d not in (2,3):fail('$.spatial_dimension','2 or 3',d,'CFD 2.1 supports planar 2D and full 3D.');return
-    if len(m['meshes'])!=1:fail('$.meshes','one fluid mesh',list(m['meshes']),'CFD 2.1 uses one fixed mesh.');return
+    if d not in (2,3):fail('$.spatial_dimension','2 or 3',d,'single-phase flow profile supports planar 2D and full 3D.');return
+    if len(m['meshes'])!=1:fail('$.meshes','one fluid mesh',list(m['meshes']),'single-phase flow profile uses one fixed mesh.');return
     mesh_name=next(iter(m['meshes']));mesh=problem.meshes[mesh_name]
     if mesh['dimension']!=d:fail('$.meshes','full-dimensional fluid cells',mesh['dimension'],'Missing fluid volume.');return
     try:exterior=exterior_facets(mesh,d)
@@ -116,7 +118,7 @@ def check_cfd(problem, errors):
     compressible=a['compressibility']=='isothermal_compressible'
     if compressible:
         if material['density']['kind']=='constant':fail(mat_path+'.density','compressible density response','constant','Compressible flow needs a density response.')
-        if visc['kind']!='newtonian':fail(mat_path+'.viscosity','newtonian',visc['kind'],'Non-Newtonian compressible flow is outside 2.1.')
+        if visc['kind']!='newtonian':fail(mat_path+'.viscosity','newtonian',visc['kind'],'Non-Newtonian compressible flow is outside the isothermal single-phase contract.')
         if 'pressure_gauge' in a:fail('$.analysis.pressure_gauge','absent',a['pressure_gauge'],'Compressible pressure is fixed by physical state.')
     elif material['density']['kind']!='constant':fail(mat_path+'.density','constant',material['density']['kind'],'Incompressible material has constant density.')
     for name,spec in m['fields'].items():
@@ -210,13 +212,13 @@ def check_cfd(problem, errors):
                 velocity=data(values['velocity'],'m/s','vector',name,path+'.data.velocity')
                 if op=='moving_wall' and velocity is not None:
                     try:
-                        from .sdk import condition_values
+                        from . import condition_values
                         _,normal,_=boundary_geometry(problem,name)
                         spec=m['fields'][values['velocity']['field']]
                         times=problem.arrays[m['time_axes'][spec['time_axis']]]
                         for time in times:
                             v=condition_values(problem,c,'velocity',float(time))
-                            if not np.allclose(np.sum(v*normal,axis=-1),0.,rtol=0,atol=1e-12):fail(path+'.data.velocity','tangential velocity on fixed geometry',values['velocity'],'Normal wall motion needs moving geometry, outside CFD 2.1.')
+                            if not np.allclose(np.sum(v*normal,axis=-1),0.,rtol=0,atol=1e-12):fail(path+'.data.velocity','tangential velocity on fixed geometry',values['velocity'],'Normal wall motion needs moving geometry, outside single-phase flow profile.')
                     except (ValueError,KeyError):pass
                 if compressible and op=='velocity':
                     density_anchored=True
@@ -224,7 +226,7 @@ def check_cfd(problem, errors):
         elif op=='pressure_outlet':
             anchored=True
             if keys(values,['pressure','backflow'],[],path+'.data'):
-                if values['backflow']!={'option':'forbid'}:fail(path+'.data.backflow',{'option':'forbid'},values['backflow'],'Only outflow-only outlets in CFD 2.1.')
+                if values['backflow']!={'option':'forbid'}:fail(path+'.data.backflow',{'option':'forbid'},values['backflow'],'Only outflow-only outlets in single-phase flow profile.')
                 p=data(values['pressure'],'Pa','scalar',name,path+'.data.pressure')
                 if compressible and p is not None:
                     try:material_density(material,p+offset,temperature)
@@ -312,3 +314,91 @@ def check_cfd(problem, errors):
         if transient:
             if t[0]<start or t[-1]>end:fail(path+'.time_axis','within analysis interval',t,'Output times outside physical interval.')
         elif len(t)!=1 or t[0]!=0:fail(path+'.time_axis','[0] steady sentinel',t,'Steady output uses one nonphysical sentinel time.')
+
+
+def absolute_pressure(problem, pressure):
+    """Convert CFD profile pressure values to absolute Pa, preserving shape."""
+    spec = problem.manifest['analysis']['pressure']
+    offset = spec['reference_pressure']['value'] if spec['representation']=='gauge' else 0.
+    return np.asarray(pressure) + offset
+
+
+
+def fluid_material(problem):
+    """Return the single material description of a validated single-phase flow profile problem."""
+    if problem.manifest.get('profile') != 'cfd-2.1':
+        raise ValueError('Expected cfd-2.1 profile')
+    return next(iter(problem.manifest['materials'].values()))
+
+
+
+def density_at_pressure(problem, pressure):
+    """Evaluate declared material response; input follows profile pressure representation."""
+    return material_density(fluid_material(problem), absolute_pressure(problem, pressure),
+                            problem.manifest['analysis']['temperature']['value'])
+
+
+
+def dynamic_viscosity(problem, shear_rate):
+    """Evaluate declared dynamic viscosity at sqrt(2 D:D) in inverse seconds."""
+    return material_viscosity(fluid_material(problem), shear_rate)
+
+
+
+def condition_values(problem, condition, parameter, time):
+    """Read numerical CFD condition data on its region's element rows.
+
+    Scalars stay scalars. Nodal input is averaged over each linear simplex;
+    uniform nodal data also work on other supported first-order cells. This is
+    the exact entity average of the declared linear/uniform reconstruction.
+    """
+    value=condition['data'][parameter]
+    if 'value' in value:return read_constant(value)
+    if set(value)!={'field'}:raise TypeError('Expected a numerical condition value')
+    spec=problem.manifest['fields'][value['field']]
+    sampled=sample_field(problem,value['field'],time)
+    if spec['location']==condition['location']:return sampled
+    source=problem.manifest['locations'][spec['location']]
+    target=problem.manifest['locations'][condition['location']]
+    if (source['kind']!='mesh' or source['entity']!='node' or target['kind']!='mesh'
+            or target['entity']!='element' or source['mesh']!=target['mesh']):
+        raise ValueError('Condition requires the exact nodes of its element region')
+    rows=id_to_row(problem.arrays[source['ids']]);mesh=problem.meshes[source['mesh']]
+    return np.array([np.mean([sampled[rows[n]] for n in mesh['connectivity'][int(tag)][1]],axis=0)
+                     for tag in problem.arrays[target['ids']]])
+
+
+
+def periodic_condition_pairs(problem, condition):
+    """Return (this-side facet ID, partner facet ID) pairs for a periodic condition."""
+    from caeoj.mesh_geometry import periodic_face_pairs as pair
+    if condition['operator']!='periodic':raise ValueError('Expected a periodic boundary')
+    d=problem.manifest['spatial_dimension'];data=condition['data']
+    return pair(problem,condition['location'],data['partner']['location'],
+                [read_constant(data['translation_'+x]) for x in 'xyz'[:d]])
+
+
+
+def check(problem, errors):
+    if problem.manifest.get("profile") == "cfd-2.1":
+        check_cfd(problem, errors)
+
+
+def condition_location_compatible(problem, condition, spec):
+    """Accept exactly the nodes of a declared element-region condition."""
+    if spec['location'] == condition['location']:
+        return True
+    locations = problem.manifest['locations']
+    source = locations.get(spec['location'], {})
+    target = locations.get(condition['location'], {})
+    if not (source.get('kind') == target.get('kind') == 'mesh' and
+            source.get('entity') == 'node' and target.get('entity') == 'element' and
+            source['mesh'] == target['mesh']):
+        return False
+    mesh = problem.meshes.get(source['mesh'], {})
+    tags = problem.arrays.get(target['ids'], [])
+    connectivity = mesh.get('connectivity', {})
+    nodes = {node for tag in tags if int(tag) in connectivity
+             for node in connectivity[int(tag)][1]}
+    ids = problem.arrays.get(source['ids'], [])
+    return set(map(int, ids)) == nodes and bool(nodes)

@@ -30,7 +30,7 @@ from utils.PDEBench.storage import Budget, PreparationError, RangeReader, digest
 from utils.PDEBench.references import burgers_average, logistic_diffusion
 from utils.PDEBench.source_audit import fhn_initial, audit_reference,transport_residual
 from caeoj.sdk import load_problem, load_result, write_result
-from caeoj.task_paths import task_directory
+from caeoj_tools.task_paths import task_directory
 
 
 class PreparationEntryTests(unittest.TestCase):

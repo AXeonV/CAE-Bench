@@ -9,7 +9,7 @@ import numpy as np
 from caeoj.grading import grade_arrays
 from caeoj.grading_policy import load_policy, validate_policy
 from caeoj.sdk import load_problem
-from caeoj.task_paths import task_directory
+from caeoj_tools.task_paths import task_directory
 from caeoj.validation import output_support
 
 ROOT = Path(__file__).resolve().parents[1]

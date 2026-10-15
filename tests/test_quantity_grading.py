@@ -150,7 +150,8 @@ class QuantityPolicyTests(unittest.TestCase):
                     actual[key] = before
 
     def test_local_smoke_consumes_its_configured_policy(self):
-        from caeoj.smoke import run_smoke
+        from caeoj_tools.author import load_author_module
+        run_smoke = load_author_module('smoke-test', 'smoke').run_smoke
         with tempfile.TemporaryDirectory() as temporary:
             task = Path(temporary)
             cases = task / 'cases'

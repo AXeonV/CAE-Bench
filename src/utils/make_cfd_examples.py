@@ -9,7 +9,7 @@ import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 import gmsh
 import numpy as np
-from caeoj.cfd import material_density
+from caeoj_ext.fluid.single_phase import material_density
 from caeoj.storage import write_hdf5
 from caeoj.validation import GMSH_LOCK, write_json
 from caeoj.sdk import load_problem, write_result

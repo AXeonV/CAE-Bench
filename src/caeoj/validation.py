@@ -18,6 +18,7 @@ import gmsh
 import numpy as np
 from jsonschema import Draft202012Validator, validators
 from .storage import read_arrays
+from . import runtime
 
 GMSH_LOCK = threading.Lock()
 Validator = validators.extend(Draft202012Validator, type_checker=
@@ -112,7 +113,7 @@ def schema_errors(document):
     scan(document, "$")
     errors.extend(issue("E_SCHEMA", _path(e.absolute_path), {e.validator: e.validator_value},
                         e.instance, e.message)
-                  for e in sorted(_validator().iter_errors(document), key=lambda e: _path(e.absolute_path)))
+                  for e in sorted(_validator().__class__(runtime.schema(document)).iter_errors(document), key=lambda e: _path(e.absolute_path)))
     return errors
 
 
@@ -394,23 +395,13 @@ class Checker:
                         self.fail("E_REFERENCE", path + ".data." + name, "input field", value, "Unknown condition field.")
                     else:
                         compatible = spec['location'] == condition['location']
-                        if not compatible and self.m.get('profile') == 'cfd-2.1' and not self.errors:
-                            source = self.m['locations'].get(spec['location'], {})
-                            target = self.m['locations'].get(condition['location'], {})
-                            if (source.get('kind') == target.get('kind') == 'mesh' and
-                                source.get('entity') == 'node' and target.get('entity') == 'element' and
-                                source['mesh'] == target['mesh']):
-                                mesh = self.problem.meshes.get(source['mesh'], {})
-                                tags = self.problem.arrays.get(target['ids'], [])
-                                connectivity = mesh.get('connectivity', {})
-                                nodes = set(n for tag in tags if int(tag) in connectivity
-                                            for n in connectivity[int(tag)][1])
-                                ids = self.problem.arrays.get(source['ids'], [])
-                                compatible = set(map(int, ids)) == nodes and bool(nodes)
+                        extension_answer = runtime.condition_compatibility(self.problem, condition, spec) if not self.errors else None
+                        if extension_answer is not None:
+                            compatible = extension_answer
                         if not compatible:
-                            if self.m.get('profile') == 'cfd-2.1':
+                            if extension_answer is not None:
                                 self.fail('E_REFERENCE', path+'.data.'+name+'.field.location',
-                                          'same location or exact CFD region node set', spec['location'],
+                                          'compatible declared condition region', spec['location'],
                                           'Condition field does not cover its geometric region.')
                             else:
                                 self.expect(spec['location'], condition['location'],
@@ -442,9 +433,7 @@ def check_problem(path):
                 errors.append(issue("E_REFERENCE", "$.meshes." + name + ".geometry", "geometry ID", spec["geometry"], "Unknown geometry."))
             try:
                 p.meshes[name] = read_mesh(resolve_file(base, spec["file"], {".msh"}),
-                                           geometry=(m.get('profile') == 'cfd-2.1' or
-                                                     m.get('physics', {}).get('model', '').startswith(
-                                                         ('fluid-energy-', 'fluid-multiphase-', 'fluid-reduced-'))))
+                                           geometry=runtime.needs_geometry(m))
                 if p.meshes[name]["dimension"] > m["spatial_dimension"]:
                     errors.append(issue("E_DIMENSION", "$.meshes." + name, "topology <= spatial_dimension",
                                         p.meshes[name]["dimension"], "Topology exceeds the declared space."))
@@ -460,22 +449,14 @@ def check_problem(path):
         checker.times()
         checker.fields()
         checker.conditions()
-        if m.get('profile') == 'cfd-2.1' and not errors:
-            from .cfd import check_cfd
-            check_cfd(p, errors)
         if not errors:
-            model = m.get('physics', {}).get('model', '')
-            if model.startswith('fluid-energy-'):
-                from .fluid_energy import check_fluid_energy
-                check_fluid_energy(p, errors)
-            elif model.startswith('fluid-multiphase-'):
-                from .fluid_multiphase import check_fluid_multiphase
-                check_fluid_multiphase(p, errors)
-            elif model.startswith('fluid-reduced-'):
-                from .fluid_reduced import check_fluid_reduced
-                check_fluid_reduced(p, errors)
+            runtime.check(p, errors)
         checker.expect(sorted(arrays), sorted(checker.used), "$.data_file", "E_ARRAYS")
-        return p, report(errors)
+        diagnostics = report(errors)
+        diagnostics["scope"] = runtime.describe(m)["scope"]
+        return p, diagnostics
+    except runtime.DeclarationError as exc:
+        return None, report([issue(exc.code, exc.path, "registered declaration", exc.model, str(exc))])
     except ContractError as exc:
         return None, exc.report
     except (OSError, ValueError) as exc:
@@ -516,6 +497,8 @@ def validate_output(input_path, output_path):
     if not diagnostics["valid"]:
         return diagnostics
     try:
-        return check_result(p, read_hdf5(output_path))
+        result = check_result(p, read_hdf5(output_path))
+        result["scope"] = runtime.describe(p.manifest)["scope"]
+        return result
     except ContractError as exc:
         return exc.report

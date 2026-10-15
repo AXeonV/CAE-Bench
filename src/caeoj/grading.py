@@ -1,25 +1,12 @@
 """Independent 0/1 grading against a supplied reference, after structural checks."""
 import math
-
 import numpy as np
 
-from .grading_policy import UNSET, validate_policy, policy_hash, resolve_policy
+from .grading_policy import (UNSET, validate_policy, policy_hash, resolve_policy,
+                             DEFAULT_ATOL, DEFAULT_RTOL, _tolerance)
 from .grading_metrics import evaluate_field
 from .sdk import load_problem
 from .validation import ContractError, check_result, read_hdf5
-
-DEFAULT_ATOL = 1e-6
-DEFAULT_RTOL = 1e-5
-
-
-def _tolerance(atol, rtol):
-    try:
-        valid = math.isfinite(atol) and math.isfinite(rtol) and atol >= 0 and rtol >= 0
-    except (TypeError, OverflowError):
-        valid = False
-    if not valid:
-        raise ValueError("atol and rtol must be finite nonnegative numbers.")
-    return {"atol": float(atol), "rtol": float(rtol)}
 
 
 def grade_arrays(problem, result, reference, *, atol=UNSET, rtol=UNSET, policy=None):

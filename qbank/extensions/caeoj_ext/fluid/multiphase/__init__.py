@@ -120,8 +120,8 @@ def required_outputs(kind):
 
 def check_fluid_multiphase(problem, errors):
     """Append E_FLUID issues after successful generic checks."""
-    from .validation import issue
-    from .mesh_geometry import exterior_facets, boundary_geometry
+    from caeoj.validation import issue
+    from .._geometry import exterior_facets, boundary_geometry
     m = problem.manifest
     model = m.get('physics',{}).get('model','')
     if not model.startswith(PREFIX):
@@ -304,3 +304,6 @@ def check_fluid_multiphase(problem, errors):
             fail(path+'.time_axis','within interval, last request=time_end',t.tolist())
     if set(output_quantities)!=required_outputs(kind) or len(output_quantities)!=len(set(output_quantities)):
         fail('$.outputs','exactly one of '+str(sorted(required_outputs(kind))),output_quantities)
+
+
+check = check_fluid_multiphase

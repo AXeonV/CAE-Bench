@@ -12,49 +12,42 @@ import tempfile
 import zipfile
 
 from caeoj.sdk import load_problem
-from caeoj.task_paths import task_directory
-from caeoj.grading_policy import task_policy, validate_policy, render_policy
+from caeoj_tools.task_paths import task_directory
+from caeoj_tools.grading_policy import task_policy
+from caeoj.grading_policy import validate_policy, render_policy
 from caeoj.validation import ContractError, validate_input, validate_output
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-PUBLIC_FILES = ("pyproject.toml", "LICENSE", "docs/CONTRACT.md", "docs/GRADING.md")
-TOOL_FILES = ("__init__.py", "__main__.py", "cli.py", "validation.py", "sdk.py", "storage.py",
-              "problem.schema.json", "grading.py", "grading_policy.py",
-              "grading_metrics.py", "grading.schema.json", "cfd.py", "mesh_geometry.py",
-              "fluid_energy.py", "fluid_multiphase.py", "fluid_reduced.py")
+from caeoj_tools.assembly import read_public_file, runtime_materials, validate_public_runtime
+
+PUBLIC_FILES = ("LICENSE", "docs/CONTRACT.md", "docs/GRADING.md")
 
 
-def read_public_file(root, path):
-    """No symlinks or files outside the source project may enter a release."""
-    root, path = Path(root).resolve(), Path(path)
-    relative = path.relative_to(root)
-    current = root
-    for part in relative.parts:
-        current /= part
-        if current.is_symlink() or getattr(current, "is_junction", lambda: False)():
-            raise ValueError(f"Public material must not be a link: {relative}")
-    if not path.resolve().is_relative_to(root):
-        raise ValueError(f"Public material escapes project: {relative}")
-    return path.read_bytes()
+INSTALLATION = """安装共享工具：`python -m pip install .`。已预装工具的评测环境可直接使用。
+Python 代码最低版本见 pyproject.toml，锁定依赖所需版本由安装器检查；执行 OS／架构以题面为准。
+Gmsh 需要系统动态库（Linux 环境预置 libglu1-mesa、libgl1 等）；运行环境应提前准备齐全，普通 pip 安装不负责安装系统库。
+h5py、NumPy、Gmsh、jsonschema 是协议依赖；额外求解依赖由程序选择。
+"""
 
 
-def agent_readme(task_path):
+def agent_readme(task_path, sample, *, include_install=True):
+    installation = INSTALLATION if include_install else ""
     return f"""# 解题材料
 
 阅读 `{task_path}/instruction.md`、同题 DATA.md 和 `docs/CONTRACT.md` 即可确定完整任务与数据规则。公开示例在 `{task_path}/samples/`；grading.json 与 GRADING.md 是供工具使用的评分策略及其可读表示。
 
-安装共享工具：`python -m pip install -e .`。h5py、NumPy、Gmsh、jsonschema 是协议依赖；求解所需额外依赖由程序选择。
+{installation}
 
 在理解输入、编写和调试程序时可随时使用：
 
 ```text
-python -m caeoj validate-input {task_path}/samples/<sample>/input/problem.json
-python solve.py --input {task_path}/samples/<sample>/input/problem.json --output result.h5
-python -m caeoj validate-output --input {task_path}/samples/<sample>/input/problem.json --output result.h5
-python -m caeoj grade --input {task_path}/samples/<sample>/input/problem.json --output result.h5 --reference {task_path}/samples/<sample>/output/result.h5 --grading {task_path}/grading.json
+python -m caeoj validate-input {task_path}/samples/{sample}/input/problem.json
+python solve.py --input {task_path}/samples/{sample}/input/problem.json --output result.h5
+python -m caeoj validate-output --input {task_path}/samples/{sample}/input/problem.json --output result.h5
+python -m caeoj grade --input {task_path}/samples/{sample}/input/problem.json --output result.h5 --reference {task_path}/samples/{sample}/output/result.h5 --grading {task_path}/grading.json
 ```
 
-校验器只检查结构和引用，不验证或纠正物理结果。
+校验器检查结构、引用及声明约束，不验证或纠正物理结果。
 可用 `caeoj.sdk` 的 `load_problem`、`read_constant`、`read_field`、`write_result` 读写数据，
 示例见 CONTRACT.md 和题目 DATA.md。提交程序接口及支持范围以题面为准。
 
@@ -66,15 +59,13 @@ def collect_materials(task, root=PROJECT_ROOT):
     root = Path(root).resolve()
     task_dir = task_directory(task, root)
     task_path = task_dir.relative_to(root).as_posix()
-    files = {}
+    files, runtime = runtime_materials({task: task_dir}, root)
 
     def add(path):
         files[path.relative_to(root).as_posix()] = read_public_file(root, path)
 
     for name in PUBLIC_FILES:
         add(root / name)
-    for name in TOOL_FILES:
-        add(root / "src/caeoj" / name)
     add(task_dir / "instruction.md")
     if (task_dir / "DATA.md").is_file():
         add(task_dir / "DATA.md")
@@ -108,21 +99,54 @@ def collect_materials(task, root=PROJECT_ROOT):
         if not diagnostics["valid"]:
             raise ContractError(diagnostics)
         samples.append(sample.name)
-    files["README.md"] = agent_readme(task_path)
-    manifest = {"task": task, "public_samples": samples,
+    files["README.md"] = agent_readme(task_path, samples[0])
+    manifest = {"task": task, "public_samples": samples, "assembly": runtime["id"],
                 "files": {name: hashlib.sha256(data).hexdigest() for name, data in sorted(files.items())}}
     files["MANIFEST.json"] = (json.dumps(manifest, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
     return files, samples
 
 
+def collect_bundle(tasks, root=PROJECT_ROOT):
+    """Assemble several independent tasks into one public installation."""
+    tasks = sorted(set(tasks))
+    if not tasks:
+        raise ValueError('Select at least one task')
+    if len(tasks) == 1:
+        return collect_materials(tasks[0], root)
+    root = Path(root).resolve()
+    directories = {task: task_directory(task, root) for task in tasks}
+    files, runtime = runtime_materials(directories, root)
+    samples = {}
+    for task in tasks:
+        single, samples[task] = collect_materials(task, root)
+        for name, data in single.items():
+            if name.startswith('src/') or name in ('README.md', 'MANIFEST.json', 'pyproject.toml'):
+                continue
+            if name in files and files[name] != data:
+                raise ValueError(f'Conflicting public material: {name}')
+            files[name] = data
+    readme = ['# 解题材料', '', INSTALLATION,
+              '以下每题分别阅读 instruction.md、DATA.md 与通用 docs/CONTRACT.md；使用同一套 caeoj 命令与 SDK。', '']
+    for task, directory in directories.items():
+        readme.append(agent_readme(directory.relative_to(root).as_posix(), samples[task][0], include_install=False).decode())
+    files['README.md'] = ('\n'.join(readme)).encode()
+    manifest = {'tasks': tasks, 'public_samples': samples, 'assembly': runtime['id'],
+                'files': {name: hashlib.sha256(data).hexdigest() for name, data in sorted(files.items())}}
+    files['MANIFEST.json'] = (json.dumps(manifest, ensure_ascii=False, indent=2)+'\n').encode()
+    return files, samples
+
+
 def publish(task, output=None, root=PROJECT_ROOT):
     root = Path(root).resolve()
-    files, samples = collect_materials(task, root)
+    tasks = [task] if isinstance(task, str) else sorted(set(task))
+    files, samples = collect_bundle(tasks, root)
+    validate_public_runtime(files)
+    artifact = tasks[0] if len(tasks) == 1 else "multi-"+hashlib.sha256("\n".join(tasks).encode()).hexdigest()[:12]
     output = Path(output).resolve() if output is not None else root / "dist"
     output.mkdir(parents=True, exist_ok=True)
-    archive = output / f"{task}-agent.zip"
+    archive = output / f"{artifact}-agent.zip"
     # Atomic replacement leaves an existing release intact if building fails.
-    handle, temporary = tempfile.mkstemp(prefix=f".{task}-agent-", suffix=".tmp", dir=output)
+    handle, temporary = tempfile.mkstemp(prefix=f".{artifact}-agent-", suffix=".tmp", dir=output)
     os.close(handle)
     try:
         with zipfile.ZipFile(temporary, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as bundle:
@@ -142,12 +166,12 @@ def publish(task, output=None, root=PROJECT_ROOT):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--task", required=True, help="Unique task directory name under qbank/<chapter>/<section>/")
+    parser.add_argument("--task", required=True, action="append", help="Unique task directory name under qbank/<chapter>/<section>/")
     parser.add_argument("--output", type=Path, default=PROJECT_ROOT / "dist", help="ZIP output directory")
     args = parser.parse_args(argv)
     try:
         result = publish(args.task, args.output)
-    except (OSError, ValueError, KeyError, ContractError) as exc:
+    except (OSError, ValueError, KeyError, RuntimeError, ContractError) as exc:
         parser.exit(1, f"Publish failed: {exc}\n")
     print(json.dumps(result, ensure_ascii=True, indent=2))
     return 0

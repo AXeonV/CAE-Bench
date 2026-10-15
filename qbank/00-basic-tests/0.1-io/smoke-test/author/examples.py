@@ -5,7 +5,7 @@ from pathlib import Path
 import gmsh
 import numpy as np
 
-from .validation import GMSH_LOCK, read_mesh, write_json
+from caeoj.validation import GMSH_LOCK, read_mesh, write_json
 
 CASE_NAMES = ["01-line-1d", "02-triangle-2d", "03-quad-2d", "04-tetra-3d",
               "05-mixed-blocks", "06-noncontiguous-ids",

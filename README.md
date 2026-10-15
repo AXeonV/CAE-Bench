@@ -7,7 +7,7 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 ## 设计
 
 - **通用数据协议**：Gmsh 存网格，HDF5 存数组，JSON 声明字段和条件；各题目明确物理或数学问题与输入范围，求解程序按同一协议读写。
-- **纠正 Agent I/O**：Agent 在理解输入、编写和调试程序时可随时调用**结构校验器**，根据诊断修改读写实现，减少输入输出理解错误的负担。*校验器只检查格式与引用，不验证或纠正物理结果。*
+- **纠正 Agent I/O**：Agent 在理解输入、编写和调试程序时可随时调用**结构校验器**，根据诊断修改读写实现，减少输入输出理解错误的负担。*校验器检查格式、引用及声明约束，不验证或纠正物理结果。*
 - **提交后独立评测**：逐例执行提交程序，重新校验输出并按题目误差阈值与标答比较，每点 0/1 分，汇总结果和日志。
 
 ## 项目结构
@@ -56,7 +56,7 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 ## 运行
 
-第 0 章的本地输入输出测试使用 `python -m caeoj smoke`，详见[基础测试说明](qbank/00-basic-tests/README.md)。以下流程适用于已具备真实数据及公开样例的 qbank 题目。题目位置见[第一章目录](qbank/01-prescribed-pdes/README.md)；第二章目前仅完成题面。
+第 0 章的本地输入输出测试使用 `python -m caeoj_tools.cli smoke`，详见[基础测试说明](qbank/00-basic-tests/README.md)。以下流程适用于已具备真实数据及公开样例的 qbank 题目。题目位置见[第一章目录](qbank/01-prescribed-pdes/README.md)；第二章目前仅完成题面。
 
 `<task>` 是稳定题目标识，例如 `heat-conduction-steady-2d`；`<task-dir>` 是其真实目录，例如 `qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d`。发布器和组装器按标识自动定位，不接受路径作为 `--task`。
 
@@ -71,7 +71,7 @@ Docker、Python 环境和 Agent 认证需先配置好。认证由执行主机的
 提供独立生成器的题目沿用“安装依赖 → 生成输入与标答 → 运行测试”的流程。以下安装项覆盖全仓库测试依赖，题目专用依赖与生成参数见对应 README：
 
 ```sh
-python -m pip install -e '.[heat,pdebench]' harbor
+python -m pip install -e '.[maint,heat,pdebench]' -e qbank/extensions harbor
 python '<task-dir>/author/generate.py'
 python -m unittest discover -s tests -p '<test-file>.py' -v
 ```
@@ -81,7 +81,7 @@ python -m unittest discover -s tests -p '<test-file>.py' -v
 当前部分题目的算例来自 PDEBench；其来源适配器负责获取、转换并审核数据。具体来源、样本索引和参考证据见各题 `reference/`，数据集不作为题目分类或题目 ID：
 
 ```sh
-python -m pip install -e '.[pdebench]' harbor
+python -m pip install -e '.[maint,pdebench]' -e qbank/extensions harbor
 python src/utils/PDEBench/prepare.py --tasks '<task>' --budget-gb 60 --no-bootstrap
 ```
 

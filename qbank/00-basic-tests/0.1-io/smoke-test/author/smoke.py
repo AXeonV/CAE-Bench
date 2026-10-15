@@ -6,12 +6,12 @@ import subprocess
 import sys
 import uuid
 
-from .grading import grade_arrays
-from .grading_policy import task_policy
-from .sdk import load_problem
-from .validation import ContractError, output_support, read_hdf5, write_json
+from caeoj.grading import grade_arrays
+from caeoj_tools.grading_policy import task_policy
+from caeoj.sdk import load_problem
+from caeoj.validation import ContractError, output_support, read_hdf5, write_json
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = Path(__file__).resolve().parents[5]
 
 
 def run_smoke(cases, program, report_path, timeout=None):

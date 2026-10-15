@@ -13,7 +13,9 @@ import tempfile
 import unittest
 import zipfile
 
-from caeoj.smoke import PROJECT_ROOT
+from caeoj_tools.author import load_author_module
+_smoke = load_author_module('smoke-test', 'smoke')
+PROJECT_ROOT = _smoke.PROJECT_ROOT
 from caeoj.validation import ContractError
 
 spec = importlib.util.spec_from_file_location("publish_dist", PROJECT_ROOT / "src/utils/publish_dist.py")
@@ -155,6 +157,51 @@ class PublishTests(unittest.TestCase):
         shutil.rmtree(root / "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples")
         with self.assertRaisesRegex(ValueError, "No complete public samples"):
             publisher.collect_materials("heat-conduction-steady-2d", root)
+
+    def test_public_preflight_uses_staged_binding_and_checks_hook(self):
+        from caeoj_tools.assembly import validate_public_runtime
+        files, _ = publisher.collect_materials('heat-conduction-steady-2d')
+        key='src/caeoj_bundle/runtime.json'
+        data=json.loads(files[key])
+        data['extensions']['task.broken']={'version':1,'requires':[], 'check':'caeoj_task_ext.probe:check'}
+        data['tasks']['heat-conduction-steady-2d']=['task.broken']
+        files[key]=json.dumps(data).encode()
+        files['src/caeoj_task_ext/__init__.py']=b''
+        files['src/caeoj_task_ext/probe.py']=b'def other(): pass\n'
+        with self.assertRaisesRegex(ValueError,'probe:check'):
+            validate_public_runtime(files)
+
+    def test_multitask_package_switches_contracts_without_reinstallation(self):
+        tasks = ['heat-conduction-steady-2d', 'heat-conduction-transient-2d']
+        result = publisher.publish(tasks, self.root/'multi-dist')
+        extracted = self.root/'multi-agent'
+        with zipfile.ZipFile(result['archive']) as bundle:
+            manifest = json.loads(bundle.read('MANIFEST.json'))
+            self.assertEqual(manifest['tasks'], sorted(tasks))
+            bundle.extractall(extracted)
+        code = r"""
+import json
+from pathlib import Path
+from caeoj.sdk import load_problem
+from caeoj.grading import grade_files
+from caeoj.grading_policy import load_policy
+from caeoj.runtime import describe
+paths = sorted(Path('qbank').glob('*/*/*/samples/01/input/problem.json'))
+assert len(paths)==2
+for path in paths+paths[::-1]:
+    problem=load_problem(path)
+    assert describe(problem.manifest)['scope']=='task-contract'
+    sample=path.parent.parent
+    policy=load_policy(path.parents[3]/'grading.json')
+    result=grade_files(path,sample/'output/result.h5',sample/'output/result.h5',policy=policy)
+    assert result['score']==1,result
+print('multi-task: four alternating reads and grades passed')
+"""
+        environment = {**os.environ,'PYTHONPATH':str(extracted/'src')}
+        execution=subprocess.run([sys.executable,'-c',code],cwd=extracted,env=environment,
+                                 capture_output=True,text=True,timeout=30)
+        self.assertEqual(execution.returncode,0,execution.stdout+execution.stderr)
+        self.assertIn('four alternating',execution.stdout)
 
 
 if __name__ == "__main__":

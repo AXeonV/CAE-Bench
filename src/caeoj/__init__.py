@@ -1,1 +1,4 @@
-"""Public CAE input/output contract helpers."""
+"""Public, physics-independent CAE contract helpers."""
+from .runtime import install_aliases
+
+install_aliases()

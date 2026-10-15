@@ -1,15 +1,14 @@
-"""Thin helpers; array values, shapes and numbering are never repaired."""
+"""Optional helpers; array values, shapes and numbering are never repaired."""
 import numpy as np
-
 from .storage import write_hdf5
 from .validation import ContractError, check_problem, check_result, output_support, read_hdf5
-
 
 def load_problem(path):
     problem, diagnostics = check_problem(path)
     if not diagnostics["valid"]:
         raise ContractError(diagnostics)
     return problem
+
 
 
 def load_result(problem, path):
@@ -20,12 +19,14 @@ def load_result(problem, path):
     return arrays
 
 
+
 def read_constant(data):
     """Read a validated {value, unit} constant; never convert its unit."""
     if not isinstance(data, dict) or set(data) != {"value", "unit"}:
         raise TypeError('Expected a {"value": number, "unit": string} constant; '
                         'use read_field(problem, reference) for a field reference.')
     return data["value"]
+
 
 
 def read_field(problem, reference):
@@ -37,6 +38,7 @@ def read_field(problem, reference):
     if name not in problem.manifest["fields"]:
         raise KeyError(f'Unknown input field: {name!r}; use the field name, not the HDF5 key.')
     return problem.arrays[problem.manifest["fields"][name]["array"]]
+
 
 
 def write_result(path, problem, fields):
@@ -54,8 +56,10 @@ def write_result(path, problem, fields):
     return arrays
 
 
+
 def target_ids(problem, location):
     return problem.arrays[problem.manifest["locations"][location]["ids"]].copy()
+
 
 
 def id_to_row(ids):
@@ -64,38 +68,13 @@ def id_to_row(ids):
     return {int(tag): row for row, tag in enumerate(ids)}
 
 
+
 def read_option(data):
     """Read a declared categorical option, without interpreting its meaning."""
     if not isinstance(data, dict) or set(data) != {'option'}:
         raise TypeError('Expected an {"option": string} value.')
     return data['option']
 
-
-def absolute_pressure(problem, pressure):
-    """Convert CFD profile pressure values to absolute Pa, preserving shape."""
-    spec = problem.manifest['analysis']['pressure']
-    offset = spec['reference_pressure']['value'] if spec['representation']=='gauge' else 0.
-    return np.asarray(pressure) + offset
-
-
-def fluid_material(problem):
-    """Return the single material description of a validated CFD 2.1 problem."""
-    if problem.manifest.get('profile') != 'cfd-2.1':
-        raise ValueError('Expected cfd-2.1 profile')
-    return next(iter(problem.manifest['materials'].values()))
-
-
-def density_at_pressure(problem, pressure):
-    """Evaluate declared material response; input follows profile pressure representation."""
-    from .cfd import material_density
-    return material_density(fluid_material(problem), absolute_pressure(problem, pressure),
-                            problem.manifest['analysis']['temperature']['value'])
-
-
-def dynamic_viscosity(problem, shear_rate):
-    """Evaluate declared dynamic viscosity at sqrt(2 D:D) in inverse seconds."""
-    from .cfd import material_viscosity
-    return material_viscosity(fluid_material(problem), shear_rate)
 
 
 def sample_field(problem, name, time):
@@ -118,10 +97,12 @@ def sample_field(problem, name, time):
     return (1-w)*values[i]+w*values[i+1]
 
 
+
 def boundary_geometry(problem, location):
     """Facet centroids, outward unit normals and measures in prescribed ID order."""
     from .mesh_geometry import boundary_geometry as geometry
     return geometry(problem,location)
+
 
 
 def boundary_integral(problem, location, values):
@@ -132,82 +113,10 @@ def boundary_integral(problem, location, values):
     return np.sum(values*measure.reshape((1,len(measure))+((1,)*(values.ndim-2))),axis=1,keepdims=True)
 
 
-def condition_values(problem, condition, parameter, time):
-    """Read numerical CFD condition data on its region's element rows.
 
-    Scalars stay scalars. Nodal input is averaged over each linear simplex;
-    uniform nodal data also work on other supported first-order cells. This is
-    the exact entity average of the declared linear/uniform reconstruction.
-    """
-    value=condition['data'][parameter]
-    if 'value' in value:return read_constant(value)
-    if set(value)!={'field'}:raise TypeError('Expected a numerical condition value')
-    spec=problem.manifest['fields'][value['field']]
-    sampled=sample_field(problem,value['field'],time)
-    if spec['location']==condition['location']:return sampled
-    source=problem.manifest['locations'][spec['location']]
-    target=problem.manifest['locations'][condition['location']]
-    if (source['kind']!='mesh' or source['entity']!='node' or target['kind']!='mesh'
-            or target['entity']!='element' or source['mesh']!=target['mesh']):
-        raise ValueError('Condition requires the exact nodes of its element region')
-    rows=id_to_row(problem.arrays[source['ids']]);mesh=problem.meshes[source['mesh']]
-    return np.array([np.mean([sampled[rows[n]] for n in mesh['connectivity'][int(tag)][1]],axis=0)
-                     for tag in problem.arrays[target['ids']]])
-
-
-def periodic_face_pairs(problem, condition):
-    """Return (this-side facet ID, partner facet ID) pairs for a periodic condition."""
-    from .mesh_geometry import periodic_face_pairs as pair
-    if condition['operator']!='periodic':raise ValueError('Expected a periodic boundary')
-    d=problem.manifest['spatial_dimension'];data=condition['data']
-    return pair(problem,condition['location'],data['partner']['location'],
-                [read_constant(data['translation_'+x]) for x in 'xyz'[:d]])
-
-# Chapter-2 helpers are imported lazily so legacy readers pay no domain startup
-# cost and keep the same optional, explicit interpretation of physical data.
-def fluid_energy_properties(problem, temperature, pressure=None):
-    """Evaluate the explicitly declared thermal material; no closure selection."""
-    from .fluid_energy import fluid_energy_properties as evaluate
-    return evaluate(problem, temperature, pressure)
-
-
-def fluid_energy_condition_values(problem, condition, parameter, time):
-    """Sample the energy profile's declared numeric condition in physical time."""
-    from .fluid_energy import fluid_energy_condition_values as sample
-    return sample(problem, condition, parameter, time)
-
-
-def fluid_energy_statistics(times, velocity, temperature=None):
-    """Compute the energy profile's public sample means and central products."""
-    from .fluid_energy import fluid_energy_statistics as compute
-    return compute(times, velocity, temperature)
-
-
-def multiphase_parameters(problem):
-    """Read the multiphase profile parameters without conversion or defaults."""
-    from .fluid_multiphase import multiphase_parameters as read
-    return read(problem)
-
-
-def multiphase_phase_mass(problem, alpha, cell_measures, phase='a'):
-    """Integrate declared phase mass using caller supplied physical measures."""
-    from .fluid_multiphase import multiphase_phase_mass as integrate
-    return integrate(problem, alpha, cell_measures, phase=phase)
-
-
-def reduced_parameters(problem):
-    """Read the reduced/complex-fluid profile's declared physical parameters."""
-    from .fluid_reduced import reduced_parameters as read
-    return read(problem)
-
-
-def reduced_viscosity(model, params, shear_rate, temperature=None, structure=None):
-    """Evaluate the reduced profile's specified viscosity response."""
-    from .fluid_reduced import reduced_viscosity as evaluate
-    return evaluate(model, params, shear_rate, temperature, structure)
-
-
-def maxwellian(number_density, velocity, temperature, mass, molecular_velocity):
-    """Evaluate a molecular velocity distribution using explicit SI arguments."""
-    from .fluid_reduced import maxwellian as evaluate
-    return evaluate(number_density, velocity, temperature, mass, molecular_velocity)
+def __getattr__(name):
+    """Resolve optional SDK compatibility names from the installed assembly."""
+    if name.startswith('__'):
+        raise AttributeError(name)
+    from . import runtime
+    return runtime.resolve_alias(name)

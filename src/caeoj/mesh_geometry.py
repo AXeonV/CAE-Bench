@@ -1,4 +1,4 @@
-"""Geometry of first-order CFD cells; independent of mesh tag ordering."""
+"""Geometry of supported first-order cells; independent of mesh tag ordering."""
 from collections import Counter, defaultdict
 from itertools import product
 
@@ -17,21 +17,14 @@ FACETS = {
 
 def exterior_facets(mesh, dimension):
     """Return exterior facet node sets and their unique adjacent volume cell."""
-    counts = Counter(); owner = {}; parent={tag:tag for tag in mesh['elements'][dimension]}
-    def root(tag):
-        while parent[tag]!=tag:
-            parent[tag]=parent[parent[tag]];tag=parent[tag]
-        return tag
+    counts = Counter(); owner = {}
     for tag in mesh['elements'][dimension]:
         typ, conn = mesh['connectivity'][tag]
         if typ not in FACETS:
-            raise ValueError('CFD profile requires first-order triangle/quad/tet/hex/prism/pyramid cells')
+            raise ValueError('Geometry requires first-order triangle/quad/tet/hex/prism/pyramid cells')
         for local in FACETS[typ]:
             key = frozenset(conn[i] for i in local)
-            if key in owner:parent[root(tag)]=root(owner[key])
             counts[key] += 1; owner[key] = tag
-    if len({root(tag) for tag in parent})!=1:
-        raise ValueError('CFD 2.1 requires one facet-connected fluid domain')
     if any(n > 2 for n in counts.values()):
         raise ValueError('Nonmanifold cell facets are not supported')
     return {key:owner[key] for key,n in counts.items() if n == 1}
@@ -40,7 +33,7 @@ def exterior_facets(mesh, dimension):
 def boundary_geometry(problem, location):
     """Return facet centroids, outward normals and measures in location ID order.
 
-    In 2D measures are edge lengths; integrated flow/force is per unit depth.
+    In 2D measures are edge lengths; in 3D they are facet areas.
     Triangulates planar quad facets; rejects degenerate/nonplanar facets.
     """
     loc = problem.manifest['locations'][location]
@@ -70,7 +63,7 @@ def boundary_geometry(problem, location):
             if len(points)==4:
                 scale=max(np.max(np.linalg.norm(points-center,axis=1)),np.finfo(float).tiny)
                 if abs(np.dot(points[3]-points[0],normal)) > 1e-10*scale:
-                    raise ValueError('CFD profile requires planar quad boundary facets')
+                    raise ValueError('Geometry requires planar quad boundary facets')
                 other=np.cross(points[2]-points[0],points[3]-points[0])
                 if np.dot(cross,other)<=0:raise ValueError('Folded quad boundary facet')
                 other_area=np.linalg.norm(other)/2

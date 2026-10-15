@@ -92,7 +92,7 @@ def main(argv=None):
     bootstrap(args)
     from utils.PDEBench.pipeline import prepare_task
     from utils.PDEBench.storage import Budget,PreparationError,atomic_json
-    from caeoj.task_paths import task_directory
+    from caeoj_tools.task_paths import task_directory
     runtime=args.cache_root.resolve()
     destinations={m.task: args.output_root.resolve()/m.task if args.output_root is not None
                   else task_directory(m.task,ROOT) for m in chosen}

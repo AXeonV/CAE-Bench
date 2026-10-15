@@ -198,15 +198,20 @@ class CFDContractTests(unittest.TestCase):
 
     def test_disconnected_fluid_domains_need_a_separate_profile_extension(self):
         from caeoj.mesh_geometry import exterior_facets
+        from caeoj_ext.fluid._geometry import exterior_facets as fluid_exterior_facets
         mesh={'elements':{2:{1,2}},'connectivity':{1:(2,(10,11,12)),2:(2,(20,21,22))}}
+        # Neutral geometry supports multiple components; the fluid contract does not.
+        self.assertEqual(len(exterior_facets(mesh,2)),6)
         with self.assertRaisesRegex(ValueError,'facet-connected'):
-            exterior_facets(mesh,2)
+            fluid_exterior_facets(mesh,2)
 
     def test_periodic_regions_match_geometry_not_row_numbers(self):
         for side,partner,delta in [('x_min','x_max',1.),('x_max','x_min',-1.)]:
             self.boundary(side).update(operator='periodic',data={'partner':{'location':partner},'translation_x':c(delta,'m'),'translation_y':c(0.,'m')})
         self.save();p=load_problem(self.path)
         pairs=periodic_face_pairs(p,self.boundary('x_min'))
+        from caeoj.cfd import periodic_face_pairs as geometric_pairs
+        self.assertEqual(pairs,geometric_pairs(p,'x_min','x_max',[1.,0.]))
         self.assertEqual({a for a,b in pairs},set(self.arrays['x_min_ids']))
         self.assertEqual({b for a,b in pairs},set(self.arrays['x_max_ids']))
         self.boundary('x_min')['data']['translation_y']['value']=.1
@@ -321,17 +326,26 @@ class CFDContractTests(unittest.TestCase):
         root=self.root/'public_project';root.mkdir()
         for name in ('pyproject.toml','LICENSE'):shutil.copy2(ROOT/name,root/name)
         shutil.copytree(ROOT/'docs',root/'docs');shutil.copytree(ROOT/'src/caeoj',root/'src/caeoj')
+        shutil.copytree(ROOT/'qbank/extensions',root/'qbank/extensions',ignore=shutil.ignore_patterns('__pycache__','*.egg-info'))
+        catalog_path=root/'qbank/extensions/caeoj_bundle/runtime.json'
+        catalog=json.loads(catalog_path.read_text());catalog['tasks']['cfd-fixture']=['fluid.single_phase']
+        catalog_path.write_text(json.dumps(catalog))
         task=root/'qbank/99-test/99.1-fixtures/cfd-fixture';task.mkdir(parents=True)
         for name,text in [('instruction.md','Uniform rest contract fixture.'),('DATA.md','Packaging fixture; file structure follows docs/CONTRACT.md.'),('judge-config.json',json.dumps({'atol':0.,'rtol':0.,'timeout_seconds':1}))]:
             (task/name).write_text(text)
         sample=task/'samples/01';shutil.copytree(self.case,sample/'input')
         (sample/'input/reference.h5').unlink();(sample/'output').mkdir();shutil.copyfile(self.case/'reference.h5',sample/'output/result.h5')
+        manifest_path=sample/'input/problem.json';manifest=json.loads(manifest_path.read_text())
+        manifest['task']='cfd-fixture';manifest_path.write_text(json.dumps(manifest))
         spec=importlib.util.spec_from_file_location('cfd_public_packager',ROOT/'src/utils/publish_dist.py')
         publisher=importlib.util.module_from_spec(spec);spec.loader.exec_module(publisher)
         files,_=publisher.collect_materials('cfd-fixture',root)
         for name,data in files.items():
             destination=self.root/'release'/name;destination.parent.mkdir(parents=True,exist_ok=True);destination.write_bytes(data)
-        for name in ('cfd.py','mesh_geometry.py'):self.assertIn('src/caeoj/'+name,files)
+        self.assertIn('src/caeoj/mesh_geometry.py',files)
+        self.assertIn('src/caeoj_ext/fluid/single_phase/__init__.py',files)
+        self.assertNotIn('src/caeoj/cfd.py',files)
+        self.assertNotIn('src/caeoj_ext/fluid/thermal_flow/__init__.py',files)
         self.assertIn('docs/CONTRACT.md',files)
         for name in ('CFD-2.1.md','FLUID-ENERGY.md','FLUID-MULTIPHASE.md','FLUID-REDUCED.md'):
             self.assertNotIn('docs/'+name,files)

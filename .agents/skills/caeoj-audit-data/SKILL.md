@@ -9,7 +9,7 @@ description: "审核 CAE Bench OJ 题目的 DATA.md，逐项对照题面、通�
 
 ## 输入与范围
 
-定位用户指定的题目目录（既有 tasks 或新 qbank）和仓库根目录，使用用户指定或项目已激活的 Python 环境。先只读该题 instruction.md、DATA.md 与 docs/CONTRACT.md 核查可实现性，再枚举 cases、samples、examples 内全部实际输入与公开输出。维护领域资料或实现可用于之后定位问题，但不能用它们补足公开文档后宣称题意完整。不要求题目存在 generator 或 baseline。
+定位用户指定的 qbank 题目目录和仓库根目录，使用用户指定或项目已激活的 Python 环境。先只读该题 instruction.md、DATA.md 与 docs/CONTRACT.md 核查可实现性，再枚举 cases、samples、examples 内全部实际输入与公开输出。维护领域资料或实现可用于之后定位问题，但不能用它们补足公开文档后宣称题意完整。不要求题目存在 generator 或 baseline。
 
 默认只审核并输出报告；用户明确要求修复时再修改公开文档。题面、协议、实际输入相互冲突时，记录冲突并确认依据，不能默认实际输入必然正确，也不能修改数据迁就实现错误。
 
@@ -24,10 +24,10 @@ description: "审核 CAE Bench OJ 题目的 DATA.md，逐项对照题面、通�
 运行本 Skill 的辅助脚本（将 `<skill-dir>` 替换为本 SKILL.md 所在目录）：
 
 ```sh
-python <skill-dir>/scripts/inventory.py --task tasks/<task> --output runs/data-audit/<task>/inventory.json
+python <skill-dir>/scripts/inventory.py --task qbank/<chapter>/<section>/<task> --output runs/data-audit/<task>/inventory.json
 ```
 
-命令的 --task 可传实际 qbank 题目路径，不限定 tasks。脚本当前仅自动发现 cases/*/problem.json 与 samples/*/input/problem.json；对 examples 以及其他布局另行完整枚举并补充同类盘点，不得把脚本返回零输入当作不存在数据。
+命令的 --task 传入题目的实际目录路径。脚本当前仅自动发现 cases/*/problem.json 与 samples/*/input/problem.json；对 examples 以及其他布局另行完整枚举并补充同类盘点，不得把脚本返回零输入当作不存在数据。
 
 脚本只盘点完整 JSON、HDF5 dataset 元数据和网格文件头，不求解方程、不读取数值标答内容、不执行题目代码。它不是校验器，更不判断文档是否合格；退出成功仅表示盘点完成。检查报告中的缺失或不可读文件，必要时使用现有 `caeoj validate-input`／`validate-output` 核对结构。
 

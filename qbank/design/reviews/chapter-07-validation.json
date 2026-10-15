@@ -1,0 +1,101 @@
+{
+  "date": "2026-10-16",
+  "tasks": 10,
+  "sections": 7,
+  "reviewed_files": 21,
+  "static": {
+    "7.1-electrostatics": {
+      "topics": [
+        "electrostatic",
+        "floating-electrode"
+      ],
+      "static_checks": "passed",
+      "errors": []
+    },
+    "7.2-conduction": {
+      "topics": [
+        "dc-conduction",
+        "dielectric-relaxation"
+      ],
+      "static_checks": "passed",
+      "errors": []
+    },
+    "7.3-magnetostatics": {
+      "topics": [
+        "magnetostatic"
+      ],
+      "static_checks": "passed",
+      "errors": []
+    },
+    "7.4-eddy-currents": {
+      "topics": [
+        "harmonic-eddy"
+      ],
+      "static_checks": "passed",
+      "errors": []
+    },
+    "7.5-waves": {
+      "topics": [
+        "maxwell-cavity"
+      ],
+      "static_checks": "passed",
+      "errors": []
+    },
+    "7.6-circuits": {
+      "topics": [
+        "rlc-harmonic",
+        "rlc-transient"
+      ],
+      "static_checks": "passed",
+      "errors": []
+    },
+    "7.7-field-circuit": {
+      "topics": [
+        "coil-circuit"
+      ],
+      "static_checks": "passed",
+      "errors": []
+    }
+  },
+  "regression": {
+    "tests": 304,
+    "seconds": 47.584,
+    "result": "passed",
+    "log": "runs/authoring/chapter-07/regression.log"
+  },
+  "independent_install": {
+    "tasks": [
+      "coil-circuit",
+      "dc-conduction",
+      "dielectric-relaxation",
+      "electrostatic",
+      "floating-electrode",
+      "harmonic-eddy",
+      "magnetostatic",
+      "maxwell-cavity",
+      "rlc-harmonic",
+      "rlc-transient"
+    ],
+    "cli_per_task": [
+      "info",
+      "validate-input",
+      "validate-output",
+      "grade"
+    ],
+    "sdk": "passed",
+    "bad_units": "rejected",
+    "missing_extension": "tool error",
+    "import_path": "/Users/jimzhou/code/CAE-Bench-OJ/runs/authoring/chapter-07/install-check/venv/lib/python3.14/site-packages/caeoj/__init__.py",
+    "python": "3.14.6 (main, Jun 10 2026, 10:03:53) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "platform": "darwin",
+    "scipy": "1.18.1",
+    "working_directory": "/private/tmp",
+    "scope": "protocol fixtures only; no numerical references or solver runs"
+  },
+  "assembly_id": "30c8f41793a450bc4d14ea622214ec5b4b2d996324461dd8cf241a465b887331",
+  "grading": "all 10 quantity policies bound to different logical/array names; zero and nonzero reference tolerance boundaries tested; literal public thresholds independently checked; invalid output score=0, invalid reference score=null",
+  "resources": "actual task_config merge: agent3600/build1800/4CPU/8192MB/0GPU/separate verifier/no-network; max(1200,300+N*(case_timeout+60)), temporary N=3",
+  "formal_data": "not generated; only disposable protocol fixtures",
+  "numerical_validation": "not performed",
+  "publication": "not performed"
+}

@@ -174,4 +174,6 @@ def make_cases(destination):
             add_field(m, arrays, "temperature", unit="K")
         write_hdf5(directory / 'input.h5', arrays)
         write_json(directory / "problem.json", m)
+    from caeoj_tools.grading_policy import materialize_references, author_policy
+    materialize_references(Path(destination).parent, author_policy(Path(__file__).resolve().parents[1]), echo=True)
     return len(CASE_NAMES)

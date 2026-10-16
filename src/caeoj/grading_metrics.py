@@ -65,11 +65,20 @@ def _offset_ratio(actual, reference, offset, atol, rtol):
 
 def evaluate_field(problem, name, actual, expected, tree):
     spec = problem.manifest['outputs'][name]
+    ids = problem.arrays[problem.manifest['locations'][spec['location']]['ids']]
+    times = problem.arrays[problem.manifest['time_axes'][spec['time_axis']]]
+    weights = {key: problem.arrays[value['array']][0, :, 0]
+               for key, value in problem.manifest['fields'].items()
+               if value['kind'] == 'scalar' and value['location'] == spec['location']}
+    return evaluate_observation(actual, expected, tree, ids=ids, times=times, weights=weights)
+
+
+def evaluate_observation(actual, expected, tree, *, ids, times, weights=None):
+    """Score aligned observations without inventing an input/output manifest."""
+    weight_fields = weights or {}
     # Tensor components have the same flattening order as the output contract.
     shape = (actual.shape[0], actual.shape[1], -1)
     actual, expected = actual.reshape(shape), expected.reshape(shape)
-    ids = problem.arrays[problem.manifest['locations'][spec['location']]['ids']]
-    times = problem.arrays[problem.manifest['time_axes'][spec['time_axis']]]
     cache = {}
 
     def statistics(node):
@@ -80,8 +89,7 @@ def evaluate_field(problem, name, actual, expected, tree):
             return cache[key]
         weights = None
         if 'weight_field' in node:
-            wspec = problem.manifest['fields'][node['weight_field']]
-            weights = problem.arrays[wspec['array']][0, :, 0]
+            weights = weight_fields[node['weight_field']]
         weight_scale = float(np.max(weights)) if weights is not None else 1.0
         groups = []
         time_groups = [[i] for i in range(len(times))] if node['time'] == 'per_time' else [range(len(times))]

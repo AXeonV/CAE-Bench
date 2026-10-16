@@ -142,7 +142,7 @@ python src/utils/PDEBench/prepare.py --tasks '<task>' --budget-gb 60 --no-bootst
 
 ### 评测主线
 
-**1. 打包公开材料并统一组装 Harbor 环境。** 确认题面、DATA、完整公开样例、隐藏输入与参考均已就绪。评分由 `grading.json` 定义，逐例时限放在 `judge-config.json`，CPU／内存等容器资源放在 `harbor/task.toml`，依赖补充放在 `harbor/requirements.txt`。
+**1. 打包公开材料并统一组装 Harbor 环境。** 确认题面、DATA、完整公开样例、隐藏输入与参考均已就绪。评分由每例 `reference/grading.json` 定义，逐例时限放在 `judge-config.json`，CPU／内存等容器资源放在 `harbor/task.toml`，依赖补充放在 `harbor/requirements.txt`。
 
 ```sh
 python src/utils/publish_dist.py --task '<task>'
@@ -200,11 +200,11 @@ python -m caeoj validate-output --input '<task-dir>/cases/<case>/problem.json' -
 harbor run -p 'runs/harbor/tasks/<task>' -e docker -a oracle -k 1 -n 1 -o 'runs/harbor/jobs'
 ```
 
-**单点复核：检查已有求解程序的输出和成绩。** 判分会独立校验输出结构，数值规则使用本题 `grading.json`。
+**单点复核：检查已有求解程序的输出和成绩。** 判分会独立校验输出结构，规则使用本case的 `reference/grading.json`。
 
 ```sh
 python '<solver.py>' --input '<task-dir>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5'
-python -m caeoj grade --input '<task-dir>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5' --reference '<task-dir>/reference/<case>/reference.h5' --grading '<task-dir>/grading.json'
+python -m caeoj grade --input '<task-dir>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5' --grading '<task-dir>/reference/<case>/grading.json'
 ```
 
 校验返回 `valid/errors` JSON；判分每点为 0/1，退出码 2 表示基础设施或命令参数错误。评分方式见 [GRADING.md](docs/GRADING.md)。

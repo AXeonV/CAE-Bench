@@ -9,8 +9,7 @@ import time
 
 import psutil
 
-from caeoj.grading import grade_files
-from caeoj.grading_policy import load_policy, policy_hash
+from caeoj.case_grading import grade_case, prepare_case
 from caeoj.validation import write_json
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,7 +18,6 @@ PROJECT = ROOT.parents[3]
 
 def run(program, *, time_mode='fixed', selected=None, output=None):
     config = json.loads((ROOT/'judge-config.json').read_text(encoding='utf-8'))
-    policy = load_policy(ROOT/'grading.json')
     output = Path(output) if output else PROJECT/'runs/heat-conduction-transient-2d'/time_mode
     output.mkdir(parents=True, exist_ok=True)
     rows = []
@@ -64,8 +62,7 @@ def run(program, *, time_mode='fixed', selected=None, output=None):
         if failure or process.returncode:
             report = {'status': failure or 'runtime_error', 'score': 0}
         else:
-            report = grade_files(path, result, ROOT/'reference'/name/'reference.h5',
-                                 policy=policy)
+            report = grade_case(path, result, ROOT/'reference'/name/'grading.json')
         stats_path = logs/'stdout.txt'
         try:
             stats = json.loads(stats_path.read_text(encoding='utf-8'))
@@ -81,7 +78,7 @@ def run(program, *, time_mode='fixed', selected=None, output=None):
     summary = {'score': score, 'total_cases': len(rows), 'time_mode': time_mode,
                'max_wall_seconds': max(row['wall_seconds'] for row in rows),
                'max_peak_rss_mb': max(row['peak_rss_mb'] for row in rows),
-               'limits': config, 'policy_sha256': policy_hash(policy), 'cases': rows}
+               'limits': config, 'cases': rows}
     write_json(output/'report.json', summary)
     return summary
 

@@ -10,8 +10,7 @@ import tomllib
 import zipfile
 
 from publish_dist import PROJECT_ROOT, read_public_file, collect_materials
-from caeoj_tools.grading_policy import task_policy
-from caeoj.grading_policy import policy_hash, render_policy, validate_policy
+from caeoj.case_grading import prepare_case
 from caeoj.sdk import load_problem, load_result
 from caeoj_tools.task_paths import task_directory
 
@@ -56,8 +55,11 @@ def task_config(template, overrides, *, judge_config=None, case_count=None):
             raise ValueError('Verifier budget and solver timeout must be positive finite seconds')
         if type(case_count) is not int or case_count <= 0:
             raise ValueError('Auto verifier budget requires the actual positive case count')
+        evaluation_timeout = judge_config.get('evaluation_timeout_seconds', 60)
+        if type(evaluation_timeout) not in (int,float) or not math.isfinite(evaluation_timeout) or evaluation_timeout <= 0:
+            raise ValueError('Invalid evaluation_timeout_seconds')
         required = budget['base_seconds'] + case_count * (
-            judge_config['timeout_seconds'] + budget['per_case_overhead_seconds'])
+            judge_config['timeout_seconds'] + evaluation_timeout + budget['per_case_overhead_seconds'])
         if not math.isfinite(required):
             raise ValueError('Verifier budget overflow')
         config['verifier']['timeout_sec'] = max(config['verifier']['timeout_sec'], required)
@@ -85,7 +87,7 @@ def prepare(task, root=PROJECT_ROOT):
     if not cases:
         raise ValueError('Generate task cases before preparing Harbor')
     for path in cases:
-        load_result(load_problem(path), source / 'reference' / path.parent.name / 'reference.h5')
+        prepare_case(load_problem(path), source/'reference'/path.parent.name/'grading.json')
     archive = root / 'dist' / f'{task}-agent.zip'
     if not archive.is_file():
         raise ValueError(f'Run src/utils/publish_dist.py --task {task} first')
@@ -108,15 +110,7 @@ def prepare(task, root=PROJECT_ROOT):
         task=task, task_path=task_path, sample=manifest['public_samples'][0], timeout_seconds=judge_config['timeout_seconds'],
         samples=', '.join(f'`/app/{task_path}/samples/{name}/`' for name in manifest['public_samples']))
     resources = tomllib.loads(rendered_config)
-    policy = task_policy(source, load_problem(cases[0]), read_bytes=lambda p: read_public_file(root, p))
-    for path in cases:
-        validate_policy(policy, load_problem(path))
-    with zipfile.ZipFile(archive) as bundle:
-        policy_key = f'{task_path}/grading.json'
-        if policy_key not in bundle.namelist() or policy_hash(json.loads(bundle.read(policy_key))) != policy_hash(policy):
-            raise ValueError('Published grading policy is stale; run publish_dist.py again')
-    instruction += '\n评分规则：\n' + render_policy(policy)
-    instruction += f"公开样例判分：python -m caeoj grade --input /app/{task_path}/samples/{manifest['public_samples'][0]}/input/problem.json --output /app/sample-result.h5 --reference /app/{task_path}/samples/{manifest['public_samples'][0]}/output/result.h5 --grading /app/{task_path}/grading.json\n"
+    instruction += f"公开样例判分：python -m caeoj grade --input /app/{task_path}/samples/{manifest['public_samples'][0]}/input/problem.json --output /app/sample-result.h5 --grading /app/{task_path}/samples/{manifest['public_samples'][0]}/reference/grading.json\n"
     environment = resources['environment']
     if 'cpus' in environment:
         instruction += f"本次环境 CPU 配额：{environment['cpus']} 核。\n"
@@ -165,13 +159,13 @@ def prepare(task, root=PROJECT_ROOT):
         if baseline.is_file():
             copy(baseline, Path('solution/baseline.py'))
         copy(source / 'judge-config.json', Path('tests/judge-config.json'))
-        copy(source / 'grading.json', Path('tests/grading.json'))
         for path in cases:
             for asset in path.parent.iterdir():
                 if asset.is_file():
                     copy(asset, Path('tests/cases') / path.parent.name / asset.name)
-            copy(source / 'reference' / path.parent.name / 'reference.h5',
-                 Path('tests/reference') / path.parent.name / 'reference.h5')
+            prepared = prepare_case(load_problem(path), source/'reference'/path.parent.name/'grading.json')
+            for name in prepared.evidence['assets']:
+                copy(source/'reference'/path.parent.name/name, Path('tests/reference')/path.parent.name/name)
         # Replace only the checked generated task directory; preserve job logs.
         if destination.exists():
             shutil.rmtree(destination)

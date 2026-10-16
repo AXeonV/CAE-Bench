@@ -337,11 +337,15 @@ class CFDContractTests(unittest.TestCase):
         (sample/'input/reference.h5').unlink();(sample/'output').mkdir();shutil.copyfile(self.case/'reference.h5',sample/'output/result.h5')
         manifest_path=sample/'input/problem.json';manifest=json.loads(manifest_path.read_text())
         manifest['task']='cfd-fixture';manifest_path.write_text(json.dumps(manifest))
-        (task/'grading.json').write_text(json.dumps({'version': 1, 'fields': {
+        (task/'author').mkdir(parents=True,exist_ok=True)
+        (task/'author/grading-template.json').write_text(json.dumps({'version': 1, 'fields': {
             name: {'metric': 'pointwise', 'time': 'per_time', 'components': 'per_component',
                    'atol': 0., 'rtol': 0.} for name in manifest['outputs']}}))
         spec=importlib.util.spec_from_file_location('cfd_public_packager',ROOT/'src/utils/publish_dist.py')
         publisher=importlib.util.module_from_spec(spec);spec.loader.exec_module(publisher)
+        from caeoj_tools.grading_policy import materialize_references
+        from caeoj.grading_policy import load_policy
+        materialize_references(task,load_policy(task/'author/grading-template.json'))
         files,_=publisher.collect_materials('cfd-fixture',root)
         for name,data in files.items():
             destination=self.root/'release'/name;destination.parent.mkdir(parents=True,exist_ok=True);destination.write_bytes(data)

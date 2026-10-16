@@ -13,6 +13,7 @@ from numpy.polynomial.polynomial import polyval2d
 from caeoj.sdk import load_problem, write_result
 from caeoj.grading import grade_files
 from caeoj.grading_policy import load_policy
+from caeoj_tools.grading_policy import materialize_references
 from caeoj.validation import GMSH_LOCK, write_json
 from catalog import Case, CASES, SIDES, D, R, N, F, source_coefficients, boundary_coefficients, exact_mean, equation
 
@@ -32,7 +33,7 @@ def publish_sample(destination):
     answer = np.full((1, len(problem.arrays["node_ids"]), 1), 4.0, dtype=np.float64)
     output = sample / "output" / "result.h5"
     write_result(output, problem, {"temperature": answer})
-    policy = load_policy(TASK_ROOT/'grading.json')
+    policy = load_policy(TASK_ROOT/'author/grading-template.json')
     report = grade_files(problem.path, output, destination / "reference" / name / "reference.h5",
                          policy=policy)
     write_json(Path(destination) / "author/data-evidence/samples" / sample.name / "verification.json", {"case": name, **report})
@@ -54,7 +55,7 @@ def publish_mixed_sample(destination):
         output = sample / "output/result.h5"
         write_result(output, problem, {"temperature": answer})
         report = grade_files(problem.path, output, Path(temporary)/"reference.h5",
-                             policy=load_policy(TASK_ROOT/'grading.json'))
+                             policy=load_policy(TASK_ROOT/'author/grading-template.json'))
     write_json(Path(destination)/"author/data-evidence/samples"/sample.name/"verification.json",
                {"case": case.name, **report})
     if report["score"] != 1:
@@ -204,8 +205,8 @@ def generate(destination=TASK_ROOT):
             descriptions += ["", f"另给定域平均温度 `{record['mean_temperature']:.12g} K`。"]
     (destination / "TEST-CASES.md").write_text("\n".join(descriptions) + "\n", encoding="utf-8")
     publish_sample(destination)
+    materialize_references(destination, load_policy(TASK_ROOT/'author/grading-template.json'))
     return len(CASES)
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

@@ -70,17 +70,23 @@ v={s["array"]:np.zeros((len(p.arrays[m["time_axes"][s["time_axis"]]]),len(p.arra
 write_result(sys.argv[2],p,v);load_result(p,sys.argv[2])
 '''
         subprocess.run([str(python),'-I','-c',script,str(path),str(output)],cwd=work,check=True,capture_output=True,encoding='utf-8',errors='backslashreplace')
+        from caeoj.case_grading import direct_config
+        from caeoj.grading_policy import load_policy
+        config=direct_config(load_policy(task/'author/grading-template.json'))
+        config['checks'][0]['reference']=output.name
+        grading=path.parent/'grading.json';grading.write_text(json.dumps(config))
         commands=[['info','--input',str(path)],['validate-input',str(path)],
                   ['validate-output','--input',str(path),'--output',str(output)],
-                  ['grade','--input',str(path),'--output',str(output),'--reference',str(output),'--grading',str(task/'grading.json')]]
+                  ['grade','--input',str(path),'--output',str(output),'--grading',str(grading)]]
         for args in commands:
             r=subprocess.run([str(python),'-I','-m','caeoj',*args],cwd=work,capture_output=True,encoding='utf-8',errors='backslashreplace')
             rows.append(dict(task=slug,command=args[0],returncode=r.returncode))
-            if r.returncode:
-                raise RuntimeError(r.stdout+r.stderr)
+            if r.returncode: raise RuntimeError(r.stdout+r.stderr)
         bad=path.parent/'bad-output.h5';bad.write_bytes(b'not HDF5')
         for candidate,reference,code in [(bad,output,1),(output,bad,2)]:
-            r=subprocess.run([str(python),'-I','-m','caeoj','grade','--input',str(path),'--output',str(candidate),'--reference',str(reference),'--grading',str(task/'grading.json')],cwd=work,capture_output=True,encoding='utf-8',errors='backslashreplace')
+            config['checks'][0]['reference']=reference.name
+            grading.write_text(json.dumps(config))
+            r=subprocess.run([str(python),'-I','-m','caeoj','grade','--input',str(path),'--output',str(candidate),'--grading',str(grading)],cwd=work,capture_output=True,encoding='utf-8',errors='backslashreplace')
             assert r.returncode==code,(r.stdout,r.stderr)
             rows.append(dict(task=slug,command='bad-candidate' if code==1 else 'bad-reference',returncode=code))
     summary=dict(runtime_id=runtime['id'],task_count=len(fixtures),normal_install=True,source_moved=True,

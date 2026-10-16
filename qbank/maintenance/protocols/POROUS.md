@@ -10,4 +10,4 @@
 
 作者模板为 `qbank/maintenance/authoring/build_porous.py`，仅展开文档、配置和内部模型目录，不生成算例或参考。运行后应检查已审阅文件是否改变。测试入口为 `tests/test_porous_contract.py` 与 `tests/porous_fixture.py`，所有网格／HDF5 为临时工具载荷。
 
-评分统一使用 grading.json v2 的 quantity／unit 绑定；每题题面逐项列出相同逐值阈值。执行资源从本题 judge-config 与 harbor/task.toml 合并；最终 verifier 总预算依实际案例数计算，不因没有数据而虚构 N。正式阈值与资源可达性、独立参考、Linux 容器限制实测和发布仍需后续证据。
+评分统一使用 case 内 policy version 2 的 quantity／unit 绑定；每题题面逐项列出相同逐值阈值。执行资源从本题 judge-config 与 harbor/task.toml 合并；最终 verifier 总预算依实际案例数计算，不因没有数据而虚构 N。正式阈值与资源可达性、独立参考、Linux 容器限制实测和发布仍需后续证据。

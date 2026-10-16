@@ -16,7 +16,7 @@ from caeoj.validation import validate_input,validate_output,output_support
 from caeoj.grading import grade_arrays
 from caeoj.grading_policy import resolve_policy
 from caeoj_tools.task_paths import task_directory
-from caeoj_tools.grading_policy import task_policy
+from caeoj_tools.grading_policy import author_policy
 from caeoj_tools.assembly import runtime_materials
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -122,7 +122,7 @@ class ElectrochemistryTests(unittest.TestCase):
         template=(ROOT/'src/utils/harbor/task.toml').read_text()
         for slug,cfg in models().items():
             with self.subTest(slug=slug),tempfile.TemporaryDirectory() as tmp:
-                path,m=fixture(tmp,slug);p=load_problem(path);task=task_directory(slug,ROOT);policy=task_policy(task,p);bound=resolve_policy(policy,p)
+                path,m=fixture(tmp,slug);p=load_problem(path);task=task_directory(slug,ROOT);policy=author_policy(task,p);bound=resolve_policy(policy,p)
                 ref={k:p.arrays[k].copy() for k in output_support(p)}
                 for s in m['outputs'].values():ref[s['array']]=np.zeros((3 if cfg['dynamic'] else 1,len(p.arrays[m['locations'][s['location']]['ids']]),*s['component_shape']))
                 for name,s in m['outputs'].items():
@@ -146,7 +146,7 @@ class ElectrochemistryTests(unittest.TestCase):
                 for k,v in dict(cpus=2,memory_mb=4096,gpus=0,os='linux',build_timeout_sec=1800.).items():self.assertEqual(merged['environment'][k],v)
                 self.assertEqual(merged['agent']['timeout_sec'],3600.)
                 self.assertEqual(merged['verifier']['network_mode'],'no-network');self.assertEqual(merged['verifier']['environment_mode'],'separate')
-                self.assertEqual(merged['verifier']['timeout_sec'],max(1200,300+3*(expected+60)))
+                self.assertEqual(merged['verifier']['timeout_sec'],max(1200,300+3*(expected+120)))
         files,runtime=runtime_materials({s:task_directory(s,ROOT) for s in models()},ROOT)
         self.assertEqual(set(runtime['extensions']),{'electrochemistry.interfaces_transport'})
         self.assertFalse(any(any(v in name for v in ('caeoj_tools','/author/','maintenance','/cases/','/reference/')) for name in files))

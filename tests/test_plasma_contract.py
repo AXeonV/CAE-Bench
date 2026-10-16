@@ -20,7 +20,7 @@ from caeoj.grading_policy import resolve_policy
 from caeoj.sdk import load_problem, write_result
 from caeoj.validation import output_support, validate_input, validate_output
 from caeoj_tools.assembly import runtime_materials
-from caeoj_tools.grading_policy import task_policy
+from caeoj_tools.grading_policy import author_policy
 from caeoj_tools.task_paths import task_directory
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -164,7 +164,7 @@ class PlasmaContractTests(unittest.TestCase):
                 path, m = fixture(tmp, slug)
                 problem = load_problem(path)
                 task = task_directory(slug, ROOT)
-                policy = task_policy(task, problem)
+                policy = author_policy(task, problem)
                 bound = resolve_policy(policy, problem)
                 reference = {k: problem.arrays[k].copy() for k in output_support(problem)}
                 for field in m['outputs'].values():

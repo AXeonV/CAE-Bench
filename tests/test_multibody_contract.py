@@ -17,7 +17,7 @@ from caeoj.validation import check_problem,validate_output,output_support
 from caeoj.grading import grade_arrays
 from caeoj.grading_policy import resolve_policy
 from caeoj_tools.task_paths import task_directory
-from caeoj_tools.grading_policy import task_policy
+from caeoj_tools.grading_policy import author_policy
 from caeoj_tools.assembly import runtime_materials
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -34,7 +34,7 @@ class MultibodyTests(unittest.TestCase):
                 for s in m['outputs'].values():ref[s['array']]=np.zeros((len(problem.arrays[m['time_axes'][s['time_axis']]]),len(problem.arrays[m['locations'][s['location']]['ids']]),*s['component_shape']))
                 write_result(Path(tmp)/'result.h5',problem,{s['array']:ref[s['array']] for s in m['outputs'].values()})
                 self.assertTrue(validate_output(path,Path(tmp)/'result.h5')['valid'])
-                policy=task_policy(task_directory(slug,ROOT),problem);bound=resolve_policy(policy,problem)
+                policy=author_policy(task_directory(slug,ROOT),problem);bound=resolve_policy(policy,problem)
                 self.assertEqual(grade_arrays(problem,deepcopy(ref),ref,policy=policy)['score'],1)
                 for name,s in m['outputs'].items():
                     actual=deepcopy(ref);tol=bound['fields'][name]['atol'];actual[s['array']][:]=tol
@@ -85,13 +85,13 @@ class MultibodyTests(unittest.TestCase):
             self.assertEqual(merged['environment']['gpus'],0)
             self.assertEqual(merged['verifier']['network_mode'],'no-network')
             self.assertEqual(merged['verifier']['environment_mode'],'separate')
-            self.assertEqual(merged['verifier']['timeout_sec'],max(1200,300+3*(AUTHOR_MODELS[slug]['timeout']+60)))
+            self.assertEqual(merged['verifier']['timeout_sec'],max(1200,300+3*(AUTHOR_MODELS[slug]['timeout']+120)))
             self.assertIsNone(judge.output_limit(config))
         with tempfile.TemporaryDirectory() as tmp:
             path,m=fixture(tmp,'normal-impact');problem=load_problem(path)
             ref={k:problem.arrays[k].copy() for k in output_support(problem)}
             for s in m['outputs'].values():ref[s['array']]=np.zeros((1,len(problem.arrays[m['locations'][s['location']]['ids']]),*s['component_shape']))
-            policy=task_policy(task_directory('normal-impact',ROOT),problem)
+            policy=author_policy(task_directory('normal-impact',ROOT),problem)
             bad=deepcopy(ref);bad.pop('answer_impulse0')
             self.assertEqual(grade_arrays(problem,bad,ref,policy=policy)['score'],0)
             result=grade_arrays(problem,ref,bad,policy=policy)

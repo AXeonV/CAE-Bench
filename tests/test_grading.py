@@ -137,8 +137,11 @@ class GradingTests(unittest.TestCase):
 
     def test_grading_cli_exit_codes_and_json(self):
         output, reference = self.write_files()
+        from caeoj.case_grading import direct_config
+        grading = reference.parent/'grading.json'
+        grading.write_text(json.dumps(direct_config({'version':2,'default':dict(metric='pointwise',time='per_time',components='per_component',atol=DEFAULT_ATOL,rtol=DEFAULT_RTOL)})))
         command = [sys.executable, "-m", "caeoj", "grade", "--input", str(self.path),
-                   "--output", str(output), "--reference", str(reference)]
+                   "--output", str(output), "--grading", str(grading)]
         execution = subprocess.run(command, capture_output=True, text=True)
         self.assertEqual(execution.returncode, 0, execution.stderr)
         self.assertEqual(json.loads(execution.stdout)["score"], 1)

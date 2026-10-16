@@ -226,7 +226,8 @@ spatial_dimension=1，为一维端口／支路坐标标记；geometries、meshes
 '''
         data=data.replace('{output_order_note}',output_order_note)
         (d/'DATA.md').write_text(data, encoding='utf-8')
-        (d/'grading.json').write_text(json.dumps(dict(version=2,quantities={q:dict(unit=s['unit'],rule=dict(metric='pointwise',time='per_time',components='per_component',atol=s['atol'],rtol=s['rtol'])) for q,s in c['outputs'].items()}),indent=2)+'\n', encoding='utf-8')
+        (d/'author').mkdir(parents=True,exist_ok=True)
+        (d/'author/grading-template.json').write_text(json.dumps(dict(version=2,quantities={q:dict(unit=s['unit'],rule=dict(metric='pointwise',time='per_time',components='per_component',atol=s['atol'],rtol=s['rtol'])) for q,s in c['outputs'].items()}),indent=2)+'\n', encoding='utf-8')
         (d/'judge-config.json').write_text(json.dumps(dict(timeout_seconds=c['timeout'],max_output_bytes=None,stage='provisional',verifier_budget=dict(base_seconds=300,per_case_overhead_seconds=60)),indent=2)+'\n', encoding='utf-8')
         (d/'harbor').mkdir(exist_ok=True)
         (d/'harbor/task.toml').write_text('[agent]\ntimeout_sec = 3600.0\n\n[environment]\nbuild_timeout_sec = 1800.0\ncpus = 2\nmemory_mb = 4096\ngpus = 0\nos = "linux"\n\n[verifier]\nnetwork_mode = "no-network"\n', encoding='utf-8')

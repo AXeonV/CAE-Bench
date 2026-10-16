@@ -11,7 +11,7 @@ import numpy as np
 
 @lru_cache(maxsize=1)
 def models():
-    return json.loads(files(__package__).joinpath('models.json').read_text())
+    return json.loads(files(__package__).joinpath('models.json').read_text(encoding='utf-8'))
 
 
 def elastic_constants(young_modulus, poisson_ratio):

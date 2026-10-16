@@ -192,9 +192,10 @@ class PolicyTests(unittest.TestCase):
     def test_cli_policy_and_conflict(self):
         with tempfile.TemporaryDirectory(dir=ROOT/'runs') as tmp:
             root=Path(tmp);write_hdf5(root / 'result.h5', self.actual);write_hdf5(root / 'reference.h5', self.reference)
-            policy=root/'grading.json';policy.write_text(json.dumps(self.policy(self.leaf())))
+            from caeoj.case_grading import direct_config
+            policy=root/'grading.json';policy.write_text(json.dumps(direct_config(self.policy(self.leaf()))))
             args=[sys.executable,'-m','caeoj','grade','--input',str(self.problem.path),'--output',str(root/'result.h5'),
-                  '--reference',str(root/'reference.h5'),'--grading',str(policy)]
+                  '--grading',str(policy)]
             r=subprocess.run(args,capture_output=True,text=True)
             self.assertEqual(r.returncode,0,r.stderr);self.assertEqual(json.loads(r.stdout)['score'],1)
             r=subprocess.run(args+['--atol','.1'],capture_output=True,text=True)

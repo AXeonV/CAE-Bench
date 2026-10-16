@@ -12,7 +12,7 @@ python /app/submission/solve.py --input <problem.json> --output <result.h5>
 
 所需辅助 Python 文件也放在 `/app/submission/`；
 提交后在独立环境中判题，只传递该目录，不保留开发环境的其他修改。
-逐例运行时间上限 ${timeout_seconds} 秒，输出按下述评分规则判分。
+逐例运行时间上限 ${timeout_seconds} 秒，输出按题面公开的评分规则判分。
 
 结构校验命令示例：
 
@@ -24,4 +24,4 @@ python -m caeoj validate-output --input /app/${task_path}/samples/${sample}/inpu
 
 公开样例目录：${samples}。
 校验器仅检查数据协议；数值正确性由独立判分器检查。
-公开示例的完整正确输出位于 `/app/${task_path}/samples/${sample}/output/result.h5`。
+已提供的公开完整提交示例位于 `/app/${task_path}/samples/${sample}/output/result.h5`。

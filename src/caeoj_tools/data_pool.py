@@ -99,8 +99,8 @@ def matches(path, entry):
 
 def manifest(path):
     value = checked_json(path)
-    if value.get('schema_version') != 3 or not re.fullmatch(r'caeoj-\d{6}', value.get('task_id', '')):
-        raise PoolError('Expected pool selection schema_version 3 and stable task_id')
+    if value.get('schema_version') != 4 or not re.fullmatch(r'caeoj-\d{6}', value.get('task_id', '')):
+        raise PoolError('Expected pool selection schema_version 4 and stable task_id')
     if set(value) - {'schema_version', 'task_id', 'repository', 'pool', 'cases', 'samples', 'notes'}:
         raise PoolError('Selection has unsupported fields; migrate the old layout explicitly')
     repo = value.get('repository', {})
@@ -162,7 +162,7 @@ def bound(store, prefix, binding, descriptors=None):
     if digest(path) != binding['sha256']:
         raise PoolError(f'Descriptor SHA mismatch: {name}; explicitly reselect after reviewing changes')
     value = checked_json(path)
-    if value.get('schema_version') != 2:
+    if value.get('schema_version') != 3:
         raise PoolError(f'Unknown descriptor version: {name}')
     if descriptors is not None:
         descriptors[name] = path.read_text(encoding='utf-8')
@@ -171,7 +171,7 @@ def bound(store, prefix, binding, descriptors=None):
 
 def item_files(store, prefix, binding, item, descriptors):
     """A case is self-contained: there are no cross-directory data references."""
-    if set(item) != {'schema_version', 'case_id', 'origin', 'files', 'input', 'reference'}:
+    if set(item) != {'schema_version', 'case_id', 'origin', 'files', 'input', 'reference', 'example'}:
         raise PoolError('Case descriptor has unsupported fields')
     base = f"pool/cases/{item['case_id']}"
     if binding['path'] != base + '/case.json':
@@ -181,12 +181,15 @@ def item_files(store, prefix, binding, item, descriptors):
         relative(logical); check_entry(entry)
         if set(entry) != {'size_bytes', 'sha256'}:
             raise PoolError('File entries cannot redirect to shared or external data')
-        if not logical.startswith('input/') and logical != 'reference/reference.h5':
-            raise PoolError('Only input assets and reference/reference.h5 belong in a case')
+        if not logical.startswith(('input/', 'reference/')):
+            raise PoolError('Only input and declared reference assets belong in a case')
         files[logical] = {**entry, 'source': base + '/' + logical}
     declared = item['input'].get('files', []) + item['reference'].get('files', [])
     if len(declared) != len(set(declared)) or set(declared) != set(files):
         raise PoolError('Case file groups must partition all declared files')
+    example = item.get('example')
+    if example is not None and (not isinstance(example, str) or example not in item['reference']['files']):
+        raise PoolError('Example must bind a declared reference asset')
     return files
 
 
@@ -221,7 +224,7 @@ def plan(value, store, cases=None, samples=None):
                 names_in_group = group.get('files')
                 if type(group.get('complete')) is not bool or not isinstance(names_in_group, list):
                     raise PoolError(f'Invalid {kind} group')
-                if group['complete'] and group_prefix + ('problem.json' if kind == 'input' else 'reference.h5') not in names_in_group:
+                if group['complete'] and group_prefix + ('problem.json' if kind == 'input' else 'grading.json') not in names_in_group:
                     raise PoolError(f'Complete {kind} lacks its entry point')
                 if not group['complete']:
                     result['incomplete'].append(f'{role}/{name}/{kind}')
@@ -235,8 +238,10 @@ def plan(value, store, cases=None, samples=None):
                     elif role == 'cases':
                         target = f'reference/{name}/{leaf}'
                     else:
-                        target = f'samples/{name}/output/result.h5'
+                        target = f'samples/{name}/reference/{leaf}'
                     add(target, files[logical])
+                    if role == 'samples' and logical == item.get('example'):
+                        add(f'samples/{name}/output/result.h5', files[logical])
             keys = ['input:' + hashlib.sha256(json.dumps(signature, sort_keys=True).encode()).hexdigest()]
             origin = item.get('origin', {}).get('certificate_identity', {})
             if all(key in origin for key in ('source_id', 'source_md5', 'sample_index')):
@@ -261,6 +266,28 @@ def fetch(value, store, **options):
         path = store.get(value['repository']['path'] + '/' + entry['source'])
         if not matches(path, entry):
             raise PoolError(f'Pool payload SHA/size mismatch: {entry["source"]}')
+    from caeoj.case_grading import prepare_case
+    from caeoj.sdk import load_problem
+    with tempfile.TemporaryDirectory(prefix='caeoj-pool-preflight-') as temporary:
+        for role, names in result['scope'].items():
+            for name in names:
+                if any(v.startswith(f'{role}/{name}/') for v in result['incomplete']): continue
+                task = Path(temporary)/role/name
+                for target, entry in result['files'].items():
+                    input_prefix = f'cases/{name}/' if role == 'cases' else f'samples/{name}/input/'
+                    reference_prefix = f'reference/{name}/' if role == 'cases' else f'samples/{name}/reference/'
+                    for prefix, category in ((input_prefix, 'input'), (reference_prefix, 'reference')):
+                        if target.startswith(prefix):
+                            destination = task/category/target.removeprefix(prefix)
+                            destination.parent.mkdir(parents=True, exist_ok=True)
+                            shutil.copyfile(store.get(value['repository']['path']+'/'+entry['source']), destination)
+                prepared = prepare_case(load_problem(task/'input/problem.json'), task/'reference/grading.json')
+                example_key = f'samples/{name}/output/result.h5'
+                if role == 'samples' and example_key in result['files']:
+                    from caeoj.sdk import load_result
+                    example = store.get(value['repository']['path']+'/'+result['files'][example_key]['source'])
+                    arrays = load_result(prepared.problem, example)
+                    if prepared.evaluate(arrays)['score'] != 1: raise PoolError('Declared example fails case evaluation')
     result['revision'] = store.revision
     return result
 
@@ -379,6 +406,19 @@ def verify(task, *, strict=False, samples_only=False):
         for name, entry in current['files'].items():
             if not matches(within(task, name), entry):
                 errors.append('Local SHA/size mismatch or missing: ' + name)
+        from caeoj.case_grading import prepare_case
+        from caeoj.sdk import load_problem
+        for role in (('samples',) if samples_only else ('cases', 'samples')):
+            for name in value[role]:
+                if errors or any(v.startswith(f'{role}/{name}/') for v in current['incomplete']): continue
+                input_path = task/'cases'/name/'problem.json' if role == 'cases' else task/'samples'/name/'input/problem.json'
+                reference_path = task/'reference'/name/'grading.json' if role == 'cases' else task/'samples'/name/'reference/grading.json'
+                prepared = prepare_case(load_problem(input_path), reference_path)
+                example = task/'samples'/name/'output/result.h5'
+                if role == 'samples' and example.is_file():
+                    from caeoj.sdk import load_result
+                    if prepared.evaluate(load_result(prepared.problem, example))['score'] != 1:
+                        raise PoolError('Declared example fails case evaluation')
         if strict:
             errors += ['Incomplete group: ' + name for name in current['incomplete']]
             if not samples_only:
@@ -389,7 +429,7 @@ def verify(task, *, strict=False, samples_only=False):
                           for p in (task/role).glob(pattern)}
                 if actual != set(value[role]):
                     errors.append('Stale or missing ' + role + ' entry points')
-    except (PoolError, OSError, KeyError, TypeError) as exc:
+    except (ValueError, RuntimeError, OSError, KeyError, TypeError) as exc:
         errors.append(str(exc))
     if errors and strict:
         raise PoolError('; '.join(errors))
@@ -401,7 +441,7 @@ def verify(task, *, strict=False, samples_only=False):
 def select(value, store, cases, samples, *, allow_incomplete=False):
     prefix = value['repository']['path']
     index = checked_json(store.get(prefix + '/' + relative(value['pool']['index'])))
-    if index.get('schema_version') != 2 or not isinstance(index.get('cases'), dict):
+    if index.get('schema_version') != 3 or not isinstance(index.get('cases'), dict):
         raise PoolError('Invalid pool index')
     selected = {**value, 'cases': {}, 'samples': {}}
     for role, choices in (('cases', cases), ('samples', samples)):
@@ -428,8 +468,8 @@ def pack(source, output, value):
     References and examples are included only when they actually exist.
     """
     source, output = Path(source).absolute(), Path(output).absolute()
-    if value.get('schema_version') != 3 or not re.fullmatch(r'caeoj-\d{6}', value.get('task_id', '')):
-        raise PoolError('Pack requires a stable task ID and selection version 3')
+    if value.get('schema_version') != 4 or not re.fullmatch(r'caeoj-\d{6}', value.get('task_id', '')):
+        raise PoolError('Pack requires a stable task ID and selection version 4')
     if output.exists() and any(output.iterdir()):
         raise PoolError('Pack output must be empty; use a new staging directory')
     if output.is_relative_to(source) or source.is_relative_to(output):
@@ -473,10 +513,10 @@ def pack(source, output, value):
                 raise PoolError(f'Empty input: {role}/{name}')
             input_id = hashlib.sha256(json.dumps({p: digest(f) for p, f in inputs.items()}, sort_keys=True).encode()).hexdigest()
             case_id = 'case-' + input_id[:24]
-            item = items.setdefault(case_id, {'schema_version': 2, 'case_id': case_id,
+            item = items.setdefault(case_id, {'schema_version': 3, 'case_id': case_id,
                 'origin': {'kind': 'prepared-input', 'key': name, 'input_identity_sha256': input_id},
                 'files': {}, 'input': {'complete': complete_input(inputs), 'files': []},
-                'reference': {'complete': False, 'files': []}})
+                'reference': {'complete': False, 'files': []}, 'example': None})
             certificate_path = source/'reference'/name/'certificate.json' if role == 'cases' else source/'reference/sample-certificates'/name/'certificate.json'
             archived = source/'author/data-evidence'/certificate_path.relative_to(source)
             if archived.is_file():
@@ -502,23 +542,40 @@ def pack(source, output, value):
                 for key in item['input']['files']}, sort_keys=True).encode()).hexdigest()
             if copied_id != input_id:
                 raise PoolError('Input changed while packing; retry from a stable source')
-            refs = inventory(source/'reference'/name if role == 'cases' else directory/'output')
-            for logical, path in refs.items():
-                if logical != ('reference.h5' if role == 'cases' else 'result.h5'):
-                    continue
-                key = 'reference/' + ('reference.h5' if role == 'samples' and logical == 'result.h5' else logical)
+            reference_dir = source/'reference'/name if role == 'cases' else directory/'reference'
+            refs = inventory(reference_dir)
+            from caeoj.case_grading import prepare_case
+            from caeoj.sdk import load_problem
+            declared = {}
+            if 'grading.json' in refs:
+                prepared = prepare_case(load_problem(inputs['problem.json']), refs['grading.json'])
+                declared = {key: refs[key] for key in prepared.evidence['assets']}
+                item['reference']['complete'] = True
+            for logical, path in declared.items():
+                key = 'reference/' + logical
                 entry = identity(path)
                 if key in item['files'] and item['files'][key] != entry:
-                    raise PoolError(f'Different references for identical input: {name}')
+                    raise PoolError(f'Different grading assets for identical input: {name}')
                 item['files'][key] = put(path, base + key)
-                if key not in item['reference']['files']:
+                if key not in item['reference']['files']: item['reference']['files'].append(key)
+            example = directory/'output/result.h5' if role == 'samples' else None
+            if example is not None and example.is_file():
+                from caeoj.sdk import load_result
+                load_result(load_problem(inputs['problem.json']), example)
+                # Reuse an identical reference; sparse references stay separate.
+                existing = next((key for key in item['reference']['files']
+                                 if item['files'][key] == identity(example)), None)
+                key = existing or 'reference/example.h5'
+                if not existing:
+                    item['files'][key] = put(example, base + key)
                     item['reference']['files'].append(key)
-            item['reference']['complete'] = 'reference/reference.h5' in item['reference']['files']
+                consumed.add(example.relative_to(source).as_posix())
+                item['example'] = key
             choice = {'case_id': case_id}
             selections[role][name] = choice
     if not items:
         raise PoolError('No case/sample inputs found')
-    index = {'schema_version': 2, 'cases': {}}
+    index = {'schema_version': 3, 'cases': {}}
     for case_id, item in items.items():
         name = f'pool/cases/{case_id}/case.json'
         write_json(within(repo, prefix + '/' + name), item)
@@ -602,13 +659,13 @@ def upload(bundle, *, update=False, revision='main'):
     api = HfApi()
     names = set(api.list_repo_files(repo['repo_id'], repo_type='dataset', revision=remote.revision))
     index_name = prefix + '/' + value['pool']['index']
-    previous = checked_json(remote.get(index_name)) if index_name in names else {'schema_version': 2, 'cases': {}}
-    if previous.get('schema_version') != 2:
+    previous = checked_json(remote.get(index_name)) if index_name in names else {'schema_version': 3, 'cases': {}}
+    if previous.get('schema_version') != 3:
         raise PoolError('Unsupported remote pool index')
     for case_id, entry in index['cases'].items():
         if case_id in previous['cases'] and previous['cases'][case_id] != entry and not update:
             raise PoolError('Remote item changed; review and use --update: ' + case_id)
-    merged = {'schema_version': 2, 'cases': {**previous['cases'], **index['cases']}}
+    merged = {'schema_version': 3, 'cases': {**previous['cases'], **index['cases']}}
     operations = []
     paths = [p for p in sorted(local.root.rglob('*')) if p.is_file()]
     existing = [p.relative_to(local.root).as_posix() for p in paths

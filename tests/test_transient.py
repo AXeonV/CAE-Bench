@@ -38,7 +38,7 @@ class TransientTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.config = json.loads((TASK/'judge-config.json').read_text())
-        cls.policy = load_policy(TASK/'grading.json')
+        cls.policy = load_policy(TASK/'author/grading-template.json')
         cls.cases = {}
         for path in sorted((TASK/'cases').glob('*/problem.json')):
             p = load_problem(path)
@@ -217,7 +217,7 @@ class TransientTests(unittest.TestCase):
         files, samples = publisher.collect_materials('heat-conduction-transient-2d')
         self.assertEqual(samples, ['01', '02'])
         for path in files:
-            self.assertFalse(set(Path(path).parts) & {'author', 'reference', 'cases'})
+            self.assertFalse(set(Path(path).parts) & {'author', 'cases'})
             self.assertFalse(path.endswith(('DESIGN.md', 'TEST-CASES.md', 'verification.json')))
 
     def test_valid_boundary_only_mesh_has_no_unknowns_to_time_integrate(self):

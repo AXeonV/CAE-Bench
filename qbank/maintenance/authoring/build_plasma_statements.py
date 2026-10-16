@@ -483,7 +483,8 @@ def build():
         policy = dict(version=2, quantities={q: dict(unit=o['unit'], rule=dict(
             metric='pointwise', time='per_time', components='per_component', atol=o['atol'], rtol=o['rtol']))
             for q, o in s['outputs'].items()})
-        (directory / 'grading.json').write_text(json.dumps(policy, indent=2) + '\n', encoding='utf-8')
+        (directory/'author').mkdir(parents=True,exist_ok=True)
+        (directory / 'author/grading-template.json').write_text(json.dumps(policy, indent=2) + '\n', encoding='utf-8')
         judge = dict(timeout_seconds=s['timeout'], max_output_bytes=None,
                      stage='design', verifier_budget=dict(base_seconds=120, per_case_overhead_seconds=15))
         (directory / 'judge-config.json').write_text(json.dumps(judge, indent=2) + '\n', encoding='utf-8')

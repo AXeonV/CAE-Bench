@@ -39,7 +39,7 @@ class HeatTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.config = json.loads((TASK / "judge-config.json").read_text(encoding="utf-8"))
-        cls.policy = load_policy(TASK/'grading.json')
+        cls.policy = load_policy(TASK/'author/grading-template.json')
         cls.cases = []
         for path in sorted((TASK / "cases").glob("*/problem.json")):
             problem = load_problem(path)
@@ -256,7 +256,6 @@ class HeatTests(unittest.TestCase):
             source = self.case("01")[0].path.parent
             shutil.copytree(source, root/"cases"/source.name)
             shutil.copy(TASK/"judge-config.json", root/"judge-config.json")
-            shutil.copy(TASK/"grading.json", root/"grading.json")
             # Missing reference: the program path is deliberately also invalid.
             report = local_check.check(root/"missing.py", root/"report.json", root)
             self.assertEqual(report["cases"][0]["status"], "reference_error")

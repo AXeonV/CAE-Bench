@@ -46,7 +46,7 @@ class PublishTests(unittest.TestCase):
             self.assertIn("src/caeoj/storage.py", names)
             self.assertIn("qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/01/output/result.h5", names)
             self.assertIn("qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/02/output/result.h5", names)
-            self.assertFalse(any(part in {"author", "cases", "reference", "__pycache__", "runs", ".git"}
+            self.assertFalse(any(part in {"author", "cases", "__pycache__", "runs", ".git"}
                                  for name in names for part in Path(name).parts))
             self.assertFalse(any(name.endswith(("baseline.py", "TEST-CASES.md")) for name in names))
             self.assertNotIn("src/caeoj/examples.py", names)
@@ -88,8 +88,8 @@ class PublishTests(unittest.TestCase):
             execution = subprocess.run(
                 [sys.executable, "-m", "caeoj", "grade", "--input",
                  f"qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/{sample}/input/problem.json", "--output",
-                 f"qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/{sample}/output/result.h5", "--reference",
-                 f"qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/{sample}/output/result.h5", "--atol", "0.01", "--rtol", "0"],
+                 f"qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/{sample}/output/result.h5", "--grading",
+                 f"qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/{sample}/reference/grading.json"],
                 cwd=root, env=env, capture_output=True, text=True, timeout=30)
             self.assertEqual(execution.returncode, 0, execution.stderr)
             self.assertEqual(json.loads(execution.stdout)["score"], 1)
@@ -112,7 +112,9 @@ class PublishTests(unittest.TestCase):
         policy = {'version': 2, 'quantities': {'temperature': {'unit': 'K', 'rule': {
             'metric': 'pointwise', 'time': 'per_time', 'components': 'per_component',
             'atol': .01, 'rtol': 0}}}}
-        (task / 'grading.json').write_text(json.dumps(policy))
+        from caeoj_tools.grading_policy import write_direct_grading
+        for reference in (task/'samples').glob('*/reference'):
+            write_direct_grading(reference, policy)
         path = task / 'samples/02/input/problem.json'
         manifest = json.loads(path.read_text())
         manifest['outputs']['other_name'] = manifest['outputs'].pop('temperature')
@@ -126,12 +128,12 @@ class PublishTests(unittest.TestCase):
         for sample in ('01', '02'):
             sample_path = task_path / f'samples/{sample}'
             command = [sys.executable, '-m', 'caeoj', 'grade', '--input', str(sample_path / 'input/problem.json'),
-                '--output', str(sample_path / 'output/result.h5'), '--reference', str(sample_path / 'output/result.h5'),
-                '--grading', str(task_path / 'grading.json')]
+                '--output', str(sample_path / 'output/result.h5'),
+                '--grading', str(sample_path / 'reference/grading.json')]
             result = subprocess.run(command, cwd=extracted, env=env, capture_output=True, text=True, timeout=30)
             self.assertEqual(result.returncode, 0, result.stderr)
             report = json.loads(result.stdout)
-            self.assertEqual(report['policy_version'], 2)
+            self.assertIn('evaluation_sha256', report)
             self.assertEqual(report['score'], 1)
 
     def test_invalid_public_output_does_not_replace_existing_release(self):
@@ -190,8 +192,10 @@ for path in paths+paths[::-1]:
     problem=load_problem(path)
     assert describe(problem.manifest)['scope']=='task-contract'
     sample=path.parent.parent
-    policy=load_policy(path.parents[3]/'grading.json')
-    result=grade_files(path,sample/'output/result.h5',sample/'output/result.h5',policy=policy)
+    from caeoj.case_grading import prepare_case
+    prepare_case(problem, path.parent.parent/'reference/grading.json')
+    from caeoj.case_grading import grade_case
+    result=grade_case(path,sample/'output/result.h5',sample/'reference/grading.json')
     assert result['score']==1,result
 print('multi-task: four alternating reads and grades passed')
 """

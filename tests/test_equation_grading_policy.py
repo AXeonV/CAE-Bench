@@ -27,9 +27,9 @@ class EquationPolicyTests(unittest.TestCase):
         for family, (atol, rtol) in tolerances.items():
             task = task_directory(family, ROOT)
             with self.subTest(task=task.name):
-                policy = load_policy(task / 'grading.json')
-                manifest = json.loads(next((task / 'samples').glob('*/input/problem.json')).read_text())
-                fields = {name for name, spec in manifest['outputs'].items() if spec['dtype'] == 'float64'}
+                policy = load_policy(task / 'author/grading-template.json')
+                from utils.PDEBench.models import BY_TASK
+                fields = {item[0] for item in BY_TASK[family].fields}
                 self.assertEqual(set(policy['fields']), fields)
                 for node in policy['fields'].values():
                     self.assertEqual(node, {'metric': 'violation_fraction', 'time': 'per_time',

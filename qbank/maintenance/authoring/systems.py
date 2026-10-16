@@ -134,7 +134,7 @@ def write(selected=None):
 
 {intro}
 
-模型和元件关系固定，考生负责按身份组装、求解、内部时间步及误差控制；{'分布管路的内部空间离散也由考生决定。' if slug=='distributed-pipe-network' else ''}语言与软件自由，解析／降阶方法覆盖全部公开契约同样有效，不要求某种参考算法。{'连通拓扑、并联支路、有向编号、元件参数、初态及外源时程' if c['network'] else '元件参数、外源及参考时程'}由算例改变。输入输出只依赖[本题DATA](DATA.md)和[通用CONTRACT](../../../../docs/CONTRACT.md)。
+模型和元件关系固定，考生负责按身份组装、求解、内部时间步及误差控制；{'分布管路的内部空间离散也由考生决定。' if slug=='distributed-pipe-network' else ''}语言与软件自由，解析／降阶方法覆盖全部公开契约同样有效，不要求某种参考算法。{'连通拓扑、并联支路、有向编号、元件参数、初态及外源时程' if c['network'] else '元件参数、外源及参考时程' if c.get('control') else '元件参数及外源时程'}由算例改变。输入输出只依赖[本题DATA](DATA.md)和[通用CONTRACT](../../../../docs/CONTRACT.md)。
 
 ## 运行与资源
 
@@ -209,7 +209,7 @@ spatial_dimension=1，为一维端口／支路坐标标记；geometries、meshes
 | quantity | unit | location | shape／components | 定义 |
 |---|---|---|---|---|
 '''+''.join(f"| `{q}` | `{s['unit']}` | `{s['location']}` | {s['shape']} / {','.join(s['labels'])} | {s['text']} |\n" for q,s in c['outputs'].items())+'''
-结果HDF5恰含全部输出array、输出使用的locations之IDs和response时间数组，严格复制输入轴／身份。不写入属性、拓扑、load／static轴、坐标或额外数组；若输入不同轴共用相同key，遵守CONTRACT的角色规则。
+结果HDF5恰含全部输出array、输出使用的locations之IDs和response时间数组，严格复制输入轴／身份。不额外写入属性、拓扑、未被输出复用的时间轴、坐标或其他数组；若输入不同轴共用相同key，只按输出需要复制一次，遵守CONTRACT的角色规则。
 
 ## 接收限制与证据
 

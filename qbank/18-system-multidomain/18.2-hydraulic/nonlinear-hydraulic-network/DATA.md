@@ -81,7 +81,7 @@ condition片段示意（不是完整样例，逻辑名可变）：
 | `pressure` | `Pa` | `nodes` | [1] / value | 节点表压p |
 | `volume_flow` | `m3/s` | `edges` | [1] / value | 支路q，按a→b正向 |
 
-结果HDF5恰含全部输出array、输出使用的locations之IDs和response时间数组，严格复制输入轴／身份。不写入属性、拓扑、load／static轴、坐标或额外数组；若输入不同轴共用相同key，遵守CONTRACT的角色规则。
+结果HDF5恰含全部输出array、输出使用的locations之IDs和response时间数组，严格复制输入轴／身份。不额外写入属性、拓扑、未被输出复用的时间轴、坐标或其他数组；若输入不同轴共用相同key，只按输出需要复制一次，遵守CONTRACT的角色规则。
 
 ## 接收限制与证据
 

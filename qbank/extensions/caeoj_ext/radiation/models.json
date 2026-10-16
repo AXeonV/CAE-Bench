@@ -1,0 +1,1167 @@
+{
+  "photon-absorption": {
+    "parameters": {
+      "group_count": {
+        "unit": "1",
+        "meaning": "群数G，JSON整数1..4；各群是输入给定有效响应的离散群，无隐含能群宽度权重",
+        "integer": true,
+        "lower": 1,
+        "upper": 4
+      }
+    },
+    "locations": {
+      "layers": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 32,
+        "meaning": "按IDs行序沿+x排列的材料层对象，x=0起始；层内参数常值"
+      },
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "完整平板系统对象，ID固定0"
+      }
+    },
+    "records": {
+      "layers": {
+        "role": "material",
+        "variable": "layer",
+        "location": "layers",
+        "data": {
+          "width": {
+            "unit": "m",
+            "meaning": "层厚h>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "axis": "static"
+      },
+      "absorption": {
+        "role": "material",
+        "variable": "absorption",
+        "location": "layers",
+        "data": {
+          "sigma": {
+            "unit": "1/m",
+            "meaning": "宏观纯吸收Σ_g≥0",
+            "kind": "components",
+            "shape": [
+              "g"
+            ],
+            "nonnegative": true
+          }
+        },
+        "axis": "static"
+      },
+      "beam": {
+        "role": "source",
+        "variable": "beam",
+        "location": "system",
+        "data": {
+          "flux": {
+            "unit": "1/(m2.s)",
+            "meaning": "x=0处向+x法向准直入射群粒子通量F_g≥0",
+            "kind": "components",
+            "shape": [
+              "g"
+            ],
+            "nonnegative": true
+          },
+          "energy": {
+            "unit": "J",
+            "meaning": "群内每粒子能量E_g>0；按群行序",
+            "kind": "components",
+            "shape": [
+              "g"
+            ],
+            "positive": true
+          }
+        },
+        "axis": "static"
+      }
+    },
+    "outputs": {
+      "transmitted_flux": {
+        "unit": "1/(m2.s)",
+        "meaning": "x=H处各群出射法向通量",
+        "kind": "components",
+        "shape": [
+          "g"
+        ],
+        "location": "system",
+        "atol": 1e-08,
+        "rtol": 0.005
+      },
+      "deposited_power": {
+        "unit": "W/m2",
+        "meaning": "该层所吸收能量的每横截面积功率，属于层对象的集总响应",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "location": "layers",
+        "atol": 1e-08,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 600,
+    "transient": false,
+    "output_axis": "static",
+    "name": "多群光子纯吸收与能量沉积"
+  },
+  "slab-transport-steady": {
+    "parameters": {
+      "group_count": {
+        "unit": "1",
+        "meaning": "群数G，JSON整数1..4；各群是输入给定有效响应的离散群，无隐含能群宽度权重",
+        "integer": true,
+        "lower": 1,
+        "upper": 4
+      },
+      "particle": {
+        "unit": "1",
+        "meaning": "JSON整数0=光子，1=中子；不触发额外核数据或自动响应",
+        "integer": true,
+        "lower": 0,
+        "upper": 1
+      }
+    },
+    "locations": {
+      "layers": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 32,
+        "meaning": "按IDs行序沿+x排列的材料层对象，x=0起始；层内参数常值"
+      },
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "完整平板系统对象，ID固定0"
+      },
+      "probes": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 128,
+        "meaning": "真实位置x，严格在层内部，排除全部界面与两端；不作空间重建"
+      }
+    },
+    "records": {
+      "layers": {
+        "role": "material",
+        "variable": "layer",
+        "location": "layers",
+        "data": {
+          "width": {
+            "unit": "m",
+            "meaning": "层厚h>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "axis": "static"
+      },
+      "medium": {
+        "role": "material",
+        "variable": "medium",
+        "location": "layers",
+        "data": {
+          "absorption": {
+            "unit": "1/m",
+            "meaning": "宏观吸收Σa_g>0",
+            "kind": "components",
+            "shape": [
+              "g"
+            ],
+            "positive": true
+          },
+          "scatter": {
+            "unit": "1/m",
+            "meaning": "各向同性群转移S[g,h]≥0，第一轴出射群g、第二轴入射群h；含自散射",
+            "kind": "components",
+            "shape": [
+              "g",
+              "g"
+            ],
+            "nonnegative": true
+          }
+        },
+        "axis": "static"
+      },
+      "source": {
+        "role": "source",
+        "variable": "source",
+        "location": "layers",
+        "data": {
+          "value": {
+            "unit": "1/(m3.s)",
+            "meaning": "层内常量总群体源q_g≥0；各向同性角源q_g/2",
+            "kind": "components",
+            "shape": [
+              "g"
+            ],
+            "nonnegative": true
+          }
+        },
+        "axis": "static"
+      },
+      "incoming": {
+        "role": "boundary",
+        "variable": "incoming",
+        "location": "system",
+        "data": {
+          "left": {
+            "unit": "1/(m2.s)",
+            "meaning": "x=0、μ>0的角通量ψ=L_g≥0，入射半球内不依赖μ",
+            "kind": "components",
+            "shape": [
+              "g"
+            ],
+            "nonnegative": true
+          },
+          "right": {
+            "unit": "1/(m2.s)",
+            "meaning": "x=H、μ<0的角通量ψ=R_g≥0，入射半球内不依赖μ",
+            "kind": "components",
+            "shape": [
+              "g"
+            ],
+            "nonnegative": true
+          }
+        },
+        "axis": "static"
+      }
+    },
+    "outputs": {
+      "scalar_flux": {
+        "unit": "1/(m2.s)",
+        "meaning": "各群标量通量φ_g，保持输入激励确定的绝对幅值，不另作归一化",
+        "kind": "components",
+        "shape": [
+          "g"
+        ],
+        "location": "probes",
+        "atol": 1e-08,
+        "rtol": 0.005
+      },
+      "current": {
+        "unit": "1/(m2.s)",
+        "meaning": "各群沿+x的净粒子流J_g，可为负",
+        "kind": "components",
+        "shape": [
+          "g"
+        ],
+        "location": "probes",
+        "atol": 1e-08,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 1200,
+    "transient": false,
+    "output_axis": "static",
+    "name": "稳态多群平板粒子输运"
+  },
+  "slab-transport-transient": {
+    "parameters": {
+      "group_count": {
+        "unit": "1",
+        "meaning": "群数G，JSON整数1..4；各群是输入给定有效响应的离散群，无隐含能群宽度权重",
+        "integer": true,
+        "lower": 1,
+        "upper": 4
+      },
+      "particle": {
+        "unit": "1",
+        "meaning": "JSON整数0=光子，1=中子；不触发额外核数据或自动响应",
+        "integer": true,
+        "lower": 0,
+        "upper": 1
+      }
+    },
+    "locations": {
+      "layers": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 32,
+        "meaning": "按IDs行序沿+x排列的材料层对象，x=0起始；层内参数常值"
+      },
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "完整平板系统对象，ID固定0"
+      },
+      "probes": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 128,
+        "meaning": "真实位置x，严格在层内部，排除全部界面与两端；不作空间重建"
+      }
+    },
+    "records": {
+      "layers": {
+        "role": "material",
+        "variable": "layer",
+        "location": "layers",
+        "data": {
+          "width": {
+            "unit": "m",
+            "meaning": "层厚h>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "axis": "static"
+      },
+      "medium": {
+        "role": "material",
+        "variable": "medium",
+        "location": "layers",
+        "data": {
+          "absorption": {
+            "unit": "1/m",
+            "meaning": "宏观吸收Σa_g>0",
+            "kind": "components",
+            "shape": [
+              "g"
+            ],
+            "positive": true
+          },
+          "scatter": {
+            "unit": "1/m",
+            "meaning": "各向同性群转移S[g,h]≥0，第一轴出射群g、第二轴入射群h；含自散射",
+            "kind": "components",
+            "shape": [
+              "g",
+              "g"
+            ],
+            "nonnegative": true
+          }
+        },
+        "axis": "static"
+      },
+      "source": {
+        "role": "source",
+        "variable": "source",
+        "location": "layers",
+        "data": {
+          "value": {
+            "unit": "1/(m3.s)",
+            "meaning": "层内常量总群体源q_g≥0；各向同性角源q_g/2",
+            "kind": "components",
+            "shape": [
+              "g"
+            ],
+            "nonnegative": true
+          }
+        },
+        "axis": "static"
+      },
+      "incoming": {
+        "role": "boundary",
+        "variable": "incoming",
+        "location": "system",
+        "data": {
+          "left": {
+            "unit": "1/(m2.s)",
+            "meaning": "x=0、μ>0的角通量ψ=L_g≥0，入射半球内不依赖μ",
+            "kind": "components",
+            "shape": [
+              "g"
+            ],
+            "nonnegative": true
+          },
+          "right": {
+            "unit": "1/(m2.s)",
+            "meaning": "x=H、μ<0的角通量ψ=R_g≥0，入射半球内不依赖μ",
+            "kind": "components",
+            "shape": [
+              "g"
+            ],
+            "nonnegative": true
+          }
+        },
+        "axis": "static"
+      },
+      "speed": {
+        "role": "material",
+        "variable": "speed",
+        "location": "system",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "群速v_g>0，全空间常量",
+            "kind": "components",
+            "shape": [
+              "g"
+            ],
+            "positive": true
+          }
+        },
+        "axis": "static"
+      },
+      "initial": {
+        "role": "initial",
+        "variable": "initial_flux",
+        "location": "layers",
+        "data": {
+          "value": {
+            "unit": "1/(m2.s)",
+            "meaning": "t=0层内各向同性标量通量φ0_g≥0，ψ0=φ0/2；独立于体源和入射",
+            "kind": "components",
+            "shape": [
+              "g"
+            ],
+            "nonnegative": true
+          }
+        },
+        "axis": "static"
+      }
+    },
+    "outputs": {
+      "scalar_flux": {
+        "unit": "1/(m2.s)",
+        "meaning": "各群标量通量φ_g，保持输入激励确定的绝对幅值，不另作归一化",
+        "kind": "components",
+        "shape": [
+          "g"
+        ],
+        "location": "probes",
+        "atol": 1e-08,
+        "rtol": 0.005
+      },
+      "current": {
+        "unit": "1/(m2.s)",
+        "meaning": "各群沿+x的净粒子流J_g，可为负",
+        "kind": "components",
+        "shape": [
+          "g"
+        ],
+        "location": "probes",
+        "atol": 1e-08,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 1200,
+    "transient": true,
+    "output_axis": "requests",
+    "name": "有限速瞬态多群平板粒子输运"
+  },
+  "neutron-diffusion-source": {
+    "parameters": {
+      "group_count": {
+        "unit": "1",
+        "meaning": "群数G，JSON整数1..4；各群是输入给定有效响应的离散群，无隐含能群宽度权重",
+        "integer": true,
+        "lower": 1,
+        "upper": 4
+      }
+    },
+    "locations": {
+      "layers": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 32,
+        "meaning": "按IDs行序沿+x排列的材料层对象，x=0起始；层内参数常值"
+      },
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "完整平板系统对象，ID固定0"
+      },
+      "probes": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 128,
+        "meaning": "真实位置x，严格在层内部，排除全部界面与两端；不作空间重建"
+      }
+    },
+    "records": {
+      "layers": {
+        "role": "material",
+        "variable": "layer",
+        "location": "layers",
+        "data": {
+          "width": {
+            "unit": "m",
+            "meaning": "层厚h>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "axis": "static"
+      },
+      "medium": {
+        "role": "material",
+        "variable": "medium",
+        "location": "layers",
+        "data": {
+          "absorption": {
+            "unit": "1/m",
+            "meaning": "宏观吸收Σa_g>0",
+            "kind": "components",
+            "shape": [
+              "g"
+            ],
+            "positive": true
+          },
+          "scatter": {
+            "unit": "1/m",
+            "meaning": "各向同性群转移S[g,h]≥0，第一轴出射群g、第二轴入射群h；含自散射",
+            "kind": "components",
+            "shape": [
+              "g",
+              "g"
+            ],
+            "nonnegative": true
+          },
+          "diffusion": {
+            "unit": "m",
+            "meaning": "各群扩散系数D_g>0，独立给定，不从总截面反推",
+            "kind": "components",
+            "shape": [
+              "g"
+            ],
+            "positive": true
+          }
+        },
+        "axis": "static"
+      },
+      "source": {
+        "role": "source",
+        "variable": "source",
+        "location": "layers",
+        "data": {
+          "value": {
+            "unit": "1/(m3.s)",
+            "meaning": "层内常量总群体源q_g≥0",
+            "kind": "components",
+            "shape": [
+              "g"
+            ],
+            "nonnegative": true
+          }
+        },
+        "axis": "static"
+      }
+    },
+    "outputs": {
+      "scalar_flux": {
+        "unit": "1/(m2.s)",
+        "meaning": "各群标量通量φ_g，保持输入激励确定的绝对幅值，不另作归一化",
+        "kind": "components",
+        "shape": [
+          "g"
+        ],
+        "location": "probes",
+        "atol": 1e-08,
+        "rtol": 0.005
+      },
+      "current": {
+        "unit": "1/(m2.s)",
+        "meaning": "各群沿+x的净粒子流J_g，可为负",
+        "kind": "components",
+        "shape": [
+          "g"
+        ],
+        "location": "probes",
+        "atol": 1e-08,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 600,
+    "transient": false,
+    "output_axis": "static",
+    "name": "源驱动多群中子扩散"
+  },
+  "neutron-diffusion-critical": {
+    "parameters": {
+      "group_count": {
+        "unit": "1",
+        "meaning": "群数G，JSON整数1..4；各群是输入给定有效响应的离散群，无隐含能群宽度权重",
+        "integer": true,
+        "lower": 1,
+        "upper": 4
+      }
+    },
+    "locations": {
+      "layers": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 32,
+        "meaning": "按IDs行序沿+x排列的材料层对象，x=0起始；层内参数常值"
+      },
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "完整平板系统对象，ID固定0"
+      },
+      "probes": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 128,
+        "meaning": "真实位置x，严格在层内部，排除全部界面与两端；不作空间重建"
+      }
+    },
+    "records": {
+      "layers": {
+        "role": "material",
+        "variable": "layer",
+        "location": "layers",
+        "data": {
+          "width": {
+            "unit": "m",
+            "meaning": "层厚h>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "axis": "static"
+      },
+      "medium": {
+        "role": "material",
+        "variable": "medium",
+        "location": "layers",
+        "data": {
+          "absorption": {
+            "unit": "1/m",
+            "meaning": "宏观吸收Σa_g>0",
+            "kind": "components",
+            "shape": [
+              "g"
+            ],
+            "positive": true
+          },
+          "scatter": {
+            "unit": "1/m",
+            "meaning": "各向同性群转移S[g,h]≥0，第一轴出射群g、第二轴入射群h；含自散射",
+            "kind": "components",
+            "shape": [
+              "g",
+              "g"
+            ],
+            "nonnegative": true
+          },
+          "diffusion": {
+            "unit": "m",
+            "meaning": "各群扩散系数D_g>0，独立给定，不从总截面反推",
+            "kind": "components",
+            "shape": [
+              "g"
+            ],
+            "positive": true
+          },
+          "production": {
+            "unit": "1/m",
+            "meaning": "各群νΣf_g>0，已含平均产额；吸收已含裂变损失，不再加一次Σf",
+            "kind": "components",
+            "shape": [
+              "g"
+            ],
+            "positive": true
+          },
+          "spectrum": {
+            "unit": "1",
+            "meaning": "裂变谱χ_g>0，每层群和与1之差≤1e−12；按存储值计算，不再归一化",
+            "kind": "components",
+            "shape": [
+              "g"
+            ],
+            "positive": true
+          }
+        },
+        "axis": "static"
+      }
+    },
+    "outputs": {
+      "scalar_flux": {
+        "unit": "1/(m2.s)",
+        "meaning": "各群标量通量φ_g，按题定积分归一化",
+        "kind": "components",
+        "shape": [
+          "g"
+        ],
+        "location": "probes",
+        "atol": 1e-08,
+        "rtol": 0.005
+      },
+      "multiplication_factor": {
+        "unit": "1",
+        "meaning": "主正本征值k_eff",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "location": "system",
+        "atol": 1e-07,
+        "rtol": 0.001
+      }
+    },
+    "timeout": 600,
+    "transient": false,
+    "output_axis": "static",
+    "name": "多群中子扩散临界基模"
+  },
+  "point-kinetics": {
+    "parameters": {
+      "precursor_count": {
+        "unit": "1",
+        "meaning": "缓发组数B，JSON整数1..8",
+        "integer": true,
+        "lower": 1,
+        "upper": 8
+      },
+      "generation_time": {
+        "unit": "s",
+        "meaning": "有效瞬发代时间Λ>0",
+        "positive": true
+      }
+    },
+    "locations": {
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "整体点堆对象，ID固定0"
+      },
+      "precursors": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 8,
+        "meaning": "缓发组，恰B个，IDs固定0..B−1；分量按此顺序"
+      }
+    },
+    "records": {
+      "precursors": {
+        "role": "material",
+        "variable": "precursor",
+        "location": "precursors",
+        "data": {
+          "fraction": {
+            "unit": "1",
+            "meaning": "β_i>0，各组和β<1",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "decay": {
+            "unit": "1/s",
+            "meaning": "λ_i>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "axis": "static"
+      },
+      "initial": {
+        "role": "initial",
+        "variable": "state",
+        "location": "system",
+        "data": {
+          "population": {
+            "unit": "1",
+            "meaning": "n(0)>0，相对中子数",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "precursor_state": {
+            "unit": "1",
+            "meaning": "C_i(0)≥0，与n相同的任意固定归一化尺度，不是平衡预设",
+            "kind": "components",
+            "shape": [
+              "b"
+            ],
+            "nonnegative": true
+          }
+        },
+        "axis": "static"
+      },
+      "history": {
+        "role": "source",
+        "variable": "driving",
+        "location": "system",
+        "data": {
+          "reactivity": {
+            "unit": "1",
+            "meaning": "ρ(t)，定义(k−1)/k，绝对值≤0.5；不是美元单位",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          },
+          "source": {
+            "unit": "1/s",
+            "meaning": "n方程中的外源s(t)≥0，与n归一化一致",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "nonnegative": true
+          }
+        },
+        "axis": "control"
+      }
+    },
+    "outputs": {
+      "population": {
+        "unit": "1",
+        "meaning": "相对中子数n(t)",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "location": "system",
+        "atol": 1e-08,
+        "rtol": 0.002
+      },
+      "precursor_state": {
+        "unit": "1",
+        "meaning": "按缓发组IDs排列的C_i(t)",
+        "kind": "components",
+        "shape": [
+          "b"
+        ],
+        "location": "system",
+        "atol": 1e-08,
+        "rtol": 0.002
+      }
+    },
+    "timeout": 300,
+    "transient": true,
+    "output_axis": "requests",
+    "name": "给定反应性历史的缓发中子动力学"
+  },
+  "decay-network": {
+    "parameters": {
+      "nuclide_count": {
+        "unit": "1",
+        "meaning": "核素数N，JSON整数1..32",
+        "integer": true,
+        "lower": 1,
+        "upper": 32
+      }
+    },
+    "locations": {
+      "nuclides": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 32,
+        "meaning": "核素对象，恰N个，IDs固定0..N−1，矩阵分量按此顺序；不凭ID查询核数据"
+      },
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "完整库存系统，ID固定0"
+      }
+    },
+    "records": {
+      "nuclides": {
+        "role": "material",
+        "variable": "nuclide",
+        "location": "nuclides",
+        "data": {
+          "decay": {
+            "unit": "1/s",
+            "meaning": "λ_j≥0，允许稳定核素",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "nonnegative": true
+          },
+          "energy": {
+            "unit": "J",
+            "meaning": "每次衰变局部沉积能ε_j≥0，已扣除逃逸能，不是质量亏损",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "nonnegative": true
+          }
+        },
+        "axis": "static"
+      },
+      "branches": {
+        "role": "material",
+        "variable": "decay_branch",
+        "location": "system",
+        "data": {
+          "value": {
+            "unit": "1",
+            "meaning": "B[i,j]≥0，j衰变后进入i的分支；对角0、列和≤1，缺额流出系统；正边图无环",
+            "kind": "components",
+            "shape": [
+              "n",
+              "n"
+            ],
+            "nonnegative": true
+          }
+        },
+        "axis": "static"
+      },
+      "initial": {
+        "role": "initial",
+        "variable": "inventory",
+        "location": "nuclides",
+        "data": {
+          "value": {
+            "unit": "1",
+            "meaning": "各核素初始原子数N_j(0)≥0，原子计数无量纲",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "nonnegative": true
+          }
+        },
+        "axis": "static"
+      }
+    },
+    "outputs": {
+      "inventory": {
+        "unit": "1",
+        "meaning": "各核素原子数N_j(t)",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "location": "nuclides",
+        "atol": 1e-06,
+        "rtol": 0.002
+      },
+      "activity": {
+        "unit": "Bq",
+        "meaning": "Σ_j λ_j N_j(t)，包含全部库存核素，无额外分支倍数",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "location": "system",
+        "atol": 1e-08,
+        "rtol": 0.002
+      },
+      "decay_power": {
+        "unit": "W",
+        "meaning": "Σ_j ε_j λ_j N_j(t)，仅衰变沉积，不包含照射反应能",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "location": "system",
+        "atol": 1e-12,
+        "rtol": 0.002
+      }
+    },
+    "timeout": 300,
+    "transient": true,
+    "output_axis": "requests",
+    "name": "分支衰变核素库存与衰变功率"
+  },
+  "irradiated-network": {
+    "parameters": {
+      "nuclide_count": {
+        "unit": "1",
+        "meaning": "核素数N，JSON整数1..32",
+        "integer": true,
+        "lower": 1,
+        "upper": 32
+      }
+    },
+    "locations": {
+      "nuclides": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 32,
+        "meaning": "核素对象，恰N个，IDs固定0..N−1，矩阵分量按此顺序；不凭ID查询核数据"
+      },
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "完整库存系统，ID固定0"
+      }
+    },
+    "records": {
+      "nuclides": {
+        "role": "material",
+        "variable": "nuclide",
+        "location": "nuclides",
+        "data": {
+          "decay": {
+            "unit": "1/s",
+            "meaning": "λ_j≥0，允许稳定核素",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "nonnegative": true
+          },
+          "energy": {
+            "unit": "J",
+            "meaning": "每次衰变局部沉积能ε_j≥0，已扣除逃逸能，不是质量亏损",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "nonnegative": true
+          }
+        },
+        "axis": "static"
+      },
+      "branches": {
+        "role": "material",
+        "variable": "decay_branch",
+        "location": "system",
+        "data": {
+          "value": {
+            "unit": "1",
+            "meaning": "B[i,j]≥0，j衰变后进入i的分支；对角0、列和≤1，缺额流出系统；正边图无环",
+            "kind": "components",
+            "shape": [
+              "n",
+              "n"
+            ],
+            "nonnegative": true
+          }
+        },
+        "axis": "static"
+      },
+      "initial": {
+        "role": "initial",
+        "variable": "inventory",
+        "location": "nuclides",
+        "data": {
+          "value": {
+            "unit": "1",
+            "meaning": "各核素初始原子数N_j(0)≥0，原子计数无量纲",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "nonnegative": true
+          }
+        },
+        "axis": "static"
+      },
+      "reaction": {
+        "role": "material",
+        "variable": "reaction",
+        "location": "nuclides",
+        "data": {
+          "cross_section": {
+            "unit": "m2",
+            "meaning": "给定单群有效微观移除截面σ_j≥0；不含衰变",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "nonnegative": true
+          }
+        },
+        "axis": "static"
+      },
+      "products": {
+        "role": "material",
+        "variable": "reaction_branch",
+        "location": "system",
+        "data": {
+          "value": {
+            "unit": "1",
+            "meaning": "Y[i,j]≥0，j反应后生成i；对角0、列和≤1，缺额流出系统，允许反应循环；不支持裂变多产物增殖",
+            "kind": "components",
+            "shape": [
+              "n",
+              "n"
+            ],
+            "nonnegative": true
+          }
+        },
+        "axis": "static"
+      },
+      "history": {
+        "role": "source",
+        "variable": "irradiation",
+        "location": "system",
+        "data": {
+          "value": {
+            "unit": "1/(m2.s)",
+            "meaning": "给定外部标量粒子通量Φ(t)≥0，速率r_j=σ_jΦ，不作库存反馈",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "nonnegative": true
+          }
+        },
+        "axis": "control"
+      }
+    },
+    "outputs": {
+      "inventory": {
+        "unit": "1",
+        "meaning": "各核素原子数N_j(t)",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "location": "nuclides",
+        "atol": 1e-06,
+        "rtol": 0.002
+      },
+      "activity": {
+        "unit": "Bq",
+        "meaning": "Σ_j λ_j N_j(t)，包含全部库存核素，无额外分支倍数",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "location": "system",
+        "atol": 1e-08,
+        "rtol": 0.002
+      },
+      "decay_power": {
+        "unit": "W",
+        "meaning": "Σ_j ε_j λ_j N_j(t)，仅衰变沉积，不包含照射反应能",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "location": "system",
+        "atol": 1e-12,
+        "rtol": 0.002
+      }
+    },
+    "timeout": 300,
+    "transient": true,
+    "output_axis": "requests",
+    "name": "给定通量照射下的核素库存演化"
+  }
+}

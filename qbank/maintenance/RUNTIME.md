@@ -88,3 +88,5 @@ python src/utils/publish_dist.py --task heat-conduction-steady-2d --task heat-co
 变更后至少检查实际依赖闭包、非法输入、旧接口、独立公开包和相关回归；安装验证使用普通 wheel 安装、移走源码并换目录，不能由 editable checkout 掩盖遗漏。临时 fixture 只证明工具，不代表正式案例、可信参考或预算校准。实施证据见[重构记录](../design/reviews/runtime-refactor.md)。
 
 离散对象使用通用 entities 身份表，不能用伪 points 坐标代替。各领域的检查和辅助函数归共享扩展；新增题目只需修改可信绑定，不逐题扩充发布器的文件清单。
+
+辐射输运及核素库存使用`radiation.nuclear`共享声明检查，沿用核心entities／points和field引用，无新增核心Schema或SDK入口。八题的模型资源、可信绑定、重建和独立安装验证命令见[维护说明](protocols/RADIATION.md)。

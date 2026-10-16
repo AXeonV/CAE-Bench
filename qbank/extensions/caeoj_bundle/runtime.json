@@ -571,6 +571,42 @@
         "caeoj_ext/optics/__init__.py",
         "caeoj_ext/optics/models.json"
       ]
+    },
+    "radiation.nuclear": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model": "radiation-photon-absorption-v1"
+        },
+        {
+          "physics.model": "radiation-slab-transport-steady-v1"
+        },
+        {
+          "physics.model": "radiation-slab-transport-transient-v1"
+        },
+        {
+          "physics.model": "radiation-neutron-diffusion-source-v1"
+        },
+        {
+          "physics.model": "radiation-neutron-diffusion-critical-v1"
+        },
+        {
+          "physics.model": "radiation-point-kinetics-v1"
+        },
+        {
+          "physics.model": "radiation-decay-network-v1"
+        },
+        {
+          "physics.model": "radiation-irradiated-network-v1"
+        }
+      ],
+      "check": "caeoj_ext.radiation:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/radiation/__init__.py",
+        "caeoj_ext/radiation/models.json"
+      ]
     }
   },
   "tasks": {
@@ -1004,6 +1040,30 @@
     ],
     "slab-modes": [
       "optics.linear"
+    ],
+    "photon-absorption": [
+      "radiation.nuclear"
+    ],
+    "slab-transport-steady": [
+      "radiation.nuclear"
+    ],
+    "slab-transport-transient": [
+      "radiation.nuclear"
+    ],
+    "neutron-diffusion-source": [
+      "radiation.nuclear"
+    ],
+    "neutron-diffusion-critical": [
+      "radiation.nuclear"
+    ],
+    "point-kinetics": [
+      "radiation.nuclear"
+    ],
+    "decay-network": [
+      "radiation.nuclear"
+    ],
+    "irradiated-network": [
+      "radiation.nuclear"
     ]
   },
   "aliases": {
@@ -1037,7 +1097,8 @@
     "thermal-",
     "acoustic-",
     "electromagnetic-",
-    "optics-"
+    "optics-",
+    "radiation-"
   ],
   "model_namespace_diagnostics": {
     "fluid-energy-": "E_FLUID",
@@ -1048,6 +1109,7 @@
     "thermal-": "E_THERMAL",
     "acoustic-": "E_ACOUSTIC",
     "electromagnetic-": "E_ELECTROMAGNETIC",
-    "optics-": "E_OPTICS"
+    "optics-": "E_OPTICS",
+    "radiation-": "E_RADIATION"
   }
 }

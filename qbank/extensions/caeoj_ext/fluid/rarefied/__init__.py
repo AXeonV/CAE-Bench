@@ -1,5 +1,6 @@
 """Physical declarations and helpers for rarefied."""
 import numpy as np
+from .. import reduced_parameters
 from .._declaration_checks import check_declaration
 from .._geometry import boundary_geometry
 
@@ -190,10 +191,6 @@ MODELS = {'fluid-reduced-isothermal-slip-v1': {'slug': 'isothermal-slip',
                                      'exchange_wall_only': True,
                                      'signed_parameters': [],
                                      'nonnegative_parameters': []}}
-
-def reduced_parameters(problem):
-    """Return declared SI constants, with no defaulting or conversion."""
-    return {k:v['value'] for k,v in problem.manifest['physics']['parameters'].items()}
 
 
 def _check_parameters(cfg, p, fail):

@@ -2,7 +2,7 @@
 from importlib import import_module
 from importlib.util import find_spec
 from caeoj.validation import issue
-from ._declaration_checks import check_declaration
+from . import reduced_parameters
 from ._sampling import reduced_time_derivative
 from ._rheology import viscosity_response
 
@@ -19,10 +19,6 @@ TENSORS = {q for config in MODELS.values() for q, (_, kind) in config['output_sp
 def boundary_rules(cfg):
     return cfg['boundary_rules']
 
-
-def reduced_parameters(problem):
-    """Read explicitly supplied SI constants without interpretation or defaults."""
-    return {name: item['value'] for name, item in problem.manifest['physics']['parameters'].items()}
 
 
 def reduced_viscosity(model, parameters, shear_rate, temperature=None, structure=None):
@@ -56,7 +52,7 @@ def check_fluid_reduced(problem, errors):
                             'Unknown reduced fluid model/version.'))
         return
     owner = next(owner for owner in _OWNERS if model in owner.MODELS)
-    check_declaration(problem, errors, MODELS, owner._check_parameters, owner._check_boundary)
+    owner.check(problem, errors)
 
 
 check = check_fluid_reduced

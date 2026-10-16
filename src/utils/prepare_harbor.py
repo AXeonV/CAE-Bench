@@ -106,18 +106,13 @@ def prepare(task, root=PROJECT_ROOT):
         samples=', '.join(f'`/app/{task_path}/samples/{name}/`' for name in manifest['public_samples']))
     resources = tomllib.loads(rendered_config)
     policy = task_policy(source, load_problem(cases[0]), read_bytes=lambda p: read_public_file(root, p))
-    if (source / 'grading.json').is_file():
-        for path in cases:
-            validate_policy(policy, load_problem(path))
-    # Legacy atol/rtol apply to each case's declared outputs. Different cases
-    # can request different field sets; the first sample is not their schema.
+    for path in cases:
+        validate_policy(policy, load_problem(path))
     with zipfile.ZipFile(archive) as bundle:
         policy_key = f'{task_path}/grading.json'
         if policy_key not in bundle.namelist() or policy_hash(json.loads(bundle.read(policy_key))) != policy_hash(policy):
             raise ValueError('Published grading policy is stale; run publish_dist.py again')
     instruction += '\n评分规则：\n' + render_policy(policy)
-    if not (source / 'grading.json').is_file():
-        instruction += f"绝对误差容限={judge_config['atol']}，相对误差容限={judge_config['rtol']}。\n"
     instruction += f"公开样例判分：python -m caeoj grade --input /app/{task_path}/samples/{manifest['public_samples'][0]}/input/problem.json --output /app/sample-result.h5 --reference /app/{task_path}/samples/{manifest['public_samples'][0]}/output/result.h5 --grading /app/{task_path}/grading.json\n"
     environment = resources['environment']
     if 'cpus' in environment:
@@ -167,8 +162,7 @@ def prepare(task, root=PROJECT_ROOT):
         if baseline.is_file():
             copy(baseline, Path('solution/baseline.py'))
         copy(source / 'judge-config.json', Path('tests/judge-config.json'))
-        if (source / 'grading.json').is_file():
-            copy(source / 'grading.json', Path('tests/grading.json'))
+        copy(source / 'grading.json', Path('tests/grading.json'))
         for path in cases:
             for asset in path.parent.iterdir():
                 if asset.is_file():

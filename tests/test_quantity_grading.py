@@ -172,6 +172,13 @@ write_result(a.output,problem,{s['array']:problem.arrays[s['array']]+1e-7 for s 
             self.assertEqual(report['cases'][0]['policy_version'], 2)
             # The same 1e-7 error would pass the old hardcoded smoke defaults.
             self.assertFalse(report['passed'])
+            (task/'grading.json').unlink()
+            with self.assertRaises(FileNotFoundError):
+                run_smoke(cases, program, task/'missing-policy.json')
+            (task/'judge-config.json').unlink()
+            # Standalone generated cases use the real smoke task's policy.
+            report = run_smoke(cases, program, task/'default-task-policy.json')
+            self.assertTrue(report['passed'])
 
 
 if __name__ == '__main__':

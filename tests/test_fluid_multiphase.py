@@ -15,7 +15,7 @@ from caeoj.storage import write_hdf5
 from caeoj.validation import check_problem, read_hdf5, write_json
 
 ROOT=Path(__file__).resolve().parents[1]
-spec=importlib.util.spec_from_file_location('multiphase_mesh_fixture',ROOT/'src/utils/make_cfd_examples.py')
+spec=importlib.util.spec_from_file_location('multiphase_mesh_fixture',ROOT/'qbank/maintenance/cfd_examples.py')
 generator=importlib.util.module_from_spec(spec);spec.loader.exec_module(generator)
 
 

@@ -11,6 +11,9 @@ from unittest.mock import patch
 
 from caeoj import runtime
 from caeoj.cli import main
+from caeoj.grading_policy import load_policy
+from caeoj.sdk import load_problem
+from caeoj_tools.grading_policy import task_policy
 from caeoj.validation import schema_errors
 from caeoj_tools.assembly import runtime_materials
 from caeoj_tools.task_paths import task_directory
@@ -20,6 +23,37 @@ TASK = 'heat-conduction-steady-2d'
 
 
 class RuntimeAssemblyTests(unittest.TestCase):
+    def test_grade_bad_input_is_infrastructure_error_not_a_wrong_answer(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary)/'problem.json'
+            path.write_text('{}')
+            output = io.StringIO()
+            with redirect_stdout(output):
+                code = main(['grade', '--input', str(path), '--output', 'unused.h5',
+                             '--reference', 'unused-reference.h5'])
+            self.assertEqual(code, 2)
+            result = json.loads(output.getvalue())
+            self.assertEqual(result['status'], 'input_error')
+            self.assertIsNone(result['score'])
+
+    def test_every_task_declares_a_single_scoring_source(self):
+        for path in ROOT.glob('qbank/*/*/*/instruction.md'):
+            with self.subTest(task=path.parent.name):
+                load_policy(path.parent/'grading.json')
+                config = json.loads((path.parent/'judge-config.json').read_text())
+                self.assertFalse({'atol', 'rtol'} & set(config))
+
+    def test_missing_policy_does_not_fall_back_to_default_tolerances(self):
+        problem = load_problem(task_directory(TASK, ROOT)/'samples/01/input/problem.json')
+        with tempfile.TemporaryDirectory() as temporary:
+            task = Path(temporary)
+            with self.assertRaises(FileNotFoundError):
+                task_policy(task, problem)
+            (task/'grading.json').write_text(json.dumps(load_policy(task_directory(TASK, ROOT)/'grading.json')))
+            (task/'judge-config.json').write_text('{"atol": 0.01, "rtol": 0}')
+            with self.assertRaisesRegex(ValueError, 'Scoring belongs in grading.json'):
+                task_policy(task, problem)
+
     def test_malformed_metadata_has_schema_diagnostics_and_no_traceback(self):
         for value in (None, [], {'task': []}, {'task': {}}):
             with self.subTest(value=value):

@@ -16,6 +16,10 @@ PROJECT_ROOT = Path(__file__).resolve().parents[5]
 
 def run_smoke(cases, program, report_path, timeout=None):
     task_dir = Path(cases).resolve().parent
+    if not any((task_dir/name).is_file() for name in ('judge-config.json', 'grading.json')):
+        # Generated scratch cases use this task's explicit execution and grading
+        # settings. A custom task directory must supply its own complete config.
+        task_dir = Path(__file__).resolve().parents[1]
     config_path = task_dir / 'judge-config.json'
     config = json.loads(config_path.read_text()) if config_path.is_file() else {}
     timeout = config.get('timeout_seconds', 10) if timeout is None else timeout

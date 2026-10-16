@@ -15,6 +15,7 @@ import unittest
 import numpy as np
 
 from caeoj.grading import grade_arrays, grade_files
+from caeoj.grading_policy import load_policy
 from caeoj.sdk import load_problem, load_result
 from caeoj.validation import check_result, output_support, validate_input
 
@@ -37,6 +38,7 @@ class TransientTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.config = json.loads((TASK/'judge-config.json').read_text())
+        cls.policy = load_policy(TASK/'grading.json')
         cls.cases = {}
         for path in sorted((TASK/'cases').glob('*/problem.json')):
             p = load_problem(path)
@@ -58,7 +60,7 @@ class TransientTests(unittest.TestCase):
     def grade(self, problem, values, reference):
         arrays = {key: problem.arrays[key] for key in output_support(problem)} | {'temperature': values}
         self.assertTrue(check_result(problem, arrays)['valid'])
-        return grade_arrays(problem, arrays, reference, atol=self.config['atol'], rtol=0)
+        return grade_arrays(problem, arrays, reference, policy=self.policy)
 
     def test_suite_ranges_mesh_scale_and_boundary_coverage(self):
         self.assertEqual(len(self.cases), 24)
@@ -193,7 +195,7 @@ class TransientTests(unittest.TestCase):
             p = load_problem(directory/'input/problem.json')
             saved = json.loads((directory/'verification.json').read_text())
             report = grade_files(p.path, directory/'output/result.h5',
-                                 TASK/'reference'/saved['case']/'reference.h5', atol=self.config['atol'], rtol=0)
+                                 TASK/'reference'/saved['case']/'reference.h5', policy=self.policy)
             self.assertEqual(report['score'], 1)
         with tempfile.TemporaryDirectory(dir=PROJECT/'runs') as tmp:
             directory = Path(tmp)
@@ -206,7 +208,7 @@ class TransientTests(unittest.TestCase):
                                      capture_output=True, timeout=self.config['timeout_seconds'])
             self.assertEqual(process.returncode, 0, process.stderr)
             self.assertEqual(grade_files(p, directory/'result.h5', TASK/'samples/02/output/result.h5',
-                                        atol=self.config['atol'], rtol=0)['score'], 1)
+                                        policy=self.policy)['score'], 1)
 
     def test_public_release_excludes_author_formulas_and_resources(self):
         spec = importlib.util.spec_from_file_location('transient_publish', PROJECT/'src/utils/publish_dist.py')

@@ -10,7 +10,7 @@ import tempfile
 import time
 
 from caeoj.grading import grade_files
-from caeoj.grading_policy import load_policy, validate_policy, policy_hash, legacy_policy
+from caeoj.grading_policy import load_policy, validate_policy, policy_hash
 from caeoj.sdk import load_problem, load_result
 
 TESTS = Path('/tests')
@@ -85,8 +85,6 @@ def save_report(config, results, total, policy_sha256, *, complete=False):
     report = {'score': passed, 'total_cases': total, 'completed_cases': len(results),
               'complete': complete, 'reward': passed / total, 'cases': results,
               'policy_sha256': policy_sha256}
-    if 'atol' in config:
-        report['tolerance'] = {'atol': config['atol'], 'rtol': config['rtol']}
     if config.get('stage'):
         report['stage'] = config['stage']
     report['limits'] = {'timeout_seconds': config['timeout_seconds'],
@@ -106,17 +104,15 @@ def main():
     paths = sorted((TESTS / 'cases').glob('*/problem.json'))
     if not paths:
         raise ValueError('No judge cases')
-    policy = load_policy(TESTS / 'grading.json') if (TESTS / 'grading.json').is_file() else None
-    if policy is not None and ('atol' in config or 'rtol' in config):
-        raise ValueError('Cannot combine grading.json with legacy tolerances')
-    grade_options = {'policy': policy} if policy is not None else {'atol': config['atol'], 'rtol': config['rtol']}
-    active_policy = policy if policy is not None else legacy_policy(load_problem(paths[0]), config['atol'], config['rtol'])
-    policy_sha256 = policy_hash(active_policy)
+    if 'atol' in config or 'rtol' in config:
+        raise ValueError('Scoring belongs in grading.json, not judge-config atol/rtol')
+    policy = load_policy(TESTS / 'grading.json')
+    policy_sha256 = policy_hash(policy)
     # Validate trusted inputs/references before running any candidate code.
     for path in paths:
-        if policy is not None:
-            validate_policy(policy, load_problem(path))
-        load_result(load_problem(path), TESTS / 'reference' / path.parent.name / 'reference.h5')
+        problem = load_problem(path)
+        validate_policy(policy, problem)
+        load_result(problem, TESTS / 'reference' / path.parent.name / 'reference.h5')
     try:
         submitted = freeze_submission()
         submission_error = 'missing_submission' if not submitted else None
@@ -149,7 +145,7 @@ def main():
                     shutil.copyfile(output, logs / 'result.h5')
                     outcome = grade_files(path, logs / 'result.h5',
                                           TESTS / 'reference' / case / 'reference.h5',
-                                          **grade_options)
+                                          policy=policy)
                     if outcome['score'] is None:
                         raise RuntimeError(f'Judge infrastructure error: {case}: {outcome}')
             row = {'case': case, **outcome, 'elapsed_seconds': elapsed}

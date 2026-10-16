@@ -4,7 +4,8 @@
 
 ## 运行入口
 
-- 维护准备：`src/utils/publish_dist.py --task <slug>`，随后 `src/utils/prepare_harbor.py --task <slug>`；本地公开ZIP和任务目录必须一致，不能沿用README历史嵌套路径。
+- 主线顺序：数据就绪后打包并组装，确认 Viewer 可用，再运行 Agent，最后核对完整结果；首次安装、数据制作及验证分支按需执行，必要命令见 [README 运行指南](../../../../README.md#运行)。
+- 维护准备：`src/utils/publish_dist.py --task <slug>`，随后 `src/utils/prepare_harbor.py --task <slug>`；本地公开 ZIP、运行装配、评分策略和任务目录必须一致；具体装配规则见[运行说明](../../../../qbank/maintenance/RUNTIME.md)。
 - 当前生成目录：`runs/harbor/tasks/<slug>`。
 - `harbor run` 是 `harbor job start` 别名。0.24.0支持 `--print-config` 查看解析后的JobConfig；`--dry-run` 不运行trial，需核对实际输出是否覆盖所需本地任务。
 - 重复为 `--n-attempts`／`-k`，并发为 `--n-concurrent`／`-n`。单题 `-k 3 -n 1` 表示三次独立尝试串行执行，不是一个solver使用三个线程。
@@ -18,6 +19,8 @@ harbor run --path runs/harbor/tasks/<task> --env docker --agent <agent> --model 
 
 长参数 `--path`、`--env` 等须以本机help为准，不能因为短参数历史可用便照抄。用户未要求时不使用 --upload、--launch、--public 或云端分享。凭据使用运行环境既有安全配置，不放入参数记录。
 
+CPU／内存配额来自本题 harbor/task.toml 与共享模板的合并结果。HPC 运行的 `--override-cpus <cpu-quota> --override-memory-mb <memory-mb>` 应与公开声明和组装资源一致；并发 trial 数与求解器的 OpenMP 线程／MPI 进程数分别核对。逐例求解时限来自 judge-config.json，不与 Agent 或总 verifier 时限混淆。
+
 ## Viewer
 
 安装版默认：host=`127.0.0.1`，port=`8080-8089`。本技能为了保证用户在默认端口访问，显式使用：
@@ -26,7 +29,7 @@ harbor run --path runs/harbor/tasks/<task> --env docker --agent <agent> --model 
 harbor view runs/harbor/jobs --jobs --host 0.0.0.0 --port 8080
 ```
 
---jobs 使空目录也能启动，不依赖自动推断。--port单值使冲突明确失败，不静默回落8081。--host 0.0.0.0监听执行主机IPv4接口，浏览器访问本机127.0.0.1或该主机实际本地IP；不是公网发布。
+--jobs 使空目录也能启动，不依赖自动推断。--port单值使冲突明确失败，不静默回落8081。--host 0.0.0.0监听执行主机IPv4接口，浏览器访问本机127.0.0.1或该主机可达IP；实际访问范围由主机网络决定。
 
 实际ready核对：
 
@@ -40,6 +43,6 @@ POSIX辅助脚本只负责受控进程生命周期和当前三个接口检查，
 
 job根下的 config.json／result.json 与各trial产物应相互核对；名称／schema以实际版本为准。仓库 judge 的 trial verifier/report.json 提供逐例状态、分数和错误，reward.txt 是汇总通过比例；没有report或覆盖不足不能仅凭reward认定完成。
 
-当前 judge 入口为 `src/utils/harbor/tests/judge.py`。题目、参考或运行框架错误的 score可为null，不能按零分solver失败处理。重复统计包括每次尝试，基础设施补跑不得冒充新的独立样本或只取最佳值。
+当前 judge 入口为 `src/utils/harbor/tests/judge.py`。题目输入、参考、评分配置或运行框架错误属于基础设施问题；grade CLI 退出 2，grade 结果中的 score 为 null；Harbor judge 遇此中止，可能只有部分报告，不能按零分 solver 失败处理。重复统计包括每次尝试，基础设施补跑不得冒充新的独立样本或只取最佳值。
 
 `harbor job resume`、regrade的具体筛选、重试和是否重新调用agent必须看当前help／源码。已有冻结提交的重判不自动重新生成solver。监控默认继续保留，只有用户要求或本次失败测试清理才停止明确属于自己的进程。

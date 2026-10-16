@@ -125,9 +125,9 @@ python -m caeoj grade \
 
 Python 接口为 `grade_arrays(problem, result, reference, policy=policy)` 和 `grade_files(input, output, reference, policy=policy)`，可用 `load_policy(path)` 读取和校验配置。
 
-未指定策略时，原有 `atol/rtol` 接口、默认容差、逐值判定及诊断字段保持不变。显式策略与显式 atol/rtol 不能同时提供。作者目录若添加 `grading.json`，应移除 `judge-config.json` 中的 atol/rtol；运行时限与输出大小等参数保留。否则沿用旧配置。
+单点 CLI／SDK 不指定策略时可使用 `atol/rtol` 逐值比较；显式策略与显式 atol/rtol 不能同时提供。题库运行统一使用题目 `grading.json`，`judge-config.json` 只保存执行设置，不再提供容差或缺省评分规则。
 
-发布器始终导出公开 `grading.json` 与从该策略生成的 `GRADING.md`，旧任务会从既有容差派生等价策略。Harbor 组装会校验 ZIP 内策略与实际评分策略的哈希一致，过期发布包必须重发。公开包包含指标实现、配置 Schema 和样例判分命令，不包含隐藏输入、参考轨迹或审核信息。现有 PDEBench 的阈值不因本次重构自动改变。
+发布器导出题目 `grading.json` 与从该策略生成的 `GRADING.md`。Harbor 组装校验 ZIP 内策略与实际评分策略的哈希一致，过期发布包必须重发。公开包包含指标实现、配置 Schema 和样例判分命令，不包含隐藏输入、参考轨迹或审核信息。
 
 ## 报告和失败分类
 

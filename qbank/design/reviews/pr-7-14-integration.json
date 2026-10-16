@@ -1,0 +1,138 @@
+{
+  "date": "2026-10-16",
+  "baseline": "19124d0",
+  "already_merged": [
+    8,
+    9
+  ],
+  "merge_order": [
+    12,
+    14,
+    11,
+    10,
+    7,
+    13
+  ],
+  "pr_heads": {
+    "7": "3197a8e56d657ea265c517e036e2f57392111f0b",
+    "10": "4dfcae035f8b9e6cc66de61e6984baf03e4e6b8d",
+    "11": "2d16a61f01ac50719cee1ffd0685346ac058bd7a",
+    "12": "d1ec1d5290b18c891eb67d241f99ca0b767372e1",
+    "13": "3e8050d21405a16b19533e9cd29ae15190abaf22",
+    "14": "7b7fd679f16aecac832d013ae45bd6453ce82b5a"
+  },
+  "shared_registry": {
+    "tasks": 229,
+    "extensions": 23,
+    "files": 65,
+    "id": "1f5dbb115f241a81d50db54f296d3c776a8f5969e9e044fb2d92f2513dde7465"
+  },
+  "preservation": {
+    "single_owner_files": 593,
+    "single_owner_drift": [],
+    "restored_files": [
+      "qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d/README.md",
+      "qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d/cases/04-polynomial-bump/input.h5",
+      "qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d/cases/05-two-hotspots/input.h5",
+      "qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d/cases/06-localized-hotspot/mesh.msh",
+      "qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d/cases/10-reversed-natural/mesh.msh"
+    ],
+    "task_count": 229,
+    "chapter_counts": {
+      "00-basic-tests": 1,
+      "01-prescribed-pdes": 13,
+      "02-fluid-mechanics": 65,
+      "03-solid-mechanics": 21,
+      "04-multibody-mechanics": 12,
+      "05-heat-transfer": 13,
+      "06-acoustics": 10,
+      "07-electromagnetics": 10,
+      "08-optics": 8,
+      "09-species-reactions": 8,
+      "10-electrochemistry": 8,
+      "11-semiconductor": 8,
+      "12-granular": 7,
+      "13-porous-media": 13,
+      "14-plasma": 10,
+      "17-multiphysics": 12,
+      "18-system-multidomain": 10
+    },
+    "extensions": 23,
+    "single_owner_files_unchanged": 592,
+    "intentional_integration_test_fix": [
+      "tests/test_plasma_contract.py"
+    ]
+  },
+  "restored_files": [
+    {
+      "path": "qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d/README.md",
+      "sha256": "fc77d087c8bbf461843f3b3b199847b0ce753b7698f33b4ec13a1bba76fa79e2",
+      "restored_bytes": 4771
+    },
+    {
+      "path": "qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d/cases/04-polynomial-bump/input.h5",
+      "sha256": "7d26baab11f38c3db18eb41c43ddb60b7b757f75b84aa0ebef4b90aabd4ac709",
+      "restored_bytes": 48007
+    },
+    {
+      "path": "qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d/cases/05-two-hotspots/input.h5",
+      "sha256": "4f51ba24556eb5a64e116b9ae213d9cf31fe80446bccb13f1fd8b9d6fa8d1785",
+      "restored_bytes": 54029
+    },
+    {
+      "path": "qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d/cases/06-localized-hotspot/mesh.msh",
+      "sha256": "e573c9d667cc32d69ff30858e1f21f0987ae0bf3fa0091411ffd6777630c5491",
+      "restored_bytes": 353859
+    },
+    {
+      "path": "qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d/cases/10-reversed-natural/mesh.msh",
+      "sha256": "16fbd50231938e9095115f0f699adba8c249a96212fa9b5e177810076bb79163",
+      "restored_bytes": 196535
+    }
+  ],
+  "tests": {
+    "full": 393,
+    "seconds": 59.237,
+    "result": "OK",
+    "plasma_targeted": 13
+  },
+  "static": {
+    "sections": 109,
+    "tasks": 229,
+    "errors": 0
+  },
+  "student_review": "not_started",
+  "physical_numerical_validation": false,
+  "public_install": {
+    "bound_tasks": 229,
+    "extensions": 23,
+    "domains": [
+      "electrochemistry",
+      "granular",
+      "multiphysics",
+      "plasma",
+      "porous",
+      "semiconductor",
+      "species",
+      "systems"
+    ],
+    "fixtures": 76,
+    "cli_input_checks": 76,
+    "sdk_forward_reverse": 152,
+    "output_roundtrip": 76,
+    "bad_unit": "rejected",
+    "scope": "assembled",
+    "source_moved": true,
+    "python_isolated": true,
+    "pythonpath_cleared": true,
+    "cwd": "/private/tmp",
+    "physical_accuracy": "not_evaluated",
+    "platform": "macOS arm64 / Python 3.14"
+  },
+  "test_environment": {
+    "build_dependencies": "setuptools and wheel installed for the pre-existing no-build-isolation test",
+    "initial_failure": "missing build backend",
+    "second_failure": "macOS /var alias compared to resolved /private/var",
+    "fix": "resolve installed base before comparing module paths; retain strict source-isolation assertion"
+  }
+}

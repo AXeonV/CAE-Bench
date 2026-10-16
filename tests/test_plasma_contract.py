@@ -217,9 +217,9 @@ from pathlib import Path
 import caeoj, caeoj_bundle, caeoj_ext.plasma
 from caeoj.sdk import load_problem
 from caeoj.runtime import bundle_info
-base=Path(sys.argv[1])
+base=Path(sys.argv[1]).resolve()
 for module in (caeoj,caeoj_bundle,caeoj_ext.plasma):
-    assert Path(module.__file__).resolve().is_relative_to(base)
+    assert Path(module.__file__).resolve().is_relative_to(base), (module.__name__, module.__file__, str(base))
 for path in sys.argv[2:]:
     p=load_problem(path)
     assert p.manifest['physics']['model'].startswith('plasma-')

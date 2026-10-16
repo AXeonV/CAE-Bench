@@ -5,7 +5,7 @@ description: 根据 CAE-Bench-OJ 给定题面设计或修订自包含 DATA.md，
 
 # 题目数据契约设计
 
-以用户给定的 instruction.md 或明确物理题面为输入，以同题自包含 DATA.md 为主要交付。读取 `docs/CONTRACT.md`、[经验清单](../../../qbank/design/AUTHORING-LESSONS.md)，按 [设计流程](references/workflow.md) 工作。没有足够题面时先明确缺口，交由 `caeoj-author-section` 补足；不从已有 Schema、测试 fixture 或来源软件反推要考查的物理。
+以用户给定的 instruction.md 或明确物理题面为输入，以同题自包含 DATA.md 为主要交付。读取 `docs/CONTRACT.md`、[经验清单](../../../qbank/design/AUTHORING-LESSONS.md)，按 [设计流程](references/workflow.md) 工作。没有足够题面时先明确缺口，交由 `caeoj-author-question` 补足；不从已有 Schema、测试 fixture 或来源软件反推要考查的物理。
 
 考生阅读集合固定为本题 instruction.md、DATA.md、通用 CONTRACT.md。DATA 必须完整写出本题参数、条件、采样、输出和支持组合，不引用章节共享 DATA、COMMON、维护方领域协议、其他题或源码补定义。instruction 负责任务目标、方法责任、资源和评分；DATA 负责物理信息到数据的精确映射。已有通用规则准确引用 CONTRACT，不把所有领域细节塞入通用协议。
 
@@ -13,16 +13,18 @@ description: 根据 CAE-Bench-OJ 给定题面设计或修订自包含 DATA.md，
 
 若发现物理欠定、边界冲突或观测无唯一含义，给出具体反例／两种合法解释和最小修订方案，返回出题环节同步题面与 DATA；不在 DATA 中悄悄固定模型、缩小范围或添加选择条件以掩盖题面问题。用户只授权接口设计时，物理变更记录为提案；一般实现细节按已定目标推进，无须逐项批准。
 
+能力范围、拆并或建模责任需要改变时反馈当前出题协调方；独立 DATA 任务仅记录设计建议，不自动调用完整出题或设计审阅流程。
+
 基础设施拓展是条件性工作：已有格式和语义足够就完成 DATA；已有格式可表达但缺物理语义支持时，补 `qbank/extensions/caeoj_ext/` 中按物理能力组织的检查与辅助接口；只有不可复用的公开运行规则才放本题 `extension/`。通用表示或扩展接口确有缺口才改 `src/caeoj/`、CONTRACT 或核心 Schema；维护装配进入 `src/caeoj_tools/`，数据生成和参考制作进入本题 `author/`。先按[职责设计](../../../qbank/design/CORE-AND-EXTENSIONS.md)判断拥有层，再同步必要验证；普通新增题目不修改核心或发布脚本，扩展不以章号命名。考生侧遵守[公开接口](../../../qbank/design/PUBLIC-INTERFACE.md)：一次安装、统一 CLI、稳定 SDK，不让考生选择或注册扩展。接口和装配实况以源码核对，细节见设计流程。
 
 存储、配置形式和诊断边界以当前 CONTRACT 为准；开发注册、公开闭包及接口转发见[运行装配维护说明](../../../qbank/maintenance/RUNTIME.md)。协议或工具变更后同步本技能、设计流程及受影响读者的说明，不把已废弃入口作为新题模板。
 
 已有领域说明可在需要时作为维护参考，位于 `qbank/maintenance/protocols/`；它不拥有额外考生定义，不要求每题新建，也不进入公开包。维护模板或生成器可以复用，但生成的每题 DATA 必须独立完整。
 
-交付前调用 [caeoj-review-statements](../caeoj-review-statements/SKILL.md)，默认使用允许缺样例的题面模式；用户要求真实考试材料审阅时显式选择考试材料模式。总出题任务可共用同一最终版本审阅，由调用方修订并请求受影响内容复核，避免重复审阅未变文件。
+交付前调用 [caeoj-candidate-review](../caeoj-candidate-review/SKILL.md)，默认使用允许缺样例的题面模式；用户要求真实考试材料审阅时显式选择考试材料模式。总出题任务可共用同一最终版本审阅，由调用方修订并请求受影响内容复核，避免重复审阅未变文件。
 
 考生审阅之外，维护方从最终 DATA 独立选取有代表性的合法／非法变体，对照工具实际接受范围；不只依赖与生成器同源的 fixture。按风险核查观测是否存在且唯一、条件各侧与方向、重叠及常量／场等表示分支，详见[验证与审阅流程](references/workflow.md)。记录反例与证据，不强制每题相同测试清单；具体领域回归留在测试与维护记录。
 
-允许在临时目录／runs 制作最小协议 fixture；DATA 设计不等于数据生成。用户要求数据后补时，不向 examples／references／cases 写数值数据，不发布空评测。实际数据已存在时使用 `caeoj-audit-data` 核对全部变体；无数据时分别报告契约审阅、工具验证和实际数据审计状态。
+允许在临时目录／runs 制作最小协议 fixture；DATA 设计不等于数据生成。用户要求数据后补时，不向 examples／references／cases 写数值数据，不发布空评测。实际数据已存在时使用 `caeoj-data-review` 核对全部变体；无数据时分别报告契约审阅、工具验证和实际数据审计状态。
 
 最终交付 DATA.md、必要的题面同步修订、按需实施的基础设施及验证证据、兼容决定和未决项。维护记录保存理由与影响，按用户偏好提交本次内容。接口合法不等于物理适定、参考准确或资源已校准。

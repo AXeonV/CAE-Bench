@@ -1,15 +1,15 @@
 ---
-name: caeoj-audit-data
-description: "审核 CAE Bench OJ 题目的 DATA.md，逐项对照题面、通用协议、全部实际输入及公开输出，查找 I/O 定义缺漏、歧义和冲突；用于出题、修改数据接口或发布解题材料前。"
+name: caeoj-data-review
+description: "审计 CAE-Bench-OJ 全部实际输入及公开输出与题面、DATA 和通用协议的一致性，检查字段、条件变体和读写示例；用于数据补充、接口变更或发布准备，默认只读报告。"
 ---
 
-# 审核 DATA.md
+# 实际数据与契约审计
 
-目标：仅凭公开题面、DATA.md 和通用协议，程序实现者就能确定每个字段在哪里、何时出现、如何读取，以及其数学含义，无需猜测测试数据或阅读出题程序。
+目标：逐项建立全部实际输入、公开输出与三文件契约的对应证据，发现数据越界、文档漏定义及相互冲突。独立考生可实现性审阅由 [caeoj-candidate-review](../caeoj-candidate-review/SKILL.md) 拥有，问题族设计审阅由 [caeoj-design-review](../caeoj-design-review/SKILL.md) 拥有；本技能不自动执行它们，也不将维护方读过实现后的核查称为独立考生审阅。
 
 ## 输入与范围
 
-定位用户指定的 qbank 题目目录和仓库根目录，使用用户指定或项目已激活的 Python 环境。先只读该题 instruction.md、DATA.md 与 docs/CONTRACT.md 核查可实现性，再枚举 cases、samples、examples 内全部实际输入与公开输出。维护领域资料或实现可用于之后定位问题，但不能用它们补足公开文档后宣称题意完整。不要求题目存在 generator 或 baseline。
+定位用户指定的 qbank 题目目录和仓库根目录，使用用户指定或项目已激活的 Python 环境。先读取该题 instruction.md、DATA.md 与 docs/CONTRACT.md 作为数据对照依据，再枚举 cases、samples、examples 内全部实际输入与公开输出。维护领域资料或实现可用于之后定位问题，但不能用它们补足公开文档后宣称题意完整。不要求题目存在 generator 或 baseline。
 
 默认只审核并输出报告；用户明确要求修复时再修改公开文档。题面、协议、实际输入相互冲突时，记录冲突并确认依据，不能默认实际输入必然正确，也不能修改数据迁就实现错误。
 
@@ -19,14 +19,14 @@ description: "审核 CAE Bench OJ 题目的 DATA.md，逐项对照题面、通�
 
 对照当前 CONTRACT 区分通用结构与领域声明检查。网格统一为 Gmsh MSH 4.1 ASCII，场数组采用 HDF5；物理声明按本题明确的配置形式读取，不用“旧格式／新格式”代替准确字段定义。维护实现定位见[运行装配说明](../../../qbank/maintenance/RUNTIME.md)，不让考生依赖它补题意。
 
-再进入实际数据审计：三文件审阅、结构验证、真实数据对照及数值／物理验证分别给出状态，没有数据不意味着文档不能完成，也不能将文档审阅通过当作数据审计通过。
+保留数据对照所需的三文件完整性核查；完整的独立考生审阅可复用版本及覆盖匹配的既有记录，需要补审时交协调方调用对应技能。结构验证、真实数据对照及数值／物理验证分别给出状态；无实际数据时报告审计资料不足，不以文档检查或临时 fixture 代替实际数据审计。
 
 ## 先盘点事实
 
 运行本 Skill 的辅助脚本（将 `<skill-dir>` 替换为本 SKILL.md 所在目录）：
 
 ```sh
-python <skill-dir>/scripts/inventory.py --task qbank/<chapter>/<section>/<task> --output runs/data-audit/<task>/inventory.json
+python <skill-dir>/scripts/inventory.py --task qbank/<chapter>/<section>/<task> --output runs/data-review/<task>/inventory.json
 ```
 
 命令的 --task 传入题目的实际目录路径。脚本当前仅自动发现 cases/*/problem.json 与 samples/*/input/problem.json；对 examples 以及其他布局另行完整枚举并补充同类盘点，不得把脚本返回零输入当作不存在数据。
@@ -50,7 +50,7 @@ python <skill-dir>/scripts/inventory.py --task qbank/<chapter>/<section>/<task> 
 
 区分“描述散落但明确”和“必须猜测才能实现”。按程序能否无歧义地读取数据判断，不以文档是否包含某个关键词判断。通用规则可准确引用 CONTRACT.md；题目专用字段与算子参数应在 DATA.md 讲全，不给 CONTRACT.md 累积题目补丁。
 
-文档可实现性与工具一致性分别核查：先尝试合理反例，确认允许输入下观测存在且有唯一含义，并标出无关模板内容；再按风险从最终 DATA 构造少量合法／非法变体，核对“文档允许但工具拒绝”和“文档禁止但工具接受”两种方向。可沿用已有 fixture 作载体，但预期应来自公开契约，而非同源生成器或被测 helper。没有正式数据时这只提供契约／工具证据，不算实际数据审计；不要为低影响措辞修改机械补测试。
+按数据或工具变更风险从最终 DATA 构造少量合法／非法变体，核对“文档允许但工具拒绝”和“文档禁止但工具接受”两种方向。可沿用已有 fixture 作载体，但预期应来自公开契约，而非同源生成器或被测 helper。没有正式数据时这只提供契约／工具证据，不算实际数据审计；不要为低影响措辞修改机械补测试。
 
 ## 验证示例与形成结论
 
@@ -58,7 +58,7 @@ python <skill-dir>/scripts/inventory.py --task qbank/<chapter>/<section>/<task> 
 
 结构校验和数值判分职责保持分离。不向校验器加入物理验证、系数纠正或边界组合补救；不在公开文档中写入隐藏测试点名单、标答、解析解、弱式推导、推荐算法或为某个失败 solver 定制的修补提示。对照隐藏输入得到的证据只进入维护方审核报告。
 
-默认报告保存到 `runs/data-audit/<task>/report.md`，最终回复简述结论与最重要问题。报告包括：
+默认报告保存到 `runs/data-review/<task>/report.md`，最终回复简述结论与最重要问题。报告包括：
 
 1. **覆盖范围**：实际读过的输入数、条件变体、示例，以及缺失材料或未执行的验证。
 2. **问题表**：严重程度、缺漏／歧义／冲突、实际字段路径、文档位置、输入证据、对程序的影响、最小修订建议。将文档问题、数据问题和资料不足分别说明。

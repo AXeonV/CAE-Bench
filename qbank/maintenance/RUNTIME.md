@@ -19,11 +19,20 @@ python -m caeoj_tools.cli smoke
 
 - `src/caeoj/`：通用数组、对象、Schema、诊断、几何、基础 SDK、评分和 runtime；不写物理模型／章节分派。
 - `qbank/extensions/caeoj_ext/fluid/`：single_phase、thermal_flow、turbulence、multiphase、thin_film、depth_averaged、rarefied、complex_fluid；公共声明与几何适配按需复用。
+- `qbank/extensions/caeoj_ext/species/`：扩散、外场迁移、竞争吸附、反应网络、绝热定容燃烧及相间交换的公开声明检查；模型清单为运行资源，不含求解器或参考。维护生成器在`qbank/maintenance/authoring/build_species.py`，不进入公开包。
+- `qbank/extensions/caeoj_ext/electrochemistry/`：自洽离子、电极反应、界面动态／阻抗、电池与能量转换的公开声明检查。电中性按存储float64作为精确二进制有理数检查，不投影物理输入；实现不含求解器或参考。维护展开工具为`qbank/maintenance/authoring/build_electrochemistry.py`，不进入公开包。
+
+- `qbank/extensions/caeoj_ext/porous/`：饱和／非饱和、多相、裂隙／双连续体、孔隙流和输运的声明检查；按可信模型与任务绑定启用，不求解或修正结果。
 - `qbank/extensions/caeoj_bundle/runtime.json`：可信开发注册描述，包括 extensions、tasks、SDK aliases、模块转发 modules 和模型名字空间诊断。tasks 的值是直接扩展 ID 列表，空列表明确表示该题使用通用声明检查，不是遗漏装配；全部题目必须显式绑定，由回归测试核对覆盖。
 - `src/caeoj_tools/`：定位题目、策略读取、作者入口、依赖锁定与装配。publish_dist.py、prepare_harbor.py 仍为现有维护命令入口，均消费同一装配逻辑。
+- `qbank/extensions/caeoj_ext/plasma/`：带电轨道、离散碰撞、反应、静电自洽、放电及冷等离子体响应的声明检查；相空间速度箱用明确的components轴，移动粒子用entities，不增加核心格式或求解功能。
 - smoke-test 的 examples、smoke 在其 author 目录，维护工具显式加载。测试使用维护 loader，不从核心借题库根路径。
 
 扩展按物理组织，章节重排不改扩展 ID。cfd-2.1 与 fluid-* 等输入标识对应实际声明，移动内部模块不改写输入语义。
+
+半导体能力由 `semiconductor.transport` 绑定 `caeoj_ext.semiconductor`，公开 models.json 保存声明元数据，运行检查不求解物理；不增加核心 Schema 或新 SDK 入口。剖面 points 的线性重建、离散实体及谱变量语义逐题展开在 DATA。维护模板位于 `authoring/build_semiconductor.py`，重生成后必须重新静态检查并核对最终审阅散列；模板不进入公开装配。
+
+颗粒能力由 `granular.dynamics` 绑定 `caeoj_ext.granular`；entities表示运动粒子、代表体和离散粒级，位置及状态作为字段，矩阵通过components表达。models.json及声明检查只处理公开DATA约束（包括初始最近像、小重叠、响应难度界和粒级守恒），不演化轨迹或证明全程条件；正式数据须独立验证动态适用承诺。维护模板为`authoring/build_granular.py`，独立普通安装验证为`authoring/verify_granular_install.py`；均不进入公开闭包。公共CLI、SDK和一次安装约定不变。
 
 ## 描述字段与检查接口
 
@@ -88,3 +97,7 @@ python src/utils/publish_dist.py --task heat-conduction-steady-2d --task heat-co
 变更后至少检查实际依赖闭包、非法输入、旧接口、独立公开包和相关回归；安装验证使用普通 wheel 安装、移走源码并换目录，不能由 editable checkout 掩盖遗漏。临时 fixture 只证明工具，不代表正式案例、可信参考或预算校准。实施证据见[重构记录](../design/reviews/runtime-refactor.md)。
 
 离散对象使用通用 entities 身份表，不能用伪 points 坐标代替。各领域的检查和辅助函数归共享扩展；新增题目只需修改可信绑定，不逐题扩充发布器的文件清单。
+
+第十七章新增multiphysics.continuum共享连续体耦合声明检查，复用points／entities及多时间轴，无核心或发布器修改；12题普通安装、CLI／SDK、评分和资源配置证据见[第十七章记录](../design/reviews/chapter-17-implementation.md)。当前证据仅macOS arm64协议fixture，目标Linux容器、正式数值数据及预算校准留后。
+
+第十八章新增systems.networks共享系统网络声明检查，复用entities及多时间轴，int64端点引用实际节点ID，无核心／发布器修改；10题普通安装、CLI／SDK、评分和资源配置验证见[第十八章记录](../design/reviews/chapter-18-implementation.md)。当前仅macOS arm64协议fixture证据，正式数据、数值参考、目标Linux容器和预算校准留后。

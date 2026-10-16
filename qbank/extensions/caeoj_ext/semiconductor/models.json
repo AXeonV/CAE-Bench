@@ -1,0 +1,1260 @@
+{
+  "semiconductor-equilibrium": {
+    "name": "非简并半导体热平衡",
+    "parameters": {
+      "length": {
+        "unit": "m",
+        "meaning": "区间长度L，0<x<L",
+        "lower": 1e-09,
+        "upper": 0.01,
+        "positive": false,
+        "integer": false
+      },
+      "temperature": {
+        "unit": "K",
+        "meaning": "等温温度T",
+        "lower": 200,
+        "upper": 500,
+        "positive": false,
+        "integer": false
+      },
+      "permittivity": {
+        "unit": "F/m",
+        "meaning": "绝对介电常数ε",
+        "lower": 1e-12,
+        "upper": 1e-09,
+        "positive": false,
+        "integer": false
+      },
+      "intrinsic_density": {
+        "unit": "1/m3",
+        "meaning": "本征密度ni",
+        "lower": 100000000.0,
+        "upper": 1e+23,
+        "positive": false,
+        "integer": false
+      }
+    },
+    "locations": {
+      "profile": {
+        "kind": "points",
+        "minimum": 2,
+        "maximum": 1024,
+        "meaning": "包含x=0及x=L的剖面结点，按ID行序x严格递增；输入重建支撑，不是指定求解网格"
+      },
+      "receivers": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 256,
+        "meaning": "严格位于0<x<L的输出点；ID行序不要求坐标递增，允许重复坐标"
+      },
+      "contacts": {
+        "kind": "points",
+        "minimum": 2,
+        "maximum": 2,
+        "meaning": "第一行x=0，第二行x=L的真实边界点"
+      }
+    },
+    "inputs": {
+      "doping": {
+        "unit": "1/m3",
+        "meaning": "完全电离的净掺杂C=ND−NA，允许正负及零",
+        "location": "profile",
+        "axis": "static",
+        "lower": -1e+25,
+        "upper": 1e+25,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "contact_potential": {
+        "unit": "V",
+        "meaning": "两端电势ψ，绝对基准由输入固定",
+        "location": "contacts",
+        "axis": "static",
+        "lower": -2,
+        "upper": 2,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      }
+    },
+    "outputs": {
+      "potential": {
+        "unit": "V",
+        "meaning": "ψ(x,t)",
+        "location": "receivers",
+        "axis": "static",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 2e-05,
+        "rtol": 0.002
+      },
+      "electron_density": {
+        "unit": "1/m3",
+        "meaning": "n(x,t)",
+        "location": "receivers",
+        "axis": "static",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 10000000000.0,
+        "rtol": 0.005
+      },
+      "hole_density": {
+        "unit": "1/m3",
+        "meaning": "p(x,t)",
+        "location": "receivers",
+        "axis": "static",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 10000000000.0,
+        "rtol": 0.005
+      },
+      "electric_field": {
+        "unit": "V/m",
+        "meaning": "E=−∂xψ",
+        "location": "receivers",
+        "axis": "static",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 1.0,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 300,
+    "transient": false
+  },
+  "semiconductor-drift-steady": {
+    "name": "双极漂移扩散稳态",
+    "parameters": {
+      "length": {
+        "unit": "m",
+        "meaning": "区间长度L，0<x<L",
+        "lower": 1e-09,
+        "upper": 0.01,
+        "positive": false,
+        "integer": false
+      },
+      "temperature": {
+        "unit": "K",
+        "meaning": "等温温度T",
+        "lower": 200,
+        "upper": 500,
+        "positive": false,
+        "integer": false
+      },
+      "permittivity": {
+        "unit": "F/m",
+        "meaning": "绝对介电常数ε",
+        "lower": 1e-12,
+        "upper": 1e-09,
+        "positive": false,
+        "integer": false
+      },
+      "intrinsic_density": {
+        "unit": "1/m3",
+        "meaning": "本征密度ni",
+        "lower": 100000000.0,
+        "upper": 1e+23,
+        "positive": false,
+        "integer": false
+      },
+      "tau_n": {
+        "unit": "s",
+        "meaning": "SRH电子寿命τn",
+        "lower": 1e-12,
+        "upper": 1,
+        "positive": false,
+        "integer": false
+      },
+      "tau_p": {
+        "unit": "s",
+        "meaning": "SRH空穴寿命τp",
+        "lower": 1e-12,
+        "upper": 1,
+        "positive": false,
+        "integer": false
+      },
+      "mobility_n": {
+        "unit": "m2/(V.s)",
+        "meaning": "电子迁移率μn",
+        "lower": 1e-06,
+        "upper": 1,
+        "positive": false,
+        "integer": false
+      },
+      "mobility_p": {
+        "unit": "m2/(V.s)",
+        "meaning": "空穴迁移率μp",
+        "lower": 1e-06,
+        "upper": 1,
+        "positive": false,
+        "integer": false
+      }
+    },
+    "locations": {
+      "profile": {
+        "kind": "points",
+        "minimum": 2,
+        "maximum": 1024,
+        "meaning": "包含x=0及x=L的剖面结点，按ID行序x严格递增；输入重建支撑，不是指定求解网格"
+      },
+      "receivers": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 256,
+        "meaning": "严格位于0<x<L的输出点；ID行序不要求坐标递增，允许重复坐标"
+      },
+      "contacts": {
+        "kind": "points",
+        "minimum": 2,
+        "maximum": 2,
+        "meaning": "第一行x=0，第二行x=L的真实边界点"
+      }
+    },
+    "inputs": {
+      "doping": {
+        "unit": "1/m3",
+        "meaning": "完全电离的净掺杂C=ND−NA，允许正负及零",
+        "location": "profile",
+        "axis": "static",
+        "lower": -1e+25,
+        "upper": 1e+25,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "contact_potential": {
+        "unit": "V",
+        "meaning": "两端电势ψ，绝对基准由输入固定",
+        "location": "contacts",
+        "axis": "static",
+        "lower": -2,
+        "upper": 2,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "contact_electron": {
+        "unit": "1/m3",
+        "meaning": "对应载流子的理想接触Dirichlet密度",
+        "location": "contacts",
+        "axis": "static",
+        "lower": 1000000.0,
+        "upper": 1e+25,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "contact_hole": {
+        "unit": "1/m3",
+        "meaning": "对应载流子的理想接触Dirichlet密度",
+        "location": "contacts",
+        "axis": "static",
+        "lower": 1000000.0,
+        "upper": 1e+25,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "generation": {
+        "unit": "1/(m3.s)",
+        "meaning": "外部成对产生率G≥0",
+        "location": "profile",
+        "axis": "static",
+        "lower": 0,
+        "upper": 1e+35,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      }
+    },
+    "outputs": {
+      "potential": {
+        "unit": "V",
+        "meaning": "ψ(x,t)",
+        "location": "receivers",
+        "axis": "static",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 2e-05,
+        "rtol": 0.002
+      },
+      "electron_density": {
+        "unit": "1/m3",
+        "meaning": "n(x,t)",
+        "location": "receivers",
+        "axis": "static",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 10000000000.0,
+        "rtol": 0.005
+      },
+      "hole_density": {
+        "unit": "1/m3",
+        "meaning": "p(x,t)",
+        "location": "receivers",
+        "axis": "static",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 10000000000.0,
+        "rtol": 0.005
+      },
+      "electron_current": {
+        "unit": "A/m2",
+        "meaning": "向+x的常规传导电流密度Je",
+        "location": "receivers",
+        "axis": "static",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 0.01,
+        "rtol": 0.005
+      },
+      "hole_current": {
+        "unit": "A/m2",
+        "meaning": "向+x的常规传导电流密度Jh",
+        "location": "receivers",
+        "axis": "static",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 0.01,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 600,
+    "transient": false
+  },
+  "semiconductor-drift-transient": {
+    "name": "双极漂移扩散瞬态",
+    "parameters": {
+      "length": {
+        "unit": "m",
+        "meaning": "区间长度L，0<x<L",
+        "lower": 1e-09,
+        "upper": 0.01,
+        "positive": false,
+        "integer": false
+      },
+      "temperature": {
+        "unit": "K",
+        "meaning": "等温温度T",
+        "lower": 200,
+        "upper": 500,
+        "positive": false,
+        "integer": false
+      },
+      "permittivity": {
+        "unit": "F/m",
+        "meaning": "绝对介电常数ε",
+        "lower": 1e-12,
+        "upper": 1e-09,
+        "positive": false,
+        "integer": false
+      },
+      "intrinsic_density": {
+        "unit": "1/m3",
+        "meaning": "本征密度ni",
+        "lower": 100000000.0,
+        "upper": 1e+23,
+        "positive": false,
+        "integer": false
+      },
+      "tau_n": {
+        "unit": "s",
+        "meaning": "SRH电子寿命τn",
+        "lower": 1e-12,
+        "upper": 1,
+        "positive": false,
+        "integer": false
+      },
+      "tau_p": {
+        "unit": "s",
+        "meaning": "SRH空穴寿命τp",
+        "lower": 1e-12,
+        "upper": 1,
+        "positive": false,
+        "integer": false
+      },
+      "mobility_n": {
+        "unit": "m2/(V.s)",
+        "meaning": "电子迁移率μn",
+        "lower": 1e-06,
+        "upper": 1,
+        "positive": false,
+        "integer": false
+      },
+      "mobility_p": {
+        "unit": "m2/(V.s)",
+        "meaning": "空穴迁移率μp",
+        "lower": 1e-06,
+        "upper": 1,
+        "positive": false,
+        "integer": false
+      }
+    },
+    "locations": {
+      "profile": {
+        "kind": "points",
+        "minimum": 2,
+        "maximum": 1024,
+        "meaning": "包含x=0及x=L的剖面结点，按ID行序x严格递增；输入重建支撑，不是指定求解网格"
+      },
+      "receivers": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 256,
+        "meaning": "严格位于0<x<L的输出点；ID行序不要求坐标递增，允许重复坐标"
+      },
+      "contacts": {
+        "kind": "points",
+        "minimum": 2,
+        "maximum": 2,
+        "meaning": "第一行x=0，第二行x=L的真实边界点"
+      }
+    },
+    "inputs": {
+      "doping": {
+        "unit": "1/m3",
+        "meaning": "完全电离的净掺杂C=ND−NA，允许正负及零",
+        "location": "profile",
+        "axis": "static",
+        "lower": -1e+25,
+        "upper": 1e+25,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "contact_potential": {
+        "unit": "V",
+        "meaning": "两端电势ψ，绝对基准由输入固定",
+        "location": "contacts",
+        "axis": "drive",
+        "lower": -2,
+        "upper": 2,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "contact_electron": {
+        "unit": "1/m3",
+        "meaning": "对应载流子的理想接触Dirichlet密度",
+        "location": "contacts",
+        "axis": "drive",
+        "lower": 1000000.0,
+        "upper": 1e+25,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "initial_electron": {
+        "unit": "1/m3",
+        "meaning": "t=0物理密度；非迭代初猜",
+        "location": "profile",
+        "axis": "initial",
+        "lower": 1000000.0,
+        "upper": 1e+25,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "contact_hole": {
+        "unit": "1/m3",
+        "meaning": "对应载流子的理想接触Dirichlet密度",
+        "location": "contacts",
+        "axis": "drive",
+        "lower": 1000000.0,
+        "upper": 1e+25,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "initial_hole": {
+        "unit": "1/m3",
+        "meaning": "t=0物理密度；非迭代初猜",
+        "location": "profile",
+        "axis": "initial",
+        "lower": 1000000.0,
+        "upper": 1e+25,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "generation": {
+        "unit": "1/(m3.s)",
+        "meaning": "外部成对产生率G≥0",
+        "location": "profile",
+        "axis": "drive",
+        "lower": 0,
+        "upper": 1e+35,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      }
+    },
+    "outputs": {
+      "potential": {
+        "unit": "V",
+        "meaning": "ψ(x,t)",
+        "location": "receivers",
+        "axis": "observe",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 2e-05,
+        "rtol": 0.002
+      },
+      "electron_density": {
+        "unit": "1/m3",
+        "meaning": "n(x,t)",
+        "location": "receivers",
+        "axis": "observe",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 10000000000.0,
+        "rtol": 0.005
+      },
+      "hole_density": {
+        "unit": "1/m3",
+        "meaning": "p(x,t)",
+        "location": "receivers",
+        "axis": "observe",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 10000000000.0,
+        "rtol": 0.005
+      },
+      "electron_current": {
+        "unit": "A/m2",
+        "meaning": "向+x的常规传导电流密度Je",
+        "location": "receivers",
+        "axis": "observe",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 0.01,
+        "rtol": 0.005
+      },
+      "hole_current": {
+        "unit": "A/m2",
+        "meaning": "向+x的常规传导电流密度Jh",
+        "location": "receivers",
+        "axis": "observe",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 0.01,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 900,
+    "transient": true
+  },
+  "semiconductor-bulk-recombination": {
+    "name": "均匀半导体体复合动力学",
+    "parameters": {
+      "tau_n": {
+        "unit": "s",
+        "meaning": "SRH电子寿命τn",
+        "lower": 1e-12,
+        "upper": 1,
+        "positive": false,
+        "integer": false
+      },
+      "tau_p": {
+        "unit": "s",
+        "meaning": "SRH空穴寿命τp",
+        "lower": 1e-12,
+        "upper": 1,
+        "positive": false,
+        "integer": false
+      },
+      "intrinsic_density": {
+        "unit": "1/m3",
+        "meaning": "本征密度ni",
+        "lower": 100000000.0,
+        "upper": 1e+23,
+        "positive": false,
+        "integer": false
+      },
+      "radiative": {
+        "unit": "m3/s",
+        "meaning": "辐射复合系数B≥0",
+        "lower": 0,
+        "upper": 1e-10,
+        "positive": false,
+        "integer": false
+      },
+      "auger_n": {
+        "unit": "m6/s",
+        "meaning": "电子Auger系数Cn≥0",
+        "lower": 0,
+        "upper": 1e-35,
+        "positive": false,
+        "integer": false
+      },
+      "auger_p": {
+        "unit": "m6/s",
+        "meaning": "空穴Auger系数Cp≥0",
+        "lower": 0,
+        "upper": 1e-35,
+        "positive": false,
+        "integer": false
+      }
+    },
+    "locations": {
+      "bodies": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 128,
+        "meaning": "彼此独立的均匀体；无空间输运，不用ID推导位置或体积"
+      }
+    },
+    "inputs": {
+      "initial_electron": {
+        "unit": "1/m3",
+        "meaning": "初始载流子密度",
+        "location": "bodies",
+        "axis": "initial",
+        "lower": 1000000.0,
+        "upper": 1e+25,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "initial_hole": {
+        "unit": "1/m3",
+        "meaning": "初始载流子密度",
+        "location": "bodies",
+        "axis": "initial",
+        "lower": 1000000.0,
+        "upper": 1e+25,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "generation": {
+        "unit": "1/(m3.s)",
+        "meaning": "成对产生G(t)≥0",
+        "location": "bodies",
+        "axis": "drive",
+        "lower": 0,
+        "upper": 1e+35,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      }
+    },
+    "outputs": {
+      "electron_density": {
+        "unit": "1/m3",
+        "meaning": "相应体内瞬时密度",
+        "location": "bodies",
+        "axis": "observe",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 10000000000.0,
+        "rtol": 0.003
+      },
+      "hole_density": {
+        "unit": "1/m3",
+        "meaning": "相应体内瞬时密度",
+        "location": "bodies",
+        "axis": "observe",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 10000000000.0,
+        "rtol": 0.003
+      },
+      "net_recombination": {
+        "unit": "1/(m3.s)",
+        "meaning": "R，可负，不包含外部G",
+        "location": "bodies",
+        "axis": "observe",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 100000000000000.0,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 300,
+    "transient": true
+  },
+  "semiconductor-trap-kinetics": {
+    "name": "单能级陷阱俘获动力学",
+    "parameters": {
+      "trap_density": {
+        "unit": "1/m3",
+        "meaning": "每体积陷阱数Nt",
+        "lower": 100000000.0,
+        "upper": 1e+25,
+        "positive": false,
+        "integer": false
+      },
+      "capture_n": {
+        "unit": "m3/s",
+        "meaning": "电子俘获系数cn",
+        "lower": 1e-22,
+        "upper": 1e-10,
+        "positive": false,
+        "integer": false
+      },
+      "capture_p": {
+        "unit": "m3/s",
+        "meaning": "空穴俘获系数cp",
+        "lower": 1e-22,
+        "upper": 1e-10,
+        "positive": false,
+        "integer": false
+      },
+      "n1": {
+        "unit": "1/m3",
+        "meaning": "电子发射平衡密度n1",
+        "lower": 1000000.0,
+        "upper": 1e+25,
+        "positive": false,
+        "integer": false
+      },
+      "p1": {
+        "unit": "1/m3",
+        "meaning": "空穴发射平衡密度p1；ni²=n1 p1，不另输入ni",
+        "lower": 1000000.0,
+        "upper": 1e+25,
+        "positive": false,
+        "integer": false
+      }
+    },
+    "locations": {
+      "bodies": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 128,
+        "meaning": "彼此独立的均匀体；无空间输运，不用ID推导位置或体积"
+      }
+    },
+    "inputs": {
+      "initial_occupation": {
+        "unit": "1",
+        "meaning": "陷阱初始电子占据概率f0",
+        "location": "bodies",
+        "axis": "initial",
+        "lower": 0,
+        "upper": 1,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "initial_electron": {
+        "unit": "1/m3",
+        "meaning": "初始载流子密度",
+        "location": "bodies",
+        "axis": "initial",
+        "lower": 1000000.0,
+        "upper": 1e+25,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "initial_hole": {
+        "unit": "1/m3",
+        "meaning": "初始载流子密度",
+        "location": "bodies",
+        "axis": "initial",
+        "lower": 1000000.0,
+        "upper": 1e+25,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "generation": {
+        "unit": "1/(m3.s)",
+        "meaning": "成对产生G(t)≥0",
+        "location": "bodies",
+        "axis": "drive",
+        "lower": 0,
+        "upper": 1e+35,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      }
+    },
+    "outputs": {
+      "occupation": {
+        "unit": "1",
+        "meaning": "电子占据陷阱的概率f(t)",
+        "location": "bodies",
+        "axis": "observe",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 1e-06,
+        "rtol": 0.002
+      },
+      "electron_density": {
+        "unit": "1/m3",
+        "meaning": "相应体内瞬时密度",
+        "location": "bodies",
+        "axis": "observe",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 10000000000.0,
+        "rtol": 0.003
+      },
+      "hole_density": {
+        "unit": "1/m3",
+        "meaning": "相应体内瞬时密度",
+        "location": "bodies",
+        "axis": "observe",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 10000000000.0,
+        "rtol": 0.003
+      }
+    },
+    "timeout": 300,
+    "transient": true
+  },
+  "semiconductor-minority-diffusion": {
+    "name": "少数载流子扩散复合",
+    "parameters": {
+      "length": {
+        "unit": "m",
+        "meaning": "区间长度L，0<x<L",
+        "lower": 1e-09,
+        "upper": 0.01,
+        "positive": false,
+        "integer": false
+      },
+      "diffusivity": {
+        "unit": "m2/s",
+        "meaning": "少数电子扩散系数D",
+        "lower": 1e-10,
+        "upper": 1,
+        "positive": false,
+        "integer": false
+      },
+      "lifetime": {
+        "unit": "s",
+        "meaning": "线性复合寿命τ",
+        "lower": 1e-12,
+        "upper": 1,
+        "positive": false,
+        "integer": false
+      },
+      "majority_density": {
+        "unit": "1/m3",
+        "meaning": "固定均匀多数空穴密度p0，仅界定低注入",
+        "lower": 1000000000000.0,
+        "upper": 1e+25,
+        "positive": false,
+        "integer": false
+      }
+    },
+    "locations": {
+      "profile": {
+        "kind": "points",
+        "minimum": 2,
+        "maximum": 1024,
+        "meaning": "包含x=0及x=L的剖面结点，按ID行序x严格递增；输入重建支撑，不是指定求解网格"
+      },
+      "receivers": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 256,
+        "meaning": "严格位于0<x<L的输出点；ID行序不要求坐标递增，允许重复坐标"
+      },
+      "contacts": {
+        "kind": "points",
+        "minimum": 2,
+        "maximum": 2,
+        "meaning": "第一行x=0，第二行x=L的真实边界点"
+      }
+    },
+    "inputs": {
+      "surface_velocity": {
+        "unit": "m/s",
+        "meaning": "两端表面复合速度S，时间恒定；0表示绝热粒子边界",
+        "location": "contacts",
+        "axis": "static",
+        "lower": 0,
+        "upper": 10000000.0,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "initial_excess": {
+        "unit": "1/m3",
+        "meaning": "初始超额少数电子u0≥0",
+        "location": "profile",
+        "axis": "initial",
+        "lower": 0,
+        "upper": 1e+23,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "generation": {
+        "unit": "1/(m3.s)",
+        "meaning": "超额电子产生G≥0",
+        "location": "profile",
+        "axis": "drive",
+        "lower": 0,
+        "upper": 1e+35,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      }
+    },
+    "outputs": {
+      "excess_density": {
+        "unit": "1/m3",
+        "meaning": "超额少数电子u",
+        "location": "receivers",
+        "axis": "observe",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 1000000000.0,
+        "rtol": 0.005
+      },
+      "particle_flux": {
+        "unit": "1/(m2.s)",
+        "meaning": "向+x粒子通量Γ=−D∂xu，不是常规电流",
+        "location": "receivers",
+        "axis": "observe",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 10000000000.0,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 300,
+    "transient": true
+  },
+  "semiconductor-landauer": {
+    "name": "双储库弹道电流与热流",
+    "parameters": {
+      "temperature_left": {
+        "unit": "K",
+        "meaning": "左储库温度TL",
+        "lower": 1,
+        "upper": 1000,
+        "positive": false,
+        "integer": false
+      },
+      "temperature_right": {
+        "unit": "K",
+        "meaning": "右储库温度TR",
+        "lower": 1,
+        "upper": 1000,
+        "positive": false,
+        "integer": false
+      },
+      "chemical_left": {
+        "unit": "J",
+        "meaning": "左电化学势μL，相对共同能量零点",
+        "lower": -1e-17,
+        "upper": 1e-17,
+        "positive": false,
+        "integer": false
+      },
+      "chemical_right": {
+        "unit": "J",
+        "meaning": "右电化学势μR，共同零点",
+        "lower": -1e-17,
+        "upper": 1e-17,
+        "positive": false,
+        "integer": false
+      },
+      "degeneracy": {
+        "unit": "1",
+        "meaning": "额外简并度g，包含自旋；不再隐含乘2",
+        "lower": 1,
+        "upper": 16,
+        "positive": false,
+        "integer": true
+      }
+    },
+    "locations": {
+      "spectrum": {
+        "kind": "entities",
+        "minimum": 2,
+        "maximum": 4096,
+        "meaning": "有序能量谱结点对象，按ID行序能量严格递增；不伪造空间坐标"
+      },
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一双端器件整体"
+      }
+    },
+    "inputs": {
+      "energy": {
+        "unit": "J",
+        "meaning": "E_j；共同能量基准，有限能带之外透射为0",
+        "location": "spectrum",
+        "axis": "static",
+        "lower": -1e-17,
+        "upper": 1e-17,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "transmission": {
+        "unit": "1",
+        "meaning": "所有横向通道透射之和T(E_j)，不含g",
+        "location": "spectrum",
+        "axis": "static",
+        "lower": 0,
+        "upper": 128,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      }
+    },
+    "outputs": {
+      "electric_current": {
+        "unit": "A",
+        "meaning": "向右常规电流I（电子粒子向右时I<0）",
+        "location": "system",
+        "axis": "static",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 1e-12,
+        "rtol": 0.002
+      },
+      "heat_left": {
+        "unit": "W",
+        "meaning": "离开左储库的热流QL",
+        "location": "system",
+        "axis": "static",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 1e-14,
+        "rtol": 0.002
+      }
+    },
+    "timeout": 300,
+    "transient": false
+  },
+  "semiconductor-effective-mass": {
+    "name": "分层有效质量量子态",
+    "parameters": {
+      "mode_count": {
+        "unit": "1",
+        "meaning": "请求前m个态，JSON整数",
+        "lower": 1,
+        "upper": 8,
+        "positive": false,
+        "integer": true
+      }
+    },
+    "locations": {
+      "layers": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 64,
+        "meaning": "沿+x依次拼接的层，第一层左端x=0"
+      },
+      "modes": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 8,
+        "meaning": "IDs必须恰0..m−1，对应能量从小到大"
+      },
+      "receivers": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 256,
+        "meaning": "严格位于0<x<H的真实点，可恰在材料界面"
+      }
+    },
+    "inputs": {
+      "thickness": {
+        "unit": "m",
+        "meaning": "各层厚度h",
+        "location": "layers",
+        "axis": "static",
+        "lower": 1e-10,
+        "upper": 1e-06,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "mass": {
+        "unit": "kg",
+        "meaning": "各层纵向有效质量的绝对值，不是相对自由电子质量",
+        "location": "layers",
+        "axis": "static",
+        "lower": 1e-33,
+        "upper": 1e-29,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      },
+      "band_edge": {
+        "unit": "J",
+        "meaning": "各层常导带边U，相对公共零点",
+        "location": "layers",
+        "axis": "static",
+        "lower": -1e-17,
+        "upper": 1e-17,
+        "positive": false,
+        "shape": [
+          1
+        ]
+      }
+    },
+    "outputs": {
+      "eigenenergy": {
+        "unit": "J",
+        "meaning": "按升序排列的m个本征能量",
+        "location": "modes",
+        "axis": "static",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          1
+        ],
+        "atol": 1e-25,
+        "rtol": 0.0001
+      },
+      "wavefunction": {
+        "unit": "m^(-1/2)",
+        "meaning": "按modes行序的m个归一化实波函数",
+        "location": "receivers",
+        "axis": "static",
+        "lower": null,
+        "upper": null,
+        "positive": false,
+        "shape": [
+          "m"
+        ],
+        "atol": 0.01,
+        "rtol": 0.003
+      }
+    },
+    "timeout": 600,
+    "transient": false
+  }
+}

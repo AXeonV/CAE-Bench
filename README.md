@@ -12,47 +12,55 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 ## 项目结构
 
-主要目录与入口如下；题目内的作者工具、环境补充及专用扩展按需提供。
+主要目录与入口如下，连线表示目录包含关系；题目内的作者工具、环境补充及专用扩展按需提供。
 
-```text
-.
-├── docs/                         通用协议、评分规则与 Agent 测试记录
-├── .agents/skills/               出题、数据设计、审核、配置与评测工作流
-├── src/
-│   ├── caeoj/                    通用运行核心，供考生工具和判分器共用
-│   │   ├── cli.py                校验、判分及工具信息命令
-│   │   ├── sdk.py storage.py     数据读取与 HDF5 写入
-│   │   ├── validation.py         结构校验；problem.schema.json 定义元数据
-│   │   ├── grading*.py           评分策略与指标；grading.schema.json 定义配置
-│   │   └── runtime.py            加载装配描述、组合 Schema 与声明检查
-│   ├── caeoj_tools/              维护工具，不进入考生包
-│   │   ├── task_paths.py author.py      题目定位与作者工具加载
-│   │   ├── grading_policy.py            读取题目评分配置
-│   │   └── assembly.py dependencies.py  公开运行装配与依赖锁定
-│   └── utils/
-│       ├── publish_dist.py       打包单题或题集的公开材料及工具
-│       ├── prepare_harbor.py     统一组装 Harbor 临时任务环境
-│       ├── harbor/               通用模板与逐例判题逻辑
-│       └── PDEBench/             来源数据获取、协议转换与参考审核
-├── qbank/
-│   ├── <章>/<节>/<题目>/          题面、DATA、样例、测试与本题配置
-│   │   ├── author/               本题数据与参考制作、基线及本地验证
-│   │   ├── cases/ reference/     隐藏输入与私有参考
-│   │   ├── samples/              完整公开样例
-│   │   ├── harbor/               本题环境与依赖补充
-│   │   └── extension/            按需提供本题专用的公开契约检查
-│   ├── design/                   题库规划、出题原则与架构
-│   │   └── reviews/              历史实施与审阅记录
-│   ├── maintenance/              维护实现说明、领域规范及可复用作者工具
-│   │   ├── protocols/            内部领域说明，不作为额外考生契约
-│   │   ├── authoring/            按物理能力复用的题面／DATA 构建工具
-│   │   └── RUNTIME.md、EVALUATION.md  当前运行装配与评测配置说明
-│   └── extensions/
-│       ├── caeoj_ext/            共享领域声明检查与辅助函数
-│       └── caeoj_bundle/         题目绑定、扩展依赖及公开文件白名单
-├── tests/                        协议、校验、评分、装配及题目回归测试
-├── dist/                         生成的公开材料包，不纳入版本控制
-└── runs/                         本地输出、Harbor 任务与报告，不纳入版本控制
+```mermaid
+flowchart LR
+    Root["."]
+    Root --> Docs["docs/<br/>通用协议、评分规则与 Agent 测试记录"]
+    Root --> Skills[".agents/skills/<br/>出题、数据设计、审核、配置与评测工作流"]
+    Root --> Src["src/"]
+    Root --> Qbank["qbank/"]
+    Root --> Tests["tests/<br/>协议、校验、评分、装配及题目回归测试"]
+    Root --> Dist["dist/<br/>生成的公开材料包，不纳入版本控制"]
+    Root --> Runs["runs/<br/>本地输出、Harbor 任务与报告，不纳入版本控制"]
+
+    Src --> Core["caeoj/<br/>通用运行核心，供考生工具和判分器共用"]
+    Core --> Cli["cli.py<br/>校验、判分及工具信息命令"]
+    Core --> Storage["sdk.py · storage.py<br/>数据读取与 HDF5 写入"]
+    Core --> Validation["validation.py<br/>结构校验；problem.schema.json 定义元数据"]
+    Core --> Grading["grading*.py<br/>评分策略与指标；grading.schema.json 定义配置"]
+    Core --> Runtime["runtime.py<br/>加载装配描述、组合 Schema 与声明检查"]
+
+    Src --> Tools["caeoj_tools/<br/>维护工具，不进入考生包"]
+    Tools --> AuthorTools["task_paths.py · author.py<br/>题目定位与作者工具加载"]
+    Tools --> Policy["grading_policy.py<br/>读取题目评分配置"]
+    Tools --> Assembly["assembly.py · dependencies.py<br/>公开运行装配与依赖锁定"]
+
+    Src --> Utils["utils/"]
+    Utils --> Publish["publish_dist.py<br/>打包单题或题集的公开材料及工具"]
+    Utils --> Prepare["prepare_harbor.py<br/>统一组装 Harbor 临时任务环境"]
+    Utils --> Harbor["harbor/<br/>通用模板与逐例判题逻辑"]
+    Utils --> PDEBench["PDEBench/<br/>来源数据获取、协议转换与参考审核"]
+
+    Qbank --> Task["#lt;章#gt;/#lt;节#gt;/#lt;题目#gt;/<br/>题面、DATA、样例、测试与本题配置"]
+    Task --> Author["author/<br/>本题数据与参考制作、基线及本地验证"]
+    Task --> Private["cases/ · reference/<br/>隐藏输入与私有参考"]
+    Task --> Samples["samples/<br/>完整公开样例"]
+    Task --> TaskHarbor["harbor/<br/>本题环境与依赖补充"]
+    Task --> TaskExtension["extension/<br/>按需提供本题专用的公开契约检查"]
+
+    Qbank --> Design["design/<br/>题库规划、出题原则与架构"]
+    Design --> Reviews["reviews/<br/>历史实施与审阅记录"]
+
+    Qbank --> Maintenance["maintenance/<br/>维护实现说明、领域规范及可复用作者工具"]
+    Maintenance --> Protocols["protocols/<br/>内部领域说明，不作为额外考生契约"]
+    Maintenance --> Authoring["authoring/<br/>按物理能力复用的题面／DATA 构建工具"]
+    Maintenance --> MaintenanceDocs["RUNTIME.md · EVALUATION.md<br/>当前运行装配与评测配置说明"]
+
+    Qbank --> Extensions["extensions/"]
+    Extensions --> Shared["caeoj_ext/<br/>共享领域声明检查与辅助函数"]
+    Extensions --> Bundle["caeoj_bundle/<br/>题目绑定、扩展依赖及公开文件白名单"]
 ```
 
 题目的开发材料与判题材料分别组织：开发材料提供题面、输入约定、公开样例及校验工具；判题材料包含测试数据、标答和判分配置。
@@ -187,9 +195,3 @@ python -m caeoj grade --input '<task-dir>/cases/<case>/problem.json' --output 'r
 ```
 
 校验返回 `valid/errors` JSON；判分每点为 0/1，退出码 2 表示基础设施或命令参数错误。评分方式见 [GRADING.md](docs/GRADING.md)。
-
-## TODO
-
-1. **协议覆盖与读写便利**：验证通用数据协议能完整、无歧义地表达目标问题的数据与条件；完善文档、读取接口和结构诊断，减少 Agent 理解契约与实现输入输出的成本，使评测更集中于求解能力。
-2. **减少对实现选择的隐性引导**：审视题面、示例、SDK 和提交入口带来的偏向，尤其避免 Python 脚本与 `.py` 入口使 Agent 默认用 Python 承担核心计算。逐步提供语言中立的工具与提交约定，让 Agent 根据问题规模和性能要求自主选择语言、库与实现方式。
-3. **评测环境声明与资源配置一致**：在 IO Contract 中补充运行环境约定，明确可用 CPU 核数、内存、编译器及 MPI 等并行运行支持，供 Agent 选择实现和并行策略；同步调整 Harbor／Docker 的资源分配与启动配置，确保解题和判题环境的实际可用资源与声明一致，使性能结果可比较、可复现。

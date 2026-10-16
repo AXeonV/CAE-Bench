@@ -177,7 +177,7 @@ def write(selected=None):
 {btable}
 成绩为通过有效例数／有效例数，无有效例不产生成绩。输入、参考或配置错误属于基础设施错误，不计考生失败。工具校验和临时fixture测试不证明耦合物理、参考精度或预算校准。
 '''
-        (d/'instruction.md').write_text(inst)
+        (d/'instruction.md').write_text(inst, encoding='utf-8')
         params='| 参数 | 单位 | 定义与范围 |\n|---|---|---|\n'+''.join(f"| `{k}` | `{s['unit']}` | {s['text']}；{'严格正' if s['positive'] else '非负' if s['nonnegative'] else '任意有限实数'} |\n" for k,s in c['parameters'].items())
         time=('''time_axes恰含load、response。load引用float64[2..256]，从0严格递增到t_end>0；response引用float64[1..256]，严格递增且位于[0,t_end]，可以不包含0。所有输入场用load，输出场用response。load所有边界数据在t=0恰为0，只限本题已声明的边界场；两加载节点之间逐分量线性插值，禁止区间外外推。零初态为题目固定事实，不提供初猜或额外initial条件。response是观测时刻，不是内部步长。''' if transient else '''time_axes恰含state，引用float64[1]=[0.0]，输入和输出均用state。0仅是存储标记，不是物理初态或频率。''' )
         shape='components、component_shape=[2]、components=["real","imag"]，末轴为峰值复数实部／虚部' if complex_ else 'scalar、component_shape=[1]、components=["value"]'
@@ -233,18 +233,18 @@ spatial_dimension=1；geometries与meshes为空对象。连续体区间由length
 
 输入场／输出场各至多2000000数值分量（含时间和分量轴，重复输出也计入）。除可由声明检查器验证的参数、单位、轴和组合外，正式数据制作还须核验{applicability}、解与观测存在唯一性、参考精度及预算可达性；声明通过不构成这些证据。无正式数据时不能把协议fixture当物理参考。
 '''
-        (d/'DATA.md').write_text(data)
+        (d/'DATA.md').write_text(data, encoding='utf-8')
         policy=dict(version=2,quantities={q:dict(unit=s['unit'],rule=dict(metric='pointwise',time='per_time',components='per_component',atol=s['atol'],rtol=s['rtol'])) for q,s in c['outputs'].items()})
-        (d/'grading.json').write_text(json.dumps(policy,indent=2)+'\n')
-        (d/'judge-config.json').write_text(json.dumps(dict(timeout_seconds=c['timeout'],max_output_bytes=None,stage='provisional',verifier_budget=dict(base_seconds=300,per_case_overhead_seconds=60)),indent=2)+'\n')
+        (d/'grading.json').write_text(json.dumps(policy,indent=2)+'\n', encoding='utf-8')
+        (d/'judge-config.json').write_text(json.dumps(dict(timeout_seconds=c['timeout'],max_output_bytes=None,stage='provisional',verifier_budget=dict(base_seconds=300,per_case_overhead_seconds=60)),indent=2)+'\n', encoding='utf-8')
         (d/'harbor').mkdir(exist_ok=True)
-        (d/'harbor/task.toml').write_text('[agent]\ntimeout_sec = 3600.0\n\n[environment]\nbuild_timeout_sec = 1800.0\ncpus = 2\nmemory_mb = 4096\ngpus = 0\nos = "linux"\n\n[verifier]\nnetwork_mode = "no-network"\n')
-        (d/'harbor/requirements.txt').write_text('scipy==1.18.1\n')
+        (d/'harbor/task.toml').write_text('[agent]\ntimeout_sec = 3600.0\n\n[environment]\nbuild_timeout_sec = 1800.0\ncpus = 2\nmemory_mb = 4096\ngpus = 0\nos = "linux"\n\n[verifier]\nnetwork_mode = "no-network"\n', encoding='utf-8')
+        (d/'harbor/requirements.txt').write_text('scipy==1.18.1\n', encoding='utf-8')
     if selected is None:
         public=ROOT/'qbank/extensions/caeoj_ext/multiphysics/models.json'
         if public.parent.exists():
-            public.write_text(json.dumps({k:{key:v for key,v in c.items() if key not in ('equations','notes','title','section','timeout')} for k,c in MODELS.items()},indent=2)+'\n')
-        d=ROOT/'qbank/17-multiphysics';(d/'README.md').write_text('# 第十七章 多物理场耦合分析\n\n7节12题；给定一维连续体模型，求解方法自由。全部题面／自包含DATA与配置已编写不表示正式数据、参考、校准或评测已就绪。\n\n| 编号／题名 | 题面 | DATA |\n|---|---|---|\n'+''.join(f"| {c['title']} | [instruction]({c['section']}/{s}/instruction.md) | [DATA]({c['section']}/{s}/DATA.md) |\n" for s,c in MODELS.items())+'\n维护入口：[章规划](../design/chapter-17-multiphysics.md)、[进度与限制](../design/reviews/chapter-17-progress.md)。\n')
+            public.write_text(json.dumps({k:{key:v for key,v in c.items() if key not in ('equations','notes','title','section','timeout')} for k,c in MODELS.items()},indent=2)+'\n', encoding='utf-8')
+        d=ROOT/'qbank/17-multiphysics';(d/'README.md').write_text('# 第十七章 多物理场耦合分析\n\n7节12题；给定一维连续体模型，求解方法自由。全部题面／自包含DATA与配置已编写不表示正式数据、参考、校准或评测已就绪。\n\n| 编号／题名 | 题面 | DATA |\n|---|---|---|\n'+''.join(f"| {c['title']} | [instruction]({c['section']}/{s}/instruction.md) | [DATA]({c['section']}/{s}/DATA.md) |\n" for s,c in MODELS.items())+'\n维护入口：[章规划](../design/chapter-17-multiphysics.md)、[进度与限制](../design/reviews/chapter-17-progress.md)。\n', encoding='utf-8')
 
 if __name__=='__main__':
     import sys

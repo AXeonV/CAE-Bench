@@ -157,7 +157,7 @@ def write(selected=None):
 {scores}
 成绩为通过有效例数／有效例数；输入、参考或配置错误归基础设施错误，不计考生失分，无有效例不产生成绩。仅声明检查与临时工具测试不证明物理或数值正确。
 '''
-        (d/'instruction.md').write_text(instruction)
+        (d/'instruction.md').write_text(instruction, encoding='utf-8')
         parameters='parameters为空对象，所有元件系数均由下列material字段逐对象给定，没有隐含全局数值参数。'
         if c['parameters']:
             parameters='parameters恰含下表所有项，每项仅value、unit，value为有限JSON实数，布尔不算数值，不隐式换单位。\n\n| 键 | unit | 定义 |\n|---|---|---|\n'+''.join(f"| `{k}` | `{s['unit']}` | {s['text']}，严格正 |\n" for k,s in c['parameters'].items())
@@ -224,16 +224,16 @@ spatial_dimension=1，为一维端口／支路坐标标记；geometries、meshes
 输入场／输出场各至多2000000数值分量，包含所有时间和分量轴，重复请求也计入。正式数据还须核验方程和元件适用性、全程状态接收限制、观测存在唯一性、参考误差及预算内可达精度；声明检查不会求解轨迹或代替这些证据。
 '''
         data=data.replace('{output_order_note}',output_order_note)
-        (d/'DATA.md').write_text(data)
-        (d/'grading.json').write_text(json.dumps(dict(version=2,quantities={q:dict(unit=s['unit'],rule=dict(metric='pointwise',time='per_time',components='per_component',atol=s['atol'],rtol=s['rtol'])) for q,s in c['outputs'].items()}),indent=2)+'\n')
-        (d/'judge-config.json').write_text(json.dumps(dict(timeout_seconds=c['timeout'],max_output_bytes=None,stage='provisional',verifier_budget=dict(base_seconds=300,per_case_overhead_seconds=60)),indent=2)+'\n')
+        (d/'DATA.md').write_text(data, encoding='utf-8')
+        (d/'grading.json').write_text(json.dumps(dict(version=2,quantities={q:dict(unit=s['unit'],rule=dict(metric='pointwise',time='per_time',components='per_component',atol=s['atol'],rtol=s['rtol'])) for q,s in c['outputs'].items()}),indent=2)+'\n', encoding='utf-8')
+        (d/'judge-config.json').write_text(json.dumps(dict(timeout_seconds=c['timeout'],max_output_bytes=None,stage='provisional',verifier_budget=dict(base_seconds=300,per_case_overhead_seconds=60)),indent=2)+'\n', encoding='utf-8')
         (d/'harbor').mkdir(exist_ok=True)
-        (d/'harbor/task.toml').write_text('[agent]\ntimeout_sec = 3600.0\n\n[environment]\nbuild_timeout_sec = 1800.0\ncpus = 2\nmemory_mb = 4096\ngpus = 0\nos = "linux"\n\n[verifier]\nnetwork_mode = "no-network"\n')
-        (d/'harbor/requirements.txt').write_text('scipy==1.18.1\n')
+        (d/'harbor/task.toml').write_text('[agent]\ntimeout_sec = 3600.0\n\n[environment]\nbuild_timeout_sec = 1800.0\ncpus = 2\nmemory_mb = 4096\ngpus = 0\nos = "linux"\n\n[verifier]\nnetwork_mode = "no-network"\n', encoding='utf-8')
+        (d/'harbor/requirements.txt').write_text('scipy==1.18.1\n', encoding='utf-8')
     if selected is None:
-        d=ROOT/'qbank/18-system-multidomain';(d/'README.md').write_text('# 第十八章 系统级多领域分析\n\n7节10题，集总／一维分布网络与跨域系统；完成题面与配置不代表正式数据、参考或校准就绪。\n\n| 编号／题名 | 题面 | DATA |\n|---|---|---|\n'+''.join(f"| {c['title']} | [instruction]({c['section']}/{s}/instruction.md) | [DATA]({c['section']}/{s}/DATA.md) |\n" for s,c in MODELS.items())+'\n维护入口：[规划](../design/chapter-18-system-multidomain.md)、[进度](../design/reviews/chapter-18-progress.md)。\n')
+        d=ROOT/'qbank/18-system-multidomain';(d/'README.md').write_text('# 第十八章 系统级多领域分析\n\n7节10题，集总／一维分布网络与跨域系统；完成题面与配置不代表正式数据、参考或校准就绪。\n\n| 编号／题名 | 题面 | DATA |\n|---|---|---|\n'+''.join(f"| {c['title']} | [instruction]({c['section']}/{s}/instruction.md) | [DATA]({c['section']}/{s}/DATA.md) |\n" for s,c in MODELS.items())+'\n维护入口：[规划](../design/chapter-18-system-multidomain.md)、[进度](../design/reviews/chapter-18-progress.md)。\n', encoding='utf-8')
         public=ROOT/'qbank/extensions/caeoj_ext/systems/models.json'
-        if public.parent.exists():public.write_text(json.dumps({k:{key:v for key,v in c.items() if key not in ('equations','notes','title','section','timeout')} for k,c in MODELS.items()},indent=2)+'\n')
+        if public.parent.exists():public.write_text(json.dumps({k:{key:v for key,v in c.items() if key not in ('equations','notes','title','section','timeout')} for k,c in MODELS.items()},indent=2)+'\n', encoding='utf-8')
 
 if __name__=='__main__':
     import sys

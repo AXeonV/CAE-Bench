@@ -12,25 +12,48 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 ## 项目结构
 
-| 路径 | 职责 |
-|---|---|
-| `docs/` | 通用协议、评分规则与 Agent 测试记录 |
-| `src/caeoj/problem.schema.json` | JSON 元数据 Schema |
-| `src/caeoj/validation.py` | 基于通用数据协议的**结构校验器** |
-| `src/caeoj/sdk.py` | 常量／字段读取与输出帮助 |
-| `src/caeoj/storage.py` | 基于 h5py 的标准 HDF5 数组读写 |
-| `src/caeoj/grading.py` | 与参考输出比较的**独立判分器** |
-| `src/caeoj/cli.py` | 校验与判分命令入口 |
-| `src/caeoj/runtime.py` | 加载已安装的契约描述，组合 Schema 和声明检查 |
-| `src/caeoj_tools/` | 题目定位、作者工具加载、依赖锁定与公开运行装配 |
-| `qbank/extensions/` | 共享领域检查及辅助函数、题目与扩展的可信绑定 |
-| `src/utils/publish_dist.py` | 将单题或题集的公开材料及所需运行工具打包到 dist |
-| `src/utils/prepare_harbor.py` | **统一组装** Harbor 临时任务环境 |
-| `src/utils/harbor/` | 通用 Harbor 模板与逐例判题逻辑 |
-| `src/utils/PDEBench/` | PDEBench 数据获取、协议转换与参考审核 |
-| `qbank/` | 按章、节组织的题目，以及设计和维护资料 |
-| `tests/` | 协议、校验、判分和题目数据的自动测试 |
-| `runs/` | 本地输出、临时 Harbor 任务和运行报告，不纳入版本控制 |
+主要目录与入口如下；题目内的作者工具、环境补充及专用扩展按需提供。
+
+```text
+.
+├── docs/                         通用协议、评分规则与 Agent 测试记录
+├── .agents/skills/               出题、数据设计、审核、配置与评测工作流
+├── src/
+│   ├── caeoj/                    通用运行核心，供考生工具和判分器共用
+│   │   ├── cli.py                校验、判分及工具信息命令
+│   │   ├── sdk.py storage.py     数据读取与 HDF5 写入
+│   │   ├── validation.py         结构校验；problem.schema.json 定义元数据
+│   │   ├── grading*.py           评分策略与指标；grading.schema.json 定义配置
+│   │   └── runtime.py            加载装配描述、组合 Schema 与声明检查
+│   ├── caeoj_tools/              维护工具，不进入考生包
+│   │   ├── task_paths.py author.py      题目定位与作者工具加载
+│   │   ├── grading_policy.py            读取题目评分配置
+│   │   └── assembly.py dependencies.py  公开运行装配与依赖锁定
+│   └── utils/
+│       ├── publish_dist.py       打包单题或题集的公开材料及工具
+│       ├── prepare_harbor.py     统一组装 Harbor 临时任务环境
+│       ├── harbor/               通用模板与逐例判题逻辑
+│       └── PDEBench/             来源数据获取、协议转换与参考审核
+├── qbank/
+│   ├── <章>/<节>/<题目>/          题面、DATA、样例、测试与本题配置
+│   │   ├── author/               本题数据与参考制作、基线及本地验证
+│   │   ├── cases/ reference/     隐藏输入与私有参考
+│   │   ├── samples/              完整公开样例
+│   │   ├── harbor/               本题环境与依赖补充
+│   │   └── extension/            按需提供本题专用的公开契约检查
+│   ├── design/                   题库规划、出题原则与架构
+│   │   └── reviews/              历史实施与审阅记录
+│   ├── maintenance/              维护实现说明、领域规范及可复用作者工具
+│   │   ├── protocols/            内部领域说明，不作为额外考生契约
+│   │   ├── authoring/            按物理能力复用的题面／DATA 构建工具
+│   │   └── RUNTIME.md、EVALUATION.md  当前运行装配与评测配置说明
+│   └── extensions/
+│       ├── caeoj_ext/            共享领域声明检查与辅助函数
+│       └── caeoj_bundle/         题目绑定、扩展依赖及公开文件白名单
+├── tests/                        协议、校验、评分、装配及题目回归测试
+├── dist/                         生成的公开材料包，不纳入版本控制
+└── runs/                         本地输出、Harbor 任务与报告，不纳入版本控制
+```
 
 题目的开发材料与判题材料分别组织：开发材料提供题面、输入约定、公开样例及校验工具；判题材料包含测试数据、标答和判分配置。
 
@@ -51,6 +74,18 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 | [第 8 章](qbank/08-optics/README.md) | 光学与光子学 |
 
 第 2～8 章已完成题面、DATA 和评测配置；正式数值数据、参考及评测发布仍待完成。
+
+## 维护技能
+
+Skill 是供维护 Agent 使用的工作流，位于 `.agents/skills/`，可在请求中指定技能名和目标，例如“使用 `$caeoj-design-data` 为 `<task>` 设计 DATA.md”。技能与引用说明随协议、工具和流程变更同步维护，不进入考生材料。
+
+| 技能 | 用途 |
+|---|---|
+| [caeoj-author-section](.agents/skills/caeoj-author-section/SKILL.md) | 补齐章节规划，撰写题面并组织独立考生审阅 |
+| [caeoj-design-data](.agents/skills/caeoj-design-data/SKILL.md) | 设计自包含 DATA.md，按需补足协议及工具支持 |
+| [caeoj-audit-data](.agents/skills/caeoj-audit-data/SKILL.md) | 对照题面、协议和全部实际数据，审核 I/O 定义与读取分支 |
+| [caeoj-configure-judge](.agents/skills/caeoj-configure-judge/SKILL.md) | 配置评分与执行资源，核查判题实现并验证配置生效 |
+| [caeoj-run-benchmark](.agents/skills/caeoj-run-benchmark/SKILL.md) | 准备并运行 Agent 评测，管理监控、冻结条件与结果汇总 |
 
 ## 运行
 
@@ -96,7 +131,7 @@ python -m caeoj validate-input '<task-dir>/cases/<case>/problem.json'
 python -m caeoj validate-output --input '<task-dir>/cases/<case>/problem.json' --output '<task-dir>/reference/<case>/reference.h5'
 ```
 
-**4. 发布材料并统一组装 Harbor 环境。** 依赖补充放在题目的 `harbor/requirements.txt`，CPU／内存配额与时限放在 `harbor/task.toml`；修改配置后重新组装。
+**4. 发布材料并统一组装 Harbor 环境。** 评分放在 `grading.json`，逐例时限放在 `judge-config.json`，CPU／内存等容器资源放在 `harbor/task.toml`，依赖补充放在 `harbor/requirements.txt`；修改后重新打包并组装。
 
 ```sh
 python src/utils/publish_dist.py --task '<task>'
@@ -110,8 +145,6 @@ python src/utils/prepare_harbor.py --task '<task>'
 ```sh
 harbor run -p 'runs/harbor/tasks/<task>' -e docker -a oracle -n 1 -o 'runs/harbor/jobs'
 ```
-
-需要 Agent 自动完成就绪检查、冻结运行条件、启动本地监控及汇总时，使用 [caeoj-run-benchmark](.agents/skills/caeoj-run-benchmark/SKILL.md)。监控默认使用执行主机的 8080 端口，先核对页面可用再启动 trial；已有无关服务占用时不自动结束它或换端口。
 
 **6. 运行 Agent 并独立判题。** 例如 Codex + Luna：
 

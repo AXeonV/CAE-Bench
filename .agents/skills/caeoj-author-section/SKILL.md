@@ -17,6 +17,8 @@ description: 为 CAE-Bench-OJ 按章、节补齐缺失或模糊的规划，再�
 
 实现归属遵守[核心与扩展职责](../../../qbank/design/CORE-AND-EXTENSIONS.md)：普通题目修改本题目录，可复用物理能力修改 `qbank/extensions/caeoj_ext/`，专用公开规则按需进入本题 `extension/`；数据／参考制作在 `author/`，共享维护操作在 `src/caeoj_tools/`。只有通用表示或扩展接口不足才修改核心；新增题目通常不改发布脚本。扩展按物理能力组织，不绑定章号、题号或来源。交付遵守[考生侧公开接口](../../../qbank/design/PUBLIC-INTERFACE.md)，目录拆分不增加考生安装、注册和阅读工作。
 
+目录和装配实况见[运行装配维护说明](../../../qbank/maintenance/RUNTIME.md)：`qbank/design/` 保存规划、架构与出题流程，`qbank/maintenance/` 保存内部实现说明和可复用作者工具，`qbank/extensions/` 提供公开运行所需的共享领域能力。维护资料与运行扩展分开，不把维护规范或生成器打进考生包。
+
 考生阅读集合仅为本题 instruction.md、DATA.md、docs/CONTRACT.md。禁止新建章节 COMMON／共享 DATA 作为解题依赖，或引用维护规范、评分规范、其他题目和源码补定义。维护模板可复用，实际交付逐题完整；领域资料放 qbank/maintenance，不随考生包发布。
 
 独立审阅是本技能流程的一部分：使用单独 subagent，仅给最终三文件与真实任务，不给作者预设答案或期望结论；明确只读且不能借隐藏数据、实现代码或维护记录补足题意。可与 DATA 设计技能的最终联合审阅合并，记录实际覆盖，不要求对未变文件重复审阅。修订后对最终版本复核；没有独立审阅能力时如实标为“未完成独立审阅”，继续完成可执行工作，不以作者自审冒充。
@@ -36,5 +38,7 @@ python .agents/skills/caeoj-author-section/scripts/check_statements.py \
 当用户要求评测配置、可运行任务或发布时，调用 [caeoj-configure-judge](../caeoj-configure-judge/SKILL.md)，依据题面与 DATA 配置当前评分／执行框架。可运行评测必须有实际生效的规则和资源设置，但不要求每题手写某个固定文件名。仅题面阶段不伪造配置就绪：单列配置、数据绑定、执行验证和发布状态；缺少正式数据时完成可证部分并记录依赖，不能为运行组装器制造样例。
 
 涉及已有实际数据时结合 `caeoj-audit-data` 技能核查全部输入输出；其 inventory 当前只自动发现 `cases/*/problem.json` 与 `samples/*/input/problem.json`，qbank 的 `examples` 须另行遍历，不能遗漏后声称完整审计。数据缺失不阻止题面交付，但不能声明已完成数据验证或正式发布。
+
+修改协议、SDK、评分、目录或装配流程时，同步受影响技能及其引用、README 操作指南；当前实现细节引用维护文档，不在技能中重复维护题数、历史成绩或已结束的迁移计划。
 
 维护方审阅记录按工作流保留新增规划及依据、已发现问题、修订及剩余限制。检查 diff，按用户的提交偏好提交本次文件；不纳入无关改动。最终分别报告规划、题面／DATA、独立审阅、评测配置与执行、数据和发布状态，不以测试数代替物理或参考准确性证据。

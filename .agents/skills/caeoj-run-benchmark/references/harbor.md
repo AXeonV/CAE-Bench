@@ -4,7 +4,7 @@
 
 ## 运行入口
 
-- 维护准备：`src/utils/publish_dist.py --task <slug>`，随后 `src/utils/prepare_harbor.py --task <slug>`；本地公开ZIP和任务目录必须一致，不能沿用README历史嵌套路径。
+- 维护准备：`src/utils/publish_dist.py --task <slug>`，随后 `src/utils/prepare_harbor.py --task <slug>`；本地公开 ZIP、运行装配、评分策略和任务目录必须一致；具体装配规则见[运行说明](../../../../qbank/maintenance/RUNTIME.md)。
 - 当前生成目录：`runs/harbor/tasks/<slug>`。
 - `harbor run` 是 `harbor job start` 别名。0.24.0支持 `--print-config` 查看解析后的JobConfig；`--dry-run` 不运行trial，需核对实际输出是否覆盖所需本地任务。
 - 重复为 `--n-attempts`／`-k`，并发为 `--n-concurrent`／`-n`。单题 `-k 3 -n 1` 表示三次独立尝试串行执行，不是一个solver使用三个线程。
@@ -40,6 +40,6 @@ POSIX辅助脚本只负责受控进程生命周期和当前三个接口检查，
 
 job根下的 config.json／result.json 与各trial产物应相互核对；名称／schema以实际版本为准。仓库 judge 的 trial verifier/report.json 提供逐例状态、分数和错误，reward.txt 是汇总通过比例；没有report或覆盖不足不能仅凭reward认定完成。
 
-当前 judge 入口为 `src/utils/harbor/tests/judge.py`。题目、参考或运行框架错误的 score可为null，不能按零分solver失败处理。重复统计包括每次尝试，基础设施补跑不得冒充新的独立样本或只取最佳值。
+当前 judge 入口为 `src/utils/harbor/tests/judge.py`。题目输入、参考、评分配置或运行框架错误属于基础设施问题；grade CLI 退出 2，评分报告中的 score 为 null，不能按零分 solver 失败处理。重复统计包括每次尝试，基础设施补跑不得冒充新的独立样本或只取最佳值。
 
 `harbor job resume`、regrade的具体筛选、重试和是否重新调用agent必须看当前help／源码。已有冻结提交的重判不自动重新生成solver。监控默认继续保留，只有用户要求或本次失败测试清理才停止明确属于自己的进程。

@@ -91,6 +91,7 @@ Skill 是供维护 Agent 使用的工作流，位于 `.agents/skills/`，可在�
 |---|---|
 | [caeoj-author-section](.agents/skills/caeoj-author-section/SKILL.md) | 补齐章节规划，撰写题面并组织独立考生审阅 |
 | [caeoj-design-data](.agents/skills/caeoj-design-data/SKILL.md) | 设计自包含 DATA.md，按需补足协议及工具支持 |
+| [caeoj-review-statements](.agents/skills/caeoj-review-statements/SKILL.md) | 独立考生只读审阅题面与选定公开样例，支持题面／考试材料两种模式 |
 | [caeoj-audit-data](.agents/skills/caeoj-audit-data/SKILL.md) | 对照题面、协议和全部实际数据，审核 I/O 定义与读取分支 |
 | [caeoj-configure-judge](.agents/skills/caeoj-configure-judge/SKILL.md) | 配置评分与执行资源，核查判题实现并验证配置生效 |
 | [caeoj-run-benchmark](.agents/skills/caeoj-run-benchmark/SKILL.md) | 准备并运行 Agent 评测，管理监控、冻结条件与结果汇总 |

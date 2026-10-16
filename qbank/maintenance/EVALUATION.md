@@ -28,7 +28,9 @@ v2偏置只允许已公开的数值或显式 `{"parameter":"pressure_reference"}
 
 ## 数据就绪与使用
 
-各题均已提供评分及执行配置，目录见[题库设计](../design/README.md)。第 2～8 章的正式 cases、reference 和完整公开样例尚未制作；第 1 章部分题目需要运行数据准备工具补齐数值文件。第 0 章用于本地 smoke，尚未提供 Harbor 所需的独立公开样例与参考；配置存在不表示数据或评测已就绪。
+各题均已提供评分及执行配置，目录见[题库设计](../design/README.md)。第 2～8 章及第 15 章的正式 cases、reference 和完整公开样例尚未制作；第 1 章部分题目需要运行数据准备工具补齐数值文件。第 0 章用于本地 smoke，尚未提供 Harbor 所需的独立公开样例与参考；配置存在不表示数据或评测已就绪。
+
+第十五章八题沿用grading v2与现有逐例执行，无评分框架修改；所有quantity／单位、逐值阈值、配置合并及临时执行证据见[实施记录](../design/reviews/chapter-15-implementation.md)。正式数据实例数、参考、容差及预算校准未绑定，不能直接publish或prepare。
 
 可用两道热传导验证本地公开包与Harbor组装：
 

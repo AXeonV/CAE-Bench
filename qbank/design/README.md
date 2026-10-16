@@ -4,7 +4,7 @@
 
 本文件确定章级规划，后续逐章展开节、子节及具体题目。规划独立于算例来源、数据就绪程度和实施顺序；列入目录不表示已完成题目或参考验证。设计原则见 [PHILOSOPHY.md](../PHILOSOPHY.md)。
 
-执行流程见 [Agent 章节出题工作流](AUTHORING.md)，具体错误与修复经验见 [经验清单](AUTHORING-LESSONS.md)；可通过仓库技能 `caeoj-author-section` 完成指定章／节的题面，通过 `caeoj-design-data` 设计自包含 DATA，并完成独立考生审阅；需要评测配置或框架适配时使用 `caeoj-configure-judge`。
+执行流程见 [Agent 章节出题工作流](AUTHORING.md)，具体错误与修复经验见 [经验清单](AUTHORING-LESSONS.md)；可通过仓库技能 `caeoj-author-section` 完成指定章／节的题面，通过 `caeoj-design-data` 设计自包含 DATA；独立考生审阅使用 `caeoj-review-statements`，可选允许缺样例或检查考试材料；需要评测配置或框架适配时使用 `caeoj-configure-judge`。
 
 基础设施职责与依赖边界见[核心、题库扩展与维护工具](CORE-AND-EXTENSIONS.md)，实际配置见[运行装配维护说明](../maintenance/RUNTIME.md)，历史验证见[实施记录](reviews/runtime-refactor.md)。领域能力按物理组织，不绑定章节编号。
 

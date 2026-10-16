@@ -619,6 +619,48 @@
         "caeoj_ext/multiphysics/__init__.py",
         "caeoj_ext/multiphysics/models.json"
       ]
+    },
+    "systems.networks": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model": "systems-geared-torsional-network-v1"
+        },
+        {
+          "physics.model": "systems-deadzone-transmission-network-v1"
+        },
+        {
+          "physics.model": "systems-nonlinear-hydraulic-network-v1"
+        },
+        {
+          "physics.model": "systems-distributed-pipe-network-v1"
+        },
+        {
+          "physics.model": "systems-isothermal-pneumatic-network-v1"
+        },
+        {
+          "physics.model": "systems-radiative-thermal-network-v1"
+        },
+        {
+          "physics.model": "systems-nonlinear-diode-rlc-network-v1"
+        },
+        {
+          "physics.model": "systems-motor-thermal-feedback-system-v1"
+        },
+        {
+          "physics.model": "systems-electrohydraulic-actuator-system-v1"
+        },
+        {
+          "physics.model": "systems-sampled-position-servo-v1"
+        }
+      ],
+      "check": "caeoj_ext.systems:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/systems/__init__.py",
+        "caeoj_ext/systems/models.json"
+      ]
     }
   },
   "tasks": {
@@ -1088,6 +1130,36 @@
     ],
     "thermoelectric-leg": [
       "multiphysics.continuum"
+    ],
+    "geared-torsional-network": [
+      "systems.networks"
+    ],
+    "deadzone-transmission-network": [
+      "systems.networks"
+    ],
+    "nonlinear-hydraulic-network": [
+      "systems.networks"
+    ],
+    "distributed-pipe-network": [
+      "systems.networks"
+    ],
+    "isothermal-pneumatic-network": [
+      "systems.networks"
+    ],
+    "radiative-thermal-network": [
+      "systems.networks"
+    ],
+    "nonlinear-diode-rlc-network": [
+      "systems.networks"
+    ],
+    "motor-thermal-feedback-system": [
+      "systems.networks"
+    ],
+    "electrohydraulic-actuator-system": [
+      "systems.networks"
+    ],
+    "sampled-position-servo": [
+      "systems.networks"
     ]
   },
   "aliases": {
@@ -1122,7 +1194,8 @@
     "acoustic-",
     "electromagnetic-",
     "optics-",
-    "multiphysics-"
+    "multiphysics-",
+    "systems-"
   ],
   "model_namespace_diagnostics": {
     "fluid-energy-": "E_FLUID",
@@ -1134,6 +1207,7 @@
     "acoustic-": "E_ACOUSTIC",
     "electromagnetic-": "E_ELECTROMAGNETIC",
     "optics-": "E_OPTICS",
-    "multiphysics-": "E_MULTIPHYSICS"
+    "multiphysics-": "E_MULTIPHYSICS",
+    "systems-": "E_SYSTEMS"
   }
 }

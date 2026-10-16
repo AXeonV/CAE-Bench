@@ -15,11 +15,11 @@ Cth T_dot=R(T)i²+B omega²−H(T−Ta)。tau沿正转方向的阻力矩为正�
 
 入口`python solve.py --input /path/problem.json --output /path/result.h5`。每例Linux AMD64、240秒墙钟（含启动和I/O）、2CPU、4096MB、0GPU、无网络；正常0退出并完整写HDF5，无独立输出字节上限。生成求解器3600秒、构建1800秒。提前提供Python3、NumPy、SciPy、h5py、Gmsh、jsonschema及C++/OpenMP/OpenMPI/HDF5，不强制Python或Modelica。
 
-规模：systems 1..32，load 2..256节点，response 1..256节点，static 1帧；输入场／输出场各至多2000000数值分量。资源与容差是待校准设计目标，正式数据必须独立核验精度、模型适用性与预算可达性，不能由结构合法参数推得全范围已验证。
+规模：systems 1..32，load 2..256时间采样点，response 1..256时间采样点，static 1帧；输入场／输出场各至多2000000数值分量。资源与容差是待校准设计目标，正式数据必须独立核验精度、模型适用性与预算可达性，不能由结构合法参数推得全范围已验证。
 
 ## 评分
 
-每有效例正常退出、结构合法，且全部请求quantity在所有时刻／对象／分量满足`|结果−参考|≤atol+rtol·|参考|`得1分，否则0；等号接受。无去均值、角度折返、按方向取绝对值、偏置拟合或超限豁免。
+每有效例正常退出、结构合法，且全部请求quantity在所有时刻／对象／分量满足`|结果−参考|≤atol+rtol·|参考|`得1分，否则0；等号接受。无去均值、按方向取绝对值、偏置拟合或超限豁免。
 
 | quantity | atol | rtol | unit |
 |---|---|---|---|

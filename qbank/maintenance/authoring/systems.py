@@ -126,6 +126,14 @@ def write(selected=None):
     for slug,c in chosen.items():
         d=ROOT/'qbank/18-system-multidomain'/c['section']/slug;d.mkdir(parents=True,exist_ok=True)
         intro=c['equations']+'\n\n'+c['notes']
+        variations=('连通拓扑、并联支路、有向编号、元件参数及外源时程' if slug=='distributed-pipe-network' else '连通拓扑、并联支路、有向编号、元件参数、初态及外源时程') if c['network'] else ('元件参数、外源及参考时程' if c.get('control') else '元件参数及外源时程')
+        comparison_exclusions='无去均值、'+('角度折返、' if 'angle' in c['outputs'] else '')+'按方向取绝对值、偏置拟合或超限豁免。'
+        input_dtype='仅endpoints输入场为int64，其他输入场均float64；IDs为int64。' if c['network'] else '本题全部输入场均float64；IDs为int64。'
+        initial_note='initial字段只定义t=0而非迭代初猜；' if any(r['role']=='initial' for r in c['records'].values()) else ''
+        output_order_note='不重排或取绝对值'+('，不按图方向重新定向。' if c['network'] else '。')
+        if not c['network'] and slug!='motor-thermal-feedback-system':
+            s=c['records']['properties']['data']['resistance']
+            c['records']['properties']['data']['resistance']={**s,'text':'R0，固定电枢电阻'}
         scores='| quantity | atol | rtol | unit |\n|---|---|---|---|\n'+''.join(f"| `{q}` | {s['atol']:g} | {s['rtol']:g} | `{s['unit']}` |\n" for q,s in c['outputs'].items())
         size='nodes 2..128、edges 1..256' if c['network'] else 'systems 1..32'
         instruction=f'''# {c['title']}
@@ -134,17 +142,17 @@ def write(selected=None):
 
 {intro}
 
-模型和元件关系固定，考生负责按身份组装、求解、内部时间步及误差控制；{'分布管路的内部空间离散也由考生决定。' if slug=='distributed-pipe-network' else ''}语言与软件自由，解析／降阶方法覆盖全部公开契约同样有效，不要求某种参考算法。{'连通拓扑、并联支路、有向编号、元件参数、初态及外源时程' if c['network'] else '元件参数、外源及参考时程' if c.get('control') else '元件参数及外源时程'}由算例改变。输入输出只依赖[本题DATA](DATA.md)和[通用CONTRACT](../../../../docs/CONTRACT.md)。
+模型和元件关系固定，考生负责按身份组装、求解、内部时间步及误差控制；{'分布管路的内部空间离散也由考生决定。' if slug=='distributed-pipe-network' else ''}语言与软件自由，解析／降阶方法覆盖全部公开契约同样有效，不要求某种参考算法。{variations}由算例改变。输入输出只依赖[本题DATA](DATA.md)和[通用CONTRACT](../../../../docs/CONTRACT.md)。
 
 ## 运行与资源
 
 入口`python solve.py --input /path/problem.json --output /path/result.h5`。每例Linux AMD64、{c['timeout']}秒墙钟（含启动和I/O）、2CPU、4096MB、0GPU、无网络；正常0退出并完整写HDF5，无独立输出字节上限。生成求解器3600秒、构建1800秒。提前提供Python3、NumPy、SciPy、h5py、Gmsh、jsonschema及C++/OpenMP/OpenMPI/HDF5，不强制Python或Modelica。
 
-规模：{size}，load 2..256节点，response 1..256节点，static 1帧{'; control 2..256节点' if c.get('control') else ''}；输入场／输出场各至多2000000数值分量。资源与容差是待校准设计目标，正式数据必须独立核验精度、模型适用性与预算可达性，不能由结构合法参数推得全范围已验证。
+规模：{size}，load 2..256时间采样点，response 1..256时间采样点，static 1帧{'; control 2..256时间采样点' if c.get('control') else ''}；输入场／输出场各至多2000000数值分量。资源与容差是待校准设计目标，正式数据必须独立核验精度、模型适用性与预算可达性，不能由结构合法参数推得全范围已验证。
 
 ## 评分
 
-每有效例正常退出、结构合法，且全部请求quantity在所有时刻／对象／分量满足`|结果−参考|≤atol+rtol·|参考|`得1分，否则0；等号接受。无去均值、角度折返、按方向取绝对值、偏置拟合或超限豁免。
+每有效例正常退出、结构合法，且全部请求quantity在所有时刻／对象／分量满足`|结果−参考|≤atol+rtol·|参考|`得1分，否则0；等号接受。{comparison_exclusions}
 
 {scores}
 成绩为通过有效例数／有效例数；输入、参考或配置错误归基础设施错误，不计考生失分，无有效例不产生成绩。仅声明检查与临时工具测试不证明物理或数值正确。
@@ -156,7 +164,7 @@ def write(selected=None):
         topology='''locations恰含nodes、edges，均为entities；nodes 2..128个真实储能节点，edges 1..256条真实元件支路。各自IDs为非负严格递增int64；不同表可出现相同ID，不能据此配对。无coordinates。edge_properties.endpoints的每行[tail,head]引用nodes的实际ID，禁止自环；忽略方向后的整个图须连通，允许环与并联，不以支路方向限制实际流动方向。除题目明文的对参考／环境连接外，没有未声明节点或支路。组件字段按所属location的ID行序，不按端点行序或ID数值作数组下标。'''
         if not c['network']:
             topology='''locations恰含systems，为entities；IDs为1..32个非负严格递增int64，代表独立的真实系统对象，不是伪空间采样点。每个对象内部连接按本题方程固定，不同对象互不耦合，也不默认共享状态。无coordinates或额外端口表。每个参数／输入／输出行对应该系统ID，不按ID数值作为数组下标。'''
-        time='''time_axes恰含static、load、response。static引用float64[1]=[0.0]，用于不随时间变的属性和t=0初态。load引用float64[2..256]，从0严格递增至t_end>0。response引用float64[1..256]，严格递增且全部在[0,t_end]，可不含0或终点。load字段逐分量在相邻节点间线性插值，禁止外推；不同实体之间不插值。输出时刻不是内部积分步或控制更新时刻。'''
+        time='''time_axes恰含static、load、response。static引用float64[1]=[0.0]，用于不随时间变的属性和t=0初态。load引用float64[2..256]，从0严格递增至t_end>0。response引用float64[1..256]，严格递增且全部在[0,t_end]，可不含0或终点。load字段逐分量在load轴相邻时间采样点之间线性插值，禁止外推；不同实体之间不插值。输出时刻不是内部积分步或控制更新时刻。'''
         if c.get('control'):
             time=time.replace('恰含static、load、response','恰含static、load、response、control')+'''control引用float64[2..256]，严格递增，首点0、末点与load末点完全相等。control上参考字段仅提供各采样点值，按previous保持至下一时钟，但控制器只在control时钟计算；最后时钟点取新参考值。控制时钟与load节点、response时刻不必重合。'''
         data=f'''# {slug} 数据契约
@@ -179,11 +187,11 @@ spatial_dimension=1，为一维端口／支路坐标标记；geometries、meshes
 
 {time}
 
-全部场的value_kind=point，表示对象自身的状态、参数或端口值，不能解释为任意空间点或区域平均／积分。数组必须有完整[T,N,*component_shape]。标量float64字段kind=scalar、component_shape=[1]、components=["value"]；多分量字段kind=components、shape和标签按下表。仅endpoints为int64；其他场均float64。输出均float64、response轴、不带sampling。
+全部场的value_kind=point，表示对象自身的状态、参数或端口值，不能解释为任意空间点或区域平均／积分。数组必须有完整[T,N,*component_shape]。标量float64字段kind=scalar、component_shape=[1]、components=["value"]；多分量字段kind=components、shape和标签按下表。{input_dtype}输出均float64、response轴、不带sampling。
 
-每个条件data键必须恰为{{"field":"逻辑字段名"}}；不接受value常量、内联数组、option或location替代，重复的相同元件值也显式写入数组。逻辑field名及array key可自由选择且可不同，quantity严格等于data键名；字段location与条件完全一致，单位／类型／轴按下表。fields恰为实际引用字段；同一字段可以被符合相同声明的多个条件引用，但不能用数组长度替代位置身份。
+条件data中每个键对应的值必须恰为{{"field":"逻辑字段名"}}；不接受value常量、内联数组、option或location替代，重复的相同元件值也显式写入数组。逻辑field名及array key可自由选择且可不同，quantity严格等于data键名；字段location与条件完全一致，单位／类型／轴按下表。fields恰为实际引用字段；同一字段可以被符合相同声明的多个条件引用，但不能用数组长度替代位置身份。
 
-输入sampling显式为space=uniform、extrapolation=forbid；static字段time=constant，load字段time=linear{'; control字段time=previous' if c.get('control') else ''}。uniform不表示整个图数值相同，仅表示每个离散对象自身的属性／端口量，不进行对象间插值。static的material字段全程不变，initial字段只定义t=0而非迭代初猜；没有其他隐含初态或预平衡。
+输入sampling显式为space=uniform、extrapolation=forbid；static字段time=constant，load字段time=linear{'; control字段time=previous' if c.get('control') else ''}。uniform不表示整个图数值相同，仅表示每个离散对象自身的属性／端口量，不进行对象间插值。static的material字段全程不变，{initial_note}没有其他隐含初态或预平衡。
 
 ## 条件全集
 
@@ -204,7 +212,7 @@ spatial_dimension=1，为一维端口／支路坐标标记；geometries、meshes
 
 ## 输出全集
 
-每个quantity至少请求一次，可重复请求；逻辑输出名、array key自由但不得重复占用key。均为response轴、float64、point、无sampling；scalar为[1]/value，多分量按表。不重排、取绝对值或按图方向重新定向。
+每个quantity至少请求一次，可重复请求；逻辑输出名、array key自由但不得重复占用key。均为response轴、float64、point、无sampling；scalar为[1]/value，多分量按表。{output_order_note}
 
 | quantity | unit | location | shape／components | 定义 |
 |---|---|---|---|---|
@@ -213,8 +221,9 @@ spatial_dimension=1，为一维端口／支路坐标标记；geometries、meshes
 
 ## 接收限制与证据
 
-输入场／输出场各至多2000000数值分量，包含所有时间和分量轴，重复请求也计入。正式数据还须核验方程和元件适用性、全程状态接收限制、观测存在唯一性、参考误差及预算内可达精度；声明检查不会求解轨迹或代替这些证据。禁止以临时工具fixture作为正式输入或可信物理参考。
+输入场／输出场各至多2000000数值分量，包含所有时间和分量轴，重复请求也计入。正式数据还须核验方程和元件适用性、全程状态接收限制、观测存在唯一性、参考误差及预算内可达精度；声明检查不会求解轨迹或代替这些证据。
 '''
+        data=data.replace('{output_order_note}',output_order_note)
         (d/'DATA.md').write_text(data)
         (d/'grading.json').write_text(json.dumps(dict(version=2,quantities={q:dict(unit=s['unit'],rule=dict(metric='pointwise',time='per_time',components='per_component',atol=s['atol'],rtol=s['rtol'])) for q,s in c['outputs'].items()}),indent=2)+'\n')
         (d/'judge-config.json').write_text(json.dumps(dict(timeout_seconds=c['timeout'],max_output_bytes=None,stage='provisional',verifier_budget=dict(base_seconds=300,per_case_overhead_seconds=60)),indent=2)+'\n')

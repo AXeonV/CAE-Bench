@@ -14,7 +14,7 @@
 
 入口`python solve.py --input /path/problem.json --output /path/result.h5`。每例Linux AMD64、180秒墙钟（含启动和I/O）、2CPU、4096MB、0GPU、无网络；正常0退出并完整写HDF5，无独立输出字节上限。生成求解器3600秒、构建1800秒。提前提供Python3、NumPy、SciPy、h5py、Gmsh、jsonschema及C++/OpenMP/OpenMPI/HDF5，不强制Python或Modelica。
 
-规模：nodes 2..128、edges 1..256，load 2..256节点，response 1..256节点，static 1帧；输入场／输出场各至多2000000数值分量。资源与容差是待校准设计目标，正式数据必须独立核验精度、模型适用性与预算可达性，不能由结构合法参数推得全范围已验证。
+规模：nodes 2..128、edges 1..256，load 2..256时间采样点，response 1..256时间采样点，static 1帧；输入场／输出场各至多2000000数值分量。资源与容差是待校准设计目标，正式数据必须独立核验精度、模型适用性与预算可达性，不能由结构合法参数推得全范围已验证。
 
 ## 评分
 

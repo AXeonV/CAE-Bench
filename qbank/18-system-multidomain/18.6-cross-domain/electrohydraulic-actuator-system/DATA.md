@@ -23,13 +23,13 @@ spatial_dimension=1，为一维端口／支路坐标标记；geometries、meshes
 
 ## 时间、存储与重建
 
-time_axes恰含static、load、response。static引用float64[1]=[0.0]，用于不随时间变的属性和t=0初态。load引用float64[2..256]，从0严格递增至t_end>0。response引用float64[1..256]，严格递增且全部在[0,t_end]，可不含0或终点。load字段逐分量在相邻节点间线性插值，禁止外推；不同实体之间不插值。输出时刻不是内部积分步或控制更新时刻。
+time_axes恰含static、load、response。static引用float64[1]=[0.0]，用于不随时间变的属性和t=0初态。load引用float64[2..256]，从0严格递增至t_end>0。response引用float64[1..256]，严格递增且全部在[0,t_end]，可不含0或终点。load字段逐分量在load轴相邻时间采样点之间线性插值，禁止外推；不同实体之间不插值。输出时刻不是内部积分步或控制更新时刻。
 
-全部场的value_kind=point，表示对象自身的状态、参数或端口值，不能解释为任意空间点或区域平均／积分。数组必须有完整[T,N,*component_shape]。标量float64字段kind=scalar、component_shape=[1]、components=["value"]；多分量字段kind=components、shape和标签按下表。仅endpoints为int64；其他场均float64。输出均float64、response轴、不带sampling。
+全部场的value_kind=point，表示对象自身的状态、参数或端口值，不能解释为任意空间点或区域平均／积分。数组必须有完整[T,N,*component_shape]。标量float64字段kind=scalar、component_shape=[1]、components=["value"]；多分量字段kind=components、shape和标签按下表。本题全部输入场均float64；IDs为int64。输出均float64、response轴、不带sampling。
 
-每个条件data键必须恰为{"field":"逻辑字段名"}；不接受value常量、内联数组、option或location替代，重复的相同元件值也显式写入数组。逻辑field名及array key可自由选择且可不同，quantity严格等于data键名；字段location与条件完全一致，单位／类型／轴按下表。fields恰为实际引用字段；同一字段可以被符合相同声明的多个条件引用，但不能用数组长度替代位置身份。
+条件data中每个键对应的值必须恰为{"field":"逻辑字段名"}；不接受value常量、内联数组、option或location替代，重复的相同元件值也显式写入数组。逻辑field名及array key可自由选择且可不同，quantity严格等于data键名；字段location与条件完全一致，单位／类型／轴按下表。fields恰为实际引用字段；同一字段可以被符合相同声明的多个条件引用，但不能用数组长度替代位置身份。
 
-输入sampling显式为space=uniform、extrapolation=forbid；static字段time=constant，load字段time=linear。uniform不表示整个图数值相同，仅表示每个离散对象自身的属性／端口量，不进行对象间插值。static的material字段全程不变，initial字段只定义t=0而非迭代初猜；没有其他隐含初态或预平衡。
+输入sampling显式为space=uniform、extrapolation=forbid；static字段time=constant，load字段time=linear。uniform不表示整个图数值相同，仅表示每个离散对象自身的属性／端口量，不进行对象间插值。static的material字段全程不变，没有其他隐含初态或预平衡。
 
 ## 条件全集
 
@@ -42,7 +42,7 @@ role=`material`，location=`systems`，全部字段time_axis=`static`。
 | data键 | unit | 类型／分量 | 定义与范围 |
 |---|---|---|---|
 | `inductance` | `H` | float64 scalar [1] / value | L，电枢电感；严格正 |
-| `resistance` | `Ohm` | float64 scalar [1] / value | R0，参考温度电阻；严格正 |
+| `resistance` | `Ohm` | float64 scalar [1] / value | R0，固定电枢电阻；严格正 |
 | `motor_constant` | `V.s/rad` | float64 scalar [1] / value | K，反电动势常数；SI数值也作力矩常数N.m/A；严格正 |
 | `inertia` | `kg.m2` | float64 scalar [1] / value | J，转子惯量；严格正 |
 | `drag` | `N.m.s/rad` | float64 scalar [1] / value | B，机械黏性阻力；非负 |
@@ -74,7 +74,7 @@ condition片段示意（不是完整样例，逻辑名可变）：
 
 ## 输出全集
 
-每个quantity至少请求一次，可重复请求；逻辑输出名、array key自由但不得重复占用key。均为response轴、float64、point、无sampling；scalar为[1]/value，多分量按表。不重排、取绝对值或按图方向重新定向。
+每个quantity至少请求一次，可重复请求；逻辑输出名、array key自由但不得重复占用key。均为response轴、float64、point、无sampling；scalar为[1]/value，多分量按表。不重排或取绝对值。
 
 | quantity | unit | location | shape／components | 定义 |
 |---|---|---|---|---|
@@ -88,4 +88,4 @@ condition片段示意（不是完整样例，逻辑名可变）：
 
 ## 接收限制与证据
 
-输入场／输出场各至多2000000数值分量，包含所有时间和分量轴，重复请求也计入。正式数据还须核验方程和元件适用性、全程状态接收限制、观测存在唯一性、参考误差及预算内可达精度；声明检查不会求解轨迹或代替这些证据。禁止以临时工具fixture作为正式输入或可信物理参考。
+输入场／输出场各至多2000000数值分量，包含所有时间和分量轴，重复请求也计入。正式数据还须核验方程和元件适用性、全程状态接收限制、观测存在唯一性、参考误差及预算内可达精度；声明检查不会求解轨迹或代替这些证据。

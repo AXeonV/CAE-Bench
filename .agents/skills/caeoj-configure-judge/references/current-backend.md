@@ -8,7 +8,7 @@
 | src/caeoj/grading.schema.json、grading_metrics.py、grading.py | 策略结构、逐值／误差指标、时间与分量聚合、权重、reference_offset 和实际比较；以实现及 docs/GRADING.md 为维护参考，题面需完整公开实际规则 |
 | qbank/<chapter>/<section>/<task>/judge-config.json | timeout_seconds 为逐例时限；max_output_bytes 显式 null 无独立字节限额，省略仍保留旧128MiB缺省。verifier_budget 由组装器按真实案例数计算总预算。瞬态热传导本地 author/check.py 使用 memory_mb 检查 RSS，须与本题 Harbor 内存配置一致；资源是否生效应核对各实际执行器 |
 | src/utils/harbor/tests/judge.py | 冻结提交、逐例独立运行、逐例墙钟、输出与结构检查、评分调用和汇总；当前最终 reward 为通过例数/总例数，不凭额外 points_per_case 字段认定权重已生效 |
-| src/utils/harbor/task.toml、prepare_harbor.py 的 task_config | 合并资源覆盖并计算动态总预算；模板显式 Linux、0 GPU、separate verifier 与 no-network。CPU／内存未声明的题不凭空加配额；Dockerfile指定linux/amd64。实际安装的Harbor须支持阶段网络策略，不将模型解析视为容器执行证据 |
+| src/utils/harbor/task.toml、prepare_harbor.py 的 task_config | 合并资源覆盖并计算动态总预算；模板显式 Linux、0 GPU、separate verifier；no-network 仅配置于 verifier 阶段。CPU／内存未声明的题不凭空加配额；Dockerfile指定linux/amd64。实际安装的Harbor须支持阶段网络策略，不将模型解析视为容器执行证据 |
 | qbank/<chapter>/<section>/<task>/harbor/task.toml、harbor/requirements.txt | 当前题目的资源／依赖覆盖，实际生效值是与模板合并结果；CPU／内存与逐例超时不在同一消费层 |
 | src/utils/publish_dist.py 维护入口、src/caeoj_tools/assembly.py | 根据可信绑定装配核心、所需物理扩展及运行描述，生成公开安装材料；会导出 grading.json 及机器策略的可读表示，不意味着考生必须额外阅读它们来理解规则；维护资料不打包 |
 | src/utils/prepare_harbor.py 的 prepare | 通过 caeoj_tools.task_paths.task_directory 按唯一 slug 定位 qbank/<chapter>/<section>/<task> 布局，要求真实 cases、reference 与有效公开 ZIP，校验策略及包内容一致性；不能假设支持 examples 布局或无数据题目 |

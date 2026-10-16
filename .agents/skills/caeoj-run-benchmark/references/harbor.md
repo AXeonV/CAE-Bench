@@ -29,7 +29,7 @@ CPU／内存配额来自本题 harbor/task.toml 与共享模板的合并结果�
 harbor view runs/harbor/jobs --jobs --host 0.0.0.0 --port 8080
 ```
 
---jobs 使空目录也能启动，不依赖自动推断。--port单值使冲突明确失败，不静默回落8081。--host 0.0.0.0监听执行主机IPv4接口，浏览器访问本机127.0.0.1或该主机实际本地IP；不是公网发布。
+--jobs 使空目录也能启动，不依赖自动推断。--port单值使冲突明确失败，不静默回落8081。--host 0.0.0.0监听执行主机IPv4接口，浏览器访问本机127.0.0.1或该主机可达IP；实际访问范围由主机网络决定。
 
 实际ready核对：
 
@@ -43,6 +43,6 @@ POSIX辅助脚本只负责受控进程生命周期和当前三个接口检查，
 
 job根下的 config.json／result.json 与各trial产物应相互核对；名称／schema以实际版本为准。仓库 judge 的 trial verifier/report.json 提供逐例状态、分数和错误，reward.txt 是汇总通过比例；没有report或覆盖不足不能仅凭reward认定完成。
 
-当前 judge 入口为 `src/utils/harbor/tests/judge.py`。题目输入、参考、评分配置或运行框架错误属于基础设施问题；grade CLI 退出 2，评分报告中的 score 为 null，不能按零分 solver 失败处理。重复统计包括每次尝试，基础设施补跑不得冒充新的独立样本或只取最佳值。
+当前 judge 入口为 `src/utils/harbor/tests/judge.py`。题目输入、参考、评分配置或运行框架错误属于基础设施问题；grade CLI 退出 2，grade 结果中的 score 为 null；Harbor judge 遇此中止，可能只有部分报告，不能按零分 solver 失败处理。重复统计包括每次尝试，基础设施补跑不得冒充新的独立样本或只取最佳值。
 
 `harbor job resume`、regrade的具体筛选、重试和是否重新调用agent必须看当前help／源码。已有冻结提交的重判不自动重新生成solver。监控默认继续保留，只有用户要求或本次失败测试清理才停止明确属于自己的进程。

@@ -571,6 +571,21 @@
         "caeoj_ext/optics/__init__.py",
         "caeoj_ext/optics/models.json"
       ]
+    },
+    "semiconductor.transport": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model_prefix": "semiconductor-"
+        }
+      ],
+      "check": "caeoj_ext.semiconductor:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/semiconductor/__init__.py",
+        "caeoj_ext/semiconductor/models.json"
+      ]
     }
   },
   "tasks": {
@@ -1004,6 +1019,30 @@
     ],
     "slab-modes": [
       "optics.linear"
+    ],
+    "semiconductor-equilibrium": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-drift-steady": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-drift-transient": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-bulk-recombination": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-trap-kinetics": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-minority-diffusion": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-landauer": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-effective-mass": [
+      "semiconductor.transport"
     ]
   },
   "aliases": {
@@ -1037,7 +1076,8 @@
     "thermal-",
     "acoustic-",
     "electromagnetic-",
-    "optics-"
+    "optics-",
+    "semiconductor-"
   ],
   "model_namespace_diagnostics": {
     "fluid-energy-": "E_FLUID",
@@ -1048,6 +1088,7 @@
     "thermal-": "E_THERMAL",
     "acoustic-": "E_ACOUSTIC",
     "electromagnetic-": "E_ELECTROMAGNETIC",
-    "optics-": "E_OPTICS"
+    "optics-": "E_OPTICS",
+    "semiconductor-": "E_SEMICONDUCTOR"
   }
 }

@@ -72,8 +72,9 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 | [第 6 章](qbank/06-acoustics/README.md) | 声学分析 |
 | [第 7 章](qbank/07-electromagnetics/README.md) | 电磁场与电路 |
 | [第 8 章](qbank/08-optics/README.md) | 光学与光子学 |
+| [第 11 章](qbank/11-semiconductor/README.md) | 半导体与电子输运 |
 
-第 2～8 章已完成题面、DATA 和评测配置；正式数值数据、参考及评测发布仍待完成。
+第 2～8 章及第 11 章已完成题面、DATA 和评测配置；正式数值数据、参考及评测发布仍待完成。第十一章验证与独立审阅见[进度记录](qbank/design/reviews/chapter-11-progress.md)。
 
 ## 维护技能
 

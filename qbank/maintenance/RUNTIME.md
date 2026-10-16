@@ -19,6 +19,8 @@ python -m caeoj_tools.cli smoke
 
 - `src/caeoj/`：通用数组、对象、Schema、诊断、几何、基础 SDK、评分和 runtime；不写物理模型／章节分派。
 - `qbank/extensions/caeoj_ext/fluid/`：single_phase、thermal_flow、turbulence、multiphase、thin_film、depth_averaged、rarefied、complex_fluid；公共声明与几何适配按需复用。
+- `qbank/extensions/caeoj_ext/species/`：扩散、外场迁移、竞争吸附、反应网络、绝热定容燃烧及相间交换的公开声明检查；模型清单为运行资源，不含求解器或参考。维护生成器在`qbank/maintenance/authoring/build_species.py`，不进入公开包。
+- `qbank/extensions/caeoj_ext/electrochemistry/`：自洽离子、电极反应、界面动态／阻抗、电池与能量转换的公开声明检查。电中性按存储float64作为精确二进制有理数检查，不投影物理输入；实现不含求解器或参考。维护展开工具为`qbank/maintenance/authoring/build_electrochemistry.py`，不进入公开包。
 - `qbank/extensions/caeoj_bundle/runtime.json`：可信开发注册描述，包括 extensions、tasks、SDK aliases、模块转发 modules 和模型名字空间诊断。tasks 的值是直接扩展 ID 列表，空列表明确表示该题使用通用声明检查，不是遗漏装配；全部题目必须显式绑定，由回归测试核对覆盖。
 - `src/caeoj_tools/`：定位题目、策略读取、作者入口、依赖锁定与装配。publish_dist.py、prepare_harbor.py 仍为现有维护命令入口，均消费同一装配逻辑。
 - smoke-test 的 examples、smoke 在其 author 目录，维护工具显式加载。测试使用维护 loader，不从核心借题库根路径。

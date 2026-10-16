@@ -1,0 +1,1325 @@
+{
+  "fick-diffusion": {
+    "name": "多组分瞬态扩散",
+    "transport": true,
+    "parameters": {
+      "species_count": {
+        "unit": "1",
+        "meaning": "组分数s，JSON整数1..8",
+        "integer": true,
+        "lower": 1,
+        "upper": 8
+      },
+      "length": {
+        "unit": "m",
+        "meaning": "区间长度L>0",
+        "positive": true
+      }
+    },
+    "locations": {
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一材料／动力学参数对象，不是空间探针"
+      },
+      "knots": {
+        "kind": "points",
+        "minimum": 2,
+        "maximum": 257,
+        "meaning": "初态空间结点，x严格递增，首尾恰为0、L"
+      },
+      "left": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "左端坐标x=0"
+      },
+      "right": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "右端坐标x=L"
+      },
+      "probes": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 256,
+        "meaning": "严格位于0<x<L的独立接收点；坐标可重复，身份独立"
+      }
+    },
+    "records": {
+      "diffusivity": {
+        "role": "material",
+        "variable": "diffusivity",
+        "location": "system",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "m2/s",
+            "meaning": "各组分常量有效扩散系数D_i>0",
+            "positive": true
+          }
+        },
+        "axis": "initial"
+      },
+      "initial": {
+        "role": "initial",
+        "variable": "concentration",
+        "location": "knots",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "mol/m3",
+            "meaning": "t=0的移动相体积浓度c_i≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "initial"
+      },
+      "left": {
+        "role": "boundary",
+        "variable": "concentration",
+        "location": "left",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "mol/m3",
+            "meaning": "该端移动相浓度Dirichlet历史，c_i≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "boundary"
+      },
+      "right": {
+        "role": "boundary",
+        "variable": "concentration",
+        "location": "right",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "mol/m3",
+            "meaning": "该端移动相浓度Dirichlet历史，c_i≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "boundary"
+      }
+    },
+    "outputs": {
+      "concentration": {
+        "kind": "components",
+        "shape": [
+          "s"
+        ],
+        "unit": "mol/m3",
+        "meaning": "移动相体积浓度c_i(x,t)",
+        "location": "probes",
+        "atol": 1e-06,
+        "rtol": 0.002
+      }
+    },
+    "timeout": 300
+  },
+  "imposed-field-migration": {
+    "name": "给定外场漂移扩散",
+    "transport": true,
+    "parameters": {
+      "species_count": {
+        "unit": "1",
+        "meaning": "组分数s，JSON整数1..8",
+        "integer": true,
+        "lower": 1,
+        "upper": 8
+      },
+      "length": {
+        "unit": "m",
+        "meaning": "区间长度L>0",
+        "positive": true
+      },
+      "temperature": {
+        "unit": "K",
+        "meaning": "给定恒温T>0",
+        "positive": true
+      },
+      "electric_field": {
+        "unit": "V/m",
+        "meaning": "沿+x的恒定外场E，可正可负或零"
+      },
+      "gas_constant": {
+        "unit": "J/(mol.K)",
+        "meaning": "气体常数R>0，由输入明确给定",
+        "positive": true
+      },
+      "faraday": {
+        "unit": "C/mol",
+        "meaning": "法拉第常数F>0，由输入明确给定",
+        "positive": true
+      }
+    },
+    "locations": {
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一材料／动力学参数对象，不是空间探针"
+      },
+      "knots": {
+        "kind": "points",
+        "minimum": 2,
+        "maximum": 257,
+        "meaning": "初态空间结点，x严格递增，首尾恰为0、L"
+      },
+      "left": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "左端坐标x=0"
+      },
+      "right": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "右端坐标x=L"
+      },
+      "probes": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 256,
+        "meaning": "严格位于0<x<L的独立接收点；坐标可重复，身份独立"
+      }
+    },
+    "records": {
+      "diffusivity": {
+        "role": "material",
+        "variable": "diffusivity",
+        "location": "system",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "m2/s",
+            "meaning": "各组分常量有效扩散系数D_i>0",
+            "positive": true
+          }
+        },
+        "axis": "initial"
+      },
+      "initial": {
+        "role": "initial",
+        "variable": "concentration",
+        "location": "knots",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "mol/m3",
+            "meaning": "t=0的移动相体积浓度c_i≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "initial"
+      },
+      "left": {
+        "role": "boundary",
+        "variable": "concentration",
+        "location": "left",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "mol/m3",
+            "meaning": "该端移动相浓度Dirichlet历史，c_i≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "boundary"
+      },
+      "right": {
+        "role": "boundary",
+        "variable": "concentration",
+        "location": "right",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "mol/m3",
+            "meaning": "该端移动相浓度Dirichlet历史，c_i≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "boundary"
+      },
+      "charge": {
+        "role": "material",
+        "variable": "charge",
+        "location": "system",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "1",
+            "meaning": "整数电荷数z_i，−4..4，允许中性组分",
+            "integral": true,
+            "lower": -4,
+            "upper": 4
+          }
+        },
+        "axis": "initial"
+      }
+    },
+    "outputs": {
+      "concentration": {
+        "kind": "components",
+        "shape": [
+          "s"
+        ],
+        "unit": "mol/m3",
+        "meaning": "移动相体积浓度c_i(x,t)",
+        "location": "probes",
+        "atol": 1e-06,
+        "rtol": 0.002
+      }
+    },
+    "timeout": 300
+  },
+  "competitive-adsorption": {
+    "name": "有限库存竞争吸附",
+    "transport": false,
+    "parameters": {
+      "species_count": {
+        "unit": "1",
+        "meaning": "组分数s，JSON整数1..8",
+        "integer": true,
+        "lower": 1,
+        "upper": 8
+      },
+      "capacity": {
+        "unit": "mol/kg",
+        "meaning": "公共位点容量qmax>0，每个吸附分子占一个位点",
+        "positive": true
+      },
+      "solid_loading": {
+        "unit": "kg/m3",
+        "meaning": "单位液体体积的固体质量ρb>0",
+        "positive": true
+      }
+    },
+    "locations": {
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一材料／动力学参数对象，不是空间探针"
+      },
+      "vessels": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 32,
+        "meaning": "独立完全混合有限容积反应器／容器，IDs可不连续，各组分轴按c1..cs"
+      }
+    },
+    "records": {
+      "initial": {
+        "role": "initial",
+        "variable": "concentration",
+        "location": "vessels",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "mol/m3",
+            "meaning": "初始浓度c_i≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "initial"
+      },
+      "sites": {
+        "role": "material",
+        "variable": "sites",
+        "location": "system",
+        "data": {
+          "adsorption": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "m3/(mol.s)",
+            "meaning": "吸附速率ka_i≥0",
+            "nonnegative": true
+          },
+          "desorption": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "1/s",
+            "meaning": "解吸速率kd_i≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "initial"
+      },
+      "initial_loading": {
+        "role": "initial",
+        "variable": "loading",
+        "location": "vessels",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "mol/kg",
+            "meaning": "初始固相负载q_i≥0，逐位置Σq_i≤qmax",
+            "nonnegative": true
+          }
+        },
+        "axis": "initial"
+      }
+    },
+    "outputs": {
+      "concentration": {
+        "kind": "components",
+        "shape": [
+          "s"
+        ],
+        "unit": "mol/m3",
+        "meaning": "各容器内体积摩尔浓度c_i(t)",
+        "location": "vessels",
+        "atol": 1e-06,
+        "rtol": 0.002
+      },
+      "loading": {
+        "kind": "components",
+        "shape": [
+          "s"
+        ],
+        "unit": "mol/kg",
+        "meaning": "单位固体质量的吸附量q_i(t)，不乘固液比",
+        "location": "vessels",
+        "atol": 1e-08,
+        "rtol": 0.002
+      }
+    },
+    "timeout": 300
+  },
+  "pore-adsorption": {
+    "name": "孔隙扩散吸附耦合",
+    "transport": true,
+    "parameters": {
+      "species_count": {
+        "unit": "1",
+        "meaning": "组分数s，JSON整数1..8",
+        "integer": true,
+        "lower": 1,
+        "upper": 8
+      },
+      "length": {
+        "unit": "m",
+        "meaning": "区间长度L>0",
+        "positive": true
+      },
+      "capacity": {
+        "unit": "mol/kg",
+        "meaning": "公共位点容量qmax>0，每个吸附分子占一个位点",
+        "positive": true
+      },
+      "porosity": {
+        "unit": "1",
+        "meaning": "孔隙体积分数ε，0<ε<1",
+        "positive": true,
+        "upper_exclusive": 1
+      },
+      "solid_density": {
+        "unit": "kg/m3",
+        "meaning": "固体骨架单位固体体积质量ρs>0",
+        "positive": true
+      }
+    },
+    "locations": {
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一材料／动力学参数对象，不是空间探针"
+      },
+      "knots": {
+        "kind": "points",
+        "minimum": 2,
+        "maximum": 257,
+        "meaning": "初态空间结点，x严格递增，首尾恰为0、L"
+      },
+      "left": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "左端坐标x=0"
+      },
+      "right": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "右端坐标x=L"
+      },
+      "probes": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 256,
+        "meaning": "严格位于0<x<L的独立接收点；坐标可重复，身份独立"
+      }
+    },
+    "records": {
+      "diffusivity": {
+        "role": "material",
+        "variable": "diffusivity",
+        "location": "system",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "m2/s",
+            "meaning": "各组分常量有效扩散系数D_i>0",
+            "positive": true
+          }
+        },
+        "axis": "initial"
+      },
+      "initial": {
+        "role": "initial",
+        "variable": "concentration",
+        "location": "knots",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "mol/m3",
+            "meaning": "t=0的移动相体积浓度c_i≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "initial"
+      },
+      "left": {
+        "role": "boundary",
+        "variable": "concentration",
+        "location": "left",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "mol/m3",
+            "meaning": "该端移动相浓度Dirichlet历史，c_i≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "boundary"
+      },
+      "right": {
+        "role": "boundary",
+        "variable": "concentration",
+        "location": "right",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "mol/m3",
+            "meaning": "该端移动相浓度Dirichlet历史，c_i≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "boundary"
+      },
+      "sites": {
+        "role": "material",
+        "variable": "sites",
+        "location": "system",
+        "data": {
+          "adsorption": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "m3/(mol.s)",
+            "meaning": "吸附速率ka_i≥0",
+            "nonnegative": true
+          },
+          "desorption": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "1/s",
+            "meaning": "解吸速率kd_i≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "initial"
+      },
+      "initial_loading": {
+        "role": "initial",
+        "variable": "loading",
+        "location": "knots",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "mol/kg",
+            "meaning": "初始固相负载q_i≥0，逐位置Σq_i≤qmax",
+            "nonnegative": true
+          }
+        },
+        "axis": "initial"
+      }
+    },
+    "outputs": {
+      "concentration": {
+        "kind": "components",
+        "shape": [
+          "s"
+        ],
+        "unit": "mol/m3",
+        "meaning": "移动相体积浓度c_i(x,t)",
+        "location": "probes",
+        "atol": 1e-06,
+        "rtol": 0.002
+      },
+      "loading": {
+        "kind": "components",
+        "shape": [
+          "s"
+        ],
+        "unit": "mol/kg",
+        "meaning": "单位固体质量的吸附量q_i(x,t)，不乘固液比",
+        "location": "probes",
+        "atol": 1e-08,
+        "rtol": 0.002
+      }
+    },
+    "timeout": 900
+  },
+  "mass-action-network": {
+    "name": "等温反应网络",
+    "transport": false,
+    "parameters": {
+      "species_count": {
+        "unit": "1",
+        "meaning": "组分数s，JSON整数2..8；非平凡质量守恒反应至少需两个组分",
+        "integer": true,
+        "lower": 2,
+        "upper": 8
+      },
+      "reaction_count": {
+        "unit": "1",
+        "meaning": "反应数r，JSON整数1..16",
+        "integer": true,
+        "lower": 1,
+        "upper": 16
+      },
+      "concentration_scale": {
+        "unit": "mol/m3",
+        "meaning": "共同活度归一化浓度c*>0，不是初态",
+        "positive": true
+      }
+    },
+    "locations": {
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一材料／动力学参数对象，不是空间探针"
+      },
+      "vessels": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 32,
+        "meaning": "独立完全混合有限容积反应器／容器，IDs可不连续，各组分轴按c1..cs"
+      },
+      "reactions": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 16,
+        "meaning": "r条有向不可逆反应，按IDs行序；可逆反应必须显式给两条"
+      }
+    },
+    "records": {
+      "initial": {
+        "role": "initial",
+        "variable": "concentration",
+        "location": "vessels",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "mol/m3",
+            "meaning": "初始浓度c_i≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "initial"
+      },
+      "kinetics": {
+        "role": "material",
+        "variable": "kinetics",
+        "location": "reactions",
+        "data": {
+          "reactants": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "1",
+            "meaning": "反应物计量α_ri，整数0..4，每行总和1..4",
+            "integral": true,
+            "lower": 0,
+            "upper": 4
+          },
+          "products": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "1",
+            "meaning": "生成物计量β_ri，整数0..4，每行总和1..8，β行不等于α行",
+            "integral": true,
+            "lower": 0,
+            "upper": 4
+          },
+          "prefactor": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "mol/(m3.s)",
+            "meaning": "反应体积速率前因子a_r≥0，已用c*归一化，非传统随反应级数变单位的k",
+            "nonnegative": true
+          }
+        },
+        "axis": "initial"
+      },
+      "species": {
+        "role": "material",
+        "variable": "species",
+        "location": "system",
+        "data": {
+          "molar_mass": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "kg/mol",
+            "meaning": "组分摩尔质量M_i>0；每行反应Σ(β−α)M=0",
+            "positive": true
+          }
+        },
+        "axis": "initial"
+      }
+    },
+    "outputs": {
+      "concentration": {
+        "kind": "components",
+        "shape": [
+          "s"
+        ],
+        "unit": "mol/m3",
+        "meaning": "各容器内体积摩尔浓度c_i(t)",
+        "location": "vessels",
+        "atol": 1e-06,
+        "rtol": 0.002
+      }
+    },
+    "timeout": 300
+  },
+  "reactive-transport": {
+    "name": "给定流场反应传输",
+    "transport": true,
+    "parameters": {
+      "species_count": {
+        "unit": "1",
+        "meaning": "组分数s，JSON整数2..8；非平凡质量守恒反应至少需两个组分",
+        "integer": true,
+        "lower": 2,
+        "upper": 8
+      },
+      "length": {
+        "unit": "m",
+        "meaning": "区间长度L>0",
+        "positive": true
+      },
+      "reaction_count": {
+        "unit": "1",
+        "meaning": "反应数r，JSON整数1..16",
+        "integer": true,
+        "lower": 1,
+        "upper": 16
+      },
+      "concentration_scale": {
+        "unit": "mol/m3",
+        "meaning": "共同活度归一化浓度c*>0，不是初态",
+        "positive": true
+      },
+      "velocity": {
+        "unit": "m/s",
+        "meaning": "沿+x的恒定给定液体速度v，可正负或零；不求流场"
+      }
+    },
+    "locations": {
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一材料／动力学参数对象，不是空间探针"
+      },
+      "knots": {
+        "kind": "points",
+        "minimum": 2,
+        "maximum": 257,
+        "meaning": "初态空间结点，x严格递增，首尾恰为0、L"
+      },
+      "left": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "左端坐标x=0"
+      },
+      "right": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "右端坐标x=L"
+      },
+      "probes": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 256,
+        "meaning": "严格位于0<x<L的独立接收点；坐标可重复，身份独立"
+      },
+      "reactions": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 16,
+        "meaning": "r条有向不可逆反应，按IDs行序；可逆反应必须显式给两条"
+      }
+    },
+    "records": {
+      "diffusivity": {
+        "role": "material",
+        "variable": "diffusivity",
+        "location": "system",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "m2/s",
+            "meaning": "各组分常量有效扩散系数D_i>0",
+            "positive": true
+          }
+        },
+        "axis": "initial"
+      },
+      "initial": {
+        "role": "initial",
+        "variable": "concentration",
+        "location": "knots",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "mol/m3",
+            "meaning": "t=0的移动相体积浓度c_i≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "initial"
+      },
+      "left": {
+        "role": "boundary",
+        "variable": "concentration",
+        "location": "left",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "mol/m3",
+            "meaning": "该端移动相浓度Dirichlet历史，c_i≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "boundary"
+      },
+      "right": {
+        "role": "boundary",
+        "variable": "concentration",
+        "location": "right",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "mol/m3",
+            "meaning": "该端移动相浓度Dirichlet历史，c_i≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "boundary"
+      },
+      "kinetics": {
+        "role": "material",
+        "variable": "kinetics",
+        "location": "reactions",
+        "data": {
+          "reactants": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "1",
+            "meaning": "反应物计量α_ri，整数0..4，每行总和1..4",
+            "integral": true,
+            "lower": 0,
+            "upper": 4
+          },
+          "products": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "1",
+            "meaning": "生成物计量β_ri，整数0..4，每行总和1..8，β行不等于α行",
+            "integral": true,
+            "lower": 0,
+            "upper": 4
+          },
+          "prefactor": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "mol/(m3.s)",
+            "meaning": "反应体积速率前因子a_r≥0，已用c*归一化，非传统随反应级数变单位的k",
+            "nonnegative": true
+          }
+        },
+        "axis": "initial"
+      },
+      "species": {
+        "role": "material",
+        "variable": "species",
+        "location": "system",
+        "data": {
+          "molar_mass": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "kg/mol",
+            "meaning": "组分摩尔质量M_i>0；每行反应Σ(β−α)M=0",
+            "positive": true
+          }
+        },
+        "axis": "initial"
+      }
+    },
+    "outputs": {
+      "concentration": {
+        "kind": "components",
+        "shape": [
+          "s"
+        ],
+        "unit": "mol/m3",
+        "meaning": "移动相体积浓度c_i(x,t)",
+        "location": "probes",
+        "atol": 1e-06,
+        "rtol": 0.002
+      }
+    },
+    "timeout": 900
+  },
+  "adiabatic-combustion": {
+    "name": "绝热定容燃烧反应器",
+    "transport": false,
+    "parameters": {
+      "species_count": {
+        "unit": "1",
+        "meaning": "组分数s，JSON整数2..8；非平凡质量守恒反应至少需两个组分",
+        "integer": true,
+        "lower": 2,
+        "upper": 8
+      },
+      "reaction_count": {
+        "unit": "1",
+        "meaning": "反应数r，JSON整数1..16",
+        "integer": true,
+        "lower": 1,
+        "upper": 16
+      },
+      "concentration_scale": {
+        "unit": "mol/m3",
+        "meaning": "共同活度归一化浓度c*>0，不是初态",
+        "positive": true
+      },
+      "gas_constant": {
+        "unit": "J/(mol.K)",
+        "meaning": "理想气体常数R>0，由输入给定",
+        "positive": true
+      },
+      "reference_temperature": {
+        "unit": "K",
+        "meaning": "内能参考温度Tref>0",
+        "positive": true
+      }
+    },
+    "locations": {
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一材料／动力学参数对象，不是空间探针"
+      },
+      "vessels": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 32,
+        "meaning": "独立完全混合有限容积反应器／容器，IDs可不连续，各组分轴按c1..cs"
+      },
+      "reactions": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 16,
+        "meaning": "r条有向不可逆反应，按IDs行序；可逆反应必须显式给两条"
+      }
+    },
+    "records": {
+      "initial": {
+        "role": "initial",
+        "variable": "concentration",
+        "location": "vessels",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "mol/m3",
+            "meaning": "初始浓度c_i≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "initial"
+      },
+      "kinetics": {
+        "role": "material",
+        "variable": "kinetics",
+        "location": "reactions",
+        "data": {
+          "reactants": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "1",
+            "meaning": "反应物计量α_ri，整数0..4，每行总和1..4",
+            "integral": true,
+            "lower": 0,
+            "upper": 4
+          },
+          "products": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "1",
+            "meaning": "生成物计量β_ri，整数0..4，每行总和1..8，β行不等于α行",
+            "integral": true,
+            "lower": 0,
+            "upper": 4
+          },
+          "prefactor": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "mol/(m3.s)",
+            "meaning": "反应体积速率前因子a_r≥0，已用c*归一化，非传统随反应级数变单位的k",
+            "nonnegative": true
+          },
+          "activation": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "J/mol",
+            "meaning": "活化能E_r≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "initial"
+      },
+      "species": {
+        "role": "material",
+        "variable": "species",
+        "location": "system",
+        "data": {
+          "molar_mass": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "kg/mol",
+            "meaning": "组分摩尔质量M_i>0；每行反应Σ(β−α)M=0",
+            "positive": true
+          },
+          "heat_capacity": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "J/(mol.K)",
+            "meaning": "定容摩尔热容cv_i>0，整个温度区间常量",
+            "positive": true
+          },
+          "reference_energy": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "J/mol",
+            "meaning": "Tref处的摩尔内能u_i,ref，含形成内能；可正负"
+          }
+        },
+        "axis": "initial"
+      },
+      "thermal_initial": {
+        "role": "initial",
+        "variable": "temperature",
+        "location": "vessels",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "K",
+            "meaning": "初始温度T0>0",
+            "positive": true
+          }
+        },
+        "axis": "initial"
+      }
+    },
+    "outputs": {
+      "concentration": {
+        "kind": "components",
+        "shape": [
+          "s"
+        ],
+        "unit": "mol/m3",
+        "meaning": "各容器内体积摩尔浓度c_i(t)",
+        "location": "vessels",
+        "atol": 1e-06,
+        "rtol": 0.002
+      },
+      "temperature": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "K",
+        "meaning": "绝热能量守恒确定的温度T(t)",
+        "location": "vessels",
+        "atol": 0.02,
+        "rtol": 0.001
+      },
+      "pressure": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "Pa",
+        "meaning": "绝对压力p=RTΣ_i c_i",
+        "location": "vessels",
+        "atol": 0.1,
+        "rtol": 0.002
+      }
+    },
+    "timeout": 1200
+  },
+  "partition-transfer": {
+    "name": "相间分配传质网络",
+    "transport": false,
+    "parameters": {
+      "species_count": {
+        "unit": "1",
+        "meaning": "组分数s，JSON整数1..8",
+        "integer": true,
+        "lower": 1,
+        "upper": 8
+      }
+    },
+    "locations": {
+      "vessels": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 32,
+        "meaning": "独立完全混合有限容积反应器／容器，IDs可不连续，各组分轴按c1..cs"
+      },
+      "links": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 64,
+        "meaning": "有向传质连接；方向只定义流率符号，不禁止逆向净交换"
+      }
+    },
+    "records": {
+      "initial": {
+        "role": "initial",
+        "variable": "concentration",
+        "location": "vessels",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "mol/m3",
+            "meaning": "初始浓度c_i≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "initial"
+      },
+      "volumes": {
+        "role": "material",
+        "variable": "volume",
+        "location": "vessels",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "m3",
+            "meaning": "各容器固定体积V_a>0",
+            "positive": true
+          }
+        },
+        "axis": "initial"
+      },
+      "links": {
+        "role": "material",
+        "variable": "transfer_link",
+        "location": "links",
+        "data": {
+          "origin": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "起点容器的实际ID，不是数组行号",
+            "integral": true,
+            "nonnegative": true
+          },
+          "destination": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "终点容器实际ID，须不同于起点",
+            "integral": true,
+            "nonnegative": true
+          },
+          "partition": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "1",
+            "meaning": "平衡分配比K_i=c_destination/c_origin>0",
+            "positive": true
+          },
+          "conductance": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "m3/s",
+            "meaning": "组分传质导通率G_i≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "initial"
+      }
+    },
+    "outputs": {
+      "concentration": {
+        "kind": "components",
+        "shape": [
+          "s"
+        ],
+        "unit": "mol/m3",
+        "meaning": "各容器内体积摩尔浓度c_i(t)",
+        "location": "vessels",
+        "atol": 1e-06,
+        "rtol": 0.002
+      },
+      "molar_flow": {
+        "kind": "components",
+        "shape": [
+          "s"
+        ],
+        "unit": "mol/s",
+        "meaning": "各连接从origin流向destination的有符号净摩尔率",
+        "location": "links",
+        "atol": 1e-09,
+        "rtol": 0.002
+      }
+    },
+    "timeout": 300
+  }
+}

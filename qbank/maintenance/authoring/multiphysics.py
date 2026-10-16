@@ -42,7 +42,7 @@ P={
 
 def model(slug,section,title,mode,params,eq,bcs,outputs,notes='',timeout=360):
     # bcs: side -> [(key, unit, explanation)], complete fixed records
-    MODELS[slug]=dict(section=section,title=title,mode=mode,parameters={k:P[k] for k in ['length']+params},equations=eq,boundaries={side:{k:dict(unit=u,text=t) for k,u,t in rows} for side,rows in bcs.items()},outputs={q:dict(unit=u,text=t,location=l,atol=at,rtol=rt) for q,u,t,l,at,rt in outputs},notes=notes,timeout=timeout)
+    MODELS[slug]=dict(section=section,title=title,mode=mode,parameters={k:P[k].copy() for k in ['length']+params},equations=eq,boundaries={side:{k:dict(unit=u,text=t) for k,u,t in rows} for side,rows in bcs.items()},outputs={q:dict(unit=u,text=t,location=l,atol=at,rtol=rt) for q,u,t,l,at,rt in outputs},notes=notes,timeout=timeout)
 
 model('compliant-tube-wave','17.1-fluid-solid','17.1.1 弹性管壁与液柱波','transient',
 ['density','bulk_modulus','radius','wall_thickness','young_modulus','flow_drag'],
@@ -136,7 +136,25 @@ def write(selected=None):
     for slug,c in chosen.items():
         d=ROOT/'qbank/17-multiphysics'/c['section']/slug;d.mkdir(parents=True,exist_ok=True)
         mode=c['mode'];complex_=mode=='harmonic';transient=mode=='transient';axis='response' if transient else 'state'
+        # Model-specific wording stays in the maintained source, never just in generated pages.
+        if 'young_modulus' in c['parameters']:
+            c['parameters']['young_modulus']['text']='E，本题一维'+('环向' if slug=='compliant-tube-wave' else '约束轴向' if 'poroelastic' in slug or slug=='biot-consolidation' else '轴向')+'弹性模量；不再作三维平面应变换算'
+        if 'viscosity' in c['parameters']:
+            c['parameters']['viscosity']['text']='eta，'+('剪切' if slug=='magnetic-diffusion-elasticity' else '轴向')+'Kelvin黏性'
+        if 'reference_temperature' in c['parameters'] and 'joule' in slug:
+            c['parameters']['reference_temperature']['text']='T0，电导率参考绝对温度'
+        if slug=='shunted-piezoelectric-rod':
+            c['parameters']['area']['text']='A，均匀压电杆截面积，同时为理想电极覆盖的端面面积'
+        if slug=='steady-joule-feedback':
+            c['notes']=c['notes'].replace('所有加载节点满足','给定电压满足')
+        if slug=='magnetic-diffusion-elasticity':
+            c['equations']=c['equations'].replace('H方向始终','机械左端u(0)=0。H方向始终')
         intro=c['equations']+'\n\n'+c['notes']
+        if transient:
+            intro+='\n初态作用于域内；加载折点及初边角点按因果弱解解释，边界值取给定连续分段线性加载。'
+        resource_axes='载荷轴2..256节点、响应轴1..256节点' if transient else ('谐波存储轴1帧' if complex_ else '稳态存储轴1帧')
+        applicability='正温度、常物性适用条件' if slug=='thermoelectric-leg' else '温敏电导有效性及全域温升接收条件' if 'joule' in slug else '本题模型适用与小扰动／小应变接收条件'
+        endpoint_note='；right同时是活塞对象' if slug=='acoustic-piston-feedback' else ''
         btable='| quantity | atol | rtol | 单位 |\n|---|---|---|---|\n'+''.join(f"| `{q}` | {s['atol']:g} | {s['rtol']:g} | `{s['unit']}` |\n" for q,s in c['outputs'].items())
         inst=f'''# {c['title']}
 
@@ -148,7 +166,7 @@ def write(selected=None):
 
 ## 运行与资源
 
-入口`python solve.py --input /path/problem.json --output /path/result.h5`。每例Linux AMD64、{c['timeout']}秒墙钟（含启动与I/O）、2CPU、4096MB、0GPU、无网络；0退出并完整写出HDF5，无独立输出字节上限。生成求解器3600秒、构建1800秒；环境提前提供Python3、NumPy、SciPy、h5py、Gmsh、jsonschema及C++/OpenMP/OpenMPI/HDF5，不强制Python。采样点2..2048，瞬态载荷轴2..256节点、响应轴1..256节点；稳态／谐波1帧。输入场与输出场各至多2000000数值分量。内部网格、时间步和迭代不由采样点／输出时刻指定。
+入口`python solve.py --input /path/problem.json --output /path/result.h5`。每例Linux AMD64、{c['timeout']}秒墙钟（含启动与I/O）、2CPU、4096MB、0GPU、无网络；0退出并完整写出HDF5，无独立输出字节上限。生成求解器3600秒、构建1800秒；环境提前提供Python3、NumPy、SciPy、h5py、Gmsh、jsonschema及C++/OpenMP/OpenMPI/HDF5，不强制Python。采样点2..2048，{resource_axes}。输入场与输出场各至多2000000数值分量。内部网格、时间步和迭代不由采样点／输出时刻指定。
 
 资源与容差为待正式数据校准的设计目标，不声称任意参数都已证明可在预算内求准。
 
@@ -161,7 +179,7 @@ def write(selected=None):
 '''
         (d/'instruction.md').write_text(inst)
         params='| 参数 | 单位 | 定义与范围 |\n|---|---|---|\n'+''.join(f"| `{k}` | `{s['unit']}` | {s['text']}；{'严格正' if s['positive'] else '非负' if s['nonnegative'] else '任意有限实数'} |\n" for k,s in c['parameters'].items())
-        time=('''time_axes恰含load、response。load引用float64[2..256]，从0严格递增到t_end>0；response引用float64[1..256]，严格递增且位于[0,t_end]，可以不包含0。所有输入场用load，输出场用response。load所有边界数据在t=0恰为0，包括温升、位移、压力、力、电压及牵引；两加载节点之间逐分量线性插值，禁止区间外外推。零初态为题目固定事实，不提供初猜或额外initial条件。response是观测时刻，不是内部步长。''' if transient else '''time_axes恰含state，引用float64[1]=[0.0]，输入和输出均用state。0仅是存储标记，不是物理初态或频率。''' )
+        time=('''time_axes恰含load、response。load引用float64[2..256]，从0严格递增到t_end>0；response引用float64[1..256]，严格递增且位于[0,t_end]，可以不包含0。所有输入场用load，输出场用response。load所有边界数据在t=0恰为0，只限本题已声明的边界场；两加载节点之间逐分量线性插值，禁止区间外外推。零初态为题目固定事实，不提供初猜或额外initial条件。response是观测时刻，不是内部步长。''' if transient else '''time_axes恰含state，引用float64[1]=[0.0]，输入和输出均用state。0仅是存储标记，不是物理初态或频率。''' )
         shape='components、component_shape=[2]、components=["real","imag"]，末轴为峰值复数实部／虚部' if complex_ else 'scalar、component_shape=[1]、components=["value"]'
         data=f'''# {slug} 数据契约
 
@@ -179,7 +197,7 @@ parameters恰含下表所有键；每项恰含value、unit，value为有限JSON�
 
 ## 空间与身份
 
-spatial_dimension=1；geometries与meshes为空对象。连续体区间由length=L定义，没有未提供的CAD或求解网格。locations恰含domain、left、right。domain为points，2..2048个真实物理采样点，coordinates为float64[N,1]，单位m，x∈[0,L]，坐标两两不同，可不含端点且不按x排序；IDs为非负严格递增int64[N]。数组行始终依IDs，不按坐标重排输出。left、right各为entities、各一项非负int64 ID，代表x=0／x=L处实际端口或端面（right在活塞题同时是活塞对象）；无coordinates或空间插值。两端ID相同也不表示同一对象，不跨location匹配。无其他locations或几何。域采样只定义输出点，不指定内部网格或离散模型。
+spatial_dimension=1；geometries与meshes为空对象。连续体区间由length=L定义，没有未提供的CAD或求解网格。locations恰含domain、left、right。domain为points，2..2048个真实物理采样点，coordinates为float64[N,1]，单位m，x∈[0,L]，坐标两两不同，可不含端点且不按x排序；IDs为非负严格递增int64[N]。数组行始终依IDs，不按坐标重排输出。left、right各为entities、各一项非负int64 ID，代表x=0／x=L处实际端口或端面{endpoint_note}；无coordinates或空间插值。两端ID相同也不表示同一对象，不跨location匹配。无其他locations或几何。域采样只定义输出点，不指定内部网格或离散模型。
 
 ## 时间与数组
 
@@ -208,12 +226,12 @@ spatial_dimension=1；geometries与meshes为空对象。连续体区间由length
 
 | quantity | unit | location | 定义 |
 |---|---|---|---|
-'''+''.join(f"| `{q}` | `{s['unit']}` | `{s['location']}` | {s['text']} |\n" for q,s in c['outputs'].items())+'''
+'''+''.join(f"| `{q}` | `{s['unit']}` | `{s['location']}` | {s['text']} |\n" for q,s in c['outputs'].items())+f'''
 结果HDF5恰含所有输出array及所需locations的IDs、所需时间轴；严格复制输入轴和身份。domain坐标、输入场及不被输出使用的端口IDs不写入结果。不导出新网格或额外数组。
 
 ## 接收与验证边界
 
-输入场／输出场各至多2000000数值分量（含时间和分量轴，重复输出也计入）。除可由声明检查器验证的参数、单位、轴和组合外，正式数据制作还须核验模型适用、小信号／小应变条件、解与观测存在唯一性、参考精度及预算可达性；声明通过不构成这些证据。无正式数据时不能把协议fixture当物理参考。
+输入场／输出场各至多2000000数值分量（含时间和分量轴，重复输出也计入）。除可由声明检查器验证的参数、单位、轴和组合外，正式数据制作还须核验{applicability}、解与观测存在唯一性、参考精度及预算可达性；声明通过不构成这些证据。无正式数据时不能把协议fixture当物理参考。
 '''
         (d/'DATA.md').write_text(data)
         policy=dict(version=2,quantities={q:dict(unit=s['unit'],rule=dict(metric='pointwise',time='per_time',components='per_component',atol=s['atol'],rtol=s['rtol'])) for q,s in c['outputs'].items()})
@@ -223,6 +241,9 @@ spatial_dimension=1；geometries与meshes为空对象。连续体区间由length
         (d/'harbor/task.toml').write_text('[agent]\ntimeout_sec = 3600.0\n\n[environment]\nbuild_timeout_sec = 1800.0\ncpus = 2\nmemory_mb = 4096\ngpus = 0\nos = "linux"\n\n[verifier]\nnetwork_mode = "no-network"\n')
         (d/'harbor/requirements.txt').write_text('scipy==1.18.1\n')
     if selected is None:
+        public=ROOT/'qbank/extensions/caeoj_ext/multiphysics/models.json'
+        if public.parent.exists():
+            public.write_text(json.dumps({k:{key:v for key,v in c.items() if key not in ('equations','notes','title','section','timeout')} for k,c in MODELS.items()},indent=2)+'\n')
         d=ROOT/'qbank/17-multiphysics';(d/'README.md').write_text('# 第十七章 多物理场耦合分析\n\n7节12题；给定一维连续体模型，求解方法自由。全部题面／自包含DATA与配置已编写不表示正式数据、参考、校准或评测已就绪。\n\n| 编号／题名 | 题面 | DATA |\n|---|---|---|\n'+''.join(f"| {c['title']} | [instruction]({c['section']}/{s}/instruction.md) | [DATA]({c['section']}/{s}/DATA.md) |\n" for s,c in MODELS.items())+'\n维护入口：[章规划](../design/chapter-17-multiphysics.md)、[进度与限制](../design/reviews/chapter-17-progress.md)。\n')
 
 if __name__=='__main__':

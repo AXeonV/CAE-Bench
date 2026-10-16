@@ -8,12 +8,13 @@ c theta_t+T0 beta u_xt=k theta_xx。
 eta为线性Kelvin阻尼，二阶小量黏性耗散热不计；必须保留线性互易应变率热反馈，不能只做顺序热膨胀。
 
 初态u=u_t=theta=0。数据保证|theta|/T0≤0.01及|u_x|≤0.01；无额外体力或热源。
+初态作用于域内；加载折点及初边角点按因果弱解解释，边界值取给定连续分段线性加载。
 
 模型、初边值和参数解释已固定；考生负责数值离散、耦合算法与误差控制，语言／软件自由，解析或降阶方法覆盖完整契约同样有效。区间长度、材料系数、载荷时程和真实采样坐标随算例变化，不要求复现参考算法。输入输出见[本题DATA](DATA.md)及[通用CONTRACT](../../../../docs/CONTRACT.md)。
 
 ## 运行与资源
 
-入口`python solve.py --input /path/problem.json --output /path/result.h5`。每例Linux AMD64、360秒墙钟（含启动与I/O）、2CPU、4096MB、0GPU、无网络；0退出并完整写出HDF5，无独立输出字节上限。生成求解器3600秒、构建1800秒；环境提前提供Python3、NumPy、SciPy、h5py、Gmsh、jsonschema及C++/OpenMP/OpenMPI/HDF5，不强制Python。采样点2..2048，瞬态载荷轴2..256节点、响应轴1..256节点；稳态／谐波1帧。输入场与输出场各至多2000000数值分量。内部网格、时间步和迭代不由采样点／输出时刻指定。
+入口`python solve.py --input /path/problem.json --output /path/result.h5`。每例Linux AMD64、360秒墙钟（含启动与I/O）、2CPU、4096MB、0GPU、无网络；0退出并完整写出HDF5，无独立输出字节上限。生成求解器3600秒、构建1800秒；环境提前提供Python3、NumPy、SciPy、h5py、Gmsh、jsonschema及C++/OpenMP/OpenMPI/HDF5，不强制Python。采样点2..2048，载荷轴2..256节点、响应轴1..256节点。输入场与输出场各至多2000000数值分量。内部网格、时间步和迭代不由采样点／输出时刻指定。
 
 资源与容差为待正式数据校准的设计目标，不声称任意参数都已证明可在预算内求准。
 

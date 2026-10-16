@@ -571,6 +571,54 @@
         "caeoj_ext/optics/__init__.py",
         "caeoj_ext/optics/models.json"
       ]
+    },
+    "multiphysics.continuum": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model": "multiphysics-compliant-tube-wave-v1"
+        },
+        {
+          "physics.model": "multiphysics-acoustic-piston-feedback-v1"
+        },
+        {
+          "physics.model": "multiphysics-constrained-thermal-expansion-v1"
+        },
+        {
+          "physics.model": "multiphysics-reciprocal-thermoelastic-wave-v1"
+        },
+        {
+          "physics.model": "multiphysics-steady-joule-feedback-v1"
+        },
+        {
+          "physics.model": "multiphysics-transient-joule-feedback-v1"
+        },
+        {
+          "physics.model": "multiphysics-static-piezoelectric-rod-v1"
+        },
+        {
+          "physics.model": "multiphysics-shunted-piezoelectric-rod-v1"
+        },
+        {
+          "physics.model": "multiphysics-magnetic-diffusion-elasticity-v1"
+        },
+        {
+          "physics.model": "multiphysics-biot-consolidation-v1"
+        },
+        {
+          "physics.model": "multiphysics-thermo-poroelastic-transient-v1"
+        },
+        {
+          "physics.model": "multiphysics-thermoelectric-leg-v1"
+        }
+      ],
+      "check": "caeoj_ext.multiphysics:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/multiphysics/__init__.py",
+        "caeoj_ext/multiphysics/models.json"
+      ]
     }
   },
   "tasks": {
@@ -1004,6 +1052,42 @@
     ],
     "slab-modes": [
       "optics.linear"
+    ],
+    "compliant-tube-wave": [
+      "multiphysics.continuum"
+    ],
+    "acoustic-piston-feedback": [
+      "multiphysics.continuum"
+    ],
+    "constrained-thermal-expansion": [
+      "multiphysics.continuum"
+    ],
+    "reciprocal-thermoelastic-wave": [
+      "multiphysics.continuum"
+    ],
+    "steady-joule-feedback": [
+      "multiphysics.continuum"
+    ],
+    "transient-joule-feedback": [
+      "multiphysics.continuum"
+    ],
+    "static-piezoelectric-rod": [
+      "multiphysics.continuum"
+    ],
+    "shunted-piezoelectric-rod": [
+      "multiphysics.continuum"
+    ],
+    "magnetic-diffusion-elasticity": [
+      "multiphysics.continuum"
+    ],
+    "biot-consolidation": [
+      "multiphysics.continuum"
+    ],
+    "thermo-poroelastic-transient": [
+      "multiphysics.continuum"
+    ],
+    "thermoelectric-leg": [
+      "multiphysics.continuum"
     ]
   },
   "aliases": {
@@ -1037,7 +1121,8 @@
     "thermal-",
     "acoustic-",
     "electromagnetic-",
-    "optics-"
+    "optics-",
+    "multiphysics-"
   ],
   "model_namespace_diagnostics": {
     "fluid-energy-": "E_FLUID",
@@ -1048,6 +1133,7 @@
     "thermal-": "E_THERMAL",
     "acoustic-": "E_ACOUSTIC",
     "electromagnetic-": "E_ELECTROMAGNETIC",
-    "optics-": "E_OPTICS"
+    "optics-": "E_OPTICS",
+    "multiphysics-": "E_MULTIPHYSICS"
   }
 }

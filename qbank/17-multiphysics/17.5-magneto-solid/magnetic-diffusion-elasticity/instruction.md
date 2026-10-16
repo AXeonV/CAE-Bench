@@ -4,7 +4,7 @@
 
 厚度方向x∈[0,L]，横向剪切位移u沿y，偏置附近的小信号磁场H沿y。Re[fhat exp(+i omega t)]峰值复相量。
 剪切应变S=u_x，tau=(Gm+i omega eta)S−b H，B=b S+mu H；tau_x=−rho omega²u，H_xx=i omega sigma0 B。
-后一式来自准静态导电磁扩散，忽略位移电流；b是指定偏置点的线性互易系数，不是无偏置材料的任意磁致伸缩常数。H方向始终沿+y，非端面外法向。
+后一式来自准静态导电磁扩散，忽略位移电流；b是指定偏置点的线性互易系数，不是无偏置材料的任意磁致伸缩常数。机械左端u(0)=0。H方向始终沿+y，非端面外法向。
 
 无额外体力、自由体电流源或电磁波入射；表面磁场已指定。eta>0，数据核验小信号与小应变有效性，不求非线性磁滞和饱和。
 
@@ -12,7 +12,7 @@
 
 ## 运行与资源
 
-入口`python solve.py --input /path/problem.json --output /path/result.h5`。每例Linux AMD64、360秒墙钟（含启动与I/O）、2CPU、4096MB、0GPU、无网络；0退出并完整写出HDF5，无独立输出字节上限。生成求解器3600秒、构建1800秒；环境提前提供Python3、NumPy、SciPy、h5py、Gmsh、jsonschema及C++/OpenMP/OpenMPI/HDF5，不强制Python。采样点2..2048，瞬态载荷轴2..256节点、响应轴1..256节点；稳态／谐波1帧。输入场与输出场各至多2000000数值分量。内部网格、时间步和迭代不由采样点／输出时刻指定。
+入口`python solve.py --input /path/problem.json --output /path/result.h5`。每例Linux AMD64、360秒墙钟（含启动与I/O）、2CPU、4096MB、0GPU、无网络；0退出并完整写出HDF5，无独立输出字节上限。生成求解器3600秒、构建1800秒；环境提前提供Python3、NumPy、SciPy、h5py、Gmsh、jsonschema及C++/OpenMP/OpenMPI/HDF5，不强制Python。采样点2..2048，谐波存储轴1帧。输入场与输出场各至多2000000数值分量。内部网格、时间步和迭代不由采样点／输出时刻指定。
 
 资源与容差为待正式数据校准的设计目标，不声称任意参数都已证明可在预算内求准。
 

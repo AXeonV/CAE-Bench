@@ -15,7 +15,7 @@ parameters恰含下表所有键；每项恰含value、unit，value为有限JSON�
 | 参数 | 单位 | 定义与范围 |
 |---|---|---|
 | `length` | `m` | L，区间长度；严格正 |
-| `young_modulus` | `Pa` | E，约束降维模型轴向／环向弹性模量（非另作三维平面应变换算）；严格正 |
+| `young_modulus` | `Pa` | E，本题一维轴向弹性模量；不再作三维平面应变换算；严格正 |
 | `alpha` | `1/K` | alpha，线膨胀系数（允许0）；非负 |
 | `conductivity` | `W/(m.K)` | k，热导率；严格正 |
 | `reference_temperature` | `K` | T0，无应力平衡参考绝对温度；严格正 |
@@ -23,7 +23,7 @@ parameters恰含下表所有键；每项恰含value、unit，value为有限JSON�
 
 ## 空间与身份
 
-spatial_dimension=1；geometries与meshes为空对象。连续体区间由length=L定义，没有未提供的CAD或求解网格。locations恰含domain、left、right。domain为points，2..2048个真实物理采样点，coordinates为float64[N,1]，单位m，x∈[0,L]，坐标两两不同，可不含端点且不按x排序；IDs为非负严格递增int64[N]。数组行始终依IDs，不按坐标重排输出。left、right各为entities、各一项非负int64 ID，代表x=0／x=L处实际端口或端面（right在活塞题同时是活塞对象）；无coordinates或空间插值。两端ID相同也不表示同一对象，不跨location匹配。无其他locations或几何。域采样只定义输出点，不指定内部网格或离散模型。
+spatial_dimension=1；geometries与meshes为空对象。连续体区间由length=L定义，没有未提供的CAD或求解网格。locations恰含domain、left、right。domain为points，2..2048个真实物理采样点，coordinates为float64[N,1]，单位m，x∈[0,L]，坐标两两不同，可不含端点且不按x排序；IDs为非负严格递增int64[N]。数组行始终依IDs，不按坐标重排输出。left、right各为entities、各一项非负int64 ID，代表x=0／x=L处实际端口或端面；无coordinates或空间插值。两端ID相同也不表示同一对象，不跨location匹配。无其他locations或几何。域采样只定义输出点，不指定内部网格或离散模型。
 
 ## 时间与数组
 
@@ -71,4 +71,4 @@ field表示片段（逻辑名可变，完整清单还需其他必填项）：
 
 ## 接收与验证边界
 
-输入场／输出场各至多2000000数值分量（含时间和分量轴，重复输出也计入）。除可由声明检查器验证的参数、单位、轴和组合外，正式数据制作还须核验模型适用、小信号／小应变条件、解与观测存在唯一性、参考精度及预算可达性；声明通过不构成这些证据。无正式数据时不能把协议fixture当物理参考。
+输入场／输出场各至多2000000数值分量（含时间和分量轴，重复输出也计入）。除可由声明检查器验证的参数、单位、轴和组合外，正式数据制作还须核验本题模型适用与小扰动／小应变接收条件、解与观测存在唯一性、参考精度及预算可达性；声明通过不构成这些证据。无正式数据时不能把协议fixture当物理参考。

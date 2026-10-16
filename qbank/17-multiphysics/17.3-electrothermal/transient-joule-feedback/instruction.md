@@ -6,12 +6,13 @@
 温度改变电导，电流解确定体积焦耳热，必须自洽；没有Seebeck、Peltier、位移电流或电磁波。电势左端固定0，右端施加V。
 
 初态theta=0，V(0)=0。边界温升非负，且a theta_boundary≤0.1；所有加载节点满足a sigma0 V²/k≤0.1，数据另核验全域a theta≤0.25。不允许用截断电导掩盖失效。
+初态作用于域内；加载折点及初边角点按因果弱解解释，边界值取给定连续分段线性加载。
 
 模型、初边值和参数解释已固定；考生负责数值离散、耦合算法与误差控制，语言／软件自由，解析或降阶方法覆盖完整契约同样有效。区间长度、材料系数、载荷时程和真实采样坐标随算例变化，不要求复现参考算法。输入输出见[本题DATA](DATA.md)及[通用CONTRACT](../../../../docs/CONTRACT.md)。
 
 ## 运行与资源
 
-入口`python solve.py --input /path/problem.json --output /path/result.h5`。每例Linux AMD64、480秒墙钟（含启动与I/O）、2CPU、4096MB、0GPU、无网络；0退出并完整写出HDF5，无独立输出字节上限。生成求解器3600秒、构建1800秒；环境提前提供Python3、NumPy、SciPy、h5py、Gmsh、jsonschema及C++/OpenMP/OpenMPI/HDF5，不强制Python。采样点2..2048，瞬态载荷轴2..256节点、响应轴1..256节点；稳态／谐波1帧。输入场与输出场各至多2000000数值分量。内部网格、时间步和迭代不由采样点／输出时刻指定。
+入口`python solve.py --input /path/problem.json --output /path/result.h5`。每例Linux AMD64、480秒墙钟（含启动与I/O）、2CPU、4096MB、0GPU、无网络；0退出并完整写出HDF5，无独立输出字节上限。生成求解器3600秒、构建1800秒；环境提前提供Python3、NumPy、SciPy、h5py、Gmsh、jsonschema及C++/OpenMP/OpenMPI/HDF5，不强制Python。采样点2..2048，载荷轴2..256节点、响应轴1..256节点。输入场与输出场各至多2000000数值分量。内部网格、时间步和迭代不由采样点／输出时刻指定。
 
 资源与容差为待正式数据校准的设计目标，不声称任意参数都已证明可在预算内求准。
 

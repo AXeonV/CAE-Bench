@@ -6,7 +6,7 @@
 
 厚度方向x∈[0,L]，横向剪切位移u沿y，偏置附近的小信号磁场H沿y。Re[fhat exp(+i omega t)]峰值复相量。
 剪切应变S=u_x，tau=(Gm+i omega eta)S−b H，B=b S+mu H；tau_x=−rho omega²u，H_xx=i omega sigma0 B。
-后一式来自准静态导电磁扩散，忽略位移电流；b是指定偏置点的线性互易系数，不是无偏置材料的任意磁致伸缩常数。H方向始终沿+y，非端面外法向。
+后一式来自准静态导电磁扩散，忽略位移电流；b是指定偏置点的线性互易系数，不是无偏置材料的任意磁致伸缩常数。机械左端u(0)=0。H方向始终沿+y，非端面外法向。
 
 无额外体力、自由体电流源或电磁波入射；表面磁场已指定。eta>0，数据核验小信号与小应变有效性，不求非线性磁滞和饱和。
 
@@ -19,7 +19,7 @@ parameters恰含下表所有键；每项恰含value、unit，value为有限JSON�
 | `length` | `m` | L，区间长度；严格正 |
 | `density` | `kg/m3` | rho，体密度；严格正 |
 | `shear_modulus` | `Pa` | Gm，厚度剪切弹性模量；严格正 |
-| `viscosity` | `Pa.s` | eta，Kelvin轴向／剪切黏性；严格正 |
+| `viscosity` | `Pa.s` | eta，剪切Kelvin黏性；严格正 |
 | `magnetic_permeability` | `H/m` | mu，定应变小信号磁导率；严格正 |
 | `magneto_coefficient` | `T` | b，有符号偏置线性磁弹性系数；任意有限实数 |
 | `electric_conductivity` | `S/m` | sigma0，参考温度电导率；严格正 |
@@ -28,7 +28,7 @@ parameters恰含下表所有键；每项恰含value、unit，value为有限JSON�
 
 ## 空间与身份
 
-spatial_dimension=1；geometries与meshes为空对象。连续体区间由length=L定义，没有未提供的CAD或求解网格。locations恰含domain、left、right。domain为points，2..2048个真实物理采样点，coordinates为float64[N,1]，单位m，x∈[0,L]，坐标两两不同，可不含端点且不按x排序；IDs为非负严格递增int64[N]。数组行始终依IDs，不按坐标重排输出。left、right各为entities、各一项非负int64 ID，代表x=0／x=L处实际端口或端面（right在活塞题同时是活塞对象）；无coordinates或空间插值。两端ID相同也不表示同一对象，不跨location匹配。无其他locations或几何。域采样只定义输出点，不指定内部网格或离散模型。
+spatial_dimension=1；geometries与meshes为空对象。连续体区间由length=L定义，没有未提供的CAD或求解网格。locations恰含domain、left、right。domain为points，2..2048个真实物理采样点，coordinates为float64[N,1]，单位m，x∈[0,L]，坐标两两不同，可不含端点且不按x排序；IDs为非负严格递增int64[N]。数组行始终依IDs，不按坐标重排输出。left、right各为entities、各一项非负int64 ID，代表x=0／x=L处实际端口或端面；无coordinates或空间插值。两端ID相同也不表示同一对象，不跨location匹配。无其他locations或几何。域采样只定义输出点，不指定内部网格或离散模型。
 
 ## 时间与数组
 
@@ -74,4 +74,4 @@ field表示片段（逻辑名可变，完整清单还需其他必填项）：
 
 ## 接收与验证边界
 
-输入场／输出场各至多2000000数值分量（含时间和分量轴，重复输出也计入）。除可由声明检查器验证的参数、单位、轴和组合外，正式数据制作还须核验模型适用、小信号／小应变条件、解与观测存在唯一性、参考精度及预算可达性；声明通过不构成这些证据。无正式数据时不能把协议fixture当物理参考。
+输入场／输出场各至多2000000数值分量（含时间和分量轴，重复输出也计入）。除可由声明检查器验证的参数、单位、轴和组合外，正式数据制作还须核验本题模型适用与小扰动／小应变接收条件、解与观测存在唯一性、参考精度及预算可达性；声明通过不构成这些证据。无正式数据时不能把协议fixture当物理参考。

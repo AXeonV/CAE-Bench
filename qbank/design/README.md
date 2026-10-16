@@ -56,3 +56,5 @@
 第七章已按[章规划](chapter-07-electromagnetics.md)完成7节10题、自包含DATA、电磁共享扩展、评分执行配置及独立考生复核；见[整章目录](../07-electromagnetics/README.md)和[最终进度与限制](reviews/chapter-07-progress.md)。正式数据、独立参考、预算／容差校准及发布留后。
 
 第八章已按[章规划](chapter-08-optics.md)完成6节8题、自包含DATA、光学共享扩展、评分执行配置和独立考生复核；见[整章目录](../08-optics/README.md)和[最终进度与限制](reviews/chapter-08-progress.md)。正式数据、独立参考、模型适用性、预算／容差校准及发布留后。
+
+第十七章已按[章规划](chapter-17-multiphysics.md)完成7节12题、自包含DATA、连续体耦合共享扩展、评分执行配置及独立考生最终复核；见[整章目录](../17-multiphysics/README.md)、[最终进度](reviews/chapter-17-progress.md)与[实现及证据](reviews/chapter-17-implementation.md)。正式数据、独立参考、数值／适用性验证、预算／容差校准与发布留后。

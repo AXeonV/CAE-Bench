@@ -1,5 +1,6 @@
 """Expand electrochemical statements and contracts; never generate cases/solutions."""
 from pathlib import Path
+from caeoj_tools.author import public_model_catalog
 import json
 ROOT=Path(__file__).resolve().parents[3]
 CH=ROOT/'qbank/10-electrochemistry'
@@ -219,7 +220,7 @@ spatial_dimension=1，meshes、geometries均为空。entities表示真实有限�
     index.append('\n维护：[章规划](../design/chapter-10-electrochemistry.md)、[清单](../design/chapter-10-task-plan.md)、[进度](../design/reviews/chapter-10-progress.md)。\n')
     (CH/'README.md').write_text('\n'.join(index))
     ext=ROOT/'qbank/extensions/caeoj_ext/electrochemistry';ext.mkdir(exist_ok=True)
-    (ext/'models.json').write_text(json.dumps(M,ensure_ascii=False,indent=2)+'\n')
+    (ext/'models.json').write_text(json.dumps(public_model_catalog(M),ensure_ascii=False,indent=2)+'\n')
 if __name__=='__main__':
     import sys
     build(sys.argv[1:] or None)

@@ -18,21 +18,14 @@ python -m caeoj_tools.cli smoke
 ## 当前归属与注册
 
 - `src/caeoj/`：通用数组、对象、Schema、诊断、几何、基础 SDK、评分和 runtime；不写物理模型／章节分派。
-- `qbank/extensions/caeoj_ext/fluid/`：single_phase、thermal_flow、turbulence、multiphase、thin_film、depth_averaged、rarefied、complex_fluid；公共声明与几何适配按需复用。
-- `qbank/extensions/caeoj_ext/species/`：扩散、外场迁移、竞争吸附、反应网络、绝热定容燃烧及相间交换的公开声明检查；模型清单为运行资源，不含求解器或参考。维护生成器在`qbank/maintenance/authoring/build_species.py`，不进入公开包。
-- `qbank/extensions/caeoj_ext/electrochemistry/`：自洽离子、电极反应、界面动态／阻抗、电池与能量转换的公开声明检查。电中性按存储float64作为精确二进制有理数检查，不投影物理输入；实现不含求解器或参考。维护展开工具为`qbank/maintenance/authoring/build_electrochemistry.py`，不进入公开包。
-
-- `qbank/extensions/caeoj_ext/porous/`：饱和／非饱和、多相、裂隙／双连续体、孔隙流和输运的声明检查；按可信模型与任务绑定启用，不求解或修正结果。
+- `qbank/extensions/caeoj_ext/`：按物理领域组织共享声明检查、几何适配及 SDK 辅助函数；只处理公开契约，不提供求解器或参考。领域支持范围由各题 DATA 与扩展声明确定。
 - `qbank/extensions/caeoj_bundle/runtime.json`：可信开发注册描述，包括 extensions、tasks、SDK aliases、模块转发 modules 和模型名字空间诊断。tasks 的值是直接扩展 ID 列表，空列表明确表示该题使用通用声明检查，不是遗漏装配；全部题目必须显式绑定，由回归测试核对覆盖。
 - `src/caeoj_tools/`：定位题目、策略读取、作者入口、依赖锁定与装配。publish_dist.py、prepare_harbor.py 仍为现有维护命令入口，均消费同一装配逻辑。
-- `qbank/extensions/caeoj_ext/plasma/`：带电轨道、离散碰撞、反应、静电自洽、放电及冷等离子体响应的声明检查；相空间速度箱用明确的components轴，移动粒子用entities，不增加核心格式或求解功能。
 - smoke-test 的 examples、smoke 在其 author 目录，维护工具显式加载。测试使用维护 loader，不从核心借题库根路径。
 
 扩展按物理组织，章节重排不改扩展 ID。cfd-2.1 与 fluid-* 等输入标识对应实际声明，移动内部模块不改写输入语义。
 
-半导体能力由 `semiconductor.transport` 绑定 `caeoj_ext.semiconductor`，公开 models.json 保存声明元数据，运行检查不求解物理；不增加核心 Schema 或新 SDK 入口。剖面 points 的线性重建、离散实体及谱变量语义逐题展开在 DATA。维护模板位于 `authoring/build_semiconductor.py`，重生成后必须重新静态检查并核对最终审阅散列；模板不进入公开装配。
-
-颗粒能力由 `granular.dynamics` 绑定 `caeoj_ext.granular`；entities表示运动粒子、代表体和离散粒级，位置及状态作为字段，矩阵通过components表达。models.json及声明检查只处理公开DATA约束（包括初始最近像、小重叠、响应难度界和粒级守恒），不演化轨迹或证明全程条件；正式数据须独立验证动态适用承诺。维护模板为`authoring/build_granular.py`，独立普通安装验证为`authoring/verify_granular_install.py`；均不进入公开闭包。公共CLI、SDK和一次安装约定不变。
+公开 `models.json` 仅保存声明检查所需的模型元数据。作者模板保留执行预算和评分参数，导出时由 `caeoj_tools.author.public_model_catalog` 去掉 `timeout` 及输出定义中的 `atol/rtol`；实际评分与执行设置分别来自 `grading.json` 和执行配置。模板位于 `qbank/maintenance/`，不进入公开装配。
 
 ## 描述字段与检查接口
 
@@ -94,6 +87,12 @@ python src/utils/publish_dist.py --task heat-conduction-steady-2d --task heat-co
 
 基础 SDK 的名称、返回结构、数组 key／IDs 行为不因领域拆分改变。已被题目使用的领域模块由通用别名加载器映射到扩展；SDK 的 params=、mass= 等关键字由薄适配保持。模块与 SDK 中同名但签名不同的周期配对函数分别转发，不能混用。转发只适配入口，不复制领域实现。
 
-变更后至少检查实际依赖闭包、非法输入、旧接口、独立公开包和相关回归；安装验证使用普通 wheel 安装、移走源码并换目录，不能由 editable checkout 掩盖遗漏。临时 fixture 只证明工具，不代表正式案例、可信参考或预算校准。实施证据见[重构记录](../design/reviews/runtime-refactor.md)。
+变更后至少检查实际依赖闭包、非法输入、旧接口、独立公开包和相关回归；安装验证使用普通 wheel 安装、移走源码并换目录，不能由 editable checkout 掩盖遗漏。临时 fixture 只证明工具，不代表正式案例、可信参考或预算校准。共享安装检查入口为 `qbank/maintenance/authoring/verify_install.py`，使用各领域现有测试 fixture，可重复 `--domain` 合并验证：
+
+```sh
+python qbank/maintenance/authoring/verify_install.py --domain semiconductor --domain granular --output runs/install-check
+```
+
+实施证据见[重构记录](../design/reviews/runtime-refactor.md)。
 
 离散对象使用通用 entities 身份表，不能用伪 points 坐标代替。各领域的检查和辅助函数归共享扩展；新增题目只需修改可信绑定，不逐题扩充发布器的文件清单。

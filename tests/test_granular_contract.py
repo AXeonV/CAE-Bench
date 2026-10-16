@@ -11,6 +11,7 @@ import h5py
 import numpy as np
 from granular_fixture import fixture
 from caeoj_ext.granular import models
+from qbank.maintenance.authoring.build_granular import MODELS as AUTHOR_MODELS
 from caeoj.sdk import load_problem,write_result
 from caeoj.validation import validate_input,validate_output,output_support
 from caeoj.grading import grade_arrays
@@ -165,11 +166,11 @@ class GranularTests(unittest.TestCase):
         for slug,cfg in models().items():
             task=task_directory(slug,ROOT);config=json.loads((task/'judge-config.json').read_text())
             merged=tomllib.loads(prepare.task_config(template,tomllib.loads((task/'harbor/task.toml').read_text()),judge_config=config,case_count=5))
-            self.assertEqual(config['timeout_seconds'],cfg['timeout']);self.assertIsNone(config['max_output_bytes'])
+            self.assertEqual(config['timeout_seconds'],AUTHOR_MODELS[slug]['timeout']);self.assertIsNone(config['max_output_bytes'])
             self.assertEqual(merged['environment']['cpus'],2);self.assertEqual(merged['environment']['memory_mb'],2048)
             self.assertEqual(merged['environment']['gpus'],0);self.assertEqual(merged['agent']['timeout_sec'],3600)
             self.assertEqual(merged['environment']['build_timeout_sec'],1200)
-            self.assertEqual(merged['verifier']['timeout_sec'],max(1200,180+5*(cfg['timeout']+60)))
+            self.assertEqual(merged['verifier']['timeout_sec'],max(1200,180+5*(AUTHOR_MODELS[slug]['timeout']+60)))
             self.assertEqual(merged['verifier']['network_mode'],'no-network');self.assertEqual(merged['verifier']['environment_mode'],'separate')
         public,runtime=runtime_materials({s:task_directory(s,ROOT) for s in models()},ROOT)
         self.assertEqual(set(runtime['extensions']),{'granular.dynamics'})

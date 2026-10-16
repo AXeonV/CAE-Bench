@@ -1,5 +1,6 @@
 """Maintain independent semiconductor statements and declarations, never case data."""
 from pathlib import Path
+from caeoj_tools.author import public_model_catalog
 import json
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -135,7 +136,7 @@ def bounds(s):
 def main():
     ext = ROOT/'qbank/extensions/caeoj_ext/semiconductor'
     ext.mkdir(parents=True, exist_ok=True)
-    (ext/'models.json').write_text(json.dumps(MODELS, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
+    (ext/'models.json').write_text(json.dumps(public_model_catalog(MODELS), ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
     toc = []
     for sec, title, slugs in SECTIONS:
         sd = CH/sec

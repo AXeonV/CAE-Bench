@@ -1,5 +1,6 @@
 """Maintain self-contained statements and declaration metadata; never make cases."""
 from pathlib import Path
+from caeoj_tools.author import public_model_catalog
 import json
 ROOT=Path(__file__).resolve().parents[3]
 CH=ROOT/'qbank/04-multibody-mechanics'
@@ -140,7 +141,7 @@ def clean(text,slug,cfg):
 
 def main():
  ext=ROOT/'qbank/extensions/caeoj_ext/multibody';ext.mkdir(parents=True,exist_ok=True)
- (ext/'models.json').write_text(json.dumps(M,ensure_ascii=False,indent=2)+'\n')
+ (ext/'models.json').write_text(json.dumps(public_model_catalog(M),ensure_ascii=False,indent=2)+'\n')
  toc=[]
  for sec,title,slugs in SECTIONS:
   sd=CH/sec;sd.mkdir(parents=True,exist_ok=True);sr=[]

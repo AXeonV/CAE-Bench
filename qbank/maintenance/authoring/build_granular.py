@@ -1,5 +1,6 @@
 """Expand standalone granular contracts/configs; no data or reference generator."""
 from pathlib import Path
+from caeoj_tools.author import public_model_catalog
 import json
 import math
 
@@ -84,7 +85,7 @@ def labels(s,p):
 
 def main():
     ext=ROOT/'qbank/extensions/caeoj_ext/granular';ext.mkdir(parents=True,exist_ok=True)
-    (ext/'models.json').write_text(json.dumps(MODELS,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    (ext/'models.json').write_text(json.dumps(public_model_catalog(MODELS),ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     toc=[]
     for sec,title,slugs in SECTIONS:
         sd=CH/sec;sd.mkdir(parents=True,exist_ok=True);links=[]

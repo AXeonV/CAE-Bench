@@ -11,6 +11,7 @@ import h5py
 import numpy as np
 from multibody_fixture import fixture
 from caeoj_ext.multibody import models
+from qbank.maintenance.authoring.build_multibody import M as AUTHOR_MODELS
 from caeoj.sdk import load_problem,write_result
 from caeoj.validation import check_problem,validate_output,output_support
 from caeoj.grading import grade_arrays
@@ -76,7 +77,7 @@ class MultibodyTests(unittest.TestCase):
             task=task_directory(slug,ROOT);config=json.loads((task/'judge-config.json').read_text());override=tomllib.loads((task/'harbor/task.toml').read_text())
             merged=tomllib.loads(prepare.task_config(template,override,judge_config=config,case_count=3))
             self.assertEqual((task/'harbor/requirements.txt').read_text().strip(),'scipy==1.18.1')
-            self.assertEqual(config['timeout_seconds'],cfg['timeout'])
+            self.assertEqual(config['timeout_seconds'],AUTHOR_MODELS[slug]['timeout'])
             self.assertEqual(merged['agent']['timeout_sec'],3600.)
             self.assertEqual(merged['environment']['build_timeout_sec'],1800.)
             self.assertEqual(merged['environment']['cpus'],4)
@@ -84,7 +85,7 @@ class MultibodyTests(unittest.TestCase):
             self.assertEqual(merged['environment']['gpus'],0)
             self.assertEqual(merged['verifier']['network_mode'],'no-network')
             self.assertEqual(merged['verifier']['environment_mode'],'separate')
-            self.assertEqual(merged['verifier']['timeout_sec'],max(1200,300+3*(cfg['timeout']+60)))
+            self.assertEqual(merged['verifier']['timeout_sec'],max(1200,300+3*(AUTHOR_MODELS[slug]['timeout']+60)))
             self.assertIsNone(judge.output_limit(config))
         with tempfile.TemporaryDirectory() as tmp:
             path,m=fixture(tmp,'normal-impact');problem=load_problem(path)

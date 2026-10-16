@@ -1,5 +1,6 @@
 """Expand task-specific public statements and metadata. No case/reference maker."""
 from pathlib import Path
+from caeoj_tools.author import public_model_catalog
 import json
 ROOT=Path(__file__).resolve().parents[3];CH=ROOT/'qbank/05-heat-transfer'
 SECTIONS=[('5.1-conduction','导热与各向异性',['thermal-steady','thermal-transient','anisotropic-conduction']),('5.2-properties','温度相关热物性',['nonlinear-conductivity','nonlinear-capacity']),('5.3-interfaces-layers','界面与降维薄层',['thermal-contact','thin-sheet-heat']),('5.4-convection','给定流场下的对流换热',['prescribed-advection-heat','conjugate-prescribed-flow']),('5.5-radiation','热辐射',['radiative-boundary','gray-enclosure']),('5.6-phase-change','相变传热',['mushy-enthalpy','isothermal-stefan'])]
@@ -79,7 +80,7 @@ def describe(s):
  return f"{s['kind']} {s['shape']}，`{s['unit']}`；{s['meaning']}"+('，dtype=int64' if s.get('dtype')=='int64' else '')
 
 def main():
- ext=ROOT/'qbank/extensions/caeoj_ext/thermal';ext.mkdir(parents=True,exist_ok=True);(ext/'models.json').write_text(json.dumps(M,ensure_ascii=False,indent=2)+'\n')
+ ext=ROOT/'qbank/extensions/caeoj_ext/thermal';ext.mkdir(parents=True,exist_ok=True);(ext/'models.json').write_text(json.dumps(public_model_catalog(M),ensure_ascii=False,indent=2)+'\n')
  toc=[]
  for sec,title,slugs in SECTIONS:
   sd=CH/sec;sd.mkdir(parents=True,exist_ok=True);links=[]

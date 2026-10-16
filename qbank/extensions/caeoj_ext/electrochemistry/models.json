@@ -132,9 +132,7 @@
         ],
         "unit": "C/m2",
         "meaning": "该电极单位真实面积自由电荷，左−εφ_x(0)，右+εφ_x(L)，无Stern层",
-        "location": "left",
-        "atol": 1e-08,
-        "rtol": 0.002
+        "location": "left"
       },
       "surface_charge_right": {
         "kind": "scalar",
@@ -143,9 +141,7 @@
         ],
         "unit": "C/m2",
         "meaning": "该电极单位真实面积自由电荷，左−εφ_x(0)，右+εφ_x(L)，无Stern层",
-        "location": "right",
-        "atol": 1e-08,
-        "rtol": 0.002
+        "location": "right"
       },
       "potential": {
         "kind": "scalar",
@@ -154,9 +150,7 @@
         ],
         "unit": "V",
         "meaning": "液体电势φ(x)",
-        "location": "probes",
-        "atol": 2e-06,
-        "rtol": 0.002
+        "location": "probes"
       },
       "concentration": {
         "kind": "components",
@@ -165,12 +159,9 @@
         ],
         "unit": "mol/m3",
         "meaning": "按液体体积计的组分浓度，轴i与输入一致",
-        "location": "probes",
-        "atol": 1e-06,
-        "rtol": 0.002
+        "location": "probes"
       }
-    },
-    "timeout": 600
+    }
   },
   "blocking-pnp": {
     "name": "阻挡电极离子瞬态",
@@ -322,9 +313,7 @@
         ],
         "unit": "C/m2",
         "meaning": "该电极单位真实面积自由电荷，左−εφ_x(0)，右+εφ_x(L)，无Stern层",
-        "location": "left",
-        "atol": 1e-08,
-        "rtol": 0.002
+        "location": "left"
       },
       "surface_charge_right": {
         "kind": "scalar",
@@ -333,9 +322,7 @@
         ],
         "unit": "C/m2",
         "meaning": "该电极单位真实面积自由电荷，左−εφ_x(0)，右+εφ_x(L)，无Stern层",
-        "location": "right",
-        "atol": 1e-08,
-        "rtol": 0.002
+        "location": "right"
       },
       "potential": {
         "kind": "scalar",
@@ -344,9 +331,7 @@
         ],
         "unit": "V",
         "meaning": "液体电势φ(x,t)",
-        "location": "probes",
-        "atol": 2e-06,
-        "rtol": 0.002
+        "location": "probes"
       },
       "concentration": {
         "kind": "components",
@@ -355,12 +340,9 @@
         ],
         "unit": "mol/m3",
         "meaning": "按液体体积计的组分浓度，轴i与输入一致",
-        "location": "probes",
-        "atol": 1e-06,
-        "rtol": 0.002
+        "location": "probes"
       }
-    },
-    "timeout": 1200
+    }
   },
   "mixed-potential": {
     "name": "多通道电极混合电位",
@@ -491,9 +473,7 @@
         ],
         "unit": "V",
         "meaning": "公共金属电势Φ",
-        "location": "metal",
-        "atol": 2e-06,
-        "rtol": 0.002
+        "location": "metal"
       },
       "faradaic_current": {
         "kind": "scalar",
@@ -502,12 +482,9 @@
         ],
         "unit": "A/m2",
         "meaning": "各通道阳极为正的法拉第电流密度j",
-        "location": "channels",
-        "atol": 1e-05,
-        "rtol": 0.002
+        "location": "channels"
       }
-    },
-    "timeout": 240
+    }
   },
   "capacitive-redox": {
     "name": "双电层与有限库存反应",
@@ -675,9 +652,7 @@
         ],
         "unit": "V",
         "meaning": "Δ=φm−φl，电解液电势为0，不是扣掉Nernst电位后的过电位",
-        "location": "cells",
-        "atol": 2e-06,
-        "rtol": 0.002
+        "location": "cells"
       },
       "concentration": {
         "kind": "components",
@@ -686,9 +661,7 @@
         ],
         "unit": "mol/m3",
         "meaning": "依次cR、cO，按液体体积计",
-        "location": "cells",
-        "atol": 1e-06,
-        "rtol": 0.002
+        "location": "cells"
       },
       "faradaic_current": {
         "kind": "scalar",
@@ -697,9 +670,7 @@
         ],
         "unit": "A/m2",
         "meaning": "jF，阳极正",
-        "location": "cells",
-        "atol": 1e-05,
-        "rtol": 0.002
+        "location": "cells"
       },
       "capacitive_current": {
         "kind": "scalar",
@@ -708,12 +679,9 @@
         ],
         "unit": "A/m2",
         "meaning": "jC=J−jF，包含充放电符号",
-        "location": "cells",
-        "atol": 1e-05,
-        "rtol": 0.002
+        "location": "cells"
       }
-    },
-    "timeout": 240
+    }
   },
   "redox-impedance": {
     "name": "有限库存界面小信号阻抗",
@@ -872,12 +840,9 @@
         ],
         "unit": "Ohm.m2",
         "meaning": "Z=δΔ/δJ，最内轴实部、虚部，exp(+iωt)",
-        "location": "frequencies",
-        "atol": 1e-07,
-        "rtol": 0.002
+        "location": "frequencies"
       }
-    },
-    "timeout": 240
+    }
   },
   "electrode-diffusion": {
     "name": "电极反应与有限层扩散",
@@ -1004,9 +969,7 @@
         ],
         "unit": "mol/m3",
         "meaning": "内部点的cR、cO",
-        "location": "probes",
-        "atol": 1e-06,
-        "rtol": 0.002
+        "location": "probes"
       },
       "surface_concentration": {
         "kind": "components",
@@ -1015,9 +978,7 @@
         ],
         "unit": "mol/m3",
         "meaning": "x=0液体侧唯一迹cR,s、cO,s",
-        "location": "electrode",
-        "atol": 1e-06,
-        "rtol": 0.002
+        "location": "electrode"
       },
       "faradaic_current": {
         "kind": "scalar",
@@ -1026,12 +987,9 @@
         ],
         "unit": "A/m2",
         "meaning": "单位真实电极面积的阳极法拉第电流j",
-        "location": "electrode",
-        "atol": 1e-05,
-        "rtol": 0.002
+        "location": "electrode"
       }
-    },
-    "timeout": 900
+    }
   },
   "particle-battery": {
     "name": "双电极颗粒扩散电池",
@@ -1199,9 +1157,7 @@
         ],
         "unit": "mol/m3",
         "meaning": "该颗粒内c_i(r,t)，按固体体积计",
-        "location": "negative_probes",
-        "atol": 0.01,
-        "rtol": 0.002
+        "location": "negative_probes"
       },
       "solid_concentration_positive": {
         "kind": "scalar",
@@ -1210,9 +1166,7 @@
         ],
         "unit": "mol/m3",
         "meaning": "该颗粒内c_i(r,t)，按固体体积计",
-        "location": "positive_probes",
-        "atol": 0.01,
-        "rtol": 0.002
+        "location": "positive_probes"
       },
       "surface_stoichiometry": {
         "kind": "scalar",
@@ -1221,9 +1175,7 @@
         ],
         "unit": "1",
         "meaning": "每极表面θ_i,s=c_i(R_i,t)/cmax_i",
-        "location": "electrodes",
-        "atol": 1e-05,
-        "rtol": 0.002
+        "location": "electrodes"
       },
       "cell_voltage": {
         "kind": "scalar",
@@ -1232,12 +1184,9 @@
         ],
         "unit": "V",
         "meaning": "正极端子减负极端子电压Vcell",
-        "location": "cell",
-        "atol": 0.0001,
-        "rtol": 0.002
+        "location": "cell"
       }
-    },
-    "timeout": 1200
+    }
   },
   "fuel-cell-energy": {
     "name": "燃料电池极化与能量分配",
@@ -1392,9 +1341,7 @@
         ],
         "unit": "V",
         "meaning": "由气体活度修正的Erev",
-        "location": "operating",
-        "atol": 2e-06,
-        "rtol": 0.002
+        "location": "operating"
       },
       "cell_voltage": {
         "kind": "scalar",
@@ -1403,9 +1350,7 @@
         ],
         "unit": "V",
         "meaning": "含活化与欧姆损失的端电压Vcell，可负",
-        "location": "operating",
-        "atol": 0.0001,
-        "rtol": 0.002
+        "location": "operating"
       },
       "electric_power": {
         "kind": "scalar",
@@ -1414,9 +1359,7 @@
         ],
         "unit": "W/m2",
         "meaning": "单位几何面积向外输出电功率P=J Vcell，可负",
-        "location": "operating",
-        "atol": 0.001,
-        "rtol": 0.002
+        "location": "operating"
       },
       "heat_release": {
         "kind": "scalar",
@@ -1425,11 +1368,8 @@
         ],
         "unit": "W/m2",
         "meaning": "单位几何面积向外释放热Q=J(Etn−Vcell)，含可逆与不可逆热，可负",
-        "location": "operating",
-        "atol": 0.001,
-        "rtol": 0.002
+        "location": "operating"
       }
-    },
-    "timeout": 240
+    }
   }
 }

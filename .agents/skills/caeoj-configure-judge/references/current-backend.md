@@ -13,6 +13,7 @@
 | src/utils/publish_dist.py 维护入口、src/caeoj_tools/assembly.py | 根据可信绑定装配核心、所需物理扩展及运行描述，生成公开安装材料；会导出 grading.json 及机器策略的可读表示，不意味着考生必须额外阅读它们来理解规则；维护资料不打包 |
 | src/utils/prepare_harbor.py 的 prepare | 通过 caeoj_tools.task_paths.task_directory 按唯一 slug 定位 qbank/<chapter>/<section>/<task> 布局，要求真实 cases、reference 与有效公开 ZIP，校验策略及包内容一致性；不能假设支持 examples 布局或无数据题目 |
 | src/caeoj_tools/dependencies.py 的 lock_dependencies | 按当前安装环境遍历传递依赖、markers及extras，检查版本／Python约束并精确锁定；缺包或冲突阻止发布。依赖锁是当前构建环境证据，不自动证明另一平台可安装；packaging仅属maint可选依赖 |
+| src/caeoj_tools/author.py 的 public_model_catalog | 作者模板导出公开模型清单时去掉 timeout 及输出 atol/rtol；原始作者参数仍供生成题面和配置，实际运行读取显式评分／执行配置 |
 | src/caeoj/runtime.py、qbank/extensions/caeoj_bundle、qbank/extensions/caeoj_ext | 已安装 provider 提供受控描述，扩展按物理能力组织；核对实际 runtime／assembly API，不从输入动态导入任意路径 |
 | src/caeoj/cli.py、src/caeoj_tools/cli.py | 公共命令 validate-input／validate-output／grade／info 与 --version；grade 的坏输入／参考／配置归基础设施错误，退出 2，不计零分。维护 make-cases／smoke 是独立入口 |
 | tests/test_grading_policy.py、test_runtime_assembly.py、test_harbor.py、test_publish.py，以及领域专项（如 test_porous_contract.py、test_plasma_contract.py） | 找现有边界、隔离、错误分类、配置覆盖与过期包行为的验证方式；不能只沿用测试数而不检查本次变更 |
@@ -20,6 +21,6 @@
 
 当前时间预算至少分为 agent 生成时间、构建时间、逐例 solver 时间与总 verifier 时间。总 verifier 还包含数据装载／检查、拷贝、判分和报告，不等于某一个 case 的时间。未来框架若并行执行，按实际调度计算，不能机械套用串行总和。
 
-题目目录可定位不表示数据就绪；按实际样例、cases 和 reference 检查 prepare 的前置要求。临时 fixture 只验证工具，不替代正式数据。题目状态见维护说明，不在本页重复维护章号或题数。
+题目目录可定位不表示数据就绪；按实际样例、cases 和 reference 检查 prepare 的前置要求。临时 fixture 只验证工具，不替代正式数据。题目状态通过题库设计目录定位至各题及进度记录，不在本页重复维护章号或题数。
 
 各题的配置覆盖与数据就绪情况详见 [评测配置维护说明](../../../../qbank/maintenance/EVALUATION.md)。字段表仍以实际消费者为准；新增后端需要重新核对，不将本次模板文件名视为永久协议。

@@ -1,6 +1,6 @@
 # 独立考生审阅技能实施与试用
 
-日期：2026-10-16。基线19124d0（origin/master）。本轮新增[caeoj-review-statements](../../../.agents/skills/caeoj-review-statements/SKILL.md)，将出题与DATA设计中的独立考生审阅方法集中维护；不修改题目、协议、运行代码、判分配置或数据审计技能。
+日期：2026-10-16。基线19124d0（origin/master）。本轮新增[caeoj-review-statements](../../../.agents/skills/caeoj-candidate-review/SKILL.md)，将出题与DATA设计中的独立考生审阅方法集中维护；不修改题目、协议、运行代码、判分配置或数据审计技能。
 
 ## 职责与集成
 

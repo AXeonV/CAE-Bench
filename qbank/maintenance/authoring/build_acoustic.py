@@ -1,5 +1,6 @@
 """Expand independent acoustic contracts and configurations; no case/reference maker."""
 from pathlib import Path
+from caeoj_tools.author import public_model_catalog
 import json,math
 ROOT=Path(__file__).resolve().parents[3];CH=ROOT/'qbank/06-acoustics'
 SECTIONS=[('6.1-propagation','有界介质声传播',['acoustic-transient','acoustic-harmonic']),('6.2-exterior','外域辐射与散射',['surface-radiation','rigid-scattering']),('6.3-absorption','等效介质吸收',['equivalent-fluid']),('6.4-thermoviscous','热黏声学',['thermoviscous-acoustics']),('6.5-aeroacoustics','气动声学',['uniform-flow-acoustics','lighthill-radiation']),('6.6-vibroacoustics','振声响应与耦合',['resonator-wall','modal-vibroacoustics'])]
@@ -99,7 +100,7 @@ def description(s):
  return f"{s['kind']} {s['shape']}；`{s['unit']}`；{s['meaning']}"
 
 def main():
- ext=ROOT/'qbank/extensions/caeoj_ext/acoustic';ext.mkdir(parents=True,exist_ok=True);(ext/'models.json').write_text(json.dumps(M,ensure_ascii=False,indent=2)+'\n');toc=[]
+ ext=ROOT/'qbank/extensions/caeoj_ext/acoustic';ext.mkdir(parents=True,exist_ok=True);(ext/'models.json').write_text(json.dumps(public_model_catalog(M),ensure_ascii=False,indent=2)+'\n');toc=[]
  for sec,title,slugs in SECTIONS:
   sd=CH/sec;sd.mkdir(parents=True,exist_ok=True);links=[]
   for j,slug in enumerate(slugs,1):

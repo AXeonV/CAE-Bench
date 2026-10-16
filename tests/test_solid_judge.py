@@ -10,6 +10,7 @@ import unittest
 import numpy as np
 from solid_fixture import fixture
 from caeoj_ext.solid import models
+from qbank.maintenance.solid_authoring import CAT as AUTHOR_MODELS
 from caeoj.grading import grade_arrays
 from caeoj.grading_policy import resolve_policy
 from caeoj.sdk import load_problem
@@ -57,8 +58,8 @@ class SolidJudgeTests(unittest.TestCase):
             merged=tomllib.loads(prepare.task_config(template,overrides,judge_config=config,case_count=2))
             self.assertEqual(merged['environment']['cpus'],4);self.assertEqual(merged['environment']['memory_mb'],8192)
             self.assertEqual(merged['verifier']['environment_mode'],'separate');self.assertEqual(merged['verifier']['network_mode'],'no-network')
-            self.assertEqual(merged['verifier']['timeout_sec'],300+2*(cfg['timeout']+60))
-            self.assertEqual(config['timeout_seconds'],cfg['timeout']);self.assertIsNone(judge.output_limit(config))
+            self.assertEqual(merged['verifier']['timeout_sec'],300+2*(AUTHOR_MODELS[slug]['timeout']+60))
+            self.assertEqual(config['timeout_seconds'],AUTHOR_MODELS[slug]['timeout']);self.assertIsNone(judge.output_limit(config))
         # Unknown resource keys must not silently disappear.
         with self.assertRaises(ValueError):prepare.task_config(template,{'environment':{'cores':4}})
         with self.assertRaises(ValueError):prepare.task_config(template,{},judge_config=config,case_count=0)

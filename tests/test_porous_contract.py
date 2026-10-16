@@ -18,6 +18,7 @@ import numpy as np
 
 from porous_fixture import fixture, replace_manifest
 from caeoj_ext.porous import models
+from qbank.maintenance.authoring.build_porous import MODELS as AUTHOR_MODELS
 from caeoj.grading import grade_arrays
 from caeoj.grading_policy import resolve_policy
 from caeoj.sdk import load_problem, write_result
@@ -181,11 +182,11 @@ class PorousContractTests(unittest.TestCase):
             config = json.loads((task/'judge-config.json').read_text())
             overrides = tomllib.loads((task/'harbor/task.toml').read_text())
             merged = tomllib.loads(prepare_harbor.task_config(template, overrides, judge_config=config, case_count=7))
-            self.assertEqual(config['timeout_seconds'], cfg['timeout'])
+            self.assertEqual(config['timeout_seconds'], AUTHOR_MODELS[slug]['timeout'])
             self.assertIsNone(config['max_output_bytes'])
             self.assertEqual(merged['environment']['cpus'], 4)
             self.assertEqual(merged['environment']['memory_mb'], 4096)
-            self.assertEqual(merged['verifier']['timeout_sec'], max(1200, 300+7*(cfg['timeout']+60)))
+            self.assertEqual(merged['verifier']['timeout_sec'], max(1200, 300+7*(AUTHOR_MODELS[slug]['timeout']+60)))
 
     def test_public_runtime_closure_is_isolated_and_keeps_checks(self):
         tasks = {s: task_directory(s, ROOT) for s in models()}

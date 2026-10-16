@@ -1,14 +1,29 @@
-"""Load explicitly selected repository-owned task author utilities.
+"""Maintainer helpers for author utilities and public declaration catalogs.
 
 This is a maintainer API. No input manifest may select the module to load.
 """
 from importlib.util import module_from_spec, spec_from_file_location
+from copy import deepcopy
 from pathlib import Path
 import sys
 
 from .task_paths import task_directory
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
+
+def public_model_catalog(models):
+    """Copy declaration metadata without author-side execution/scoring settings."""
+    public = deepcopy(models)
+    for model in public.values():
+        model.pop('timeout', None)
+        for key in ('outputs', 'output_specs'):
+            outputs = model.get(key)
+            if isinstance(outputs, dict):
+                for field in outputs.values():
+                    field.pop('atol', None)
+                    field.pop('rtol', None)
+    return public
 
 
 def load_author_module(task, name, root=PROJECT_ROOT):

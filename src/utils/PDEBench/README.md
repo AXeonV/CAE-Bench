@@ -49,7 +49,7 @@ runs/pdebench/cache/candidates/       绑定来源和读取器版本的候选特
 runs/pdebench/staging/               临时转换目录
 runs/pdebench/reports/latest.json    每题状态、错误、当前占用和估算峰值
 
-<task-dir>/reference/selection.json    已冻结的源文件、样本索引、特征分组、ID、格式变体
+<task-dir>/author/data-evidence/reference/selection.json    已冻结的源文件、样本索引、特征分组、ID、格式变体
 <task-dir>/author/preparation.json  当前准备状态（本地生成）
 <task-dir>/samples/01/input/        公开输入：problem.json、mesh.msh、input.h5
 <task-dir>/samples/01/output/       源对齐审核通过后生成 result.h5
@@ -61,7 +61,7 @@ runs/pdebench/reports/latest.json    每题状态、错误、当前占用和估�
 
 选定源轨迹留在私有缓存。工具保存原始转换对照 official-candidate.h5 及审核状态，公开样例的原始对照只位于 reference/sample-certificates/。Darcy 的原始快照与修正答案分别保存，证书记录稳态残差和改变量；一维反应扩散保留官方轨迹与同一 PDE 重算结果的差异；其余族审核通过后以官方数值轨迹生成答案。原始对照和证书不进入 Agent 包。远程子集不能用整文件 MD5 验证：工具记录源身份、Content-Range/长度、ETag（有则使用）、块 SHA-256 和选定载荷 SHA-256；只有 --source-dir 的完整文件执行整文件 MD5。
 
-所有生成数值数组和网格（HDF5/MSH）、本地恢复记录和运行状态由 .gitignore 排除；题面、固定 catalog、冻结的 selection.json、公开/隐藏 problem.json 纳入版本管理。certificate.json 由准备工具绑定实际文件字节生成；缺失或更换载荷后应重新准备，不能沿用旧文件的证书。参考证书和隐藏定义属于作者材料，不进入 Agent 公开包。将冻结选样清单纳入版本管理后，另一次克隆可复现同一选择。没有冻结清单时，工具按稳定排序扫描有上限的初值候选池，完成一次确定性选样。新克隆会保留完整问题定义；工具允许已有定义而无数值载荷的状态，并在补齐时比较生成定义、原样保留已版本管理的文件。若定义与冻结来源转换不一致，会停止该例并保留原文件，不静默覆盖作者修改。
+题目输入、网格与参考统一存入 HF 题内数据池，代码树不保留 problem.json 骨架。冻结来源选择及历史记录位于 author/data-evidence/reference/，随代码维护。准备工具会按冻结选择重新生成输入；制作后使用通用 data pack/upload 工具发布，HF 尚未入库的题目不能直接下载。certificate.json 绑定实际文件字节，载荷变化后必须重新制作证书；作者证据不进入 Agent 公开包。
 
 ## 选样与契约
 
@@ -77,7 +77,7 @@ runs/pdebench/reports/latest.json    每题状态、错误、当前占用和估�
 - 可压缩流采用源代码密度加权定向黏性通量，η/ζ 单位 m2/s；输出速度与压力由平均守恒量反算，不是体积平均原始变量。证书记录正性、压力下限值及周期质量/能量变化。
 - 不可压缩流采用发布配置的 [0,1]² Box，工具对每个分片用短时标量输运区分单位域与当前源码的 grid_size Box；t=0 保留未投影的原始记录，正时间采用投影后的速度和 χf 耦合。归档生成器提交链与中心/交错采样误差未被此结构审核证明，证书明确记录这些局限。
 
-冻结清单绑定 catalog、题面版本和选样选项。不一致时默认停止。作者明确审核题面修订后可使用 --refresh-contract，将相同来源和选样选项的已有选择绑定到新契约，并在 reference/history/ 归档旧清单；不会重选或忽略已知的候选池/算例数变更。此次源对齐修订使用该选项；新克隆无需它。
+冻结清单绑定 catalog、题面版本和选样选项。不一致时默认停止。作者明确审核题面修订后可使用 --refresh-contract，将相同来源和选样选项的已有选择绑定到新契约，并在 author/data-evidence/reference/history/ 归档旧清单；不会重选或忽略已知的候选池/算例数变更。此次源对齐修订使用该选项；新克隆无需它。
 
 重跑校验文件和选定缓存，复用完整条目，修复损坏的工具生成条目，并记录转换器源码摘要；保留 .gitkeep，不改动不属于工具的同名算例。
 

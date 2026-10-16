@@ -352,7 +352,7 @@ def prepare_task(model,catalog,task,cache,staging,budget,local=None,pool=64,time
                  max_cases=None,reference_root=None,reference_mode='independent',refresh_contract=False):
     sources=source_files(model,catalog)
     if not sources: raise PreparationError("No pinned sources for task")
-    selection_path=task/'reference'/'selection.json'
+    selection_path=task/'author/data-evidence/reference'/'selection.json'
     identity=hashlib.sha256(json.dumps({'catalog':catalog,'contract':contract_hash(task),
                       'pool':pool,'max_cases':max_cases,'version':VERSION},sort_keys=True).encode()).hexdigest()
     options={'pool':pool,'max_cases':max_cases}
@@ -361,7 +361,7 @@ def prepare_task(model,catalog,task,cache,staging,budget,local=None,pool=64,time
         if selection.get('identity')!=identity:
             if not refresh_contract or selection.get('source_files')!=sources or selection.get('options',options)!=options:
                 raise PreparationError("Frozen selection differs from this catalog/contract/options; use a separate output root or explicit --refresh-contract for a reviewed contract revision")
-            archive=task/'reference/history'/('selection-'+selection['identity']+'.json')
+            archive=task/'author/data-evidence/reference/history'/('selection-'+selection['identity']+'.json')
             atomic_json(archive,selection)
             selection={**selection,'identity':identity,'options':options,
                        'contract_sha256':contract_hash(task),'previous_identity':selection['identity']}

@@ -75,3 +75,9 @@ python -m caeoj_tools.cli data verify --task heat-conduction-steady-2d --strict
 发布器离线严格核验样例，Harbor 准备离线严格核验全套选样，不自动下载或重选。当前历史重叠仍需审核后修改选择，不能关闭检查绕过。通过后按题目 README 做 SDK、数值与公开包独立运行核验；文件一致性不证明参考精度或资源校准。
 
 代码提交保存工具、题意、选择和应维护的作者证据；不提交缓存、bundle、装配数据或凭据。HF 只维护最新数据，历史来源和阶段证据另见维护记录。
+
+## 无本地数据的代码树
+
+HF 是题目输入与参考的存储位置；本地 `cases/`、`reference/`、`samples/` 和回执仅在需要消费时装配，不要求常驻。仅有 problem.json 而缺少资产的题库骨架不保留、不上传 HF。PDEBench 冻结来源选择和历史放在本题 `author/data-evidence/reference/`，它们是制作配方，不表示数据就绪。
+
+清理前先固定 HF 提交并核对已上传载荷的大小与 SHA-256；删除本地数据时一并清除装配回执、暂存 bundle、下载缓存与包含数据的发布包。维护证据保留在 author 中。再次使用已有数据按上文 assemble 拉取；尚未制备上传的题目先走制作与发布流程。

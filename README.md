@@ -81,8 +81,9 @@ flowchart LR
 | [第 7 章](qbank/07-electromagnetics/README.md) | 电磁场与电路 |
 | [第 8 章](qbank/08-optics/README.md) | 光学与光子学 |
 | [第 9 章](qbank/09-species-reactions/README.md) | 组分传输与化学反应 |
+| [第 10 章](qbank/10-electrochemistry/README.md) | 电化学分析 |
 
-第 2～9 章已完成题面、DATA 和评测配置；正式数值数据、参考及评测发布仍待完成。
+第 2～10 章已完成题面、DATA 和评测配置；正式数值数据、参考及评测发布仍待完成。
 
 ## 维护技能
 

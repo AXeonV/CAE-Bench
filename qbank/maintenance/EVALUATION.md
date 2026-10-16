@@ -28,7 +28,7 @@ v2偏置只允许已公开的数值或显式 `{"parameter":"pressure_reference"}
 
 ## 数据就绪与使用
 
-各题均已提供评分及执行配置，目录见[题库设计](../design/README.md)。第 2～9 章的正式 cases、reference 和完整公开样例尚未制作；第 1 章部分题目需要运行数据准备工具补齐数值文件。第 0 章用于本地 smoke，尚未提供 Harbor 所需的独立公开样例与参考；配置存在不表示数据或评测已就绪。
+各题均已提供评分及执行配置，目录见[题库设计](../design/README.md)。第 2～10 章的正式 cases、reference 和完整公开样例尚未制作；第 1 章部分题目需要运行数据准备工具补齐数值文件。第 0 章用于本地 smoke，尚未提供 Harbor 所需的独立公开样例与参考；配置存在不表示数据或评测已就绪。
 
 可用两道热传导验证本地公开包与Harbor组装：
 
@@ -42,3 +42,5 @@ python src/utils/prepare_harbor.py --task heat-conduction-steady-2d
 实施证据、独立审阅与验证范围见 [本轮记录](../design/reviews/judge-configuration.md)。
 
 第九章采用quantity／unit绑定的v2 pointwise策略，逐帧、逐对象和逐组分比较，资源覆盖及配置验证见[第九章实施记录](../design/reviews/chapter-09-implementation.md)。真实案例数、参考及Linux容器限额尚待数据阶段验证，临时协议fixture不是已发布评测。
+
+第十章采用quantity／unit绑定的v2逐值策略，时间、对象、复量实虚均独立比较。逐题资源配置与执行状态见[第十章实施记录](../design/reviews/chapter-10-implementation.md)。正式数据、参考、容差／预算校准、实际案例数与目标容器执行留后，配置加载和临时fixture不代表正式评测就绪。

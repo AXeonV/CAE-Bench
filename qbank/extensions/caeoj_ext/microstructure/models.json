@@ -1,0 +1,845 @@
+{
+  "binary-separation": {
+    "name": "非线性迁移率二元相分离",
+    "state_size": 1,
+    "parameters": {
+      "length_x": {
+        "unit": "m",
+        "meaning": "周期长度Lx>0",
+        "positive": true,
+        "lower": 1e-09,
+        "upper": 0.001
+      },
+      "length_y": {
+        "unit": "m",
+        "meaning": "周期长度Ly>0",
+        "positive": true,
+        "lower": 1e-09,
+        "upper": 0.001
+      },
+      "energy_scale": {
+        "unit": "J/m3",
+        "meaning": "自由能系数A>0",
+        "positive": true,
+        "lower": 1.0,
+        "upper": 1000000000.0
+      },
+      "gradient": {
+        "unit": "J/m",
+        "meaning": "梯度能系数κ>0",
+        "positive": true
+      },
+      "mobility": {
+        "unit": "m5/(J.s)",
+        "meaning": "M0>0，按本题守恒动力学定义",
+        "positive": true,
+        "lower": 1e-30,
+        "upper": 1e-06
+      },
+      "mobility_contrast": {
+        "unit": "1",
+        "meaning": "非线性迁移率系数α≥0，允许0",
+        "lower": 0.0,
+        "upper": 4.0
+      }
+    },
+    "records": {
+      "offset": {
+        "role": "initial",
+        "variable": "state_offset",
+        "location": "system",
+        "axis": "static",
+        "data": {
+          "value": {
+            "unit": "1",
+            "meaning": "初态各分量空间均值m_a，顺序[c]",
+            "shape": [
+              "s"
+            ],
+            "kind": "components"
+          }
+        }
+      },
+      "series": {
+        "role": "initial",
+        "variable": "initial_series",
+        "location": "modes",
+        "axis": "static",
+        "data": {
+          "wave": {
+            "unit": "1",
+            "meaning": "整数波矢(kx,ky)，由float64精确整数存储，不是物理波数",
+            "shape": [
+              2
+            ],
+            "kind": "components"
+          },
+          "amplitude": {
+            "unit": "1",
+            "meaning": "每状态的cos／sin系数，shape=[s,2]最内层依次a、b",
+            "shape": [
+              "s",
+              2
+            ],
+            "kind": "components"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "composition": {
+        "unit": "1",
+        "meaning": "c，成分偏差点值",
+        "shape": [
+          1
+        ],
+        "kind": "scalar",
+        "atol": 1e-05,
+        "rtol": 0.005
+      },
+      "chemical_potential": {
+        "unit": "J/m3",
+        "meaning": "μ或μc，按本题公式的绝对势，无任意常量平移",
+        "shape": [
+          1
+        ],
+        "kind": "scalar",
+        "atol": 1e-07,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 900,
+    "state_order": "[c]"
+  },
+  "ternary-separation": {
+    "name": "三元约束相分离与交叉迁移",
+    "state_size": 2,
+    "parameters": {
+      "length_x": {
+        "unit": "m",
+        "meaning": "周期长度Lx>0",
+        "positive": true,
+        "lower": 1e-09,
+        "upper": 0.001
+      },
+      "length_y": {
+        "unit": "m",
+        "meaning": "周期长度Ly>0",
+        "positive": true,
+        "lower": 1e-09,
+        "upper": 0.001
+      },
+      "energy_scale": {
+        "unit": "J/m3",
+        "meaning": "自由能系数A>0",
+        "positive": true,
+        "lower": 1.0,
+        "upper": 1000000000.0
+      },
+      "gradient": {
+        "unit": "J/m",
+        "meaning": "梯度能系数κ>0",
+        "positive": true
+      }
+    },
+    "records": {
+      "offset": {
+        "role": "initial",
+        "variable": "state_offset",
+        "location": "system",
+        "axis": "static",
+        "data": {
+          "value": {
+            "unit": "1",
+            "meaning": "初态各分量空间均值m_a，顺序[c1,c2]（c3从约束确定，不另输入）",
+            "shape": [
+              "s"
+            ],
+            "kind": "components"
+          }
+        }
+      },
+      "series": {
+        "role": "initial",
+        "variable": "initial_series",
+        "location": "modes",
+        "axis": "static",
+        "data": {
+          "wave": {
+            "unit": "1",
+            "meaning": "整数波矢(kx,ky)，由float64精确整数存储，不是物理波数",
+            "shape": [
+              2
+            ],
+            "kind": "components"
+          },
+          "amplitude": {
+            "unit": "1",
+            "meaning": "每状态的cos／sin系数，shape=[s,2]最内层依次a、b",
+            "shape": [
+              "s",
+              2
+            ],
+            "kind": "components"
+          }
+        }
+      },
+      "mobility": {
+        "role": "material",
+        "variable": "mobility",
+        "location": "system",
+        "axis": "static",
+        "data": {
+          "value": {
+            "unit": "m5/(J.s)",
+            "meaning": "完整2×2迁移率矩阵M，精确对称且正定，含全部非对角项",
+            "shape": [
+              2,
+              2
+            ],
+            "kind": "components"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "composition": {
+        "unit": "1",
+        "meaning": "按c1,c2顺序，c3不单独输出",
+        "shape": [
+          2
+        ],
+        "kind": "components",
+        "atol": 1e-05,
+        "rtol": 0.005
+      },
+      "diffusion_potential": {
+        "unit": "J/m3",
+        "meaning": "按μ1,μ2顺序，绝对约束扩散势，不平移",
+        "shape": [
+          2
+        ],
+        "kind": "components",
+        "atol": 1e-07,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 1200,
+    "state_order": "[c1,c2]（c3从约束确定，不另输入）"
+  },
+  "order-relaxation": {
+    "name": "非守恒有序度弛豫",
+    "state_size": 1,
+    "parameters": {
+      "length_x": {
+        "unit": "m",
+        "meaning": "周期长度Lx>0",
+        "positive": true,
+        "lower": 1e-09,
+        "upper": 0.001
+      },
+      "length_y": {
+        "unit": "m",
+        "meaning": "周期长度Ly>0",
+        "positive": true,
+        "lower": 1e-09,
+        "upper": 0.001
+      },
+      "energy_scale": {
+        "unit": "J/m3",
+        "meaning": "自由能系数A>0",
+        "positive": true,
+        "lower": 1.0,
+        "upper": 1000000000.0
+      },
+      "gradient": {
+        "unit": "J/m",
+        "meaning": "梯度能系数κ>0",
+        "positive": true
+      },
+      "relaxation": {
+        "unit": "m3/(J.s)",
+        "meaning": "非守恒迁移率L>0",
+        "positive": true,
+        "lower": 1e-12,
+        "upper": 1000000.0
+      }
+    },
+    "records": {
+      "offset": {
+        "role": "initial",
+        "variable": "state_offset",
+        "location": "system",
+        "axis": "static",
+        "data": {
+          "value": {
+            "unit": "1",
+            "meaning": "初态各分量空间均值m_a，顺序[η]",
+            "shape": [
+              "s"
+            ],
+            "kind": "components"
+          }
+        }
+      },
+      "series": {
+        "role": "initial",
+        "variable": "initial_series",
+        "location": "modes",
+        "axis": "static",
+        "data": {
+          "wave": {
+            "unit": "1",
+            "meaning": "整数波矢(kx,ky)，由float64精确整数存储，不是物理波数",
+            "shape": [
+              2
+            ],
+            "kind": "components"
+          },
+          "amplitude": {
+            "unit": "1",
+            "meaning": "每状态的cos／sin系数，shape=[s,2]最内层依次a、b",
+            "shape": [
+              "s",
+              2
+            ],
+            "kind": "components"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "order_parameter": {
+        "unit": "1",
+        "meaning": "η点值",
+        "shape": [
+          1
+        ],
+        "kind": "scalar",
+        "atol": 1e-05,
+        "rtol": 0.005
+      },
+      "thermodynamic_force": {
+        "unit": "J/m3",
+        "meaning": "h，包含本题全部能量项，不是dη/dt",
+        "shape": [
+          1
+        ],
+        "kind": "scalar",
+        "atol": 1e-07,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 300,
+    "state_order": "[η]"
+  },
+  "driven-ordering": {
+    "name": "外场历史驱动有序化",
+    "state_size": 1,
+    "parameters": {
+      "length_x": {
+        "unit": "m",
+        "meaning": "周期长度Lx>0",
+        "positive": true,
+        "lower": 1e-09,
+        "upper": 0.001
+      },
+      "length_y": {
+        "unit": "m",
+        "meaning": "周期长度Ly>0",
+        "positive": true,
+        "lower": 1e-09,
+        "upper": 0.001
+      },
+      "energy_scale": {
+        "unit": "J/m3",
+        "meaning": "自由能系数A>0",
+        "positive": true,
+        "lower": 1.0,
+        "upper": 1000000000.0
+      },
+      "gradient": {
+        "unit": "J/m",
+        "meaning": "梯度能系数κ>0",
+        "positive": true
+      },
+      "relaxation": {
+        "unit": "m3/(J.s)",
+        "meaning": "非守恒迁移率L>0",
+        "positive": true,
+        "lower": 1e-12,
+        "upper": 1000000.0
+      }
+    },
+    "records": {
+      "offset": {
+        "role": "initial",
+        "variable": "state_offset",
+        "location": "system",
+        "axis": "static",
+        "data": {
+          "value": {
+            "unit": "1",
+            "meaning": "初态各分量空间均值m_a，顺序[η]",
+            "shape": [
+              "s"
+            ],
+            "kind": "components"
+          }
+        }
+      },
+      "series": {
+        "role": "initial",
+        "variable": "initial_series",
+        "location": "modes",
+        "axis": "static",
+        "data": {
+          "wave": {
+            "unit": "1",
+            "meaning": "整数波矢(kx,ky)，由float64精确整数存储，不是物理波数",
+            "shape": [
+              2
+            ],
+            "kind": "components"
+          },
+          "amplitude": {
+            "unit": "1",
+            "meaning": "每状态的cos／sin系数，shape=[s,2]最内层依次a、b",
+            "shape": [
+              "s",
+              2
+            ],
+            "kind": "components"
+          }
+        }
+      },
+      "history": {
+        "role": "source",
+        "variable": "bias",
+        "location": "system",
+        "axis": "control",
+        "data": {
+          "value": {
+            "unit": "J/m3",
+            "meaning": "外部均匀偏置b(t)，可正可负",
+            "shape": [
+              1
+            ],
+            "kind": "scalar"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "order_parameter": {
+        "unit": "1",
+        "meaning": "η点值",
+        "shape": [
+          1
+        ],
+        "kind": "scalar",
+        "atol": 1e-05,
+        "rtol": 0.005
+      },
+      "thermodynamic_force": {
+        "unit": "J/m3",
+        "meaning": "h，包含本题全部能量项，不是dη/dt",
+        "shape": [
+          1
+        ],
+        "kind": "scalar",
+        "atol": 1e-07,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 450,
+    "state_order": "[η]"
+  },
+  "grain-coarsening": {
+    "name": "多取向晶粒竞争长大",
+    "state_size": "k",
+    "parameters": {
+      "length_x": {
+        "unit": "m",
+        "meaning": "周期长度Lx>0",
+        "positive": true,
+        "lower": 1e-09,
+        "upper": 0.001
+      },
+      "length_y": {
+        "unit": "m",
+        "meaning": "周期长度Ly>0",
+        "positive": true,
+        "lower": 1e-09,
+        "upper": 0.001
+      },
+      "energy_scale": {
+        "unit": "J/m3",
+        "meaning": "自由能系数A>0",
+        "positive": true,
+        "lower": 1.0,
+        "upper": 1000000000.0
+      },
+      "gradient": {
+        "unit": "J/m",
+        "meaning": "梯度能系数κ>0",
+        "positive": true
+      },
+      "relaxation": {
+        "unit": "m3/(J.s)",
+        "meaning": "非守恒迁移率L>0",
+        "positive": true,
+        "lower": 1e-12,
+        "upper": 1000000.0
+      },
+      "grain_count": {
+        "unit": "1",
+        "meaning": "取向数K，JSON整数2..6，状态分量顺序为η1..ηK",
+        "integer": true,
+        "lower": 2,
+        "upper": 6
+      },
+      "competition": {
+        "unit": "1",
+        "meaning": "竞争系数γ>1",
+        "lower_exclusive": 1,
+        "upper": 4.0
+      }
+    },
+    "records": {
+      "offset": {
+        "role": "initial",
+        "variable": "state_offset",
+        "location": "system",
+        "axis": "static",
+        "data": {
+          "value": {
+            "unit": "1",
+            "meaning": "初态各分量空间均值m_a，顺序[η1,…,ηK]，标签固定",
+            "shape": [
+              "s"
+            ],
+            "kind": "components"
+          }
+        }
+      },
+      "series": {
+        "role": "initial",
+        "variable": "initial_series",
+        "location": "modes",
+        "axis": "static",
+        "data": {
+          "wave": {
+            "unit": "1",
+            "meaning": "整数波矢(kx,ky)，由float64精确整数存储，不是物理波数",
+            "shape": [
+              2
+            ],
+            "kind": "components"
+          },
+          "amplitude": {
+            "unit": "1",
+            "meaning": "每状态的cos／sin系数，shape=[s,2]最内层依次a、b",
+            "shape": [
+              "s",
+              2
+            ],
+            "kind": "components"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "order_parameters": {
+        "unit": "1",
+        "meaning": "按固定η1..ηK顺序，保留消失取向",
+        "shape": [
+          "k"
+        ],
+        "kind": "components",
+        "atol": 1e-05,
+        "rtol": 0.005
+      },
+      "thermodynamic_forces": {
+        "unit": "J/m3",
+        "meaning": "按固定h1..hK顺序",
+        "shape": [
+          "k"
+        ],
+        "kind": "components",
+        "atol": 1e-07,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 1200,
+    "state_order": "[η1,…,ηK]，标签固定"
+  },
+  "coupled-precipitation": {
+    "name": "成分与有序度耦合析出",
+    "state_size": 2,
+    "parameters": {
+      "length_x": {
+        "unit": "m",
+        "meaning": "周期长度Lx>0",
+        "positive": true,
+        "lower": 1e-09,
+        "upper": 0.001
+      },
+      "length_y": {
+        "unit": "m",
+        "meaning": "周期长度Ly>0",
+        "positive": true,
+        "lower": 1e-09,
+        "upper": 0.001
+      },
+      "energy_scale": {
+        "unit": "J/m3",
+        "meaning": "自由能系数A>0",
+        "positive": true,
+        "lower": 1.0,
+        "upper": 1000000000.0
+      },
+      "gradient_c": {
+        "unit": "J/m",
+        "meaning": "κc>0",
+        "positive": true
+      },
+      "gradient_eta": {
+        "unit": "J/m",
+        "meaning": "κη>0",
+        "positive": true
+      },
+      "mobility": {
+        "unit": "m5/(J.s)",
+        "meaning": "M>0，按本题守恒动力学定义",
+        "positive": true,
+        "lower": 1e-30,
+        "upper": 1e-06
+      },
+      "relaxation": {
+        "unit": "m3/(J.s)",
+        "meaning": "非守恒迁移率L>0",
+        "positive": true,
+        "lower": 1e-12,
+        "upper": 1000000.0
+      },
+      "coupling_energy": {
+        "unit": "J/m3",
+        "meaning": "偏聚能系数B>0",
+        "positive": true
+      },
+      "reference": {
+        "unit": "1",
+        "meaning": "c_ref，任意有限实数",
+        "lower": -1.0,
+        "upper": 1.0
+      },
+      "partition": {
+        "unit": "1",
+        "meaning": "δ>0",
+        "positive": true,
+        "lower": 0.1,
+        "upper": 1.0
+      }
+    },
+    "records": {
+      "offset": {
+        "role": "initial",
+        "variable": "state_offset",
+        "location": "system",
+        "axis": "static",
+        "data": {
+          "value": {
+            "unit": "1",
+            "meaning": "初态各分量空间均值m_a，顺序[c,η]",
+            "shape": [
+              "s"
+            ],
+            "kind": "components"
+          }
+        }
+      },
+      "series": {
+        "role": "initial",
+        "variable": "initial_series",
+        "location": "modes",
+        "axis": "static",
+        "data": {
+          "wave": {
+            "unit": "1",
+            "meaning": "整数波矢(kx,ky)，由float64精确整数存储，不是物理波数",
+            "shape": [
+              2
+            ],
+            "kind": "components"
+          },
+          "amplitude": {
+            "unit": "1",
+            "meaning": "每状态的cos／sin系数，shape=[s,2]最内层依次a、b",
+            "shape": [
+              "s",
+              2
+            ],
+            "kind": "components"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "composition": {
+        "unit": "1",
+        "meaning": "c，成分偏差点值",
+        "shape": [
+          1
+        ],
+        "kind": "scalar",
+        "atol": 1e-05,
+        "rtol": 0.005
+      },
+      "chemical_potential": {
+        "unit": "J/m3",
+        "meaning": "μ或μc，按本题公式的绝对势，无任意常量平移",
+        "shape": [
+          1
+        ],
+        "kind": "scalar",
+        "atol": 1e-07,
+        "rtol": 0.005
+      },
+      "order_parameter": {
+        "unit": "1",
+        "meaning": "η点值",
+        "shape": [
+          1
+        ],
+        "kind": "scalar",
+        "atol": 1e-05,
+        "rtol": 0.005
+      },
+      "thermodynamic_force": {
+        "unit": "J/m3",
+        "meaning": "hη，包含本题全部能量项，不是dη/dt",
+        "shape": [
+          1
+        ],
+        "kind": "scalar",
+        "atol": 1e-07,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 1200,
+    "state_order": "[c,η]"
+  },
+  "crystal-density": {
+    "name": "晶体尺度守恒密度演化",
+    "state_size": 1,
+    "parameters": {
+      "length_x": {
+        "unit": "m",
+        "meaning": "周期长度Lx>0",
+        "positive": true,
+        "lower": 1e-09,
+        "upper": 0.001
+      },
+      "length_y": {
+        "unit": "m",
+        "meaning": "周期长度Ly>0",
+        "positive": true,
+        "lower": 1e-09,
+        "upper": 0.001
+      },
+      "energy_scale": {
+        "unit": "J/m3",
+        "meaning": "自由能系数A>0",
+        "positive": true,
+        "lower": 1.0,
+        "upper": 1000000000.0
+      },
+      "mobility": {
+        "unit": "m5/(J.s)",
+        "meaning": "M>0，按本题守恒动力学定义",
+        "positive": true,
+        "lower": 1e-30,
+        "upper": 1e-06
+      },
+      "length_scale": {
+        "unit": "m",
+        "meaning": "ell>0，确定晶体尺度",
+        "positive": true
+      },
+      "undercooling": {
+        "unit": "1",
+        "meaning": "约化二次能系数r，有限实数，不是Kelvin温度",
+        "lower": -1.0,
+        "upper": 1.0
+      }
+    },
+    "records": {
+      "offset": {
+        "role": "initial",
+        "variable": "state_offset",
+        "location": "system",
+        "axis": "static",
+        "data": {
+          "value": {
+            "unit": "1",
+            "meaning": "初态各分量空间均值m_a，顺序[n]",
+            "shape": [
+              "s"
+            ],
+            "kind": "components"
+          }
+        }
+      },
+      "series": {
+        "role": "initial",
+        "variable": "initial_series",
+        "location": "modes",
+        "axis": "static",
+        "data": {
+          "wave": {
+            "unit": "1",
+            "meaning": "整数波矢(kx,ky)，由float64精确整数存储，不是物理波数",
+            "shape": [
+              2
+            ],
+            "kind": "components"
+          },
+          "amplitude": {
+            "unit": "1",
+            "meaning": "每状态的cos／sin系数，shape=[s,2]最内层依次a、b",
+            "shape": [
+              "s",
+              2
+            ],
+            "kind": "components"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "density_deviation": {
+        "unit": "1",
+        "meaning": "n点值",
+        "shape": [
+          1
+        ],
+        "kind": "scalar",
+        "atol": 1e-05,
+        "rtol": 0.005
+      },
+      "chemical_potential": {
+        "unit": "J/m3",
+        "meaning": "按公式给定的有符号μ点值，势零点固定；包含完整四阶空间算子，不作常量平移或取模",
+        "shape": [
+          1
+        ],
+        "kind": "scalar",
+        "atol": 1e-07,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 1800,
+    "state_order": "[n]"
+  }
+}

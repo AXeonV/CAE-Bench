@@ -90,3 +90,5 @@ python src/utils/publish_dist.py --task heat-conduction-steady-2d --task heat-co
 离散对象使用通用 entities 身份表，不能用伪 points 坐标代替。各领域的检查和辅助函数归共享扩展；新增题目只需修改可信绑定，不逐题扩充发布器的文件清单。
 
 辐射输运及核素库存使用`radiation.nuclear`共享声明检查，沿用核心entities／points和field引用，无新增核心Schema或SDK入口。八题的模型资源、可信绑定、重建和独立安装验证命令见[维护说明](protocols/RADIATION.md)。
+
+材料组织演化使用`microstructure.phase_field`共享声明检查。连续初态由离散系数对象完整定义，输出为真实探针点值，不限定内部离散；沿用核心表示与SDK。维护重建、有限接收范围及验证入口见[维护说明](protocols/MICROSTRUCTURE.md)。

@@ -607,6 +607,39 @@
         "caeoj_ext/radiation/__init__.py",
         "caeoj_ext/radiation/models.json"
       ]
+    },
+    "microstructure.phase_field": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model": "microstructure-binary-separation-v1"
+        },
+        {
+          "physics.model": "microstructure-ternary-separation-v1"
+        },
+        {
+          "physics.model": "microstructure-order-relaxation-v1"
+        },
+        {
+          "physics.model": "microstructure-driven-ordering-v1"
+        },
+        {
+          "physics.model": "microstructure-grain-coarsening-v1"
+        },
+        {
+          "physics.model": "microstructure-coupled-precipitation-v1"
+        },
+        {
+          "physics.model": "microstructure-crystal-density-v1"
+        }
+      ],
+      "check": "caeoj_ext.microstructure:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/microstructure/__init__.py",
+        "caeoj_ext/microstructure/models.json"
+      ]
     }
   },
   "tasks": {
@@ -1064,6 +1097,27 @@
     ],
     "irradiated-network": [
       "radiation.nuclear"
+    ],
+    "binary-separation": [
+      "microstructure.phase_field"
+    ],
+    "ternary-separation": [
+      "microstructure.phase_field"
+    ],
+    "order-relaxation": [
+      "microstructure.phase_field"
+    ],
+    "driven-ordering": [
+      "microstructure.phase_field"
+    ],
+    "grain-coarsening": [
+      "microstructure.phase_field"
+    ],
+    "coupled-precipitation": [
+      "microstructure.phase_field"
+    ],
+    "crystal-density": [
+      "microstructure.phase_field"
     ]
   },
   "aliases": {
@@ -1098,7 +1152,8 @@
     "acoustic-",
     "electromagnetic-",
     "optics-",
-    "radiation-"
+    "radiation-",
+    "microstructure-"
   ],
   "model_namespace_diagnostics": {
     "fluid-energy-": "E_FLUID",
@@ -1110,6 +1165,7 @@
     "acoustic-": "E_ACOUSTIC",
     "electromagnetic-": "E_ELECTROMAGNETIC",
     "optics-": "E_OPTICS",
-    "radiation-": "E_RADIATION"
+    "radiation-": "E_RADIATION",
+    "microstructure-": "E_MICROSTRUCTURE"
   }
 }

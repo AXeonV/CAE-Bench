@@ -85,8 +85,9 @@ flowchart LR
 | [第 11 章](qbank/11-semiconductor/README.md) | 半导体与电子输运 |
 | [第 12 章](qbank/12-granular/README.md) | 颗粒与散体力学 |
 | [第 13 章](qbank/13-porous-media/README.md) | 多孔介质与渗流 |
+| [第 14 章](qbank/14-plasma/README.md) | 等离子体与带电粒子 |
 
-第 2～13 章已完成题面、DATA 和评测配置；正式数值数据、参考及评测发布仍待完成。第十一章验证与独立审阅见[进度记录](qbank/design/reviews/chapter-11-progress.md)，第十二章见[进度与证据](qbank/design/reviews/chapter-12-progress.md)。
+第 2～14 章已完成题面、DATA 和评测配置；正式数值数据、参考及评测发布仍待完成。第十一章验证与独立审阅见[进度记录](qbank/design/reviews/chapter-11-progress.md)，第十二章见[进度与证据](qbank/design/reviews/chapter-12-progress.md)。
 
 ## 维护技能
 

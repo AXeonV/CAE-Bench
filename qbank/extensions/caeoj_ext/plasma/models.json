@@ -1,0 +1,1882 @@
+{
+  "charged-orbits": {
+    "spatial_dimension": 3,
+    "parameters": {
+      "end_time": {
+        "unit": "s",
+        "meaning": "物理终时τ，0<τ≤1000000",
+        "lower": 0,
+        "upper": 1000000.0
+      }
+    },
+    "locations": {
+      "particles": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 128,
+        "meaning": "互不作用的带电粒子"
+      },
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一外场参数对象"
+      }
+    },
+    "records": {
+      "particles": {
+        "role": "material",
+        "variable": "particle",
+        "location": "particles",
+        "data": {
+          "mass": {
+            "unit": "kg",
+            "meaning": "静质量m，严格正",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "charge": {
+            "unit": "C",
+            "meaning": "有符号电荷q，非零",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "kind": "scalar"
+          }
+        }
+      },
+      "launch": {
+        "role": "initial",
+        "variable": "particle_state",
+        "location": "particles",
+        "data": {
+          "position": {
+            "unit": "m",
+            "meaning": "t=0位置x",
+            "shape": [
+              3
+            ],
+            "axis": "initial",
+            "kind": "vector"
+          },
+          "velocity": {
+            "unit": "m/s",
+            "meaning": "t=0速度v",
+            "shape": [
+              3
+            ],
+            "axis": "initial",
+            "kind": "vector"
+          }
+        }
+      },
+      "electric": {
+        "role": "source",
+        "variable": "electric_field",
+        "location": "system",
+        "data": {
+          "offset": {
+            "unit": "V/m",
+            "meaning": "外场E0(t)",
+            "shape": [
+              3
+            ],
+            "axis": "drive",
+            "kind": "vector"
+          },
+          "gradient": {
+            "unit": "V/m2",
+            "meaning": "对称矩阵G(t)，E=E0+G(x−r0)",
+            "shape": [
+              3,
+              3
+            ],
+            "axis": "drive",
+            "kind": "tensor"
+          },
+          "origin": {
+            "unit": "m",
+            "meaning": "固定参考点r0",
+            "shape": [
+              3
+            ],
+            "axis": "initial",
+            "kind": "vector"
+          }
+        }
+      },
+      "magnetic": {
+        "role": "source",
+        "variable": "magnetic_field",
+        "location": "system",
+        "data": {
+          "value": {
+            "unit": "T",
+            "meaning": "空间均匀且时间恒定的B0",
+            "shape": [
+              3
+            ],
+            "axis": "initial",
+            "kind": "vector"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "position": {
+        "unit": "m",
+        "meaning": "全局位置x(t)",
+        "shape": [
+          3
+        ],
+        "axis": "output",
+        "location": "particles",
+        "kind": "vector"
+      },
+      "velocity": {
+        "unit": "m/s",
+        "meaning": "速度v(t)",
+        "shape": [
+          3
+        ],
+        "axis": "output",
+        "location": "particles",
+        "kind": "vector"
+      }
+    },
+    "mesh": false,
+    "driven": true
+  },
+  "relativistic-orbits": {
+    "spatial_dimension": 3,
+    "parameters": {
+      "end_time": {
+        "unit": "s",
+        "meaning": "物理终时τ，0<τ≤1000000",
+        "lower": 0,
+        "upper": 1000000.0
+      }
+    },
+    "locations": {
+      "particles": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 128,
+        "meaning": "互不作用的带电粒子"
+      },
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一外场参数对象"
+      }
+    },
+    "records": {
+      "particles": {
+        "role": "material",
+        "variable": "particle",
+        "location": "particles",
+        "data": {
+          "mass": {
+            "unit": "kg",
+            "meaning": "静质量m，严格正",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "charge": {
+            "unit": "C",
+            "meaning": "有符号电荷q，非零",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "kind": "scalar"
+          }
+        }
+      },
+      "launch": {
+        "role": "initial",
+        "variable": "particle_state",
+        "location": "particles",
+        "data": {
+          "position": {
+            "unit": "m",
+            "meaning": "t=0位置x",
+            "shape": [
+              3
+            ],
+            "axis": "initial",
+            "kind": "vector"
+          },
+          "momentum": {
+            "unit": "kg.m/s",
+            "meaning": "t=0机械动量p，不是γv或归一化动量",
+            "shape": [
+              3
+            ],
+            "axis": "initial",
+            "kind": "vector"
+          }
+        }
+      },
+      "electric": {
+        "role": "source",
+        "variable": "electric_field",
+        "location": "system",
+        "data": {
+          "offset": {
+            "unit": "V/m",
+            "meaning": "外场E0(t)",
+            "shape": [
+              3
+            ],
+            "axis": "drive",
+            "kind": "vector"
+          },
+          "gradient": {
+            "unit": "V/m2",
+            "meaning": "对称矩阵G(t)，E=E0+G(x−r0)",
+            "shape": [
+              3,
+              3
+            ],
+            "axis": "drive",
+            "kind": "tensor"
+          },
+          "origin": {
+            "unit": "m",
+            "meaning": "固定参考点r0",
+            "shape": [
+              3
+            ],
+            "axis": "initial",
+            "kind": "vector"
+          }
+        }
+      },
+      "magnetic": {
+        "role": "source",
+        "variable": "magnetic_field",
+        "location": "system",
+        "data": {
+          "value": {
+            "unit": "T",
+            "meaning": "空间均匀且时间恒定的B0",
+            "shape": [
+              3
+            ],
+            "axis": "initial",
+            "kind": "vector"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "position": {
+        "unit": "m",
+        "meaning": "全局位置x(t)",
+        "shape": [
+          3
+        ],
+        "axis": "output",
+        "location": "particles",
+        "kind": "vector"
+      },
+      "momentum": {
+        "unit": "kg.m/s",
+        "meaning": "机械动量p(t)",
+        "shape": [
+          3
+        ],
+        "axis": "output",
+        "location": "particles",
+        "kind": "vector"
+      }
+    },
+    "mesh": false,
+    "driven": true
+  },
+  "collisional-states": {
+    "spatial_dimension": 3,
+    "parameters": {
+      "end_time": {
+        "unit": "s",
+        "meaning": "物理终时τ，0<τ≤1000000",
+        "lower": 0,
+        "upper": 1000000.0
+      },
+      "state_count": {
+        "unit": "1",
+        "meaning": "速度态数S，JSON整数2..16",
+        "lower": 2,
+        "upper": 16,
+        "integer": true
+      }
+    },
+    "locations": {
+      "states": {
+        "kind": "entities",
+        "minimum": 2,
+        "maximum": 16,
+        "meaning": "S个固定离散速度态，IDs为0..S−1"
+      },
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一碰撞系综"
+      }
+    },
+    "records": {
+      "states": {
+        "role": "material",
+        "variable": "velocity_state",
+        "location": "states",
+        "data": {
+          "velocity": {
+            "unit": "m/s",
+            "meaning": "各速度态v_i",
+            "shape": [
+              3
+            ],
+            "axis": "initial",
+            "kind": "vector"
+          }
+        }
+      },
+      "particles": {
+        "role": "material",
+        "variable": "particle",
+        "location": "system",
+        "data": {
+          "mass": {
+            "unit": "kg",
+            "meaning": "各态共同质量m>0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "charge": {
+            "unit": "C",
+            "meaning": "各态共同非零电荷q",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "kind": "scalar"
+          }
+        }
+      },
+      "transitions": {
+        "role": "material",
+        "variable": "transition_rate",
+        "location": "system",
+        "data": {
+          "value": {
+            "unit": "1/s",
+            "meaning": "K_ij(t)：从态i转入态j的单位时间率；Kii=0，非对角非负",
+            "shape": [
+              "S",
+              "S"
+            ],
+            "axis": "drive",
+            "kind": "components"
+          }
+        }
+      },
+      "population": {
+        "role": "initial",
+        "variable": "state_density",
+        "location": "states",
+        "data": {
+          "value": {
+            "unit": "1/m3",
+            "meaning": "各态初始数密度n_i≥0，总数密度>0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "lower": 0,
+            "kind": "scalar"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "state_density": {
+        "unit": "1/m3",
+        "meaning": "各态数密度n_i",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "states",
+        "kind": "scalar"
+      },
+      "current_density": {
+        "unit": "A/m2",
+        "meaning": "系综电流J",
+        "shape": [
+          3
+        ],
+        "axis": "output",
+        "location": "system",
+        "kind": "vector"
+      },
+      "kinetic_energy_density": {
+        "unit": "J/m3",
+        "meaning": "系综动能密度W",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "system",
+        "kind": "scalar"
+      }
+    },
+    "mesh": false,
+    "driven": true
+  },
+  "plasma-chemistry": {
+    "spatial_dimension": 1,
+    "parameters": {
+      "end_time": {
+        "unit": "s",
+        "meaning": "物理终时τ，0<τ≤1000000",
+        "lower": 0,
+        "upper": 1000000.0
+      },
+      "neutral_density": {
+        "unit": "1/m3",
+        "meaning": "固定中性库数密度N>0",
+        "lower": 0,
+        "upper": 1e+30
+      },
+      "elementary_charge": {
+        "unit": "C",
+        "meaning": "正的基本电荷量e>0",
+        "lower": 0,
+        "upper": 1
+      }
+    },
+    "locations": {
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一均匀反应体积的局部密度状态"
+      }
+    },
+    "records": {
+      "initial": {
+        "role": "initial",
+        "variable": "number_density",
+        "location": "system",
+        "data": {
+          "value": {
+            "unit": "1/m3",
+            "meaning": "ne、ni、na，依次电子、单正离子、单负离子",
+            "shape": [
+              3
+            ],
+            "axis": "initial",
+            "lower": 0,
+            "labels": [
+              "electron",
+              "positive_ion",
+              "negative_ion"
+            ],
+            "kind": "components"
+          }
+        }
+      },
+      "rates": {
+        "role": "material",
+        "variable": "reaction_rates",
+        "location": "system",
+        "data": {
+          "ionization": {
+            "unit": "m3/s",
+            "meaning": "电子碰撞电离系数ki(t)≥0",
+            "shape": [
+              1
+            ],
+            "axis": "drive",
+            "lower": 0,
+            "kind": "scalar"
+          },
+          "attachment": {
+            "unit": "m3/s",
+            "meaning": "电子附着系数ka(t)≥0",
+            "shape": [
+              1
+            ],
+            "axis": "drive",
+            "lower": 0,
+            "kind": "scalar"
+          },
+          "recombination": {
+            "unit": "m3/s",
+            "meaning": "电子—正离子复合系数kr(t)≥0",
+            "shape": [
+              1
+            ],
+            "axis": "drive",
+            "lower": 0,
+            "kind": "scalar"
+          },
+          "neutralization": {
+            "unit": "m3/s",
+            "meaning": "负离子—正离子中和系数kn(t)≥0",
+            "shape": [
+              1
+            ],
+            "axis": "drive",
+            "lower": 0,
+            "kind": "scalar"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "number_density": {
+        "unit": "1/m3",
+        "meaning": "依次ne、ni、na",
+        "shape": [
+          3
+        ],
+        "axis": "output",
+        "location": "system",
+        "labels": [
+          "electron",
+          "positive_ion",
+          "negative_ion"
+        ],
+        "kind": "components"
+      },
+      "charge_density": {
+        "unit": "C/m3",
+        "meaning": "净自由电荷ρ",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "system",
+        "kind": "scalar"
+      }
+    },
+    "mesh": false,
+    "driven": true
+  },
+  "vlasov-poisson": {
+    "spatial_dimension": 1,
+    "parameters": {
+      "end_time": {
+        "unit": "s",
+        "meaning": "物理终时τ，0<τ≤1000000",
+        "lower": 0,
+        "upper": 1000000.0
+      },
+      "velocity_count": {
+        "unit": "1",
+        "meaning": "等宽速度箱数Nv，JSON整数8..128",
+        "lower": 8,
+        "upper": 128,
+        "integer": true
+      },
+      "velocity_min": {
+        "unit": "m/s",
+        "meaning": "速度区间左端vmin<0",
+        "lower": -100000000.0,
+        "upper": 0
+      },
+      "velocity_max": {
+        "unit": "m/s",
+        "meaning": "速度区间右端vmax>0",
+        "lower": 0,
+        "upper": 100000000.0
+      },
+      "mass": {
+        "unit": "kg",
+        "meaning": "移动物种质量m>0",
+        "lower": 0,
+        "upper": 1
+      },
+      "charge": {
+        "unit": "C",
+        "meaning": "移动物种电荷q<0",
+        "lower": -1,
+        "upper": 0
+      },
+      "permittivity": {
+        "unit": "F/m",
+        "meaning": "均匀绝对介电常数ε>0",
+        "lower": 0,
+        "upper": 1
+      }
+    },
+    "locations": {
+      "domain": {
+        "kind": "mesh",
+        "entity": "node",
+        "maximum": 257,
+        "meaning": "全部区间网格节点"
+      },
+      "cells": {
+        "kind": "mesh",
+        "entity": "element",
+        "maximum": 256,
+        "meaning": "全部一阶区间单元"
+      }
+    },
+    "records": {
+      "initial": {
+        "role": "initial",
+        "variable": "distribution",
+        "location": "cells",
+        "data": {
+          "value": {
+            "unit": "s/m4",
+            "meaning": "每个空间单元、每个速度箱上的f0平均；按v递增排列",
+            "shape": [
+              "Nv"
+            ],
+            "axis": "initial",
+            "lower": 0,
+            "kind": "components"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "distribution": {
+        "unit": "s/m4",
+        "meaning": "f在空间单元×速度箱上的平均",
+        "shape": [
+          "Nv"
+        ],
+        "axis": "output",
+        "location": "cells",
+        "kind": "components"
+      },
+      "number_density": {
+        "unit": "1/m3",
+        "meaning": "n的空间单元平均",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "cells",
+        "kind": "scalar"
+      },
+      "potential": {
+        "unit": "V",
+        "meaning": "零空间均值φ的单元平均",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "cells",
+        "kind": "scalar"
+      },
+      "electric_field": {
+        "unit": "V/m",
+        "meaning": "Ex的单元平均",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "cells",
+        "kind": "scalar"
+      }
+    },
+    "mesh": true,
+    "driven": false
+  },
+  "space-charge-beam": {
+    "spatial_dimension": 1,
+    "parameters": {
+      "mass": {
+        "unit": "kg",
+        "meaning": "束粒子质量m>0",
+        "lower": 0,
+        "upper": 1
+      },
+      "charge": {
+        "unit": "C",
+        "meaning": "负束粒子电荷q<0",
+        "lower": -1,
+        "upper": 0
+      },
+      "permittivity": {
+        "unit": "F/m",
+        "meaning": "绝对介电常数ε>0",
+        "lower": 0,
+        "upper": 1
+      },
+      "injection_energy": {
+        "unit": "J",
+        "meaning": "每粒子注入动能W0>0",
+        "lower": 0,
+        "upper": 10000000000.0
+      },
+      "particle_flux": {
+        "unit": "1/(m2.s)",
+        "meaning": "沿+x恒定数通量Γ>0",
+        "lower": 0,
+        "upper": 1e+40
+      }
+    },
+    "locations": {
+      "domain": {
+        "kind": "mesh",
+        "entity": "node",
+        "maximum": 513,
+        "meaning": "全部区间网格节点"
+      },
+      "cells": {
+        "kind": "mesh",
+        "entity": "element",
+        "maximum": 512,
+        "meaning": "全部一阶区间单元"
+      },
+      "left": {
+        "kind": "mesh",
+        "entity": "node",
+        "maximum": 1,
+        "meaning": "唯一最左端点"
+      },
+      "right": {
+        "kind": "mesh",
+        "entity": "node",
+        "maximum": 1,
+        "meaning": "唯一最右端点"
+      }
+    },
+    "records": {
+      "left_potential": {
+        "role": "boundary",
+        "variable": "potential",
+        "location": "left",
+        "data": {
+          "value": {
+            "unit": "V",
+            "meaning": "左电极电势VL",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "kind": "scalar"
+          }
+        }
+      },
+      "right_potential": {
+        "role": "boundary",
+        "variable": "potential",
+        "location": "right",
+        "data": {
+          "value": {
+            "unit": "V",
+            "meaning": "右电极电势VR>VL",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "kind": "scalar"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "potential": {
+        "unit": "V",
+        "meaning": "绝对电势φ的单元平均",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "cells",
+        "kind": "scalar"
+      },
+      "electric_field": {
+        "unit": "V/m",
+        "meaning": "Ex的单元平均",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "cells",
+        "kind": "scalar"
+      },
+      "number_density": {
+        "unit": "1/m3",
+        "meaning": "n的单元平均",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "cells",
+        "kind": "scalar"
+      },
+      "velocity": {
+        "unit": "m/s",
+        "meaning": "正向速度v的单元平均",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "cells",
+        "kind": "scalar"
+      }
+    },
+    "steady": true,
+    "mesh": true,
+    "driven": false
+  },
+  "isothermal-discharge": {
+    "spatial_dimension": 1,
+    "parameters": {
+      "end_time": {
+        "unit": "s",
+        "meaning": "物理终时τ，0<τ≤1000000",
+        "lower": 0,
+        "upper": 1000000.0
+      },
+      "elementary_charge": {
+        "unit": "C",
+        "meaning": "正电荷量e>0",
+        "lower": 0,
+        "upper": 1
+      },
+      "permittivity": {
+        "unit": "F/m",
+        "meaning": "均匀绝对介电常数ε>0",
+        "lower": 0,
+        "upper": 1
+      },
+      "neutral_density": {
+        "unit": "1/m3",
+        "meaning": "固定中性库N>0",
+        "lower": 0,
+        "upper": 1e+30
+      }
+    },
+    "locations": {
+      "domain": {
+        "kind": "mesh",
+        "entity": "node",
+        "maximum": 257,
+        "meaning": "全部一阶区间网格节点"
+      },
+      "cells": {
+        "kind": "mesh",
+        "entity": "element",
+        "maximum": 256,
+        "meaning": "全部区间单元"
+      },
+      "left": {
+        "kind": "mesh",
+        "entity": "node",
+        "maximum": 1,
+        "meaning": "最左端点"
+      },
+      "right": {
+        "kind": "mesh",
+        "entity": "node",
+        "maximum": 1,
+        "meaning": "最右端点"
+      }
+    },
+    "records": {
+      "transport": {
+        "role": "material",
+        "variable": "plasma_transport",
+        "location": "cells",
+        "data": {
+          "electron_mobility": {
+            "unit": "m2/(V.s)",
+            "meaning": "取正数的电子迁移率μe>0，电荷负号另计",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "ion_mobility": {
+            "unit": "m2/(V.s)",
+            "meaning": "正离子迁移率μi>0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "electron_diffusion": {
+            "unit": "m2/s",
+            "meaning": "De>0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "ion_diffusion": {
+            "unit": "m2/s",
+            "meaning": "Di>0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "recombination": {
+            "unit": "m3/s",
+            "meaning": "复合系数kr≥0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "lower": 0,
+            "kind": "scalar"
+          },
+          "ionization": {
+            "unit": "m3/s",
+            "meaning": "固定ki≥0，不由局部场隐含推断",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "lower": 0,
+            "kind": "scalar"
+          }
+        }
+      },
+      "initial": {
+        "role": "initial",
+        "variable": "plasma_state",
+        "location": "domain",
+        "data": {
+          "electron_density": {
+            "unit": "1/m3",
+            "meaning": "ne(t=0)>0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "ion_density": {
+            "unit": "1/m3",
+            "meaning": "ni(t=0)>0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          }
+        }
+      },
+      "left_reservoir": {
+        "role": "boundary",
+        "variable": "reservoir",
+        "location": "left",
+        "data": {
+          "potential": {
+            "unit": "V",
+            "meaning": "电极电势V(t)",
+            "shape": [
+              1
+            ],
+            "axis": "drive",
+            "kind": "scalar"
+          },
+          "electron_density": {
+            "unit": "1/m3",
+            "meaning": "电子库Dirichlet密度>0",
+            "shape": [
+              1
+            ],
+            "axis": "drive",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "ion_density": {
+            "unit": "1/m3",
+            "meaning": "离子库Dirichlet密度>0",
+            "shape": [
+              1
+            ],
+            "axis": "drive",
+            "positive": true,
+            "kind": "scalar"
+          }
+        }
+      },
+      "right_reservoir": {
+        "role": "boundary",
+        "variable": "reservoir",
+        "location": "right",
+        "data": {
+          "potential": {
+            "unit": "V",
+            "meaning": "电极电势V(t)",
+            "shape": [
+              1
+            ],
+            "axis": "drive",
+            "kind": "scalar"
+          },
+          "electron_density": {
+            "unit": "1/m3",
+            "meaning": "电子库Dirichlet密度>0",
+            "shape": [
+              1
+            ],
+            "axis": "drive",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "ion_density": {
+            "unit": "1/m3",
+            "meaning": "离子库Dirichlet密度>0",
+            "shape": [
+              1
+            ],
+            "axis": "drive",
+            "positive": true,
+            "kind": "scalar"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "electron_density": {
+        "unit": "1/m3",
+        "meaning": "ne的单元平均",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "cells",
+        "kind": "scalar"
+      },
+      "ion_density": {
+        "unit": "1/m3",
+        "meaning": "ni的单元平均",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "cells",
+        "kind": "scalar"
+      },
+      "potential": {
+        "unit": "V",
+        "meaning": "φ的单元平均",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "cells",
+        "kind": "scalar"
+      },
+      "electric_field": {
+        "unit": "V/m",
+        "meaning": "Ex的单元平均",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "cells",
+        "kind": "scalar"
+      }
+    },
+    "mesh": true,
+    "driven": true
+  },
+  "energy-discharge": {
+    "spatial_dimension": 1,
+    "parameters": {
+      "end_time": {
+        "unit": "s",
+        "meaning": "物理终时τ，0<τ≤1000000",
+        "lower": 0,
+        "upper": 1000000.0
+      },
+      "elementary_charge": {
+        "unit": "C",
+        "meaning": "正电荷量e>0",
+        "lower": 0,
+        "upper": 1
+      },
+      "permittivity": {
+        "unit": "F/m",
+        "meaning": "均匀绝对介电常数ε>0",
+        "lower": 0,
+        "upper": 1
+      },
+      "neutral_density": {
+        "unit": "1/m3",
+        "meaning": "固定中性库N>0",
+        "lower": 0,
+        "upper": 1e+30
+      }
+    },
+    "locations": {
+      "domain": {
+        "kind": "mesh",
+        "entity": "node",
+        "maximum": 257,
+        "meaning": "全部一阶区间网格节点"
+      },
+      "cells": {
+        "kind": "mesh",
+        "entity": "element",
+        "maximum": 256,
+        "meaning": "全部区间单元"
+      },
+      "left": {
+        "kind": "mesh",
+        "entity": "node",
+        "maximum": 1,
+        "meaning": "最左端点"
+      },
+      "right": {
+        "kind": "mesh",
+        "entity": "node",
+        "maximum": 1,
+        "meaning": "最右端点"
+      }
+    },
+    "records": {
+      "transport": {
+        "role": "material",
+        "variable": "plasma_transport",
+        "location": "cells",
+        "data": {
+          "electron_mobility": {
+            "unit": "m2/(V.s)",
+            "meaning": "取正数的电子迁移率μe>0，电荷负号另计",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "ion_mobility": {
+            "unit": "m2/(V.s)",
+            "meaning": "正离子迁移率μi>0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "electron_diffusion": {
+            "unit": "m2/s",
+            "meaning": "De>0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "ion_diffusion": {
+            "unit": "m2/s",
+            "meaning": "Di>0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "recombination": {
+            "unit": "m3/s",
+            "meaning": "复合系数kr≥0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "lower": 0,
+            "kind": "scalar"
+          },
+          "energy_mobility": {
+            "unit": "m2/(V.s)",
+            "meaning": "μw>0，独立给定，不自动用5/3倍电子系数",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "energy_diffusion": {
+            "unit": "m2/s",
+            "meaning": "Dw>0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "ionization_prefactor": {
+            "unit": "m3/s",
+            "meaning": "k0≥0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "lower": 0,
+            "kind": "scalar"
+          },
+          "ionization_energy": {
+            "unit": "J",
+            "meaning": "电离阈值εI>0，也是每次电离损失能",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "energy_relaxation": {
+            "unit": "1/s",
+            "meaning": "能量弛豫率νw≥0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "lower": 0,
+            "kind": "scalar"
+          },
+          "thermal_energy": {
+            "unit": "J",
+            "meaning": "中性热浴每电子目标平均能εg>0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          }
+        }
+      },
+      "initial": {
+        "role": "initial",
+        "variable": "plasma_state",
+        "location": "domain",
+        "data": {
+          "electron_density": {
+            "unit": "1/m3",
+            "meaning": "ne(t=0)>0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "ion_density": {
+            "unit": "1/m3",
+            "meaning": "ni(t=0)>0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "electron_energy": {
+            "unit": "J/m3",
+            "meaning": "真实初态电子能量密度w>0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          }
+        }
+      },
+      "left_reservoir": {
+        "role": "boundary",
+        "variable": "reservoir",
+        "location": "left",
+        "data": {
+          "potential": {
+            "unit": "V",
+            "meaning": "电极电势V(t)",
+            "shape": [
+              1
+            ],
+            "axis": "drive",
+            "kind": "scalar"
+          },
+          "electron_density": {
+            "unit": "1/m3",
+            "meaning": "电子库Dirichlet密度>0",
+            "shape": [
+              1
+            ],
+            "axis": "drive",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "ion_density": {
+            "unit": "1/m3",
+            "meaning": "离子库Dirichlet密度>0",
+            "shape": [
+              1
+            ],
+            "axis": "drive",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "electron_energy": {
+            "unit": "J/m3",
+            "meaning": "电子库Dirichlet能量密度>0",
+            "shape": [
+              1
+            ],
+            "axis": "drive",
+            "positive": true,
+            "kind": "scalar"
+          }
+        }
+      },
+      "right_reservoir": {
+        "role": "boundary",
+        "variable": "reservoir",
+        "location": "right",
+        "data": {
+          "potential": {
+            "unit": "V",
+            "meaning": "电极电势V(t)",
+            "shape": [
+              1
+            ],
+            "axis": "drive",
+            "kind": "scalar"
+          },
+          "electron_density": {
+            "unit": "1/m3",
+            "meaning": "电子库Dirichlet密度>0",
+            "shape": [
+              1
+            ],
+            "axis": "drive",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "ion_density": {
+            "unit": "1/m3",
+            "meaning": "离子库Dirichlet密度>0",
+            "shape": [
+              1
+            ],
+            "axis": "drive",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "electron_energy": {
+            "unit": "J/m3",
+            "meaning": "电子库Dirichlet能量密度>0",
+            "shape": [
+              1
+            ],
+            "axis": "drive",
+            "positive": true,
+            "kind": "scalar"
+          }
+        }
+      },
+      "heating": {
+        "role": "source",
+        "variable": "energy_source",
+        "location": "cells",
+        "data": {
+          "value": {
+            "unit": "W/m3",
+            "meaning": "额外外加体功率Q≥0；不含电场做功",
+            "shape": [
+              1
+            ],
+            "axis": "drive",
+            "lower": 0,
+            "kind": "scalar"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "electron_density": {
+        "unit": "1/m3",
+        "meaning": "ne的单元平均",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "cells",
+        "kind": "scalar"
+      },
+      "ion_density": {
+        "unit": "1/m3",
+        "meaning": "ni的单元平均",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "cells",
+        "kind": "scalar"
+      },
+      "potential": {
+        "unit": "V",
+        "meaning": "φ的单元平均",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "cells",
+        "kind": "scalar"
+      },
+      "electric_field": {
+        "unit": "V/m",
+        "meaning": "Ex的单元平均",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "cells",
+        "kind": "scalar"
+      },
+      "electron_energy": {
+        "unit": "J/m3",
+        "meaning": "w的单元平均，而非平均每电子能",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "cells",
+        "kind": "scalar"
+      }
+    },
+    "mesh": true,
+    "driven": true
+  },
+  "cold-plasma-relaxation": {
+    "spatial_dimension": 3,
+    "parameters": {
+      "end_time": {
+        "unit": "s",
+        "meaning": "物理终时τ，0<τ≤1000000",
+        "lower": 0,
+        "upper": 1000000.0
+      },
+      "permittivity": {
+        "unit": "F/m",
+        "meaning": "背景绝对介电常数ε>0",
+        "lower": 0,
+        "upper": 1
+      }
+    },
+    "locations": {
+      "species": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 8,
+        "meaning": "1..8种均匀带电流体"
+      },
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一均匀电磁状态"
+      }
+    },
+    "records": {
+      "species": {
+        "role": "material",
+        "variable": "charged_species",
+        "location": "species",
+        "data": {
+          "mass": {
+            "unit": "kg",
+            "meaning": "m_s>0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "charge": {
+            "unit": "C",
+            "meaning": "有符号q_s，非零",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "kind": "scalar"
+          },
+          "density": {
+            "unit": "1/m3",
+            "meaning": "恒定n_s>0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "collision_frequency": {
+            "unit": "1/s",
+            "meaning": "对静止热浴动量弛豫ν_s≥0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "lower": 0,
+            "kind": "scalar"
+          }
+        }
+      },
+      "initial_current": {
+        "role": "initial",
+        "variable": "current_density",
+        "location": "species",
+        "data": {
+          "value": {
+            "unit": "A/m2",
+            "meaning": "各物种初始电流J_s",
+            "shape": [
+              3
+            ],
+            "axis": "initial",
+            "kind": "vector"
+          }
+        }
+      },
+      "initial_electric": {
+        "role": "initial",
+        "variable": "electric_field",
+        "location": "system",
+        "data": {
+          "value": {
+            "unit": "V/m",
+            "meaning": "初始电场E",
+            "shape": [
+              3
+            ],
+            "axis": "initial",
+            "kind": "vector"
+          }
+        }
+      },
+      "magnetic": {
+        "role": "source",
+        "variable": "magnetic_field",
+        "location": "system",
+        "data": {
+          "value": {
+            "unit": "T",
+            "meaning": "恒定背景B0",
+            "shape": [
+              3
+            ],
+            "axis": "initial",
+            "kind": "vector"
+          }
+        }
+      },
+      "impressed": {
+        "role": "source",
+        "variable": "impressed_current",
+        "location": "system",
+        "data": {
+          "value": {
+            "unit": "A/m2",
+            "meaning": "外加电流Jext(t)，按安培定律作为总电流的一部分",
+            "shape": [
+              3
+            ],
+            "axis": "drive",
+            "kind": "vector"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "electric_field": {
+        "unit": "V/m",
+        "meaning": "自洽E(t)",
+        "shape": [
+          3
+        ],
+        "axis": "output",
+        "location": "system",
+        "kind": "vector"
+      },
+      "current_density": {
+        "unit": "A/m2",
+        "meaning": "各物种J_s(t)，不作物种求和",
+        "shape": [
+          3
+        ],
+        "axis": "output",
+        "location": "species",
+        "kind": "vector"
+      }
+    },
+    "mesh": false,
+    "driven": true
+  },
+  "magnetized-plasma-slab": {
+    "spatial_dimension": 1,
+    "parameters": {
+      "angular_frequency": {
+        "unit": "1/s",
+        "meaning": "角频率ω>0，单位不另乘2π",
+        "lower": 0,
+        "upper": 1e+20
+      },
+      "permittivity": {
+        "unit": "F/m",
+        "meaning": "两侧背景和全部层的束缚电荷介电常数ε>0",
+        "lower": 0,
+        "upper": 1
+      },
+      "permeability": {
+        "unit": "H/m",
+        "meaning": "各处磁导率μ>0",
+        "lower": 0,
+        "upper": 1
+      },
+      "mass": {
+        "unit": "kg",
+        "meaning": "移动负电物种质量m>0",
+        "lower": 0,
+        "upper": 1
+      },
+      "charge": {
+        "unit": "C",
+        "meaning": "移动负电物种q<0",
+        "lower": -1,
+        "upper": 0
+      }
+    },
+    "locations": {
+      "layers": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 32,
+        "meaning": "沿+x的均匀层；行序决定层次"
+      },
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一入射／散射系统"
+      },
+      "receivers": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 256,
+        "meaning": "层内真实一维空间接收点，坐标单位m"
+      }
+    },
+    "records": {
+      "layers": {
+        "role": "material",
+        "variable": "plasma_layer",
+        "location": "layers",
+        "data": {
+          "thickness": {
+            "unit": "m",
+            "meaning": "每层厚h>0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "density": {
+            "unit": "1/m3",
+            "meaning": "移动物种平衡数密度n>0，静止正背景中和",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          },
+          "collision_frequency": {
+            "unit": "1/s",
+            "meaning": "正的动量碰撞率ν>0",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "positive": true,
+            "kind": "scalar"
+          }
+        }
+      },
+      "magnetic": {
+        "role": "source",
+        "variable": "magnetic_field",
+        "location": "system",
+        "data": {
+          "value": {
+            "unit": "T",
+            "meaning": "所有层及两侧共同的恒定有符号背景Bx，沿+x",
+            "shape": [
+              1
+            ],
+            "axis": "initial",
+            "kind": "scalar"
+          }
+        }
+      },
+      "incident": {
+        "role": "source",
+        "variable": "incident_electric",
+        "location": "system",
+        "data": {
+          "value": {
+            "unit": "V/m",
+            "meaning": "x=0处向右入射的Ey、Ez复振幅，非零",
+            "shape": [
+              2,
+              2
+            ],
+            "axis": "initial",
+            "labels": [
+              "y_real",
+              "y_imag",
+              "z_real",
+              "z_imag"
+            ],
+            "kind": "components"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "reflected_amplitude": {
+        "unit": "V/m",
+        "meaning": "x=0处Er的Ey、Ez",
+        "shape": [
+          2,
+          2
+        ],
+        "axis": "output",
+        "location": "system",
+        "labels": [
+          "y_real",
+          "y_imag",
+          "z_real",
+          "z_imag"
+        ],
+        "kind": "components"
+      },
+      "transmitted_amplitude": {
+        "unit": "V/m",
+        "meaning": "x=H处Et的Ey、Ez",
+        "shape": [
+          2,
+          2
+        ],
+        "axis": "output",
+        "location": "system",
+        "labels": [
+          "y_real",
+          "y_imag",
+          "z_real",
+          "z_imag"
+        ],
+        "kind": "components"
+      },
+      "electric_amplitude": {
+        "unit": "V/m",
+        "meaning": "接收点总场Ey、Ez",
+        "shape": [
+          2,
+          2
+        ],
+        "axis": "output",
+        "location": "receivers",
+        "labels": [
+          "y_real",
+          "y_imag",
+          "z_real",
+          "z_imag"
+        ],
+        "kind": "components"
+      },
+      "magnetic_amplitude": {
+        "unit": "A/m",
+        "meaning": "接收点总场Hy、Hz",
+        "shape": [
+          2,
+          2
+        ],
+        "axis": "output",
+        "location": "receivers",
+        "labels": [
+          "y_real",
+          "y_imag",
+          "z_real",
+          "z_imag"
+        ],
+        "kind": "components"
+      },
+      "reflectance": {
+        "unit": "1",
+        "meaning": "总功率反射率R",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "system",
+        "kind": "scalar"
+      },
+      "transmittance": {
+        "unit": "1",
+        "meaning": "总功率透射率T",
+        "shape": [
+          1
+        ],
+        "axis": "output",
+        "location": "system",
+        "kind": "scalar"
+      }
+    },
+    "steady": true,
+    "mesh": false,
+    "driven": false
+  }
+}

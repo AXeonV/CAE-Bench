@@ -15,7 +15,7 @@
 | src/caeoj_tools/dependencies.py 的 lock_dependencies | 按当前安装环境遍历传递依赖、markers及extras，检查版本／Python约束并精确锁定；缺包或冲突阻止发布。依赖锁是当前构建环境证据，不自动证明另一平台可安装；packaging仅属maint可选依赖 |
 | src/caeoj/runtime.py、qbank/extensions/caeoj_bundle、qbank/extensions/caeoj_ext | 已安装 provider 提供受控描述，扩展按物理能力组织；核对实际 runtime／assembly API，不从输入动态导入任意路径 |
 | src/caeoj/cli.py、src/caeoj_tools/cli.py | 公共命令 validate-input／validate-output／grade／info 与 --version；grade 的坏输入／参考／配置归基础设施错误，退出 2，不计零分。维护 make-cases／smoke 是独立入口 |
-| tests/test_grading_policy.py、test_runtime_assembly.py、test_harbor.py、test_publish.py，以及领域专项（如 test_porous_contract.py） | 找现有边界、隔离、错误分类、配置覆盖与过期包行为的验证方式；不能只沿用测试数而不检查本次变更 |
+| tests/test_grading_policy.py、test_runtime_assembly.py、test_harbor.py、test_publish.py，以及领域专项（如 test_porous_contract.py、test_plasma_contract.py） | 找现有边界、隔离、错误分类、配置覆盖与过期包行为的验证方式；不能只沿用测试数而不检查本次变更 |
 | 各题author/check.py等维护入口 | 配置可能另有本地运行消费者，删键前搜索全部读取者；本地检查同样读取显式 grading.json；瞬态题的 memory_mb 与 Harbor 配额须保持一致，相关回归在 test_heat.py、test_transient.py |
 
 当前时间预算至少分为 agent 生成时间、构建时间、逐例 solver 时间与总 verifier 时间。总 verifier 还包含数据装载／检查、拷贝、判分和报告，不等于某一个 case 的时间。未来框架若并行执行，按实际调度计算，不能机械套用串行总和。

@@ -11,7 +11,7 @@ import zipfile
 
 from publish_dist import PROJECT_ROOT, read_public_file, collect_materials
 from caeoj.case_grading import prepare_case
-from caeoj.sdk import load_problem, load_result
+from caeoj.sdk import load_problem
 from caeoj_tools.task_paths import task_directory
 
 TEMPLATE_FILES = ('environment/Dockerfile', 'solution/solve.sh',

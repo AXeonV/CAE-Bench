@@ -43,18 +43,16 @@ class RuntimeAssemblyTests(unittest.TestCase):
                 config = json.loads((path.parent/'judge-config.json').read_text())
                 self.assertFalse({'atol', 'rtol'} & set(config))
 
-    def test_missing_policy_does_not_fall_back_to_default_tolerances(self):
-        problem = load_problem(task_directory(TASK, ROOT)/'samples/01/input/problem.json')
+    def test_author_template_requires_explicit_source_and_no_execution_tolerances(self):
         with tempfile.TemporaryDirectory() as temporary:
             task = Path(temporary)
             with self.assertRaises(FileNotFoundError):
-                author_policy(task, problem)
+                author_policy(task)
             (task/'author').mkdir()
-            (task/'author').mkdir(parents=True,exist_ok=True)
             (task/'author/grading-template.json').write_text(json.dumps(load_policy(task_directory(TASK, ROOT)/'author/grading-template.json')))
             (task/'judge-config.json').write_text('{"atol": 0.01, "rtol": 0}')
             with self.assertRaisesRegex(ValueError, 'Scoring belongs in case grading.json'):
-                author_policy(task, problem)
+                author_policy(task)
 
     def test_malformed_metadata_has_schema_diagnostics_and_no_traceback(self):
         for value in (None, [], {'task': []}, {'task': {}}):

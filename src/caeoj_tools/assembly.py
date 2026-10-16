@@ -208,7 +208,9 @@ for path in root.glob('qbank/*/*/*/samples/*/input/problem.json'):
     problem=load_problem(path)
     prepared=prepare_case(problem, path.parent.parent/'reference/grading.json')
     if (path.parent.parent/'output/result.h5').is_file():
-        load_result(problem, path.parent.parent/'output/result.h5')
+        arrays=load_result(problem, path.parent.parent/'output/result.h5')
+        if prepared.evaluate(arrays)['score'] != 1:
+            raise RuntimeError('Public submission example fails isolated case evaluation')
 '''
         result = subprocess.run([sys.executable, '-I', '-c', script, str(root)],
                                 cwd=root, capture_output=True, text=True, timeout=120)

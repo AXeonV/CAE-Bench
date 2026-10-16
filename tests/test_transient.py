@@ -44,7 +44,7 @@ class TransientTests(unittest.TestCase):
             p = load_problem(path)
             ref = TASK/'reference'/path.parent.name
             cls.cases[path.parent.name] = (p, load_result(p, ref/'reference.h5'),
-                                          json.loads((ref/'analytic.json').read_text()))
+                                          json.loads((TASK/'author/data-evidence/reference'/path.parent.name/'analytic.json').read_text()))
 
     def case(self, prefix):
         return next(data for name, data in self.cases.items() if name.startswith(prefix))
@@ -193,7 +193,7 @@ class TransientTests(unittest.TestCase):
         for sample in ('01', '02'):
             directory = TASK/'samples'/sample
             p = load_problem(directory/'input/problem.json')
-            saved = json.loads((directory/'verification.json').read_text())
+            saved = json.loads((TASK/'author/data-evidence/samples'/sample/'verification.json').read_text())
             report = grade_files(p.path, directory/'output/result.h5',
                                  TASK/'reference'/saved['case']/'reference.h5', policy=self.policy)
             self.assertEqual(report['score'], 1)

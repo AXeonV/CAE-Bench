@@ -12,7 +12,7 @@
 
 HF 题内数据池、稳定身份、选样清单及目录装配见[题库数据存储设计](DATA-STORAGE.md)。`caeoj-maint data` 制池、上传、选样、下载装配与核验操作见[数据池操作](../maintenance/DATA-SYNC.md)，实际迁移证据见[迁移记录](reviews/data-storage-migration.md)。
 
-通用工具的实际验证范围与限制见[数据池工具实施与验证](reviews/data-pool-tools.md)。
+通用工具的历史实施见[数据池工具实施与验证](reviews/data-pool-tools.md)；当前自包含目录的迁移及验证见[case 布局收束](reviews/case-pool-simplification.md)。
 
 ## 章级目录
 

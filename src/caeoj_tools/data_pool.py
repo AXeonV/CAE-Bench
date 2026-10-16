@@ -99,8 +99,10 @@ def matches(path, entry):
 
 def manifest(path):
     value = checked_json(path)
-    if value.get('schema_version') != 2 or not re.fullmatch(r'caeoj-\d{6}', value.get('task_id', '')):
-        raise PoolError('Expected pool selection schema_version 2 and stable task_id')
+    if value.get('schema_version') != 3 or not re.fullmatch(r'caeoj-\d{6}', value.get('task_id', '')):
+        raise PoolError('Expected pool selection schema_version 3 and stable task_id')
+    if set(value) - {'schema_version', 'task_id', 'repository', 'pool', 'cases', 'samples', 'notes'}:
+        raise PoolError('Selection has unsupported fields; migrate the old layout explicitly')
     repo = value.get('repository', {})
     if repo.get('repo_type') != 'dataset' or not re.fullmatch(r'[\w.-]+/[\w.-]+', repo.get('repo_id', '')):
         raise PoolError('Expected a dataset repository owner/name')
@@ -113,6 +115,8 @@ def manifest(path):
                 raise PoolError('Selection names must be single path segments')
             if not isinstance(selection, dict) or not re.fullmatch(r'[\w-]+', selection.get('case_id', '')):
                 raise PoolError('Invalid case ID')
+            if set(selection) != {'case_id', 'case'}:
+                raise PoolError('Selection must bind one case descriptor, without attachments')
     return value
 
 
@@ -158,43 +162,35 @@ def bound(store, prefix, binding, descriptors=None):
     if digest(path) != binding['sha256']:
         raise PoolError(f'Descriptor SHA mismatch: {name}; explicitly reselect after reviewing changes')
     value = checked_json(path)
-    if value.get('schema_version') != 1:
+    if value.get('schema_version') != 2:
         raise PoolError(f'Unknown descriptor version: {name}')
     if descriptors is not None:
         descriptors[name] = path.read_text(encoding='utf-8')
     return value
 
 
-def item_files(store, prefix, binding, item, descriptors, active=None):
-    """Dependency descriptors map logical item paths to task-local shared sources."""
-    active = set() if active is None else active
-    name = relative(binding['path'])
-    if name in active:
-        raise PoolError('Cyclic shared dependency')
-    active.add(name)
+def item_files(store, prefix, binding, item, descriptors):
+    """A case is self-contained: there are no cross-directory data references."""
+    if set(item) != {'schema_version', 'case_id', 'origin', 'files', 'input', 'reference'}:
+        raise PoolError('Case descriptor has unsupported fields')
+    base = f"pool/cases/{item['case_id']}"
+    if binding['path'] != base + '/case.json':
+        raise PoolError('Case descriptor must be pool/cases/<case-id>/case.json')
     files = {}
-    base = str(PurePosixPath(name).parent)
-    for logical, entry in item.get('files', {}).items():
+    for logical, entry in item['files'].items():
         relative(logical); check_entry(entry)
-        source = entry.get('source', base + '/' + logical)
-        relative(source)
-        if not source.startswith(base + '/') and not source.startswith('pool/shared/'):
-            raise PoolError(f'File source must be in this item or task shared data: {source}')
-        files[logical] = {**entry, 'source': source}
-    dependencies = item.get('shared_dependencies', [])
-    if not isinstance(dependencies, list):
-        raise PoolError('shared_dependencies must be a descriptor binding list')
-    for dependency in dependencies:
-        value = bound(store, prefix, dependency, descriptors)
-        for logical, entry in item_files(store, prefix, dependency, value, descriptors, active).items():
-            if logical in files and files[logical] != entry:
-                raise PoolError('Conflicting shared dependency destination')
-            files[logical] = entry
-    active.remove(name)
+        if set(entry) != {'size_bytes', 'sha256'}:
+            raise PoolError('File entries cannot redirect to shared or external data')
+        if not logical.startswith('input/') and logical != 'reference/reference.h5':
+            raise PoolError('Only input assets and reference/reference.h5 belong in a case')
+        files[logical] = {**entry, 'source': base + '/' + logical}
+    declared = item['input'].get('files', []) + item['reference'].get('files', [])
+    if len(declared) != len(set(declared)) or set(declared) != set(files):
+        raise PoolError('Case file groups must partition all declared files')
     return files
 
 
-def plan(value, store, cases=None, samples=None, auxiliary=True):
+def plan(value, store, cases=None, samples=None):
     prefix = value['repository']['path']
     result = {'files': {}, 'descriptors': {}, 'incomplete': [], 'overlaps': [], 'scope': {}}
     fingerprints = {}
@@ -215,10 +211,10 @@ def plan(value, store, cases=None, samples=None, auxiliary=True):
         result['scope'][role] = names
         for name in names:
             selection = value[role][name]
-            item = bound(store, prefix, selection['item'], result['descriptors'])
+            item = bound(store, prefix, selection['case'], result['descriptors'])
             if item.get('case_id') != selection['case_id']:
                 raise PoolError('Selection case ID differs from bound descriptor')
-            files = item_files(store, prefix, selection['item'], item, result['descriptors'])
+            files = item_files(store, prefix, selection['case'], item, result['descriptors'])
             signature = {}
             for kind, group_prefix in (('input', 'input/'), ('reference', 'reference/')):
                 group = item.get(kind, {})
@@ -238,10 +234,8 @@ def plan(value, store, cases=None, samples=None, auxiliary=True):
                         target = f'cases/{name}/{leaf}' if role == 'cases' else f'samples/{name}/input/{leaf}'
                     elif role == 'cases':
                         target = f'reference/{name}/{leaf}'
-                    elif leaf == 'reference.h5':
-                        target = f'samples/{name}/output/result.h5'
                     else:
-                        continue  # Author reference sidecars do not belong to sample output.
+                        target = f'samples/{name}/output/result.h5'
                     add(target, files[logical])
             keys = ['input:' + hashlib.sha256(json.dumps(signature, sort_keys=True).encode()).hexdigest()]
             origin = item.get('origin', {}).get('certificate_identity', {})
@@ -253,25 +247,6 @@ def plan(value, store, cases=None, samples=None, auxiliary=True):
                 result['overlaps'].append([duplicate, f'{role}/{name}'])
             for key in keys:
                 fingerprints[key] = f'{role}/{name}'
-            for logical, target in selection.get('attachments', {}).items():
-                if logical not in files or not logical.startswith('attachments/'):
-                    raise PoolError('Selection refers to undeclared attachment')
-                if role != 'samples':
-                    raise PoolError('Only samples support attachment mappings')
-                dest = relative(target)
-                if dest.startswith(('input/', 'output/')):
-                    raise PoolError('Attachment cannot overwrite sample input/output')
-                add(f'samples/{name}/{dest}', files[logical])
-    if auxiliary and 'auxiliary' in value:
-        desc = bound(store, prefix, value['auxiliary'], result['descriptors'])
-        for target, entry in desc.get('files', {}).items():
-            if not target.startswith(('reference/', 'shared/')):
-                raise PoolError('Auxiliary destination must be reference/ or shared/')
-            check_entry(entry)
-            source = relative(entry.get('source'))
-            if not source.startswith('pool/'):
-                raise PoolError('Auxiliary source must be in the pool')
-            add(target, entry)
     # File/directory collisions must fail before any download or mutation.
     for target in result['files']:
         for parent in PurePosixPath(target).parents:
@@ -318,7 +293,7 @@ def _assemble(task, value, store, *, update=False, **options):
     previous = checked_json(receipt_path) if receipt_path.exists() else {'files': {}}
     for name, entry in previous.get('files', {}).items():
         relative(name); check_entry(entry)
-        if not name.startswith(('cases/', 'reference/', 'samples/', 'shared/')):
+        if not name.startswith(('cases/', 'reference/', 'samples/')):
             raise PoolError('Receipt cannot manage files outside data directories')
     stale = set(previous['files']) - set(desired['files'])
     # Check every change before mutating anything. --update authorizes replacement,
@@ -335,7 +310,7 @@ def _assemble(task, value, store, *, update=False, **options):
             raise PoolError('Selection removed old files; use --update after review')
     receipt = {'schema_version': 1, 'selection_sha256': hashlib.sha256(encoded(value)).hexdigest(),
                'revision': store.revision, 'scope': desired['scope'],
-               'auxiliary': options.get('auxiliary', True), 'descriptors': desired['descriptors'],
+               'descriptors': desired['descriptors'],
                'files': {name: {k: e[k] for k in ('size_bytes', 'sha256')} for name, e in desired['files'].items()}}
     with tempfile.TemporaryDirectory(prefix='.pool-stage-', dir=task) as temporary:
         stage = Path(temporary)
@@ -400,7 +375,7 @@ def verify(task, *, strict=False, samples_only=False):
                 return target
         with tempfile.TemporaryDirectory() as temporary:
             current = plan(value, ReceiptStore(), cases=[] if samples_only else None,
-                           samples=None, auxiliary=not samples_only)
+                           samples=None)
         for name, entry in current['files'].items():
             if not matches(within(task, name), entry):
                 errors.append('Local SHA/size mismatch or missing: ' + name)
@@ -426,21 +401,18 @@ def verify(task, *, strict=False, samples_only=False):
 def select(value, store, cases, samples, *, allow_incomplete=False):
     prefix = value['repository']['path']
     index = checked_json(store.get(prefix + '/' + relative(value['pool']['index'])))
-    if index.get('schema_version') != 1 or not isinstance(index.get('items'), dict):
+    if index.get('schema_version') != 2 or not isinstance(index.get('cases'), dict):
         raise PoolError('Invalid pool index')
     selected = {**value, 'cases': {}, 'samples': {}}
-    selected.pop('auxiliary', None)
-    if 'auxiliary' in index:
-        selected['auxiliary'] = index['auxiliary']
     for role, choices in (('cases', cases), ('samples', samples)):
         for number, choice in enumerate(choices, 1):
             name, case_id = choice.split('=', 1) if '=' in choice else (f'{number:03d}', choice)
             if '/' in relative(name) or name in selected[role]:
                 raise PoolError('Invalid or repeated local selection name')
-            if case_id not in index['items']:
+            if case_id not in index['cases']:
                 raise PoolError(f'Unknown pool case ID: {case_id}')
-            binding = {k: index['items'][case_id][k] for k in ('path', 'sha256')}
-            selected[role][name] = {'case_id': case_id, 'item': binding}
+            binding = {k: index['cases'][case_id][k] for k in ('path', 'sha256')}
+            selected[role][name] = {'case_id': case_id, 'case': binding}
     result = plan(selected, store)
     if result['overlaps']:
         raise PoolError('Selections contain duplicate inputs: ' + str(result['overlaps']))
@@ -456,8 +428,8 @@ def pack(source, output, value):
     References and examples are included only when they actually exist.
     """
     source, output = Path(source).absolute(), Path(output).absolute()
-    if value.get('schema_version') != 2 or not re.fullmatch(r'caeoj-\d{6}', value.get('task_id', '')):
-        raise PoolError('Pack requires a stable task ID and selection version 2')
+    if value.get('schema_version') != 3 or not re.fullmatch(r'caeoj-\d{6}', value.get('task_id', '')):
+        raise PoolError('Pack requires a stable task ID and selection version 3')
     if output.exists() and any(output.iterdir()):
         raise PoolError('Pack output must be empty; use a new staging directory')
     if output.is_relative_to(source) or source.is_relative_to(output):
@@ -501,11 +473,14 @@ def pack(source, output, value):
                 raise PoolError(f'Empty input: {role}/{name}')
             input_id = hashlib.sha256(json.dumps({p: digest(f) for p, f in inputs.items()}, sort_keys=True).encode()).hexdigest()
             case_id = 'case-' + input_id[:24]
-            item = items.setdefault(case_id, {'schema_version': 1, 'case_id': case_id,
+            item = items.setdefault(case_id, {'schema_version': 2, 'case_id': case_id,
                 'origin': {'kind': 'prepared-input', 'key': name, 'input_identity_sha256': input_id},
                 'files': {}, 'input': {'complete': complete_input(inputs), 'files': []},
-                'reference': {'complete': False, 'files': []}, 'shared_dependencies': [], 'attachments': {}})
+                'reference': {'complete': False, 'files': []}})
             certificate_path = source/'reference'/name/'certificate.json' if role == 'cases' else source/'reference/sample-certificates'/name/'certificate.json'
+            archived = source/'author/data-evidence'/certificate_path.relative_to(source)
+            if archived.is_file():
+                certificate_path = archived
             if certificate_path.is_file():
                 certificate = checked_json(certificate_path)
                 declared = certificate.get('input_files', {})
@@ -514,7 +489,7 @@ def pack(source, output, value):
                     raise PoolError('Source certificate does not bind this input')
                 item['origin']['certificate_identity'] = {key: certificate[key] for key in (
                     'source_id', 'source_md5', 'sample_index', 'contract_sha256', 'tool_sha256') if key in certificate}
-            base = f'pool/items/{case_id}/'
+            base = f'pool/cases/{case_id}/'
             for logical, path in inputs.items():
                 key = 'input/' + logical
                 entry = put(path, base + key)
@@ -529,6 +504,8 @@ def pack(source, output, value):
                 raise PoolError('Input changed while packing; retry from a stable source')
             refs = inventory(source/'reference'/name if role == 'cases' else directory/'output')
             for logical, path in refs.items():
+                if logical != ('reference.h5' if role == 'cases' else 'result.h5'):
+                    continue
                 key = 'reference/' + ('reference.h5' if role == 'samples' and logical == 'result.h5' else logical)
                 entry = identity(path)
                 if key in item['files'] and item['files'][key] != entry:
@@ -538,66 +515,44 @@ def pack(source, output, value):
                     item['reference']['files'].append(key)
             item['reference']['complete'] = 'reference/reference.h5' in item['reference']['files']
             choice = {'case_id': case_id}
-            if role == 'samples':
-                choice['attachments'] = {}
-                for logical, path in inventory(directory).items():
-                    if logical.startswith(('input/', 'output/')):
-                        continue
-                    key = f'attachments/sample-{name}/{logical}'
-                    item['files'][key] = put(path, base + key)
-                    item['attachments'][key] = {'role': 'sample-verification', 'sample_name': name}
-                    choice['attachments'][key] = logical
             selections[role][name] = choice
     if not items:
         raise PoolError('No case/sample inputs found')
-    # Content-address repeated assets within one task. Input JSON keeps its
-    # contract paths; assembly materializes shared payloads under those paths.
-    counts = {}
-    for item in items.values():
-        for key, entry in item['files'].items():
-            counts.setdefault(entry['sha256'], []).append((item, key, entry))
-    for checksum, copies in counts.items():
-        if len(copies) < 2:
-            continue
-        shared = 'pool/shared/' + checksum + '/' + PurePosixPath(copies[0][1]).name
-        for item, key, entry in copies:
-            old = within(repo, f'{prefix}/pool/items/{item["case_id"]}/{key}')
-            target = within(repo, prefix + '/' + shared)
-            target.parent.mkdir(parents=True, exist_ok=True)
-            if not target.exists():
-                shutil.copyfile(old, target)
-            old.unlink()
-            entry['source'] = shared
-    index = {'schema_version': 1, 'items': {}, 'shared': {}}
+    index = {'schema_version': 2, 'cases': {}}
     for case_id, item in items.items():
-        name = f'pool/items/{case_id}/item.json'
+        name = f'pool/cases/{case_id}/case.json'
         write_json(within(repo, prefix + '/' + name), item)
         binding = {'path': name, 'sha256': digest(within(repo, prefix + '/' + name))}
-        index['items'][case_id] = {**binding, 'input_complete': item['input']['complete'],
+        index['cases'][case_id] = {**binding, 'input_complete': item['input']['complete'],
                                   'reference_complete': item['reference']['complete']}
         for group in selections.values():
             for choice in group.values():
                 if choice['case_id'] == case_id:
-                    choice['item'] = binding
-    auxiliary = {}
-    for directory in ('reference', 'shared'):
+                    choice['case'] = binding
+    selected = {k: value[k] for k in ('schema_version', 'task_id', 'repository')}
+    selected.update(pool={'index': 'pool/index.json'}, **selections)
+    # Keep non-consumer records outside the upload tree, for author review.
+    evidence = output/'evidence'
+    for directory in ('reference', 'samples'):
         for logical, path in inventory(source/directory).items():
             target = directory + '/' + logical
             if target not in consumed:
-                remote = 'pool/attachments/' + target
-                auxiliary[target] = {'source': remote, **put(path, remote)}
-    selected = {k: value[k] for k in ('schema_version', 'task_id', 'repository')}
-    selected.update(pool={'index': 'pool/index.json'}, **selections)
-    if auxiliary:
-        name = 'pool/attachments.json'
-        write_json(within(repo, prefix + '/' + name), {'schema_version': 1, 'files': auxiliary})
-        binding = {'path': name, 'sha256': digest(within(repo, prefix + '/' + name))}
-        selected['auxiliary'] = index['auxiliary'] = binding
+                saved = within(evidence, target)
+                saved.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(path, saved)
+    archived = source/'author/data-evidence'
+    if archived.exists():
+        for logical, path in inventory(archived).items():
+            saved = within(evidence, logical)
+            if saved.exists() and identity(saved) != identity(path):
+                raise PoolError('Conflicting author evidence: ' + logical)
+            saved.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(path, saved)
     write_json(within(repo, prefix + '/pool/index.json'), index)
     # Verify the complete staging tree before advertising a usable selection.
     fetch(selected, LocalStore(repo))
     write_json(output/'selection.json', selected)
-    return {'bundle': str(output), 'selection': str(output/'selection.json'), 'items': len(items)}
+    return {'bundle': str(output), 'selection': str(output/'selection.json'), 'cases': len(items), 'evidence': str(evidence)}
 
 
 def validate_bundle(bundle):
@@ -610,13 +565,13 @@ def validate_bundle(bundle):
     all_items = {**value, 'cases': {}, 'samples': {}}
     allowed = {index_path}
     descriptors = {}
-    for number, (case_id, binding) in enumerate(index.get('items', {}).items()):
-        all_items['cases'][str(number)] = {'case_id': case_id, 'item': binding}
+    for number, (case_id, binding) in enumerate(index.get('cases', {}).items()):
+        all_items['cases'][str(number)] = {'case_id': case_id, 'case': binding}
         item = bound(store, prefix, binding, descriptors)
         if (binding.get('input_complete') != item['input']['complete']
                 or binding.get('reference_complete') != item['reference']['complete']):
             raise PoolError('Index completeness differs from the item descriptor')
-        # Unselected attachments are still uploaded and must be checked.
+        # Verify every case payload, including cases outside the default selection.
         for entry in item_files(store, prefix, binding, item, descriptors).values():
             allowed.add(prefix + '/' + entry['source'])
             if not matches(store.get(prefix + '/' + entry['source']), entry):
@@ -647,14 +602,13 @@ def upload(bundle, *, update=False, revision='main'):
     api = HfApi()
     names = set(api.list_repo_files(repo['repo_id'], repo_type='dataset', revision=remote.revision))
     index_name = prefix + '/' + value['pool']['index']
-    previous = checked_json(remote.get(index_name)) if index_name in names else {'schema_version': 1, 'items': {}, 'shared': {}}
-    if previous.get('schema_version') != 1:
+    previous = checked_json(remote.get(index_name)) if index_name in names else {'schema_version': 2, 'cases': {}}
+    if previous.get('schema_version') != 2:
         raise PoolError('Unsupported remote pool index')
-    for case_id, entry in index['items'].items():
-        if case_id in previous['items'] and previous['items'][case_id] != entry and not update:
+    for case_id, entry in index['cases'].items():
+        if case_id in previous['cases'] and previous['cases'][case_id] != entry and not update:
             raise PoolError('Remote item changed; review and use --update: ' + case_id)
-    merged = {**previous, **index, 'items': {**previous['items'], **index['items']},
-              'shared': {**previous.get('shared', {}), **index.get('shared', {})}}
+    merged = {'schema_version': 2, 'cases': {**previous['cases'], **index['cases']}}
     operations = []
     paths = [p for p in sorted(local.root.rglob('*')) if p.is_file()]
     existing = [p.relative_to(local.root).as_posix() for p in paths
@@ -699,7 +653,7 @@ def upload(bundle, *, update=False, revision='main'):
     verified = HubStore(repo['repo_id'], commit.oid)
     fetch(value, verified)
     # Validate every index item in the bundle, not just the default selection.
-    all_items = {**value, 'cases': {str(n): {'case_id': cid, 'item': b}
-                 for n, (cid, b) in enumerate(index['items'].items())}, 'samples': {}}
+    all_items = {**value, 'cases': {str(n): {'case_id': cid, 'case': b}
+                 for n, (cid, b) in enumerate(index['cases'].items())}, 'samples': {}}
     fetch(all_items, verified)
     return {'revision': commit.oid, 'uploaded_files': len(operations)}

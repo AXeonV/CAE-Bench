@@ -1,5 +1,7 @@
 # 数据池工具实施与验证（2026-10-17）
 
+本记录保留初版共享/附件布局的历史证据；现行自包含目录及已移除的机制见[后续收束记录](case-pool-simplification.md)，操作以当前维护指南为准。
+
 ## 交付范围
 
 维护 CLI 增加 `data pack/upload/select/fetch/assemble/verify`，入口和操作统一由[数据池操作](../../maintenance/DATA-SYNC.md)维护。实现位于 `caeoj_tools`，HF 依赖仅属维护 extra；核心协议与数值判分未改变。

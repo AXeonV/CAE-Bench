@@ -19,7 +19,7 @@ class PoolTests(unittest.TestCase):
         self.addCleanup(self.temporary.cleanup)
         self.root = Path(self.temporary.name)
         self.source = self.root/'generated'
-        self.value = {'schema_version': 2, 'task_id': 'caeoj-000123',
+        self.value = {'schema_version': 3, 'task_id': 'caeoj-000123',
                       'repository': {'repo_id': 'owner/test', 'repo_type': 'dataset', 'path': 'qbank/ch/sec/task'}}
         for name, parameter in (('a', 1), ('b', 2)):
             directory = self.source/'cases'/name
@@ -44,16 +44,19 @@ class PoolTests(unittest.TestCase):
         self.task.mkdir()
         pool.write_json(self.task/'data-manifest.json', self.selection)
 
-    def test_pack_deduplicates_samples_and_shared_mesh_and_round_trips(self):
+    def test_pack_reuses_samples_but_keeps_cases_self_contained(self):
         self.assertEqual(self.selection['samples']['01']['case_id'], self.selection['cases']['a']['case_id'])
         result = pool.assemble(self.task, self.selection, self.store)
         self.assertEqual(result['overlaps'], [['cases/a', 'samples/01']])
         for directory in ('cases', 'reference', 'samples'):
             for f in (self.source/directory).rglob('*'):
                 if f.is_file():
-                    self.assertEqual(f.read_bytes(), (self.task/f.relative_to(self.source)).read_bytes())
-        shared = list((self.bundle/'repository').rglob('pool/shared/*/mesh.msh'))
-        self.assertEqual(len(shared), 1)
+                    if f.name != 'verification.json':
+                        self.assertEqual(f.read_bytes(), (self.task/f.relative_to(self.source)).read_bytes())
+        self.assertFalse(list((self.bundle/'repository').rglob('shared')))
+        self.assertEqual(len(list((self.bundle/'repository').rglob('mesh.msh'))), 2)
+        self.assertTrue((self.bundle/'evidence/samples/01/verification.json').is_file())
+        self.assertFalse((self.task/'samples/01/verification.json').exists())
         self.assertEqual(pool.assemble(self.task, self.selection, self.store)['changed'], 0)
         self.assertTrue(pool.verify(self.task)['valid'])
         with self.assertRaisesRegex(pool.PoolError, 'Overlapping'):
@@ -68,7 +71,7 @@ class PoolTests(unittest.TestCase):
         self.assertTrue(pool.verify(self.task, strict=True)['valid'])
         with self.assertRaisesRegex(pool.PoolError, 'duplicate inputs'):
             pool.select(self.selection, self.store, [a], [a])
-        f = self.store.get(self.value['repository']['path'] + '/' + chosen['cases']['01']['item']['path'])
+        f = self.store.get(self.value['repository']['path'] + '/' + chosen['cases']['01']['case']['path'])
         f.write_bytes(f.read_bytes() + b' ')
         with self.assertRaisesRegex(pool.PoolError, 'Descriptor SHA'):
             pool.fetch(chosen, self.store)
@@ -106,7 +109,7 @@ class PoolTests(unittest.TestCase):
         self.assertEqual((self.task/'cases/a/user.txt').read_text(), 'keep')
 
     def test_partial_download_receipt_cannot_pass_full_benchmark(self):
-        pool.assemble(self.task, self.selection, self.store, cases=[], auxiliary=False)
+        pool.assemble(self.task, self.selection, self.store, cases=[])
         self.assertTrue(pool.verify(self.task, strict=True, samples_only=True)['valid'])
         with self.assertRaises(pool.PoolError):
             pool.verify(self.task, strict=True)
@@ -196,23 +199,42 @@ class PoolTests(unittest.TestCase):
             # Remote-only pool entries must survive later uploads.
             index_file = remote/self.value['repository']['path']/'pool/index.json'
             index = pool.checked_json(index_file)
-            index['items']['unrelated'] = {'path': 'pool/unrelated/item.json', 'sha256': '0'*64}
+            index['cases']['unrelated'] = {'path': 'pool/cases/unrelated/case.json', 'sha256': '0'*64}
             pool.write_json(index_file, index)
             before = state['payload_reads']
             self.assertEqual(pool.upload(self.bundle)['uploaded_files'], 0)
             self.assertEqual(state['payload_reads'], before)
-            self.assertIn('unrelated', pool.checked_json(index_file)['items'])
+            self.assertIn('unrelated', pool.checked_json(index_file)['cases'])
             pool_file = next((remote/self.value['repository']['path']).rglob('input.h5'))
             pool_file.write_bytes(b'remote modification')
             with self.assertRaisesRegex(pool.PoolError, '--update'):
                 pool.upload(self.bundle)
             self.assertGreater(pool.upload(self.bundle, update=True)['uploaded_files'], 0)
 
-    def test_bundle_checks_even_unselected_attachments(self):
-        attachment = next((self.bundle/'repository').rglob('verification.json'))
-        attachment.write_text('broken')
-        with self.assertRaisesRegex(pool.PoolError, 'corrupt payload'):
-            pool.validate_bundle(self.bundle)
+    def test_evidence_cannot_leak_into_upload_tree(self):
+        case = next((self.bundle/'repository').rglob('case.json'))
+        desc = pool.checked_json(case)
+        desc['attachments'] = {}
+        pool.write_json(case, desc)
+        binding = {'path': case.relative_to(self.bundle/'repository'/self.value['repository']['path']).as_posix(), 'sha256': pool.digest(case)}
+        with self.assertRaisesRegex(pool.PoolError, 'unsupported fields'):
+            pool.item_files(self.store, self.value['repository']['path'], binding, desc, {})
+
+    def test_old_selection_format_is_rejected_without_compatibility(self):
+        old = deepcopy(self.selection)
+        old['schema_version'] = 2
+        pool.write_json(self.root/'old-selection.json', old)
+        with self.assertRaisesRegex(pool.PoolError, 'schema_version 3'):
+            pool.manifest(self.root/'old-selection.json')
+
+    def test_reference_derivation_stays_in_evidence_not_hf(self):
+        pool.write_json(self.source/'reference/a/analytic.json', {'formula': 'author only'})
+        bundle = self.root/'with-evidence'
+        pool.pack(self.source, bundle, self.value)
+        self.assertTrue((bundle/'evidence/reference/a/analytic.json').is_file())
+        self.assertFalse(list((bundle/'repository').rglob('analytic.json')))
+        self.assertFalse(list((bundle/'repository').rglob('verification.json')))
+        pool.validate_bundle(bundle)
 
     def test_bundle_refuses_undeclared_files(self):
         path = self.bundle/'repository'/self.value['repository']['path']/'pool/accidental-secret.txt'
@@ -229,39 +251,17 @@ class PoolTests(unittest.TestCase):
              redirect_stdout(io.StringIO()):
             self.assertEqual(cli.main(['data', 'verify', '--task', 'some-other-task']), 0)
 
-    def test_shared_dependency_cycle_and_case_insensitive_destinations(self):
-        binding = self.selection['cases']['a']['item']
+    def test_shared_redirects_and_case_insensitive_destinations_are_rejected(self):
+        binding = self.selection['cases']['a']['case']
         f = self.store.get(self.value['repository']['path'] + '/' + binding['path'])
         item = pool.checked_json(f)
-        # Cycle detection precedes fetching/checking a recursive descriptor again.
-        item['shared_dependencies'] = [binding]
-        with self.assertRaisesRegex(pool.PoolError, 'Cyclic'):
-            pool.item_files(self.store, self.value['repository']['path'], binding, item, {}, active={binding['path']})
+        item['files']['input/mesh.msh']['source'] = 'pool/shared/mesh.msh'
+        with self.assertRaisesRegex(pool.PoolError, 'redirect'):
+            pool.item_files(self.store, self.value['repository']['path'], binding, item, {})
         selected = deepcopy(self.selection)
         selected['cases']['A'] = selected['cases']['a']
         with self.assertRaisesRegex(pool.PoolError, 'Case-insensitive'):
             pool.plan(selected, self.store)
-
-    def test_bound_shared_descriptor_materializes_self_contained_inputs(self):
-        selected = deepcopy(self.selection)
-        binding = selected['cases']['a']['item']
-        prefix = self.value['repository']['path']
-        f = self.store.get(prefix + '/' + binding['path'])
-        item = pool.checked_json(f)
-        shared = item['files'].pop('input/mesh.msh')
-        dependency_path = 'pool/shared/mesh-descriptor.json'
-        dep = self.bundle/'repository'/prefix/dependency_path
-        pool.write_json(dep, {'schema_version': 1, 'files': {'input/mesh.msh': shared}})
-        item['shared_dependencies'] = [{'path': dependency_path, 'sha256': pool.digest(dep)}]
-        pool.write_json(f, item)
-        for group in selected['cases'], selected['samples']:
-            for choice in group.values():
-                if choice['case_id'] == item['case_id']:
-                    choice['item']['sha256'] = pool.digest(f)
-        pool.write_json(self.task/'data-manifest.json', selected)
-        pool.assemble(self.task, selected, self.store)
-        self.assertEqual((self.task/'cases/a/mesh.msh').read_bytes(), b'shared-mesh')
-        self.assertTrue(pool.verify(self.task, strict=True, samples_only=True)['valid'])
 
     def test_source_mutation_during_pack_does_not_advertise_selection(self):
         copy = pool.shutil.copyfile

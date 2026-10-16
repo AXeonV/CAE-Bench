@@ -36,7 +36,6 @@ def configure(parser):
         elif command in ('fetch', 'assemble'):
             p.add_argument('--cases', nargs='*', help='Only these local case names; empty means no cases')
             p.add_argument('--samples', nargs='*', help='Only these local sample names; empty means no samples')
-            p.add_argument('--no-auxiliary', action='store_true')
             if command == 'assemble':
                 p.add_argument('--update', action='store_true')
         else:
@@ -60,7 +59,7 @@ def _run(args):
             for path in (PROJECT_ROOT/'qbank').glob('**/data-manifest.json'):
                 if pool.checked_json(path).get('task_id') == args.task_id:
                     raise pool.PoolError('Task ID already assigned: ' + args.task_id)
-            value = {'schema_version': 2, 'task_id': args.task_id,
+            value = {'schema_version': 3, 'task_id': args.task_id,
                      'repository': {'repo_id': args.repo_id, 'repo_type': 'dataset',
                                     'path': task.relative_to(PROJECT_ROOT).as_posix()}}
         return pool.pack(args.source or task, args.output, value)
@@ -79,7 +78,7 @@ def _run(args):
         pool.write_json(destination, result)
         return {'selection': str(destination), 'revision': store.revision,
                 'cases': len(result['cases']), 'samples': len(result['samples'])}
-    options = {'cases': args.cases, 'samples': args.samples, 'auxiliary': not args.no_auxiliary}
+    options = {'cases': args.cases, 'samples': args.samples}
     if args.data_command == 'fetch':
         result = pool.fetch(value, store, **options)
         return {k: result[k] for k in ('revision', 'scope', 'incomplete', 'overlaps')} | {

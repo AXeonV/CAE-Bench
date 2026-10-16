@@ -14,7 +14,7 @@
 | `samples/01/`、`samples/02/` | 完整公开输入与正确输出；验证记录留在出题端 |
 | `cases/<case>/` | Gmsh 网格、元数据和初始节点场 |
 | `reference/<case>/reference.h5` | 连续方程级数解在指定节点／时刻的标答 |
-| `reference/<case>/analytic.json` | 积分收敛、级数尾界及网格规模记录 |
+| `author/data-evidence/reference/<case>/analytic.json` | 积分收敛、级数尾界与网格记录，不进入 HF |
 | `author/catalog.py` | **定义测试点**：初始节点值配方、边界和网格配置 |
 | `author/mesh.py` | **生成网格**：Gmsh 划分与 tag 关联 |
 | `author/oracle.py` | **计算标答**：初始场数值积分与特征函数级数求和 |

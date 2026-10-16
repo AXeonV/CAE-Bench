@@ -45,7 +45,7 @@ class HeatTests(unittest.TestCase):
             problem = load_problem(path)
             reference_dir = TASK / "reference" / path.parent.name
             reference = load_result(problem, reference_dir / "reference.h5")
-            analytic = json.loads((reference_dir / "analytic.json").read_text(encoding="utf-8"))
+            analytic = json.loads((TASK / "author/data-evidence/reference" / path.parent.name / "analytic.json").read_text(encoding="utf-8"))
             coordinates, elements = baseline.read_geometry(problem)
             cls.cases.append((problem, reference, analytic, coordinates, elements))
 
@@ -79,7 +79,7 @@ class HeatTests(unittest.TestCase):
                              policy=self.policy)
         self.assertEqual(report["score"], 1)
         np.testing.assert_array_equal(result["temperature"], reference["temperature"])
-        saved = json.loads((sample/"verification.json").read_text(encoding="utf-8"))
+        saved = json.loads((TASK/"author/data-evidence/samples"/sample.name/"verification.json").read_text(encoding="utf-8"))
         self.assertEqual(saved, {"case": original.path.parent.name, **report})
 
     def test_frozen_inputs_match_advertised_ranges_and_coefficients(self):
@@ -128,8 +128,10 @@ class HeatTests(unittest.TestCase):
         expected_temperature = (1 + coordinates[:, 0] + coordinates[:, 1])[None, :, None]
         np.testing.assert_allclose(reference["temperature"], expected_temperature, atol=1e-14, rtol=0)
         self.assertEqual(self.grade(problem, baseline.solve(problem), reference)["score"], 1)
-        saved = json.loads((sample / "verification.json").read_text(encoding="utf-8"))
-        private_reference = TASK / "reference" / saved["case"] / "reference.h5"
+        saved = json.loads((TASK/"author/data-evidence/samples"/sample.name/"verification.json").read_text(encoding="utf-8"))
+        # The analytic values were checked above; samples no longer retain a
+        # duplicate author-side HDF5 solely to reproduce a verification report.
+        private_reference = sample / "output/result.h5"
         report = grade_files(problem.path, sample / "output/result.h5", private_reference,
                              policy=self.policy)
         self.assertEqual(report["score"], 1)

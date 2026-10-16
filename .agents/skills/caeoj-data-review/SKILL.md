@@ -23,7 +23,7 @@ description: "审计 CAE-Bench-OJ 全部实际输入及公开输出与题面、D
 
 ## 先盘点事实
 
-按当前格式核对池选样的 case ID、条目描述绑定、角色、装配映射及依赖闭包。已有 `caeoj-maint data fetch/assemble/verify`；纯审计先运行 `data verify`，需要获取缺失材料时按维护指南装配，不覆盖本地差异或刷新绑定来掩盖问题。池中存在条目不表示本地已装配；文件一致性不代替真实数据契约与数值审核。
+按当前格式核对池选样的 case ID、`case.json` 绑定、角色及完整自包含文件集。已有 `caeoj-maint data fetch/assemble/verify`；纯审计先运行 `data verify`，需要获取缺失材料时按维护指南装配，不覆盖本地差异或刷新绑定来掩盖问题。作者验证记录在 `author/data-evidence/`，不由 HF 附件补充题意。池中存在 case 不表示本地已装配；文件一致性不代替契约和数值审核。
 
 题目存在 `data-manifest.json` 时，按[数据获取与维护](../../../qbank/maintenance/DATA-SYNC.md)定位数据并核对 SHA-256、输入／参考分组和共享依赖。clone 后没有本地目录不表示远端无数据。工具校验已接入发布与 Harbor 前置，但实际数值审核仍按本技能逐项完成。
 

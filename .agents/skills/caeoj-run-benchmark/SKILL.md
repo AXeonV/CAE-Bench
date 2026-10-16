@@ -9,7 +9,7 @@ description: 在 CAE-Bench-OJ 中运行指定题目的 Agent benchmark，检查�
 
 日常评测主线为确认数据就绪 → 打包并统一组装 → 启动监控 → 运行 Agent → 汇总结果。首次安装和数据制作属于按需准备；开发回归、手工结构诊断、Oracle 和单点复核按变更或诊断需要执行，不把它们变成每轮必跑项。命令示例见 [README 运行指南](../../../README.md#运行)。
 
-题目存在 `data-manifest.json` 时，按[数据获取与维护](../../../qbank/maintenance/DATA-SYNC.md)用 `caeoj-maint data assemble` 获取所选材料，再运行 `data verify --strict`。发布器严格核验样例，Harbor 准备严格核验全套输入、参考、依赖及重复选样；失败即停止，不自动重选、刷新摘要或覆盖差异来绕过检查。HF 数据公开不改变考生白名单。
+题目存在 `data-manifest.json` 时，按[数据池操作](../../../qbank/maintenance/DATA-SYNC.md)用 `caeoj-maint data assemble` 获取所选自包含 case，再运行 `data verify --strict`。发布器严格核验样例，Harbor 准备严格核验全套输入、参考及重复选样；失败即停止，不自动重选、刷新摘要或覆盖差异绕过检查。作者记录留在 `author/data-evidence/`，不从 HF 拉附件。HF 数据公开不改变考生白名单。
 
 调用本技能运行 benchmark 即包含本地材料准备、执行及监控，无须逐项重复批准。模型、收费规模或执行主机未确定时，优先使用用户已确认的本次配置，否则只询问真正缺失的选项；不能从当前助手型号推断被测模型。未指定重复／并发时，采用一次、并发一并明示。数据审计、装配和监控准备可以先行；不得在模型或必要约束未明确前启动收费 trial。
 

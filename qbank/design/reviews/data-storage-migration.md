@@ -1,5 +1,7 @@
 # 首批 HF 数据迁移记录
 
+本文是首批镜像及初版池的历史证据。当前 HF 已改为每 case 自包含目录，作者证据移回代码仓库，见[case 布局收束](case-pool-simplification.md)。
+
 ## 范围与结果
 
 2026-10-16 将第零章协议测试和第一章两道热传导题的现有数据迁入公开的 [HF 数据仓库](https://huggingface.co/datasets/jimzhouzzy2006/CAE-Bench-OJ)。数据提交为 [`1265d7fa13dd4fcec7313774503f0c3659fe2d42`](https://huggingface.co/datasets/jimzhouzzy2006/CAE-Bench-OJ/commit/1265d7fa13dd4fcec7313774503f0c3659fe2d42)。这是本次核验依据，不是要求今后一直下载该版本。

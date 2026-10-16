@@ -19,7 +19,7 @@ description: 根据 CAE-Bench-OJ 给定题面设计或修订自包含 DATA.md，
 
 存储、配置形式和诊断边界以当前 CONTRACT 为准；开发注册、公开闭包及接口转发见[运行装配维护说明](../../../qbank/maintenance/RUNTIME.md)。协议或工具变更后同步本技能、设计流程及受影响读者的说明，不把已废弃入口作为新题模板。
 
-HF 池定位、选样与下载装配属于维护层，不向 `problem.json` 或 DATA 加入下载协议。用户另行要求实际数据管理时使用 [caeoj-manage-data](../caeoj-manage-data/SKILL.md) 和现有 `caeoj-maint data` 命令；本技能的默认 DATA 设计范围不因此扩展为数据制作或上传。
+HF 池定位、选样与下载装配属于维护层，不向 `problem.json` 或 DATA 加入下载协议。每个 case 的输入包自包含，不依赖附件或跨目录共享资产；解析和验证记录归作者材料。用户另行要求数据管理时使用 [caeoj-manage-data](../caeoj-manage-data/SKILL.md) 和 `caeoj-maint data`；默认 DATA 设计范围不扩展为数据制作或上传。
 
 已有领域说明可在需要时作为维护参考，位于 `qbank/maintenance/protocols/`；它不拥有额外考生定义，不要求每题新建，也不进入公开包。维护模板或生成器可以复用，但生成的每题 DATA 必须独立完整。
 

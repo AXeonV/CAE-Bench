@@ -1,0 +1,36 @@
+{
+  "case": "sample-02-mixed-boundaries",
+  "status": "accepted",
+  "score": 1,
+  "policy_version": 2,
+  "policy_sha256": "48a288e820cef9cf56135f919b4a7353c27f29d2d1da65f55017315dda0d9653",
+  "bound_policy_sha256": "df67c5f3124589264a676dad67bb88001c84a0e81b5b77330818552c32f852f7",
+  "fields": {
+    "temperature": {
+      "condition": {
+        "metric": "pointwise",
+        "time": "per_time",
+        "components": "per_component",
+        "atol": 0.01,
+        "rtol": 0.0
+      },
+      "passed": true,
+      "groups": [
+        {
+          "time_index": 0,
+          "component_index": 0,
+          "worst_location": {
+            "time_index": 0,
+            "time": 0.0,
+            "id": 1,
+            "component_index": 0
+          },
+          "value": 0.0,
+          "passed": true,
+          "failed_values": 0,
+          "total_values": 9
+        }
+      ]
+    }
+  }
+}

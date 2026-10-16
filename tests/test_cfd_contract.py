@@ -20,7 +20,7 @@ from caeoj.storage import write_hdf5
 from caeoj.validation import Problem, read_hdf5, validate_input, write_json
 
 ROOT=Path(__file__).resolve().parents[1]
-spec=importlib.util.spec_from_file_location('cfd_example_generator',ROOT/'src/utils/make_cfd_examples.py')
+spec=importlib.util.spec_from_file_location('cfd_example_generator',ROOT/'qbank/maintenance/cfd_examples.py')
 examples=importlib.util.module_from_spec(spec);spec.loader.exec_module(examples)
 
 
@@ -331,12 +331,15 @@ class CFDContractTests(unittest.TestCase):
         catalog=json.loads(catalog_path.read_text());catalog['tasks']['cfd-fixture']=['fluid.single_phase']
         catalog_path.write_text(json.dumps(catalog))
         task=root/'qbank/99-test/99.1-fixtures/cfd-fixture';task.mkdir(parents=True)
-        for name,text in [('instruction.md','Uniform rest contract fixture.'),('DATA.md','Packaging fixture; file structure follows docs/CONTRACT.md.'),('judge-config.json',json.dumps({'atol':0.,'rtol':0.,'timeout_seconds':1}))]:
+        for name,text in [('instruction.md','Uniform rest contract fixture.'),('DATA.md','Packaging fixture; file structure follows docs/CONTRACT.md.'),('judge-config.json',json.dumps({'timeout_seconds':1}))]:
             (task/name).write_text(text)
         sample=task/'samples/01';shutil.copytree(self.case,sample/'input')
         (sample/'input/reference.h5').unlink();(sample/'output').mkdir();shutil.copyfile(self.case/'reference.h5',sample/'output/result.h5')
         manifest_path=sample/'input/problem.json';manifest=json.loads(manifest_path.read_text())
         manifest['task']='cfd-fixture';manifest_path.write_text(json.dumps(manifest))
+        (task/'grading.json').write_text(json.dumps({'version': 1, 'fields': {
+            name: {'metric': 'pointwise', 'time': 'per_time', 'components': 'per_component',
+                   'atol': 0., 'rtol': 0.} for name in manifest['outputs']}}))
         spec=importlib.util.spec_from_file_location('cfd_public_packager',ROOT/'src/utils/publish_dist.py')
         publisher=importlib.util.module_from_spec(spec);spec.loader.exec_module(publisher)
         files,_=publisher.collect_materials('cfd-fixture',root)

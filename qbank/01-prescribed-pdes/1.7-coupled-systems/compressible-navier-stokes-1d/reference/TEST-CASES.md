@@ -1,6 +1,6 @@
 # 隐藏测试算例规划（作者材料）
 
-**数据准备状态由工具逐例记录，判分配置尚未接入。** 本题计划 2 个公开样例及 16 个隐藏测试点；实际来源与拆分见 selection.json，完成状态见本地生成的 ../author/preparation.json；这些数量不表示评测已校准。本文和 author/ 均不进入 Agent 公开包。
+**数据准备状态由工具逐例记录；试运行评分与资源配置见本题 grading.json、judge-config.json 及 harbor/。** 本题计划 2 个公开样例及 16 个隐藏测试点；实际来源与拆分见 selection.json，完成状态见本地生成的 ../author/preparation.json；这些数量不表示评测已校准。本文和 author/ 均不进入 Agent 公开包。
 
 ## 测试分组
 
@@ -42,9 +42,10 @@ samples/02/input/
 samples/02/output/
 cases/<case-ID>/        # 工具生成：problem.json、mesh.msh、input.h5
 reference/<case-ID>/    # 工具生成：reference.h5、certificate.json
-author/                # 工具生成：selection.json、preparation.json、prepared/、sample-certificates/
+reference/             # selection.json（冻结来源）、sample-certificates/（样例私有证书）
+author/                # 本地生成：preparation.json、prepared/
 ```
 
-case ID 使用本表的三位编号；cases 与 reference 必须一一对应。具体 case 子目录由工具在源选择冻结后创建；数值文件不进入 Git，克隆后需运行工具生成。证书记录源身份、实际数组哈希、空间/时间映射、参考来源、误差证据及工具版本；不复制到公开包。公开样例的私有证书由 author/ 保存。
+case ID 使用本表的三位编号；cases 与 reference 必须一一对应。具体 case 子目录由工具在源选择冻结后创建；数值文件不进入 Git，克隆后需运行工具生成。证书记录源身份、实际数组哈希、空间/时间映射、参考来源、误差证据及工具版本；不复制到公开包。公开样例的私有证书保存在 reference/sample-certificates/。
 
 `.gitkeep` 仅为目录占位；问题定义与 JSON 证书纳入 Git，数值数组及网格需由工具补齐。本工具不生成 judge-config.json；真实样例、完整参考、误差阈值和执行资源全部审核完成后，才能发布或组装 Harbor。

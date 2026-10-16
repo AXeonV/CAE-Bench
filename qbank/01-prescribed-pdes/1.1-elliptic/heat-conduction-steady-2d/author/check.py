@@ -7,6 +7,7 @@ import sys
 import uuid
 
 from caeoj.grading import grade_files
+from caeoj.grading_policy import load_policy, policy_hash
 from caeoj.sdk import load_problem, load_result
 from caeoj.validation import ContractError, write_json
 
@@ -17,6 +18,7 @@ PROJECT_ROOT = TASK_ROOT.parents[3]
 def check(program, report_path, task_root=TASK_ROOT):
     task_root, program, report_path = Path(task_root).resolve(), Path(program).resolve(), Path(report_path).resolve()
     config = json.loads((task_root / "judge-config.json").read_text(encoding="utf-8"))
+    policy = load_policy(task_root/'grading.json')
     paths = sorted((task_root / "cases").glob("*/problem.json"))
     if not paths:
         raise ValueError("No heat cases; run author/generate.py first")
@@ -49,7 +51,7 @@ def check(program, report_path, task_root=TASK_ROOT):
                 grade = {"score": 0, "status": "missing_output"}
             else:
                 grade = grade_files(path, output, reference,
-                                    atol=config["atol"], rtol=config["rtol"])
+                                    policy=policy)
         except subprocess.TimeoutExpired as exc:
             for name, data in (("stdout", exc.stdout), ("stderr", exc.stderr)):
                 (directory / f"{name}.log").write_bytes(data or b"")
@@ -62,7 +64,7 @@ def check(program, report_path, task_root=TASK_ROOT):
     report = {"task": "heat-conduction-steady-2d", "status": "graded" if infrastructure_ok else "runner_error",
               "score": count if infrastructure_ok else None, "passed_cases": count, "total_cases": len(results),
               "passed": infrastructure_ok and count == len(results),
-              "tolerance": {"atol": config["atol"], "rtol": config["rtol"]}, "cases": results}
+              "policy_sha256": policy_hash(policy), "cases": results}
     write_json(report_path, report)
     return report
 

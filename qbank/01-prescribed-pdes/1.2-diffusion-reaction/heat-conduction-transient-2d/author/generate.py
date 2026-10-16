@@ -8,6 +8,7 @@ import shutil
 import numpy as np
 
 from caeoj.grading import grade_files
+from caeoj.grading_policy import load_policy
 from caeoj.sdk import load_problem, write_result
 from caeoj.validation import write_json
 from catalog import CASES, SIDES
@@ -87,7 +88,7 @@ def generate_case(case, destination):
 
 
 def publish_samples(destination):
-    config = json.loads((ROOT/'judge-config.json').read_text(encoding='utf-8'))
+    policy = load_policy(ROOT/'grading.json')
     # A zero fixture and an independent nonzero mixed-boundary fixture.
     for number, case_name in [('01', '01-zero'), ('02', '15-four-operators')]:
         sample = destination/'samples'/number
@@ -99,7 +100,7 @@ def publish_samples(destination):
         output = sample/'output/result.h5'
         output.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(reference_path, output)
-        report = grade_files(problem.path, output, reference_path, atol=config['atol'], rtol=config['rtol'])
+        report = grade_files(problem.path, output, reference_path, policy=policy)
         if report['score'] != 1:
             raise ValueError('Public output failed its task grader')
         write_json(sample/'verification.json', {'case': case_name, **report})

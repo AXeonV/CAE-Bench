@@ -161,7 +161,7 @@ SDK 提供 `sample_field`、`absolute_pressure`、`fluid_material`、`density_at
 ## 可再生示例
 
 ```sh
-python src/utils/make_cfd_examples.py --output runs/cfd-contract-examples
+python qbank/maintenance/cfd_examples.py --output runs/cfd-contract-examples
 python -m caeoj validate-input runs/cfd-contract-examples/compressible-3d/problem.json
 python -m caeoj validate-output --input runs/cfd-contract-examples/compressible-3d/problem.json --output runs/cfd-contract-examples/compressible-3d/reference.h5
 ```

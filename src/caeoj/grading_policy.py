@@ -157,13 +157,6 @@ def policy_hash(policy):
                                     allow_nan=False).encode()).hexdigest()
 
 
-def legacy_policy(problem, atol, rtol):
-    return {'version': 1, 'fields': {
-        name: {'metric': 'pointwise', 'time': 'per_time', 'components': 'per_component',
-               'atol': atol, 'rtol': rtol}
-        for name, spec in problem.manifest['outputs'].items() if spec['dtype'] == 'float64'}}
-
-
 def render_policy(policy):
     """Describe exactly the same tree used by the grader, without author metadata."""
     validate_policy(policy)

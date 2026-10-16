@@ -1,5 +1,6 @@
 """Physical declarations and helpers for complex fluid."""
 import numpy as np
+from .. import reduced_parameters
 from .._rheology import viscosity_response
 from .._declaration_checks import check_declaration
 from .._geometry import boundary_geometry
@@ -308,10 +309,6 @@ MODELS = {'fluid-reduced-viscoelastic-steady-v1': {'slug': 'viscoelastic-steady'
                                                                  'start_time',
                                                                  'end_time'],
                                            'nonnegative_parameters': []}}
-
-def reduced_parameters(problem):
-    """Return declared SI constants, with no defaulting or conversion."""
-    return {k:v['value'] for k,v in problem.manifest['physics']['parameters'].items()}
 
 
 def _check_parameters(cfg, p, fail):

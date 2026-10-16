@@ -72,8 +72,6 @@ def main(argv=None):
     print(json.dumps(result, indent=2, ensure_ascii=True, allow_nan=False))
     if 'valid' in result:
         return 0 if result['valid'] else 1
-    if result.get('status') == 'input_error':
-        return 1
     if 'score' in result:
         return 2 if result['score'] is None else 0 if result['score'] == 1 else 1
     return 0

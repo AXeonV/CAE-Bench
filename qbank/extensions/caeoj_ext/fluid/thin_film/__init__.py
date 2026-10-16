@@ -1,5 +1,6 @@
 """Physical declarations and helpers for thin film."""
 import numpy as np
+from .. import reduced_parameters
 from .._declaration_checks import check_declaration
 from .._geometry import boundary_geometry
 
@@ -189,10 +190,6 @@ MODELS = {'fluid-reduced-liquid-lubrication-v1': {'slug': 'liquid-lubrication',
                                         'exchange_wall_only': False,
                                         'signed_parameters': ['reference_pressure'],
                                         'nonnegative_parameters': []}}
-
-def reduced_parameters(problem):
-    """Return declared SI constants, with no defaulting or conversion."""
-    return {k:v['value'] for k,v in problem.manifest['physics']['parameters'].items()}
 
 
 def _check_parameters(cfg, p, fail):

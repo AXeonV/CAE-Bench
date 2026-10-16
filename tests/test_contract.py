@@ -16,12 +16,10 @@ import numpy as np
 
 from caeoj.sdk import id_to_row, load_problem, load_result, read_constant, read_field, target_ids, write_result
 from caeoj.grading import grade_arrays
-from caeoj_tools.author import load_author_module
+from caeoj_tools.author import PROJECT_ROOT, load_author_module
 _examples = load_author_module('smoke-test', 'examples')
 CASE_NAMES = _examples.CASE_NAMES
-from caeoj_tools.author import load_author_module
 _smoke = load_author_module('smoke-test', 'smoke')
-PROJECT_ROOT = _smoke.PROJECT_ROOT
 run_smoke = _smoke.run_smoke
 from caeoj.validation import ContractError, output_support, read_json, read_hdf5, validate_input, validate_output, write_json
 

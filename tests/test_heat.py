@@ -10,10 +10,9 @@ import unittest
 import numpy as np
 
 from caeoj.grading import grade_arrays, grade_files
+from caeoj.grading_policy import load_policy
 from caeoj.sdk import load_problem, load_result, read_constant, read_field
-from caeoj_tools.author import load_author_module
-_smoke = load_author_module('smoke-test', 'smoke')
-PROJECT_ROOT = _smoke.PROJECT_ROOT
+from caeoj_tools.author import PROJECT_ROOT
 from caeoj.validation import check_result, output_support
 
 TASK = PROJECT_ROOT / "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d"
@@ -40,6 +39,7 @@ class HeatTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.config = json.loads((TASK / "judge-config.json").read_text(encoding="utf-8"))
+        cls.policy = load_policy(TASK/'grading.json')
         cls.cases = []
         for path in sorted((TASK / "cases").glob("*/problem.json")):
             problem = load_problem(path)
@@ -53,7 +53,7 @@ class HeatTests(unittest.TestCase):
         arrays = {key: problem.arrays[key] for key in output_support(problem)}
         arrays["temperature"] = temperature
         self.assertTrue(check_result(problem, arrays)["valid"])
-        return grade_arrays(problem, arrays, reference, atol=self.config["atol"], rtol=self.config["rtol"])
+        return grade_arrays(problem, arrays, reference, policy=self.policy)
 
     def case(self, prefix):
         return next(item for item in self.cases if item[0].path.parent.name.startswith(prefix))
@@ -76,9 +76,9 @@ class HeatTests(unittest.TestCase):
         np.testing.assert_array_equal(result["temperature"], np.full((1, 9, 1), 4.0))
         self.assertEqual(len(problem.arrays["domain_ids"]), 8)
         report = grade_files(problem.path, sample/"output/result.h5", TASK/"reference"/original.path.parent.name/"reference.h5",
-                             atol=self.config["atol"], rtol=self.config["rtol"])
+                             policy=self.policy)
         self.assertEqual(report["score"], 1)
-        self.assertEqual(report["fields"]["temperature"]["max_abs_error"], 0)
+        np.testing.assert_array_equal(result["temperature"], reference["temperature"])
         saved = json.loads((sample/"verification.json").read_text(encoding="utf-8"))
         self.assertEqual(saved, {"case": original.path.parent.name, **report})
 
@@ -131,7 +131,7 @@ class HeatTests(unittest.TestCase):
         saved = json.loads((sample / "verification.json").read_text(encoding="utf-8"))
         private_reference = TASK / "reference" / saved["case"] / "reference.h5"
         report = grade_files(problem.path, sample / "output/result.h5", private_reference,
-                             atol=self.config["atol"], rtol=self.config["rtol"])
+                             policy=self.policy)
         self.assertEqual(report["score"], 1)
         self.assertEqual(saved, {"case": saved["case"], **report})
 
@@ -212,9 +212,10 @@ class HeatTests(unittest.TestCase):
         errors = {}
         for problem, reference, *_ in self.cases:
             with self.subTest(case=problem.path.parent.name):
-                report = self.grade(problem, baseline.solve(problem), reference)
+                values = baseline.solve(problem)
+                report = self.grade(problem, values, reference)
                 self.assertEqual(report["score"], 1)
-                errors[problem.path.parent.name] = report["fields"]["temperature"]["max_abs_error"]
+                errors[problem.path.parent.name] = np.max(np.abs(values-reference["temperature"]))
         self.assertLess(errors["30-bubble-refined"], errors["29-bubble-coarser"]/5)
         self.assertLess(errors["07-zero-boundary-bubble"], errors["29-bubble-coarser"]/2)
 
@@ -253,6 +254,7 @@ class HeatTests(unittest.TestCase):
             source = self.case("01")[0].path.parent
             shutil.copytree(source, root/"cases"/source.name)
             shutil.copy(TASK/"judge-config.json", root/"judge-config.json")
+            shutil.copy(TASK/"grading.json", root/"grading.json")
             # Missing reference: the program path is deliberately also invalid.
             report = local_check.check(root/"missing.py", root/"report.json", root)
             self.assertEqual(report["cases"][0]["status"], "reference_error")

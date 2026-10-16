@@ -2,7 +2,7 @@
 
 CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕通用数据协议、结构校验、测试数据和独立判分组织，支持持续增加不同物理模型的题目和测试。
 
-通用数据协议见 [CONTRACT.md](docs/CONTRACT.md)，考生只需本题 instruction.md、DATA.md 和 CONTRACT.md；[CFD-2.1.md](qbank/maintenance/protocols/CFD-2.1.md) 等领域文档仅供维护实现参考，多指标评分配置见 [GRADING.md](docs/GRADING.md)，初版实施规划见 [MVP-PLAN.md](docs/MVP-PLAN.md)，Agent 测试记录见 [AGENT-RESULTS.md](docs/AGENT-RESULTS.md)。题目统一保存在 `qbank/<章>/<节>/<题目>/`，按 [qbank 总体设计](qbank/design/README.md) 建设，第一章已有 [13 道给定 PDE 题](qbank/01-prescribed-pdes/README.md)，第二章已撰写 [65 道题面](qbank/02-fluid-mechanics/README.md)，第三章已完成 [9 节 21 道固体与结构力学题面及 DATA](qbank/03-solid-mechanics/README.md)，第四章已完成 [6 节 12 道多体力学题面及 DATA](qbank/04-multibody-mechanics/README.md)，第五章已完成 [6 节 13 道传热与热过程题面及 DATA](qbank/05-heat-transfer/README.md)，第六章已完成 [6 节 10 道声学分析题面及 DATA](qbank/06-acoustics/README.md)，第七章已完成 [7 节 10 道电磁场与电路题面及 DATA](qbank/07-electromagnetics/README.md)，第八章已完成 [6 节 8 道光学与光子学题面及 DATA](qbank/08-optics/README.md)；第二至第八章正式数值数据、参考及评测发布后续补充。
+考生阅读本题 `instruction.md`、`DATA.md` 和[通用数据协议](docs/CONTRACT.md)即可确定任务与数据规则。维护方可查阅[题库设计](qbank/design/README.md)、[运行装配](qbank/maintenance/RUNTIME.md)、[评分配置](docs/GRADING.md)及 [Agent 测试记录](docs/AGENT-RESULTS.md)。
 
 ## 设计
 
@@ -14,18 +14,21 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 | 路径 | 职责 |
 |---|---|
-| `docs/` | 通用协议与项目规划 |
+| `docs/` | 通用协议、评分规则与 Agent 测试记录 |
 | `src/caeoj/problem.schema.json` | JSON 元数据 Schema |
 | `src/caeoj/validation.py` | 基于通用数据协议的**结构校验器** |
 | `src/caeoj/sdk.py` | 常量／字段读取与输出帮助 |
 | `src/caeoj/storage.py` | 基于 h5py 的标准 HDF5 数组读写 |
 | `src/caeoj/grading.py` | 与参考输出比较的**独立判分器** |
 | `src/caeoj/cli.py` | 校验与判分命令入口 |
-| `src/utils/publish_dist.py` | 打包单题的公开解题材料到 dist |
+| `src/caeoj/runtime.py` | 加载已安装的契约描述，组合 Schema 和声明检查 |
+| `src/caeoj_tools/` | 题目定位、作者工具加载、依赖锁定与公开运行装配 |
+| `qbank/extensions/` | 共享领域检查及辅助函数、题目与扩展的可信绑定 |
+| `src/utils/publish_dist.py` | 将单题或题集的公开材料及所需运行工具打包到 dist |
 | `src/utils/prepare_harbor.py` | **统一组装** Harbor 临时任务环境 |
 | `src/utils/harbor/` | 通用 Harbor 模板与逐例判题逻辑 |
 | `src/utils/PDEBench/` | PDEBench 数据获取、协议转换与参考审核 |
-| `qbank/` | 统一题库设计及按章、节组织的题目；[第 0 章](qbank/00-basic-tests/README.md)包含已迁移的 smoke-test |
+| `qbank/` | 按章、节组织的题目，以及设计和维护资料 |
 | `tests/` | 协议、校验、判分和题目数据的自动测试 |
 | `runs/` | 本地输出、临时 Harbor 任务和运行报告，不纳入版本控制 |
 
@@ -33,30 +36,25 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 ## 任务
 
-### 题目列表
+题目位于 `qbank/<章>/<节>/<题目>/`，具体题面、数据要求与准备方法见各题 README。
 
-题面、输入输出约定、数据生成与验证方法见各题 README。
+| 目录 | 内容 |
+|---|---|
+| [第 0 章](qbank/00-basic-tests/README.md) | 输入输出 smoke test |
+| [第 1 章](qbank/01-prescribed-pdes/README.md) | 给定 PDE，包括自主设计题目与 PDEBench 数据适配 |
+| [第 2 章](qbank/02-fluid-mechanics/README.md) | 流体力学 |
+| [第 3 章](qbank/03-solid-mechanics/README.md) | 固体与结构力学 |
+| [第 4 章](qbank/04-multibody-mechanics/README.md) | 多体力学 |
+| [第 5 章](qbank/05-heat-transfer/README.md) | 传热与热过程 |
+| [第 6 章](qbank/06-acoustics/README.md) | 声学分析 |
+| [第 7 章](qbank/07-electromagnetics/README.md) | 电磁场与电路 |
+| [第 8 章](qbank/08-optics/README.md) | 光学与光子学 |
 
-| 目录 | 问题 | 要求输出 |
-|---|---|---|
-| [smoke-test](qbank/00-basic-tests/0.1-io/smoke-test/instruction.md) | 简单测试：回传输入场，检查读写与判题链路 | 输入要求回传的场 |
-| [heat-conduction-steady-2d](qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/README.md) | 稳态热传导 | temperature |
-| [heat-conduction-transient-2d](qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d/README.md) | 瞬态热传导 | temperature |
-| [advection-1d](qbank/01-prescribed-pdes/1.3-scalar-transport/advection-1d/README.md) | 一维周期线性平流 | state |
-| [burgers-1d](qbank/01-prescribed-pdes/1.5-advection-diffusion/burgers-1d/README.md) | 一维周期黏性 Burgers 方程 | state |
-| [reaction-diffusion-1d](qbank/01-prescribed-pdes/1.2-diffusion-reaction/reaction-diffusion-1d/README.md) | 一维 logistic 反应扩散 | state |
-| [diffusion-sorption-1d](qbank/01-prescribed-pdes/1.2-diffusion-reaction/diffusion-sorption-1d/README.md) | 一维 Freundlich 迟滞扩散 | concentration |
-| [reaction-diffusion-2d](qbank/01-prescribed-pdes/1.2-diffusion-reaction/reaction-diffusion-2d/README.md) | 二维 FitzHugh–Nagumo 反应扩散 | activator、inhibitor |
-| [darcy-flow-2d](qbank/01-prescribed-pdes/1.1-elliptic/darcy-flow-2d/README.md) | 二维空间变系数 Darcy 型稳态问题 | state |
-| [shallow-water-2d](qbank/01-prescribed-pdes/1.4-hyperbolic/shallow-water-2d/README.md) | 二维浅水方程 | depth |
-| [compressible-navier-stokes-1d](qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-1d/README.md) | 一维可压缩 Navier–Stokes | density、velocity、pressure |
-| [compressible-navier-stokes-2d](qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-2d/README.md) | 二维可压缩 Navier–Stokes | density、velocity、pressure |
-| [compressible-navier-stokes-3d](qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-3d/README.md) | 三维可压缩 Navier–Stokes | density、velocity、pressure |
-| [incompressible-navier-stokes-2d](qbank/01-prescribed-pdes/1.6-constrained-systems/incompressible-navier-stokes-2d/README.md) | 二维非均匀强迫不可压缩流 | velocity |
+第 2～8 章已完成题面、DATA 和评测配置；正式数值数据、参考及评测发布仍待完成。
 
 ## 运行
 
-第 0 章的本地输入输出测试使用 `python -m caeoj_tools.cli smoke`，详见[基础测试说明](qbank/00-basic-tests/README.md)。以下流程适用于已具备真实数据及公开样例的 qbank 题目。题目位置见[第一章目录](qbank/01-prescribed-pdes/README.md)；第二章目前仅完成题面。
+以下流程适用于具备真实数据及完整公开样例的题目。第 0 章的本地读写测试使用 `python -m caeoj_tools.cli smoke`，详见[基础测试说明](qbank/00-basic-tests/README.md)。
 
 `<task>` 是稳定题目标识，例如 `heat-conduction-steady-2d`；`<task-dir>` 是其真实目录，例如 `qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d`。发布器和组装器按标识自动定位，不接受路径作为 `--task`。
 
@@ -66,12 +64,15 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 Docker、Python 环境和 Agent 认证需先配置好。认证由执行主机的环境变量提供，也可在 Agent 运行命令中追加 `--env-file '<agent-env-file>'`；Codex 的 `CODEX_AUTH_JSON_PATH` 指向自行配置的登录文件。
 
-**2. 准备所选算例的数据。** 使用对应数据生成器或来源适配器，之后共用步骤 3～7。
-
-提供独立生成器的题目沿用“安装依赖 → 生成输入与标答 → 运行测试”的流程。以下安装项覆盖全仓库测试依赖，题目专用依赖与生成参数见对应 README：
-
 ```sh
 python -m pip install -e '.[maint,heat,pdebench]' -e qbank/extensions harbor
+```
+
+**2. 准备所选算例的数据。** 使用对应数据生成器或来源适配器，之后共用步骤 3～7。
+
+提供独立生成器的题目生成输入与参考后运行相关测试；专用依赖与生成参数见对应 README：
+
+```sh
 python '<task-dir>/author/generate.py'
 python -m unittest discover -s tests -p '<test-file>.py' -v
 ```
@@ -81,7 +82,6 @@ python -m unittest discover -s tests -p '<test-file>.py' -v
 当前部分题目的算例来自 PDEBench；其来源适配器负责获取、转换并审核数据。具体来源、样本索引和参考证据见各题 `reference/`，数据集不作为题目分类或题目 ID：
 
 ```sh
-python -m pip install -e '.[maint,pdebench]' -e qbank/extensions harbor
 python src/utils/PDEBench/prepare.py --tasks '<task>' --budget-gb 60 --no-bootstrap
 ```
 
@@ -132,12 +132,12 @@ trial 的 `verifier/report.json` 保存逐点得分与误差，`reward.txt` 保�
 ```sh
 python '<solver.py>' --input '<task-dir>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5'
 python -m caeoj validate-output --input '<task-dir>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5'
-python -m caeoj grade --input '<task-dir>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5' --reference '<task-dir>/reference/<case>/reference.h5' --atol '<atol>' --rtol '<rtol>'
+python -m caeoj grade --input '<task-dir>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5' --reference '<task-dir>/reference/<case>/reference.h5' --grading '<task-dir>/grading.json'
 ```
 
-新策略使用 `--grading <task-dir>/grading.json` 替代 `--atol/--rtol`；支持按字段的 RMSE、NRMSE、最大误差、超限比例及 AND／OR 条件。旧配置保持原判分行为。
+使用题目提供的 `grading.json`，支持的评分方式见 [GRADING.md](docs/GRADING.md)。
 
-当前 qbank 全部79题已有 judge／Harbor 设置；第二章的评分模板按每例 quantity 与单位绑定实际输出名。配置消费点、总预算计算与数据就绪边界见[维护说明](qbank/maintenance/EVALUATION.md)，配置完成不代表正式数据或评测发布完成。
+配置消费点、总预算计算与数据就绪边界见[维护说明](qbank/maintenance/EVALUATION.md)；配置完成不代表正式数据或评测发布完成。
 
 阈值取题目判分配置。校验输出 `valid/errors` JSON；判分每点为 0/1，退出码 2 表示输入、参考或参数异常。
 

@@ -1,5 +1,6 @@
 """Physical declarations and helpers for depth averaged."""
 import numpy as np
+from .. import reduced_parameters
 from .._declaration_checks import check_declaration
 from .._geometry import boundary_geometry
 
@@ -203,10 +204,6 @@ MODELS = {'fluid-reduced-fully-wet-steady-v1': {'slug': 'fully-wet-steady',
                                 'exchange_wall_only': False,
                                 'signed_parameters': ['start_time', 'end_time'],
                                 'nonnegative_parameters': ['bottom_drag', 'interface_drag']}}
-
-def reduced_parameters(problem):
-    """Return declared SI constants, with no defaulting or conversion."""
-    return {k:v['value'] for k,v in problem.manifest['physics']['parameters'].items()}
 
 
 def _check_parameters(cfg, p, fail):

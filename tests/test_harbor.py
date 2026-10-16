@@ -44,9 +44,6 @@ class HarborTests(unittest.TestCase):
             target = self.root / name
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(data)
-        # A release contains a derived legacy policy; the author fixture keeps
-        # the original legacy config as its sole source, like the real task.
-        (self.root / TASK_PATH / 'grading.json').unlink()
         source = ROOT / TASK_PATH
         task = self.root / TASK_PATH
         cases = sorted((source / 'cases').iterdir())[:2]
@@ -104,7 +101,6 @@ class HarborTests(unittest.TestCase):
         (task / 'grading.json').write_text(json.dumps(policy))
         config_path = task / 'judge-config.json'
         config = json.loads(config_path.read_text())
-        del config['atol']; del config['rtol']
         config_path.write_text(json.dumps(config))
         cases = sorted((task / 'cases').glob('*/problem.json'))
         manifest = json.loads(cases[1].read_text())
@@ -134,7 +130,7 @@ class HarborTests(unittest.TestCase):
             'temperature': {'unit': 'K', 'rule': {'metric': 'pointwise', 'time': 'per_time',
             'components': 'per_component', 'atol': .01, 'rtol': 0}}}}))
         config_path = task / 'judge-config.json'
-        config = json.loads(config_path.read_text()); del config['atol']; del config['rtol']
+        config = json.loads(config_path.read_text())
         config_path.write_text(json.dumps(config))
         directory = self.prepared()
         path = next((directory / 'tests/cases').glob('*/problem.json'))
@@ -218,7 +214,7 @@ class HarborTests(unittest.TestCase):
         self.assertEqual((jobs / 'keep.log').read_text(), 'keep')
 
     def test_another_task_reuses_templates_and_overrides_resources(self):
-        task = '1D_Advection_Sols_beta0.2'
+        task = 'another-transport-task'
         source = self.root / TASK_PATH.parent / task
         shutil.copytree(self.root / TASK_PATH, source)
         for path in source.rglob('problem.json'):
@@ -262,14 +258,14 @@ class HarborTests(unittest.TestCase):
         self.assertNotIn('cpus', config['environment'])
         self.assertNotIn('memory_mb', config['environment'])
 
-    def test_legacy_tolerances_allow_different_output_fields_per_case(self):
+    def test_quantity_policy_allows_different_output_fields_per_case(self):
         source = self.root / TASK_PATH
         path = sorted((source / 'cases').glob('*/problem.json'))[-1]
         manifest = json.loads(path.read_text())
         manifest['outputs']['other_temperature'] = manifest['outputs'].pop('temperature')
         path.write_text(json.dumps(manifest))
         # The array key and reference stay identical; only the logical field
-        # name varies. Legacy tolerances apply equally to either field name.
+        # name varies. Quantity binding covers either field name.
         directory = self.prepared()
         self.assertTrue((directory / 'tests/cases' / path.parent.name / 'problem.json').is_file())
 
@@ -277,7 +273,11 @@ class HarborTests(unittest.TestCase):
         (self.root / TASK_PATH / 'author/baseline.py').unlink()
         config_path = self.root / TASK_PATH / 'judge-config.json'
         config = json.loads(config_path.read_text())
-        config.update(stage='provisional', atol=0.1, rtol=0.2, max_output_bytes=2*1024**3)
+        config.update(stage='provisional', max_output_bytes=2*1024**3)
+        policy_path = self.root / TASK_PATH / 'grading.json'
+        policy = json.loads(policy_path.read_text())
+        policy['quantities']['temperature']['rule'].update(atol=0.1, rtol=0.2)
+        policy_path.write_text(json.dumps(policy))
         config_path.write_text(json.dumps(config))
         publisher.publish(TASK, root=self.root)
         result = prepare.prepare(TASK, self.root)
@@ -290,8 +290,7 @@ class HarborTests(unittest.TestCase):
         self.assertNotIn('校准', instruction)
         self.assertNotIn('Harbor', instruction)
         self.assertNotIn('独立内存限制', instruction)
-        self.assertIn('绝对误差容限=0.1', instruction)
-        self.assertIn('相对误差容限=0.2', instruction)
+        self.assertIn('0.1 + 0.2×', instruction)
         self.assertIn('1024 MB', instruction)
         self.assertIn(str(2*1024**3), instruction)
 
@@ -306,7 +305,6 @@ class HarborTests(unittest.TestCase):
         (task / 'grading.json').write_text(json.dumps(policy))
         config_path = task / 'judge-config.json'
         config = json.loads(config_path.read_text())
-        del config['atol']; del config['rtol']
         config_path.write_text(json.dumps(config))
         directory = self.prepared()
         self.assertIn('空间点', (directory / 'instruction.md').read_text())
@@ -435,6 +433,28 @@ class HarborTests(unittest.TestCase):
                 judge.main()
         execute.assert_not_called()
         self.assertFalse((logs / 'reward.txt').exists())
+
+    def test_missing_or_duplicate_policy_source_fails_before_solver_execution(self):
+        directory = self.prepared()
+        private = directory / 'tests'
+        for duplicate in (False, True):
+            with self.subTest(duplicate=duplicate):
+                config = json.loads((private/'judge-config.json').read_text())
+                policy = private/'grading.json'
+                if duplicate:
+                    shutil.copyfile(self.root/TASK_PATH/'grading.json', policy)
+                    config.update(atol=.01, rtol=0)
+                    (private/'judge-config.json').write_text(json.dumps(config))
+                else:
+                    policy.unlink()
+                logs = self.root/f'bad-policy-{duplicate}'
+                with patch.object(judge, 'TESTS', private), patch.object(judge, 'LOGS', logs), \
+                     patch.object(judge, 'freeze_submission') as freeze, patch.object(judge, 'execute') as execute:
+                    with self.assertRaises((ValueError, FileNotFoundError)):
+                        judge.main()
+                    freeze.assert_not_called()
+                    execute.assert_not_called()
+                self.assertFalse((logs/'reward.txt').exists())
 
 
 if __name__ == '__main__':

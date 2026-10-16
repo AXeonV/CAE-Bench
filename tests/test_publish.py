@@ -13,9 +13,7 @@ import tempfile
 import unittest
 import zipfile
 
-from caeoj_tools.author import load_author_module
-_smoke = load_author_module('smoke-test', 'smoke')
-PROJECT_ROOT = _smoke.PROJECT_ROOT
+from caeoj_tools.author import PROJECT_ROOT
 from caeoj.validation import ContractError
 
 spec = importlib.util.spec_from_file_location("publish_dist", PROJECT_ROOT / "src/utils/publish_dist.py")
@@ -50,7 +48,7 @@ class PublishTests(unittest.TestCase):
             self.assertIn("qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/02/output/result.h5", names)
             self.assertFalse(any(part in {"author", "cases", "reference", "__pycache__", "runs", ".git"}
                                  for name in names for part in Path(name).parts))
-            self.assertFalse(any(name.endswith(("baseline.py", "TEST-CASES.md", "MVP-PLAN.md")) for name in names))
+            self.assertFalse(any(name.endswith(("baseline.py", "TEST-CASES.md")) for name in names))
             self.assertNotIn("src/caeoj/examples.py", names)
             self.assertNotIn("src/caeoj/smoke.py", names)
             self.assertFalse(any(name.endswith("verification.json") for name in names))

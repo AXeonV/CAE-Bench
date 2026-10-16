@@ -19,11 +19,11 @@ python -m caeoj_tools.cli smoke
 
 - `src/caeoj/`：通用数组、对象、Schema、诊断、几何、基础 SDK、评分和 runtime；不写物理模型／章节分派。
 - `qbank/extensions/caeoj_ext/fluid/`：single_phase、thermal_flow、turbulence、multiphase、thin_film、depth_averaged、rarefied、complex_fluid；公共声明与几何适配按需复用。
-- `qbank/extensions/caeoj_bundle/runtime.json`：可信开发注册描述，包括 extensions、tasks、SDK aliases、旧模块 modules 和模型名字空间诊断；当前153题均显式绑定。tasks 的值是直接扩展 ID 列表，空列表明确表示该题使用通用声明检查，不是遗漏装配。
+- `qbank/extensions/caeoj_bundle/runtime.json`：可信开发注册描述，包括 extensions、tasks、SDK aliases、模块转发 modules 和模型名字空间诊断。tasks 的值是直接扩展 ID 列表，空列表明确表示该题使用通用声明检查，不是遗漏装配；全部题目必须显式绑定，由回归测试核对覆盖。
 - `src/caeoj_tools/`：定位题目、策略读取、作者入口、依赖锁定与装配。publish_dist.py、prepare_harbor.py 仍为现有维护命令入口，均消费同一装配逻辑。
 - smoke-test 的 examples、smoke 在其 author 目录，维护工具显式加载。测试使用维护 loader，不从核心借题库根路径。
 
-扩展按物理组织，章节重排不改扩展 ID。旧 cfd-2.1 与 fluid-* 输入标识保持兼容，不能因迁移模块重写冻结数据。
+扩展按物理组织，章节重排不改扩展 ID。cfd-2.1 与 fluid-* 等输入标识对应实际声明，移动内部模块不改写输入语义。
 
 ## 描述字段与检查接口
 
@@ -45,7 +45,7 @@ python -m caeoj_tools.cli smoke
 
 Schema 由核心结构和所需扩展片段组合，仍严格拒绝未知键。不同类型／枚举／约束的同名定义不能按加载顺序覆盖；相同定义去重，allOf 添加约束。当前核心仅开放条件 data 的 minProperties 这一明确扩展点，以保留既有 CFD 与普通输入的差异；开放新点属于核心接口变更。
 
-语法层先检查 JSON 结构，不因未登记的物理名字抛出非结构异常；完成结构检查后，注册检查拒绝保留名字空间中的未知模型。开发 provider 支持无 task 的旧输入，仍按物理声明检查。严格公开包无 task 时仅可使用唯一题目绑定；多题包无法确定归属时明确报错。已有 task 的类型错误属于输入错误，不得直接用来查字典导致 traceback。
+语法层先检查 JSON 结构，不因未登记的物理名字抛出非结构异常；完成结构检查后，注册检查拒绝保留名字空间中的未知模型。开发 provider 在省略 task 时仍按物理声明检查。严格公开包省略 task 时仅可使用唯一题目绑定；多题包无法确定归属时明确报错。task 类型错误属于输入错误，不得直接用来查字典导致 traceback。
 
 任务绑定要求的扩展不能因缺少或错误声明而静默跳过。校验报告的 scope 区分通用结构、声明扩展与已装配题目契约；这些状态均不证明物理适定或数值准确。
 
@@ -83,16 +83,8 @@ python src/utils/publish_dist.py --task heat-conduction-steady-2d --task heat-co
 
 ## 稳定调用与验证
 
-基础 SDK 的名称、返回结构、数组 key／IDs 行为不因领域拆分改变。旧领域模块由通用别名加载器映射到扩展；SDK 的 params=、mass= 等旧关键字由独立适配保持。旧模块与 SDK 中同名但签名不同的周期配对函数分别兼容，不能混用。别名不把领域实现放回核心。
+基础 SDK 的名称、返回结构、数组 key／IDs 行为不因领域拆分改变。已被题目使用的领域模块由通用别名加载器映射到扩展；SDK 的 params=、mass= 等关键字由薄适配保持。模块与 SDK 中同名但签名不同的周期配对函数分别转发，不能混用。转发只适配入口，不复制领域实现。
 
 变更后至少检查实际依赖闭包、非法输入、旧接口、独立公开包和相关回归；安装验证使用普通 wheel 安装、移走源码并换目录，不能由 editable checkout 掩盖遗漏。临时 fixture 只证明工具，不代表正式案例、可信参考或预算校准。实施证据见[重构记录](../design/reviews/runtime-refactor.md)。
 
-第四章新增通用entities身份表和multibody.mechanics共享声明检查，不使用伪points坐标，不扩充发布器文件清单。12题普通安装与CLI／SDK验证及平台限制见[第四章实施记录](../design/reviews/chapter-04-implementation.md)。
-
-第五章新增thermal.transport共享热学声明检查与局部焓图映射，复用现有mesh／entities及SDK，无核心或发布器改动；13题独立普通安装与CLI／SDK验证见[第五章记录](../design/reviews/chapter-05-implementation.md)。
-
-第六章新增acoustic.linear共享声学声明检查、封闭表面与接收点支持检查及自由场核组件，复用既有mesh／points／entities及SDK，无核心或发布器改动；10题独立普通安装与CLI／SDK验证见[第六章记录](../design/reviews/chapter-06-implementation.md)。
-
-第七章新增electromagnetic.linear共享电磁／电路声明检查，复用既有mesh／entities和SDK，无核心或发布器改动；10题独立普通安装及CLI／SDK验证见[第七章记录](../design/reviews/chapter-07-implementation.md)。
-
-第八章新增optics.linear共享光学声明检查，复用既有mesh／points／entities及SDK，无核心或发布器改动；8题独立普通安装及CLI／SDK验证见[第八章记录](../design/reviews/chapter-08-implementation.md)。
+离散对象使用通用 entities 身份表，不能用伪 points 坐标代替。各领域的检查和辅助函数归共享扩展；新增题目只需修改可信绑定，不逐题扩充发布器的文件清单。

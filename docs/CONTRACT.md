@@ -6,11 +6,11 @@
 
 “必须”表示协议要求；“任务必须声明”表示通用协议不能代替题目的数学定义。格式合法并不意味着求解结果正确。
 
-## 协议版本与物理配置
+## 物理声明与契约支持
 
-既有输入省略版本字段，继续使用其题目约定。使用 `contract_version: 2`、`profile: "cfd-2.1"` 的输入必须同时提供 analysis、materials；四键成组出现且禁止 physics。各题 DATA.md 就地定义所需的分析与材料结构、合法参数和条件，不要求阅读额外领域规范。
+物理声明采用题目指定的一种形式：`physics` 给出模型标识与参数；使用 `profile: "cfd-2.1"` 的输入则以 `analysis`、`materials` 声明分析与材料，并同时提供 `contract_version: 2`。后者四键必须成组出现，且禁止与 `physics` 混用；这些标记只选择该配置，不为其他输入隐含添加版本或物理含义。未使用这些声明的读写测试可以省略它们。
 
-使用 physics 的领域输入通过 physics.model 显式声明模型；准确标识、parameters 的全部参数、条件及相容性在本题 DATA.md 列明。第二章的 fluid-energy-、fluid-multiphase-、fluid-reduced- 版本化模型禁止同时出现 contract_version、profile、analysis、materials。模型不由 task 或文件名推断；复用通用结构不表示忽略领域声明检查。
+各题 DATA.md 必须就地列明所用结构、准确模型标识、全部参数、条件和声明约束，不要求阅读额外领域规范。模型不由题目目录或文件名推断。工具包按题目绑定装配所需的声明检查；独立核心的通用结构检查不等于完整题目契约检查，检查范围可由 `python -m caeoj info --input problem.json` 查看。
 
 新增结构须通过 Schema 声明，不能自行添加未知字段。通用检查与物理配置检查分别报告结构错误和声明相容性错误；均不证明物理解或数值结果正确。
 
@@ -52,7 +52,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 
 | 顶层字段 | 类型 | 要求与含义 |
 |---|---|---|
-| `task` | string | 可选，任务标识；通用校验器不按它限制物理模型 |
+| `task` | string | 可选，任务标识；题目工具包据此选择已装配的契约，不从标识猜测物理条件 |
 | `spatial_dimension` | integer | 必填，1、2 或 3；决定独立点坐标和空间场的分量 |
 | `data_file` | string | 必填，输入 HDF5 的相对路径 |
 | `geometries` | object | 必填，几何文件表，可为 `{}` |
@@ -62,7 +62,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 | `fields` | object | 必填，输入场描述表 |
 | `outputs` | object | 必填，要求输出的场描述表；不要求存在对应输入场 |
 | `physics` | object | 任务模型标识与全局标量参数；CFD 配置使用 analysis/materials |
-| `contract_version`、`profile` | integer、string | CFD 配置显式启用标记，见版本说明 |
+| `contract_version`、`profile` | integer、string | 显式配置标记，见物理声明说明 |
 | `analysis` | object | CFD 分析类型、等温约束、压力表示及物理时间范围 |
 | `materials` | object | CFD 区域材料、密度与流变响应 |
 | `conditions` | array | 必填，条件记录，可为 `[]` |
@@ -156,7 +156,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 
 `{"kind":"entities","ids":"body_ids"}` 表示没有固定空间采样坐标的离散对象表，例如刚体、关节、有限维模态系统；不是网格节点、空间探针或区域聚合。记录恰含kind、ids，不能携带coordinates、mesh、entity、source或其他键。ids为非空、非负、严格递增int64[N]，身份仅在该location内有效。字段仍为[T,N,*component_shape]，value_kind固定point，表示该对象自身的状态或属性，不表示连续空间点值、区域平均或积分。不同实体间没有默认插值、距离或邻接关系。
 
-每题DATA必须明确对象含义、跨location引用、状态分量及离散参数解释；数值位置若是物理未知量，使用有明确单位的字段。此类型不自动赋予任意广义坐标或物理模型语义，也不能替代已有网格区域聚合。结果和SDK沿用相同ID／时间复制规则，不导出伪坐标。该表示为向后兼容的新增分支，不改变既有mesh、points、aggregate含义。
+每题 DATA.md 必须明确对象含义、跨 location 引用、状态分量及离散参数解释；数值位置若是物理未知量，使用有明确单位的字段。此类型不自动赋予任意广义坐标或物理模型语义，也不能替代网格区域聚合。结果和 SDK 使用相同的 ID／时间复制规则，不导出伪坐标。
 
 ## 5. 时间轴
 
@@ -196,7 +196,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 | `unit` | 必填、非空的单位代码，见第 7 节 |
 | `value_kind` | `point`、`average` 或 `integral`，定义采样含义 |
 
-输入场可声明 `sampling`，其结构为 `{ "space": "uniform", "time": "constant", "extrapolation": "forbid" }`。space 可取 uniform、piecewise_constant、piecewise_linear；time 可取 constant、linear、previous；extrapolation 可取 forbid、hold。具体允许组合、空间重建、时间重建和外推的物理含义由本题 DATA.md 完整定义；不能只按枚举名推断。题目要求显式 sampling 时不得省略；旧任务没有该字段时按本题 DATA.md 的连续解释，不由 SDK 猜测。
+输入场可声明 `sampling`，其结构为 `{ "space": "uniform", "time": "constant", "extrapolation": "forbid" }`。space 可取 uniform、piecewise_constant、piecewise_linear；time 可取 constant、linear、previous；extrapolation 可取 forbid、hold。具体允许组合、空间重建、时间重建和外推的物理含义由本题 DATA.md 完整定义；不能只按枚举名推断。题目要求显式 sampling 时不得省略；未声明时仍须由本题 DATA.md 完整定义采样语义，不由 SDK 猜测。
 
 设时间数为 T、实体数为 N、空间维度为 D。**数组形状统一为 `[T,N,*component_shape]`**：
 
@@ -219,7 +219,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 
 节点、独立点和离散实体只允许 `point`；单元只允许 `average` 或 `integral`。整体观测使用 4.4 节约定的 average／integral。单元中心点值必须提供独立 point location，避免同一“cell value”被默认为不同含义。
 
-场数组必须是规则数值 ndarray，禁止 object、字符串、复数、结构化 dtype。浮点值必须有限。整数／布尔场也使用相同的时间、实体、分量轴。不得省略轴、展平或隐式广播。
+场必须是规则数值数组，禁止 object、字符串、复数、结构化 dtype。浮点值必须有限。整数／布尔场也使用相同的时间、实体、分量轴。不得省略轴、展平或隐式广播。
 
 输入 HDF5 必须恰好包含 locations 的 IDs／点坐标、time_axes 的时间数组、fields 的输入场数组；不允许未引用数组。一个 key 不能同时代表不同角色。不同位置显式引用同一个 IDs 数组、不同时间轴引用同一时间数组是允许的。
 
@@ -269,7 +269,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 | `variable` | 作用的变量／物理量，可以是尚未求出的变量 |
 | `location` | 已声明的位置，不由组名称猜测 |
 | `operator` | 条件类型名称，任务或物理配置必须列出允许名称和精确的物理／数学含义 |
-| `data` | 参数到类型化数据的映射。旧格式不得为空；CFD 配置的无参数条件允许空对象 |
+| `data` | 参数到类型化数据的映射，默认至少含一项；`profile: "cfd-2.1"` 中明确无参数的条件允许 `{}` |
 
 通用数值数据使用以下两种表示：
 
@@ -283,7 +283,7 @@ JSON 必须是 UTF-8、无重复键、无 NaN/Inf 的标准 JSON。整数型元�
 {"field": "left_temperature"}
 ```
 
-引用 `fields.left_temperature`，旧格式中其 location 必须与条件完全一致，单位、时间、分量从场描述继承。CFD 配置还允许引用同网格上恰好覆盖条件实体区域的节点集合，按其显式 sampling 重建并求实体平均，不以节点数相等代替几何覆盖。变化的边界数据、矢量和张量条件统一存 HDF5；均匀矢量也用显式场表示，不增加内联数组格式。
+引用 `fields.left_temperature`，其 location 默认必须与条件完全一致，单位、时间、分量从场描述继承。题目若允许不同采样位置，DATA.md 必须明确覆盖关系与重建规则，并由已装配的声明检查验证；不能仅以节点数相等判定区域一致。变化的边界数据、矢量和张量条件统一存 HDF5；均匀矢量也用显式场表示，不增加内联数组格式。
 
 还可用 `{"option":"forbid"}` 表达类别选项，或 `{"location":"partner"}` 引用另一已声明位置。二者不能代替数值或携带可执行表达式；允许的参数、选项及位置关系必须由条件规范声明。类别值不能塞入带单位的数值参数。
 
@@ -405,7 +405,7 @@ write_result("result.h5", problem, {output_key: velocity.copy()})
 | `write_result(path, problem, fields)` | `fields` 为输出 HDF5 key → ndarray 的映射，key 必须取自 `outputs.<名称>.array`，不使用输出对象名代替；自动复制必需 IDs／时间轴并校验输出 |
 
 读取接口用于 `load_problem` 已校验的元数据，数据来源类型不符会报错。
-`load_problem` 和 `load_result` 完整读取并关闭 HDF5 文件，返回内存中的 NumPy 数组；`read_field` 返回其中的原数组，修改前可调用 `.copy()`。需要按片读取输入或逐时刻写入结果时，可直接使用 h5py 的 dataset 切片／HDF5 hyperslab，仍须遵守同一 dataset 名称、dtype 和完整 shape。SDK 不求值边界函数、不插值、不修正数值。
+`load_problem` 和 `load_result` 完整读取并关闭 HDF5 文件，返回内存中的 NumPy 数组；`read_field` 返回其中的原数组，修改前可调用 `.copy()`。需要按片读取输入或逐时刻写入结果时，可直接使用 h5py 的 dataset 切片／HDF5 hyperslab，仍须遵守同一 dataset 名称、dtype 和完整 shape。基础读写接口不隐式插值或修正数值；可选的 `sample_field(problem, name, time)` 仅按该场明确的 `sampling` 声明进行时间采样，不做空间重建。
 
 C/C++ 程序同样使用 HDF5 dataset：例如创建 rank=3、dims=`{T,N,2}` 的 `H5T_IEEE_F64LE` dataset，再按 `[t,i,c]` 写入速度；IDs 使用 `H5T_STD_I64LE`。镜像提供 `libhdf5-dev`、`h5cc`／`h5c++` 和 `h5dump`。当前 Python h5py 使用串行 HDF5；MPI 计算不要求并行写文件，可由一个 rank 汇总写入。MPI 并行 HDF5 I/O 不在当前环境的保证范围内。
 
@@ -444,10 +444,9 @@ python -m caeoj validate-output --input 'problem.json' --output 'result.h5'
 | E_ID / E_TIME / E_ORDER | 编号唯一性／顺序、时间顺序及固定输出轴 |
 | E_FINITE | 非有限数值 |
 | E_DIMENSION / E_METADATA | 维度或跨字段声明不一致 |
-| E_FLUID | 第二章显式领域配置的参数、单位、状态、采样及条件相容性 |
-| E_CFD | 显式 CFD 配置的单位、范围、条件、材料及跨字段声明不相容 |
+| 领域诊断（如 E_CFD、E_FLUID、E_SOLID） | 已装配领域契约的参数、单位、采样、条件及跨字段声明约束；具体约束由本题 DATA.md 定义 |
 
-通用校验器检查结构和声明，不修改数据，不重排或匹配等价网格。显式 CFD 配置另检查规定的单位、材料范围、条件覆盖和声明相容性。它们不验证 CAD、网格质量、PDE、守恒、完整物理适用性或解误差。
+通用校验器检查结构和引用，领域检查器补充题目明确规定的声明约束；均不修改数据，不重排或匹配等价网格，不验证 CAD、网格质量、PDE、守恒、完整物理适用性或解误差。
 
 判分由独立模块 `src/caeoj/grading.py` 实现，输出与参考 HDF5 必须满足同一个输出契约。可通过公开 `grading.json` 配置按字段的逐值容差、RMSE、NRMSE、最大误差和超限比例，并用 AND／OR 组合条件。本题 instruction.md 必须完整给出实际采用的指标、聚合范围、阈值和任何固定偏置；不需要考生另读评分规范来补足判据。grading.json 是对应的机器配置，这些评分参数不进入 problem.json 物理输入。
 

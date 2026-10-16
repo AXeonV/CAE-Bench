@@ -1,48 +1,45 @@
-# 当前 Harbor 后端线索
+# Harbor 命令与监控
 
-2026-10-16 核对执行机安装的 Harbor **0.24.0**：CLI --help 及安装包 `harbor/cli/view.py`、`harbor/viewer/server.py`。本页不是未来版本的固定协议，执行时先核对安装版本与参数；不同主机须分别核查。
+用于实际执行时核对命令和进程；本机 `harbor --version`、对应 `--help` 及实际配置为依据。题目资源和装配规则见[评测维护说明](../../../../qbank/maintenance/EVALUATION.md)，本页不另存参数默认值或资源表。
 
 ## 运行入口
 
-- 主线顺序：数据就绪后打包并组装，确认 Viewer 可用，再运行 Agent，最后核对完整结果；首次安装、数据制作及验证分支按需执行，必要命令见 [README 运行指南](../../../../README.md#运行)。
-- 维护准备：`src/utils/publish_dist.py --task <slug>`，随后 `src/utils/prepare_harbor.py --task <slug>`；本地公开 ZIP、运行装配、评分策略和任务目录必须一致；具体装配规则见[运行说明](../../../../qbank/maintenance/RUNTIME.md)。
-- 当前生成目录：`runs/harbor/tasks/<slug>`。
-- `harbor run` 是 `harbor job start` 别名。0.24.0支持 `--print-config` 查看解析后的JobConfig；`--dry-run` 不运行trial，需核对实际输出是否覆盖所需本地任务。
-- 重复为 `--n-attempts`／`-k`，并发为 `--n-concurrent`／`-n`。单题 `-k 3 -n 1` 表示三次独立尝试串行执行，不是一个solver使用三个线程。
-- 模型与适配器：`--agent`／`-a`、`--model`／`-m`；适配参数可用 `--ak key=value`，须核对 `harbor agent schema <agent>`，不要假设每个agent都支持相同推理参数。
-
-命令模板（仅说明字段，调用时填写已确认值）：
+当前任务路径为 `runs/harbor/tasks/<slug>`；以下模板填入已确认参数：
 
 ```sh
-harbor run --path runs/harbor/tasks/<task> --env docker --agent <agent> --model <model> --ak reasoning_effort=<effort> --n-attempts <attempts> --n-concurrent <concurrency> --job-name <run-id> --jobs-dir runs/harbor/jobs
+harbor run --path runs/harbor/tasks/<slug> --env docker --agent <agent> --model <model> --n-attempts <attempts> --n-concurrent <concurrency> --job-name <run-id> --jobs-dir runs/harbor/jobs
 ```
 
-长参数 `--path`、`--env` 等须以本机help为准，不能因为短参数历史可用便照抄。用户未要求时不使用 --upload、--launch、--public 或云端分享。凭据使用运行环境既有安全配置，不放入参数记录。
+`--n-attempts`／`-k` 为独立尝试，`--n-concurrent`／`-n` 为并发，不代表 solver 线程数。适配参数通过 `harbor agent schema <agent>` 核对再用 `--ak key=value`，不能假定各模型支持相同推理选项。`--print-config` 或 `--dry-run` 只提供实际覆盖范围内的解析证据，不代表容器或 trial 已运行。
 
-CPU／内存配额来自本题 harbor/task.toml 与共享模板的合并结果。HPC 运行的 `--override-cpus <cpu-quota> --override-memory-mb <memory-mb>` 应与公开声明和组装资源一致；并发 trial 数与求解器的 OpenMP 线程／MPI 进程数分别核对。逐例求解时限来自 judge-config.json，不与 Agent 或总 verifier 时限混淆。
+逐例 solver 限额与 Agent、构建及总 verifier 预算分开核对，命令覆盖不得改变公开资源承诺。默认不启用上传、公开分享或云端启动选项。
 
-## Viewer
+## Viewer 与进程
 
-安装版默认：host=`127.0.0.1`，port=`8080-8089`。本技能为了保证用户在默认端口访问，显式使用：
+在执行主机显式启动：
 
 ```sh
 harbor view runs/harbor/jobs --jobs --host 0.0.0.0 --port 8080
 ```
 
---jobs 使空目录也能启动，不依赖自动推断。--port单值使冲突明确失败，不静默回落8081。--host 0.0.0.0监听执行主机IPv4接口，浏览器访问本机127.0.0.1或该主机可达IP；实际访问范围由主机网络决定。
+`--jobs` 支持空 jobs 根目录，单端口冲突应明确失败。`0.0.0.0` 是监听地址，用户访问 `http://127.0.0.1:8080` 或执行主机可达 IP；不自动改防火墙或建公网隧道，本机健康检查不证明跨主机可达。
 
-实际ready核对：
+必须核对 `/api/health` 的健康状态、`/api/config` 的绝对 folder 和 jobs 模式，以及 `/` 的实际 HTML 页面。缺前端静态资源时按本机安装／构建方式修复，API 存活或端口可连接不代表页面可用。
 
-- `/api/health` 返回 status=ok。
-- `/api/config` 的 folder 是预期jobs绝对路径，mode=jobs。
-- `/` 返回HTML页面；没有前端static资源时Harbor可能只启动API，不能报“监控页面可用”。先检查安装的 viewer/static/index.html，必要时按该版本 --build／安装方式修复；不启动与任务无关的长期dev服务器替代。
+POSIX 可用本技能脚本，默认状态和日志位于 `runs/harbor/monitor`：
 
-POSIX辅助脚本只负责受控进程生命周期和当前三个接口检查，不代替Harbor。若未来版本改变接口，查真实新接口后修脚本和测试，不放宽成“端口能连接即ready”。Windows用原生进程管理、同样的HTTP核查和已核对命令，脚本会明确拒绝不支持平台。
+```sh
+python .agents/skills/caeoj-run-benchmark/scripts/viewer.py start --jobs-dir runs/harbor/jobs
+python .agents/skills/caeoj-run-benchmark/scripts/viewer.py status --jobs-dir runs/harbor/jobs
+python .agents/skills/caeoj-run-benchmark/scripts/viewer.py stop --jobs-dir runs/harbor/jobs
+```
 
-## 结果与续跑
+Windows 用原生进程工具完成相同验证，后台启动使用隐藏窗口并记录 PID、命令和日志。只复用可确认同一 jobs 根目录的服务；端口被无关进程占用时给处理选项，不杀进程或擅自换端口。远程 URL 属于远端主机，转发须使用已授权连接并说明地址在哪台机器有效。
 
-job根下的 config.json／result.json 与各trial产物应相互核对；名称／schema以实际版本为准。仓库 judge 的 trial verifier/report.json 提供逐例状态、分数和错误，reward.txt 是汇总通过比例；没有report或覆盖不足不能仅凭reward认定完成。
+## 结果与续作
 
-当前 judge 入口为 `src/utils/harbor/tests/judge.py`。题目输入、参考、评分配置或运行框架错误属于基础设施问题；grade CLI 退出 2，grade 结果中的 score 为 null；Harbor judge 遇此中止，可能只有部分报告，不能按零分 solver 失败处理。重复统计包括每次尝试，基础设施补跑不得冒充新的独立样本或只取最佳值。
+检查 job 的 `config.json`、`result.json` 和所有 trial；仓库 judge 在 `verifier/report.json` 提供逐例状态与错误，`reward.txt` 为汇总通过比例。缺报告或覆盖不足时不能只凭 reward 判完成。
 
-`harbor job resume`、regrade的具体筛选、重试和是否重新调用agent必须看当前help／源码。已有冻结提交的重判不自动重新生成solver。监控默认继续保留，只有用户要求或本次失败测试清理才停止明确属于自己的进程。
+坏输入、参考或配置归基础设施问题；当前 grade 返回退出码 2、score 为 null，Harbor judge 中止，不按 solver 零分处理。具体失败状态仍核对实际报告。
+
+执行 `harbor job resume` 或重判前，核对筛选、重试及是否再次调用 Agent；冻结提交重判不自动重新生成 solver。记录进程身份并保留失败证据，默认保留监控供用户回看。

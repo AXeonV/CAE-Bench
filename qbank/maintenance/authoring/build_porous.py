@@ -216,7 +216,11 @@ PHYSICS = {
 def describe(spec):
     if 'option' in spec:
         return '`{"option":"' + spec['option'] + '"}`；' + spec['meaning']
-    return f"{spec['kind']}，component_shape={spec['shape']}，unit=`{spec['unit']}`；{spec['meaning']}"
+    text = f"{spec['kind']}，component_shape={spec['shape']}，unit=`{spec['unit']}`；{spec['meaning']}"
+    if spec.get('spd'):
+        bounds = '[1e-12,1e-2] m/s' if spec['unit'] == 'm/s' else '[1e-16,1e-6] m2'
+        text += '；完整矩阵必须全局对称正定，存储的对称分量完全一致；特征值范围为 ' + bounds + '，谱条件数≤1e6'
+    return text
 
 
 def render(slug, section, number):
@@ -242,13 +246,13 @@ def render(slug, section, number):
 ## 输入范围与资源
 
 - 非退化、无悬挂节点的平面一阶三角网格；至多 6000 三角形、8000 节点，坐标绝对值≤1e6 m；最长边／最短高≤100。具体连通与边界规则见 DATA。
-- 每轴至多 101 个时刻，全部输入场与输出场各自的浮点标量总数≤5e6。瞬态时间跨度在 (0,1e8] s 内。
+- 每轴至多 101 个时刻，全部输入场与输出场各自的浮点标量总数≤5e6。{'瞬态时间跨度在 (0,1e8] s 内。' if not c['steady'] else '所有时刻为稳态标记 [0.0]。'}
 - 标量参数及场取 DATA 中给定范围；未额外指定范围的物理数值绝对值≤1e12，且有限。数据保证所述物理响应存在、唯一，并满足本题适用范围。
 - 每例 {c['timeout']} s、4 逻辑 CPU、4096 MB。内部线程与 MPI 进程数在该 CPU 配额内自行选择。
 
 ## 评分
 
-每个测试点 1 分。所有输出浮点分量均须满足 `|计算值−比较值|≤atol+rtol·|比较值|`，包含等号；全部字段、时刻、单元及分量通过才得分。整数／布尔量、IDs、时间轴按通用协议精确一致，不拟合压力偏移，不对输出重排。
+每个测试点 1 分。所有输出浮点分量均须满足 `|计算值−比较值|≤atol+rtol·|比较值|`，包含等号；全部字段、时刻、单元及分量通过才得分。整数／布尔量、IDs、时间轴按通用协议精确一致，{'不拟合压力偏移，' if c['family'] not in ('richards', 'transport') else ''}不对输出重排。
 
 | quantity | unit | atol | rtol |
 |---|---|---:|---:|
@@ -268,7 +272,7 @@ data_file 指向单个扁平 HDF5 文件；文件名与 HDF5 key 不携带物理
 
 locations.domain 为全部三角形节点：kind=mesh、mesh=main、entity=node。locations.cells 为全部三角形：entity=element、dimension=2。二者均完整覆盖，ids 引用严格递增 int64 tag。其他条件位置为同网格节点子集或线段子集；边界线段位置 dimension=1，节点位置不写 dimension。Physical Group 如果声明必须与 IDs 精确一致，不按组名判断条件。
 
-节点边界位置表示所有顶点都在该节点集中的完整外边界线段；节点集必须正好等于这些线段的端点并，不允许孤立节点。面／边条件在相应线段上分片常数。外法向由唯一相邻三角形指向域外，与线段 tag、节点存储顺序无关。
+节点边界位置表示所有顶点都在该节点集中的完整外边界线段；节点集必须正好等于这些线段的端点并，不允许孤立节点。element 线段位置的条件在线段上分片常数，节点边界按端点值线性重建。外法向由唯一相邻三角形指向域外，与线段 tag、节点存储顺序无关。
 '''
     if c['family'] == 'fracture':
         data += '''
@@ -290,7 +294,7 @@ physics.model 必须为 `porous-{slug}-v1`，parameters 恰含下表全部键。
 | parameters 键 | unit | 含义与范围 |
 |---|---|---|
 '''
-    data += '\n'.join(f"| `{k}` | `{s['unit']}` | {s['meaning']} |" for k, s in c['parameters'].items()) + '\n'
+    data += '\n'.join(f"| `{k}` | `{s['unit']}` | {s['meaning']}" + ('，必须严格正值' if s.get('positive') else '') + ' |' for k, s in c['parameters'].items()) + '\n'
     if not c['parameters']:
         data += '\n本题 parameters 为 `{}`，没有全局标量参数。\n'
     data += f'''
@@ -305,16 +309,19 @@ physics.model 必须为 `porous-{slug}-v1`，parameters 恰含下表全部键。
         data += 'time_axes 恰含 steady，其 HDF5 数组为 float64[1] 的 [0.0]。所有输入与输出引用 steady，不提供初态或多帧。\n'
     else:
         data += 'time_axes 必含 initial=[t0]、response（1..101 个严格递增请求时刻，位于 [t0,tf]）。材料、初态及标明 static 的记录只引用 initial。变化载荷可另引用加载轴，该轴至少两帧且端点恰为 t0、tf；单帧载荷必须引用 initial 并在全过程恒定。全部轴均须被字段或输出使用。response 不表示内部时间步；只输出声明时刻，不额外输出 t0 或迭代历史。\n'
+        data += '数据保证初态与 t0 的给定状态边界相容。若请求 t0，已给定状态按其初态空间重建输出，代数量由该初态及材料计算；依赖梯度的通量用初态在各三角形内的梯度计算，不先投影或修改初态。界面法向通量连续要求适用于 t>t0，不要求任意初态梯度已经满足该条件。\n'
+        if c['family'] == 'pore':
+            data += '孔隙流初态只给速度，t0 压力取唯一物理响应的有限右极限并遵守已声明的压力基准；数据保证该极限存在。\n'
     data += '''
 fields 的逻辑名与 array key 可任意取协议允许的唯一名称，条件引用逻辑名，HDF5 使用 array key。所有数值场 dtype=float64。scalar 为 [T,N,1]、component_shape=[1]、components=["value"]；vector 为 [T,N,2]、[2]、["x","y"]；tensor 为 [T,N,2,2]、[2,2]、["xx","xy","yx","yy"]。不使用 Voigt、局部坐标或省略轴。
 
-节点场 value_kind=point、sampling.space=piecewise_linear，按参考三角形重心坐标作 P1 重建；边界节点按线段线性重建。材料、源及线段场 value_kind=average、space=piecewise_constant，给定均值同时定义整个实体上的常值。材料在时间上恒定；单帧 sampling.time=constant，多帧为 linear（分量逐段线性），extrapolation=forbid。初态按同样空间规则定义，不能当迭代初猜；传输中的非线性响应在重建后计算，不对响应直接插值。
+节点场 value_kind=point、sampling.space=piecewise_linear，按参考三角形重心坐标作 P1 重建；边界节点按线段线性重建。element 位置的材料、体源及线段场 value_kind=average、space=piecewise_constant，给定均值同时定义整个实体上的常值。材料在时间上恒定；单帧 sampling.time=constant，多帧为 linear（分量逐段线性），extrapolation=forbid。非线性响应在重建后计算，不对响应直接插值。
 
 每个字段 quantity 必须等于下表对应的 data 键；键为 value 时 quantity 等于条件 variable。字段 location 必须与条件 location 相同，unit、kind、分量由下表固定。只允许被条件引用的 fields；引用同一字段可复用，但不隐式广播或匹配不同位置。标量数据可取同单位的 {"value":数值,"unit":"代码"} 常量或 {"field":"字段逻辑名"}；矢量、张量只能引用 HDF5 场。常量表示在该条件位置和全过程均匀。
 
 ## 全部条件
 
-每条记录恰含 role、variable、location、operator、data。下表列出全部算子和 data 键；必需记录不得省略。材料／源／初态在其全支撑上各恰有一条记录，不能用顺序叠加或省略源来表示零源。边界记录可有多条，以同一未知变量为组不允许覆盖同一完整外边界线段；节点条件之间也不共享节点，同一节点位置可由一条记录包含多个边界分段。
+每条记录恰含 role、variable、location、operator、data。operator 必须逐字采用下列小节标题；每节给出全部 data 键，必需记录不得省略。材料／源／初态在其全支撑上各恰有一条记录，不能用顺序叠加或省略源来表示零源。边界记录可有多条，以同一未知变量为组不允许覆盖同一完整外边界线段；同一未知变量的节点边界记录之间也不共享节点，不同连续体可共享几何节点。同一节点位置可由一条记录包含多个边界分段。
 '''
     for op, r in c['records'].items():
         where = {'cells': 'cells（全部三角形）', 'domain': 'domain（全部域节点）', 'nodes': '完整外边界节点子集',
@@ -322,21 +329,22 @@ fields 的逻辑名与 array key 可任意取协议允许的唯一名称，条�
         data += f"\n### {op}\n\nrole=`{r['role']}`，variable=`{r['variable']}`，location={where}；{'必需' if r['required'] else '可选'}。{'仅使用静态初始轴。' if r['static'] and not c['steady'] else '支持上述时间表示。'}data 恰含：\n\n| data 键 | 表示与含义 |\n|---|---|\n"
         data += '\n'.join(f"| `{k}` | {describe(s)} |" for k, s in r['data'].items()) + '\n'
     if c['family'] in ('darcy', 'fracture'):
-        data += '\npressure 必须至少覆盖一条正长度外边界以确定压力。normal_flux 指定 q·n；leakance 指定 q·n=L(p−pe)。未覆盖外边界取 q·n=0。pressure、normal_flux、leakance 不在同一完整边上叠加。材料界面压力和法向体积通量连续，裂隙交换处按本题物理响应例外。\n'
+        data += '\npressure 必须至少覆盖一条正长度外边界以确定压力。normal_flux 指定 q·n；leakance 指定 q·n=L(p−pe)。未覆盖外边界取 q·n=0。pressure、normal_flux、leakance 不在同一完整边上叠加。材料界面压力和法向体积通量连续' + ('，裂隙交换处按本题物理响应例外' if c['family'] == 'fracture' else '') + '。\n'
     elif c['family'] == 'richards':
         data += '\nhead 至少覆盖一条外边界以固定压力水头；未覆盖处向外水通量为零。head 与 normal_flux 不覆盖同一完整边。材料界面水压力水头与法向水通量连续；持水关系可跳变，θ 不要求跨界面连续。所有初边值及物理解均位于 h∈[−100,100] m。\n'
     elif c['family'] == 'two_phase':
-        data += '\nphase_state 至少覆盖一条外边界，同处指定 pw、Sw，pn 由毛细关系确定；不可另加 phase_mass_flux。phase_mass_flux 给各相质量通量，不能除以恒定参考密度后当体积通量使用。未覆盖边界两相均无穿透。初态／给定状态在各相邻材料上须满足上述 Se 范围和界面相容性；节点饱和度 P1 只定义输入初态／状态数据，不强迫未知饱和度在毛细材料跳变处连续。\n'
+        conversion = '若转为体积通量，必须分别除以对应相的实际密度，保持质量守恒与源项一致。' if slug == 'immiscible-two-phase' else '不能除以恒定参考密度后当体积通量使用，应使用相应状态下的实际密度。'
+        data += '\nphase_state 至少覆盖一条外边界，同处指定 pw、Sw，pn 由毛细关系确定；不可另加 phase_mass_flux。phase_mass_flux 给各相质量通量；' + conversion + '未覆盖边界两相均无穿透。初态／给定状态在各相邻材料上须满足上述 Se 范围和界面相容性；节点饱和度 P1 只定义输入初态／状态数据，不强迫未知饱和度在毛细材料跳变处连续。\n'
     elif c['family'] == 'dual':
         data += '\n每个连续体都至少有一条自身的 pressure 外边界；其余未覆盖边对该连续体 normal_flux=0。同一几何边可分别给基质和裂隙连续体条件，它们属于不同未知量，不算重叠；同一连续体的压力与通量不能在完整边上叠加。两套初压都必需。\n'
     elif c['family'] == 'pore':
-        data += '\nwall 至少覆盖一条孔壁边，motion 只能是 {"option":"stationary"}，表示 u=0，不是数值标量。wall、velocity、traction 必须互斥并完整覆盖全部外边界；wall 与 velocity 均视为速度约束，velocity 数据在与 wall 相接节点处必须为零。仅速度边界时数据保证净体积流入为零；瞬态初速度无散且与 t0 边界相容。牵引指定黏性与压力的总作用，不能误作仅法向压力。牵引边界上的速度符号不预设，数据保证在所述预算和区间有唯一层流解。\n'
+        data += '\nwall 至少覆盖一条孔壁边，motion 只能是 {"option":"stationary"}，表示 u=0，不是数值标量。wall、velocity、traction 必须互斥并完整覆盖全部外边界；wall 与 velocity 均视为速度约束，velocity 数据在与 wall 相接节点处必须为零。仅速度边界时数据保证净体积流入为零。' + ('瞬态初速度无散且与 t0 边界相容。' if not c['steady'] else '') + '牵引指定黏性与压力的总作用，不能误作仅法向压力。牵引边界上的速度符号不预设，数据保证有唯一适用范围内的物理解。\n'
     else:
         data += '\nconcentration 必须覆盖每条存在 q·n<0 的完整入流边；各边 q·n 不变号，允许全零。diffusive_flux 仅指定 (−φD∇c)·n，不是包含平流的总通量；只用于非入流边，不能与 concentration 叠加。未覆盖边界扩散通量为零，出流平流仍以域内浓度携出；全零法向速度边为无平流边。数据保证初边值／源所确定的浓度非负。给定 q 在全域静态、节点 P1 重建，每个三角形内散度为零；材料跳变不改变 q 的身份或将其除以孔隙率后重新守恒。\n'
     data += f'''
 ## 输出
 
-outputs 必须恰好请求下表各 quantity，每种恰好一次，逻辑名与 array key 不固定。全部输出 dtype=float64、time_axis={axis}，kind、component_shape、components 按上面的统一分量表。cells 上 value_kind=average 表示三角形面积平均；fractures 上 average 为线长平均，mean 上 average 为整个流体域面积平均。非线性量先由连续状态计算再积分，不能用平均状态代入非线性关系。所有量保留其物理压力基准和符号。
+outputs 必须恰好请求下表各 quantity，每种恰好一次，逻辑名与 array key 不固定。全部输出 dtype=float64、time_axis={axis}，kind、component_shape、components 按上面的统一分量表。cells 上 value_kind=average 表示三角形面积平均。{'fractures 上 average 表示线长平均。' if c['family'] == 'fracture' else 'mean 上 average 表示整个流体域面积平均。' if c['family'] == 'pore' else ''}非线性量先由连续状态计算再积分，不能用平均状态代入非线性关系。{'压力保留已声明的基准，其余量保留物理符号。' if c['family'] not in ('richards', 'transport') else '所有量保留已声明的物理含义与符号。'}
 
 | quantity | location | kind／shape | unit | 含义 |
 |---|---|---|---|---|

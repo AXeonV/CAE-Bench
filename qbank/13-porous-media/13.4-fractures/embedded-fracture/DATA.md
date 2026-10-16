@@ -10,7 +10,7 @@ data_file 指向单个扁平 HDF5 文件；文件名与 HDF5 key 不携带物理
 
 locations.domain 为全部三角形节点：kind=mesh、mesh=main、entity=node。locations.cells 为全部三角形：entity=element、dimension=2。二者均完整覆盖，ids 引用严格递增 int64 tag。其他条件位置为同网格节点子集或线段子集；边界线段位置 dimension=1，节点位置不写 dimension。Physical Group 如果声明必须与 IDs 精确一致，不按组名判断条件。
 
-节点边界位置表示所有顶点都在该节点集中的完整外边界线段；节点集必须正好等于这些线段的端点并，不允许孤立节点。面／边条件在相应线段上分片常数。外法向由唯一相邻三角形指向域外，与线段 tag、节点存储顺序无关。
+节点边界位置表示所有顶点都在该节点集中的完整外边界线段；节点集必须正好等于这些线段的端点并，不允许孤立节点。element 线段位置的条件在线段上分片常数，节点边界按端点值线性重建。外法向由唯一相邻三角形指向域外，与线段 tag、节点存储顺序无关。
 
 本题另有 locations.fractures，kind=mesh、mesh=main、entity=element、dimension=1，包含全部裂隙线段。它们是额外导出的三角形内部共享边，使用基质原节点，不切开基质。几何线段无重复，内部节点度≤2，端点全部严格在域内；各条开曲线不自交、不闭合、不分叉，线端封闭。除外边界与 fractures 外，不导出其他线段。pf、线源和线材料均按 fracture ID 对应；线压在折点连续、流量守恒。基质压力迹从共享两侧的同一连续压力读取。
 
@@ -22,8 +22,8 @@ physics.model 必须为 `porous-embedded-fracture-v1`，parameters 恰含下表�
 
 | parameters 键 | unit | 含义与范围 |
 |---|---|---|
-| `density` | `kg/m3` | 恒定参考密度 ρ |
-| `viscosity` | `Pa.s` | 动力黏度 μ |
+| `density` | `kg/m3` | 恒定参考密度 ρ，必须严格正值 |
+| `viscosity` | `Pa.s` | 动力黏度 μ，必须严格正值 |
 | `gravity_x` | `m/s2` | 重力加速度 x 分量 gx |
 | `gravity_y` | `m/s2` | 重力加速度 y 分量 gy |
 
@@ -37,13 +37,13 @@ time_axes 恰含 steady，其 HDF5 数组为 float64[1] 的 [0.0]。所有输入
 
 fields 的逻辑名与 array key 可任意取协议允许的唯一名称，条件引用逻辑名，HDF5 使用 array key。所有数值场 dtype=float64。scalar 为 [T,N,1]、component_shape=[1]、components=["value"]；vector 为 [T,N,2]、[2]、["x","y"]；tensor 为 [T,N,2,2]、[2,2]、["xx","xy","yx","yy"]。不使用 Voigt、局部坐标或省略轴。
 
-节点场 value_kind=point、sampling.space=piecewise_linear，按参考三角形重心坐标作 P1 重建；边界节点按线段线性重建。材料、源及线段场 value_kind=average、space=piecewise_constant，给定均值同时定义整个实体上的常值。材料在时间上恒定；单帧 sampling.time=constant，多帧为 linear（分量逐段线性），extrapolation=forbid。初态按同样空间规则定义，不能当迭代初猜；传输中的非线性响应在重建后计算，不对响应直接插值。
+节点场 value_kind=point、sampling.space=piecewise_linear，按参考三角形重心坐标作 P1 重建；边界节点按线段线性重建。element 位置的材料、体源及线段场 value_kind=average、space=piecewise_constant，给定均值同时定义整个实体上的常值。材料在时间上恒定；单帧 sampling.time=constant，多帧为 linear（分量逐段线性），extrapolation=forbid。非线性响应在重建后计算，不对响应直接插值。
 
 每个字段 quantity 必须等于下表对应的 data 键；键为 value 时 quantity 等于条件 variable。字段 location 必须与条件 location 相同，unit、kind、分量由下表固定。只允许被条件引用的 fields；引用同一字段可复用，但不隐式广播或匹配不同位置。标量数据可取同单位的 {"value":数值,"unit":"代码"} 常量或 {"field":"字段逻辑名"}；矢量、张量只能引用 HDF5 场。常量表示在该条件位置和全过程均匀。
 
 ## 全部条件
 
-每条记录恰含 role、variable、location、operator、data。下表列出全部算子和 data 键；必需记录不得省略。材料／源／初态在其全支撑上各恰有一条记录，不能用顺序叠加或省略源来表示零源。边界记录可有多条，以同一未知变量为组不允许覆盖同一完整外边界线段；节点条件之间也不共享节点，同一节点位置可由一条记录包含多个边界分段。
+每条记录恰含 role、variable、location、operator、data。operator 必须逐字采用下列小节标题；每节给出全部 data 键，必需记录不得省略。材料／源／初态在其全支撑上各恰有一条记录，不能用顺序叠加或省略源来表示零源。边界记录可有多条，以同一未知变量为组不允许覆盖同一完整外边界线段；同一未知变量的节点边界记录之间也不共享节点，不同连续体可共享几何节点。同一节点位置可由一条记录包含多个边界分段。
 
 ### material
 
@@ -51,7 +51,7 @@ role=`material`，variable=`porous_medium`，location=cells（全部三角形）
 
 | data 键 | 表示与含义 |
 |---|---|
-| `permeability` | tensor，component_shape=[2, 2]，unit=`m2`；全局对称正定本征渗透率 K；特征值位于 [1e-16,1e-6] m2，条件数≤1e6 |
+| `permeability` | tensor，component_shape=[2, 2]，unit=`m2`；全局对称正定本征渗透率 K；特征值位于 [1e-16,1e-6] m2，条件数≤1e6；完整矩阵必须全局对称正定，存储的对称分量完全一致；特征值范围为 [1e-16,1e-6] m2，谱条件数≤1e6 |
 
 ### volume_source
 
@@ -108,7 +108,7 @@ pressure 必须至少覆盖一条正长度外边界以确定压力。normal_flux
 
 ## 输出
 
-outputs 必须恰好请求下表各 quantity，每种恰好一次，逻辑名与 array key 不固定。全部输出 dtype=float64、time_axis=steady，kind、component_shape、components 按上面的统一分量表。cells 上 value_kind=average 表示三角形面积平均；fractures 上 average 为线长平均，mean 上 average 为整个流体域面积平均。非线性量先由连续状态计算再积分，不能用平均状态代入非线性关系。所有量保留其物理压力基准和符号。
+outputs 必须恰好请求下表各 quantity，每种恰好一次，逻辑名与 array key 不固定。全部输出 dtype=float64、time_axis=steady，kind、component_shape、components 按上面的统一分量表。cells 上 value_kind=average 表示三角形面积平均。fractures 上 average 表示线长平均。非线性量先由连续状态计算再积分，不能用平均状态代入非线性关系。压力保留已声明的基准，其余量保留物理符号。
 
 | quantity | location | kind／shape | unit | 含义 |
 |---|---|---|---|---|

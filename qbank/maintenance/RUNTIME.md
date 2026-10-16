@@ -97,7 +97,3 @@ python src/utils/publish_dist.py --task heat-conduction-steady-2d --task heat-co
 变更后至少检查实际依赖闭包、非法输入、旧接口、独立公开包和相关回归；安装验证使用普通 wheel 安装、移走源码并换目录，不能由 editable checkout 掩盖遗漏。临时 fixture 只证明工具，不代表正式案例、可信参考或预算校准。实施证据见[重构记录](../design/reviews/runtime-refactor.md)。
 
 离散对象使用通用 entities 身份表，不能用伪 points 坐标代替。各领域的检查和辅助函数归共享扩展；新增题目只需修改可信绑定，不逐题扩充发布器的文件清单。
-
-第十七章新增multiphysics.continuum共享连续体耦合声明检查，复用points／entities及多时间轴，无核心或发布器修改；12题普通安装、CLI／SDK、评分和资源配置证据见[第十七章记录](../design/reviews/chapter-17-implementation.md)。当前证据仅macOS arm64协议fixture，目标Linux容器、正式数值数据及预算校准留后。
-
-第十八章新增systems.networks共享系统网络声明检查，复用entities及多时间轴，int64端点引用实际节点ID，无核心／发布器修改；10题普通安装、CLI／SDK、评分和资源配置验证见[第十八章记录](../design/reviews/chapter-18-implementation.md)。当前仅macOS arm64协议fixture证据，正式数据、数值参考、目标Linux容器和预算校准留后。

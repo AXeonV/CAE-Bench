@@ -165,7 +165,7 @@ for slug, name in zip([s for _, _, items in SECTIONS for s in items], NAMES):
         out('exchange_rate', scalar('1/s', 'α(pm−pf) 的单元平均，正值基质流向裂隙'), atol=1e-8)
     elif family == 'pore':
         rec('body_force', 'source', 'momentum', 'cells', dict(value=vector('N/m3', '每单位流体体积体力 f，已包含重力')))
-        rec('wall', 'boundary', 'velocity', 'nodes', dict(motion=dict(option='stationary', meaning='固定无滑移孔壁')))
+        rec('wall', 'boundary', 'velocity', 'facets', dict(motion=dict(option='stationary', meaning='固定无滑移孔壁')))
         rec('velocity', 'boundary', 'velocity', 'nodes', dict(value=vector('m/s', '给定流体速度 uD')), required=False)
         rec('traction', 'boundary', 'traction', 'facets', dict(value=vector('Pa', '全局总牵引 σn，σ=−pI+μ(∇u+∇uᵀ)')), required=False)
         if not steady:

@@ -58,3 +58,5 @@
 第八章已按[章规划](chapter-08-optics.md)完成6节8题、自包含DATA、光学共享扩展、评分执行配置和独立考生复核；见[整章目录](../08-optics/README.md)和[最终进度与限制](reviews/chapter-08-progress.md)。正式数据、独立参考、模型适用性、预算／容差校准及发布留后。
 
 第十七章已按[章规划](chapter-17-multiphysics.md)完成7节12题、自包含DATA、连续体耦合共享扩展、评分执行配置及独立考生最终复核；见[整章目录](../17-multiphysics/README.md)、[最终进度](reviews/chapter-17-progress.md)与[实现及证据](reviews/chapter-17-implementation.md)。正式数据、独立参考、数值／适用性验证、预算／容差校准与发布留后。
+
+第十八章已按[章规划](chapter-18-system-multidomain.md)完成7节10题、自包含DATA、系统网络共享扩展、评分执行配置与独立考生最终复核；见[整章目录](../18-system-multidomain/README.md)、[进度](reviews/chapter-18-progress.md)、[实现和证据](reviews/chapter-18-implementation.md)。正式数据、独立参考、模型／数值验证、预算容差校准和发布留后。

@@ -19,7 +19,7 @@ python -m caeoj_tools.cli smoke
 
 - `src/caeoj/`：通用数组、对象、Schema、诊断、几何、基础 SDK、评分和 runtime；不写物理模型／章节分派。
 - `qbank/extensions/caeoj_ext/fluid/`：single_phase、thermal_flow、turbulence、multiphase、thin_film、depth_averaged、rarefied、complex_fluid；公共声明与几何适配按需复用。
-- `qbank/extensions/caeoj_bundle/runtime.json`：可信开发注册描述，包括 extensions、tasks、SDK aliases、旧模块 modules 和模型名字空间诊断；当前165题均显式绑定。tasks 的值是直接扩展 ID 列表，空列表明确表示该题使用通用声明检查，不是遗漏装配。
+- `qbank/extensions/caeoj_bundle/runtime.json`：可信开发注册描述，包括 extensions、tasks、SDK aliases、旧模块 modules 和模型名字空间诊断；当前175题均显式绑定。tasks 的值是直接扩展 ID 列表，空列表明确表示该题使用通用声明检查，不是遗漏装配。
 - `src/caeoj_tools/`：定位题目、策略读取、作者入口、依赖锁定与装配。publish_dist.py、prepare_harbor.py 仍为现有维护命令入口，均消费同一装配逻辑。
 - smoke-test 的 examples、smoke 在其 author 目录，维护工具显式加载。测试使用维护 loader，不从核心借题库根路径。
 
@@ -98,3 +98,5 @@ python src/utils/publish_dist.py --task heat-conduction-steady-2d --task heat-co
 第八章新增optics.linear共享光学声明检查，复用既有mesh／points／entities及SDK，无核心或发布器改动；8题独立普通安装及CLI／SDK验证见[第八章记录](../design/reviews/chapter-08-implementation.md)。
 
 第十七章新增multiphysics.continuum共享连续体耦合声明检查，复用points／entities及多时间轴，无核心或发布器修改；12题普通安装、CLI／SDK、评分和资源配置证据见[第十七章记录](../design/reviews/chapter-17-implementation.md)。当前证据仅macOS arm64协议fixture，目标Linux容器、正式数值数据及预算校准留后。
+
+第十八章新增systems.networks共享系统网络声明检查，复用entities及多时间轴，int64端点引用实际节点ID，无核心／发布器修改；10题普通安装、CLI／SDK、评分和资源配置验证见[第十八章记录](../design/reviews/chapter-18-implementation.md)。当前仅macOS arm64协议fixture证据，正式数据、数值参考、目标Linux容器和预算校准留后。

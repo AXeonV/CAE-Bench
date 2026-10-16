@@ -58,3 +58,5 @@
 第八章已按[章规划](chapter-08-optics.md)完成6节8题、自包含DATA、光学共享扩展、评分执行配置和独立考生复核；见[整章目录](../08-optics/README.md)和[最终进度与限制](reviews/chapter-08-progress.md)。正式数据、独立参考、模型适用性、预算／容差校准及发布留后。
 
 第十一章已按[章规划](chapter-11-semiconductor.md)完成6节8题、自包含DATA、半导体共享扩展、评分执行配置及独立考生复核；见[整章目录](../11-semiconductor/README.md)和[最终进度与证据](reviews/chapter-11-progress.md)。正式数据、独立参考、适用性与谱条件证据、预算／容差校准和发布留后。
+
+第十二章已按[章规划](chapter-12-granular.md)完成6节7题、自包含DATA、颗粒共享声明扩展、评分执行配置及独立考生复核；见[整章目录](../12-granular/README.md)和[最终进度与证据](reviews/chapter-12-progress.md)。正式数据、独立参考、全程适用性、精度/预算校准、目标Linux执行及发布留后。

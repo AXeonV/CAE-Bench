@@ -41,7 +41,7 @@ conditions每个输入quantity恰一条，variable等于quantity，location同�
 
 物理语义：
 
-三维球形颗粒，质量和半径恒定，dx_i/dt=v_i，m_i dv_i/dt=Fext_i(t)−b_i v_i+Σ_j Fij。外力是已合成的实际力，背景静止，不自行增加重力、浮力、随机力或流体反馈。所有相互作用按无序对i<j各算一次，Fji=−Fij，允许同时多接触，不顺序执行两两瞬时速度跳跃。令r=x_i−x_j，d=|r|>0，n=r/d从j指向i，δ=Ri+Rj−d，vn=(vi−vj)·n。δ>0时P=max(0,kδ−γ vn)，否则P=0；法向力为P n，γ直接以kg/s使用，不乘约化质量。δ=0时按非接触取P=0。接触时vt=vi−vj−(Riωi+Rjωj)×n−vn n，Ft=−μP vt/sqrt(|vt|²+vs²)，Fij=P n+Ft；非接触时Ft=0。该单值滑动响应没有静摩擦、切向弹簧、历史变量、滚动或扭转阻力，不用理想Coulomb集合值条件代替。颗粒为均匀实心球，Ii=2miRi²/5，Ii dωi/dt=τext_i−bω_i ωi+Σ_j τij，τij=(−Ri n)×Ft，τji=(−Rj n)×Ft；公式中的n及Ft均取i<j方向。球形无取向相关性质，不输出四元数；无墙或周期边界。
+三维球形颗粒，质量和半径恒定，dx_i/dt=v_i，m_i dv_i/dt=Fext_i(t)−b_i v_i+Σ_j Fij。外力是已合成的实际力，背景静止，不自行增加重力、浮力、随机力或流体反馈。所有相互作用按无序对i<j各算一次，Fji=−Fij，允许同时多接触，不顺序执行两两瞬时速度跳跃。令r=x_i−x_j，d=|r|>0，n=r/d从j指向i，δ=Ri+Rj−d，vn=(vi−vj)·n。δ>0时P=max(0,kδ−γ vn)，否则P=0；法向力为P n，γ直接以kg/s使用，不乘约化质量。δ=0时按非接触取P=0。接触时取共同接触点的力臂ℓi=Ri−δ/2、ℓj=Rj−δ/2，故ℓi+ℓj=d；vt=vi−vj−(ℓiωi+ℓjωj)×n−vn n，Ft=−μP vt/sqrt(|vt|²+vs²)，Fij=P n+Ft；非接触时Ft=0。该单值滑动响应没有静摩擦、切向弹簧、历史变量、滚动或扭转阻力，不用理想Coulomb集合值条件代替。颗粒为均匀实心球，Ii=2miRi²/5，Ii dωi/dt=τext_i−bω_i ωi+Σ_j τij，τij=(−ℓi n)×Ft，τji=(−ℓj n)×Ft；公式中的n及Ft均取i<j方向。球形无取向相关性质，不输出四元数；无墙或周期边界。
 
 合法问题族要求全程每个位置分量|x|≤100 m、速度分量|v|≤1000 m/s，含自转时每分量|ω|≤1e6/s；这些响应尺度是正式数据须独立验证的适用条件，声明校验不演化轨迹。各粒子的质量、半径及阻力与初态/驱动按同一particles身份逐行关联，不能重排。难度界tend max_i(b_i/m_i)≤1e5。另有tend sqrt(k/min_i mi)≤1e5、tend γ/min_i mi≤1e5；全演化每对中心d>0且δ≤0.05 min(Ri,Rj)，排除中心重合及大变形。工具仅检查初态，正式数据须独立验证全程条件、事件附近收敛及短时轨迹可重复精度，不能用碰撞后不受控的混沌放大掩盖逐值判据。另要求tend max_i(bω_i/Ii)≤1e5。令Psum=(N−1)[0.05 k max(R)+2000 sqrt(3) γ]，它根据小重叠与全程速度界给出每粒子法向力之和的保守上界；要求tend μ Psum max_i(1/mi+Ri²/Ii)/vs≤1e5，控制正则化滑动刚性。静摩擦滞回不是本题输入分支。
 

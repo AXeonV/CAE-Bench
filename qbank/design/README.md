@@ -36,6 +36,8 @@
 
 第十五章按[章规划](chapter-15-radiation-nuclear.md)完成五节八题、自包含DATA、辐射／核工程共享声明检查、评分执行配置和独立考生复核；见[整章入口](../15-radiation-nuclear/README.md)及[进度与验证](reviews/chapter-15-progress.md)。正式数据、参考及发布留后。
 
+第十六章按[章规划](chapter-16-microstructure.md)完成五节七题、自包含DATA、材料组织共享声明检查、评分执行配置和独立考生复核；见[整章入口](../16-microstructure/README.md)及[进度与验证](reviews/chapter-16-progress.md)。正式数据、参考及发布留后。
+
 ## 细化与归属规则
 
 1. **按领域设章，逐级细化能力范围。** 维度、稳态／瞬态、材料类型、能量与湍流等物理范围，以及方法要求，在节、子节和具体题目层展开。给定 PDE 章按数学问题组织。

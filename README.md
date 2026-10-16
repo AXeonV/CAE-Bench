@@ -81,8 +81,9 @@ flowchart LR
 | [第 7 章](qbank/07-electromagnetics/README.md) | 电磁场与电路 |
 | [第 8 章](qbank/08-optics/README.md) | 光学与光子学 |
 | [第 15 章](qbank/15-radiation-nuclear/README.md) | 辐射输运与核工程物理分析 |
+| [第 16 章](qbank/16-microstructure/README.md) | 材料组织与微观演化分析 |
 
-第 2～8 章及第 15 章已完成题面、DATA 和评测配置；正式数值数据、参考及评测发布仍待完成。
+第 2～8 章及第 15～16 章已完成题面、DATA 和评测配置；正式数值数据、参考及评测发布仍待完成。
 
 ## 维护技能
 

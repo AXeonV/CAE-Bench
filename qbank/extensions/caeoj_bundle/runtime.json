@@ -571,6 +571,50 @@
         "caeoj_ext/optics/__init__.py",
         "caeoj_ext/optics/models.json"
       ]
+    },
+    "plasma": {
+      "version": 1,
+      "requires": [],
+      "geometry": true,
+      "error_code": "E_PLASMA",
+      "selectors": [
+        {
+          "physics.model": "plasma-charged-orbits-v1"
+        },
+        {
+          "physics.model": "plasma-relativistic-orbits-v1"
+        },
+        {
+          "physics.model": "plasma-collisional-states-v1"
+        },
+        {
+          "physics.model": "plasma-plasma-chemistry-v1"
+        },
+        {
+          "physics.model": "plasma-vlasov-poisson-v1"
+        },
+        {
+          "physics.model": "plasma-space-charge-beam-v1"
+        },
+        {
+          "physics.model": "plasma-isothermal-discharge-v1"
+        },
+        {
+          "physics.model": "plasma-energy-discharge-v1"
+        },
+        {
+          "physics.model": "plasma-cold-plasma-relaxation-v1"
+        },
+        {
+          "physics.model": "plasma-magnetized-plasma-slab-v1"
+        }
+      ],
+      "check": "caeoj_ext.plasma:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/plasma/__init__.py",
+        "caeoj_ext/plasma/models.json"
+      ]
     }
   },
   "tasks": {
@@ -1004,6 +1048,36 @@
     ],
     "slab-modes": [
       "optics.linear"
+    ],
+    "charged-orbits": [
+      "plasma"
+    ],
+    "relativistic-orbits": [
+      "plasma"
+    ],
+    "collisional-states": [
+      "plasma"
+    ],
+    "plasma-chemistry": [
+      "plasma"
+    ],
+    "vlasov-poisson": [
+      "plasma"
+    ],
+    "space-charge-beam": [
+      "plasma"
+    ],
+    "isothermal-discharge": [
+      "plasma"
+    ],
+    "energy-discharge": [
+      "plasma"
+    ],
+    "cold-plasma-relaxation": [
+      "plasma"
+    ],
+    "magnetized-plasma-slab": [
+      "plasma"
     ]
   },
   "aliases": {
@@ -1037,7 +1111,8 @@
     "thermal-",
     "acoustic-",
     "electromagnetic-",
-    "optics-"
+    "optics-",
+    "plasma-"
   ],
   "model_namespace_diagnostics": {
     "fluid-energy-": "E_FLUID",
@@ -1048,6 +1123,7 @@
     "thermal-": "E_THERMAL",
     "acoustic-": "E_ACOUSTIC",
     "electromagnetic-": "E_ELECTROMAGNETIC",
-    "optics-": "E_OPTICS"
+    "optics-": "E_OPTICS",
+    "plasma-": "E_PLASMA"
   }
 }

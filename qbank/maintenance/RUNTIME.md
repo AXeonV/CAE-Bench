@@ -21,6 +21,7 @@ python -m caeoj_tools.cli smoke
 - `qbank/extensions/caeoj_ext/fluid/`：single_phase、thermal_flow、turbulence、multiphase、thin_film、depth_averaged、rarefied、complex_fluid；公共声明与几何适配按需复用。
 - `qbank/extensions/caeoj_bundle/runtime.json`：可信开发注册描述，包括 extensions、tasks、SDK aliases、模块转发 modules 和模型名字空间诊断。tasks 的值是直接扩展 ID 列表，空列表明确表示该题使用通用声明检查，不是遗漏装配；全部题目必须显式绑定，由回归测试核对覆盖。
 - `src/caeoj_tools/`：定位题目、策略读取、作者入口、依赖锁定与装配。publish_dist.py、prepare_harbor.py 仍为现有维护命令入口，均消费同一装配逻辑。
+- `qbank/extensions/caeoj_ext/plasma/`：带电轨道、离散碰撞、反应、静电自洽、放电及冷等离子体响应的声明检查；相空间速度箱用明确的components轴，移动粒子用entities，不增加核心格式或求解功能。
 - smoke-test 的 examples、smoke 在其 author 目录，维护工具显式加载。测试使用维护 loader，不从核心借题库根路径。
 
 扩展按物理组织，章节重排不改扩展 ID。cfd-2.1 与 fluid-* 等输入标识对应实际声明，移动内部模块不改写输入语义。

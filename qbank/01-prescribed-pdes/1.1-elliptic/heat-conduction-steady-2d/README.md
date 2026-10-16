@@ -27,6 +27,8 @@
 
 ## 出题与验证
 
+HF 题内数据池管理输入与参考，包括 JSON；本题 `data-manifest.json` 选择池条目并绑定本地测试与样例编号。首次使用按[数据获取与维护](../../../maintenance/DATA-SYNC.md)拉取、核验并装配 `cases/`、`reference/`、`samples/`。以下命令用于制作或修订数据；重新生成后需更新池与选样绑定。
+
 在项目根目录，激活 Python 环境后运行：
 
 ```sh

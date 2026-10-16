@@ -10,7 +10,7 @@
 
 ## 本地维护与验证
 
-`smoke-test` 从 `tasks/` 迁至本章，任务标识保持不变。11 组现有 `cases`、回传参考程序 `solve.py` 均保留。以下命令在项目根目录、已安装项目依赖的 Python 环境中运行：
+`smoke-test` 从 `tasks/` 迁至本章，任务标识保持不变。11 组现有 `cases` 由 HF 管理，先按[数据获取与维护](../maintenance/DATA-SYNC.md)获取并核验本题清单；回传参考程序 `solve.py` 留在代码仓库。以下命令在项目根目录、已安装项目依赖的 Python 环境中运行：
 
 ```sh
 python -m caeoj_tools.cli smoke

@@ -123,6 +123,8 @@ python -m pip install -e '.[maint,heat,pdebench]' -e qbank/extensions harbor
 
 **数据缺失或重新制作时准备数据。** 选择本题适用的一种方式；数据完整且与本次题目版本一致时可直接进入评测主线。
 
+已有 `data-manifest.json` 的题目按选样声明从 Hugging Face 题内数据池获取输入、参考与依赖，再装配本地数据目录；操作与核验见[数据获取与维护](qbank/maintenance/DATA-SYNC.md)。本地副本由 Git 忽略，首次 clone 后需获取并装配；当前无通用装配命令或自动 benchmark 清单检查。只有需要制作或修订数据时才使用下面的生成流程。
+
 有独立生成器的题目生成输入、参考与公开样例：
 
 ```sh

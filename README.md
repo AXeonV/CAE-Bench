@@ -89,90 +89,104 @@ Skill 是供维护 Agent 使用的工作流，位于 `.agents/skills/`，可在�
 
 ## 运行
 
-以下流程适用于具备真实数据及完整公开样例的题目。第 0 章的本地读写测试使用 `python -m caeoj_tools.cli smoke`，详见[基础测试说明](qbank/00-basic-tests/README.md)。
+在本地或 HPC 执行主机的项目根目录操作，先激活自行配置的 Python 3.11+ 环境；`python`、`harbor` 和 `docker` 均使用该主机的安装。下述单行命令适用于 PowerShell 或 Bash，尖括号内容为待替换的占位符。
 
-`<task>` 是稳定题目标识，例如 `heat-conduction-steady-2d`；`<task-dir>` 是其真实目录，例如 `qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d`。发布器和组装器按标识自动定位，不接受路径作为 `--task`。
+`<task>` 是稳定题目标识，例如 `heat-conduction-steady-2d`；`<task-dir>` 是实际目录，例如 `qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d`。发布器与组装器通过标识定位题目，`--task` 不接受目录路径。
 
-选择本地或 HPC 作为执行主机，在该主机的项目根目录运行后续流程。先激活自行配置的 Python 3.11+ 环境；`python`、`harbor` 和 `docker` 应来自该主机，尖括号内容均为待替换的占位符。下述单行命令可在 PowerShell 或 Bash 中执行。
+### 准备工作
 
-**1. 准备运行环境。** 使用 Docker 的 Linux containers。
-
-Docker、Python 环境和 Agent 认证需先配置好。认证由执行主机的环境变量提供，也可在 Agent 运行命令中追加 `--env-file '<agent-env-file>'`；Codex 的 `CODEX_AUTH_JSON_PATH` 指向自行配置的登录文件。
+**首次配置或依赖变化时安装环境。** Docker 使用 Linux containers，Agent 认证由执行主机配置。可在运行命令中追加 `--env-file '<agent-env-file>'`；Codex 的 `CODEX_AUTH_JSON_PATH` 指向自行配置的登录文件。
 
 ```sh
 python -m pip install -e '.[maint,heat,pdebench]' -e qbank/extensions harbor
 ```
 
-**2. 准备所选算例的数据。** 使用对应数据生成器或来源适配器，之后共用步骤 3～7。
+以上安装覆盖仓库维护及测试依赖，题目专用要求见本题 README。
 
-提供独立生成器的题目生成输入与参考后运行相关测试；专用依赖与生成参数见对应 README：
+**数据缺失或重新制作时准备数据。** 选择本题适用的一种方式；数据完整且与本次题目版本一致时可直接进入评测主线。
+
+有独立生成器的题目生成输入、参考与公开样例：
 
 ```sh
 python '<task-dir>/author/generate.py'
-python -m unittest discover -s tests -p '<test-file>.py' -v
 ```
 
-`<test-file>` 取对应题目 README 中的测试文件。全量测试命令 `python -m unittest discover -s tests -v` 需先准备当前题目的数据。
-
-当前部分题目的算例来自 PDEBench；其来源适配器负责获取、转换并审核数据。具体来源、样本索引和参考证据见各题 `reference/`，数据集不作为题目分类或题目 ID：
+使用 PDEBench 来源数据的题目通过适配器获取、转换并审核：
 
 ```sh
 python src/utils/PDEBench/prepare.py --tasks '<task>' --budget-gb 60 --no-bootstrap
 ```
 
-`<task>` 使用通用题目目录名，例如 `advection-1d`；`--tasks all` 准备该适配器当前支持的全部题目。后续加入其他来源时，应复用同一题目契约，并在算例或参考记录中标明来源。
+`--tasks all` 准备该适配器支持的全部题目；具体来源、选样与参考证据保存在本题 `reference/`。数据来源不作为题目分类或题目 ID。参考精度及资源预算的校准状态见本题说明和[评测说明](src/utils/PDEBench/EVALUATION.md)。
 
-当前配置用于试运行，正式参考误差和资源限制仍需校准，详见[评测说明](src/utils/PDEBench/EVALUATION.md)。
+### 评测主线
 
-**3. 检查输入与参考输出的结构。**
-
-```sh
-python -m caeoj validate-input '<task-dir>/cases/<case>/problem.json'
-python -m caeoj validate-output --input '<task-dir>/cases/<case>/problem.json' --output '<task-dir>/reference/<case>/reference.h5'
-```
-
-**4. 发布材料并统一组装 Harbor 环境。** 评分放在 `grading.json`，逐例时限放在 `judge-config.json`，CPU／内存等容器资源放在 `harbor/task.toml`，依赖补充放在 `harbor/requirements.txt`；修改后重新打包并组装。
+**1. 打包公开材料并统一组装 Harbor 环境。** 确认题面、DATA、完整公开样例、隐藏输入与参考均已就绪。评分由 `grading.json` 定义，逐例时限放在 `judge-config.json`，CPU／内存等容器资源放在 `harbor/task.toml`，依赖补充放在 `harbor/requirements.txt`。
 
 ```sh
 python src/utils/publish_dist.py --task '<task>'
 python src/utils/prepare_harbor.py --task '<task>'
 ```
 
-公开包位于 `dist/<task>-agent.zip`，临时任务位于 `runs/harbor/tasks/<task>/`。组装结果中的 `oracle_available` 表示是否提供 baseline；隐藏输入和参考仅进入独立判题环境。
+`dist/<task>-agent.zip` 是考生可见的公开材料包，包含题面、DATA、通用协议、公开样例、评分配置、安装元数据及按题目装配的工具源码。题面和数据由出题阶段提供；发布器收集这些材料并装配工具，不自动撰写 DATA。Harbor 构建镜像时安装包内工具，考生直接使用。
 
-**5. 可选 Oracle 检查。** 有 baseline 时可先运行以下命令确认判题链路；没有 baseline 时跳过，直接运行 Agent。
+临时任务位于 `runs/harbor/tasks/<task>/`，隐藏输入和私有参考仅进入独立判题环境。协议、工具、材料或配置改变后重新打包并组装；已有产物内容匹配时可复用。首次验收或判题实现变化时，可先做下方的 Oracle 检查。
 
-```sh
-harbor run -p 'runs/harbor/tasks/<task>' -e docker -a oracle -n 1 -o 'runs/harbor/jobs'
-```
-
-**6. 运行 Agent 并独立判题。** 例如 Codex + Luna：
+**2. 启动监控。** 另开终端，在同一执行主机、同一项目目录启动 Viewer，保持运行：
 
 ```sh
-harbor run -p 'runs/harbor/tasks/<task>' -e docker -a codex -m 'openai/gpt-6-luna' --ak 'reasoning_effort=medium' -n 1 -o 'runs/harbor/jobs'
-```
-
-HPC 运行可追加 `--override-cpus '<cpu-quota>' --override-memory-mb '<memory-mb>'`，值须与组装时声明的资源一致；`-n '<concurrency>'` 控制并发 trial 数，不是单个求解器的线程数。默认模板提供 g++、OpenMP、Open MPI 及 HDF5 开发库（`h5cc`／`h5c++`、`h5dump`），解题与独立判题容器共用该工具链；GPU 需另行配置。
-
-**7. 查看成绩或复核单点。**
-
-```sh
+python -c "from pathlib import Path; Path('runs/harbor/jobs').mkdir(parents=True, exist_ok=True)"
 harbor view 'runs/harbor/jobs' --jobs --host 0.0.0.0 --port 8080
 ```
 
-trial 的 `verifier/report.json` 保存逐点得分与误差，`reward.txt` 保存通过率。也可单独运行提交并判分：
+本机访问 `http://127.0.0.1:8080`；远程执行时使用执行主机的可达地址。确认页面可用，再运行 Agent；Viewer 与运行命令须使用相同 jobs 目录。
+
+**3. 运行 Agent 并独立判题。** 例如 Codex + Luna，独立尝试一次、并发一个 trial：
+
+```sh
+harbor run -p 'runs/harbor/tasks/<task>' -e docker -a codex -m 'openai/gpt-6-luna' --ak 'reasoning_effort=medium' -k 1 -n 1 -o 'runs/harbor/jobs'
+```
+
+HPC 可追加 `--override-cpus '<cpu-quota>' --override-memory-mb '<memory-mb>'`，资源值与组装时的声明保持一致。`-k` 控制独立尝试次数，`-n` 控制并发 trial 数；单个求解器的线程或 MPI 进程数由程序在可用 CPU 配额内选择。
+
+默认镜像提供 g++、OpenMP、Open MPI 和 HDF5 开发库（`h5cc`／`h5c++`、`h5dump`），解题与独立判题容器共用该工具链；GPU 需另行配置。
+
+**4. 汇总结果。** 通过 Viewer 查看运行状态；各 trial 的 `verifier/report.json` 保存逐例状态、得分及误差，`reward.txt` 保存通过率。确认全部计划 trial 和测试点已完成，区分求解器失败与输入、参考、配置等基础设施错误。
+
+可使用 [caeoj-run-benchmark](.agents/skills/caeoj-run-benchmark/SKILL.md) 让维护 Agent 执行就绪检查、冻结条件、组装、监控与结果汇总。配置消费点、总预算及数据就绪要求见[维护说明](qbank/maintenance/EVALUATION.md)。
+
+### 按需验证与诊断
+
+**开发回归：题目或基础设施修改后、打包前执行相关测试。** `<test-file>` 取对应题目 README 中的文件；全量回归前补齐各相关测试依赖的本地数据。
+
+```sh
+python -m unittest discover -s tests -p '<test-file>.py' -v
+python -m unittest discover -s tests -v
+```
+
+基础读写链路可用 `python -m caeoj_tools.cli smoke` 检查，详见[基础测试说明](qbank/00-basic-tests/README.md)。
+
+**结构诊断：定位输入或输出问题时执行。** 发布和组装内部已有结构检查，以下单点命令供调试使用，无需每轮手工重复。
+
+```sh
+python -m caeoj validate-input '<task-dir>/cases/<case>/problem.json'
+python -m caeoj validate-output --input '<task-dir>/cases/<case>/problem.json' --output '<task-dir>/reference/<case>/reference.h5'
+```
+
+**Oracle 检查：有 baseline 时验证容器与判题链路。** 在组装后、Agent 评测前按需运行；组装结果的 `oracle_available` 为 false 时跳过。
+
+```sh
+harbor run -p 'runs/harbor/tasks/<task>' -e docker -a oracle -k 1 -n 1 -o 'runs/harbor/jobs'
+```
+
+**单点复核：检查已有求解程序的输出和成绩。** 判分会独立校验输出结构，数值规则使用本题 `grading.json`。
 
 ```sh
 python '<solver.py>' --input '<task-dir>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5'
-python -m caeoj validate-output --input '<task-dir>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5'
 python -m caeoj grade --input '<task-dir>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5' --reference '<task-dir>/reference/<case>/reference.h5' --grading '<task-dir>/grading.json'
 ```
 
-使用题目提供的 `grading.json`，支持的评分方式见 [GRADING.md](docs/GRADING.md)。
-
-配置消费点、总预算计算与数据就绪边界见[维护说明](qbank/maintenance/EVALUATION.md)；配置完成不代表正式数据或评测发布完成。
-
-阈值取题目判分配置。校验输出 `valid/errors` JSON；判分每点为 0/1，退出码 2 表示输入、参考或参数异常。
+校验返回 `valid/errors` JSON；判分每点为 0/1，退出码 2 表示基础设施或命令参数错误。评分方式见 [GRADING.md](docs/GRADING.md)。
 
 ## TODO
 

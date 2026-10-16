@@ -4,6 +4,7 @@
 
 ## 运行入口
 
+- 主线顺序：数据就绪后打包并组装，确认 Viewer 可用，再运行 Agent，最后核对完整结果；首次安装、数据制作及验证分支按需执行，必要命令见 [README 运行指南](../../../../README.md#运行)。
 - 维护准备：`src/utils/publish_dist.py --task <slug>`，随后 `src/utils/prepare_harbor.py --task <slug>`；本地公开 ZIP、运行装配、评分策略和任务目录必须一致；具体装配规则见[运行说明](../../../../qbank/maintenance/RUNTIME.md)。
 - 当前生成目录：`runs/harbor/tasks/<slug>`。
 - `harbor run` 是 `harbor job start` 别名。0.24.0支持 `--print-config` 查看解析后的JobConfig；`--dry-run` 不运行trial，需核对实际输出是否覆盖所需本地任务。
@@ -17,6 +18,8 @@ harbor run --path runs/harbor/tasks/<task> --env docker --agent <agent> --model 
 ```
 
 长参数 `--path`、`--env` 等须以本机help为准，不能因为短参数历史可用便照抄。用户未要求时不使用 --upload、--launch、--public 或云端分享。凭据使用运行环境既有安全配置，不放入参数记录。
+
+CPU／内存配额来自本题 harbor/task.toml 与共享模板的合并结果。HPC 运行的 `--override-cpus <cpu-quota> --override-memory-mb <memory-mb>` 应与公开声明和组装资源一致；并发 trial 数与求解器的 OpenMP 线程／MPI 进程数分别核对。逐例求解时限来自 judge-config.json，不与 Agent 或总 verifier 时限混淆。
 
 ## Viewer
 

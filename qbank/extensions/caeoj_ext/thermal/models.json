@@ -1,0 +1,2549 @@
+{
+  "thermal-steady": {
+    "name": "三维稳态导热",
+    "dimension": 3,
+    "topology": 3,
+    "steady": true,
+    "phase": false,
+    "advection": false,
+    "parameters": {
+      "temperature_min": {
+        "unit": "K",
+        "meaning": "适用温区下界Tmin>0",
+        "positive": true
+      },
+      "temperature_max": {
+        "unit": "K",
+        "meaning": "适用温区上界Tmax>Tmin",
+        "positive": true
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "thermal",
+        "where": "cells",
+        "data": {
+          "conductivity": {
+            "unit": "W/(m.K)",
+            "meaning": "导热率k>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "heat_source": {
+        "role": "source",
+        "variable": "heat",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "W/m3",
+            "meaning": "单位体积的净加热源Q，正值加热",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "temperature": {
+        "role": "boundary",
+        "variable": "temperature",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "给定边界绝对温度Tb",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "heat_flux": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "W/m2",
+            "meaning": "向外的导热热流，正值从域内流出",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "convection": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "coefficient": {
+            "unit": "W/(m2.K)",
+            "meaning": "非负换热系数h",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "ambient": {
+            "unit": "K",
+            "meaning": "外界温度Ta",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "连续物理温度的实体平均值",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0
+      },
+      "conductive_heat_flux": {
+        "unit": "W/m2",
+        "meaning": "导热热流q；不包含对流携热",
+        "kind": "vector",
+        "shape": [
+          3
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 600,
+    "limits": {
+      "cells": 4000,
+      "nodes": 10000,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "thermal-transient": {
+    "name": "三维瞬态导热",
+    "dimension": 3,
+    "topology": 3,
+    "steady": false,
+    "phase": false,
+    "advection": false,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，严格大于t0"
+      },
+      "temperature_min": {
+        "unit": "K",
+        "meaning": "适用温区下界Tmin>0",
+        "positive": true
+      },
+      "temperature_max": {
+        "unit": "K",
+        "meaning": "适用温区上界Tmax>Tmin",
+        "positive": true
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "thermal",
+        "where": "cells",
+        "data": {
+          "conductivity": {
+            "unit": "W/(m.K)",
+            "meaning": "导热率k>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "capacity": {
+            "unit": "J/(m3.K)",
+            "meaning": "体积热容量C>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "heat_source": {
+        "role": "source",
+        "variable": "heat",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "W/m3",
+            "meaning": "单位体积的净加热源Q，正值加热",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "initial_temperature": {
+        "role": "initial",
+        "variable": "temperature",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "初始绝对温度T0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "temperature": {
+        "role": "boundary",
+        "variable": "temperature",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "给定边界绝对温度Tb",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "heat_flux": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "W/m2",
+            "meaning": "向外的导热热流，正值从域内流出",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "convection": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "coefficient": {
+            "unit": "W/(m2.K)",
+            "meaning": "非负换热系数h",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "ambient": {
+            "unit": "K",
+            "meaning": "外界温度Ta",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "连续物理温度的实体平均值",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0
+      },
+      "conductive_heat_flux": {
+        "unit": "W/m2",
+        "meaning": "导热热流q；不包含对流携热",
+        "kind": "vector",
+        "shape": [
+          3
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 1000,
+    "limits": {
+      "cells": 4000,
+      "nodes": 10000,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "anisotropic-conduction": {
+    "name": "各向异性瞬态导热",
+    "dimension": 3,
+    "topology": 3,
+    "steady": false,
+    "phase": false,
+    "advection": false,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，严格大于t0"
+      },
+      "temperature_min": {
+        "unit": "K",
+        "meaning": "适用温区下界Tmin>0",
+        "positive": true
+      },
+      "temperature_max": {
+        "unit": "K",
+        "meaning": "适用温区上界Tmax>Tmin",
+        "positive": true
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "thermal",
+        "where": "cells",
+        "data": {
+          "conductivity": {
+            "unit": "W/(m.K)",
+            "kind": "tensor",
+            "shape": [
+              3,
+              3
+            ],
+            "meaning": "全局导热张量K，对称正定"
+          },
+          "capacity": {
+            "unit": "J/(m3.K)",
+            "meaning": "体积热容量C>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "heat_source": {
+        "role": "source",
+        "variable": "heat",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "W/m3",
+            "meaning": "单位体积的净加热源Q，正值加热",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "initial_temperature": {
+        "role": "initial",
+        "variable": "temperature",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "初始绝对温度T0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "temperature": {
+        "role": "boundary",
+        "variable": "temperature",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "给定边界绝对温度Tb",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "heat_flux": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "W/m2",
+            "meaning": "向外的导热热流，正值从域内流出",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "convection": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "coefficient": {
+            "unit": "W/(m2.K)",
+            "meaning": "非负换热系数h",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "ambient": {
+            "unit": "K",
+            "meaning": "外界温度Ta",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "连续物理温度的实体平均值",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0
+      },
+      "conductive_heat_flux": {
+        "unit": "W/m2",
+        "meaning": "导热热流q；不包含对流携热",
+        "kind": "vector",
+        "shape": [
+          3
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 1000,
+    "limits": {
+      "cells": 4000,
+      "nodes": 10000,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "nonlinear-conductivity": {
+    "name": "温变导热系数稳态传热",
+    "dimension": 3,
+    "topology": 3,
+    "steady": true,
+    "phase": false,
+    "advection": false,
+    "parameters": {
+      "temperature_min": {
+        "unit": "K",
+        "meaning": "适用温区下界Tmin>0",
+        "positive": true
+      },
+      "temperature_max": {
+        "unit": "K",
+        "meaning": "适用温区上界Tmax>Tmin",
+        "positive": true
+      },
+      "temperature_reference": {
+        "unit": "K",
+        "meaning": "物性参考温度Tr，位于[Tmin,Tmax]"
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "thermal",
+        "where": "cells",
+        "data": {
+          "conductivity": {
+            "unit": "W/(m.K)",
+            "meaning": "导热率k>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "beta": {
+            "unit": "1/K",
+            "meaning": "指数导热率系数β，可正可负",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "heat_source": {
+        "role": "source",
+        "variable": "heat",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "W/m3",
+            "meaning": "单位体积的净加热源Q，正值加热",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "temperature": {
+        "role": "boundary",
+        "variable": "temperature",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "给定边界绝对温度Tb",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "heat_flux": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "W/m2",
+            "meaning": "向外的导热热流，正值从域内流出",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "convection": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "coefficient": {
+            "unit": "W/(m2.K)",
+            "meaning": "非负换热系数h",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "ambient": {
+            "unit": "K",
+            "meaning": "外界温度Ta",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "连续物理温度的实体平均值",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0
+      },
+      "conductive_heat_flux": {
+        "unit": "W/m2",
+        "meaning": "导热热流q；不包含对流携热",
+        "kind": "vector",
+        "shape": [
+          3
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 1500,
+    "limits": {
+      "cells": 4000,
+      "nodes": 10000,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "nonlinear-capacity": {
+    "name": "温变热容量瞬态传热",
+    "dimension": 3,
+    "topology": 3,
+    "steady": false,
+    "phase": false,
+    "advection": false,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，严格大于t0"
+      },
+      "temperature_min": {
+        "unit": "K",
+        "meaning": "适用温区下界Tmin>0",
+        "positive": true
+      },
+      "temperature_max": {
+        "unit": "K",
+        "meaning": "适用温区上界Tmax>Tmin",
+        "positive": true
+      },
+      "temperature_reference": {
+        "unit": "K",
+        "meaning": "物性参考温度Tr，位于[Tmin,Tmax]"
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "thermal",
+        "where": "cells",
+        "data": {
+          "conductivity": {
+            "unit": "W/(m.K)",
+            "meaning": "导热率k>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "capacity": {
+            "unit": "J/(m3.K)",
+            "meaning": "体积热容量C>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "gamma": {
+            "unit": "1/K",
+            "meaning": "容量线性温度系数γ，可正可负",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "heat_source": {
+        "role": "source",
+        "variable": "heat",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "W/m3",
+            "meaning": "单位体积的净加热源Q，正值加热",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "initial_temperature": {
+        "role": "initial",
+        "variable": "temperature",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "初始绝对温度T0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "temperature": {
+        "role": "boundary",
+        "variable": "temperature",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "给定边界绝对温度Tb",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "heat_flux": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "W/m2",
+            "meaning": "向外的导热热流，正值从域内流出",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "convection": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "coefficient": {
+            "unit": "W/(m2.K)",
+            "meaning": "非负换热系数h",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "ambient": {
+            "unit": "K",
+            "meaning": "外界温度Ta",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "连续物理温度的实体平均值",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0
+      },
+      "conductive_heat_flux": {
+        "unit": "W/m2",
+        "meaning": "导热热流q；不包含对流携热",
+        "kind": "vector",
+        "shape": [
+          3
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 1500,
+    "limits": {
+      "cells": 4000,
+      "nodes": 10000,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "thermal-contact": {
+    "name": "有限界面热阻传热",
+    "dimension": 3,
+    "topology": 3,
+    "steady": false,
+    "phase": false,
+    "advection": false,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，严格大于t0"
+      },
+      "temperature_min": {
+        "unit": "K",
+        "meaning": "适用温区下界Tmin>0",
+        "positive": true
+      },
+      "temperature_max": {
+        "unit": "K",
+        "meaning": "适用温区上界Tmax>Tmin",
+        "positive": true
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "thermal",
+        "where": "cells",
+        "data": {
+          "conductivity": {
+            "unit": "W/(m.K)",
+            "meaning": "导热率k>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "capacity": {
+            "unit": "J/(m3.K)",
+            "meaning": "体积热容量C>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "heat_source": {
+        "role": "source",
+        "variable": "heat",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "W/m3",
+            "meaning": "单位体积的净加热源Q，正值加热",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "initial_temperature": {
+        "role": "initial",
+        "variable": "temperature",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "初始绝对温度T0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "temperature": {
+        "role": "boundary",
+        "variable": "temperature",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "给定边界绝对温度Tb",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "heat_flux": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "W/m2",
+            "meaning": "向外的导热热流，正值从域内流出",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "convection": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "coefficient": {
+            "unit": "W/(m2.K)",
+            "meaning": "非负换热系数h",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "ambient": {
+            "unit": "K",
+            "meaning": "外界温度Ta",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "thermal_pair": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "partner": {
+            "location": true,
+            "meaning": "另一侧几何重合外表面location"
+          },
+          "conductance": {
+            "unit": "W/(m2.K)",
+            "meaning": "严格正界面热导g；按本侧实体分片常数",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": false
+      }
+    },
+    "outputs": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "连续物理温度的实体平均值",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0
+      },
+      "conductive_heat_flux": {
+        "unit": "W/m2",
+        "meaning": "导热热流q；不包含对流携热",
+        "kind": "vector",
+        "shape": [
+          3
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0.005
+      },
+      "interface_heat_flux": {
+        "unit": "W/m2",
+        "meaning": "本条thermal_pair记录侧向partner流出的面平均导热热流",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "interface",
+        "atol": 0.1,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 1000,
+    "limits": {
+      "cells": 4000,
+      "nodes": 10000,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "thin-sheet-heat": {
+    "name": "薄层面内传热与面换热",
+    "dimension": 2,
+    "topology": 2,
+    "steady": false,
+    "phase": false,
+    "advection": false,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，严格大于t0"
+      },
+      "temperature_min": {
+        "unit": "K",
+        "meaning": "适用温区下界Tmin>0",
+        "positive": true
+      },
+      "temperature_max": {
+        "unit": "K",
+        "meaning": "适用温区上界Tmax>Tmin",
+        "positive": true
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "thermal",
+        "where": "cells",
+        "data": {
+          "conductivity": {
+            "unit": "W/(m.K)",
+            "meaning": "导热率k>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "capacity": {
+            "unit": "J/(m3.K)",
+            "meaning": "体积热容量C>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "thickness": {
+            "unit": "m",
+            "meaning": "实际厚度a>0，逐单元常数",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "heat_source": {
+        "role": "source",
+        "variable": "heat",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "W/m2",
+            "meaning": "单位参考面积的净加热源Q，正值加热",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "initial_temperature": {
+        "role": "initial",
+        "variable": "temperature",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "初始绝对温度T0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "temperature": {
+        "role": "boundary",
+        "variable": "temperature",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "给定边界绝对温度Tb",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "heat_flux": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "W/m",
+            "meaning": "向外的导热热流，正值从域内流出",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "convection": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "coefficient": {
+            "unit": "W/(m.K)",
+            "meaning": "非负换热系数h",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "ambient": {
+            "unit": "K",
+            "meaning": "外界温度Ta",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "face_exchange": {
+        "role": "source",
+        "variable": "heat_exchange",
+        "where": "cells",
+        "data": {
+          "h_plus": {
+            "unit": "W/(m2.K)",
+            "meaning": "上表面换热系数≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "h_minus": {
+            "unit": "W/(m2.K)",
+            "meaning": "下表面换热系数≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "ambient_plus": {
+            "unit": "K",
+            "meaning": "上表面环境温度",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          },
+          "ambient_minus": {
+            "unit": "K",
+            "meaning": "下表面环境温度",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      }
+    },
+    "outputs": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "连续物理温度的实体平均值",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0
+      },
+      "sheet_heat_flow": {
+        "unit": "W/m",
+        "meaning": "厚度积分的面内导热流a q",
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 1000,
+    "limits": {
+      "cells": 4000,
+      "nodes": 10000,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "prescribed-advection-heat": {
+    "name": "给定速度场热输运",
+    "dimension": 3,
+    "topology": 3,
+    "steady": false,
+    "phase": false,
+    "advection": true,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，严格大于t0"
+      },
+      "temperature_min": {
+        "unit": "K",
+        "meaning": "适用温区下界Tmin>0",
+        "positive": true
+      },
+      "temperature_max": {
+        "unit": "K",
+        "meaning": "适用温区上界Tmax>Tmin",
+        "positive": true
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "thermal",
+        "where": "cells",
+        "data": {
+          "conductivity": {
+            "unit": "W/(m.K)",
+            "meaning": "导热率k>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "capacity": {
+            "unit": "J/(m3.K)",
+            "meaning": "体积热容量C>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "heat_source": {
+        "role": "source",
+        "variable": "heat",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "W/m3",
+            "meaning": "单位体积的净加热源Q，正值加热",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "initial_temperature": {
+        "role": "initial",
+        "variable": "temperature",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "初始绝对温度T0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "prescribed_velocity": {
+        "role": "source",
+        "variable": "velocity",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "全局给定稳态无散速度v；节点P1重建，不求动量",
+            "kind": "vector",
+            "shape": [
+              3
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "temperature": {
+        "role": "boundary",
+        "variable": "temperature",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "给定边界绝对温度Tb",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "heat_flux": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "W/m2",
+            "meaning": "向外的导热热流，正值从域内流出",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "convection": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "coefficient": {
+            "unit": "W/(m2.K)",
+            "meaning": "非负换热系数h",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "ambient": {
+            "unit": "K",
+            "meaning": "外界温度Ta",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "连续物理温度的实体平均值",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0
+      },
+      "conductive_heat_flux": {
+        "unit": "W/m2",
+        "meaning": "导热热流q；不包含对流携热",
+        "kind": "vector",
+        "shape": [
+          3
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 1000,
+    "limits": {
+      "cells": 4000,
+      "nodes": 10000,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "conjugate-prescribed-flow": {
+    "name": "给定流场的流固共轭换热",
+    "dimension": 3,
+    "topology": 3,
+    "steady": false,
+    "phase": false,
+    "advection": true,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，严格大于t0"
+      },
+      "temperature_min": {
+        "unit": "K",
+        "meaning": "适用温区下界Tmin>0",
+        "positive": true
+      },
+      "temperature_max": {
+        "unit": "K",
+        "meaning": "适用温区上界Tmax>Tmin",
+        "positive": true
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "thermal",
+        "where": "cells",
+        "data": {
+          "conductivity": {
+            "unit": "W/(m.K)",
+            "meaning": "导热率k>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "capacity": {
+            "unit": "J/(m3.K)",
+            "meaning": "体积热容量C>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "medium": {
+            "unit": "1",
+            "meaning": "0=固体，1=流体，int64，只允许field引用",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "dtype": "int64"
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "heat_source": {
+        "role": "source",
+        "variable": "heat",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "W/m3",
+            "meaning": "单位体积的净加热源Q，正值加热",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "initial_temperature": {
+        "role": "initial",
+        "variable": "temperature",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "初始绝对温度T0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "prescribed_velocity": {
+        "role": "source",
+        "variable": "velocity",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "全局给定稳态无散速度v；节点P1重建，不求动量",
+            "kind": "vector",
+            "shape": [
+              3
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "temperature": {
+        "role": "boundary",
+        "variable": "temperature",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "给定边界绝对温度Tb",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "heat_flux": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "W/m2",
+            "meaning": "向外的导热热流，正值从域内流出",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "convection": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "coefficient": {
+            "unit": "W/(m2.K)",
+            "meaning": "非负换热系数h",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "ambient": {
+            "unit": "K",
+            "meaning": "外界温度Ta",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "连续物理温度的实体平均值",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0
+      },
+      "conductive_heat_flux": {
+        "unit": "W/m2",
+        "meaning": "导热热流q；不包含对流携热",
+        "kind": "vector",
+        "shape": [
+          3
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 1000,
+    "limits": {
+      "cells": 4000,
+      "nodes": 10000,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "radiative-boundary": {
+    "name": "导热体表面对流辐射换热",
+    "dimension": 3,
+    "topology": 3,
+    "steady": false,
+    "phase": false,
+    "advection": false,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，严格大于t0"
+      },
+      "temperature_min": {
+        "unit": "K",
+        "meaning": "适用温区下界Tmin>0",
+        "positive": true
+      },
+      "temperature_max": {
+        "unit": "K",
+        "meaning": "适用温区上界Tmax>Tmin",
+        "positive": true
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "thermal",
+        "where": "cells",
+        "data": {
+          "conductivity": {
+            "unit": "W/(m.K)",
+            "meaning": "导热率k>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "capacity": {
+            "unit": "J/(m3.K)",
+            "meaning": "体积热容量C>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "heat_source": {
+        "role": "source",
+        "variable": "heat",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "W/m3",
+            "meaning": "单位体积的净加热源Q，正值加热",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "initial_temperature": {
+        "role": "initial",
+        "variable": "temperature",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "初始绝对温度T0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "temperature": {
+        "role": "boundary",
+        "variable": "temperature",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "给定边界绝对温度Tb",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "heat_flux": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "W/m2",
+            "meaning": "向外的导热热流，正值从域内流出",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "convection": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "coefficient": {
+            "unit": "W/(m2.K)",
+            "meaning": "非负换热系数h",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "ambient": {
+            "unit": "K",
+            "meaning": "外界温度Ta",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "radiation": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "emissivity": {
+            "unit": "1",
+            "meaning": "发射率0<ε≤1",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true,
+            "upper": 1
+          },
+          "radiation_temperature": {
+            "unit": "K",
+            "meaning": "外部大黑体浴绝对温度Tr",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          },
+          "coefficient": {
+            "unit": "W/(m2.K)",
+            "meaning": "同一表面的对流换热系数h≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "ambient": {
+            "unit": "K",
+            "meaning": "同一表面对流环境温度Ta",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      }
+    },
+    "outputs": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "连续物理温度的实体平均值",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0
+      },
+      "conductive_heat_flux": {
+        "unit": "W/m2",
+        "meaning": "导热热流q；不包含对流携热",
+        "kind": "vector",
+        "shape": [
+          3
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 1000,
+    "limits": {
+      "cells": 4000,
+      "nodes": 10000,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "gray-enclosure": {
+    "name": "灰漫封闭腔体辐射热响应",
+    "dimension": 3,
+    "topology": 0,
+    "steady": false,
+    "phase": false,
+    "advection": false,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，严格大于t0"
+      },
+      "temperature_min": {
+        "unit": "K",
+        "meaning": "适用温区下界Tmin>0",
+        "positive": true
+      },
+      "temperature_max": {
+        "unit": "K",
+        "meaning": "适用温区上界Tmax>Tmin",
+        "positive": true
+      },
+      "patch_count": {
+        "unit": "1",
+        "meaning": "表面数p，整数2..24",
+        "integer": true,
+        "lower": 2,
+        "upper": 24
+      }
+    },
+    "records": {
+      "enclosure": {
+        "role": "material",
+        "variable": "radiation",
+        "where": "enclosure",
+        "data": {
+          "area": {
+            "unit": "m2",
+            "meaning": "各表面积Ai>0",
+            "kind": "components",
+            "shape": [
+              "p"
+            ],
+            "positive": true
+          },
+          "capacity": {
+            "unit": "J/K",
+            "meaning": "每个等温表面的总热容Ci>0",
+            "kind": "components",
+            "shape": [
+              "p"
+            ],
+            "positive": true
+          },
+          "emissivity": {
+            "unit": "1",
+            "meaning": "灰漫发射率0<εi≤1",
+            "kind": "components",
+            "shape": [
+              "p"
+            ],
+            "positive": true,
+            "upper": 1
+          },
+          "view_factors": {
+            "unit": "1",
+            "meaning": "Fij，行i射向列j的能量比例",
+            "kind": "components",
+            "shape": [
+              "p",
+              "p"
+            ],
+            "lower": 0,
+            "upper": 1
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "initial_temperature": {
+        "role": "initial",
+        "variable": "temperature",
+        "where": "enclosure",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "各表面初温Ti(t0)",
+            "kind": "components",
+            "shape": [
+              "p"
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "power": {
+        "role": "source",
+        "variable": "heat",
+        "where": "enclosure",
+        "data": {
+          "value": {
+            "unit": "W",
+            "meaning": "外界给每个表面的非辐射净加热功率Pi(t)，可正可负",
+            "kind": "components",
+            "shape": [
+              "p"
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      }
+    },
+    "outputs": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "各等温表面温度Ti",
+        "kind": "components",
+        "shape": [
+          "p"
+        ],
+        "where": "enclosure",
+        "atol": 0.1,
+        "rtol": 0
+      },
+      "radiosity": {
+        "unit": "W/m2",
+        "meaning": "总离面辐射度Ji，包含发射和反射",
+        "kind": "components",
+        "shape": [
+          "p"
+        ],
+        "where": "enclosure",
+        "atol": 0.1,
+        "rtol": 0.005
+      },
+      "net_radiation": {
+        "unit": "W",
+        "meaning": "向腔内离开表面i的净辐射功率Ai(Ji−Gi)",
+        "kind": "components",
+        "shape": [
+          "p"
+        ],
+        "where": "enclosure",
+        "atol": 0.1,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 180,
+    "limits": {
+      "cells": 4000,
+      "nodes": 10000,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "mushy-enthalpy": {
+    "name": "有限相变温区的焓传热",
+    "dimension": 3,
+    "topology": 3,
+    "steady": false,
+    "phase": true,
+    "advection": false,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，严格大于t0"
+      },
+      "temperature_min": {
+        "unit": "K",
+        "meaning": "适用温区下界Tmin>0",
+        "positive": true
+      },
+      "temperature_max": {
+        "unit": "K",
+        "meaning": "适用温区上界Tmax>Tmin",
+        "positive": true
+      },
+      "solidus": {
+        "unit": "K",
+        "meaning": "固相线Ts，Tmin<Ts<Tl<Tmax"
+      },
+      "liquidus": {
+        "unit": "K",
+        "meaning": "液相线Tl"
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "thermal",
+        "where": "cells",
+        "data": {
+          "conductivity": {
+            "unit": "W/(m.K)",
+            "meaning": "导热率k>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "capacity": {
+            "unit": "J/(m3.K)",
+            "meaning": "体积热容量C>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "latent_heat": {
+            "unit": "J/m3",
+            "meaning": "单位体积相变潜热L>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "heat_source": {
+        "role": "source",
+        "variable": "heat",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "W/m3",
+            "meaning": "单位体积的净加热源Q，正值加热",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "initial_enthalpy": {
+        "role": "initial",
+        "variable": "enthalpy",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "J/m3",
+            "meaning": "初始焓密度H0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "temperature": {
+        "role": "boundary",
+        "variable": "temperature",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "给定边界绝对温度Tb",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "heat_flux": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "W/m2",
+            "meaning": "向外的导热热流，正值从域内流出",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "convection": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "coefficient": {
+            "unit": "W/(m2.K)",
+            "meaning": "非负换热系数h",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "ambient": {
+            "unit": "K",
+            "meaning": "外界温度Ta",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "连续物理温度的实体平均值",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0
+      },
+      "conductive_heat_flux": {
+        "unit": "W/m2",
+        "meaning": "导热热流q；不包含对流携热",
+        "kind": "vector",
+        "shape": [
+          3
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0.005
+      },
+      "enthalpy": {
+        "unit": "J/m3",
+        "meaning": "物理焓密度H的单元平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 100.0,
+        "rtol": 0.005
+      },
+      "liquid_fraction": {
+        "unit": "1",
+        "meaning": "液相体积分数f的单元平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.005,
+        "rtol": 0
+      }
+    },
+    "timeout": 1500,
+    "limits": {
+      "cells": 4000,
+      "nodes": 10000,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "isothermal-stefan": {
+    "name": "等温相变的Stefan焓响应",
+    "dimension": 3,
+    "topology": 3,
+    "steady": false,
+    "phase": true,
+    "advection": false,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，严格大于t0"
+      },
+      "temperature_min": {
+        "unit": "K",
+        "meaning": "适用温区下界Tmin>0",
+        "positive": true
+      },
+      "temperature_max": {
+        "unit": "K",
+        "meaning": "适用温区上界Tmax>Tmin",
+        "positive": true
+      },
+      "melting_temperature": {
+        "unit": "K",
+        "meaning": "熔点Tm，Tmin<Tm<Tmax"
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "thermal",
+        "where": "cells",
+        "data": {
+          "conductivity": {
+            "unit": "W/(m.K)",
+            "meaning": "导热率k>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "capacity": {
+            "unit": "J/(m3.K)",
+            "meaning": "体积热容量C>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "latent_heat": {
+            "unit": "J/m3",
+            "meaning": "单位体积相变潜热L>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "heat_source": {
+        "role": "source",
+        "variable": "heat",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "W/m3",
+            "meaning": "单位体积的净加热源Q，正值加热",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "initial_enthalpy": {
+        "role": "initial",
+        "variable": "enthalpy",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "J/m3",
+            "meaning": "初始焓密度H0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "temperature": {
+        "role": "boundary",
+        "variable": "temperature",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "K",
+            "meaning": "给定边界绝对温度Tb",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "heat_flux": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "W/m2",
+            "meaning": "向外的导热热流，正值从域内流出",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "convection": {
+        "role": "boundary",
+        "variable": "heat_flux",
+        "where": "facets",
+        "data": {
+          "coefficient": {
+            "unit": "W/(m2.K)",
+            "meaning": "非负换热系数h",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "ambient": {
+            "unit": "K",
+            "meaning": "外界温度Ta",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "连续物理温度的实体平均值",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0
+      },
+      "conductive_heat_flux": {
+        "unit": "W/m2",
+        "meaning": "导热热流q；不包含对流携热",
+        "kind": "vector",
+        "shape": [
+          3
+        ],
+        "where": "cells",
+        "atol": 0.1,
+        "rtol": 0.005
+      },
+      "enthalpy": {
+        "unit": "J/m3",
+        "meaning": "物理焓密度H的单元平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 100.0,
+        "rtol": 0.005
+      },
+      "liquid_fraction": {
+        "unit": "1",
+        "meaning": "液相体积分数f的单元平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.005,
+        "rtol": 0
+      }
+    },
+    "timeout": 1500,
+    "limits": {
+      "cells": 4000,
+      "nodes": 10000,
+      "frames": 101,
+      "components": 3000000
+    }
+  }
+}

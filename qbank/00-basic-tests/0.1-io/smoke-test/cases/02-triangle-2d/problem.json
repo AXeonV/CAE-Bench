@@ -1,0 +1,65 @@
+{
+  "task": "smoke-test",
+  "spatial_dimension": 2,
+  "data_file": "input.h5",
+  "geometries": {
+    "shape": {
+      "file": "mesh.geo",
+      "format": "gmsh-geo"
+    }
+  },
+  "meshes": {
+    "main": {
+      "file": "mesh.msh",
+      "geometry": "shape"
+    }
+  },
+  "locations": {
+    "nodes": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "node",
+      "ids": "node_ids"
+    }
+  },
+  "time_axes": {
+    "steady": "times"
+  },
+  "fields": {
+    "temperature": {
+      "array": "temperature",
+      "quantity": "temperature",
+      "location": "nodes",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "K",
+      "value_kind": "point"
+    }
+  },
+  "outputs": {
+    "temperature": {
+      "array": "temperature",
+      "quantity": "temperature",
+      "location": "nodes",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "K",
+      "value_kind": "point"
+    }
+  },
+  "conditions": []
+}

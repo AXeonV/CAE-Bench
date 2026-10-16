@@ -1,6 +1,6 @@
-"""Structural checks for Gmsh meshes, HDF5 arrays and thin JSON metadata.
+"""Checks for protocol structure and opt-in physical declarations.
 
-No interpolation, value repair, physics checks or answer comparison lives here.
+No value repair, PDE solution validation or answer comparison lives here.
 """
 from __future__ import annotations
 
@@ -18,6 +18,7 @@ import gmsh
 import numpy as np
 from jsonschema import Draft202012Validator, validators
 from .storage import read_arrays
+from . import runtime
 
 GMSH_LOCK = threading.Lock()
 Validator = validators.extend(Draft202012Validator, type_checker=
@@ -112,7 +113,7 @@ def schema_errors(document):
     scan(document, "$")
     errors.extend(issue("E_SCHEMA", _path(e.absolute_path), {e.validator: e.validator_value},
                         e.instance, e.message)
-                  for e in sorted(_validator().iter_errors(document), key=lambda e: _path(e.absolute_path)))
+                  for e in sorted(_validator().__class__(runtime.schema(document)).iter_errors(document), key=lambda e: _path(e.absolute_path)))
     return errors
 
 
@@ -140,7 +141,7 @@ def read_hdf5(path):
                                           "Cannot read array payload.")])) from exc
 
 
-def read_mesh(path):
+def read_mesh(path, *, geometry=False):
     """Use the official Gmsh reader and element definitions, not a new mesh parser."""
     try:
         with path.open("rb") as stream:
@@ -164,7 +165,7 @@ def read_mesh(path):
                 if not np.all(np.isfinite(coords)):
                     raise ValueError("Mesh coordinates must be finite.")
                 nodes = set(map(int, node_tags))
-                elements = {}
+                elements = {}; connectivity_by_tag = {}
                 for dim in range(4):
                     types, tag_blocks, connectivity = gmsh.model.mesh.getElements(dim)
                     ids = set()
@@ -175,6 +176,9 @@ def read_mesh(path):
                         if not set(map(int, conn)).issubset(nodes):
                             raise ValueError("Connectivity references missing nodes.")
                         ids.update(map(int, tags))
+                        if geometry:
+                            connectivity_by_tag.update({int(tag): (int(typ), tuple(map(int, row)))
+                                for tag, row in zip(tags, np.asarray(conn).reshape(-1, arity))})
                     elements[dim] = ids
                 all_ids = nodes | set().union(*elements.values())
                 if not nodes or any(i <= 0 or i > np.iinfo(np.int64).max for i in all_ids):
@@ -187,9 +191,14 @@ def read_mesh(path):
                         group_elements.update(int(i) for block in gmsh.model.mesh.getElements(dim, int(entity))[1]
                                               for i in block)
                     groups[(dim, tag)] = {"nodes": group_nodes, "elements": group_elements}
-                return {"nodes": nodes, "elements": elements, "groups": groups,
+                result = {"nodes": nodes, "elements": elements, "groups": groups,
                         "coordinates": np.asarray(coords).reshape(-1, 3),
                         "dimension": max(dim for dim, ids in elements.items() if ids)}
+                if geometry:
+                    result.update(node_coordinates={int(tag): xyz for tag, xyz in
+                        zip(node_tags, np.asarray(coords).reshape(-1, 3))},
+                        connectivity=connectivity_by_tag)
+                return result
             finally:
                 if owned:
                     gmsh.finalize()
@@ -258,6 +267,16 @@ class Checker:
         for name, loc in self.m["locations"].items():
             path = "$.locations." + name
             ids = self.ids(loc["ids"], path + ".ids")
+            if loc['kind'] == 'aggregate':
+                source = self.m['locations'].get(loc['source'])
+                if (not source or source['kind'] != 'mesh' or source['entity'] != 'element'):
+                    self.fail('E_REFERENCE', path+'.source', 'mesh element location', loc['source'],
+                              'Aggregate source must be a mesh element region.')
+                if ids is not None and len(ids) != 1:
+                    self.fail('E_SHAPE', path+'.ids', 'one aggregate ID', ids, 'Aggregate has one result entity.')
+                continue
+            if loc["kind"] == "entities":
+                continue
             if loc["kind"] == "points":
                 if ids is not None:
                     self.array(loc["coordinates"], "float64", [len(ids), self.m["spatial_dimension"]],
@@ -321,8 +340,11 @@ class Checker:
             self.expect(labels, ["".join(x) for x in itertools.product(axes, repeat=rank)],
                         path + ".components", "E_COMPONENTS")
         self.expect(len(labels), math.prod(shape), path + ".components", "E_COMPONENTS")
-        if loc["kind"] == "points" or loc.get("entity") == "node":
+        if loc["kind"] in ("points", "entities") or loc.get("entity") == "node":
             self.expect(spec["value_kind"], "point", path + ".value_kind")
+        elif loc['kind'] == 'aggregate':
+            self.expect(spec['value_kind'], 'integral' if loc['operation']=='sum' else 'average',
+                        path+'.value_kind')
         elif spec["value_kind"] == "point":
             self.fail("E_METADATA", path + ".value_kind", "average or integral", "point",
                       "Element point values require an explicit point location instead.")
@@ -341,6 +363,9 @@ class Checker:
                 seen.add(spec["array"])
                 shape = self.field_spec(spec, path)
                 if table == "fields":
+                    if self.m['locations'].get(spec['location'], {}).get('kind') == 'aggregate':
+                        self.fail('E_METADATA', path+'.location', 'non-aggregate input location',
+                                  spec['location'], 'Aggregate locations are output-only.')
                     self.array(spec["array"], spec["dtype"], shape, path + ".array")
         support = {loc["ids"] for loc in self.m["locations"].values()} | set(self.m["time_axes"].values())
         support |= {loc["coordinates"] for loc in self.m["locations"].values() if loc["kind"] == "points"}
@@ -362,13 +387,30 @@ class Checker:
             path = f"$.conditions[{i}]"
             if condition["location"] not in self.m["locations"]:
                 self.fail("E_REFERENCE", path + ".location", "declared location", condition["location"], "Unknown location.")
+            elif self.m['locations'][condition['location']]['kind'] == 'aggregate':
+                self.fail('E_METADATA', path+'.location', 'non-aggregate location', condition['location'],
+                          'Aggregates are output observations, not condition locations.')
             for name, value in condition["data"].items():
                 if "field" in value:
                     spec = self.m["fields"].get(value["field"])
                     if spec is None:
                         self.fail("E_REFERENCE", path + ".data." + name, "input field", value, "Unknown condition field.")
                     else:
-                        self.expect(spec["location"], condition["location"], path + ".data." + name + ".field.location")
+                        compatible = spec['location'] == condition['location']
+                        extension_answer = runtime.condition_compatibility(self.problem, condition, spec) if not self.errors else None
+                        if extension_answer is not None:
+                            compatible = extension_answer
+                        if not compatible:
+                            if extension_answer is not None:
+                                self.fail('E_REFERENCE', path+'.data.'+name+'.field.location',
+                                          'compatible declared condition region', spec['location'],
+                                          'Condition field does not cover its geometric region.')
+                            else:
+                                self.expect(spec['location'], condition['location'],
+                                            path+'.data.'+name+'.field.location')
+                elif 'location' in value and value['location'] not in self.m['locations']:
+                    self.fail('E_REFERENCE', path+'.data.'+name+'.location', 'declared location',
+                              value['location'], 'Unknown condition location reference.')
 
 
 def check_problem(path):
@@ -392,7 +434,8 @@ def check_problem(path):
             if "geometry" in spec and spec["geometry"] not in m["geometries"]:
                 errors.append(issue("E_REFERENCE", "$.meshes." + name + ".geometry", "geometry ID", spec["geometry"], "Unknown geometry."))
             try:
-                p.meshes[name] = read_mesh(resolve_file(base, spec["file"], {".msh"}))
+                p.meshes[name] = read_mesh(resolve_file(base, spec["file"], {".msh"}),
+                                           geometry=runtime.needs_geometry(m))
                 if p.meshes[name]["dimension"] > m["spatial_dimension"]:
                     errors.append(issue("E_DIMENSION", "$.meshes." + name, "topology <= spatial_dimension",
                                         p.meshes[name]["dimension"], "Topology exceeds the declared space."))
@@ -408,8 +451,14 @@ def check_problem(path):
         checker.times()
         checker.fields()
         checker.conditions()
+        if not errors:
+            runtime.check(p, errors)
         checker.expect(sorted(arrays), sorted(checker.used), "$.data_file", "E_ARRAYS")
-        return p, report(errors)
+        diagnostics = report(errors)
+        diagnostics["scope"] = runtime.describe(m)["scope"]
+        return p, diagnostics
+    except runtime.DeclarationError as exc:
+        return None, report([issue(exc.code, exc.path, "registered declaration", exc.model, str(exc))])
     except ContractError as exc:
         return None, exc.report
     except (OSError, ValueError) as exc:
@@ -450,6 +499,8 @@ def validate_output(input_path, output_path):
     if not diagnostics["valid"]:
         return diagnostics
     try:
-        return check_result(p, read_hdf5(output_path))
+        result = check_result(p, read_hdf5(output_path))
+        result["scope"] = runtime.describe(p.manifest)["scope"]
+        return result
     except ContractError as exc:
         return exc.report

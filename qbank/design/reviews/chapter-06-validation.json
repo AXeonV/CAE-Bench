@@ -1,0 +1,95 @@
+{
+  "date": "2026-10-16",
+  "tasks": 10,
+  "sections": 6,
+  "reviewed_files": 21,
+  "static": {
+    "6.1-propagation": {
+      "topics": [
+        "acoustic-harmonic",
+        "acoustic-transient"
+      ],
+      "static_checks": "passed",
+      "errors": []
+    },
+    "6.2-exterior": {
+      "topics": [
+        "rigid-scattering",
+        "surface-radiation"
+      ],
+      "static_checks": "passed",
+      "errors": []
+    },
+    "6.3-absorption": {
+      "topics": [
+        "equivalent-fluid"
+      ],
+      "static_checks": "passed",
+      "errors": []
+    },
+    "6.4-thermoviscous": {
+      "topics": [
+        "thermoviscous-acoustics"
+      ],
+      "static_checks": "passed",
+      "errors": []
+    },
+    "6.5-aeroacoustics": {
+      "topics": [
+        "lighthill-radiation",
+        "uniform-flow-acoustics"
+      ],
+      "static_checks": "passed",
+      "errors": []
+    },
+    "6.6-vibroacoustics": {
+      "topics": [
+        "modal-vibroacoustics",
+        "resonator-wall"
+      ],
+      "static_checks": "passed",
+      "errors": []
+    }
+  },
+  "regression": {
+    "tests": 296,
+    "seconds": 44.474,
+    "result": "passed",
+    "log": "runs/authoring/chapter-06/regression.log"
+  },
+  "independent_install": {
+    "tasks": [
+      "acoustic-harmonic",
+      "acoustic-transient",
+      "equivalent-fluid",
+      "lighthill-radiation",
+      "modal-vibroacoustics",
+      "resonator-wall",
+      "rigid-scattering",
+      "surface-radiation",
+      "thermoviscous-acoustics",
+      "uniform-flow-acoustics"
+    ],
+    "cli_per_task": [
+      "info",
+      "validate-input",
+      "validate-output",
+      "grade"
+    ],
+    "sdk": "passed",
+    "bad_units": "rejected",
+    "missing_extension": "tool error",
+    "import_path": "/Users/jimzhou/code/CAE-Bench-OJ/runs/authoring/chapter-06/install-check/venv/lib/python3.14/site-packages/caeoj/__init__.py",
+    "python": "3.14.6 (main, Jun 10 2026, 10:03:53) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "platform": "darwin",
+    "scipy": "1.18.1",
+    "working_directory": "/private/tmp",
+    "scope": "protocol fixtures only; no numerical references or solver runs"
+  },
+  "assembly_id": "472d319bcda723cb2c84291c630aba54ebb06f378eec8abf69eb7d80cdee5f09",
+  "grading": "all 10 quantity policies bound to different logical/array names; zero and nonzero reference tolerance boundaries tested; literal public thresholds independently checked; invalid output score=0, invalid reference score=null",
+  "resources": "actual task_config merge: agent3600/build1800/4CPU/6144MB/0GPU/separate verifier/no-network; max(1200,300+N*(case_timeout+60)), temporary N=3",
+  "formal_data": "not generated; only disposable protocol fixtures",
+  "numerical_validation": "not performed",
+  "publication": "not performed"
+}

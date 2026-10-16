@@ -1,0 +1,98 @@
+{
+  "task": "burgers-1d",
+  "spatial_dimension": 1,
+  "data_file": "input.h5",
+  "geometries": {},
+  "meshes": {
+    "main": {
+      "file": "mesh.msh"
+    }
+  },
+  "locations": {
+    "domain": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "element",
+      "dimension": 1,
+      "ids": "cell_ids",
+      "physical_group": {
+        "dimension": 1,
+        "tag": 1
+      }
+    }
+  },
+  "time_axes": {
+    "output": "times",
+    "initial": "initial_times"
+  },
+  "fields": {
+    "initial_state": {
+      "array": "initial_state",
+      "quantity": "state",
+      "location": "domain",
+      "time_axis": "initial",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "m/s",
+      "value_kind": "average"
+    }
+  },
+  "outputs": {
+    "state": {
+      "array": "state",
+      "quantity": "state",
+      "location": "domain",
+      "time_axis": "output",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "m/s",
+      "value_kind": "average"
+    }
+  },
+  "physics": {
+    "model": "burgers_1d",
+    "parameters": {
+      "diffusion_coefficient": {
+        "value": 1.2732395447351628,
+        "unit": "m2/s"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "role": "initial",
+      "variable": "state",
+      "location": "domain",
+      "operator": "assign",
+      "data": {
+        "value": {
+          "field": "initial_state"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "state",
+      "location": "domain",
+      "operator": "periodic",
+      "data": {
+        "period_x": {
+          "value": 1,
+          "unit": "m"
+        }
+      }
+    }
+  ]
+}

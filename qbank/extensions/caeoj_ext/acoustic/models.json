@@ -1,0 +1,1518 @@
+{
+  "acoustic-transient": {
+    "name": "线性声学瞬态传播",
+    "family": "bounded",
+    "transient": true,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "物理初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "末时刻tf，严格大于t0"
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "acoustic",
+        "where": "cells",
+        "data": {
+          "density": {
+            "unit": "kg/m3",
+            "meaning": "背景密度ρ>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "sound_speed": {
+            "unit": "m/s",
+            "meaning": "声速c>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "volume_source": {
+        "role": "source",
+        "variable": "dilatation",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "1/s",
+            "meaning": "体积膨胀率源q",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "initial_pressure": {
+        "role": "initial",
+        "variable": "pressure",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "Pa",
+            "meaning": "初始声压p0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "initial_velocity": {
+        "role": "initial",
+        "variable": "velocity",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "初始粒子速度u0",
+            "kind": "vector",
+            "shape": [
+              3
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "pressure": {
+        "role": "boundary",
+        "variable": "pressure",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "Pa",
+            "meaning": "给定声压pb",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "normal_velocity": {
+        "role": "boundary",
+        "variable": "normal_velocity",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "向域外的法向粒子速度",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "impedance": {
+        "role": "boundary",
+        "variable": "normal_velocity",
+        "where": "facets",
+        "data": {
+          "impedance": {
+            "unit": "Pa.s/m",
+            "meaning": "实阻抗R>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true,
+            "static": true
+          },
+          "drive": {
+            "unit": "Pa",
+            "meaning": "压力驱动pd",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "pressure": {
+        "unit": "Pa",
+        "meaning": "声压p",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 1e-05,
+        "rtol": 0.01
+      },
+      "velocity": {
+        "unit": "m/s",
+        "meaning": "粒子速度u",
+        "kind": "vector",
+        "shape": [
+          3
+        ],
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 900,
+    "limits": {
+      "cells": 3000,
+      "nodes": 9000,
+      "surface_faces": 800,
+      "receivers": 128,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "acoustic-harmonic": {
+    "name": "非均匀介质单频声响应",
+    "family": "bounded",
+    "transient": false,
+    "parameters": {
+      "frequency": {
+        "unit": "Hz",
+        "meaning": "单频f>0，ω=2πf",
+        "positive": true
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "acoustic",
+        "where": "cells",
+        "data": {
+          "density": {
+            "unit": "kg/m3",
+            "meaning": "背景密度ρ>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "sound_speed": {
+            "unit": "m/s",
+            "meaning": "声速c>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "volume_source": {
+        "role": "source",
+        "variable": "dilatation",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "1/s",
+            "meaning": "体积膨胀率源q",
+            "kind": "components",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "pressure": {
+        "role": "boundary",
+        "variable": "pressure",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "Pa",
+            "meaning": "给定声压Pb",
+            "kind": "components",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "normal_velocity": {
+        "role": "boundary",
+        "variable": "normal_velocity",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "向域外的法向粒子速度",
+            "kind": "components",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "impedance": {
+        "role": "boundary",
+        "variable": "normal_velocity",
+        "where": "facets",
+        "data": {
+          "impedance": {
+            "unit": "Pa.s/m",
+            "meaning": "复阻抗Z，ReZ≥0且|Z|>0",
+            "kind": "components",
+            "shape": [
+              2
+            ]
+          },
+          "drive": {
+            "unit": "Pa",
+            "meaning": "压力驱动Pd",
+            "kind": "components",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "pressure": {
+        "unit": "Pa",
+        "meaning": "复声压P",
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-05,
+        "rtol": 0.01
+      },
+      "velocity": {
+        "unit": "m/s",
+        "meaning": "复粒子速度U",
+        "kind": "components",
+        "shape": [
+          3,
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 900,
+    "limits": {
+      "cells": 3000,
+      "nodes": 9000,
+      "surface_faces": 800,
+      "receivers": 128,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "surface-radiation": {
+    "name": "给定表面振速的声辐射",
+    "family": "surface",
+    "transient": false,
+    "parameters": {
+      "frequency": {
+        "unit": "Hz",
+        "meaning": "单频f>0，ω=2πf",
+        "positive": true
+      },
+      "density": {
+        "unit": "kg/m3",
+        "meaning": "均匀背景密度ρ>0",
+        "positive": true
+      },
+      "sound_speed": {
+        "unit": "m/s",
+        "meaning": "均匀声速c>0",
+        "positive": true
+      }
+    },
+    "records": {
+      "surface_velocity": {
+        "role": "boundary",
+        "variable": "normal_velocity",
+        "where": "surface",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "固体向外法向的表面振速W",
+            "kind": "components",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      }
+    },
+    "outputs": {
+      "pressure": {
+        "unit": "Pa",
+        "meaning": "辐射声压P",
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "where": "receivers",
+        "atol": 1e-05,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 1200,
+    "limits": {
+      "cells": 3000,
+      "nodes": 9000,
+      "surface_faces": 800,
+      "receivers": 128,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "rigid-scattering": {
+    "name": "刚性体平面波散射",
+    "family": "surface",
+    "transient": false,
+    "parameters": {
+      "frequency": {
+        "unit": "Hz",
+        "meaning": "单频f>0，ω=2πf",
+        "positive": true
+      },
+      "density": {
+        "unit": "kg/m3",
+        "meaning": "均匀背景密度ρ>0",
+        "positive": true
+      },
+      "sound_speed": {
+        "unit": "m/s",
+        "meaning": "均匀声速c>0",
+        "positive": true
+      },
+      "direction_x": {
+        "unit": "1",
+        "meaning": "入射传播单位方向d的x分量"
+      },
+      "reference_x": {
+        "unit": "m",
+        "meaning": "入射相位参考点x_ref的x分量"
+      },
+      "direction_y": {
+        "unit": "1",
+        "meaning": "入射传播单位方向d的y分量"
+      },
+      "reference_y": {
+        "unit": "m",
+        "meaning": "入射相位参考点x_ref的y分量"
+      },
+      "direction_z": {
+        "unit": "1",
+        "meaning": "入射传播单位方向d的z分量"
+      },
+      "reference_z": {
+        "unit": "m",
+        "meaning": "入射相位参考点x_ref的z分量"
+      },
+      "amplitude_real": {
+        "unit": "Pa",
+        "meaning": "入射压力复振幅A实部"
+      },
+      "amplitude_imag": {
+        "unit": "Pa",
+        "meaning": "入射压力复振幅A虚部"
+      }
+    },
+    "records": {
+      "rigid": {
+        "role": "boundary",
+        "variable": "normal_velocity",
+        "where": "surface",
+        "data": {
+          "state": {
+            "option": "stationary",
+            "meaning": "静止刚性体，总场法向速度为0"
+          }
+        },
+        "required": true,
+        "static": false
+      }
+    },
+    "outputs": {
+      "scattered_pressure": {
+        "unit": "Pa",
+        "meaning": "散射压力Psc",
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "where": "receivers",
+        "atol": 1e-05,
+        "rtol": 0.01
+      },
+      "pressure": {
+        "unit": "Pa",
+        "meaning": "总声压Pinc+Psc",
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "where": "receivers",
+        "atol": 1e-05,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 1200,
+    "limits": {
+      "cells": 3000,
+      "nodes": 9000,
+      "surface_faces": 800,
+      "receivers": 128,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "equivalent-fluid": {
+    "name": "被动等效流体吸声",
+    "family": "bounded",
+    "transient": false,
+    "parameters": {
+      "frequency": {
+        "unit": "Hz",
+        "meaning": "单频f>0，ω=2πf",
+        "positive": true
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "acoustic",
+        "where": "cells",
+        "data": {
+          "density": {
+            "unit": "kg/m3",
+            "meaning": "等效复密度ρ，Reρ>0、Imρ≤0",
+            "kind": "components",
+            "shape": [
+              2
+            ]
+          },
+          "compressibility": {
+            "unit": "1/Pa",
+            "meaning": "等效复压缩率β，Reβ>0、Imβ≤0",
+            "kind": "components",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "volume_source": {
+        "role": "source",
+        "variable": "dilatation",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "1/s",
+            "meaning": "体积膨胀率源q",
+            "kind": "components",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "pressure": {
+        "role": "boundary",
+        "variable": "pressure",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "Pa",
+            "meaning": "给定声压Pb",
+            "kind": "components",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "normal_velocity": {
+        "role": "boundary",
+        "variable": "normal_velocity",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "向域外的法向粒子速度",
+            "kind": "components",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "impedance": {
+        "role": "boundary",
+        "variable": "normal_velocity",
+        "where": "facets",
+        "data": {
+          "impedance": {
+            "unit": "Pa.s/m",
+            "meaning": "复阻抗Z，ReZ≥0且|Z|>0",
+            "kind": "components",
+            "shape": [
+              2
+            ]
+          },
+          "drive": {
+            "unit": "Pa",
+            "meaning": "压力驱动Pd",
+            "kind": "components",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "pressure": {
+        "unit": "Pa",
+        "meaning": "复声压P",
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-05,
+        "rtol": 0.01
+      },
+      "velocity": {
+        "unit": "m/s",
+        "meaning": "复粒子速度U",
+        "kind": "components",
+        "shape": [
+          3,
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.01
+      },
+      "dissipation": {
+        "unit": "W/m3",
+        "meaning": "体积耗散功率密度D的平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 900,
+    "limits": {
+      "cells": 3000,
+      "nodes": 9000,
+      "surface_faces": 800,
+      "receivers": 128,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "thermoviscous-acoustics": {
+    "name": "理想气体热黏单频响应",
+    "family": "bounded",
+    "transient": false,
+    "parameters": {
+      "frequency": {
+        "unit": "Hz",
+        "meaning": "单频f>0，ω=2πf",
+        "positive": true
+      },
+      "density": {
+        "unit": "kg/m3",
+        "meaning": "均匀背景密度ρ>0",
+        "positive": true
+      },
+      "temperature": {
+        "unit": "K",
+        "meaning": "均匀背景绝对温度T0>0",
+        "positive": true
+      },
+      "gas_constant": {
+        "unit": "J/(kg.K)",
+        "meaning": "比气体常数R>0",
+        "positive": true
+      },
+      "gamma": {
+        "unit": "1",
+        "meaning": "比热比γ>1",
+        "lower_exclusive": 1
+      },
+      "viscosity": {
+        "unit": "Pa.s",
+        "meaning": "动力黏度μ>0",
+        "positive": true
+      },
+      "bulk_viscosity": {
+        "unit": "Pa.s",
+        "meaning": "体黏度ζ≥0",
+        "lower": 0
+      },
+      "conductivity": {
+        "unit": "W/(m.K)",
+        "meaning": "热导率κ>0",
+        "positive": true
+      }
+    },
+    "records": {
+      "force": {
+        "role": "source",
+        "variable": "force",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "N/m3",
+            "meaning": "线性体积动量源F",
+            "kind": "components",
+            "shape": [
+              3,
+              2
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "heat": {
+        "role": "source",
+        "variable": "heat",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "W/m3",
+            "meaning": "线性体积加热源Q",
+            "kind": "components",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "wall_velocity": {
+        "role": "boundary",
+        "variable": "velocity",
+        "where": "boundary_nodes",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "外边界全部速度分量Vw，含切向与法向",
+            "kind": "components",
+            "shape": [
+              3,
+              2
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      }
+    },
+    "outputs": {
+      "pressure": {
+        "unit": "Pa",
+        "meaning": "声压P",
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-05,
+        "rtol": 0.01
+      },
+      "velocity": {
+        "unit": "m/s",
+        "meaning": "粒子速度U",
+        "kind": "components",
+        "shape": [
+          3,
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.01
+      },
+      "temperature_perturbation": {
+        "unit": "K",
+        "meaning": "温度扰动Θ，不是绝对温度",
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 1500,
+    "limits": {
+      "cells": 3000,
+      "nodes": 9000,
+      "surface_faces": 800,
+      "receivers": 128,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "uniform-flow-acoustics": {
+    "name": "均匀平均流中的声扰动",
+    "family": "bounded",
+    "transient": true,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "物理初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "末时刻tf，严格大于t0"
+      },
+      "density": {
+        "unit": "kg/m3",
+        "meaning": "均匀背景密度ρ>0",
+        "positive": true
+      },
+      "sound_speed": {
+        "unit": "m/s",
+        "meaning": "均匀声速c>0",
+        "positive": true
+      },
+      "mean_x": {
+        "unit": "m/s",
+        "meaning": "均匀平均速度V0的x分量；|V0|/c<0.5"
+      },
+      "mean_y": {
+        "unit": "m/s",
+        "meaning": "均匀平均速度V0的y分量；|V0|/c<0.5"
+      },
+      "mean_z": {
+        "unit": "m/s",
+        "meaning": "均匀平均速度V0的z分量；|V0|/c<0.5"
+      }
+    },
+    "records": {
+      "volume_source": {
+        "role": "source",
+        "variable": "dilatation",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "1/s",
+            "meaning": "体积膨胀率源q",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "initial_pressure": {
+        "role": "initial",
+        "variable": "pressure",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "Pa",
+            "meaning": "初始声压p0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "initial_velocity": {
+        "role": "initial",
+        "variable": "velocity",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "初始粒子速度u0",
+            "kind": "vector",
+            "shape": [
+              3
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "periodic": {
+        "role": "boundary",
+        "variable": "acoustic",
+        "where": "facets",
+        "data": {
+          "partner": {
+            "location": true,
+            "meaning": "对应坐标最大面的位置；本侧为最小面"
+          }
+        },
+        "required": true,
+        "static": false
+      }
+    },
+    "outputs": {
+      "pressure": {
+        "unit": "Pa",
+        "meaning": "声压p",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 1e-05,
+        "rtol": 0.01
+      },
+      "velocity": {
+        "unit": "m/s",
+        "meaning": "粒子速度u",
+        "kind": "vector",
+        "shape": [
+          3
+        ],
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 900,
+    "limits": {
+      "cells": 3000,
+      "nodes": 9000,
+      "surface_faces": 800,
+      "receivers": 128,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "lighthill-radiation": {
+    "name": "给定Lighthill应力的声辐射",
+    "family": "source",
+    "transient": false,
+    "parameters": {
+      "frequency": {
+        "unit": "Hz",
+        "meaning": "单频f>0，ω=2πf",
+        "positive": true
+      },
+      "sound_speed": {
+        "unit": "m/s",
+        "meaning": "均匀声速c>0",
+        "positive": true
+      }
+    },
+    "records": {
+      "lighthill_tensor": {
+        "role": "source",
+        "variable": "stress",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "Pa",
+            "meaning": "对称Lighthill应力Tij，完整张量；实虚分别对称",
+            "kind": "components",
+            "shape": [
+              3,
+              3,
+              2
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      }
+    },
+    "outputs": {
+      "pressure": {
+        "unit": "Pa",
+        "meaning": "自由空间声压P",
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "where": "receivers",
+        "atol": 1e-05,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 900,
+    "limits": {
+      "cells": 3000,
+      "nodes": 9000,
+      "surface_faces": 800,
+      "receivers": 128,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "resonator-wall": {
+    "name": "局部共振吸声壁的瞬态响应",
+    "family": "bounded",
+    "transient": true,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "物理初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "末时刻tf，严格大于t0"
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "acoustic",
+        "where": "cells",
+        "data": {
+          "density": {
+            "unit": "kg/m3",
+            "meaning": "背景密度ρ>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "sound_speed": {
+            "unit": "m/s",
+            "meaning": "声速c>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "volume_source": {
+        "role": "source",
+        "variable": "dilatation",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "1/s",
+            "meaning": "体积膨胀率源q",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "initial_pressure": {
+        "role": "initial",
+        "variable": "pressure",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "Pa",
+            "meaning": "初始声压p0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "initial_velocity": {
+        "role": "initial",
+        "variable": "velocity",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "初始粒子速度u0",
+            "kind": "vector",
+            "shape": [
+              3
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "pressure": {
+        "role": "boundary",
+        "variable": "pressure",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "Pa",
+            "meaning": "给定声压pb",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "normal_velocity": {
+        "role": "boundary",
+        "variable": "normal_velocity",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "向域外的法向粒子速度",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "impedance": {
+        "role": "boundary",
+        "variable": "normal_velocity",
+        "where": "facets",
+        "data": {
+          "impedance": {
+            "unit": "Pa.s/m",
+            "meaning": "实阻抗R>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true,
+            "static": true
+          },
+          "drive": {
+            "unit": "Pa",
+            "meaning": "压力驱动pd",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "resonator": {
+        "role": "boundary",
+        "variable": "normal_velocity",
+        "where": "facets",
+        "data": {
+          "mass": {
+            "unit": "kg/m2",
+            "meaning": "壁面面密度ms>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true,
+            "static": true
+          },
+          "damping": {
+            "unit": "Pa.s/m",
+            "meaning": "壁面阻尼rs≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0,
+            "static": true
+          },
+          "stiffness": {
+            "unit": "Pa/m",
+            "meaning": "壁面刚度ks>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true,
+            "static": true
+          },
+          "displacement0": {
+            "unit": "m",
+            "meaning": "初始向外位移ξ0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "static": true
+          },
+          "velocity0": {
+            "unit": "m/s",
+            "meaning": "初始向外速度w0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "static": true
+          },
+          "back_pressure": {
+            "unit": "Pa",
+            "meaning": "壁背压力扰动pb(t)",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      }
+    },
+    "outputs": {
+      "wall_displacement": {
+        "unit": "m",
+        "meaning": "向外壁位移ξ",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "resonator",
+        "atol": 1e-07,
+        "rtol": 0.01
+      },
+      "wall_velocity": {
+        "unit": "m/s",
+        "meaning": "向外壁速度∂tξ",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "resonator",
+        "atol": 1e-07,
+        "rtol": 0.01
+      },
+      "pressure": {
+        "unit": "Pa",
+        "meaning": "声压p",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 1e-05,
+        "rtol": 0.01
+      },
+      "velocity": {
+        "unit": "m/s",
+        "meaning": "粒子速度u",
+        "kind": "vector",
+        "shape": [
+          3
+        ],
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 900,
+    "limits": {
+      "cells": 3000,
+      "nodes": 9000,
+      "surface_faces": 800,
+      "receivers": 128,
+      "frames": 101,
+      "components": 3000000
+    }
+  },
+  "modal-vibroacoustics": {
+    "name": "给定结构模态的单频振声耦合",
+    "family": "bounded",
+    "transient": false,
+    "parameters": {
+      "frequency": {
+        "unit": "Hz",
+        "meaning": "单频f>0，ω=2πf",
+        "positive": true
+      },
+      "mode_count": {
+        "unit": "1",
+        "meaning": "模态数m，整数1..8",
+        "integer": true,
+        "lower": 1,
+        "upper": 8
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "acoustic",
+        "where": "cells",
+        "data": {
+          "density": {
+            "unit": "kg/m3",
+            "meaning": "背景密度ρ>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "sound_speed": {
+            "unit": "m/s",
+            "meaning": "声速c>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "volume_source": {
+        "role": "source",
+        "variable": "dilatation",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "1/s",
+            "meaning": "体积膨胀率源q",
+            "kind": "components",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "pressure": {
+        "role": "boundary",
+        "variable": "pressure",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "Pa",
+            "meaning": "给定声压Pb",
+            "kind": "components",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "normal_velocity": {
+        "role": "boundary",
+        "variable": "normal_velocity",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "向域外的法向粒子速度",
+            "kind": "components",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "impedance": {
+        "role": "boundary",
+        "variable": "normal_velocity",
+        "where": "facets",
+        "data": {
+          "impedance": {
+            "unit": "Pa.s/m",
+            "meaning": "复阻抗Z，ReZ≥0且|Z|>0",
+            "kind": "components",
+            "shape": [
+              2
+            ]
+          },
+          "drive": {
+            "unit": "Pa",
+            "meaning": "压力驱动Pd",
+            "kind": "components",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "structure": {
+        "role": "material",
+        "variable": "structure",
+        "where": "structure",
+        "data": {
+          "mass": {
+            "unit": "kg",
+            "meaning": "对称正定模态质量M",
+            "kind": "components",
+            "shape": [
+              "m",
+              "m"
+            ]
+          },
+          "damping": {
+            "unit": "kg/s",
+            "meaning": "对称半正定模态阻尼C",
+            "kind": "components",
+            "shape": [
+              "m",
+              "m"
+            ]
+          },
+          "stiffness": {
+            "unit": "N/m",
+            "meaning": "对称正定模态刚度K",
+            "kind": "components",
+            "shape": [
+              "m",
+              "m"
+            ]
+          },
+          "force": {
+            "unit": "N",
+            "meaning": "外部模态力Fext；每模态实虚相邻",
+            "kind": "components",
+            "shape": [
+              "m",
+              2
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "modal_wall": {
+        "role": "boundary",
+        "variable": "normal_velocity",
+        "where": "facets",
+        "data": {
+          "shape": {
+            "unit": "1",
+            "meaning": "实值法向位移形状φ，各面分片常数；正值沿流体外法向",
+            "kind": "components",
+            "shape": [
+              "m"
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      }
+    },
+    "outputs": {
+      "modal_displacement": {
+        "unit": "m",
+        "meaning": "模态位移η的复振幅，按输入模态顺序",
+        "kind": "components",
+        "shape": [
+          "m",
+          2
+        ],
+        "where": "structure",
+        "atol": 1e-07,
+        "rtol": 0.01
+      },
+      "pressure": {
+        "unit": "Pa",
+        "meaning": "复声压P",
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-05,
+        "rtol": 0.01
+      },
+      "velocity": {
+        "unit": "m/s",
+        "meaning": "复粒子速度U",
+        "kind": "components",
+        "shape": [
+          3,
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 1500,
+    "limits": {
+      "cells": 3000,
+      "nodes": 9000,
+      "surface_faces": 800,
+      "receivers": 128,
+      "frames": 101,
+      "components": 3000000
+    }
+  }
+}

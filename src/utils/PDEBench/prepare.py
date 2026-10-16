@@ -19,7 +19,7 @@ def parser():
     p.add_argument('--tasks',nargs='+',default=['all'],help='Task names, short family names, or all')
     p.add_argument('--plan',action='store_true',help='Print pinned source plan without network or dependency installation')
     p.add_argument('--catalog',type=Path,default=HERE/'catalog.json')
-    p.add_argument('--output-root',type=Path,default=ROOT/'tasks',help='Alternative task tree for smoke/offline preparation')
+    p.add_argument('--output-root',type=Path,help='Optional flat output tree; default: each task in its qbank chapter/section')
     p.add_argument('--cache-root',type=Path,default=ROOT/'runs/pdebench')
     p.add_argument('--source-dir',type=Path,help='Read local complete source files (full size and MD5 verified)')
     p.add_argument('--reference-dir',type=Path,help='Import independently audited references, never unreviewed source trajectories')
@@ -39,7 +39,7 @@ def bootstrap(args):
     if args.no_bootstrap:
         raise RuntimeError('Missing '+', '.join(missing)+"; install: python -m pip install -e '.[pdebench]'")
     env=args.cache_root.resolve()/'venv'
-    existing=sum(p.stat().st_size for root in [args.cache_root.resolve(),args.output_root.resolve()]
+    existing=sum(p.stat().st_size for root in [args.cache_root.resolve(),(args.output_root or ROOT/'qbank').resolve()]
                  if root.exists() for p in root.rglob('*') if p.is_file() and not p.is_symlink())
     if existing+512_000_000 > args.budget_gb*1e9:
         raise RuntimeError('Insufficient budget for dependency bootstrap (512 MB reserved); use an existing environment')
@@ -77,7 +77,7 @@ def main(argv=None):
     from utils.PDEBench.models import BY_TASK,MODELS,source_files
     chosen=[]
     for name in args.tasks:
-        matches=MODELS if name=='all' else [m for m in MODELS if name in (m.task,m.task.removeprefix('PDEBench_'))]
+        matches=MODELS if name=='all' else [m for m in MODELS if name == m.task]
         if not matches:parser().error('Unknown task: '+name)
         for model in matches:
             if model not in chosen:chosen.append(model)
@@ -92,17 +92,22 @@ def main(argv=None):
     bootstrap(args)
     from utils.PDEBench.pipeline import prepare_task
     from utils.PDEBench.storage import Budget,PreparationError,atomic_json
+    from caeoj_tools.task_paths import task_directory
     runtime=args.cache_root.resolve()
-    output=args.output_root.resolve()
+    destinations={m.task: args.output_root.resolve()/m.task if args.output_root is not None
+                  else task_directory(m.task,ROOT) for m in chosen}
     for model in chosen:
-        task=output/model.task
-        if task!=ROOT/'tasks'/model.task:
+        task=destinations[model.task]
+        canonical=task_directory(model.task,ROOT)
+        if task!=canonical:
             task.mkdir(parents=True,exist_ok=True)
             for name in ('instruction.md','DATA.md'):
-                source=ROOT/'tasks'/model.task/name
+                source=canonical/name
                 target=task/name
                 if not target.exists():target.write_bytes(source.read_bytes())
-    budget=Budget([runtime,*[output/m.task for m in MODELS]],plan['budget_bytes'])
+    # Account for the existing managed tree without requiring every unselected
+    # task to be present, unique, or readable as an executable task.
+    budget=Budget([runtime,args.output_root or ROOT/'qbank'],plan['budget_bytes'])
     reports=[]
     try:
         budget.check()
@@ -117,12 +122,12 @@ def main(argv=None):
         for model in chosen:
             print('Preparing '+model.task,flush=True)
             try:
-                result=prepare_task(model,catalog,output/model.task,runtime/'cache',runtime/'staging',budget,
+                result=prepare_task(model,catalog,destinations[model.task],runtime/'cache',runtime/'staging',budget,
                                     args.source_dir,args.candidate_pool,args.timeout,args.max_cases,args.reference_dir,
                                     args.reference_mode,args.refresh_contract)
             except (PreparationError,ValueError,KeyError,OSError) as exc:
                 result={'task':model.task,'status':'failed','error':str(exc),'grading_ready':False}
-                atomic_json(output/model.task/'author/preparation.json',result)
+                atomic_json(destinations[model.task]/'author/preparation.json',result)
             reports.append(result)
             atomic_json(runtime/'reports/latest.json',{'plan':plan,'tasks':reports,
                         'managed_bytes':budget.used(),'accounted_peak_bytes':budget.peak})

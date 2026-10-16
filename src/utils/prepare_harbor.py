@@ -1,8 +1,8 @@
 """Assemble a temporary Harbor task under runs/ from a published public ZIP."""
 import argparse
 import json
+import math
 from pathlib import Path
-import re
 import shutil
 from string import Template
 import tempfile
@@ -10,17 +10,19 @@ import tomllib
 import zipfile
 
 from publish_dist import PROJECT_ROOT, read_public_file, collect_materials
-from caeoj.grading_policy import task_policy, policy_hash, render_policy, validate_policy
+from caeoj_tools.grading_policy import task_policy
+from caeoj.grading_policy import policy_hash, render_policy, validate_policy
 from caeoj.sdk import load_problem, load_result
+from caeoj_tools.task_paths import task_directory
 
 TEMPLATE_FILES = ('environment/Dockerfile', 'solution/solve.sh',
                   'tests/test.sh', 'tests/judge.py')
 RESOURCE_FIELDS = {'agent': ('timeout_sec',),
-                   'environment': ('build_timeout_sec', 'cpus', 'memory_mb'),
-                   'verifier': ('timeout_sec',)}
+                   'environment': ('build_timeout_sec', 'cpus', 'memory_mb', 'gpus', 'os'),
+                   'verifier': ('timeout_sec', 'network_mode')}
 
 
-def task_config(template, overrides):
+def task_config(template, overrides, *, judge_config=None, case_count=None):
     """Keep the shared execution interface; allow task-specific resource limits."""
     config = tomllib.loads(template)
     for section, values in overrides.items():
@@ -29,11 +31,36 @@ def task_config(template, overrides):
         for name, value in values.items():
             if name not in RESOURCE_FIELDS[section]:
                 raise ValueError(f'Unsupported Harbor config field: {section}.{name}')
+            if name in ('os', 'network_mode'):
+                allowed = ('linux',) if name == 'os' else ('no-network',)
+                if value not in allowed:
+                    raise ValueError(f'Unsupported Harbor policy: {section}.{name}')
+                config[section][name] = value
+                continue
             expected = int if name in ('cpus', 'memory_mb') else float
+            if name == 'gpus':
+                if type(value) is not int or value != 0:
+                    raise ValueError('This runner supports CPU-only tasks (gpus=0)')
+                config[section][name] = value
+                continue
             types = (int, float) if expected is float else (expected,)
-            if type(value) not in types or value <= 0:
+            if type(value) not in types or value <= 0 or not math.isfinite(value):
                 raise ValueError(f'Harbor resource must be positive: {section}.{name}')
             config[section][name] = value
+    if judge_config is not None and 'verifier_budget' in judge_config:
+        budget = judge_config['verifier_budget']
+        if not isinstance(budget, dict) or set(budget) != {'base_seconds', 'per_case_overhead_seconds'}:
+            raise ValueError('Invalid verifier_budget keys')
+        values = [*budget.values(), judge_config['timeout_seconds']]
+        if any(type(v) not in (int, float) or not math.isfinite(v) or v <= 0 for v in values):
+            raise ValueError('Verifier budget and solver timeout must be positive finite seconds')
+        if type(case_count) is not int or case_count <= 0:
+            raise ValueError('Auto verifier budget requires the actual positive case count')
+        required = budget['base_seconds'] + case_count * (
+            judge_config['timeout_seconds'] + budget['per_case_overhead_seconds'])
+        if not math.isfinite(required):
+            raise ValueError('Verifier budget overflow')
+        config['verifier']['timeout_sec'] = max(config['verifier']['timeout_sec'], required)
     # These config values are TOML-compatible scalar values or arrays of strings.
     lines = []
     for name, value in config.items():
@@ -48,9 +75,8 @@ def task_config(template, overrides):
 
 def prepare(task, root=PROJECT_ROOT):
     root = Path(root).resolve()
-    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9_.-]*[A-Za-z0-9_-])?', task):
-        raise ValueError('Task must be a directory name')
-    source = root / 'tasks' / task
+    source = task_directory(task, root)
+    task_path = source.relative_to(root).as_posix()
     template = root / 'src/utils/harbor'
     cases = sorted((source / 'cases').glob('*/problem.json'))
     if not cases:
@@ -72,11 +98,12 @@ def prepare(task, root=PROJECT_ROOT):
         raise ValueError('Published archive must match the task and include a sample')
     config_path = source / 'harbor/task.toml'
     overrides = tomllib.loads(read_public_file(root, config_path).decode('utf-8')) if config_path.is_file() else {}
-    rendered_config = task_config(read_public_file(root, template / 'task.toml').decode('utf-8'), overrides)
     judge_config = json.loads(read_public_file(root, source / 'judge-config.json'))
+    rendered_config = task_config(read_public_file(root, template / 'task.toml').decode('utf-8'), overrides,
+                                  judge_config=judge_config, case_count=len(cases))
     instruction = Template(read_public_file(root, template / 'instruction.md').decode('utf-8')).substitute(
-        task=task, sample=manifest['public_samples'][0], timeout_seconds=judge_config['timeout_seconds'],
-        samples=', '.join(f'`/app/tasks/{task}/samples/{name}/`' for name in manifest['public_samples']))
+        task=task, task_path=task_path, sample=manifest['public_samples'][0], timeout_seconds=judge_config['timeout_seconds'],
+        samples=', '.join(f'`/app/{task_path}/samples/{name}/`' for name in manifest['public_samples']))
     resources = tomllib.loads(rendered_config)
     policy = task_policy(source, load_problem(cases[0]), read_bytes=lambda p: read_public_file(root, p))
     if (source / 'grading.json').is_file():
@@ -85,19 +112,19 @@ def prepare(task, root=PROJECT_ROOT):
     # Legacy atol/rtol apply to each case's declared outputs. Different cases
     # can request different field sets; the first sample is not their schema.
     with zipfile.ZipFile(archive) as bundle:
-        policy_key = f'tasks/{task}/grading.json'
+        policy_key = f'{task_path}/grading.json'
         if policy_key not in bundle.namelist() or policy_hash(json.loads(bundle.read(policy_key))) != policy_hash(policy):
             raise ValueError('Published grading policy is stale; run publish_dist.py again')
     instruction += '\n评分规则：\n' + render_policy(policy)
     if not (source / 'grading.json').is_file():
         instruction += f"绝对误差容限={judge_config['atol']}，相对误差容限={judge_config['rtol']}。\n"
-    instruction += f"公开样例判分：python -m caeoj grade --input /app/tasks/{task}/samples/{manifest['public_samples'][0]}/input/problem.json --output /app/sample-result.h5 --reference /app/tasks/{task}/samples/{manifest['public_samples'][0]}/output/result.h5 --grading /app/tasks/{task}/grading.json\n"
+    instruction += f"公开样例判分：python -m caeoj grade --input /app/{task_path}/samples/{manifest['public_samples'][0]}/input/problem.json --output /app/sample-result.h5 --reference /app/{task_path}/samples/{manifest['public_samples'][0]}/output/result.h5 --grading /app/{task_path}/grading.json\n"
     environment = resources['environment']
     if 'cpus' in environment:
         instruction += f"本次环境 CPU 配额：{environment['cpus']} 核。\n"
     if 'memory_mb' in environment:
         instruction += f"可用内存：{environment['memory_mb']} MB。\n"
-    if 'max_output_bytes' in judge_config:
+    if judge_config.get('max_output_bytes') is not None:
         instruction += f"每例结果文件大小上限：{judge_config['max_output_bytes']} 字节。\n"
     baseline = source / 'author/baseline.py'
     destination = root / 'runs/harbor/tasks' / task

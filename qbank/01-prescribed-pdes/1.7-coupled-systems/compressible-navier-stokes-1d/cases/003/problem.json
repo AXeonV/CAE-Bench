@@ -1,0 +1,192 @@
+{
+  "task": "compressible-navier-stokes-1d",
+  "spatial_dimension": 1,
+  "data_file": "input.h5",
+  "geometries": {},
+  "meshes": {
+    "main": {
+      "file": "mesh.msh"
+    }
+  },
+  "locations": {
+    "domain": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "element",
+      "dimension": 1,
+      "ids": "cell_ids",
+      "physical_group": {
+        "dimension": 1,
+        "tag": 1
+      }
+    }
+  },
+  "time_axes": {
+    "output": "times",
+    "initial": "initial_times"
+  },
+  "fields": {
+    "initial_density": {
+      "array": "initial_density",
+      "quantity": "density",
+      "location": "domain",
+      "time_axis": "initial",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "kg/m3",
+      "value_kind": "average"
+    },
+    "initial_velocity": {
+      "array": "initial_velocity",
+      "quantity": "velocity",
+      "location": "domain",
+      "time_axis": "initial",
+      "dtype": "float64",
+      "kind": "vector",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "x"
+      ],
+      "unit": "m/s",
+      "value_kind": "average"
+    },
+    "initial_pressure": {
+      "array": "initial_pressure",
+      "quantity": "pressure",
+      "location": "domain",
+      "time_axis": "initial",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "Pa",
+      "value_kind": "average"
+    }
+  },
+  "outputs": {
+    "density": {
+      "array": "density",
+      "quantity": "density",
+      "location": "domain",
+      "time_axis": "output",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "kg/m3",
+      "value_kind": "average"
+    },
+    "velocity": {
+      "array": "velocity",
+      "quantity": "mass_weighted_velocity",
+      "location": "domain",
+      "time_axis": "output",
+      "dtype": "float64",
+      "kind": "vector",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "x"
+      ],
+      "unit": "m/s",
+      "value_kind": "average"
+    },
+    "pressure": {
+      "array": "pressure",
+      "quantity": "conservative_pressure",
+      "location": "domain",
+      "time_axis": "output",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "Pa",
+      "value_kind": "average"
+    }
+  },
+  "physics": {
+    "model": "compressible_navier_stokes_1d",
+    "parameters": {
+      "gamma": {
+        "value": 1.6666666666666667,
+        "unit": "1"
+      },
+      "shear_viscosity": {
+        "value": 1e-08,
+        "unit": "m2/s"
+      },
+      "bulk_viscosity": {
+        "value": 1e-08,
+        "unit": "m2/s"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "role": "initial",
+      "variable": "density",
+      "location": "domain",
+      "operator": "assign",
+      "data": {
+        "value": {
+          "field": "initial_density"
+        }
+      }
+    },
+    {
+      "role": "initial",
+      "variable": "velocity",
+      "location": "domain",
+      "operator": "assign",
+      "data": {
+        "value": {
+          "field": "initial_velocity"
+        }
+      }
+    },
+    {
+      "role": "initial",
+      "variable": "pressure",
+      "location": "domain",
+      "operator": "assign",
+      "data": {
+        "value": {
+          "field": "initial_pressure"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "fluid_state",
+      "location": "domain",
+      "operator": "periodic",
+      "data": {
+        "period_x": {
+          "value": 2,
+          "unit": "m"
+        }
+      }
+    }
+  ]
+}

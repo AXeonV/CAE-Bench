@@ -11,10 +11,12 @@ import numpy as np
 
 from caeoj.grading import grade_arrays, grade_files
 from caeoj.sdk import load_problem, load_result, read_constant, read_field
-from caeoj.smoke import PROJECT_ROOT
+from caeoj_tools.author import load_author_module
+_smoke = load_author_module('smoke-test', 'smoke')
+PROJECT_ROOT = _smoke.PROJECT_ROOT
 from caeoj.validation import check_result, output_support
 
-TASK = PROJECT_ROOT / "tasks/heat-conduction"
+TASK = PROJECT_ROOT / "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d"
 
 
 def import_author(name):

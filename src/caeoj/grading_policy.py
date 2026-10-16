@@ -1,11 +1,26 @@
 """Versioned public grading policy, validation and participant descriptions."""
 import hashlib
+from copy import deepcopy
 import json
 import math
 from pathlib import Path
 
 import jsonschema
 import numpy as np
+
+DEFAULT_ATOL = 1e-6
+DEFAULT_RTOL = 1e-5
+
+
+def _tolerance(atol, rtol):
+    try:
+        valid = math.isfinite(atol) and math.isfinite(rtol) and atol >= 0 and rtol >= 0
+    except (TypeError, OverflowError):
+        valid = False
+    if not valid:
+        raise ValueError("atol and rtol must be finite nonnegative numbers.")
+    return {"atol": float(atol), "rtol": float(rtol)}
+
 
 UNSET = object()
 METRICS = ('pointwise', 'rmse', 'nrmse', 'max_abs', 'max_scaled', 'violation_fraction')
@@ -46,6 +61,8 @@ def validate_policy(policy, problem=None):
             for child in node.get('all', node.get('any')):
                 walk(child, depth + 1)
         else:
+            if isinstance(node.get('reference_offset'), dict) and policy['version'] != 2:
+                raise ValueError('Input reference_offset requires grading policy version 2')
             for value in node.values():
                 if isinstance(value, (float, int)):
                     try:
@@ -56,9 +73,15 @@ def validate_policy(policy, problem=None):
                         raise ValueError('Grading numbers must be finite')
             if node.get('count') == 'spatial_points' and node['components'] != 'joint':
                 raise ValueError('spatial_points requires joint components')
-    for tree in policy['fields'].values():
+    trees = (list(policy['fields'].values()) if policy['version'] == 1 else
+             [entry['rule'] for entry in policy.get('quantities', {}).values()] +
+             ([policy['default']] if 'default' in policy else []))
+    for tree in trees:
         walk(tree)
     if problem is None:
+        return policy
+    if policy['version'] == 2:
+        validate_policy(_bind_quantities(policy, problem), problem)
         return policy
     outputs = problem.manifest['outputs']
     floating = {k for k, v in outputs.items() if v['dtype'] == 'float64'}
@@ -84,6 +107,50 @@ def validate_policy(policy, problem=None):
     return policy
 
 
+def _bind_quantities(policy, problem):
+    """Bind only declared outputs; never infer a quantity from its logical name."""
+    fields = {}
+    for name, spec in problem.manifest['outputs'].items():
+        if spec['dtype'] != 'float64':
+            continue
+        entry = policy.get('quantities', {}).get(spec['quantity'])
+        if entry is not None:
+            if entry['unit'] != spec['unit']:
+                raise ValueError(f'Grading unit mismatch for output {name}')
+            tree = deepcopy(entry['rule'])
+        elif 'default' in policy:
+            tree = deepcopy(policy['default'])
+        else:
+            raise ValueError(f'No grading rule for output quantity {spec["quantity"]}')
+
+        def bind(node):
+            if 'all' in node or 'any' in node:
+                for child in node.get('all', node.get('any')):
+                    bind(child)
+            elif isinstance(node.get('reference_offset'), dict):
+                parameter = node['reference_offset']['parameter']
+                constant = problem.manifest.get('physics', {}).get('parameters', {}).get(parameter)
+                if (not isinstance(constant, dict) or set(constant) != {'value', 'unit'} or
+                        type(constant['value']) not in (int, float) or constant['unit'] != spec['unit']):
+                    raise ValueError(f'Invalid grading reference parameter {parameter} for {name}')
+                try:
+                    finite = math.isfinite(constant['value'])
+                except OverflowError:
+                    finite = False
+                if not finite:
+                    raise ValueError(f'Nonfinite grading reference parameter {parameter}')
+                node['reference_offset'] = constant['value']
+        bind(tree)
+        fields[name] = tree
+    return {'version': 1, 'fields': fields}
+
+
+def resolve_policy(policy, problem):
+    """Return the numerical field policy, preserving the source policy object."""
+    validate_policy(policy, problem)
+    return _bind_quantities(policy, problem) if policy['version'] == 2 else policy
+
+
 def policy_hash(policy):
     validate_policy(policy)
     return hashlib.sha256(json.dumps(policy, sort_keys=True, separators=(',', ':'),
@@ -107,14 +174,19 @@ def render_policy(policy):
         metric = node['metric']
         scope = ('每个输出时刻' if node['time'] == 'per_time' else '合并全部输出时刻')
         scope += '、' + ('每个分量分别计算' if node['components'] == 'per_component' else '合并全部分量')
-        tolerance = f"|输出−参考| ≤ {node.get('atol')} + {node.get('rtol')}×|参考|"
+        offset = node.get('reference_offset', 0)
+        if isinstance(offset, dict):
+            reference_scale = f"|参考−输入 physics.parameters.{offset['parameter']}.value|"
+        else:
+            reference_scale = f"|参考−({offset})|" if offset != 0 else "|参考|"
+        tolerance = f"|输出−参考| ≤ {node.get('atol')} + {node.get('rtol')}×{reference_scale}"
         if metric == 'pointwise':
             text = '全部值满足 ' + tolerance
         elif metric == 'violation_fraction':
             count = '空间点（该点所有分量均满足才算通过）' if node.get('count') == 'spatial_points' else '标量值'
             text = f"不满足 {tolerance} 的{count}比例 ≤ {node['limit']}"
         elif metric == 'max_scaled':
-            text = f"max(|误差|/(atol+rtol×|参考|)) ≤ {node['limit']}，atol={node['atol']}，rtol={node['rtol']}"
+            text = f"max(|误差|/(atol+rtol×{reference_scale})) ≤ {node['limit']}，atol={node['atol']}，rtol={node['rtol']}"
         elif metric == 'nrmse':
             text = f"RMSE / max(参考 RMS, {node['scale_floor']}) ≤ {node['limit']}"
         else:
@@ -125,26 +197,14 @@ def render_policy(policy):
              'RMSE、最大绝对误差和 scale_floor 使用字段单位；NRMSE、比例及缩放误差无量纲。',
              'RMSE=√加权平均(误差²)，参考 RMS=√加权平均(参考²)。所有阈值包含等号。',
              '合并时刻采用等时刻权重；空间权重仅影响 RMS，比例按数量计数。',
-             '缩放误差分母为零时，零误差记为0，非零误差记为∞。']
-    lines.extend(f'- `{name}`：{describe(tree)}。' for name, tree in sorted(policy['fields'].items()))
-    return '\n'.join(lines) + '\n'
-
-
-def task_policy(task_dir, problem, *, read_bytes=None):
-    """Resolve public policy or legacy tolerances; prohibit ambiguous sources."""
-    task_dir = Path(task_dir)
-    read = read_bytes or (lambda path: path.read_bytes())
-    config_path = task_dir / 'judge-config.json'
-    config = json.loads(read(config_path)) if config_path.is_file() else {}
-    path = task_dir / 'grading.json'
-    if path.is_file():
-        if 'atol' in config or 'rtol' in config:
-            raise ValueError('grading.json and legacy judge-config atol/rtol cannot coexist')
-        policy = parse_policy(read(path))
+             '缩放误差分母为零时，零误差记为0，非零误差记为∞。',
+             'reference_offset默认0；只改变相对尺度，不改变误差、输入或输出；仅按本策略明确声明的数值或输入参数绑定，不自动推断压力基准。']
+    if policy['version'] == 1:
+        lines.extend(f'- `{name}`：{describe(tree)}。' for name, tree in sorted(policy['fields'].items()))
     else:
-        # Import here to keep grading's legacy public API independent of task assembly.
-        from .grading import _tolerance, DEFAULT_ATOL, DEFAULT_RTOL
-        tolerance = _tolerance(config.get('atol', DEFAULT_ATOL), config.get('rtol', DEFAULT_RTOL))
-        policy = legacy_policy(problem, **tolerance)
-    validate_policy(policy, problem)
-    return policy
+        lines.append('按每例 outputs 的 quantity 及单位绑定实际逻辑字段；未请求的量不评分，同 quantity 的所有输出均须通过。')
+        lines.extend(f'- quantity `{name}`，单位 `{entry["unit"]}`：{describe(entry["rule"])}。'
+                     for name, entry in sorted(policy.get('quantities', {}).items()))
+        if 'default' in policy:
+            lines.append('- 其他 float64 输出：' + describe(policy['default']) + '。')
+    return '\n'.join(lines) + '\n'

@@ -20,6 +20,10 @@ SUBMISSION = Path('/app/submission')
 
 def output_limit(config):
     limit = config.get('max_output_bytes', 128 * 1024**2)
+    if limit is None:
+        # Explicitly unlimited when the statement only bounds logical output
+        # size and execution resources. Omission retains the old byte limit.
+        return None
     if type(limit) is not int or limit <= 0:
         raise ValueError('max_output_bytes must be a positive integer')
     return limit
@@ -27,7 +31,7 @@ def output_limit(config):
 
 def output_within_limit(path, limit):
     info = path.lstat()
-    return stat.S_ISREG(info.st_mode) and info.st_size <= limit
+    return stat.S_ISREG(info.st_mode) and (limit is None or info.st_size <= limit)
 
 
 def freeze_submission():

@@ -5,6 +5,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import shutil
 from pathlib import Path
 import subprocess
 import sys
@@ -12,7 +13,9 @@ import tempfile
 import unittest
 import zipfile
 
-from caeoj.smoke import PROJECT_ROOT
+from caeoj_tools.author import load_author_module
+_smoke = load_author_module('smoke-test', 'smoke')
+PROJECT_ROOT = _smoke.PROJECT_ROOT
 from caeoj.validation import ContractError
 
 spec = importlib.util.spec_from_file_location("publish_dist", PROJECT_ROOT / "src/utils/publish_dist.py")
@@ -28,23 +31,23 @@ class PublishTests(unittest.TestCase):
         self.root = Path(temporary.name)
 
     def extracted_bundle(self):
-        report = publisher.publish("heat-conduction", self.root / "dist")
+        report = publisher.publish("heat-conduction-steady-2d", self.root / "dist")
         extracted = self.root / "agent"
         with zipfile.ZipFile(report["archive"]) as bundle:
             bundle.extractall(extracted)
         return extracted, report
 
     def test_manifest_reproducibility_and_public_only_contents(self):
-        first = publisher.publish("heat-conduction", self.root)
-        second = publisher.publish("heat-conduction", self.root)
+        first = publisher.publish("heat-conduction-steady-2d", self.root)
+        second = publisher.publish("heat-conduction-steady-2d", self.root)
         self.assertEqual(first["sha256"], second["sha256"])
         with zipfile.ZipFile(first["archive"]) as bundle:
             names = bundle.namelist()
             self.assertEqual(len(names), len(set(names)))
             self.assertIn("src/caeoj/problem.schema.json", names)
             self.assertIn("src/caeoj/storage.py", names)
-            self.assertIn("tasks/heat-conduction/samples/01/output/result.h5", names)
-            self.assertIn("tasks/heat-conduction/samples/02/output/result.h5", names)
+            self.assertIn("qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/01/output/result.h5", names)
+            self.assertIn("qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/02/output/result.h5", names)
             self.assertFalse(any(part in {"author", "cases", "reference", "__pycache__", "runs", ".git"}
                                  for name in names for part in Path(name).parts))
             self.assertFalse(any(name.endswith(("baseline.py", "TEST-CASES.md", "MVP-PLAN.md")) for name in names))
@@ -62,12 +65,12 @@ class PublishTests(unittest.TestCase):
         env = os.environ.copy()
         env["PYTHONPATH"] = str(root / "src")
         commands = [
-            ["validate-input", "tasks/heat-conduction/samples/01/input/problem.json"],
-            ["validate-output", "--input", "tasks/heat-conduction/samples/01/input/problem.json",
-             "--output", "tasks/heat-conduction/samples/01/output/result.h5"],
-            ["validate-input", "tasks/heat-conduction/samples/02/input/problem.json"],
-            ["validate-output", "--input", "tasks/heat-conduction/samples/02/input/problem.json",
-             "--output", "tasks/heat-conduction/samples/02/output/result.h5"],
+            ["validate-input", "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/01/input/problem.json"],
+            ["validate-output", "--input", "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/01/input/problem.json",
+             "--output", "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/01/output/result.h5"],
+            ["validate-input", "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/02/input/problem.json"],
+            ["validate-output", "--input", "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/02/input/problem.json",
+             "--output", "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/02/output/result.h5"],
         ]
         for command in commands:
             execution = subprocess.run([sys.executable, "-m", "caeoj", *command], cwd=root, env=env,
@@ -86,44 +89,119 @@ class PublishTests(unittest.TestCase):
         for sample in ("01", "02"):
             execution = subprocess.run(
                 [sys.executable, "-m", "caeoj", "grade", "--input",
-                 f"tasks/heat-conduction/samples/{sample}/input/problem.json", "--output",
-                 f"tasks/heat-conduction/samples/{sample}/output/result.h5", "--reference",
-                 f"tasks/heat-conduction/samples/{sample}/output/result.h5", "--atol", "0.01", "--rtol", "0"],
+                 f"qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/{sample}/input/problem.json", "--output",
+                 f"qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/{sample}/output/result.h5", "--reference",
+                 f"qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/{sample}/output/result.h5", "--atol", "0.01", "--rtol", "0"],
                 cwd=root, env=env, capture_output=True, text=True, timeout=30)
             self.assertEqual(execution.returncode, 0, execution.stderr)
             self.assertEqual(json.loads(execution.stdout)["score"], 1)
 
     def test_unlisted_files_never_enter_release(self):
         root, _ = self.extracted_bundle()
-        for name in (".env", "src/caeoj/secret.py", "tasks/heat-conduction/author/baseline.py",
+        for name in (".env", "src/caeoj/secret.py", "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/author/baseline.py",
                      "src/caeoj/examples.py", "src/caeoj/smoke.py",
-                     "tasks/heat-conduction/samples/01/verification.json",
-                     "tasks/heat-conduction/samples/01/input/notes.txt"):
+                     "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/01/verification.json",
+                     "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/01/input/notes.txt"):
             path = root / name
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text("PRIVATE MATERIAL", encoding="utf-8")
-        files, _ = publisher.collect_materials("heat-conduction", root)
+        files, _ = publisher.collect_materials("heat-conduction-steady-2d", root)
         self.assertFalse(any(b"PRIVATE MATERIAL" in data for data in files.values()))
+
+    def test_quantity_policy_runs_from_extracted_bundle_with_varying_logical_names(self):
+        root, _ = self.extracted_bundle()
+        task = root / 'qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d'
+        policy = {'version': 2, 'quantities': {'temperature': {'unit': 'K', 'rule': {
+            'metric': 'pointwise', 'time': 'per_time', 'components': 'per_component',
+            'atol': .01, 'rtol': 0}}}}
+        (task / 'grading.json').write_text(json.dumps(policy))
+        path = task / 'samples/02/input/problem.json'
+        manifest = json.loads(path.read_text())
+        manifest['outputs']['other_name'] = manifest['outputs'].pop('temperature')
+        path.write_text(json.dumps(manifest))
+        released = publisher.publish('heat-conduction-steady-2d', self.root / 'quantity-dist', root)
+        extracted = self.root / 'quantity-agent'
+        with zipfile.ZipFile(released['archive']) as bundle:
+            bundle.extractall(extracted)
+        env = os.environ.copy(); env['PYTHONPATH'] = str(extracted / 'src')
+        task_path = task.relative_to(root)
+        for sample in ('01', '02'):
+            sample_path = task_path / f'samples/{sample}'
+            command = [sys.executable, '-m', 'caeoj', 'grade', '--input', str(sample_path / 'input/problem.json'),
+                '--output', str(sample_path / 'output/result.h5'), '--reference', str(sample_path / 'output/result.h5'),
+                '--grading', str(task_path / 'grading.json')]
+            result = subprocess.run(command, cwd=extracted, env=env, capture_output=True, text=True, timeout=30)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            report = json.loads(result.stdout)
+            self.assertEqual(report['policy_version'], 2)
+            self.assertEqual(report['score'], 1)
 
     def test_invalid_public_output_does_not_replace_existing_release(self):
         root, _ = self.extracted_bundle()
-        release = publisher.publish("heat-conduction", self.root / "new-dist", root)
+        release = publisher.publish("heat-conduction-steady-2d", self.root / "new-dist", root)
         archive = Path(release["archive"])
         before = archive.read_bytes()
-        result = root / "tasks/heat-conduction/samples/01/output/result.h5"
+        result = root / "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/01/output/result.h5"
         arrays = read_hdf5(result)
         arrays["temperature"] = arrays["temperature"][0]
         write_hdf5(result, arrays)
         with self.assertRaises(ContractError):
-            publisher.publish("heat-conduction", self.root / "new-dist", root)
+            publisher.publish("heat-conduction-steady-2d", self.root / "new-dist", root)
         self.assertEqual(archive.read_bytes(), before)
 
     def test_bad_task_names_and_missing_samples_fail(self):
-        for name in ("../heat-conduction", "/tmp", "heat-conduction/author"):
+        for name in ("../heat-conduction-steady-2d", "/tmp", "heat-conduction-steady-2d/author"):
             with self.assertRaises(ValueError):
                 publisher.collect_materials(name)
+        root, _ = self.extracted_bundle()
+        shutil.rmtree(root / "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples")
         with self.assertRaisesRegex(ValueError, "No complete public samples"):
-            publisher.collect_materials("echo-field")
+            publisher.collect_materials("heat-conduction-steady-2d", root)
+
+    def test_public_preflight_uses_staged_binding_and_checks_hook(self):
+        from caeoj_tools.assembly import validate_public_runtime
+        files, _ = publisher.collect_materials('heat-conduction-steady-2d')
+        key='src/caeoj_bundle/runtime.json'
+        data=json.loads(files[key])
+        data['extensions']['task.broken']={'version':1,'requires':[], 'check':'caeoj_task_ext.probe:check'}
+        data['tasks']['heat-conduction-steady-2d']=['task.broken']
+        files[key]=json.dumps(data).encode()
+        files['src/caeoj_task_ext/__init__.py']=b''
+        files['src/caeoj_task_ext/probe.py']=b'def other(): pass\n'
+        with self.assertRaisesRegex(ValueError,'probe:check'):
+            validate_public_runtime(files)
+
+    def test_multitask_package_switches_contracts_without_reinstallation(self):
+        tasks = ['heat-conduction-steady-2d', 'heat-conduction-transient-2d']
+        result = publisher.publish(tasks, self.root/'multi-dist')
+        extracted = self.root/'multi-agent'
+        with zipfile.ZipFile(result['archive']) as bundle:
+            manifest = json.loads(bundle.read('MANIFEST.json'))
+            self.assertEqual(manifest['tasks'], sorted(tasks))
+            bundle.extractall(extracted)
+        code = r"""
+import json
+from pathlib import Path
+from caeoj.sdk import load_problem
+from caeoj.grading import grade_files
+from caeoj.grading_policy import load_policy
+from caeoj.runtime import describe
+paths = sorted(Path('qbank').glob('*/*/*/samples/01/input/problem.json'))
+assert len(paths)==2
+for path in paths+paths[::-1]:
+    problem=load_problem(path)
+    assert describe(problem.manifest)['scope']=='task-contract'
+    sample=path.parent.parent
+    policy=load_policy(path.parents[3]/'grading.json')
+    result=grade_files(path,sample/'output/result.h5',sample/'output/result.h5',policy=policy)
+    assert result['score']==1,result
+print('multi-task: four alternating reads and grades passed')
+"""
+        environment = {**os.environ,'PYTHONPATH':str(extracted/'src')}
+        execution=subprocess.run([sys.executable,'-c',code],cwd=extracted,env=environment,
+                                 capture_output=True,text=True,timeout=30)
+        self.assertEqual(execution.returncode,0,execution.stdout+execution.stderr)
+        self.assertIn('four alternating',execution.stdout)
 
 
 if __name__ == "__main__":

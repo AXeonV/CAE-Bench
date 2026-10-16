@@ -25,7 +25,7 @@ HTTP 模式仅取必要字节范围；验证响应范围、长度、块摘要和
 
 ## 可复现记录
 
-- catalog.json 固定发布文件清单；各题 author/selection.json 固定来源、轨迹、公开/隐藏拆分和格式变体。
+- catalog.json 固定发布文件清单；各题 reference/selection.json 固定来源、轨迹、公开/隐藏拆分和格式变体。
 - author/preparation.json 与 runs/pdebench/reports/latest.json 记录本地实际完成状态、错误和占用，数值载荷和本地状态不进入 Git；问题定义、冻结清单及 JSON 参考证书进入 Git。
 - 重新运行入口会验证已有条目及缓存，复用通过校验的内容；题面变更默认拒绝复用冻结清单，作者审核后才能显式刷新契约绑定。
 

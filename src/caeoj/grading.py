@@ -1,25 +1,12 @@
 """Independent 0/1 grading against a supplied reference, after structural checks."""
 import math
-
 import numpy as np
 
-from .grading_policy import UNSET, validate_policy, policy_hash
+from .grading_policy import (UNSET, validate_policy, policy_hash, resolve_policy,
+                             DEFAULT_ATOL, DEFAULT_RTOL, _tolerance)
 from .grading_metrics import evaluate_field
 from .sdk import load_problem
 from .validation import ContractError, check_result, read_hdf5
-
-DEFAULT_ATOL = 1e-6
-DEFAULT_RTOL = 1e-5
-
-
-def _tolerance(atol, rtol):
-    try:
-        valid = math.isfinite(atol) and math.isfinite(rtol) and atol >= 0 and rtol >= 0
-    except (TypeError, OverflowError):
-        valid = False
-    if not valid:
-        raise ValueError("atol and rtol must be finite nonnegative numbers.")
-    return {"atol": float(atol), "rtol": float(rtol)}
 
 
 def grade_arrays(problem, result, reference, *, atol=UNSET, rtol=UNSET, policy=None):
@@ -32,7 +19,8 @@ def grade_arrays(problem, result, reference, *, atol=UNSET, rtol=UNSET, policy=N
     if policy is not None:
         if atol is not UNSET or rtol is not UNSET:
             raise ValueError('Cannot combine a grading policy with atol/rtol')
-        validate_policy(policy, problem)
+        source_policy = policy
+        policy = resolve_policy(policy, problem)
         tolerance = None
     else:
         tolerance = _tolerance(DEFAULT_ATOL if atol is UNSET else atol,
@@ -63,8 +51,8 @@ def grade_arrays(problem, result, reference, *, atol=UNSET, rtol=UNSET, policy=N
     if policy is not None:
         accepted = all(f.get('passed', f.get('failed_values') == 0) for f in fields.values())
         return {'status': 'accepted' if accepted else 'wrong_answer', 'score': int(accepted),
-                'policy_version': policy['version'], 'policy_sha256': policy_hash(policy),
-                'fields': fields}
+                'policy_version': source_policy['version'], 'policy_sha256': policy_hash(source_policy),
+                'bound_policy_sha256': policy_hash(policy), 'fields': fields}
     accepted = all(f["failed_values"] == 0 for f in fields.values())
     return {"status": "accepted" if accepted else "wrong_answer", "score": int(accepted),
             "tolerance": tolerance, "fields": fields}

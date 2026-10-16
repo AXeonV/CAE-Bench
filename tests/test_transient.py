@@ -9,6 +9,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import tomllib
 import unittest
 
 import numpy as np
@@ -18,7 +19,7 @@ from caeoj.sdk import load_problem, load_result
 from caeoj.validation import check_result, output_support, validate_input
 
 PROJECT = Path(__file__).resolve().parents[1]
-TASK = PROJECT/'tasks/heat-transient'
+TASK = PROJECT/'qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d'
 
 
 def author(name):
@@ -45,6 +46,14 @@ class TransientTests(unittest.TestCase):
 
     def case(self, prefix):
         return next(data for name, data in self.cases.items() if name.startswith(prefix))
+
+    def test_local_author_memory_budget_remains_available_and_matches_harbor(self):
+        # author/check.py is an independent live consumer of this legacy key.
+        # Removing it just because the shared judge does not read it breaks
+        # local runs; keep the two existing execution paths consistent.
+        container = tomllib.loads((TASK/'harbor/task.toml').read_text())
+        self.assertEqual(self.config['memory_mb'], container['environment']['memory_mb'])
+        self.assertEqual(self.config['memory_mb'], 1024)
 
     def grade(self, problem, values, reference):
         arrays = {key: problem.arrays[key] for key in output_support(problem)} | {'temperature': values}
@@ -203,7 +212,7 @@ class TransientTests(unittest.TestCase):
         spec = importlib.util.spec_from_file_location('transient_publish', PROJECT/'src/utils/publish_dist.py')
         publisher = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(publisher)
-        files, samples = publisher.collect_materials('heat-transient')
+        files, samples = publisher.collect_materials('heat-conduction-transient-2d')
         self.assertEqual(samples, ['01', '02'])
         for path in files:
             self.assertFalse(set(Path(path).parts) & {'author', 'reference', 'cases'})

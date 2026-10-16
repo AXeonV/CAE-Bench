@@ -98,7 +98,7 @@
   ],
   "additionalProperties": false,
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "通用数据协议",
+  "title": "\u901a\u7528\u6570\u636e\u534f\u8bae",
   "$defs": {
     "constant": {
       "type": "object",
@@ -178,6 +178,37 @@
             "average",
             "integral"
           ]
+        },
+        "sampling": {
+          "type": "object",
+          "properties": {
+            "space": {
+              "enum": [
+                "uniform",
+                "piecewise_constant",
+                "piecewise_linear"
+              ]
+            },
+            "time": {
+              "enum": [
+                "constant",
+                "linear",
+                "previous"
+              ]
+            },
+            "extrapolation": {
+              "enum": [
+                "forbid",
+                "hold"
+              ]
+            }
+          },
+          "required": [
+            "space",
+            "time",
+            "extrapolation"
+          ],
+          "additionalProperties": false
         }
       },
       "required": [
@@ -270,6 +301,52 @@
             "coordinates"
           ],
           "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "aggregate"
+            },
+            "source": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+            },
+            "ids": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+            },
+            "operation": {
+              "enum": [
+                "sum",
+                "mean"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "source",
+            "ids",
+            "operation"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "entities"
+            },
+            "ids": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+            }
+          },
+          "required": [
+            "kind",
+            "ids"
+          ],
+          "additionalProperties": false
         }
       ]
     },
@@ -326,6 +403,32 @@
           },
           "required": [
             "field"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "location": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+            }
+          },
+          "required": [
+            "location"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "option": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "option"
           ],
           "additionalProperties": false
         }

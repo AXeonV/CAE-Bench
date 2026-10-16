@@ -1,0 +1,288 @@
+{
+  "task": "reaction-diffusion-2d",
+  "spatial_dimension": 2,
+  "data_file": "input.h5",
+  "geometries": {},
+  "meshes": {
+    "main": {
+      "file": "mesh.msh"
+    }
+  },
+  "locations": {
+    "domain": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "element",
+      "dimension": 2,
+      "ids": "cell_ids"
+    },
+    "initial_domain": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "element",
+      "dimension": 2,
+      "ids": "initial_cell_ids",
+      "physical_group": {
+        "dimension": 2,
+        "tag": 1
+      }
+    },
+    "left": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "node",
+      "ids": "left_ids",
+      "physical_group": {
+        "dimension": 1,
+        "tag": 2
+      }
+    },
+    "right": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "node",
+      "ids": "right_ids",
+      "physical_group": {
+        "dimension": 1,
+        "tag": 3
+      }
+    },
+    "bottom": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "node",
+      "ids": "bottom_ids",
+      "physical_group": {
+        "dimension": 1,
+        "tag": 4
+      }
+    },
+    "top": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "node",
+      "ids": "top_ids",
+      "physical_group": {
+        "dimension": 1,
+        "tag": 5
+      }
+    }
+  },
+  "time_axes": {
+    "output": "times",
+    "initial": "initial_times"
+  },
+  "fields": {
+    "initial_activator": {
+      "array": "initial_activator",
+      "quantity": "activator",
+      "location": "initial_domain",
+      "time_axis": "initial",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "1",
+      "value_kind": "average"
+    },
+    "initial_inhibitor": {
+      "array": "initial_inhibitor",
+      "quantity": "inhibitor",
+      "location": "initial_domain",
+      "time_axis": "initial",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "1",
+      "value_kind": "average"
+    }
+  },
+  "outputs": {
+    "activator": {
+      "array": "activator",
+      "quantity": "activator",
+      "location": "domain",
+      "time_axis": "output",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "1",
+      "value_kind": "average"
+    },
+    "inhibitor": {
+      "array": "inhibitor",
+      "quantity": "inhibitor",
+      "location": "domain",
+      "time_axis": "output",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "1",
+      "value_kind": "average"
+    }
+  },
+  "physics": {
+    "model": "reaction_diffusion_2d",
+    "parameters": {
+      "activator_diffusivity": {
+        "value": 0.001,
+        "unit": "m2/s"
+      },
+      "inhibitor_diffusivity": {
+        "value": 0.005,
+        "unit": "m2/s"
+      },
+      "reaction_offset": {
+        "value": 0.005,
+        "unit": "1"
+      },
+      "activator_rate": {
+        "value": 1,
+        "unit": "1/s"
+      },
+      "inhibitor_rate": {
+        "value": 1,
+        "unit": "1/s"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "role": "initial",
+      "variable": "activator",
+      "location": "initial_domain",
+      "operator": "assign",
+      "data": {
+        "value": {
+          "field": "initial_activator"
+        }
+      }
+    },
+    {
+      "role": "initial",
+      "variable": "inhibitor",
+      "location": "initial_domain",
+      "operator": "assign",
+      "data": {
+        "value": {
+          "field": "initial_inhibitor"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "activator",
+      "location": "left",
+      "operator": "normal_flux",
+      "data": {
+        "value": {
+          "value": 0,
+          "unit": "m/s"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "inhibitor",
+      "location": "left",
+      "operator": "normal_flux",
+      "data": {
+        "value": {
+          "value": 0,
+          "unit": "m/s"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "activator",
+      "location": "right",
+      "operator": "normal_flux",
+      "data": {
+        "value": {
+          "value": 0,
+          "unit": "m/s"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "inhibitor",
+      "location": "right",
+      "operator": "normal_flux",
+      "data": {
+        "value": {
+          "value": 0,
+          "unit": "m/s"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "activator",
+      "location": "bottom",
+      "operator": "normal_flux",
+      "data": {
+        "value": {
+          "value": 0,
+          "unit": "m/s"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "inhibitor",
+      "location": "bottom",
+      "operator": "normal_flux",
+      "data": {
+        "value": {
+          "value": 0,
+          "unit": "m/s"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "activator",
+      "location": "top",
+      "operator": "normal_flux",
+      "data": {
+        "value": {
+          "value": 0,
+          "unit": "m/s"
+        }
+      }
+    },
+    {
+      "role": "boundary",
+      "variable": "inhibitor",
+      "location": "top",
+      "operator": "normal_flux",
+      "data": {
+        "value": {
+          "value": 0,
+          "unit": "m/s"
+        }
+      }
+    }
+  ]
+}

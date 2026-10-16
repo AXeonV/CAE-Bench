@@ -13,7 +13,8 @@ from unittest.mock import patch
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK = 'heat-conduction'
+TASK = 'heat-conduction-steady-2d'
+TASK_PATH = Path('qbank/01-prescribed-pdes/1.1-elliptic') / TASK
 
 
 def module(name, path):
@@ -45,9 +46,9 @@ class HarborTests(unittest.TestCase):
             target.write_bytes(data)
         # A release contains a derived legacy policy; the author fixture keeps
         # the original legacy config as its sole source, like the real task.
-        (self.root / 'tasks' / TASK / 'grading.json').unlink()
-        source = ROOT / 'tasks' / TASK
-        task = self.root / 'tasks' / TASK
+        (self.root / TASK_PATH / 'grading.json').unlink()
+        source = ROOT / TASK_PATH
+        task = self.root / TASK_PATH
         cases = sorted((source / 'cases').iterdir())[:2]
         for case in cases:
             shutil.copytree(case, task / 'cases' / case.name)
@@ -60,6 +61,93 @@ class HarborTests(unittest.TestCase):
     def prepared(self):
         publisher.publish(TASK, root=self.root)
         return Path(prepare.prepare(TASK, self.root)['task_directory'])
+
+    def test_actual_case_count_drives_verifier_budget_and_keeps_larger_override(self):
+        template = (ROOT / 'src/utils/harbor/task.toml').read_text()
+        config = {'timeout_seconds': 600,
+                  'verifier_budget': {'base_seconds': 300, 'per_case_overhead_seconds': 60}}
+        merged = tomllib.loads(prepare.task_config(template, {}, judge_config=config, case_count=3))
+        self.assertEqual(merged['verifier']['timeout_sec'], 2280)
+        self.assertEqual(merged['verifier']['network_mode'], 'no-network')
+        self.assertEqual(merged['environment']['gpus'], 0)
+        merged = tomllib.loads(prepare.task_config(template, {'verifier': {'timeout_sec': 5000}},
+                                                   judge_config=config, case_count=3))
+        self.assertEqual(merged['verifier']['timeout_sec'], 5000)
+
+    def test_unknown_case_count_and_invalid_budget_are_not_silently_guessed(self):
+        template = (ROOT / 'src/utils/harbor/task.toml').read_text()
+        config = {'timeout_seconds': 600,
+                  'verifier_budget': {'base_seconds': 300, 'per_case_overhead_seconds': 60}}
+        for count in (None, 0, True, 1.5):
+            with self.subTest(count=count), self.assertRaises(ValueError):
+                prepare.task_config(template, {}, judge_config=config, case_count=count)
+        for budget in ({}, {'base_seconds': 300, 'per_case_overhead_seconds': -1},
+                       {'base_seconds': float('nan'), 'per_case_overhead_seconds': 60}):
+            with self.subTest(budget=budget), self.assertRaises(ValueError):
+                prepare.task_config(template, {}, judge_config={**config, 'verifier_budget': budget}, case_count=3)
+
+    def test_output_byte_cap_is_optional_but_regular_file_is_always_required(self):
+        output = self.root / 'out.h5'
+        output.write_bytes(b'12345')
+        self.assertIsNone(judge.output_limit({'max_output_bytes': None}))
+        self.assertEqual(judge.output_limit({}), 128 * 1024**2)
+        self.assertTrue(judge.output_within_limit(output, None))
+        self.assertFalse(judge.output_within_limit(output, 4))
+        self.assertFalse(judge.output_within_limit(self.root, None))
+
+    def test_quantity_policy_is_bound_per_case_in_real_private_grader(self):
+        from caeoj.grading_policy import policy_hash
+        task = self.root / TASK_PATH
+        policy = {'version': 2, 'quantities': {'temperature': {'unit': 'K', 'rule': {
+            'metric': 'pointwise', 'time': 'per_time', 'components': 'per_component',
+            'atol': .01, 'rtol': 0}}}}
+        (task / 'grading.json').write_text(json.dumps(policy))
+        config_path = task / 'judge-config.json'
+        config = json.loads(config_path.read_text())
+        del config['atol']; del config['rtol']
+        config_path.write_text(json.dumps(config))
+        cases = sorted((task / 'cases').glob('*/problem.json'))
+        manifest = json.loads(cases[1].read_text())
+        manifest['outputs']['renamed_observation'] = manifest['outputs'].pop('temperature')
+        cases[1].write_text(json.dumps(manifest))
+        directory = self.prepared()
+        private = directory / 'tests'; logs = self.root / 'quantity-logs'
+        def execute(work, timeout, case_logs):
+            arrays = read_hdf5(private / 'reference' / case_logs.name / 'reference.h5')
+            if case_logs.name == cases[1].parent.name:
+                arrays['temperature'] += .02
+            write_hdf5(work / 'result.h5', arrays)
+        with patch.object(judge, 'TESTS', private), patch.object(judge, 'LOGS', logs), \
+             patch.object(judge, 'freeze_submission', return_value=True), \
+             patch.object(judge, 'execute', side_effect=execute), patch.object(judge.os, 'chown', create=True):
+            judge.main()
+        report = json.loads((logs / 'report.json').read_text())
+        self.assertEqual(report['score'], 1)
+        self.assertEqual(report['reward'], .5)
+        self.assertEqual(report['policy_sha256'], policy_hash(policy))
+        self.assertEqual(set(report['cases'][1]['fields']), {'renamed_observation'})
+        self.assertIn('bound_policy_sha256', report['cases'][1])
+
+    def test_unknown_quantity_fails_preflight_before_submission_execution(self):
+        task = self.root / TASK_PATH
+        (task / 'grading.json').write_text(json.dumps({'version': 2, 'quantities': {
+            'temperature': {'unit': 'K', 'rule': {'metric': 'pointwise', 'time': 'per_time',
+            'components': 'per_component', 'atol': .01, 'rtol': 0}}}}))
+        config_path = task / 'judge-config.json'
+        config = json.loads(config_path.read_text()); del config['atol']; del config['rtol']
+        config_path.write_text(json.dumps(config))
+        directory = self.prepared()
+        path = next((directory / 'tests/cases').glob('*/problem.json'))
+        manifest = json.loads(path.read_text())
+        manifest['outputs']['temperature']['quantity'] = 'unknown'
+        path.write_text(json.dumps(manifest))
+        logs = self.root / 'bad-quantity-logs'
+        with patch.object(judge, 'TESTS', directory / 'tests'), patch.object(judge, 'LOGS', logs), \
+             patch.object(judge, 'freeze_submission') as freeze, patch.object(judge, 'execute') as execute:
+            with self.assertRaisesRegex(ValueError, 'No grading rule'):
+                judge.main()
+            freeze.assert_not_called(); execute.assert_not_called()
+        self.assertFalse((logs / 'reward.txt').exists())
 
     def test_prepare_requires_published_materials(self):
         with self.assertRaisesRegex(ValueError, 'publish_dist.py'):
@@ -99,8 +187,8 @@ class HarborTests(unittest.TestCase):
         self.assertTrue((directory / 'solution/baseline.py').is_file())
         self.assertEqual((directory / 'environment/requirements.txt').read_text().strip(), 'scipy==1.18.1')
         instruction = (directory / 'instruction.md').read_text(encoding='utf-8')
-        self.assertIn(f'/app/tasks/{TASK}/samples/01/input/problem.json', instruction)
-        self.assertIn(f'/app/tasks/{TASK}/samples/02/', instruction)
+        self.assertIn(f'/app/{TASK_PATH.as_posix()}/samples/01/input/problem.json', instruction)
+        self.assertIn(f'/app/{TASK_PATH.as_posix()}/samples/02/', instruction)
         self.assertIn('read_constant', instruction)
         self.assertIn('read_field', instruction)
         self.assertNotIn('${', instruction)
@@ -131,8 +219,12 @@ class HarborTests(unittest.TestCase):
 
     def test_another_task_reuses_templates_and_overrides_resources(self):
         task = '1D_Advection_Sols_beta0.2'
-        source = self.root / 'tasks' / task
-        shutil.copytree(self.root / 'tasks' / TASK, source)
+        source = self.root / TASK_PATH.parent / task
+        shutil.copytree(self.root / TASK_PATH, source)
+        for path in source.rglob('problem.json'):
+            problem = json.loads(path.read_text())
+            problem['task'] = task
+            path.write_text(json.dumps(problem))
         (source / 'harbor/task.toml').write_text(
             '[agent]\ntimeout_sec = 240.0\n[environment]\ncpus = 1\nmemory_mb = 1024\n'
             '[verifier]\ntimeout_sec = 60.0\n')
@@ -140,23 +232,27 @@ class HarborTests(unittest.TestCase):
         judge_config = json.loads(config_path.read_text())
         judge_config['timeout_seconds'] = 15
         config_path.write_text(json.dumps(judge_config))
+        binding_path = self.root/'src/caeoj_bundle/runtime.json'
+        binding = json.loads(binding_path.read_text())
+        binding['tasks'][task] = []
+        binding_path.write_text(json.dumps(binding))
         publisher.publish(task, root=self.root)
         directory = Path(prepare.prepare(task, self.root)['task_directory'])
         config = tomllib.loads((directory / 'task.toml').read_text())
         self.assertEqual(config['agent']['timeout_sec'], 240)
         self.assertEqual(config['environment']['cpus'], 1)
         self.assertEqual(config['environment']['memory_mb'], 1024)
-        self.assertEqual(config['verifier']['timeout_sec'], 60)
+        self.assertEqual(config['verifier']['timeout_sec'], 450)  # 300 + 2 * (15 + 60)
         self.assertEqual(config['verifier']['environment_mode'], 'separate')
         instruction = (directory / 'instruction.md').read_text(encoding='utf-8')
-        self.assertIn(f'/app/tasks/{task}/samples/01/', instruction)
+        self.assertIn(f'/app/{(TASK_PATH.parent / task).as_posix()}/samples/01/', instruction)
         self.assertIn('15 秒', instruction)
         self.assertNotIn(TASK, instruction)
 
     def test_task_without_harbor_config_uses_shared_defaults(self):
-        requirements = self.root / 'tasks' / TASK / 'harbor/requirements.txt'
+        requirements = self.root / TASK_PATH / 'harbor/requirements.txt'
         requirements.unlink()
-        resource_config = self.root / 'tasks' / TASK / 'harbor/task.toml'
+        resource_config = self.root / TASK_PATH / 'harbor/task.toml'
         if resource_config.exists():
             resource_config.unlink()
         directory = self.prepared()
@@ -167,7 +263,7 @@ class HarborTests(unittest.TestCase):
         self.assertNotIn('memory_mb', config['environment'])
 
     def test_legacy_tolerances_allow_different_output_fields_per_case(self):
-        source = self.root / 'tasks' / TASK
+        source = self.root / TASK_PATH
         path = sorted((source / 'cases').glob('*/problem.json'))[-1]
         manifest = json.loads(path.read_text())
         manifest['outputs']['other_temperature'] = manifest['outputs'].pop('temperature')
@@ -178,8 +274,8 @@ class HarborTests(unittest.TestCase):
         self.assertTrue((directory / 'tests/cases' / path.parent.name / 'problem.json').is_file())
 
     def test_no_baseline_task_assembles_and_declares_provisional_limits(self):
-        (self.root / 'tasks' / TASK / 'author/baseline.py').unlink()
-        config_path = self.root / 'tasks' / TASK / 'judge-config.json'
+        (self.root / TASK_PATH / 'author/baseline.py').unlink()
+        config_path = self.root / TASK_PATH / 'judge-config.json'
         config = json.loads(config_path.read_text())
         config.update(stage='provisional', atol=0.1, rtol=0.2, max_output_bytes=2*1024**3)
         config_path.write_text(json.dumps(config))
@@ -201,7 +297,7 @@ class HarborTests(unittest.TestCase):
 
     def test_public_policy_hash_and_private_grader_agree(self):
         from caeoj.grading_policy import policy_hash
-        task = self.root / 'tasks' / TASK
+        task = self.root / TASK_PATH
         policy = {'version': 1, 'fields': {'temperature': {
             'all': [
                 {'metric': 'rmse', 'time': 'per_time', 'components': 'per_component', 'limit': .01},
@@ -216,7 +312,7 @@ class HarborTests(unittest.TestCase):
         self.assertIn('空间点', (directory / 'instruction.md').read_text())
         self.assertIn(' 且 ', (directory / 'instruction.md').read_text())
         with zipfile.ZipFile(directory / 'environment/agent.zip') as archive:
-            public = json.loads(archive.read(f'tasks/{TASK}/grading.json'))
+            public = json.loads(archive.read(f'{TASK_PATH.as_posix()}/grading.json'))
             self.assertEqual(policy_hash(public), policy_hash(policy))
             self.assertIn('src/caeoj/grading.schema.json', archive.namelist())
         private = directory / 'tests'; logs = self.root / 'policy-logs'
@@ -290,7 +386,7 @@ class HarborTests(unittest.TestCase):
                 self.assertFalse((submission / 'core.so').exists())
 
     def test_resource_overrides_cannot_change_judging_interface(self):
-        (self.root / 'tasks' / TASK / 'harbor/task.toml').write_text(
+        (self.root / TASK_PATH / 'harbor/task.toml').write_text(
             '[verifier]\nenvironment_mode = "same"\n')
         publisher.publish(TASK, root=self.root)
         with self.assertRaisesRegex(ValueError, 'Unsupported Harbor config field'):
@@ -324,7 +420,7 @@ class HarborTests(unittest.TestCase):
         self.assertEqual(report['total_cases'], 2)
         self.assertEqual(report['stage'], 'provisional')
         self.assertEqual(report['limits']['timeout_seconds'], config['timeout_seconds'])
-        self.assertEqual(report['limits']['max_output_bytes'], 128*1024**2)
+        self.assertIsNone(report['limits']['max_output_bytes'])
         self.assertEqual(float((logs / 'reward.txt').read_text()), 0.5)
 
     def test_bad_reference_is_infrastructure_error_without_reward(self):

@@ -1,0 +1,98 @@
+{
+  "date": "2026-10-16",
+  "tasks": 12,
+  "sections": 6,
+  "reviewed_files": 25,
+  "static": {
+    "4.1-kinematics": {
+      "topics": [
+        "planar-inverse-dynamics",
+        "planar-kinematics"
+      ],
+      "errors": [],
+      "static_checks": "passed"
+    },
+    "4.2-rigid-dynamics": {
+      "topics": [
+        "planar-multibody",
+        "spatial-free-rigid"
+      ],
+      "errors": [],
+      "static_checks": "passed"
+    },
+    "4.3-connectors-drives": {
+      "topics": [
+        "elastic-connectors",
+        "prescribed-drive"
+      ],
+      "errors": [],
+      "static_checks": "passed"
+    },
+    "4.4-contact": {
+      "topics": [
+        "normal-contact",
+        "regularized-friction"
+      ],
+      "errors": [],
+      "static_checks": "passed"
+    },
+    "4.5-impact": {
+      "topics": [
+        "frictional-impact",
+        "normal-impact"
+      ],
+      "errors": [],
+      "static_checks": "passed"
+    },
+    "4.6-flexible": {
+      "topics": [
+        "modal-flexible",
+        "translating-flexible"
+      ],
+      "errors": [],
+      "static_checks": "passed"
+    }
+  },
+  "regression": {
+    "tests": 280,
+    "seconds": 47.047,
+    "result": "passed",
+    "log": "runs/authoring/chapter-04/regression.log"
+  },
+  "independent_install": {
+    "tasks": [
+      "elastic-connectors",
+      "frictional-impact",
+      "modal-flexible",
+      "normal-contact",
+      "normal-impact",
+      "planar-inverse-dynamics",
+      "planar-kinematics",
+      "planar-multibody",
+      "prescribed-drive",
+      "regularized-friction",
+      "spatial-free-rigid",
+      "translating-flexible"
+    ],
+    "cli_per_task": [
+      "info",
+      "validate-input",
+      "validate-output",
+      "grade"
+    ],
+    "sdk": "passed",
+    "bad_units": "rejected",
+    "missing_extension": "tool error",
+    "import_path": "/Users/jimzhou/code/CAE-Bench-OJ/runs/authoring/chapter-04/install-check/venv/lib/python3.14/site-packages/caeoj/__init__.py",
+    "python": "3.14.6 (main, Jun 10 2026, 10:03:53) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "platform": "darwin",
+    "working_directory": "/private/tmp",
+    "scope": "protocol fixtures only; no numerical references or solver runs"
+  },
+  "assembly_id": "daed797fb653b09a57b98c70ae0459c3e2bdd931740cc3c481886d6bad136549",
+  "grading": "all 12 policies loaded; every quantity accepts atol equality and rejects nextafter excess; invalid output score=0, invalid reference score=null",
+  "resources": "real task_config merge: agent3600/build1800/4CPU/8192MB/0GPU/no-network; verifier max(1200,300+N*(case_timeout+60)); temporary N=3",
+  "data": "no formal data or references; protocol-only fixtures",
+  "publication": "not performed",
+  "numerical_validation": "not performed"
+}

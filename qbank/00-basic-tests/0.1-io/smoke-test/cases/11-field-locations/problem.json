@@ -1,0 +1,244 @@
+{
+  "task": "smoke-test",
+  "spatial_dimension": 2,
+  "data_file": "input.h5",
+  "geometries": {
+    "shape": {
+      "file": "mesh.geo",
+      "format": "gmsh-geo"
+    }
+  },
+  "meshes": {
+    "main": {
+      "file": "mesh.msh",
+      "geometry": "shape"
+    }
+  },
+  "locations": {
+    "nodes": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "node",
+      "ids": "node_ids"
+    },
+    "left": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "node",
+      "ids": "left_ids",
+      "physical_group": {
+        "dimension": 1,
+        "tag": 2
+      }
+    },
+    "edges": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "element",
+      "dimension": 1,
+      "ids": "edge_ids",
+      "physical_group": {
+        "dimension": 1,
+        "tag": 3
+      }
+    },
+    "probes": {
+      "kind": "points",
+      "ids": "probe_ids",
+      "coordinates": "probe_coordinates"
+    }
+  },
+  "time_axes": {
+    "steady": "times"
+  },
+  "fields": {
+    "temperature": {
+      "array": "temperature",
+      "quantity": "temperature",
+      "location": "nodes",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "K",
+      "value_kind": "point"
+    },
+    "left_temperature": {
+      "array": "left_temperature",
+      "quantity": "left_temperature",
+      "location": "left",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "K",
+      "value_kind": "point"
+    },
+    "edge_flux": {
+      "array": "edge_flux",
+      "quantity": "edge_flux",
+      "location": "edges",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "W",
+      "value_kind": "integral"
+    },
+    "probe_temperature": {
+      "array": "probe_temperature",
+      "quantity": "probe_temperature",
+      "location": "probes",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "K",
+      "value_kind": "point"
+    }
+  },
+  "outputs": {
+    "temperature": {
+      "array": "temperature",
+      "quantity": "temperature",
+      "location": "nodes",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "K",
+      "value_kind": "point"
+    },
+    "left_temperature": {
+      "array": "left_temperature",
+      "quantity": "left_temperature",
+      "location": "left",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "K",
+      "value_kind": "point"
+    },
+    "edge_flux": {
+      "array": "edge_flux",
+      "quantity": "edge_flux",
+      "location": "edges",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "W",
+      "value_kind": "integral"
+    },
+    "probe_temperature": {
+      "array": "probe_temperature",
+      "quantity": "probe_temperature",
+      "location": "probes",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "K",
+      "value_kind": "point"
+    }
+  },
+  "conditions": [
+    {
+      "role": "boundary",
+      "variable": "temperature",
+      "location": "left",
+      "operator": "dirichlet",
+      "data": {
+        "value": {
+          "field": "left_temperature"
+        }
+      }
+    },
+    {
+      "role": "initial",
+      "variable": "temperature",
+      "location": "nodes",
+      "operator": "assign",
+      "data": {
+        "value": {
+          "value": 100.0,
+          "unit": "K"
+        }
+      }
+    },
+    {
+      "role": "source",
+      "variable": "heat_source",
+      "location": "nodes",
+      "operator": "assign",
+      "data": {
+        "value": {
+          "value": 0.0,
+          "unit": "W/m3"
+        }
+      }
+    },
+    {
+      "role": "material",
+      "variable": "conductivity",
+      "location": "nodes",
+      "operator": "assign",
+      "data": {
+        "value": {
+          "value": 1.0,
+          "unit": "W/(m.K)"
+        }
+      }
+    }
+  ],
+  "physics": {
+    "model": "identity",
+    "parameters": {
+      "conductivity": {
+        "value": 1.0,
+        "unit": "W/(m.K)"
+      }
+    }
+  }
+}

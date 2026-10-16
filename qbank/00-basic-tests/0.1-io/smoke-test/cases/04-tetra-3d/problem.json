@@ -1,0 +1,106 @@
+{
+  "task": "smoke-test",
+  "spatial_dimension": 3,
+  "data_file": "input.h5",
+  "geometries": {},
+  "meshes": {
+    "main": {
+      "file": "mesh.msh"
+    }
+  },
+  "locations": {
+    "nodes": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "node",
+      "ids": "node_ids"
+    },
+    "faces": {
+      "kind": "mesh",
+      "mesh": "main",
+      "entity": "element",
+      "dimension": 2,
+      "ids": "face_ids",
+      "physical_group": {
+        "dimension": 2,
+        "tag": 2
+      }
+    }
+  },
+  "time_axes": {
+    "steady": "times"
+  },
+  "fields": {
+    "velocity": {
+      "array": "velocity",
+      "quantity": "velocity",
+      "location": "nodes",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "vector",
+      "component_shape": [
+        3
+      ],
+      "components": [
+        "x",
+        "y",
+        "z"
+      ],
+      "unit": "m/s",
+      "value_kind": "point"
+    },
+    "face_pressure": {
+      "array": "face_pressure",
+      "quantity": "face_pressure",
+      "location": "faces",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "Pa",
+      "value_kind": "average"
+    }
+  },
+  "outputs": {
+    "velocity": {
+      "array": "velocity",
+      "quantity": "velocity",
+      "location": "nodes",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "vector",
+      "component_shape": [
+        3
+      ],
+      "components": [
+        "x",
+        "y",
+        "z"
+      ],
+      "unit": "m/s",
+      "value_kind": "point"
+    },
+    "face_pressure": {
+      "array": "face_pressure",
+      "quantity": "face_pressure",
+      "location": "faces",
+      "time_axis": "steady",
+      "dtype": "float64",
+      "kind": "scalar",
+      "component_shape": [
+        1
+      ],
+      "components": [
+        "value"
+      ],
+      "unit": "Pa",
+      "value_kind": "average"
+    }
+  },
+  "conditions": []
+}

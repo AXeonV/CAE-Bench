@@ -4,8 +4,8 @@
 
 | 题目 | Luna | Gemini |
 |---|---:|---:|
-| 稳态热传导（heat-conduction） | 17/32 | 32/32 |
-| 瞬态热传导（heat-transient） | 23/24 | 24/24 |
+| 稳态热传导（heat-conduction-steady-2d） | 17/32 | 32/32 |
+| 瞬态热传导（heat-conduction-transient-2d） | 23/24 | 24/24 |
 | 稳态 NS（navier-stokes-steady） | 20/32 | 32/32 |
 | 瞬态 NS（navier-stokes-transient） | 19/32 | 32/32 |
 | PDEBench 周期平流（1D_Advection_Sols_beta0.4） | 12/12 | 未测试 |

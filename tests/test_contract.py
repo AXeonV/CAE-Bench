@@ -16,11 +16,16 @@ import numpy as np
 
 from caeoj.sdk import id_to_row, load_problem, load_result, read_constant, read_field, target_ids, write_result
 from caeoj.grading import grade_arrays
-from caeoj.examples import CASE_NAMES
-from caeoj.smoke import PROJECT_ROOT, run_smoke
+from caeoj_tools.author import load_author_module
+_examples = load_author_module('smoke-test', 'examples')
+CASE_NAMES = _examples.CASE_NAMES
+from caeoj_tools.author import load_author_module
+_smoke = load_author_module('smoke-test', 'smoke')
+PROJECT_ROOT = _smoke.PROJECT_ROOT
+run_smoke = _smoke.run_smoke
 from caeoj.validation import ContractError, output_support, read_json, read_hdf5, validate_input, validate_output, write_json
 
-CASES = PROJECT_ROOT / "tasks/echo-field/cases"
+CASES = PROJECT_ROOT / "qbank/00-basic-tests/0.1-io/smoke-test/cases"
 
 
 def echo_reference(problem):
@@ -381,7 +386,7 @@ class ContractTests(unittest.TestCase):
         self.assertFalse(json.loads(result.stdout)["valid"])
 
     def test_smoke_all_processes(self):
-        result = run_smoke(CASES, PROJECT_ROOT / "tasks/echo-field/solve.py", self.root / "report.json")
+        result = run_smoke(CASES, PROJECT_ROOT / "qbank/00-basic-tests/0.1-io/smoke-test/solve.py", self.root / "report.json")
         self.assertEqual(result["passed_cases"], len(CASE_NAMES))
         self.assertTrue(result["passed"])
 

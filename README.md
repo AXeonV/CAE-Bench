@@ -2,12 +2,12 @@
 
 CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕通用数据协议、结构校验、测试数据和独立判分组织，支持持续增加不同物理模型的题目和测试。
 
-通用数据协议见 [CONTRACT.md](docs/CONTRACT.md)，多指标评分配置见 [GRADING.md](docs/GRADING.md)，初版实施规划见 [MVP-PLAN.md](docs/MVP-PLAN.md)，Agent 测试记录见 [AGENT-RESULTS.md](docs/AGENT-RESULTS.md)。各题目的方程、输入范围、测试设计、依赖和运行说明保存在对应的 `tasks/<task>/` 目录。
+通用数据协议见 [CONTRACT.md](docs/CONTRACT.md)，考生只需本题 instruction.md、DATA.md 和 CONTRACT.md；[CFD-2.1.md](qbank/maintenance/protocols/CFD-2.1.md) 等领域文档仅供维护实现参考，多指标评分配置见 [GRADING.md](docs/GRADING.md)，初版实施规划见 [MVP-PLAN.md](docs/MVP-PLAN.md)，Agent 测试记录见 [AGENT-RESULTS.md](docs/AGENT-RESULTS.md)。题目统一保存在 `qbank/<章>/<节>/<题目>/`，按 [qbank 总体设计](qbank/design/README.md) 建设，第一章已有 [13 道给定 PDE 题](qbank/01-prescribed-pdes/README.md)，第二章已撰写 [65 道题面](qbank/02-fluid-mechanics/README.md)，第三章已完成 [9 节 21 道固体与结构力学题面及 DATA](qbank/03-solid-mechanics/README.md)，第四章已完成 [6 节 12 道多体力学题面及 DATA](qbank/04-multibody-mechanics/README.md)，第五章已完成 [6 节 13 道传热与热过程题面及 DATA](qbank/05-heat-transfer/README.md)，第六章已完成 [6 节 10 道声学分析题面及 DATA](qbank/06-acoustics/README.md)，第七章已完成 [7 节 10 道电磁场与电路题面及 DATA](qbank/07-electromagnetics/README.md)，第八章已完成 [6 节 8 道光学与光子学题面及 DATA](qbank/08-optics/README.md)；第二至第八章正式数值数据、参考及评测发布后续补充。
 
 ## 设计
 
-- **通用数据协议**：Gmsh 存网格，HDF5 存数组，JSON 声明字段和条件；各题目明确方程与输入范围，求解程序按同一协议读写。
-- **纠正 Agent I/O**：Agent 在理解输入、编写和调试程序时可随时调用**结构校验器**，根据诊断修改读写实现，减少输入输出理解错误的负担。*校验器只检查格式与引用，不验证或纠正物理结果。*
+- **通用数据协议**：Gmsh 存网格，HDF5 存数组，JSON 声明字段和条件；各题目明确物理或数学问题与输入范围，求解程序按同一协议读写。
+- **纠正 Agent I/O**：Agent 在理解输入、编写和调试程序时可随时调用**结构校验器**，根据诊断修改读写实现，减少输入输出理解错误的负担。*校验器检查格式、引用及声明约束，不验证或纠正物理结果。*
 - **提交后独立评测**：逐例执行提交程序，重新校验输出并按题目误差阈值与标答比较，每点 0/1 分，汇总结果和日志。
 
 ## 项目结构
@@ -25,7 +25,7 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 | `src/utils/prepare_harbor.py` | **统一组装** Harbor 临时任务环境 |
 | `src/utils/harbor/` | 通用 Harbor 模板与逐例判题逻辑 |
 | `src/utils/PDEBench/` | PDEBench 数据获取、协议转换与参考审核 |
-| `tasks/<task>/` | 各题目的题面、数据、标答及出题工具 |
+| `qbank/` | 统一题库设计及按章、节组织的题目；[第 0 章](qbank/00-basic-tests/README.md)包含已迁移的 smoke-test |
 | `tests/` | 协议、校验、判分和题目数据的自动测试 |
 | `runs/` | 本地输出、临时 Harbor 任务和运行报告，不纳入版本控制 |
 
@@ -33,37 +33,32 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 ## 任务
 
-### 自主设计题目
+### 题目列表
 
 题面、输入输出约定、数据生成与验证方法见各题 README。
 
 | 目录 | 问题 | 要求输出 |
 |---|---|---|
-| [echo-field](tasks/echo-field/instruction.md) | 输入场回传，检查协议与校验链路 | 输入要求回传的场 |
-| [heat-conduction](tasks/heat-conduction/README.md) | 稳态热传导 | temperature |
-| [heat-transient](tasks/heat-transient/README.md) | 瞬态热传导 | temperature |
-| [navier-stokes-steady](tasks/navier-stokes-steady/README.md) | 稳态不可压缩 Navier–Stokes | velocity、pressure |
-| [navier-stokes-transient](tasks/navier-stokes-transient/README.md) | 瞬态不可压缩 Navier–Stokes | velocity、pressure |
-
-### PDEBench
-
-以下为 PDEBench 方程族题目。每个目录包含 instruction.md、DATA.md、DESIGN.md 和 README.md。样例与隐藏测试分组已规划；[PDEBench 数据准备工具](src/utils/PDEBench/README.md)支持克隆后一条命令获取所需源片段并转换输入，问题定义 problem.json、冻结清单和参考证书 JSON 纳入 Git；数值数组及网格不进入 Git，由工具补齐。默认逐例审核源对齐的官方数值轨迹并补齐答案；二维反应扩散恢复完整细网格初值，Darcy 修正未收敛快照至源算子稳态，一维反应扩散重算存在非物理停滞的官方轨迹。数值参考并非未经误差审核的精确连续真解。现已提供[宽松试运行评测配置](src/utils/PDEBench/EVALUATION.md)，无 baseline 也可组装并运行 Agent。正式误差阈值、资源限制和参考精度仍待校准，试运行成绩不作为正式 Benchmark 结论。
-
-| 目录 | 问题 | 要求输出 |
-|---|---|---|
-| [PDEBench_1D_Advection](tasks/PDEBench_1D_Advection/README.md) | 一维周期线性平流 | state |
-| [PDEBench_1D_Burgers](tasks/PDEBench_1D_Burgers/README.md) | 一维周期黏性 Burgers 方程 | state |
-| [PDEBench_1D_ReactionDiffusion](tasks/PDEBench_1D_ReactionDiffusion/README.md) | 一维 logistic 反应扩散 | state |
-| [PDEBench_1D_DiffusionSorption](tasks/PDEBench_1D_DiffusionSorption/README.md) | 一维 Freundlich 迟滞扩散 | concentration |
-| [PDEBench_2D_ReactionDiffusion](tasks/PDEBench_2D_ReactionDiffusion/README.md) | 二维 FitzHugh–Nagumo 反应扩散 | activator、inhibitor |
-| [PDEBench_2D_DarcyFlow](tasks/PDEBench_2D_DarcyFlow/README.md) | 二维空间变系数 Darcy 型稳态问题 | state |
-| [PDEBench_2D_ShallowWater](tasks/PDEBench_2D_ShallowWater/README.md) | 二维浅水径向溃坝 | depth |
-| [PDEBench_1D_CompressibleNavierStokes](tasks/PDEBench_1D_CompressibleNavierStokes/README.md) | 一维可压缩 Navier–Stokes | density、velocity、pressure |
-| [PDEBench_2D_CompressibleNavierStokes](tasks/PDEBench_2D_CompressibleNavierStokes/README.md) | 二维可压缩 Navier–Stokes | density、velocity、pressure |
-| [PDEBench_3D_CompressibleNavierStokes](tasks/PDEBench_3D_CompressibleNavierStokes/README.md) | 三维可压缩 Navier–Stokes | density、velocity、pressure |
-| [PDEBench_2D_IncompressibleNavierStokes](tasks/PDEBench_2D_IncompressibleNavierStokes/README.md) | 二维非均匀强迫不可压缩流 | velocity |
+| [smoke-test](qbank/00-basic-tests/0.1-io/smoke-test/instruction.md) | 简单测试：回传输入场，检查读写与判题链路 | 输入要求回传的场 |
+| [heat-conduction-steady-2d](qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/README.md) | 稳态热传导 | temperature |
+| [heat-conduction-transient-2d](qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d/README.md) | 瞬态热传导 | temperature |
+| [advection-1d](qbank/01-prescribed-pdes/1.3-scalar-transport/advection-1d/README.md) | 一维周期线性平流 | state |
+| [burgers-1d](qbank/01-prescribed-pdes/1.5-advection-diffusion/burgers-1d/README.md) | 一维周期黏性 Burgers 方程 | state |
+| [reaction-diffusion-1d](qbank/01-prescribed-pdes/1.2-diffusion-reaction/reaction-diffusion-1d/README.md) | 一维 logistic 反应扩散 | state |
+| [diffusion-sorption-1d](qbank/01-prescribed-pdes/1.2-diffusion-reaction/diffusion-sorption-1d/README.md) | 一维 Freundlich 迟滞扩散 | concentration |
+| [reaction-diffusion-2d](qbank/01-prescribed-pdes/1.2-diffusion-reaction/reaction-diffusion-2d/README.md) | 二维 FitzHugh–Nagumo 反应扩散 | activator、inhibitor |
+| [darcy-flow-2d](qbank/01-prescribed-pdes/1.1-elliptic/darcy-flow-2d/README.md) | 二维空间变系数 Darcy 型稳态问题 | state |
+| [shallow-water-2d](qbank/01-prescribed-pdes/1.4-hyperbolic/shallow-water-2d/README.md) | 二维浅水方程 | depth |
+| [compressible-navier-stokes-1d](qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-1d/README.md) | 一维可压缩 Navier–Stokes | density、velocity、pressure |
+| [compressible-navier-stokes-2d](qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-2d/README.md) | 二维可压缩 Navier–Stokes | density、velocity、pressure |
+| [compressible-navier-stokes-3d](qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-3d/README.md) | 三维可压缩 Navier–Stokes | density、velocity、pressure |
+| [incompressible-navier-stokes-2d](qbank/01-prescribed-pdes/1.6-constrained-systems/incompressible-navier-stokes-2d/README.md) | 二维非均匀强迫不可压缩流 | velocity |
 
 ## 运行
+
+第 0 章的本地输入输出测试使用 `python -m caeoj_tools.cli smoke`，详见[基础测试说明](qbank/00-basic-tests/README.md)。以下流程适用于已具备真实数据及公开样例的 qbank 题目。题目位置见[第一章目录](qbank/01-prescribed-pdes/README.md)；第二章目前仅完成题面。
+
+`<task>` 是稳定题目标识，例如 `heat-conduction-steady-2d`；`<task-dir>` 是其真实目录，例如 `qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d`。发布器和组装器按标识自动定位，不接受路径作为 `--task`。
 
 选择本地或 HPC 作为执行主机，在该主机的项目根目录运行后续流程。先激活自行配置的 Python 3.11+ 环境；`python`、`harbor` 和 `docker` 应来自该主机，尖括号内容均为待替换的占位符。下述单行命令可在 PowerShell 或 Bash 中执行。
 
@@ -71,32 +66,34 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 Docker、Python 环境和 Agent 认证需先配置好。认证由执行主机的环境变量提供，也可在 Agent 运行命令中追加 `--env-file '<agent-env-file>'`；Codex 的 `CODEX_AUTH_JSON_PATH` 指向自行配置的登录文件。
 
-**2. 按题目来源准备数据。** 两类入口任选其一，之后共用步骤 3～7。
+**2. 准备所选算例的数据。** 使用对应数据生成器或来源适配器，之后共用步骤 3～7。
 
-自主设计题目沿用“安装依赖 → 生成输入与标答 → 运行测试”的流程。以下安装项覆盖全仓库测试依赖，题目专用依赖与生成参数见对应 README：
+提供独立生成器的题目沿用“安装依赖 → 生成输入与标答 → 运行测试”的流程。以下安装项覆盖全仓库测试依赖，题目专用依赖与生成参数见对应 README：
 
 ```sh
-python -m pip install -e '.[heat,pdebench]' harbor
-python 'tasks/<task>/author/generate.py'
+python -m pip install -e '.[maint,heat,pdebench]' -e qbank/extensions harbor
+python '<task-dir>/author/generate.py'
 python -m unittest discover -s tests -p '<test-file>.py' -v
 ```
 
-`<test-file>` 取对应题目 README 中的测试文件；NS 的测试同时依赖稳态与瞬态两题数据。全量测试命令 `python -m unittest discover -s tests -v` 需先准备全部自主设计题目及单文件平流适配题的数据。
+`<test-file>` 取对应题目 README 中的测试文件。全量测试命令 `python -m unittest discover -s tests -v` 需先准备当前题目的数据。
 
-PDEBench 方程族任务通过统一工具获取、转换并审核外部数据，不要求另写 generator 或 baseline：
+当前部分题目的算例来自 PDEBench；其来源适配器负责获取、转换并审核数据。具体来源、样本索引和参考证据见各题 `reference/`，数据集不作为题目分类或题目 ID：
 
 ```sh
-python -m pip install -e '.[pdebench]' harbor
+python -m pip install -e '.[maint,pdebench]' -e qbank/extensions harbor
 python src/utils/PDEBench/prepare.py --tasks '<task>' --budget-gb 60 --no-bootstrap
 ```
 
-`<task>` 使用 `PDEBench_*` 目录名，准备全部方程族可用 `--tasks all`。单文件适配题 `1D_Advection_Sols_beta0.4` 使用其 README 中的数据转换入口。
+`<task>` 使用通用题目目录名，例如 `advection-1d`；`--tasks all` 准备该适配器当前支持的全部题目。后续加入其他来源时，应复用同一题目契约，并在算例或参考记录中标明来源。
+
+当前配置用于试运行，正式参考误差和资源限制仍需校准，详见[评测说明](src/utils/PDEBench/EVALUATION.md)。
 
 **3. 检查输入与参考输出的结构。**
 
 ```sh
-python -m caeoj validate-input 'tasks/<task>/cases/<case>/problem.json'
-python -m caeoj validate-output --input 'tasks/<task>/cases/<case>/problem.json' --output 'tasks/<task>/reference/<case>/reference.h5'
+python -m caeoj validate-input '<task-dir>/cases/<case>/problem.json'
+python -m caeoj validate-output --input '<task-dir>/cases/<case>/problem.json' --output '<task-dir>/reference/<case>/reference.h5'
 ```
 
 **4. 发布材料并统一组装 Harbor 环境。** 依赖补充放在题目的 `harbor/requirements.txt`，CPU／内存配额与时限放在 `harbor/task.toml`；修改配置后重新组装。
@@ -114,6 +111,8 @@ python src/utils/prepare_harbor.py --task '<task>'
 harbor run -p 'runs/harbor/tasks/<task>' -e docker -a oracle -n 1 -o 'runs/harbor/jobs'
 ```
 
+需要 Agent 自动完成就绪检查、冻结运行条件、启动本地监控及汇总时，使用 [caeoj-run-benchmark](.agents/skills/caeoj-run-benchmark/SKILL.md)。监控默认使用执行主机的 8080 端口，先核对页面可用再启动 trial；已有无关服务占用时不自动结束它或换端口。
+
 **6. 运行 Agent 并独立判题。** 例如 Codex + Luna：
 
 ```sh
@@ -125,18 +124,20 @@ HPC 运行可追加 `--override-cpus '<cpu-quota>' --override-memory-mb '<memory
 **7. 查看成绩或复核单点。**
 
 ```sh
-harbor view 'runs/harbor/jobs'
+harbor view 'runs/harbor/jobs' --jobs --host 0.0.0.0 --port 8080
 ```
 
 trial 的 `verifier/report.json` 保存逐点得分与误差，`reward.txt` 保存通过率。也可单独运行提交并判分：
 
 ```sh
-python '<solver.py>' --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5'
-python -m caeoj validate-output --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5'
-python -m caeoj grade --input 'tasks/<task>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5' --reference 'tasks/<task>/reference/<case>/reference.h5' --atol '<atol>' --rtol '<rtol>'
+python '<solver.py>' --input '<task-dir>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5'
+python -m caeoj validate-output --input '<task-dir>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5'
+python -m caeoj grade --input '<task-dir>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5' --reference '<task-dir>/reference/<case>/reference.h5' --atol '<atol>' --rtol '<rtol>'
 ```
 
-新策略使用 `--grading tasks/<task>/grading.json` 替代 `--atol/--rtol`；支持按字段的 RMSE、NRMSE、最大误差、超限比例及 AND／OR 条件。旧配置保持原判分行为。
+新策略使用 `--grading <task-dir>/grading.json` 替代 `--atol/--rtol`；支持按字段的 RMSE、NRMSE、最大误差、超限比例及 AND／OR 条件。旧配置保持原判分行为。
+
+当前 qbank 全部79题已有 judge／Harbor 设置；第二章的评分模板按每例 quantity 与单位绑定实际输出名。配置消费点、总预算计算与数据就绪边界见[维护说明](qbank/maintenance/EVALUATION.md)，配置完成不代表正式数据或评测发布完成。
 
 阈值取题目判分配置。校验输出 `valid/errors` JSON；判分每点为 0/1，退出码 2 表示输入、参考或参数异常。
 

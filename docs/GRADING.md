@@ -45,13 +45,41 @@
 
 以上是仅输出速度的配置示例，数值不代表任何题目的正式校准阈值。表示全部值满足较宽的逐值容差，且满足以下两者之一：全部时刻与分量 NRMSE 达标，或者每个时刻至少 95% 的空间点满足较严格的容差。
 
-`fields` 的键必须恰好覆盖 `problem.json.outputs` 的全部 float64 输出，用逻辑字段名关联 HDF5 数组。各字段必须同时通过。整数与布尔输出始终精确比较，不在此配置中声明。
+version 1 的 `fields` 键必须恰好覆盖 `problem.json.outputs` 的全部 float64 输出，用逻辑字段名关联 HDF5 数组。各字段必须同时通过。整数与布尔输出始终精确比较，不在此配置中声明。version 2 按下节规则逐例绑定，数值指标及通过含义相同。
 
-`all` 表示 AND，`any` 表示 OR，可嵌套至 32 层，子节点不能为空。叶节点是指标。未知属性、指标、负阈值、非有限数值、漏配或多配字段均是配置错误，不会变成选手的答案错误。版本必须为整数 1；JSON 重复键也会被拒绝。不执行自定义表达式，不提供 NOT 或跨字段 OR。
+`all` 表示 AND，`any` 表示 OR，可嵌套至 32 层，子节点不能为空。叶节点是指标。未知属性、指标、负阈值、非有限数值、漏配或多配字段均是配置错误，不会变成选手的答案错误。版本为 1 或 2；JSON 重复键也会被拒绝。不执行自定义表达式，不提供 NOT 或跨字段 OR。
+
+## 按 quantity 逐例绑定（version 2）
+
+输出逻辑字段名、HDF5 array key 和 quantity 可以不同。字段名或可选输出随算例变化时，使用公开模板：
+
+```json
+{
+  "version": 2,
+  "quantities": {
+    "pressure": {
+      "unit": "Pa",
+      "rule": {
+        "metric": "pointwise", "time": "per_time", "components": "per_component",
+        "atol": 1, "rtol": 0.03,
+        "reference_offset": {"parameter": "pressure_reference"}
+      }
+    }
+  }
+}
+```
+
+本例仅演示配置形式，不给其他题目规定容差。遍历本例实际 `outputs`，根据每个 float64 输出的 quantity 找规则，精确检查 unit，再绑定其逻辑名和 array；同 quantity 的多个输出分别检查。未请求的 quantity 不参与，不要求可选量同时出现；未声明规则的实际 quantity 或单位不一致是配置／数据错误，须在运行候选程序前发现。不能用 quantity 猜测或重命名数组。
+
+version 2 可显式提供 `default` 条件树，作为未匹配 quantity 的 float64 规则；该分支没有单位限制，适用于第 0 章任意标签的回传测试。第二章不提供 default，未知 quantity 必须报错。`fields` 不能与 version 2 并用，quantities/default 不能与 version 1 并用。
+
+version 2 的 `reference_offset` 可为有限数值，或 `{"parameter":"pressure_reference"}`：仅从本例 `physics.parameters.pressure_reference` 的带单位有限标量绑定，单位必须与该输出完全一致。不接受 bool、表达式、参考／候选答案拟合值或隐含压力参数；缺失、错误类型／单位属于基础设施错误。其他物理 `reference_pressure` 不会自动启用评分偏置。未请求的量不绑定其参数。
+
+绑定产生数值型 version 1 规则交给同一评分引擎，模板不被改写。报告的 `policy_sha256` 对应公开原模板，`bound_policy_sha256` 对应该案例的实际数值规则。CLI、公开样例、组装预检和私有 verifier 都消费同一个原模板，不能只按第一个样例冻结字段集合。
 
 ## 指标定义
 
-令误差 `e = result − reference`，局部容差 `τ = atol + rtol × |reference|`。
+令误差 `e = result − reference`，局部容差 `τ = atol + rtol × |reference − reference_offset|`，其中 reference_offset 默认为0。
 
 | metric | value | 必需参数 |
 |---|---|---|
@@ -63,6 +91,12 @@
 | `violation_fraction` | 不满足局部容差的数量 / 总数量 | limit ∈ [0,1]、atol、rtol |
 
 所有比较采用 `≤`。RMSE、最大绝对误差、atol 和 scale_floor 使用对应字段单位，rtol、NRMSE、缩放误差及比例无量纲；不转换单位，不将密度、压力和速度原始数值混在一起平均。
+
+`pointwise`、`violation_fraction`、`max_scaled` 的叶节点允许可选 `reference_offset`，数值规则中必须是有限的带符号数值（禁止bool/字符串），单位与输出字段一致；其他指标和逻辑节点禁止此键。version 1 只接受公开冻结的数值；version 2 还允许上述显式参数绑定，解析后仍为同样的数值规则。不改写物理输入、参考或提交输出；误差始终直接计算 `result-reference`，只在相对容差尺度中使用 `abs(reference-reference_offset)`。RMSE、NRMSE、最大绝对误差及报告的最大绝对误差位置不受它影响。同一树的不同叶可以使用不同公开偏置，统计缓存按偏置区分。
+
+例如绝对压力输出 `reference=100010 Pa`、`result=100012 Pa`，公开 `reference_offset=100000 Pa`、atol=0.5 Pa、rtol=0.1，则允许误差为1.5 Pa，实际误差2 Pa，判失败；省略偏置时允许误差10001.5 Pa。偏置并非允许改变压力基准：两份HDF5仍存绝对静压。以每例输入中的 pressure_reference 固定尺度时，可用 version 2 显式绑定；version 1 仍须逐例公开对应的数值策略。没有真实算例时只能完成模板及临时工具验证，不能据此宣称数据绑定或正式评测已发布。
+
+省略或显式给0完全保留旧评分行为。非零偏置的计算以浮点尾数/指数处理可能溢出的差与容差乘积，避免把有限输入中的巨大相对尺度错误当作无条件通过，也避免先减去两个背景值后再相减造成额外消减。
 
 `max_scaled` 的 τ 为零时，零误差记为 0，非零误差记为 ∞。报告将非有限的指标值写为字符串 `overflow`，不输出非法 JSON 的 Infinity。有限数组产生非常大的误差属于答案错误；非有限的提交数组先由结构校验拒绝。
 

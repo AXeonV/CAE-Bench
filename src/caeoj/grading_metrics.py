@@ -24,6 +24,45 @@ def _scaled_ratio(scale, value, denominator_scale, denominator_value):
         return math.inf
 
 
+def _difference_parts(left, right):
+    """Nonnegative mantissa/exponent for abs(left-right), even above DBL_MAX.
+
+    Compute the direct difference first to preserve cancellation accuracy. Only
+    overflowing entries are recomputed at half scale; no offset is subtracted
+    from the submitted value before computing its actual error.
+    """
+    with np.errstate(over='ignore'):
+        difference = np.abs(left - right)
+    overflow = np.isinf(difference)
+    if np.any(overflow):
+        with np.errstate(over='ignore', under='ignore'):
+            halved = np.abs(left / 2 - right / 2)
+        difference = np.where(overflow, halved, difference)
+    mantissa, exponent = np.frexp(difference)
+    return mantissa, exponent + overflow.astype(np.int32)
+
+
+def _offset_ratio(actual, reference, offset, atol, rtol):
+    """abs(a-b)/(atol+rtol*abs(b-offset)), without overflowing terms."""
+    em, ee = _difference_parts(actual, reference)
+    bm, be = _difference_parts(reference, offset)
+    am, ae = math.frexp(atol)
+    rm, re = math.frexp(rtol)
+    # Products use bounded mantissas; exponent sums retain subnormal tolerances.
+    relative_m = rm * bm
+    relative_e = re + be
+    common_e = np.maximum(np.where(relative_m > 0, relative_e, -100000),
+                          ae if am else -100000)
+    with np.errstate(over='ignore', under='ignore', invalid='ignore', divide='ignore'):
+        denominator = (np.ldexp(relative_m, relative_e-common_e) +
+                       np.ldexp(np.full_like(bm, am), ae-common_e))
+        ratio = np.ldexp(np.divide(em, denominator,
+                                  out=np.full_like(em, np.inf), where=denominator > 0),
+                         ee-common_e)
+    ratio[em == 0] = 0.
+    return ratio
+
+
 def evaluate_field(problem, name, actual, expected, tree):
     spec = problem.manifest['outputs'][name]
     # Tensor components have the same flattening order as the output contract.
@@ -35,7 +74,8 @@ def evaluate_field(problem, name, actual, expected, tree):
 
     def statistics(node):
         key = (node['time'], node['components'], node.get('weight_field'),
-               node.get('atol', 0), node.get('rtol', 0), node.get('count', 'scalar_values'))
+               node.get('atol', 0), node.get('rtol', 0), node.get('count', 'scalar_values'),
+               node.get('reference_offset', 0))
         if key in cache:
             return cache[key]
         weights = None
@@ -89,6 +129,10 @@ def evaluate_field(problem, name, actual, expected, tree):
                         matches = np.isclose(a, b, atol=node.get('atol', 0), rtol=node.get('rtol', 0))
                         ratio = np.divide(error, tolerance, out=np.full_like(error, np.inf), where=tolerance > 0)
                         ratio[(error == 0) & (tolerance == 0)] = 0
+                    if node.get('reference_offset', 0) != 0:
+                        ratio = _offset_ratio(a, b, node['reference_offset'],
+                                              node.get('atol', 0), node.get('rtol', 0))
+                        matches = ratio <= 1.
                     if node.get('count') == 'spatial_points':
                         failed += int(np.count_nonzero(~np.all(matches, axis=1)))
                         count += len(a)

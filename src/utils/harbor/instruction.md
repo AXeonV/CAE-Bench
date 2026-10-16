@@ -1,6 +1,6 @@
 # 实现求解程序
 
-阅读 `/app/tasks/${task}/instruction.md`、该目录中的 `DATA.md`（若有）和 `/app/docs/CONTRACT.md`。
+阅读 `/app/${task_path}/instruction.md`、该目录中的 `DATA.md`和 `/app/docs/CONTRACT.md`。
 实现题面范围内的通用求解程序，提交入口为 `/app/submission/solve.py`：
 
 ```text
@@ -17,11 +17,11 @@ python /app/submission/solve.py --input <problem.json> --output <result.h5>
 结构校验命令示例：
 
 ```bash
-python -m caeoj validate-input /app/tasks/${task}/samples/${sample}/input/problem.json
-python /app/submission/solve.py --input /app/tasks/${task}/samples/${sample}/input/problem.json --output /app/sample-result.h5
-python -m caeoj validate-output --input /app/tasks/${task}/samples/${sample}/input/problem.json --output /app/sample-result.h5
+python -m caeoj validate-input /app/${task_path}/samples/${sample}/input/problem.json
+python /app/submission/solve.py --input /app/${task_path}/samples/${sample}/input/problem.json --output /app/sample-result.h5
+python -m caeoj validate-output --input /app/${task_path}/samples/${sample}/input/problem.json --output /app/sample-result.h5
 ```
 
 公开样例目录：${samples}。
 校验器仅检查数据协议；数值正确性由独立判分器检查。
-公开示例的完整正确输出位于 `/app/tasks/${task}/samples/${sample}/output/result.h5`。
+公开示例的完整正确输出位于 `/app/${task_path}/samples/${sample}/output/result.h5`。

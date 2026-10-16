@@ -1,0 +1,1557 @@
+{
+  "electrostatic": {
+    "name": "介质静电场",
+    "dimension": 2,
+    "transient": false,
+    "harmonic": false,
+    "parameters": {},
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "electromagnetic",
+        "where": "cells",
+        "data": {
+          "permittivity": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "F/m",
+            "meaning": "绝对介电常数ε>0",
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "dirichlet": {
+        "role": "boundary",
+        "variable": "potential",
+        "where": "boundary_nodes",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "V",
+            "meaning": "给定电势"
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "volume_source": {
+        "role": "source",
+        "variable": "charge_density",
+        "where": "cells",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "C/m3",
+            "meaning": "自由体电荷ρf"
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "normal_flux": {
+        "role": "boundary",
+        "variable": "displacement_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "C/m2",
+            "meaning": "域外正的D·n"
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "potential": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "V",
+        "meaning": "电势V",
+        "where": "cells",
+        "atol": 1e-06,
+        "rtol": 0.005
+      },
+      "electric_field": {
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "unit": "V/m",
+        "meaning": "E=−∇V",
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.005
+      },
+      "electric_displacement": {
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "unit": "C/m2",
+        "meaning": "D=εE",
+        "where": "cells",
+        "atol": 1e-10,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 600
+  },
+  "floating-electrode": {
+    "name": "浮置导体静电场",
+    "dimension": 2,
+    "transient": false,
+    "harmonic": false,
+    "parameters": {},
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "electromagnetic",
+        "where": "cells",
+        "data": {
+          "permittivity": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "F/m",
+            "meaning": "绝对介电常数ε>0",
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "dirichlet": {
+        "role": "boundary",
+        "variable": "potential",
+        "where": "boundary_nodes",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "V",
+            "meaning": "给定电势"
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "volume_source": {
+        "role": "source",
+        "variable": "charge_density",
+        "where": "cells",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "C/m3",
+            "meaning": "自由体电荷ρf"
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "normal_flux": {
+        "role": "boundary",
+        "variable": "displacement_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "C/m2",
+            "meaning": "域外正的D·n"
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "floating": {
+        "role": "boundary",
+        "variable": "potential",
+        "where": "floating",
+        "data": {
+          "charge": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "C/m",
+            "meaning": "该导体单位轴长总自由电荷Q；若用节点field，所有值须严格相等，取共同值作唯一Q，不作空间重建或积分"
+          }
+        },
+        "required": true,
+        "static": false
+      }
+    },
+    "outputs": {
+      "potential": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "V",
+        "meaning": "电势V",
+        "where": "cells",
+        "atol": 1e-06,
+        "rtol": 0.005
+      },
+      "electric_field": {
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "unit": "V/m",
+        "meaning": "E=−∇V",
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.005
+      },
+      "electric_displacement": {
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "unit": "C/m2",
+        "meaning": "D=εE",
+        "where": "cells",
+        "atol": 1e-10,
+        "rtol": 0.005
+      },
+      "electrode_potential": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "V",
+        "meaning": "各浮置导体等势值",
+        "where": "floating",
+        "atol": 1e-06,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 600
+  },
+  "dc-conduction": {
+    "name": "稳恒电流传导",
+    "dimension": 2,
+    "transient": false,
+    "harmonic": false,
+    "parameters": {},
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "electromagnetic",
+        "where": "cells",
+        "data": {
+          "conductivity": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "S/m",
+            "meaning": "电导率σ>0",
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "dirichlet": {
+        "role": "boundary",
+        "variable": "potential",
+        "where": "boundary_nodes",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "V",
+            "meaning": "给定电势"
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "volume_source": {
+        "role": "source",
+        "variable": "current_injection",
+        "where": "cells",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "A/m3",
+            "meaning": "正值为注入的体电流s"
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "normal_flux": {
+        "role": "boundary",
+        "variable": "current_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "A/m2",
+            "meaning": "域外正的传导电流Jc·n"
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "potential": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "V",
+        "meaning": "电势V",
+        "where": "cells",
+        "atol": 1e-06,
+        "rtol": 0.005
+      },
+      "electric_field": {
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "unit": "V/m",
+        "meaning": "E=−∇V",
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.005
+      },
+      "conduction_current": {
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "unit": "A/m2",
+        "meaning": "Jc=σE",
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.005
+      },
+      "joule_loss": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "W/m3",
+        "meaning": "σ|E|²",
+        "where": "cells",
+        "atol": 1e-08,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 600
+  },
+  "dielectric-relaxation": {
+    "name": "介质电荷弛豫",
+    "dimension": 2,
+    "transient": true,
+    "harmonic": false,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "末时刻tf>t0"
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "electromagnetic",
+        "where": "cells",
+        "data": {
+          "permittivity": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "F/m",
+            "meaning": "绝对介电常数ε>0",
+            "positive": true
+          },
+          "conductivity": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "S/m",
+            "meaning": "电导率σ>0",
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "dirichlet": {
+        "role": "boundary",
+        "variable": "potential",
+        "where": "boundary_nodes",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "V",
+            "meaning": "给定电势"
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "volume_source": {
+        "role": "source",
+        "variable": "current_injection",
+        "where": "cells",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "A/m3",
+            "meaning": "正值为注入的体电流s"
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "normal_flux": {
+        "role": "boundary",
+        "variable": "current_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "A/m2",
+            "meaning": "域外正的总电流Jtot·n"
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "initial_potential": {
+        "role": "initial",
+        "variable": "potential",
+        "where": "domain",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "V",
+            "meaning": "真实初始电势"
+          }
+        },
+        "required": true,
+        "static": true
+      }
+    },
+    "outputs": {
+      "potential": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "V",
+        "meaning": "电势V",
+        "where": "cells",
+        "atol": 1e-06,
+        "rtol": 0.005
+      },
+      "electric_field": {
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "unit": "V/m",
+        "meaning": "E=−∇V",
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.005
+      },
+      "conduction_current": {
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "unit": "A/m2",
+        "meaning": "Jc=σE",
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.005
+      },
+      "total_current": {
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "unit": "A/m2",
+        "meaning": "Jtot=σE+ε∂tE",
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 900
+  },
+  "magnetostatic": {
+    "name": "面外电流静磁场",
+    "dimension": 2,
+    "transient": false,
+    "harmonic": false,
+    "parameters": {},
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "electromagnetic",
+        "where": "cells",
+        "data": {
+          "reluctivity": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "m/H",
+            "meaning": "磁阻率ν=1/μ>0",
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "dirichlet": {
+        "role": "boundary",
+        "variable": "vector_potential",
+        "where": "boundary_nodes",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "Wb/m",
+            "meaning": "给定Az"
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "volume_source": {
+        "role": "source",
+        "variable": "current_density",
+        "where": "cells",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "A/m2",
+            "meaning": "面外电流Jz"
+          }
+        },
+        "required": true,
+        "static": false
+      }
+    },
+    "outputs": {
+      "vector_potential": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "Wb/m",
+        "meaning": "Az",
+        "where": "cells",
+        "atol": 1e-09,
+        "rtol": 0.005
+      },
+      "magnetic_flux_density": {
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "unit": "T",
+        "meaning": "B",
+        "where": "cells",
+        "atol": 1e-08,
+        "rtol": 0.005
+      },
+      "magnetic_field": {
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "unit": "A/m",
+        "meaning": "H=νB",
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 600
+  },
+  "harmonic-eddy": {
+    "name": "面外单频涡流",
+    "dimension": 2,
+    "transient": false,
+    "harmonic": true,
+    "parameters": {
+      "frequency": {
+        "unit": "Hz",
+        "meaning": "f>0，ω=2πf",
+        "positive": true
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "electromagnetic",
+        "where": "cells",
+        "data": {
+          "reluctivity": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "m/H",
+            "meaning": "磁阻率ν=1/μ>0",
+            "positive": true
+          },
+          "conductivity": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "S/m",
+            "meaning": "电导率σ≥0",
+            "lower": 0
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "dirichlet": {
+        "role": "boundary",
+        "variable": "vector_potential",
+        "where": "boundary_nodes",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              2
+            ],
+            "unit": "Wb/m",
+            "meaning": "给定Az"
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "volume_source": {
+        "role": "source",
+        "variable": "current_density",
+        "where": "cells",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              2
+            ],
+            "unit": "A/m2",
+            "meaning": "面外外加电流Js"
+          }
+        },
+        "required": true,
+        "static": false
+      }
+    },
+    "outputs": {
+      "vector_potential": {
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "unit": "Wb/m",
+        "meaning": "Az",
+        "where": "cells",
+        "atol": 1e-09,
+        "rtol": 0.005
+      },
+      "magnetic_flux_density": {
+        "kind": "components",
+        "shape": [
+          2,
+          2
+        ],
+        "unit": "T",
+        "meaning": "B",
+        "where": "cells",
+        "atol": 1e-08,
+        "rtol": 0.005
+      },
+      "induced_current": {
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "unit": "A/m2",
+        "meaning": "Jind,z=−iωσAz",
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 900
+  },
+  "maxwell-cavity": {
+    "name": "有耗腔体全波响应",
+    "dimension": 3,
+    "transient": false,
+    "harmonic": true,
+    "parameters": {
+      "frequency": {
+        "unit": "Hz",
+        "meaning": "f>0，ω=2πf",
+        "positive": true
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "electromagnetic",
+        "where": "cells",
+        "data": {
+          "permittivity": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "F/m",
+            "meaning": "绝对介电常数ε>0",
+            "positive": true
+          },
+          "permeability": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "H/m",
+            "meaning": "绝对磁导率μ>0",
+            "positive": true
+          },
+          "conductivity": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "S/m",
+            "meaning": "电导率σ>0",
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "current_source": {
+        "role": "source",
+        "variable": "current_density",
+        "where": "cells",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              3,
+              2
+            ],
+            "unit": "A/m2",
+            "meaning": "外加体电流Js"
+          }
+        },
+        "required": true,
+        "static": false
+      }
+    },
+    "outputs": {
+      "electric_field": {
+        "kind": "components",
+        "shape": [
+          3,
+          2
+        ],
+        "unit": "V/m",
+        "meaning": "E",
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.005
+      },
+      "magnetic_field": {
+        "kind": "components",
+        "shape": [
+          3,
+          2
+        ],
+        "unit": "A/m",
+        "meaning": "H",
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.005
+      },
+      "joule_loss": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "W/m3",
+        "meaning": "时间平均焦耳损耗",
+        "where": "cells",
+        "atol": 1e-08,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 1800
+  },
+  "rlc-transient": {
+    "name": "有向RLC电路瞬态",
+    "dimension": 0,
+    "transient": true,
+    "harmonic": false,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "末时刻tf>t0"
+      },
+      "ground_node": {
+        "unit": "1",
+        "meaning": "地节点的真实ID，非负JSON整数，须属于nodes",
+        "integer": true,
+        "lower": 0
+      }
+    },
+    "records": {
+      "initial_voltage": {
+        "role": "initial",
+        "variable": "node_voltage",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "V",
+            "meaning": "节点真实初始电压，地为0"
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "resistor": {
+        "role": "material",
+        "variable": "branch",
+        "where": "branches",
+        "data": {
+          "tail": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "正向起点节点ID",
+            "dtype": "int64",
+            "static": true
+          },
+          "head": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "正向终点节点ID",
+            "dtype": "int64",
+            "static": true
+          },
+          "resistance": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "Ohm",
+            "meaning": "正元件参数",
+            "positive": true,
+            "static": true
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "capacitor": {
+        "role": "material",
+        "variable": "branch",
+        "where": "branches",
+        "data": {
+          "tail": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "正向起点节点ID",
+            "dtype": "int64",
+            "static": true
+          },
+          "head": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "正向终点节点ID",
+            "dtype": "int64",
+            "static": true
+          },
+          "capacitance": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "F",
+            "meaning": "正元件参数",
+            "positive": true,
+            "static": true
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "inductor": {
+        "role": "material",
+        "variable": "branch",
+        "where": "branches",
+        "data": {
+          "tail": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "正向起点节点ID",
+            "dtype": "int64",
+            "static": true
+          },
+          "head": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "正向终点节点ID",
+            "dtype": "int64",
+            "static": true
+          },
+          "inductance": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "H",
+            "meaning": "正元件参数",
+            "positive": true,
+            "static": true
+          },
+          "current0": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "A",
+            "meaning": "正向初始电感电流",
+            "static": true
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "voltage_source": {
+        "role": "source",
+        "variable": "branch",
+        "where": "branches",
+        "data": {
+          "tail": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "正向起点节点ID",
+            "dtype": "int64",
+            "static": true
+          },
+          "head": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "正向终点节点ID",
+            "dtype": "int64",
+            "static": true
+          },
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "V",
+            "meaning": "规定支路源历史"
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "current_source": {
+        "role": "source",
+        "variable": "branch",
+        "where": "branches",
+        "data": {
+          "tail": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "正向起点节点ID",
+            "dtype": "int64",
+            "static": true
+          },
+          "head": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "正向终点节点ID",
+            "dtype": "int64",
+            "static": true
+          },
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "A",
+            "meaning": "规定支路源历史"
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "node_voltage": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "V",
+        "meaning": "指定方向的实量",
+        "where": "nodes",
+        "atol": 1e-06,
+        "rtol": 0.005
+      },
+      "branch_voltage": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "V",
+        "meaning": "指定方向的实量",
+        "where": "branches",
+        "atol": 1e-06,
+        "rtol": 0.005
+      },
+      "branch_current": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "A",
+        "meaning": "指定方向的实量",
+        "where": "branches",
+        "atol": 1e-08,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 240
+  },
+  "rlc-harmonic": {
+    "name": "有向RLC电路单频",
+    "dimension": 0,
+    "transient": false,
+    "harmonic": true,
+    "parameters": {
+      "frequency": {
+        "unit": "Hz",
+        "meaning": "f>0，ω=2πf",
+        "positive": true
+      },
+      "ground_node": {
+        "unit": "1",
+        "meaning": "地节点的真实ID，非负JSON整数，须属于nodes",
+        "integer": true,
+        "lower": 0
+      }
+    },
+    "records": {
+      "resistor": {
+        "role": "material",
+        "variable": "branch",
+        "where": "branches",
+        "data": {
+          "tail": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "正向起点节点ID",
+            "dtype": "int64",
+            "static": true
+          },
+          "head": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "正向终点节点ID",
+            "dtype": "int64",
+            "static": true
+          },
+          "resistance": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "Ohm",
+            "meaning": "正元件参数",
+            "positive": true,
+            "static": true
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "capacitor": {
+        "role": "material",
+        "variable": "branch",
+        "where": "branches",
+        "data": {
+          "tail": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "正向起点节点ID",
+            "dtype": "int64",
+            "static": true
+          },
+          "head": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "正向终点节点ID",
+            "dtype": "int64",
+            "static": true
+          },
+          "capacitance": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "F",
+            "meaning": "正元件参数",
+            "positive": true,
+            "static": true
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "inductor": {
+        "role": "material",
+        "variable": "branch",
+        "where": "branches",
+        "data": {
+          "tail": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "正向起点节点ID",
+            "dtype": "int64",
+            "static": true
+          },
+          "head": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "正向终点节点ID",
+            "dtype": "int64",
+            "static": true
+          },
+          "inductance": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "H",
+            "meaning": "正元件参数",
+            "positive": true,
+            "static": true
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "voltage_source": {
+        "role": "source",
+        "variable": "branch",
+        "where": "branches",
+        "data": {
+          "tail": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "正向起点节点ID",
+            "dtype": "int64",
+            "static": true
+          },
+          "head": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "正向终点节点ID",
+            "dtype": "int64",
+            "static": true
+          },
+          "value": {
+            "kind": "components",
+            "shape": [
+              2
+            ],
+            "unit": "V",
+            "meaning": "规定支路源相量"
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "current_source": {
+        "role": "source",
+        "variable": "branch",
+        "where": "branches",
+        "data": {
+          "tail": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "正向起点节点ID",
+            "dtype": "int64",
+            "static": true
+          },
+          "head": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "正向终点节点ID",
+            "dtype": "int64",
+            "static": true
+          },
+          "value": {
+            "kind": "components",
+            "shape": [
+              2
+            ],
+            "unit": "A",
+            "meaning": "规定支路源相量"
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "node_voltage": {
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "unit": "V",
+        "meaning": "指定方向的复量",
+        "where": "nodes",
+        "atol": 1e-06,
+        "rtol": 0.005
+      },
+      "branch_voltage": {
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "unit": "V",
+        "meaning": "指定方向的复量",
+        "where": "branches",
+        "atol": 1e-06,
+        "rtol": 0.005
+      },
+      "branch_current": {
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "unit": "A",
+        "meaning": "指定方向的复量",
+        "where": "branches",
+        "atol": 1e-08,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 240
+  },
+  "coil-circuit": {
+    "name": "线圈与涡流场反馈",
+    "dimension": 2,
+    "transient": false,
+    "harmonic": true,
+    "parameters": {
+      "frequency": {
+        "unit": "Hz",
+        "meaning": "f>0，ω=2πf",
+        "positive": true
+      },
+      "length": {
+        "unit": "m",
+        "meaning": "真实轴向长度ℓ>0",
+        "positive": true
+      },
+      "resistance": {
+        "unit": "Ohm",
+        "meaning": "串联电阻R>0",
+        "positive": true
+      },
+      "inductance": {
+        "unit": "H",
+        "meaning": "外部串联电感L>0，不含所求场磁链",
+        "positive": true
+      },
+      "capacitance": {
+        "unit": "F",
+        "meaning": "串联电容C>0",
+        "positive": true
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "electromagnetic",
+        "where": "cells",
+        "data": {
+          "reluctivity": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "m/H",
+            "meaning": "磁阻率ν=1/μ>0",
+            "positive": true
+          },
+          "conductivity": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "S/m",
+            "meaning": "电导率σ≥0",
+            "lower": 0
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "dirichlet": {
+        "role": "boundary",
+        "variable": "vector_potential",
+        "where": "boundary_nodes",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              2
+            ],
+            "unit": "Wb/m",
+            "meaning": "给定Az"
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "winding": {
+        "role": "source",
+        "variable": "winding_density",
+        "where": "cells",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1/m2",
+            "meaning": "有符号绕组密度w，可正负且不恒零"
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "voltage_drive": {
+        "role": "source",
+        "variable": "voltage",
+        "where": "coil",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              2
+            ],
+            "unit": "V",
+            "meaning": "外加串联电压Vs"
+          }
+        },
+        "required": true,
+        "static": false
+      }
+    },
+    "outputs": {
+      "coil_current": {
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "unit": "A",
+        "meaning": "未知线圈正向电流I",
+        "where": "coil",
+        "atol": 1e-08,
+        "rtol": 0.005
+      },
+      "flux_linkage": {
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "unit": "Wb",
+        "meaning": "线圈磁链λ",
+        "where": "coil",
+        "atol": 1e-09,
+        "rtol": 0.005
+      },
+      "vector_potential": {
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "unit": "Wb/m",
+        "meaning": "Az",
+        "where": "cells",
+        "atol": 1e-09,
+        "rtol": 0.005
+      },
+      "magnetic_flux_density": {
+        "kind": "components",
+        "shape": [
+          2,
+          2
+        ],
+        "unit": "T",
+        "meaning": "B",
+        "where": "cells",
+        "atol": 1e-08,
+        "rtol": 0.005
+      },
+      "induced_current": {
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "unit": "A/m2",
+        "meaning": "Jind,z=−iωσAz",
+        "where": "cells",
+        "atol": 1e-07,
+        "rtol": 0.005
+      }
+    },
+    "timeout": 1200
+  }
+}

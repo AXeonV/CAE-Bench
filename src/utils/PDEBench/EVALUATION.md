@@ -37,10 +37,10 @@ baseline 已改为可选。没有 author/baseline.py 的题目也可以组装，
 在数据已补齐、Docker 和 Harbor 可用的环境中，可自行运行下列命令；本次配置补齐没有启动它们：
 
 ```bash
-.venv/bin/python src/utils/publish_dist.py --task PDEBench_1D_Advection
-.venv/bin/python src/utils/prepare_harbor.py --task PDEBench_1D_Advection
+.venv/bin/python src/utils/publish_dist.py --task advection-1d
+.venv/bin/python src/utils/prepare_harbor.py --task advection-1d
 export CODEX_AUTH_JSON_PATH="$HOME/.codex/auth.json"
-harbor run -p runs/harbor/tasks/PDEBench_1D_Advection \
+harbor run -p runs/harbor/qbank/01-prescribed-pdes/1.3-scalar-transport/advection-1d \
   -e docker -a codex -m openai/gpt-6-luna \
   --ak reasoning_effort=medium -n 1 -o runs/harbor/jobs
 ```

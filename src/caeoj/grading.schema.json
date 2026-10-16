@@ -3,19 +3,45 @@
   "type": "object",
   "properties": {
     "version": {
-      "const": 1,
-      "type": "integer"
+      "type": "integer",
+      "enum": [
+        1,
+        2
+      ]
     },
     "fields": {
       "type": "object",
       "additionalProperties": {
         "$ref": "#/$defs/node"
       }
+    },
+    "quantities": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rule": {
+            "$ref": "#/$defs/node"
+          }
+        },
+        "required": [
+          "unit",
+          "rule"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "default": {
+      "$ref": "#/$defs/node"
     }
   },
   "required": [
-    "version",
-    "fields"
+    "version"
   ],
   "additionalProperties": false,
   "$defs": {
@@ -50,6 +76,16 @@
             "rtol": {
               "type": "number",
               "minimum": 0
+            },
+            "reference_offset": {
+              "oneOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "$ref": "#/$defs/input_offset"
+                }
+              ]
             }
           },
           "required": [
@@ -204,6 +240,16 @@
             "limit": {
               "type": "number",
               "minimum": 0
+            },
+            "reference_offset": {
+              "oneOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "$ref": "#/$defs/input_offset"
+                }
+              ]
             }
           },
           "required": [
@@ -256,6 +302,16 @@
                 "scalar_values",
                 "spatial_points"
               ]
+            },
+            "reference_offset": {
+              "oneOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "$ref": "#/$defs/input_offset"
+                }
+              ]
             }
           },
           "required": [
@@ -301,6 +357,69 @@
           "additionalProperties": false
         }
       ]
+    },
+    "input_offset": {
+      "type": "object",
+      "properties": {
+        "parameter": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+        }
+      },
+      "required": [
+        "parameter"
+      ],
+      "additionalProperties": false
     }
-  }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "version": {
+          "const": 1
+        }
+      },
+      "required": [
+        "fields"
+      ],
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "quantities"
+            ]
+          },
+          {
+            "required": [
+              "default"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "properties": {
+        "version": {
+          "const": 2
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "quantities"
+          ]
+        },
+        {
+          "required": [
+            "default"
+          ]
+        }
+      ],
+      "not": {
+        "required": [
+          "fields"
+        ]
+      }
+    }
+  ]
 }

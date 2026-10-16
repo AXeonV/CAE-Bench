@@ -1,0 +1,2610 @@
+{
+  "planar-kinematics": {
+    "name": "平面机构约束运动学",
+    "dimension": 2,
+    "family": "planar",
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0",
+        "lower": null,
+        "upper": null,
+        "integer": false
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，tf>t0",
+        "lower": null,
+        "upper": null,
+        "integer": false
+      }
+    },
+    "records": {
+      "body": {
+        "role": "material",
+        "variable": "body",
+        "location": "bodies",
+        "data": {
+          "position0": {
+            "unit": "m",
+            "shape": [
+              2
+            ],
+            "meaning": "初始质心位置",
+            "kind": "vector"
+          },
+          "angle0": {
+            "unit": "rad",
+            "shape": [
+              1
+            ],
+            "meaning": "初始体到全局转角θ0；不取模"
+          }
+        },
+        "required": true
+      },
+      "revolute": {
+        "role": "boundary",
+        "variable": "joint",
+        "location": "site",
+        "data": {
+          "a": {
+            "unit": "1",
+            "meaning": "第a体的实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "b": {
+            "unit": "1",
+            "meaning": "第b体实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "ax": {
+            "unit": "m",
+            "meaning": "a体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "ay": {
+            "unit": "m",
+            "meaning": "a体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "bx": {
+            "unit": "m",
+            "meaning": "b体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "by": {
+            "unit": "m",
+            "meaning": "b体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          }
+        },
+        "required": false
+      },
+      "weld": {
+        "role": "boundary",
+        "variable": "joint",
+        "location": "site",
+        "data": {
+          "a": {
+            "unit": "1",
+            "meaning": "第a体的实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "b": {
+            "unit": "1",
+            "meaning": "第b体实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "ax": {
+            "unit": "m",
+            "meaning": "a体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "ay": {
+            "unit": "m",
+            "meaning": "a体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "bx": {
+            "unit": "m",
+            "meaning": "b体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "by": {
+            "unit": "m",
+            "meaning": "b体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "angle": {
+            "unit": "rad",
+            "meaning": "约束θb−θa的常值",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          }
+        },
+        "required": false
+      },
+      "angle_drive": {
+        "role": "boundary",
+        "variable": "angle",
+        "location": "site",
+        "data": {
+          "body": {
+            "unit": "1",
+            "meaning": "被驱动体实际ID，不允许地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "a0": {
+            "unit": "rad",
+            "meaning": "驱动θ(t)常数项",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "a1": {
+            "unit": "rad/s",
+            "meaning": "一次项",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "a2": {
+            "unit": "rad/s2",
+            "meaning": "二次项",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "a3": {
+            "unit": "rad/s3",
+            "meaning": "三次项",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          }
+        },
+        "required": true
+      }
+    },
+    "outputs": {
+      "position": {
+        "unit": "m",
+        "shape": [
+          2
+        ],
+        "meaning": "全局质心位置",
+        "location": "bodies",
+        "atol": 1e-06,
+        "kind": "vector"
+      },
+      "angle": {
+        "unit": "rad",
+        "shape": [
+          1
+        ],
+        "meaning": "连续展开的体到全局转角θ，不按2π取模",
+        "location": "bodies",
+        "atol": 1e-06,
+        "kind": "scalar"
+      },
+      "velocity": {
+        "unit": "m/s",
+        "shape": [
+          2
+        ],
+        "meaning": "全局质心速度",
+        "location": "bodies",
+        "atol": 1e-05,
+        "kind": "vector"
+      },
+      "angular_velocity": {
+        "unit": "rad/s",
+        "shape": [
+          1
+        ],
+        "meaning": "逆时针角速度ω",
+        "location": "bodies",
+        "atol": 1e-05,
+        "kind": "scalar"
+      },
+      "acceleration": {
+        "unit": "m/s2",
+        "shape": [
+          2
+        ],
+        "meaning": "全局质心加速度",
+        "location": "bodies",
+        "atol": 0.0001,
+        "kind": "vector"
+      },
+      "angular_acceleration": {
+        "unit": "rad/s2",
+        "shape": [
+          1
+        ],
+        "meaning": "逆时针角加速度",
+        "location": "bodies",
+        "atol": 0.0001,
+        "kind": "scalar"
+      }
+    },
+    "timeout": 900,
+    "limits": {
+      "entities": 32,
+      "locations": 129,
+      "frames": 201,
+      "components": 2000000
+    }
+  },
+  "planar-inverse-dynamics": {
+    "name": "平面机构逆动力学",
+    "dimension": 2,
+    "family": "planar",
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0",
+        "lower": null,
+        "upper": null,
+        "integer": false
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，tf>t0",
+        "lower": null,
+        "upper": null,
+        "integer": false
+      }
+    },
+    "records": {
+      "body": {
+        "role": "material",
+        "variable": "body",
+        "location": "bodies",
+        "data": {
+          "position0": {
+            "unit": "m",
+            "shape": [
+              2
+            ],
+            "meaning": "初始质心位置",
+            "kind": "vector"
+          },
+          "angle0": {
+            "unit": "rad",
+            "shape": [
+              1
+            ],
+            "meaning": "初始体到全局转角θ0；不取模"
+          },
+          "mass": {
+            "unit": "kg",
+            "shape": [
+              1
+            ],
+            "meaning": "质量m>0",
+            "positive": true
+          },
+          "inertia": {
+            "unit": "kg.m2",
+            "shape": [
+              1
+            ],
+            "meaning": "质心平面转动惯量I>0",
+            "positive": true
+          }
+        },
+        "required": true
+      },
+      "loads": {
+        "role": "source",
+        "variable": "load",
+        "location": "bodies",
+        "data": {
+          "force": {
+            "unit": "N",
+            "shape": [
+              2
+            ],
+            "meaning": "全局质心合外力，已包含重力",
+            "kind": "vector"
+          },
+          "torque": {
+            "unit": "N.m",
+            "shape": [
+              1
+            ],
+            "meaning": "质心合外转矩，逆时针为正"
+          }
+        },
+        "required": true
+      },
+      "revolute": {
+        "role": "boundary",
+        "variable": "joint",
+        "location": "site",
+        "data": {
+          "a": {
+            "unit": "1",
+            "meaning": "第a体的实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "b": {
+            "unit": "1",
+            "meaning": "第b体实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "ax": {
+            "unit": "m",
+            "meaning": "a体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "ay": {
+            "unit": "m",
+            "meaning": "a体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "bx": {
+            "unit": "m",
+            "meaning": "b体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "by": {
+            "unit": "m",
+            "meaning": "b体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          }
+        },
+        "required": false
+      },
+      "weld": {
+        "role": "boundary",
+        "variable": "joint",
+        "location": "site",
+        "data": {
+          "a": {
+            "unit": "1",
+            "meaning": "第a体的实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "b": {
+            "unit": "1",
+            "meaning": "第b体实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "ax": {
+            "unit": "m",
+            "meaning": "a体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "ay": {
+            "unit": "m",
+            "meaning": "a体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "bx": {
+            "unit": "m",
+            "meaning": "b体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "by": {
+            "unit": "m",
+            "meaning": "b体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "angle": {
+            "unit": "rad",
+            "meaning": "约束θb−θa的常值",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          }
+        },
+        "required": false
+      },
+      "angle_drive": {
+        "role": "boundary",
+        "variable": "angle",
+        "location": "site",
+        "data": {
+          "body": {
+            "unit": "1",
+            "meaning": "被驱动体实际ID，不允许地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "a0": {
+            "unit": "rad",
+            "meaning": "驱动θ(t)常数项",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "a1": {
+            "unit": "rad/s",
+            "meaning": "一次项",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "a2": {
+            "unit": "rad/s2",
+            "meaning": "二次项",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "a3": {
+            "unit": "rad/s3",
+            "meaning": "三次项",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          }
+        },
+        "required": true
+      }
+    },
+    "outputs": {
+      "position": {
+        "unit": "m",
+        "shape": [
+          2
+        ],
+        "meaning": "全局质心位置",
+        "location": "bodies",
+        "atol": 1e-06,
+        "kind": "vector"
+      },
+      "angle": {
+        "unit": "rad",
+        "shape": [
+          1
+        ],
+        "meaning": "连续展开的体到全局转角θ，不按2π取模",
+        "location": "bodies",
+        "atol": 1e-06,
+        "kind": "scalar"
+      },
+      "velocity": {
+        "unit": "m/s",
+        "shape": [
+          2
+        ],
+        "meaning": "全局质心速度",
+        "location": "bodies",
+        "atol": 1e-05,
+        "kind": "vector"
+      },
+      "angular_velocity": {
+        "unit": "rad/s",
+        "shape": [
+          1
+        ],
+        "meaning": "逆时针角速度ω",
+        "location": "bodies",
+        "atol": 1e-05,
+        "kind": "scalar"
+      },
+      "acceleration": {
+        "unit": "m/s2",
+        "shape": [
+          2
+        ],
+        "meaning": "全局质心加速度",
+        "location": "bodies",
+        "atol": 0.0001,
+        "kind": "vector"
+      },
+      "angular_acceleration": {
+        "unit": "rad/s2",
+        "shape": [
+          1
+        ],
+        "meaning": "逆时针角加速度",
+        "location": "bodies",
+        "atol": 0.0001,
+        "kind": "scalar"
+      },
+      "drive_torque": {
+        "unit": "N.m",
+        "shape": [
+          1
+        ],
+        "meaning": "驱动对被驱动体施加的逆时针转矩；地面承受反转矩",
+        "location": "angle_drive",
+        "atol": 0.0001,
+        "kind": "scalar"
+      }
+    },
+    "timeout": 900,
+    "limits": {
+      "entities": 32,
+      "locations": 129,
+      "frames": 201,
+      "components": 2000000
+    }
+  },
+  "planar-multibody": {
+    "name": "平面约束多体动力学",
+    "dimension": 2,
+    "family": "planar",
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0",
+        "lower": null,
+        "upper": null,
+        "integer": false
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，tf>t0",
+        "lower": null,
+        "upper": null,
+        "integer": false
+      }
+    },
+    "records": {
+      "body": {
+        "role": "material",
+        "variable": "body",
+        "location": "bodies",
+        "data": {
+          "position0": {
+            "unit": "m",
+            "shape": [
+              2
+            ],
+            "meaning": "初始质心位置",
+            "kind": "vector"
+          },
+          "angle0": {
+            "unit": "rad",
+            "shape": [
+              1
+            ],
+            "meaning": "初始体到全局转角θ0；不取模"
+          },
+          "mass": {
+            "unit": "kg",
+            "shape": [
+              1
+            ],
+            "meaning": "质量m>0",
+            "positive": true
+          },
+          "inertia": {
+            "unit": "kg.m2",
+            "shape": [
+              1
+            ],
+            "meaning": "质心平面转动惯量I>0",
+            "positive": true
+          },
+          "velocity0": {
+            "unit": "m/s",
+            "shape": [
+              2
+            ],
+            "meaning": "初始质心速度",
+            "kind": "vector"
+          },
+          "omega0": {
+            "unit": "rad/s",
+            "shape": [
+              1
+            ],
+            "meaning": "初始角速度ω，逆时针为正"
+          }
+        },
+        "required": true
+      },
+      "loads": {
+        "role": "source",
+        "variable": "load",
+        "location": "bodies",
+        "data": {
+          "force": {
+            "unit": "N",
+            "shape": [
+              2
+            ],
+            "meaning": "全局质心合外力，已包含重力",
+            "kind": "vector"
+          },
+          "torque": {
+            "unit": "N.m",
+            "shape": [
+              1
+            ],
+            "meaning": "质心合外转矩，逆时针为正"
+          }
+        },
+        "required": true
+      },
+      "revolute": {
+        "role": "boundary",
+        "variable": "joint",
+        "location": "site",
+        "data": {
+          "a": {
+            "unit": "1",
+            "meaning": "第a体的实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "b": {
+            "unit": "1",
+            "meaning": "第b体实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "ax": {
+            "unit": "m",
+            "meaning": "a体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "ay": {
+            "unit": "m",
+            "meaning": "a体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "bx": {
+            "unit": "m",
+            "meaning": "b体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "by": {
+            "unit": "m",
+            "meaning": "b体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          }
+        },
+        "required": false
+      },
+      "weld": {
+        "role": "boundary",
+        "variable": "joint",
+        "location": "site",
+        "data": {
+          "a": {
+            "unit": "1",
+            "meaning": "第a体的实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "b": {
+            "unit": "1",
+            "meaning": "第b体实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "ax": {
+            "unit": "m",
+            "meaning": "a体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "ay": {
+            "unit": "m",
+            "meaning": "a体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "bx": {
+            "unit": "m",
+            "meaning": "b体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "by": {
+            "unit": "m",
+            "meaning": "b体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "angle": {
+            "unit": "rad",
+            "meaning": "约束θb−θa的常值",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          }
+        },
+        "required": false
+      }
+    },
+    "outputs": {
+      "position": {
+        "unit": "m",
+        "shape": [
+          2
+        ],
+        "meaning": "全局质心位置",
+        "location": "bodies",
+        "atol": 1e-06,
+        "kind": "vector"
+      },
+      "angle": {
+        "unit": "rad",
+        "shape": [
+          1
+        ],
+        "meaning": "连续展开的体到全局转角θ，不按2π取模",
+        "location": "bodies",
+        "atol": 1e-06,
+        "kind": "scalar"
+      },
+      "velocity": {
+        "unit": "m/s",
+        "shape": [
+          2
+        ],
+        "meaning": "全局质心速度",
+        "location": "bodies",
+        "atol": 1e-05,
+        "kind": "vector"
+      },
+      "angular_velocity": {
+        "unit": "rad/s",
+        "shape": [
+          1
+        ],
+        "meaning": "逆时针角速度ω",
+        "location": "bodies",
+        "atol": 1e-05,
+        "kind": "scalar"
+      }
+    },
+    "timeout": 900,
+    "limits": {
+      "entities": 32,
+      "locations": 129,
+      "frames": 201,
+      "components": 2000000
+    }
+  },
+  "spatial-free-rigid": {
+    "name": "空间自由刚体动力学",
+    "dimension": 3,
+    "family": "spatial",
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0",
+        "lower": null,
+        "upper": null,
+        "integer": false
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，tf>t0",
+        "lower": null,
+        "upper": null,
+        "integer": false
+      }
+    },
+    "records": {
+      "body": {
+        "role": "material",
+        "variable": "body",
+        "location": "bodies",
+        "data": {
+          "mass": {
+            "unit": "kg",
+            "shape": [
+              1
+            ],
+            "meaning": "质量m>0",
+            "positive": true
+          },
+          "inertia": {
+            "unit": "kg.m2",
+            "shape": [
+              3,
+              3
+            ],
+            "meaning": "质心体坐标惯性I，对称正定且三个主惯量满足三角不等式",
+            "kind": "components"
+          },
+          "position0": {
+            "unit": "m",
+            "shape": [
+              3
+            ],
+            "meaning": "初始质心位置",
+            "kind": "vector"
+          },
+          "quaternion0": {
+            "unit": "1",
+            "shape": [
+              4
+            ],
+            "meaning": "单位四元数，分量w,x,y,z；体坐标到全局的主动旋转",
+            "kind": "components"
+          },
+          "velocity0": {
+            "unit": "m/s",
+            "shape": [
+              3
+            ],
+            "meaning": "初始全局质心速度",
+            "kind": "vector"
+          },
+          "omega0": {
+            "unit": "rad/s",
+            "shape": [
+              3
+            ],
+            "meaning": "初始体坐标角速度，分量wx,wy,wz",
+            "kind": "components"
+          }
+        },
+        "required": true
+      },
+      "loads": {
+        "role": "source",
+        "variable": "load",
+        "location": "bodies",
+        "data": {
+          "force": {
+            "unit": "N",
+            "shape": [
+              3
+            ],
+            "meaning": "全局质心合外力，已包含重力",
+            "kind": "vector"
+          },
+          "torque": {
+            "unit": "N.m",
+            "shape": [
+              3
+            ],
+            "meaning": "体坐标质心合外转矩",
+            "kind": "components"
+          }
+        },
+        "required": true
+      }
+    },
+    "outputs": {
+      "position": {
+        "unit": "m",
+        "shape": [
+          3
+        ],
+        "meaning": "全局质心位置",
+        "location": "bodies",
+        "atol": 1e-06,
+        "kind": "vector"
+      },
+      "velocity": {
+        "unit": "m/s",
+        "shape": [
+          3
+        ],
+        "meaning": "全局质心速度",
+        "location": "bodies",
+        "atol": 1e-05,
+        "kind": "vector"
+      },
+      "quaternion": {
+        "unit": "1",
+        "shape": [
+          4
+        ],
+        "meaning": "体到全局的四元数w,x,y,z，连续沿用初态符号",
+        "location": "bodies",
+        "atol": 1e-06,
+        "kind": "components"
+      },
+      "angular_velocity": {
+        "unit": "rad/s",
+        "shape": [
+          3
+        ],
+        "meaning": "体坐标角速度wx,wy,wz",
+        "location": "bodies",
+        "atol": 1e-05,
+        "kind": "components"
+      }
+    },
+    "timeout": 900,
+    "limits": {
+      "entities": 32,
+      "locations": 129,
+      "frames": 201,
+      "components": 2000000
+    }
+  },
+  "elastic-connectors": {
+    "name": "弹簧阻尼连接动力学",
+    "dimension": 2,
+    "family": "planar",
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0",
+        "lower": null,
+        "upper": null,
+        "integer": false
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，tf>t0",
+        "lower": null,
+        "upper": null,
+        "integer": false
+      }
+    },
+    "records": {
+      "body": {
+        "role": "material",
+        "variable": "body",
+        "location": "bodies",
+        "data": {
+          "position0": {
+            "unit": "m",
+            "shape": [
+              2
+            ],
+            "meaning": "初始质心位置",
+            "kind": "vector"
+          },
+          "angle0": {
+            "unit": "rad",
+            "shape": [
+              1
+            ],
+            "meaning": "初始体到全局转角θ0；不取模"
+          },
+          "mass": {
+            "unit": "kg",
+            "shape": [
+              1
+            ],
+            "meaning": "质量m>0",
+            "positive": true
+          },
+          "inertia": {
+            "unit": "kg.m2",
+            "shape": [
+              1
+            ],
+            "meaning": "质心平面转动惯量I>0",
+            "positive": true
+          },
+          "velocity0": {
+            "unit": "m/s",
+            "shape": [
+              2
+            ],
+            "meaning": "初始质心速度",
+            "kind": "vector"
+          },
+          "omega0": {
+            "unit": "rad/s",
+            "shape": [
+              1
+            ],
+            "meaning": "初始角速度ω，逆时针为正"
+          }
+        },
+        "required": true
+      },
+      "loads": {
+        "role": "source",
+        "variable": "load",
+        "location": "bodies",
+        "data": {
+          "force": {
+            "unit": "N",
+            "shape": [
+              2
+            ],
+            "meaning": "全局质心合外力，已包含重力",
+            "kind": "vector"
+          },
+          "torque": {
+            "unit": "N.m",
+            "shape": [
+              1
+            ],
+            "meaning": "质心合外转矩，逆时针为正"
+          }
+        },
+        "required": true
+      },
+      "revolute": {
+        "role": "boundary",
+        "variable": "joint",
+        "location": "site",
+        "data": {
+          "a": {
+            "unit": "1",
+            "meaning": "第a体的实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "b": {
+            "unit": "1",
+            "meaning": "第b体实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "ax": {
+            "unit": "m",
+            "meaning": "a体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "ay": {
+            "unit": "m",
+            "meaning": "a体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "bx": {
+            "unit": "m",
+            "meaning": "b体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "by": {
+            "unit": "m",
+            "meaning": "b体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          }
+        },
+        "required": false
+      },
+      "weld": {
+        "role": "boundary",
+        "variable": "joint",
+        "location": "site",
+        "data": {
+          "a": {
+            "unit": "1",
+            "meaning": "第a体的实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "b": {
+            "unit": "1",
+            "meaning": "第b体实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "ax": {
+            "unit": "m",
+            "meaning": "a体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "ay": {
+            "unit": "m",
+            "meaning": "a体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "bx": {
+            "unit": "m",
+            "meaning": "b体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "by": {
+            "unit": "m",
+            "meaning": "b体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "angle": {
+            "unit": "rad",
+            "meaning": "约束θb−θa的常值",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          }
+        },
+        "required": false
+      },
+      "spring": {
+        "role": "source",
+        "variable": "connector",
+        "location": "site",
+        "data": {
+          "a": {
+            "unit": "1",
+            "meaning": "第a体的实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "b": {
+            "unit": "1",
+            "meaning": "第b体实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "ax": {
+            "unit": "m",
+            "meaning": "a体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "ay": {
+            "unit": "m",
+            "meaning": "a体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "bx": {
+            "unit": "m",
+            "meaning": "b体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "by": {
+            "unit": "m",
+            "meaning": "b体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "stiffness": {
+            "unit": "N/m",
+            "meaning": "轴向刚度k≥0",
+            "lower": 0,
+            "upper": null,
+            "integer": false
+          },
+          "damping": {
+            "unit": "kg/s",
+            "meaning": "轴向黏性系数c≥0",
+            "lower": 0,
+            "upper": null,
+            "integer": false
+          },
+          "rest_length": {
+            "unit": "m",
+            "meaning": "无应力长度l0>0",
+            "lower": 0,
+            "upper": null,
+            "integer": false
+          }
+        },
+        "required": true
+      }
+    },
+    "outputs": {
+      "position": {
+        "unit": "m",
+        "shape": [
+          2
+        ],
+        "meaning": "全局质心位置",
+        "location": "bodies",
+        "atol": 1e-06,
+        "kind": "vector"
+      },
+      "angle": {
+        "unit": "rad",
+        "shape": [
+          1
+        ],
+        "meaning": "连续展开的体到全局转角θ，不按2π取模",
+        "location": "bodies",
+        "atol": 1e-06,
+        "kind": "scalar"
+      },
+      "velocity": {
+        "unit": "m/s",
+        "shape": [
+          2
+        ],
+        "meaning": "全局质心速度",
+        "location": "bodies",
+        "atol": 1e-05,
+        "kind": "vector"
+      },
+      "angular_velocity": {
+        "unit": "rad/s",
+        "shape": [
+          1
+        ],
+        "meaning": "逆时针角速度ω",
+        "location": "bodies",
+        "atol": 1e-05,
+        "kind": "scalar"
+      }
+    },
+    "timeout": 900,
+    "limits": {
+      "entities": 32,
+      "locations": 129,
+      "frames": 201,
+      "components": 2000000
+    }
+  },
+  "prescribed-drive": {
+    "name": "给定运动驱动动力学",
+    "dimension": 2,
+    "family": "planar",
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0",
+        "lower": null,
+        "upper": null,
+        "integer": false
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，tf>t0",
+        "lower": null,
+        "upper": null,
+        "integer": false
+      }
+    },
+    "records": {
+      "body": {
+        "role": "material",
+        "variable": "body",
+        "location": "bodies",
+        "data": {
+          "position0": {
+            "unit": "m",
+            "shape": [
+              2
+            ],
+            "meaning": "初始质心位置",
+            "kind": "vector"
+          },
+          "angle0": {
+            "unit": "rad",
+            "shape": [
+              1
+            ],
+            "meaning": "初始体到全局转角θ0；不取模"
+          },
+          "mass": {
+            "unit": "kg",
+            "shape": [
+              1
+            ],
+            "meaning": "质量m>0",
+            "positive": true
+          },
+          "inertia": {
+            "unit": "kg.m2",
+            "shape": [
+              1
+            ],
+            "meaning": "质心平面转动惯量I>0",
+            "positive": true
+          },
+          "velocity0": {
+            "unit": "m/s",
+            "shape": [
+              2
+            ],
+            "meaning": "初始质心速度",
+            "kind": "vector"
+          },
+          "omega0": {
+            "unit": "rad/s",
+            "shape": [
+              1
+            ],
+            "meaning": "初始角速度ω，逆时针为正"
+          }
+        },
+        "required": true
+      },
+      "loads": {
+        "role": "source",
+        "variable": "load",
+        "location": "bodies",
+        "data": {
+          "force": {
+            "unit": "N",
+            "shape": [
+              2
+            ],
+            "meaning": "全局质心合外力，已包含重力",
+            "kind": "vector"
+          },
+          "torque": {
+            "unit": "N.m",
+            "shape": [
+              1
+            ],
+            "meaning": "质心合外转矩，逆时针为正"
+          }
+        },
+        "required": true
+      },
+      "revolute": {
+        "role": "boundary",
+        "variable": "joint",
+        "location": "site",
+        "data": {
+          "a": {
+            "unit": "1",
+            "meaning": "第a体的实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "b": {
+            "unit": "1",
+            "meaning": "第b体实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "ax": {
+            "unit": "m",
+            "meaning": "a体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "ay": {
+            "unit": "m",
+            "meaning": "a体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "bx": {
+            "unit": "m",
+            "meaning": "b体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "by": {
+            "unit": "m",
+            "meaning": "b体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          }
+        },
+        "required": false
+      },
+      "weld": {
+        "role": "boundary",
+        "variable": "joint",
+        "location": "site",
+        "data": {
+          "a": {
+            "unit": "1",
+            "meaning": "第a体的实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "b": {
+            "unit": "1",
+            "meaning": "第b体实际ID，-1为地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "ax": {
+            "unit": "m",
+            "meaning": "a体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "ay": {
+            "unit": "m",
+            "meaning": "a体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "bx": {
+            "unit": "m",
+            "meaning": "b体局部锚点x",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "by": {
+            "unit": "m",
+            "meaning": "b体局部锚点y",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "angle": {
+            "unit": "rad",
+            "meaning": "约束θb−θa的常值",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          }
+        },
+        "required": false
+      },
+      "angle_drive": {
+        "role": "boundary",
+        "variable": "angle",
+        "location": "site",
+        "data": {
+          "body": {
+            "unit": "1",
+            "meaning": "被驱动体实际ID，不允许地面",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "a0": {
+            "unit": "rad",
+            "meaning": "驱动θ(t)常数项",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "a1": {
+            "unit": "rad/s",
+            "meaning": "一次项",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "a2": {
+            "unit": "rad/s2",
+            "meaning": "二次项",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          },
+          "a3": {
+            "unit": "rad/s3",
+            "meaning": "三次项",
+            "lower": null,
+            "upper": null,
+            "integer": false
+          }
+        },
+        "required": true
+      }
+    },
+    "outputs": {
+      "position": {
+        "unit": "m",
+        "shape": [
+          2
+        ],
+        "meaning": "全局质心位置",
+        "location": "bodies",
+        "atol": 1e-06,
+        "kind": "vector"
+      },
+      "angle": {
+        "unit": "rad",
+        "shape": [
+          1
+        ],
+        "meaning": "连续展开的体到全局转角θ，不按2π取模",
+        "location": "bodies",
+        "atol": 1e-06,
+        "kind": "scalar"
+      },
+      "velocity": {
+        "unit": "m/s",
+        "shape": [
+          2
+        ],
+        "meaning": "全局质心速度",
+        "location": "bodies",
+        "atol": 1e-05,
+        "kind": "vector"
+      },
+      "angular_velocity": {
+        "unit": "rad/s",
+        "shape": [
+          1
+        ],
+        "meaning": "逆时针角速度ω",
+        "location": "bodies",
+        "atol": 1e-05,
+        "kind": "scalar"
+      },
+      "drive_torque": {
+        "unit": "N.m",
+        "shape": [
+          1
+        ],
+        "meaning": "驱动对被驱动体施加的逆时针转矩；地面承受反转矩",
+        "location": "angle_drive",
+        "atol": 0.0001,
+        "kind": "scalar"
+      }
+    },
+    "timeout": 900,
+    "limits": {
+      "entities": 32,
+      "locations": 129,
+      "frames": 201,
+      "components": 2000000
+    }
+  },
+  "normal-contact": {
+    "name": "圆盘法向柔顺接触",
+    "dimension": 2,
+    "family": "planar",
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0",
+        "lower": null,
+        "upper": null,
+        "integer": false
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，tf>t0",
+        "lower": null,
+        "upper": null,
+        "integer": false
+      }
+    },
+    "records": {
+      "body": {
+        "role": "material",
+        "variable": "body",
+        "location": "bodies",
+        "data": {
+          "position0": {
+            "unit": "m",
+            "shape": [
+              2
+            ],
+            "meaning": "初始质心位置",
+            "kind": "vector"
+          },
+          "angle0": {
+            "unit": "rad",
+            "shape": [
+              1
+            ],
+            "meaning": "初始体到全局转角θ0；不取模"
+          },
+          "mass": {
+            "unit": "kg",
+            "shape": [
+              1
+            ],
+            "meaning": "质量m>0",
+            "positive": true
+          },
+          "inertia": {
+            "unit": "kg.m2",
+            "shape": [
+              1
+            ],
+            "meaning": "质心平面转动惯量I>0",
+            "positive": true
+          },
+          "velocity0": {
+            "unit": "m/s",
+            "shape": [
+              2
+            ],
+            "meaning": "初始质心速度",
+            "kind": "vector"
+          },
+          "omega0": {
+            "unit": "rad/s",
+            "shape": [
+              1
+            ],
+            "meaning": "初始角速度ω，逆时针为正"
+          },
+          "radius": {
+            "unit": "m",
+            "shape": [
+              1
+            ],
+            "meaning": "圆盘半径r>0；惯量独立给定，质量可非均匀",
+            "positive": true
+          }
+        },
+        "required": true
+      },
+      "loads": {
+        "role": "source",
+        "variable": "load",
+        "location": "bodies",
+        "data": {
+          "force": {
+            "unit": "N",
+            "shape": [
+              2
+            ],
+            "meaning": "全局质心合外力，已包含重力",
+            "kind": "vector"
+          },
+          "torque": {
+            "unit": "N.m",
+            "shape": [
+              1
+            ],
+            "meaning": "质心合外转矩，逆时针为正"
+          }
+        },
+        "required": true
+      },
+      "contact": {
+        "role": "boundary",
+        "variable": "contact",
+        "location": "site",
+        "data": {
+          "a": {
+            "unit": "1",
+            "meaning": "第a体实际ID",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "b": {
+            "unit": "1",
+            "meaning": "第b体实际ID",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "stiffness": {
+            "unit": "N/m",
+            "meaning": "法向刚度kn>0",
+            "lower": 0,
+            "upper": null,
+            "integer": false
+          },
+          "damping": {
+            "unit": "kg/s",
+            "meaning": "法向阻尼cn≥0",
+            "lower": 0,
+            "upper": null,
+            "integer": false
+          }
+        },
+        "required": true
+      }
+    },
+    "outputs": {
+      "position": {
+        "unit": "m",
+        "shape": [
+          2
+        ],
+        "meaning": "全局质心位置",
+        "location": "bodies",
+        "atol": 1e-06,
+        "kind": "vector"
+      },
+      "angle": {
+        "unit": "rad",
+        "shape": [
+          1
+        ],
+        "meaning": "连续展开的体到全局转角θ，不按2π取模",
+        "location": "bodies",
+        "atol": 1e-06,
+        "kind": "scalar"
+      },
+      "velocity": {
+        "unit": "m/s",
+        "shape": [
+          2
+        ],
+        "meaning": "全局质心速度",
+        "location": "bodies",
+        "atol": 1e-05,
+        "kind": "vector"
+      },
+      "angular_velocity": {
+        "unit": "rad/s",
+        "shape": [
+          1
+        ],
+        "meaning": "逆时针角速度ω",
+        "location": "bodies",
+        "atol": 1e-05,
+        "kind": "scalar"
+      }
+    },
+    "timeout": 900,
+    "limits": {
+      "entities": 32,
+      "locations": 129,
+      "frames": 201,
+      "components": 2000000
+    }
+  },
+  "regularized-friction": {
+    "name": "圆盘正则化摩擦接触",
+    "dimension": 2,
+    "family": "planar",
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0",
+        "lower": null,
+        "upper": null,
+        "integer": false
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，tf>t0",
+        "lower": null,
+        "upper": null,
+        "integer": false
+      }
+    },
+    "records": {
+      "body": {
+        "role": "material",
+        "variable": "body",
+        "location": "bodies",
+        "data": {
+          "position0": {
+            "unit": "m",
+            "shape": [
+              2
+            ],
+            "meaning": "初始质心位置",
+            "kind": "vector"
+          },
+          "angle0": {
+            "unit": "rad",
+            "shape": [
+              1
+            ],
+            "meaning": "初始体到全局转角θ0；不取模"
+          },
+          "mass": {
+            "unit": "kg",
+            "shape": [
+              1
+            ],
+            "meaning": "质量m>0",
+            "positive": true
+          },
+          "inertia": {
+            "unit": "kg.m2",
+            "shape": [
+              1
+            ],
+            "meaning": "质心平面转动惯量I>0",
+            "positive": true
+          },
+          "velocity0": {
+            "unit": "m/s",
+            "shape": [
+              2
+            ],
+            "meaning": "初始质心速度",
+            "kind": "vector"
+          },
+          "omega0": {
+            "unit": "rad/s",
+            "shape": [
+              1
+            ],
+            "meaning": "初始角速度ω，逆时针为正"
+          },
+          "radius": {
+            "unit": "m",
+            "shape": [
+              1
+            ],
+            "meaning": "圆盘半径r>0；惯量独立给定，质量可非均匀",
+            "positive": true
+          }
+        },
+        "required": true
+      },
+      "loads": {
+        "role": "source",
+        "variable": "load",
+        "location": "bodies",
+        "data": {
+          "force": {
+            "unit": "N",
+            "shape": [
+              2
+            ],
+            "meaning": "全局质心合外力，已包含重力",
+            "kind": "vector"
+          },
+          "torque": {
+            "unit": "N.m",
+            "shape": [
+              1
+            ],
+            "meaning": "质心合外转矩，逆时针为正"
+          }
+        },
+        "required": true
+      },
+      "contact": {
+        "role": "boundary",
+        "variable": "contact",
+        "location": "site",
+        "data": {
+          "a": {
+            "unit": "1",
+            "meaning": "第a体实际ID",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "b": {
+            "unit": "1",
+            "meaning": "第b体实际ID",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "stiffness": {
+            "unit": "N/m",
+            "meaning": "法向刚度kn>0",
+            "lower": 0,
+            "upper": null,
+            "integer": false
+          },
+          "damping": {
+            "unit": "kg/s",
+            "meaning": "法向阻尼cn≥0",
+            "lower": 0,
+            "upper": null,
+            "integer": false
+          },
+          "friction": {
+            "unit": "1",
+            "meaning": "摩擦系数μ≥0",
+            "lower": 0,
+            "upper": null,
+            "integer": false
+          },
+          "slip_speed": {
+            "unit": "m/s",
+            "meaning": "正则化速度vs>0",
+            "lower": 0,
+            "upper": null,
+            "integer": false
+          }
+        },
+        "required": true
+      }
+    },
+    "outputs": {
+      "position": {
+        "unit": "m",
+        "shape": [
+          2
+        ],
+        "meaning": "全局质心位置",
+        "location": "bodies",
+        "atol": 1e-06,
+        "kind": "vector"
+      },
+      "angle": {
+        "unit": "rad",
+        "shape": [
+          1
+        ],
+        "meaning": "连续展开的体到全局转角θ，不按2π取模",
+        "location": "bodies",
+        "atol": 1e-06,
+        "kind": "scalar"
+      },
+      "velocity": {
+        "unit": "m/s",
+        "shape": [
+          2
+        ],
+        "meaning": "全局质心速度",
+        "location": "bodies",
+        "atol": 1e-05,
+        "kind": "vector"
+      },
+      "angular_velocity": {
+        "unit": "rad/s",
+        "shape": [
+          1
+        ],
+        "meaning": "逆时针角速度ω",
+        "location": "bodies",
+        "atol": 1e-05,
+        "kind": "scalar"
+      }
+    },
+    "timeout": 900,
+    "limits": {
+      "entities": 32,
+      "locations": 129,
+      "frames": 201,
+      "components": 2000000
+    }
+  },
+  "normal-impact": {
+    "name": "圆盘无摩擦瞬时碰撞",
+    "dimension": 2,
+    "family": "impact",
+    "parameters": {
+      "restitution": {
+        "unit": "1",
+        "meaning": "法向恢复系数e",
+        "lower": 0,
+        "upper": 1,
+        "integer": false
+      }
+    },
+    "records": {
+      "body": {
+        "role": "material",
+        "variable": "body",
+        "location": "bodies",
+        "data": {
+          "position0": {
+            "unit": "m",
+            "shape": [
+              2
+            ],
+            "meaning": "初始质心位置",
+            "kind": "vector"
+          },
+          "mass": {
+            "unit": "kg",
+            "shape": [
+              1
+            ],
+            "meaning": "质量m>0",
+            "positive": true
+          },
+          "inertia": {
+            "unit": "kg.m2",
+            "shape": [
+              1
+            ],
+            "meaning": "质心平面转动惯量I>0",
+            "positive": true
+          },
+          "velocity0": {
+            "unit": "m/s",
+            "shape": [
+              2
+            ],
+            "meaning": "初始质心速度",
+            "kind": "vector"
+          },
+          "omega0": {
+            "unit": "rad/s",
+            "shape": [
+              1
+            ],
+            "meaning": "初始角速度ω，逆时针为正"
+          },
+          "radius": {
+            "unit": "m",
+            "shape": [
+              1
+            ],
+            "meaning": "圆盘半径r>0；惯量独立给定，质量可非均匀",
+            "positive": true
+          }
+        },
+        "required": true
+      },
+      "collision": {
+        "role": "boundary",
+        "variable": "collision",
+        "location": "site",
+        "data": {
+          "a": {
+            "unit": "1",
+            "meaning": "第a体实际ID",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "b": {
+            "unit": "1",
+            "meaning": "第b体实际ID",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          }
+        },
+        "required": true
+      }
+    },
+    "outputs": {
+      "post_velocity": {
+        "unit": "m/s",
+        "shape": [
+          2
+        ],
+        "meaning": "碰撞后全局质心速度",
+        "location": "bodies",
+        "atol": 1e-06,
+        "kind": "vector"
+      },
+      "post_omega": {
+        "unit": "rad/s",
+        "shape": [
+          1
+        ],
+        "meaning": "碰撞后角速度",
+        "location": "bodies",
+        "atol": 1e-06,
+        "kind": "scalar"
+      },
+      "impulse": {
+        "unit": "N.s",
+        "shape": [
+          2
+        ],
+        "meaning": "作用于b体的全局接触冲量J",
+        "location": "collision",
+        "atol": 1e-06,
+        "kind": "vector"
+      }
+    },
+    "timeout": 120,
+    "limits": {
+      "entities": 32,
+      "locations": 129,
+      "frames": 201,
+      "components": 2000000
+    }
+  },
+  "frictional-impact": {
+    "name": "圆盘摩擦瞬时碰撞",
+    "dimension": 2,
+    "family": "impact",
+    "parameters": {
+      "restitution": {
+        "unit": "1",
+        "meaning": "法向恢复系数e",
+        "lower": 0,
+        "upper": 1,
+        "integer": false
+      },
+      "friction": {
+        "unit": "1",
+        "meaning": "冲量库仑系数μ",
+        "lower": 0,
+        "upper": null,
+        "integer": false
+      }
+    },
+    "records": {
+      "body": {
+        "role": "material",
+        "variable": "body",
+        "location": "bodies",
+        "data": {
+          "position0": {
+            "unit": "m",
+            "shape": [
+              2
+            ],
+            "meaning": "初始质心位置",
+            "kind": "vector"
+          },
+          "mass": {
+            "unit": "kg",
+            "shape": [
+              1
+            ],
+            "meaning": "质量m>0",
+            "positive": true
+          },
+          "inertia": {
+            "unit": "kg.m2",
+            "shape": [
+              1
+            ],
+            "meaning": "质心平面转动惯量I>0",
+            "positive": true
+          },
+          "velocity0": {
+            "unit": "m/s",
+            "shape": [
+              2
+            ],
+            "meaning": "初始质心速度",
+            "kind": "vector"
+          },
+          "omega0": {
+            "unit": "rad/s",
+            "shape": [
+              1
+            ],
+            "meaning": "初始角速度ω，逆时针为正"
+          },
+          "radius": {
+            "unit": "m",
+            "shape": [
+              1
+            ],
+            "meaning": "圆盘半径r>0；惯量独立给定，质量可非均匀",
+            "positive": true
+          }
+        },
+        "required": true
+      },
+      "collision": {
+        "role": "boundary",
+        "variable": "collision",
+        "location": "site",
+        "data": {
+          "a": {
+            "unit": "1",
+            "meaning": "第a体实际ID",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          },
+          "b": {
+            "unit": "1",
+            "meaning": "第b体实际ID",
+            "lower": null,
+            "upper": null,
+            "integer": true
+          }
+        },
+        "required": true
+      }
+    },
+    "outputs": {
+      "post_velocity": {
+        "unit": "m/s",
+        "shape": [
+          2
+        ],
+        "meaning": "碰撞后全局质心速度",
+        "location": "bodies",
+        "atol": 1e-06,
+        "kind": "vector"
+      },
+      "post_omega": {
+        "unit": "rad/s",
+        "shape": [
+          1
+        ],
+        "meaning": "碰撞后角速度",
+        "location": "bodies",
+        "atol": 1e-06,
+        "kind": "scalar"
+      },
+      "impulse": {
+        "unit": "N.s",
+        "shape": [
+          2
+        ],
+        "meaning": "作用于b体的全局接触冲量J",
+        "location": "collision",
+        "atol": 1e-06,
+        "kind": "vector"
+      }
+    },
+    "timeout": 120,
+    "limits": {
+      "entities": 32,
+      "locations": 129,
+      "frames": 201,
+      "components": 2000000
+    }
+  },
+  "modal-flexible": {
+    "name": "固定参考系柔性体模态响应",
+    "dimension": 2,
+    "family": "modal",
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0",
+        "lower": null,
+        "upper": null,
+        "integer": false
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，tf>t0",
+        "lower": null,
+        "upper": null,
+        "integer": false
+      },
+      "mode_count": {
+        "unit": "1",
+        "meaning": "模态数k，整数",
+        "lower": 1,
+        "upper": 12,
+        "integer": true
+      }
+    },
+    "records": {
+      "modal_system": {
+        "role": "material",
+        "variable": "system",
+        "location": "systems",
+        "data": {
+          "mass_matrix": {
+            "unit": "kg",
+            "shape": [
+              "k",
+              "k"
+            ],
+            "meaning": "对称正定模态质量M",
+            "kind": "components"
+          },
+          "stiffness": {
+            "unit": "N/m",
+            "shape": [
+              "k",
+              "k"
+            ],
+            "meaning": "对称正定模态刚度K",
+            "kind": "components"
+          },
+          "damping": {
+            "unit": "kg/s",
+            "shape": [
+              "k",
+              "k"
+            ],
+            "meaning": "对称半正定模态阻尼C",
+            "kind": "components"
+          },
+          "eta0": {
+            "unit": "m",
+            "shape": [
+              "k"
+            ],
+            "meaning": "初始模态位移η0",
+            "kind": "components"
+          },
+          "eta_dot0": {
+            "unit": "m/s",
+            "shape": [
+              "k"
+            ],
+            "meaning": "初始模态速度",
+            "kind": "components"
+          }
+        },
+        "required": true
+      },
+      "loads": {
+        "role": "source",
+        "variable": "load",
+        "location": "systems",
+        "data": {
+          "modal_force": {
+            "unit": "N",
+            "shape": [
+              "k"
+            ],
+            "meaning": "各模态广义力f(t)",
+            "kind": "components"
+          }
+        },
+        "required": true
+      }
+    },
+    "outputs": {
+      "modal_displacement": {
+        "unit": "m",
+        "shape": [
+          "k"
+        ],
+        "meaning": "η，按给定模态顺序，不作重新归一化或模态重排",
+        "location": "systems",
+        "atol": 1e-06,
+        "kind": "components"
+      },
+      "modal_velocity": {
+        "unit": "m/s",
+        "shape": [
+          "k"
+        ],
+        "meaning": "η对时间导数",
+        "location": "systems",
+        "atol": 1e-05,
+        "kind": "components"
+      }
+    },
+    "timeout": 900,
+    "limits": {
+      "entities": 32,
+      "locations": 129,
+      "frames": 201,
+      "components": 2000000
+    }
+  },
+  "translating-flexible": {
+    "name": "平移刚体与柔性模态耦合",
+    "dimension": 2,
+    "family": "modal",
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "初始时刻t0",
+        "lower": null,
+        "upper": null,
+        "integer": false
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "终止时刻tf，tf>t0",
+        "lower": null,
+        "upper": null,
+        "integer": false
+      },
+      "mode_count": {
+        "unit": "1",
+        "meaning": "模态数k，整数",
+        "lower": 1,
+        "upper": 12,
+        "integer": true
+      }
+    },
+    "records": {
+      "modal_system": {
+        "role": "material",
+        "variable": "system",
+        "location": "systems",
+        "data": {
+          "mass_matrix": {
+            "unit": "kg",
+            "shape": [
+              "k",
+              "k"
+            ],
+            "meaning": "对称正定模态质量M",
+            "kind": "components"
+          },
+          "stiffness": {
+            "unit": "N/m",
+            "shape": [
+              "k",
+              "k"
+            ],
+            "meaning": "对称正定模态刚度K",
+            "kind": "components"
+          },
+          "damping": {
+            "unit": "kg/s",
+            "shape": [
+              "k",
+              "k"
+            ],
+            "meaning": "对称半正定模态阻尼C",
+            "kind": "components"
+          },
+          "eta0": {
+            "unit": "m",
+            "shape": [
+              "k"
+            ],
+            "meaning": "初始模态位移η0",
+            "kind": "components"
+          },
+          "eta_dot0": {
+            "unit": "m/s",
+            "shape": [
+              "k"
+            ],
+            "meaning": "初始模态速度",
+            "kind": "components"
+          },
+          "carrier_mass": {
+            "unit": "kg",
+            "shape": [
+              1
+            ],
+            "meaning": "载体平移质量m>0",
+            "positive": true
+          },
+          "coupling": {
+            "unit": "kg",
+            "shape": [
+              2,
+              "k"
+            ],
+            "meaning": "双向惯性耦合B；完整质量矩阵正定",
+            "kind": "components"
+          },
+          "position0": {
+            "unit": "m",
+            "shape": [
+              2
+            ],
+            "meaning": "载体初始质心位置x0",
+            "kind": "vector"
+          },
+          "velocity0": {
+            "unit": "m/s",
+            "shape": [
+              2
+            ],
+            "meaning": "载体初始速度",
+            "kind": "vector"
+          }
+        },
+        "required": true
+      },
+      "loads": {
+        "role": "source",
+        "variable": "load",
+        "location": "systems",
+        "data": {
+          "modal_force": {
+            "unit": "N",
+            "shape": [
+              "k"
+            ],
+            "meaning": "各模态广义力f(t)",
+            "kind": "components"
+          },
+          "force": {
+            "unit": "N",
+            "shape": [
+              2
+            ],
+            "meaning": "载体外力F(t)，不另加重力",
+            "kind": "vector"
+          }
+        },
+        "required": true
+      }
+    },
+    "outputs": {
+      "modal_displacement": {
+        "unit": "m",
+        "shape": [
+          "k"
+        ],
+        "meaning": "η，按给定模态顺序，不作重新归一化或模态重排",
+        "location": "systems",
+        "atol": 1e-06,
+        "kind": "components"
+      },
+      "modal_velocity": {
+        "unit": "m/s",
+        "shape": [
+          "k"
+        ],
+        "meaning": "η对时间导数",
+        "location": "systems",
+        "atol": 1e-05,
+        "kind": "components"
+      },
+      "position": {
+        "unit": "m",
+        "shape": [
+          2
+        ],
+        "meaning": "载体质心位置x",
+        "location": "systems",
+        "atol": 1e-06,
+        "kind": "vector"
+      },
+      "velocity": {
+        "unit": "m/s",
+        "shape": [
+          2
+        ],
+        "meaning": "载体质心速度",
+        "location": "systems",
+        "atol": 1e-05,
+        "kind": "vector"
+      }
+    },
+    "timeout": 900,
+    "limits": {
+      "entities": 32,
+      "locations": 129,
+      "frames": 201,
+      "components": 2000000
+    }
+  }
+}

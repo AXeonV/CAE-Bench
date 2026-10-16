@@ -12,7 +12,9 @@ import numpy as np
 
 from caeoj.grading import DEFAULT_ATOL, DEFAULT_RTOL, grade_arrays, grade_files
 from caeoj.sdk import load_problem
-from caeoj.smoke import PROJECT_ROOT
+from caeoj_tools.author import load_author_module
+_smoke = load_author_module('smoke-test', 'smoke')
+PROJECT_ROOT = _smoke.PROJECT_ROOT
 from caeoj.validation import output_support
 
 
@@ -21,7 +23,7 @@ class GradingTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory(dir=PROJECT_ROOT / "runs")
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        self.path = PROJECT_ROOT / "tasks/echo-field/cases/09-vector-2d/problem.json"
+        self.path = PROJECT_ROOT / "qbank/00-basic-tests/0.1-io/smoke-test/cases/09-vector-2d/problem.json"
         self.problem = load_problem(self.path)
         self.use_problem(self.problem)
 
@@ -49,7 +51,7 @@ class GradingTests(unittest.TestCase):
             self.assertEqual(self.grade()["score"], score)
 
     def test_all_values_and_fields_must_pass(self):
-        p = load_problem(PROJECT_ROOT / "tasks/echo-field/cases/08-scalars-and-dtypes/problem.json")
+        p = load_problem(PROJECT_ROOT / "qbank/00-basic-tests/0.1-io/smoke-test/cases/08-scalars-and-dtypes/problem.json")
         self.use_problem(p)
         self.result["temperature"][0, -1, 0] += 1
         result = self.grade()
@@ -59,14 +61,14 @@ class GradingTests(unittest.TestCase):
         self.assertEqual(result["fields"]["temperature"]["max_abs_error"], 1)
 
     def test_integer_comparison_is_exact_above_float_precision(self):
-        p = load_problem(PROJECT_ROOT / "tasks/echo-field/cases/08-scalars-and-dtypes/problem.json")
+        p = load_problem(PROJECT_ROOT / "qbank/00-basic-tests/0.1-io/smoke-test/cases/08-scalars-and-dtypes/problem.json")
         self.use_problem(p)
         self.reference["region_label"][0, 0, 0] = np.iinfo(np.int64).max
         self.result["region_label"][0, 0, 0] = np.iinfo(np.int64).max - 1
         self.assertEqual(self.grade(atol=100, rtol=100)["score"], 0)
 
     def test_boolean_comparison_is_exact(self):
-        p = load_problem(PROJECT_ROOT / "tasks/echo-field/cases/08-scalars-and-dtypes/problem.json")
+        p = load_problem(PROJECT_ROOT / "qbank/00-basic-tests/0.1-io/smoke-test/cases/08-scalars-and-dtypes/problem.json")
         self.use_problem(p)
         self.result["mask"][0, 0, 0] = ~self.result["mask"][0, 0, 0]
         self.assertEqual(self.grade(atol=100, rtol=100)["score"], 0)

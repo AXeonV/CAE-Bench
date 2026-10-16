@@ -571,6 +571,21 @@
         "caeoj_ext/optics/__init__.py",
         "caeoj_ext/optics/models.json"
       ]
+    },
+    "species.transport_kinetics": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model_prefix": "species-"
+        }
+      ],
+      "check": "caeoj_ext.species:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/species/__init__.py",
+        "caeoj_ext/species/models.json"
+      ]
     }
   },
   "tasks": {
@@ -1004,6 +1019,30 @@
     ],
     "slab-modes": [
       "optics.linear"
+    ],
+    "fick-diffusion": [
+      "species.transport_kinetics"
+    ],
+    "imposed-field-migration": [
+      "species.transport_kinetics"
+    ],
+    "competitive-adsorption": [
+      "species.transport_kinetics"
+    ],
+    "pore-adsorption": [
+      "species.transport_kinetics"
+    ],
+    "mass-action-network": [
+      "species.transport_kinetics"
+    ],
+    "reactive-transport": [
+      "species.transport_kinetics"
+    ],
+    "adiabatic-combustion": [
+      "species.transport_kinetics"
+    ],
+    "partition-transfer": [
+      "species.transport_kinetics"
     ]
   },
   "aliases": {
@@ -1037,7 +1076,8 @@
     "thermal-",
     "acoustic-",
     "electromagnetic-",
-    "optics-"
+    "optics-",
+    "species-"
   ],
   "model_namespace_diagnostics": {
     "fluid-energy-": "E_FLUID",
@@ -1048,6 +1088,7 @@
     "thermal-": "E_THERMAL",
     "acoustic-": "E_ACOUSTIC",
     "electromagnetic-": "E_ELECTROMAGNETIC",
-    "optics-": "E_OPTICS"
+    "optics-": "E_OPTICS",
+    "species-": "E_SPECIES"
   }
 }

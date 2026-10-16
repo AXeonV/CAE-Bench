@@ -1,0 +1,35 @@
+{
+  "version": 2,
+  "quantities": {
+    "pressure": {
+      "unit": "Pa",
+      "rule": {
+        "metric": "pointwise",
+        "time": "per_time",
+        "components": "per_component",
+        "atol": 0.001,
+        "rtol": 0.003
+      }
+    },
+    "velocity": {
+      "unit": "m/s",
+      "rule": {
+        "metric": "pointwise",
+        "time": "per_time",
+        "components": "per_component",
+        "atol": 1e-07,
+        "rtol": 0.003
+      }
+    },
+    "piston_displacement": {
+      "unit": "m",
+      "rule": {
+        "metric": "pointwise",
+        "time": "per_time",
+        "components": "per_component",
+        "atol": 1e-09,
+        "rtol": 0.003
+      }
+    }
+  }
+}

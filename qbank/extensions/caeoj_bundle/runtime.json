@@ -727,6 +727,96 @@
         "caeoj_ext/plasma/__init__.py",
         "caeoj_ext/plasma/models.json"
       ]
+    },
+    "multiphysics.continuum": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model": "multiphysics-compliant-tube-wave-v1"
+        },
+        {
+          "physics.model": "multiphysics-acoustic-piston-feedback-v1"
+        },
+        {
+          "physics.model": "multiphysics-constrained-thermal-expansion-v1"
+        },
+        {
+          "physics.model": "multiphysics-reciprocal-thermoelastic-wave-v1"
+        },
+        {
+          "physics.model": "multiphysics-steady-joule-feedback-v1"
+        },
+        {
+          "physics.model": "multiphysics-transient-joule-feedback-v1"
+        },
+        {
+          "physics.model": "multiphysics-static-piezoelectric-rod-v1"
+        },
+        {
+          "physics.model": "multiphysics-shunted-piezoelectric-rod-v1"
+        },
+        {
+          "physics.model": "multiphysics-magnetic-diffusion-elasticity-v1"
+        },
+        {
+          "physics.model": "multiphysics-biot-consolidation-v1"
+        },
+        {
+          "physics.model": "multiphysics-thermo-poroelastic-transient-v1"
+        },
+        {
+          "physics.model": "multiphysics-thermoelectric-leg-v1"
+        }
+      ],
+      "check": "caeoj_ext.multiphysics:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/multiphysics/__init__.py",
+        "caeoj_ext/multiphysics/models.json"
+      ]
+    },
+    "systems.networks": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model": "systems-geared-torsional-network-v1"
+        },
+        {
+          "physics.model": "systems-deadzone-transmission-network-v1"
+        },
+        {
+          "physics.model": "systems-nonlinear-hydraulic-network-v1"
+        },
+        {
+          "physics.model": "systems-distributed-pipe-network-v1"
+        },
+        {
+          "physics.model": "systems-isothermal-pneumatic-network-v1"
+        },
+        {
+          "physics.model": "systems-radiative-thermal-network-v1"
+        },
+        {
+          "physics.model": "systems-nonlinear-diode-rlc-network-v1"
+        },
+        {
+          "physics.model": "systems-motor-thermal-feedback-system-v1"
+        },
+        {
+          "physics.model": "systems-electrohydraulic-actuator-system-v1"
+        },
+        {
+          "physics.model": "systems-sampled-position-servo-v1"
+        }
+      ],
+      "check": "caeoj_ext.systems:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/systems/__init__.py",
+        "caeoj_ext/systems/models.json"
+      ]
     }
   },
   "tasks": {
@@ -1322,6 +1412,72 @@
     ],
     "magnetized-plasma-slab": [
       "plasma"
+    ],
+    "compliant-tube-wave": [
+      "multiphysics.continuum"
+    ],
+    "acoustic-piston-feedback": [
+      "multiphysics.continuum"
+    ],
+    "constrained-thermal-expansion": [
+      "multiphysics.continuum"
+    ],
+    "reciprocal-thermoelastic-wave": [
+      "multiphysics.continuum"
+    ],
+    "steady-joule-feedback": [
+      "multiphysics.continuum"
+    ],
+    "transient-joule-feedback": [
+      "multiphysics.continuum"
+    ],
+    "static-piezoelectric-rod": [
+      "multiphysics.continuum"
+    ],
+    "shunted-piezoelectric-rod": [
+      "multiphysics.continuum"
+    ],
+    "magnetic-diffusion-elasticity": [
+      "multiphysics.continuum"
+    ],
+    "biot-consolidation": [
+      "multiphysics.continuum"
+    ],
+    "thermo-poroelastic-transient": [
+      "multiphysics.continuum"
+    ],
+    "thermoelectric-leg": [
+      "multiphysics.continuum"
+    ],
+    "geared-torsional-network": [
+      "systems.networks"
+    ],
+    "deadzone-transmission-network": [
+      "systems.networks"
+    ],
+    "nonlinear-hydraulic-network": [
+      "systems.networks"
+    ],
+    "distributed-pipe-network": [
+      "systems.networks"
+    ],
+    "isothermal-pneumatic-network": [
+      "systems.networks"
+    ],
+    "radiative-thermal-network": [
+      "systems.networks"
+    ],
+    "nonlinear-diode-rlc-network": [
+      "systems.networks"
+    ],
+    "motor-thermal-feedback-system": [
+      "systems.networks"
+    ],
+    "electrohydraulic-actuator-system": [
+      "systems.networks"
+    ],
+    "sampled-position-servo": [
+      "systems.networks"
     ]
   },
   "aliases": {
@@ -1361,7 +1517,9 @@
     "semiconductor-",
     "granular-",
     "porous-",
-    "plasma-"
+    "plasma-",
+    "multiphysics-",
+    "systems-"
   ],
   "model_namespace_diagnostics": {
     "fluid-energy-": "E_FLUID",
@@ -1378,6 +1536,8 @@
     "semiconductor-": "E_SEMICONDUCTOR",
     "granular-": "E_GRANULAR",
     "porous-": "E_POROUS",
-    "plasma-": "E_PLASMA"
+    "plasma-": "E_PLASMA",
+    "multiphysics-": "E_MULTIPHYSICS",
+    "systems-": "E_SYSTEMS"
   }
 }

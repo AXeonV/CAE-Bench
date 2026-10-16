@@ -31,8 +31,8 @@
 | 第 14 章 | [等离子体与带电粒子分析](chapter-14-plasma.md) | 放电、带电粒子输运、碰撞反应及电磁场作用 |
 | 第 15 章 | 辐射输运与核工程物理分析 | 光子、中子等粒子的输运、散射、吸收、能量沉积及相关工程物理过程 |
 | 第 16 章 | 材料组织与微观演化分析 | 相分离、晶粒长大、相变动力学及微结构演化 |
-| 第 17 章 | 多物理场耦合分析 | 流固、热固、电热、压电、磁固、孔隙流固等跨领域相互作用，以及多场联合演化 |
-| 第 18 章 | 系统级多领域分析 | 集总参数与一维网络构成的机械、液压、气动、热、电等工程系统 |
+| 第 17 章 | [多物理场耦合分析](chapter-17-multiphysics.md) | 流固、热固、电热、压电、磁固、孔隙流固等跨领域相互作用，以及多场联合演化 |
+| 第 18 章 | [系统级多领域分析](chapter-18-system-multidomain.md) | 集总参数与一维网络构成的机械、液压、气动、热、电等工程系统 |
 
 ## 细化与归属规则
 
@@ -66,3 +66,7 @@
 第十三章已按[章规划](chapter-13-porous-media.md)完成6节13题、自包含DATA、多孔介质共享扩展、评分执行配置和独立考生复核；见[整章目录](../13-porous-media/README.md)、[逐题清单](chapter-13-task-plan.md)和[进度与验证](reviews/chapter-13-progress.md)。正式数据、独立参考、误差／资源校准及发布留后。
 
 第十四章按[章规划](chapter-14-plasma.md)完成5节10题、自包含DATA、等离子体共享扩展、评分执行配置及独立考生复核；见[整章目录](../14-plasma/README.md)和[进度与证据](reviews/chapter-14-progress.md)。正式数据、参考、误差／资源校准及发布留后。
+
+第十七章已按[章规划](chapter-17-multiphysics.md)完成7节12题、自包含DATA、连续体耦合共享扩展、评分执行配置及独立考生最终复核；见[整章目录](../17-multiphysics/README.md)、[最终进度](reviews/chapter-17-progress.md)与[实现及证据](reviews/chapter-17-implementation.md)。正式数据、独立参考、数值／适用性验证、预算／容差校准与发布留后。
+
+第十八章已按[章规划](chapter-18-system-multidomain.md)完成7节10题、自包含DATA、系统网络共享扩展、评分执行配置与独立考生最终复核；见[整章目录](../18-system-multidomain/README.md)、[进度](reviews/chapter-18-progress.md)、[实现和证据](reviews/chapter-18-implementation.md)。正式数据、独立参考、模型／数值验证、预算容差校准和发布留后。

@@ -1,0 +1,145 @@
+{
+  "date": "2026-10-16",
+  "tasks": 13,
+  "sections": 6,
+  "reviewed_files": 27,
+  "scope": "planning, statements, self-contained DATA, extension, configuration and independent review",
+  "static_checks": {
+    "13.1": {
+      "topics": [
+        "darcy-steady",
+        "darcy-transient",
+        "forchheimer-steady"
+      ],
+      "status": "passed"
+    },
+    "13.2": {
+      "topics": [
+        "richards-steady",
+        "richards-transient"
+      ],
+      "status": "passed"
+    },
+    "13.3": {
+      "topics": [
+        "compressible-two-phase",
+        "immiscible-two-phase"
+      ],
+      "status": "passed"
+    },
+    "13.4": {
+      "topics": [
+        "dual-continuum",
+        "embedded-fracture"
+      ],
+      "status": "passed"
+    },
+    "13.5": {
+      "topics": [
+        "pore-creeping",
+        "pore-laminar-transient"
+      ],
+      "status": "passed"
+    },
+    "13.6": {
+      "topics": [
+        "porous-sorption-decay",
+        "porous-tracer"
+      ],
+      "status": "passed"
+    }
+  },
+  "source_template": {
+    "rebuild": "byte-identical",
+    "links_checked": 89
+  },
+  "candidate_review": {
+    "groups": [
+      {
+        "sections": [
+          "13.1",
+          "13.2"
+        ],
+        "tasks": 5
+      },
+      {
+        "sections": [
+          "13.3",
+          "13.4"
+        ],
+        "tasks": 4
+      },
+      {
+        "sections": [
+          "13.5",
+          "13.6"
+        ],
+        "tasks": 4
+      }
+    ],
+    "method": "independent, no inherited context, three public documents only; corrections re-reviewed",
+    "status": "no outstanding issue within reviewed scope"
+  },
+  "maintainer_review": {
+    "status": "passed",
+    "malformed_metadata_probes": 10,
+    "implicit_single_task_models_probed": 13,
+    "grading_and_resources": "all thirteen instruction tables agree with consumed configurations"
+  },
+  "focused_tests": {
+    "command": "python -m unittest discover -s tests -p test_porous_contract.py -v",
+    "tests": 13,
+    "status": "passed"
+  },
+  "regression": {
+    "command": "python -m unittest discover -s tests -v",
+    "run": 329,
+    "passed": 324,
+    "skipped": 5,
+    "seconds": 229.312,
+    "status": "passed",
+    "skipped_lines": [
+      "test_api_only_server_is_not_reported_ready_and_is_cleaned (test_benchmark_viewer.ViewerTests.test_api_only_server_is_not_reported_ready_and_is_cleaned) ... skipped 'POSIX lifecycle helper'",
+      "test_port_collision_never_replaces_other_listener (test_benchmark_viewer.ViewerTests.test_port_collision_never_replaces_other_listener) ... skipped 'POSIX lifecycle helper'",
+      "test_recycled_pid_identity_does_not_kill_a_process (test_benchmark_viewer.ViewerTests.test_recycled_pid_identity_does_not_kill_a_process) ... skipped 'POSIX lifecycle helper'",
+      "test_start_ready_reuse_and_owned_stop (test_benchmark_viewer.ViewerTests.test_start_ready_reuse_and_owned_stop) ... skipped 'POSIX lifecycle helper'",
+      "test_linked_task_is_rejected (test_task_paths.TaskPathTests.test_linked_task_is_rejected) ... skipped 'Creating directory links is unavailable'"
+    ],
+    "first_run": {
+      "run": 328,
+      "failures": 2,
+      "skipped": 5,
+      "reason": "WinError 5 during temporary PDEBench sample-directory rename; both independent reruns passed; final serial full run passed"
+    }
+  },
+  "public_install": {
+    "platform": "Windows amd64",
+    "python": "3.14",
+    "mode": "normal wheel install into separate target; source moved; Python -I from another directory",
+    "models_read": 13,
+    "cli_sdk": "passed",
+    "declared_check_active": true,
+    "assembly": "b0a31abb27efe6f78934692bd3e6d7914b5722c0d0930f0bdc942ac131dfae72"
+  },
+  "catalog": {
+    "all_task_bindings": 166,
+    "all_extensions": 16,
+    "public_runtime_files": 51
+  },
+  "implementation_limits": {
+    "core_modified": false,
+    "contract_modified": false,
+    "publisher_modified": false,
+    "new_shared_extension": "porous.flow_transport"
+  },
+  "not_performed": [
+    "formal samples/cases",
+    "trusted numerical reference",
+    "physical or mesh-quality audit",
+    "error/resource calibration",
+    "Docker resource enforcement test",
+    "agent benchmark",
+    "publication"
+  ],
+  "local_evidence": "runs/authoring/chapter-13/"
+}

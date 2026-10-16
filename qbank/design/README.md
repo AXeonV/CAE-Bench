@@ -27,7 +27,7 @@
 | 第 10 章 | [电化学分析](chapter-10-electrochemistry.md) | 离子输运、电极反应、电化学界面及电化学能量转换过程 |
 | 第 11 章 | [半导体与电子输运分析](chapter-11-semiconductor.md) | 载流子输运、产生与复合、电荷分布及相关器件物理；[逐题清单](chapter-11-task-plan.md)、[进度](reviews/chapter-11-progress.md) |
 | 第 12 章 | [颗粒与散体力学分析](chapter-12-granular.md) | 颗粒运动、碰撞、摩擦、黏附、堆积及散体整体响应；[逐题清单](chapter-12-task-plan.md)、[进度](reviews/chapter-12-progress.md) |
-| 第 13 章 | 多孔介质与渗流分析 | 饱和／非饱和渗流、多相渗流、孔隙尺度流动及多孔介质中的输运 |
+| 第 13 章 | [多孔介质与渗流分析](chapter-13-porous-media.md) | 饱和／非饱和渗流、多相渗流、裂隙与双重介质、孔隙尺度流动及多孔介质中的输运 |
 | 第 14 章 | 等离子体与带电粒子分析 | 放电、带电粒子输运、碰撞反应及电磁场作用 |
 | 第 15 章 | 辐射输运与核工程物理分析 | 光子、中子等粒子的输运、散射、吸收、能量沉积及相关工程物理过程 |
 | 第 16 章 | 材料组织与微观演化分析 | 相分离、晶粒长大、相变动力学及微结构演化 |
@@ -62,3 +62,5 @@
 第十一章已按[章规划](chapter-11-semiconductor.md)完成6节8题、自包含DATA、半导体共享扩展、评分执行配置及独立考生复核；见[整章目录](../11-semiconductor/README.md)和[最终进度与证据](reviews/chapter-11-progress.md)。正式数据、独立参考、适用性与谱条件证据、预算／容差校准和发布留后。
 
 第十二章已按[章规划](chapter-12-granular.md)完成6节7题、自包含DATA、颗粒共享声明扩展、评分执行配置及独立考生复核；见[整章目录](../12-granular/README.md)和[最终进度与证据](reviews/chapter-12-progress.md)。正式数据、独立参考、全程适用性、精度/预算校准、目标Linux执行及发布留后。
+
+第十三章已按[章规划](chapter-13-porous-media.md)完成6节13题、自包含DATA、多孔介质共享扩展、评分执行配置和独立考生复核；见[整章目录](../13-porous-media/README.md)、[逐题清单](chapter-13-task-plan.md)和[进度与验证](reviews/chapter-13-progress.md)。正式数据、独立参考、误差／资源校准及发布留后。

@@ -631,6 +631,58 @@
         "caeoj_ext/granular/__init__.py",
         "caeoj_ext/granular/models.json"
       ]
+    },
+    "porous.flow_transport": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model": "porous-darcy-steady-v1"
+        },
+        {
+          "physics.model": "porous-darcy-transient-v1"
+        },
+        {
+          "physics.model": "porous-forchheimer-steady-v1"
+        },
+        {
+          "physics.model": "porous-richards-steady-v1"
+        },
+        {
+          "physics.model": "porous-richards-transient-v1"
+        },
+        {
+          "physics.model": "porous-immiscible-two-phase-v1"
+        },
+        {
+          "physics.model": "porous-compressible-two-phase-v1"
+        },
+        {
+          "physics.model": "porous-embedded-fracture-v1"
+        },
+        {
+          "physics.model": "porous-dual-continuum-v1"
+        },
+        {
+          "physics.model": "porous-pore-creeping-v1"
+        },
+        {
+          "physics.model": "porous-pore-laminar-transient-v1"
+        },
+        {
+          "physics.model": "porous-porous-tracer-v1"
+        },
+        {
+          "physics.model": "porous-porous-sorption-decay-v1"
+        }
+      ],
+      "geometry": true,
+      "check": "caeoj_ext.porous:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/porous/__init__.py",
+        "caeoj_ext/porous/models.json"
+      ]
     }
   },
   "tasks": {
@@ -1157,6 +1209,45 @@
     ],
     "granular-fragmentation": [
       "granular.dynamics"
+    ],
+    "darcy-steady": [
+      "porous.flow_transport"
+    ],
+    "darcy-transient": [
+      "porous.flow_transport"
+    ],
+    "forchheimer-steady": [
+      "porous.flow_transport"
+    ],
+    "richards-steady": [
+      "porous.flow_transport"
+    ],
+    "richards-transient": [
+      "porous.flow_transport"
+    ],
+    "immiscible-two-phase": [
+      "porous.flow_transport"
+    ],
+    "compressible-two-phase": [
+      "porous.flow_transport"
+    ],
+    "embedded-fracture": [
+      "porous.flow_transport"
+    ],
+    "dual-continuum": [
+      "porous.flow_transport"
+    ],
+    "pore-creeping": [
+      "porous.flow_transport"
+    ],
+    "pore-laminar-transient": [
+      "porous.flow_transport"
+    ],
+    "porous-tracer": [
+      "porous.flow_transport"
+    ],
+    "porous-sorption-decay": [
+      "porous.flow_transport"
     ]
   },
   "aliases": {
@@ -1194,7 +1285,8 @@
     "species-",
     "electrochemistry-",
     "semiconductor-",
-    "granular-"
+    "granular-",
+    "porous-"
   ],
   "model_namespace_diagnostics": {
     "fluid-energy-": "E_FLUID",
@@ -1209,6 +1301,7 @@
     "species-": "E_SPECIES",
     "electrochemistry-": "E_ELECTROCHEMISTRY",
     "semiconductor-": "E_SEMICONDUCTOR",
-    "granular-": "E_GRANULAR"
+    "granular-": "E_GRANULAR",
+    "porous-": "E_POROUS"
   }
 }

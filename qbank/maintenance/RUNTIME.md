@@ -27,6 +27,10 @@ python -m caeoj_tools.cli smoke
 
 扩展按物理组织，章节重排不改扩展 ID。cfd-2.1 与 fluid-* 等输入标识对应实际声明，移动内部模块不改写输入语义。
 
+半导体能力由 `semiconductor.transport` 绑定 `caeoj_ext.semiconductor`，公开 models.json 保存声明元数据，运行检查不求解物理；不增加核心 Schema 或新 SDK 入口。剖面 points 的线性重建、离散实体及谱变量语义逐题展开在 DATA。维护模板位于 `authoring/build_semiconductor.py`，重生成后必须重新静态检查并核对最终审阅散列；模板不进入公开装配。
+
+颗粒能力由 `granular.dynamics` 绑定 `caeoj_ext.granular`；entities表示运动粒子、代表体和离散粒级，位置及状态作为字段，矩阵通过components表达。models.json及声明检查只处理公开DATA约束（包括初始最近像、小重叠、响应难度界和粒级守恒），不演化轨迹或证明全程条件；正式数据须独立验证动态适用承诺。维护模板为`authoring/build_granular.py`，独立普通安装验证为`authoring/verify_granular_install.py`；均不进入公开闭包。公共CLI、SDK和一次安装约定不变。
+
 ## 描述字段与检查接口
 
 每项 extensions 描述声明以下实际支持字段；未使用的能力不必填：

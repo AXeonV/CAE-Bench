@@ -82,8 +82,10 @@ flowchart LR
 | [第 8 章](qbank/08-optics/README.md) | 光学与光子学 |
 | [第 9 章](qbank/09-species-reactions/README.md) | 组分传输与化学反应 |
 | [第 10 章](qbank/10-electrochemistry/README.md) | 电化学分析 |
+| [第 11 章](qbank/11-semiconductor/README.md) | 半导体与电子输运 |
+| [第 12 章](qbank/12-granular/README.md) | 颗粒与散体力学 |
 
-第 2～10 章已完成题面、DATA 和评测配置；正式数值数据、参考及评测发布仍待完成。
+第 2～12 章已完成题面、DATA 和评测配置；正式数值数据、参考及评测发布仍待完成。第十一章验证与独立审阅见[进度记录](qbank/design/reviews/chapter-11-progress.md)，第十二章见[进度与证据](qbank/design/reviews/chapter-12-progress.md)。
 
 ## 维护技能
 

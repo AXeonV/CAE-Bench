@@ -25,8 +25,8 @@
 | 第 8 章 | [光学与光子学分析](chapter-08-optics.md) | 几何光学、波动光学、干涉、衍射、偏振及光在介质中的传播 |
 | 第 9 章 | [组分传输与化学反应分析](chapter-09-species-reactions.md) | 扩散、迁移、吸附、反应、反应流、燃烧及相关传质过程 |
 | 第 10 章 | [电化学分析](chapter-10-electrochemistry.md) | 离子输运、电极反应、电化学界面及电化学能量转换过程 |
-| 第 11 章 | 半导体与电子输运分析 | 载流子输运、产生与复合、电荷分布及相关器件物理 |
-| 第 12 章 | 颗粒与散体力学分析 | 颗粒运动、碰撞、摩擦、黏附、堆积及散体整体响应 |
+| 第 11 章 | [半导体与电子输运分析](chapter-11-semiconductor.md) | 载流子输运、产生与复合、电荷分布及相关器件物理；[逐题清单](chapter-11-task-plan.md)、[进度](reviews/chapter-11-progress.md) |
+| 第 12 章 | [颗粒与散体力学分析](chapter-12-granular.md) | 颗粒运动、碰撞、摩擦、黏附、堆积及散体整体响应；[逐题清单](chapter-12-task-plan.md)、[进度](reviews/chapter-12-progress.md) |
 | 第 13 章 | 多孔介质与渗流分析 | 饱和／非饱和渗流、多相渗流、孔隙尺度流动及多孔介质中的输运 |
 | 第 14 章 | 等离子体与带电粒子分析 | 放电、带电粒子输运、碰撞反应及电磁场作用 |
 | 第 15 章 | 辐射输运与核工程物理分析 | 光子、中子等粒子的输运、散射、吸收、能量沉积及相关工程物理过程 |
@@ -58,3 +58,7 @@
 第八章已按[章规划](chapter-08-optics.md)完成6节8题、自包含DATA、光学共享扩展、评分执行配置和独立考生复核；见[整章目录](../08-optics/README.md)和[最终进度与限制](reviews/chapter-08-progress.md)。正式数据、独立参考、模型适用性、预算／容差校准及发布留后。
 
 第十章已按[章规划](chapter-10-electrochemistry.md)完成六节八题、自包含DATA、电化学共享扩展、评分执行配置及独立考生复核；见[整章目录](../10-electrochemistry/README.md)和[最终进度与限制](reviews/chapter-10-progress.md)。正式数据、独立参考、模型适用性、预算／容差校准及发布留后。
+
+第十一章已按[章规划](chapter-11-semiconductor.md)完成6节8题、自包含DATA、半导体共享扩展、评分执行配置及独立考生复核；见[整章目录](../11-semiconductor/README.md)和[最终进度与证据](reviews/chapter-11-progress.md)。正式数据、独立参考、适用性与谱条件证据、预算／容差校准和发布留后。
+
+第十二章已按[章规划](chapter-12-granular.md)完成6节7题、自包含DATA、颗粒共享声明扩展、评分执行配置及独立考生复核；见[整章目录](../12-granular/README.md)和[最终进度与证据](reviews/chapter-12-progress.md)。正式数据、独立参考、全程适用性、精度/预算校准、目标Linux执行及发布留后。

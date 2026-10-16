@@ -601,6 +601,36 @@
         "caeoj_ext/electrochemistry/__init__.py",
         "caeoj_ext/electrochemistry/models.json"
       ]
+    },
+    "semiconductor.transport": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model_prefix": "semiconductor-"
+        }
+      ],
+      "check": "caeoj_ext.semiconductor:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/semiconductor/__init__.py",
+        "caeoj_ext/semiconductor/models.json"
+      ]
+    },
+    "granular.dynamics": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model_prefix": "granular-"
+        }
+      ],
+      "check": "caeoj_ext.granular:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/granular/__init__.py",
+        "caeoj_ext/granular/models.json"
+      ]
     }
   },
   "tasks": {
@@ -1082,6 +1112,51 @@
     ],
     "fuel-cell-energy": [
       "electrochemistry.interfaces_transport"
+    ],
+    "semiconductor-equilibrium": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-drift-steady": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-drift-transient": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-bulk-recombination": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-trap-kinetics": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-minority-diffusion": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-landauer": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-effective-mass": [
+      "semiconductor.transport"
+    ],
+    "granular-forced-motion": [
+      "granular.dynamics"
+    ],
+    "granular-normal-contact": [
+      "granular.dynamics"
+    ],
+    "granular-sliding-friction": [
+      "granular.dynamics"
+    ],
+    "granular-cohesive-contact": [
+      "granular.dynamics"
+    ],
+    "granular-periodic-assembly": [
+      "granular.dynamics"
+    ],
+    "granular-coagulation": [
+      "granular.dynamics"
+    ],
+    "granular-fragmentation": [
+      "granular.dynamics"
     ]
   },
   "aliases": {
@@ -1117,7 +1192,9 @@
     "electromagnetic-",
     "optics-",
     "species-",
-    "electrochemistry-"
+    "electrochemistry-",
+    "semiconductor-",
+    "granular-"
   ],
   "model_namespace_diagnostics": {
     "fluid-energy-": "E_FLUID",
@@ -1130,6 +1207,8 @@
     "electromagnetic-": "E_ELECTROMAGNETIC",
     "optics-": "E_OPTICS",
     "species-": "E_SPECIES",
-    "electrochemistry-": "E_ELECTROCHEMISTRY"
+    "electrochemistry-": "E_ELECTROCHEMISTRY",
+    "semiconductor-": "E_SEMICONDUCTOR",
+    "granular-": "E_GRANULAR"
   }
 }

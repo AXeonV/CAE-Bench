@@ -586,6 +586,21 @@
         "caeoj_ext/species/__init__.py",
         "caeoj_ext/species/models.json"
       ]
+    },
+    "electrochemistry.interfaces_transport": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model_prefix": "electrochemistry-"
+        }
+      ],
+      "check": "caeoj_ext.electrochemistry:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/electrochemistry/__init__.py",
+        "caeoj_ext/electrochemistry/models.json"
+      ]
     }
   },
   "tasks": {
@@ -1043,6 +1058,30 @@
     ],
     "partition-transfer": [
       "species.transport_kinetics"
+    ],
+    "ionic-equilibrium": [
+      "electrochemistry.interfaces_transport"
+    ],
+    "blocking-pnp": [
+      "electrochemistry.interfaces_transport"
+    ],
+    "mixed-potential": [
+      "electrochemistry.interfaces_transport"
+    ],
+    "capacitive-redox": [
+      "electrochemistry.interfaces_transport"
+    ],
+    "redox-impedance": [
+      "electrochemistry.interfaces_transport"
+    ],
+    "electrode-diffusion": [
+      "electrochemistry.interfaces_transport"
+    ],
+    "particle-battery": [
+      "electrochemistry.interfaces_transport"
+    ],
+    "fuel-cell-energy": [
+      "electrochemistry.interfaces_transport"
     ]
   },
   "aliases": {
@@ -1077,7 +1116,8 @@
     "acoustic-",
     "electromagnetic-",
     "optics-",
-    "species-"
+    "species-",
+    "electrochemistry-"
   ],
   "model_namespace_diagnostics": {
     "fluid-energy-": "E_FLUID",
@@ -1089,6 +1129,7 @@
     "acoustic-": "E_ACOUSTIC",
     "electromagnetic-": "E_ELECTROMAGNETIC",
     "optics-": "E_OPTICS",
-    "species-": "E_SPECIES"
+    "species-": "E_SPECIES",
+    "electrochemistry-": "E_ELECTROCHEMISTRY"
   }
 }

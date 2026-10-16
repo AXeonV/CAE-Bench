@@ -1,0 +1,1435 @@
+{
+  "ionic-equilibrium": {
+    "name": "自洽空间电荷平衡",
+    "dynamic": false,
+    "parameters": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "恒定温度T>0",
+        "positive": true
+      },
+      "gas_constant": {
+        "unit": "J/(mol.K)",
+        "meaning": "输入明确给定气体常数R>0",
+        "positive": true
+      },
+      "faraday": {
+        "unit": "C/mol",
+        "meaning": "输入明确给定法拉第常数F>0",
+        "positive": true
+      },
+      "species_count": {
+        "unit": "1",
+        "meaning": "离子及可选中性组分数s，JSON整数2..8",
+        "integer": true,
+        "lower": 2,
+        "upper": 8
+      },
+      "length": {
+        "unit": "m",
+        "meaning": "液体区间长度L>0",
+        "positive": true
+      },
+      "permittivity": {
+        "unit": "F/m",
+        "meaning": "绝对介电率ε>0，不是相对介电常数",
+        "positive": true
+      }
+    },
+    "locations": {
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一均匀溶液材料对象"
+      },
+      "left": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "x=0的左电极液体侧边界"
+      },
+      "right": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "x=L的右电极液体侧边界"
+      },
+      "probes": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 256,
+        "meaning": "真实观测点0≤x≤L，可重复坐标；边界浓度取液体迹"
+      }
+    },
+    "records": {
+      "ions": {
+        "role": "material",
+        "variable": "ions",
+        "location": "system",
+        "data": {
+          "charge": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "1",
+            "meaning": "电荷数z_i，整数−3..3；至少一个正与一个负，允许中性组分",
+            "integral": true,
+            "lower": -3,
+            "upper": 3
+          },
+          "reservoir": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "mol/m3",
+            "meaning": "φ=0储槽浓度c_i,∞>0；Σz_i c_i,∞=0",
+            "positive": true
+          }
+        },
+        "axis": "state"
+      },
+      "left": {
+        "role": "boundary",
+        "variable": "potential",
+        "location": "left",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "V",
+            "meaning": "边界液体电势φ，相对于固定同一φ=0参考；正负均可"
+          }
+        },
+        "axis": "state"
+      },
+      "right": {
+        "role": "boundary",
+        "variable": "potential",
+        "location": "right",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "V",
+            "meaning": "边界液体电势φ，相对于固定同一φ=0参考；正负均可"
+          }
+        },
+        "axis": "state"
+      }
+    },
+    "outputs": {
+      "surface_charge_left": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "C/m2",
+        "meaning": "该电极单位真实面积自由电荷，左−εφ_x(0)，右+εφ_x(L)，无Stern层",
+        "location": "left",
+        "atol": 1e-08,
+        "rtol": 0.002
+      },
+      "surface_charge_right": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "C/m2",
+        "meaning": "该电极单位真实面积自由电荷，左−εφ_x(0)，右+εφ_x(L)，无Stern层",
+        "location": "right",
+        "atol": 1e-08,
+        "rtol": 0.002
+      },
+      "potential": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "V",
+        "meaning": "液体电势φ(x)",
+        "location": "probes",
+        "atol": 2e-06,
+        "rtol": 0.002
+      },
+      "concentration": {
+        "kind": "components",
+        "shape": [
+          "s"
+        ],
+        "unit": "mol/m3",
+        "meaning": "按液体体积计的组分浓度，轴i与输入一致",
+        "location": "probes",
+        "atol": 1e-06,
+        "rtol": 0.002
+      }
+    },
+    "timeout": 600
+  },
+  "blocking-pnp": {
+    "name": "阻挡电极离子瞬态",
+    "dynamic": true,
+    "parameters": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "恒定温度T>0",
+        "positive": true
+      },
+      "gas_constant": {
+        "unit": "J/(mol.K)",
+        "meaning": "输入明确给定气体常数R>0",
+        "positive": true
+      },
+      "faraday": {
+        "unit": "C/mol",
+        "meaning": "输入明确给定法拉第常数F>0",
+        "positive": true
+      },
+      "species_count": {
+        "unit": "1",
+        "meaning": "离子及可选中性组分数s，JSON整数2..8",
+        "integer": true,
+        "lower": 2,
+        "upper": 8
+      },
+      "length": {
+        "unit": "m",
+        "meaning": "液体区间长度L>0",
+        "positive": true
+      },
+      "permittivity": {
+        "unit": "F/m",
+        "meaning": "绝对介电率ε>0，不是相对介电常数",
+        "positive": true
+      }
+    },
+    "locations": {
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一均匀溶液材料对象"
+      },
+      "left": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "x=0的左电极液体侧边界"
+      },
+      "right": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "x=L的右电极液体侧边界"
+      },
+      "probes": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 256,
+        "meaning": "真实观测点0≤x≤L，可重复坐标；边界浓度取液体迹"
+      }
+    },
+    "records": {
+      "ions": {
+        "role": "material",
+        "variable": "ions",
+        "location": "system",
+        "data": {
+          "charge": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "1",
+            "meaning": "电荷数z_i，整数−3..3；至少一个正与一个负，允许中性组分",
+            "integral": true,
+            "lower": -3,
+            "upper": 3
+          },
+          "diffusivity": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "m2/s",
+            "meaning": "各组分恒定D_i>0",
+            "positive": true
+          }
+        },
+        "axis": "initial"
+      },
+      "initial": {
+        "role": "initial",
+        "variable": "concentration",
+        "location": "system",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              "s"
+            ],
+            "unit": "mol/m3",
+            "meaning": "全区间均匀c_i0>0，Σz_i c_i0=0",
+            "positive": true
+          }
+        },
+        "axis": "initial"
+      },
+      "left": {
+        "role": "boundary",
+        "variable": "potential",
+        "location": "left",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "V",
+            "meaning": "边界液体电势φ，相对于固定同一φ=0参考；正负均可"
+          }
+        },
+        "axis": "drive"
+      },
+      "right": {
+        "role": "boundary",
+        "variable": "potential",
+        "location": "right",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "V",
+            "meaning": "边界液体电势φ，相对于固定同一φ=0参考；正负均可"
+          }
+        },
+        "axis": "drive"
+      }
+    },
+    "outputs": {
+      "surface_charge_left": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "C/m2",
+        "meaning": "该电极单位真实面积自由电荷，左−εφ_x(0)，右+εφ_x(L)，无Stern层",
+        "location": "left",
+        "atol": 1e-08,
+        "rtol": 0.002
+      },
+      "surface_charge_right": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "C/m2",
+        "meaning": "该电极单位真实面积自由电荷，左−εφ_x(0)，右+εφ_x(L)，无Stern层",
+        "location": "right",
+        "atol": 1e-08,
+        "rtol": 0.002
+      },
+      "potential": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "V",
+        "meaning": "液体电势φ(x,t)",
+        "location": "probes",
+        "atol": 2e-06,
+        "rtol": 0.002
+      },
+      "concentration": {
+        "kind": "components",
+        "shape": [
+          "s"
+        ],
+        "unit": "mol/m3",
+        "meaning": "按液体体积计的组分浓度，轴i与输入一致",
+        "location": "probes",
+        "atol": 1e-06,
+        "rtol": 0.002
+      }
+    },
+    "timeout": 1200
+  },
+  "mixed-potential": {
+    "name": "多通道电极混合电位",
+    "dynamic": false,
+    "parameters": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "恒定温度T>0",
+        "positive": true
+      },
+      "gas_constant": {
+        "unit": "J/(mol.K)",
+        "meaning": "输入明确给定气体常数R>0",
+        "positive": true
+      },
+      "faraday": {
+        "unit": "C/mol",
+        "meaning": "输入明确给定法拉第常数F>0",
+        "positive": true
+      },
+      "applied_current": {
+        "unit": "A",
+        "meaning": "公共金属给定总阳极电流I，可正负或0；0为整体开路"
+      }
+    },
+    "locations": {
+      "metal": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一等电位导体，电势Φ相对于已固定公共参考"
+      },
+      "channels": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 32,
+        "meaning": "导体表面的独立氧化还原反应通道；不共享库存，输入活度由外部储槽维持"
+      }
+    },
+    "records": {
+      "channels": {
+        "role": "material",
+        "variable": "channel",
+        "location": "channels",
+        "data": {
+          "area": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "m2",
+            "meaning": "该通道真实反应面积A>0",
+            "positive": true
+          },
+          "electrons": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "反应R→O+n e⁻的n，精确整数1..4",
+            "integral": true,
+            "lower": 1,
+            "upper": 4
+          },
+          "alpha": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "阴极指数系数α，0<α<1",
+            "positive": true,
+            "upper_exclusive": 1
+          },
+          "rate": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "mol/(m2.s)",
+            "meaning": "标准面摩尔速率k>0",
+            "positive": true
+          },
+          "standard_potential": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "V",
+            "meaning": "标准还原电位E0，相对于同一公共参考"
+          },
+          "solution_potential": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "V",
+            "meaning": "本通道电解液电势φl，同一公共参考"
+          },
+          "reduced_activity": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "还原态无量纲活度aR>0",
+            "positive": true
+          },
+          "oxidized_activity": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "氧化态无量纲活度aO>0",
+            "positive": true
+          }
+        },
+        "axis": "state"
+      }
+    },
+    "outputs": {
+      "metal_potential": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "V",
+        "meaning": "公共金属电势Φ",
+        "location": "metal",
+        "atol": 2e-06,
+        "rtol": 0.002
+      },
+      "faradaic_current": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "A/m2",
+        "meaning": "各通道阳极为正的法拉第电流密度j",
+        "location": "channels",
+        "atol": 1e-05,
+        "rtol": 0.002
+      }
+    },
+    "timeout": 240
+  },
+  "capacitive-redox": {
+    "name": "双电层与有限库存反应",
+    "dynamic": true,
+    "parameters": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "恒定温度T>0",
+        "positive": true
+      },
+      "gas_constant": {
+        "unit": "J/(mol.K)",
+        "meaning": "输入明确给定气体常数R>0",
+        "positive": true
+      },
+      "faraday": {
+        "unit": "C/mol",
+        "meaning": "输入明确给定法拉第常数F>0",
+        "positive": true
+      },
+      "concentration_scale": {
+        "unit": "mol/m3",
+        "meaning": "活度归一化浓度c*>0",
+        "positive": true
+      }
+    },
+    "locations": {
+      "cells": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 32,
+        "meaning": "独立完全混合的工作半电池；电解液电势恒定为0，无空间梯度"
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "interface",
+        "location": "cells",
+        "data": {
+          "area": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "m2",
+            "meaning": "实际工作电极面积A>0",
+            "positive": true
+          },
+          "volume": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "m3",
+            "meaning": "固定液相体积V>0",
+            "positive": true
+          },
+          "capacitance": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "F/m2",
+            "meaning": "按真实面积计的恒正微分电容Cdl",
+            "positive": true
+          },
+          "electrons": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "R→O+n e⁻，n为精确整数1..4",
+            "integral": true,
+            "lower": 1,
+            "upper": 4
+          },
+          "alpha": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "阴极指数系数α，0<α<1",
+            "positive": true,
+            "upper_exclusive": 1
+          },
+          "rate": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "mol/(m2.s)",
+            "meaning": "标准面摩尔速率k>0",
+            "positive": true
+          },
+          "standard_potential": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "V",
+            "meaning": "标准还原电位E0；与电解液电势0采用同一参考"
+          }
+        },
+        "axis": "initial"
+      },
+      "initial": {
+        "role": "initial",
+        "variable": "concentration",
+        "location": "cells",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              2
+            ],
+            "unit": "mol/m3",
+            "meaning": "依次R、O浓度，均≥0且每行总和>0",
+            "positive": false,
+            "nonnegative": true
+          }
+        },
+        "axis": "initial"
+      },
+      "potential_initial": {
+        "role": "initial",
+        "variable": "potential",
+        "location": "cells",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "V",
+            "meaning": "初始Δ=φm−φl=φm，可为任意有限值"
+          }
+        },
+        "axis": "initial"
+      },
+      "current": {
+        "role": "source",
+        "variable": "applied_current",
+        "location": "cells",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "A/m2",
+            "meaning": "单位真实面积外电路阳极电流J(t)，可正负或0"
+          }
+        },
+        "axis": "drive"
+      }
+    },
+    "outputs": {
+      "potential": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "V",
+        "meaning": "Δ=φm−φl，电解液电势为0，不是扣掉Nernst电位后的过电位",
+        "location": "cells",
+        "atol": 2e-06,
+        "rtol": 0.002
+      },
+      "concentration": {
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "unit": "mol/m3",
+        "meaning": "依次cR、cO，按液体体积计",
+        "location": "cells",
+        "atol": 1e-06,
+        "rtol": 0.002
+      },
+      "faradaic_current": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "A/m2",
+        "meaning": "jF，阳极正",
+        "location": "cells",
+        "atol": 1e-05,
+        "rtol": 0.002
+      },
+      "capacitive_current": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "A/m2",
+        "meaning": "jC=J−jF，包含充放电符号",
+        "location": "cells",
+        "atol": 1e-05,
+        "rtol": 0.002
+      }
+    },
+    "timeout": 240
+  },
+  "redox-impedance": {
+    "name": "有限库存界面小信号阻抗",
+    "dynamic": false,
+    "parameters": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "恒定温度T>0",
+        "positive": true
+      },
+      "gas_constant": {
+        "unit": "J/(mol.K)",
+        "meaning": "输入明确给定气体常数R>0",
+        "positive": true
+      },
+      "faraday": {
+        "unit": "C/mol",
+        "meaning": "输入明确给定法拉第常数F>0",
+        "positive": true
+      },
+      "concentration_scale": {
+        "unit": "mol/m3",
+        "meaning": "活度归一化浓度c*>0",
+        "positive": true
+      }
+    },
+    "locations": {
+      "interface": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "独立完全混合的工作半电池；电解液电势恒定为0，无空间梯度"
+      },
+      "frequencies": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 128,
+        "meaning": "独立频率对象，不作频率间插值，ID不代表频率"
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "interface",
+        "location": "interface",
+        "data": {
+          "area": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "m2",
+            "meaning": "实际工作电极面积A>0",
+            "positive": true
+          },
+          "volume": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "m3",
+            "meaning": "固定液相体积V>0",
+            "positive": true
+          },
+          "capacitance": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "F/m2",
+            "meaning": "按真实面积计的恒正微分电容Cdl",
+            "positive": true
+          },
+          "electrons": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "R→O+n e⁻，n为精确整数1..4",
+            "integral": true,
+            "lower": 1,
+            "upper": 4
+          },
+          "alpha": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "阴极指数系数α，0<α<1",
+            "positive": true,
+            "upper_exclusive": 1
+          },
+          "rate": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "mol/(m2.s)",
+            "meaning": "标准面摩尔速率k>0",
+            "positive": true
+          },
+          "standard_potential": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "V",
+            "meaning": "标准还原电位E0；与电解液电势0采用同一参考"
+          }
+        },
+        "axis": "state"
+      },
+      "initial": {
+        "role": "initial",
+        "variable": "concentration",
+        "location": "interface",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              2
+            ],
+            "unit": "mol/m3",
+            "meaning": "平衡cR、cO，均严格>0",
+            "positive": true,
+            "nonnegative": true
+          }
+        },
+        "axis": "state"
+      },
+      "frequency": {
+        "role": "source",
+        "variable": "angular_frequency",
+        "location": "frequencies",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "rad/s",
+            "meaning": "角频率ω>0，非Hz",
+            "positive": true
+          }
+        },
+        "axis": "state"
+      }
+    },
+    "outputs": {
+      "area_impedance": {
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "unit": "Ohm.m2",
+        "meaning": "Z=δΔ/δJ，最内轴实部、虚部，exp(+iωt)",
+        "location": "frequencies",
+        "atol": 1e-07,
+        "rtol": 0.002
+      }
+    },
+    "timeout": 240
+  },
+  "electrode-diffusion": {
+    "name": "电极反应与有限层扩散",
+    "dynamic": true,
+    "parameters": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "恒定温度T>0",
+        "positive": true
+      },
+      "gas_constant": {
+        "unit": "J/(mol.K)",
+        "meaning": "输入明确给定气体常数R>0",
+        "positive": true
+      },
+      "faraday": {
+        "unit": "C/mol",
+        "meaning": "输入明确给定法拉第常数F>0",
+        "positive": true
+      },
+      "length": {
+        "unit": "m",
+        "meaning": "有限扩散层L>0",
+        "positive": true
+      },
+      "diffusivity_reduced": {
+        "unit": "m2/s",
+        "meaning": "还原态恒定D_R>0",
+        "positive": true
+      },
+      "diffusivity_oxidized": {
+        "unit": "m2/s",
+        "meaning": "氧化态恒定D_O>0",
+        "positive": true
+      },
+      "concentration_scale": {
+        "unit": "mol/m3",
+        "meaning": "活度归一化浓度c*>0",
+        "positive": true
+      },
+      "electrons": {
+        "unit": "1",
+        "meaning": "n为JSON整数1..4",
+        "integer": true,
+        "lower": 1,
+        "upper": 4
+      },
+      "alpha": {
+        "unit": "1",
+        "meaning": "阴极指数系数α，0<α<1",
+        "positive": true,
+        "upper_exclusive": 1
+      },
+      "rate": {
+        "unit": "mol/(m2.s)",
+        "meaning": "标准面摩尔速率k>0",
+        "positive": true
+      },
+      "standard_potential": {
+        "unit": "V",
+        "meaning": "标准还原电位E0，与电解液0采用同一参考"
+      }
+    },
+    "locations": {
+      "electrode": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "x=0处电极的液体侧位置"
+      },
+      "system": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一外部远端储槽／初态参数对象"
+      },
+      "probes": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 256,
+        "meaning": "严格内部0<x<L的真实接收点，可重复坐标"
+      }
+    },
+    "records": {
+      "initial": {
+        "role": "initial",
+        "variable": "concentration",
+        "location": "system",
+        "data": {
+          "value": {
+            "kind": "components",
+            "shape": [
+              2
+            ],
+            "unit": "mol/m3",
+            "meaning": "全区间初始均匀cR0、cO0>0；x=L始终由同样浓度的储槽维持",
+            "positive": true
+          }
+        },
+        "axis": "initial"
+      },
+      "potential": {
+        "role": "boundary",
+        "variable": "potential",
+        "location": "electrode",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "V",
+            "meaning": "电极电位Δ(t)=φm−φl，电解液φl=0"
+          }
+        },
+        "axis": "drive"
+      }
+    },
+    "outputs": {
+      "concentration": {
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "unit": "mol/m3",
+        "meaning": "内部点的cR、cO",
+        "location": "probes",
+        "atol": 1e-06,
+        "rtol": 0.002
+      },
+      "surface_concentration": {
+        "kind": "components",
+        "shape": [
+          2
+        ],
+        "unit": "mol/m3",
+        "meaning": "x=0液体侧唯一迹cR,s、cO,s",
+        "location": "electrode",
+        "atol": 1e-06,
+        "rtol": 0.002
+      },
+      "faradaic_current": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "A/m2",
+        "meaning": "单位真实电极面积的阳极法拉第电流j",
+        "location": "electrode",
+        "atol": 1e-05,
+        "rtol": 0.002
+      }
+    },
+    "timeout": 900
+  },
+  "particle-battery": {
+    "name": "双电极颗粒扩散电池",
+    "dynamic": true,
+    "parameters": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "恒定温度T>0",
+        "positive": true
+      },
+      "gas_constant": {
+        "unit": "J/(mol.K)",
+        "meaning": "输入明确给定气体常数R>0",
+        "positive": true
+      },
+      "faraday": {
+        "unit": "C/mol",
+        "meaning": "输入明确给定法拉第常数F>0",
+        "positive": true
+      },
+      "area_resistance": {
+        "unit": "Ohm.m2",
+        "meaning": "电池单位几何截面积串联电阻RΩ≥0",
+        "nonnegative": true
+      }
+    },
+    "locations": {
+      "electrodes": {
+        "kind": "entities",
+        "minimum": 2,
+        "maximum": 2,
+        "meaning": "IDs必须恰[0,1]；0负极n、1正极p，含两种代表性球形固体颗粒"
+      },
+      "cell": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 1,
+        "meaning": "唯一电池；驱动电流密度按几何截面积计"
+      },
+      "negative_probes": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 256,
+        "meaning": "该电极颗粒内真实径向坐标r，0≤r≤对应R，允许表面／中心及重复坐标"
+      },
+      "positive_probes": {
+        "kind": "points",
+        "minimum": 1,
+        "maximum": 256,
+        "meaning": "该电极颗粒内真实径向坐标r，0≤r≤对应R，允许表面／中心及重复坐标"
+      }
+    },
+    "records": {
+      "particles": {
+        "role": "material",
+        "variable": "particle",
+        "location": "electrodes",
+        "data": {
+          "radius": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "m",
+            "meaning": "球颗粒半径R_i>0",
+            "positive": true
+          },
+          "diffusivity": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "m2/s",
+            "meaning": "固相恒定D_i>0",
+            "positive": true
+          },
+          "maximum_concentration": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "mol/m3",
+            "meaning": "固体体积最大浓度cmax_i>0",
+            "positive": true
+          },
+          "solid_fraction": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "电极固相体积分数ε_i，0<ε_i≤1",
+            "positive": true,
+            "upper": 1
+          },
+          "thickness": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "m",
+            "meaning": "电极厚度L_i>0",
+            "positive": true
+          },
+          "exchange_scale": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "A/m2",
+            "meaning": "按真实活性面积计的b_i>0，j0_i=b_i√(θ_i,s(1−θ_i,s))",
+            "positive": true
+          },
+          "ocp": {
+            "kind": "components",
+            "shape": [
+              4
+            ],
+            "unit": "V",
+            "meaning": "OCP三次多项式系数b0,b1,b2,b3；U_i(θ)=b0+b1θ+b2θ²+b3θ³，两极共用电位参考"
+          }
+        },
+        "axis": "initial"
+      },
+      "initial": {
+        "role": "initial",
+        "variable": "stoichiometry",
+        "location": "electrodes",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "各颗粒初始均匀θ_i0，1e−6≤θ_i0≤1−1e−6",
+            "lower": 1e-06,
+            "upper": 0.999999
+          }
+        },
+        "axis": "initial"
+      },
+      "current": {
+        "role": "source",
+        "variable": "applied_current",
+        "location": "cell",
+        "data": {
+          "value": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "A/m2",
+            "meaning": "几何截面积放电为正的J(t)；t=0必须为0"
+          }
+        },
+        "axis": "drive"
+      }
+    },
+    "outputs": {
+      "solid_concentration_negative": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "mol/m3",
+        "meaning": "该颗粒内c_i(r,t)，按固体体积计",
+        "location": "negative_probes",
+        "atol": 0.01,
+        "rtol": 0.002
+      },
+      "solid_concentration_positive": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "mol/m3",
+        "meaning": "该颗粒内c_i(r,t)，按固体体积计",
+        "location": "positive_probes",
+        "atol": 0.01,
+        "rtol": 0.002
+      },
+      "surface_stoichiometry": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "1",
+        "meaning": "每极表面θ_i,s=c_i(R_i,t)/cmax_i",
+        "location": "electrodes",
+        "atol": 1e-05,
+        "rtol": 0.002
+      },
+      "cell_voltage": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "V",
+        "meaning": "正极端子减负极端子电压Vcell",
+        "location": "cell",
+        "atol": 0.0001,
+        "rtol": 0.002
+      }
+    },
+    "timeout": 1200
+  },
+  "fuel-cell-energy": {
+    "name": "燃料电池极化与能量分配",
+    "dynamic": false,
+    "parameters": {
+      "temperature": {
+        "unit": "K",
+        "meaning": "恒定温度T>0",
+        "positive": true
+      },
+      "gas_constant": {
+        "unit": "J/(mol.K)",
+        "meaning": "输入明确给定气体常数R>0",
+        "positive": true
+      },
+      "faraday": {
+        "unit": "C/mol",
+        "meaning": "输入明确给定法拉第常数F>0",
+        "positive": true
+      },
+      "reference_pressure": {
+        "unit": "Pa",
+        "meaning": "活度采用的标准压力p*>0",
+        "positive": true
+      }
+    },
+    "locations": {
+      "operating": {
+        "kind": "entities",
+        "minimum": 1,
+        "maximum": 128,
+        "meaning": "独立稳态工况，不是空间点或物理时间序列"
+      }
+    },
+    "records": {
+      "operating": {
+        "role": "source",
+        "variable": "operating_point",
+        "location": "operating",
+        "data": {
+          "hydrogen_pressure": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "Pa",
+            "meaning": "氢气分压pH2>0",
+            "positive": true
+          },
+          "oxygen_pressure": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "Pa",
+            "meaning": "氧气分压pO2>0",
+            "positive": true
+          },
+          "water_activity": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "产物水无量纲活度aW>0，由输入给定其相态参考",
+            "positive": true
+          },
+          "standard_voltage": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "V",
+            "meaning": "此温度下给定标准可逆电池电压E0"
+          },
+          "thermoneutral_voltage": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "V",
+            "meaning": "同一反应、温度和水相态的热中性电压Etn>0",
+            "positive": true
+          },
+          "current_density": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "A/m2",
+            "meaning": "单位几何面积电流J≥0，正向消耗燃料；允许外电源强迫高电流",
+            "nonnegative": true
+          },
+          "exchange_anode": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "A/m2",
+            "meaning": "阳极有效交换电流密度j0a>0，已换算到几何面积",
+            "positive": true
+          },
+          "exchange_cathode": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "A/m2",
+            "meaning": "阴极有效交换电流密度j0c>0，几何面积基准",
+            "positive": true
+          },
+          "effective_electrons_anode": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "对称BV动力学的有效电子数ma，精确整数1..4",
+            "integral": true,
+            "lower": 1,
+            "upper": 4
+          },
+          "effective_electrons_cathode": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "1",
+            "meaning": "对称BV动力学的有效电子数mc，精确整数1..4",
+            "integral": true,
+            "lower": 1,
+            "upper": 4
+          },
+          "area_resistance": {
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "unit": "Ohm.m2",
+            "meaning": "几何面积串联欧姆电阻RΩ≥0",
+            "nonnegative": true
+          }
+        },
+        "axis": "state"
+      }
+    },
+    "outputs": {
+      "reversible_voltage": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "V",
+        "meaning": "由气体活度修正的Erev",
+        "location": "operating",
+        "atol": 2e-06,
+        "rtol": 0.002
+      },
+      "cell_voltage": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "V",
+        "meaning": "含活化与欧姆损失的端电压Vcell，可负",
+        "location": "operating",
+        "atol": 0.0001,
+        "rtol": 0.002
+      },
+      "electric_power": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "W/m2",
+        "meaning": "单位几何面积向外输出电功率P=J Vcell，可负",
+        "location": "operating",
+        "atol": 0.001,
+        "rtol": 0.002
+      },
+      "heat_release": {
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "unit": "W/m2",
+        "meaning": "单位几何面积向外释放热Q=J(Etn−Vcell)，含可逆与不可逆热，可负",
+        "location": "operating",
+        "atol": 0.001,
+        "rtol": 0.002
+      }
+    },
+    "timeout": 240
+  }
+}

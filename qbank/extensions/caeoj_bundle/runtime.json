@@ -586,6 +586,21 @@
         "caeoj_ext/semiconductor/__init__.py",
         "caeoj_ext/semiconductor/models.json"
       ]
+    },
+    "granular.dynamics": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model_prefix": "granular-"
+        }
+      ],
+      "check": "caeoj_ext.granular:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/granular/__init__.py",
+        "caeoj_ext/granular/models.json"
+      ]
     }
   },
   "tasks": {
@@ -1043,6 +1058,27 @@
     ],
     "semiconductor-effective-mass": [
       "semiconductor.transport"
+    ],
+    "granular-forced-motion": [
+      "granular.dynamics"
+    ],
+    "granular-normal-contact": [
+      "granular.dynamics"
+    ],
+    "granular-sliding-friction": [
+      "granular.dynamics"
+    ],
+    "granular-cohesive-contact": [
+      "granular.dynamics"
+    ],
+    "granular-periodic-assembly": [
+      "granular.dynamics"
+    ],
+    "granular-coagulation": [
+      "granular.dynamics"
+    ],
+    "granular-fragmentation": [
+      "granular.dynamics"
     ]
   },
   "aliases": {
@@ -1077,7 +1113,8 @@
     "acoustic-",
     "electromagnetic-",
     "optics-",
-    "semiconductor-"
+    "semiconductor-",
+    "granular-"
   ],
   "model_namespace_diagnostics": {
     "fluid-energy-": "E_FLUID",
@@ -1089,6 +1126,7 @@
     "acoustic-": "E_ACOUSTIC",
     "electromagnetic-": "E_ELECTROMAGNETIC",
     "optics-": "E_OPTICS",
-    "semiconductor-": "E_SEMICONDUCTOR"
+    "semiconductor-": "E_SEMICONDUCTOR",
+    "granular-": "E_GRANULAR"
   }
 }

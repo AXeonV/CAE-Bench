@@ -76,6 +76,9 @@ def task_config(template, overrides, *, judge_config=None, case_count=None):
 def prepare(task, root=PROJECT_ROOT):
     root = Path(root).resolve()
     source = task_directory(task, root)
+    if (source / 'data-manifest.json').is_file():
+        from caeoj_tools.data_pool import verify
+        verify(source, strict=True)
     task_path = source.relative_to(root).as_posix()
     template = root / 'src/utils/harbor'
     cases = sorted((source / 'cases').glob('*/problem.json'))

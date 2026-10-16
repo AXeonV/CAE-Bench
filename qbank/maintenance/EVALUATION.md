@@ -28,7 +28,7 @@ CPU／内存承诺来自题面，并在合并后的容器配置中核对；未�
 
 题目与数据状态见[题库设计](../design/README.md)及各题 README；配置存在不表示评测已就绪。公开材料发布要求完整可用的样例输入与输出；Harbor 组装还要求实际隐藏 cases 和对应 reference，不能用空目录或临时 fixture 替代。
 
-已有 `data-manifest.json` 的题目先按[数据获取与维护](DATA-SYNC.md)从 HF 获取并核对所选输入、参考与共享依赖的完整性、大小和 SHA-256；不一致时停止正式 benchmark。当前该核验是维护方前置步骤，装配器尚未自动执行；网上公开数据也不改变考生与 verifier 的材料装配边界。
+已有 `data-manifest.json` 的题目先按[数据池操作](DATA-SYNC.md)用 `caeoj-maint data assemble` 获取并装配，再执行 `data verify --strict`。发布器自动严格核验样例，Harbor 准备严格核验所选输入、参考、依赖及重复选样；不一致即停止。历史样例/测试重叠需审核并重选，不因材料迁移成功就跳过检查。网上公开数据不改变考生与 verifier 的材料边界。
 
 可用两道热传导验证本地公开包与Harbor组装：
 

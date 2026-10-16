@@ -13,6 +13,7 @@ import zipfile
 
 from caeoj.sdk import load_problem
 from caeoj_tools.task_paths import task_directory
+from caeoj_tools.files import atomic_replace
 from caeoj_tools.grading_policy import task_policy
 from caeoj.grading_policy import validate_policy, render_policy
 from caeoj.validation import ContractError, validate_input, validate_output
@@ -59,6 +60,9 @@ def collect_materials(task, root=PROJECT_ROOT):
     root = Path(root).resolve()
     task_dir = task_directory(task, root)
     task_path = task_dir.relative_to(root).as_posix()
+    if (task_dir / 'data-manifest.json').is_file():
+        from caeoj_tools.data_pool import verify
+        verify(task_dir, strict=True, samples_only=True)
     files, runtime = runtime_materials({task: task_dir}, root)
 
     def add(path):
@@ -147,16 +151,16 @@ def publish(task, output=None, root=PROJECT_ROOT):
     archive = output / f"{artifact}-agent.zip"
     # Atomic replacement leaves an existing release intact if building fails.
     handle, temporary = tempfile.mkstemp(prefix=f".{artifact}-agent-", suffix=".tmp", dir=output)
-    os.close(handle)
     try:
-        with zipfile.ZipFile(temporary, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as bundle:
-            for name, data in sorted(files.items()):
-                entry = zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
-                entry.create_system = 3
-                entry.external_attr = 0o100644 << 16
-                entry.compress_type = zipfile.ZIP_DEFLATED
-                bundle.writestr(entry, data, compresslevel=9)
-        os.replace(temporary, archive)
+        with os.fdopen(handle, 'wb') as stream:
+            with zipfile.ZipFile(stream, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as bundle:
+                for name, data in sorted(files.items()):
+                    entry = zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
+                    entry.create_system = 3
+                    entry.external_attr = 0o100644 << 16
+                    entry.compress_type = zipfile.ZIP_DEFLATED
+                    bundle.writestr(entry, data, compresslevel=9)
+        atomic_replace(temporary, archive)
     finally:
         if os.path.exists(temporary):
             os.unlink(temporary)

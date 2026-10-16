@@ -99,6 +99,7 @@ Skill 是供维护 Agent 使用的工作流，位于 `.agents/skills/`，可在�
 |---|---|
 | [caeoj-author-question](.agents/skills/caeoj-author-question/SKILL.md) | 补齐单题／章节规划，撰写题面并协调独立设计、考生审阅 |
 | [caeoj-design-data](.agents/skills/caeoj-design-data/SKILL.md) | 设计自包含 DATA.md，按需补足协议及工具支持 |
+| [caeoj-manage-data](.agents/skills/caeoj-manage-data/SKILL.md) | 制作和上传 HF 题内数据池，选样、下载装配与完整性核验 |
 | [caeoj-design-review](.agents/skills/caeoj-design-review/SKILL.md) | 独立检查问题族定位、能力划分、来源独立性与建模评价一致性 |
 | [caeoj-candidate-review](.agents/skills/caeoj-candidate-review/SKILL.md) | 独立考生只读审阅题面与选定公开样例，支持题面／考试材料两种模式 |
 | [caeoj-data-review](.agents/skills/caeoj-data-review/SKILL.md) | 对照题面、协议和全部实际数据，审核 I/O 定义与读取分支 |
@@ -123,7 +124,7 @@ python -m pip install -e '.[maint,heat,pdebench]' -e qbank/extensions harbor
 
 **数据缺失或重新制作时准备数据。** 选择本题适用的一种方式；数据完整且与本次题目版本一致时可直接进入评测主线。
 
-已有 `data-manifest.json` 的题目按选样声明从 Hugging Face 题内数据池获取输入、参考与依赖，再装配本地数据目录；操作与核验见[数据获取与维护](qbank/maintenance/DATA-SYNC.md)。本地副本由 Git 忽略，首次 clone 后需获取并装配；当前无通用装配命令或自动 benchmark 清单检查。只有需要制作或修订数据时才使用下面的生成流程。
+已有 `data-manifest.json` 的题目先执行 `python -m caeoj_tools.cli data assemble --task '<task>'`，按选样从 HF 获取并装配，再用 `data verify --task '<task>' --strict` 核验。制池、上传、选样及覆盖规则见[数据池操作](qbank/maintenance/DATA-SYNC.md)。发布和 Harbor 准备已接入离线前置检查。本地数据和回执由 Git 忽略；只有需要制作或修订数据时才使用下面的生成流程。
 
 有独立生成器的题目生成输入、参考与公开样例：
 

@@ -8,7 +8,7 @@
 
 考生只读本题instruction、DATA、通用CONTRACT。DATA逐题展开参数全集、单位、范围、输入场、位置/时间、conditions、重建及全部观测；未增加COMMON或其他题的依赖。输入剖面结点与输出点不等于求解网格。层、谱结点和均匀体用entities，真实空间点用points。Landauer能量用J、g已包括自旋、电流按负电子电荷；有效质量使用绝对kg、连续波函数与逆质量加权导数、有限箱体边界及逐态定相。
 
-共享能力归`qbank/extensions/caeoj_ext/semiconductor`，可信注册`semiconductor.transport`；只检查公开声明，不计算物理解，不补隐藏条件。未修改核心、通用CONTRACT、Schema、SDK或发布器。已有核心结构足够，无需题目专用extension。维护模板与安装验证分别为`qbank/maintenance/authoring/build_semiconductor.py`、`verify_semiconductor_install.py`；模板和测试不进入公开装配。现有技能已引用当前RUNTIME和配置消费说明，新增能力及使用记录同步这些入口，无新工作流或废弃接口。
+共享能力归`qbank/extensions/caeoj_ext/semiconductor`，可信注册`semiconductor.transport`；只检查公开声明，不计算物理解，不补隐藏条件。未修改核心、通用CONTRACT、Schema、SDK或发布器。已有核心结构足够，无需题目专用extension。维护模板与安装验证分别为`qbank/maintenance/authoring/build_semiconductor.py`、`verify_install.py（共享安装检查入口）`；模板和测试不进入公开装配。现有技能已引用当前RUNTIME和配置消费说明，新增能力及使用记录同步这些入口，无新工作流或废弃接口。
 
 ## 独立考生审阅
 
@@ -55,7 +55,7 @@ Get-ChildItem qbank/11-semiconductor -Directory | ForEach-Object {
 ./.venv/Scripts/python.exe -X utf8 -m unittest discover -s tests -p test_grading_policy.py
 ./.venv/Scripts/python.exe -X utf8 -m unittest discover -s tests -p test_grading.py
 ./.venv/Scripts/python.exe -X utf8 -m unittest discover -s tests -p test_quantity_grading.py
-./.venv/Scripts/python.exe qbank/maintenance/authoring/verify_semiconductor_install.py
+./.venv/Scripts/python.exe qbank/maintenance/authoring/verify_install.py --domain semiconductor --output runs/authoring/chapter-11/install-check
 ```
 
 六节静态全部通过，8题无遗漏。7组半导体专项、8组运行装配、8组既有光学兼容、16组评分策略、14组评分、8组quantity绑定，共61项通过。覆盖正负掺杂、非连续ID、乱序/重复接收点、边界坐标、轴和初态相容性、陷阱f=0/1、零表面速度、低注入界、零透射、整数简并度、质量正值、界面采样、m=1仍为components等合法/非法分支。维护检查从最终DATA选择反例，不只接受生成器默认fixture。

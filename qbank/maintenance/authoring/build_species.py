@@ -1,5 +1,6 @@
 """Expand independently readable species contracts. Never writes cases or solutions."""
 from pathlib import Path
+from caeoj_tools.author import public_model_catalog
 import json
 ROOT=Path(__file__).resolve().parents[3]
 CH=ROOT/'qbank/09-species-reactions'
@@ -189,7 +190,7 @@ spatial_dimension=1；meshes、geometries均为空。{'所有points坐标为floa
     index.append('\n维护：[章规划](../design/chapter-09-species-reactions.md)、[逐题清单](../design/chapter-09-task-plan.md)、[进度](../design/reviews/chapter-09-progress.md)。\n')
     (CH/'README.md').write_text('\n'.join(index))
     target=ROOT/'qbank/extensions/caeoj_ext/species';target.mkdir(exist_ok=True)
-    (target/'models.json').write_text(json.dumps(M,ensure_ascii=False,indent=2)+'\n')
+    (target/'models.json').write_text(json.dumps(public_model_catalog(M),ensure_ascii=False,indent=2)+'\n')
 if __name__=='__main__':
     import sys
     build(sys.argv[1:] or None)

@@ -1,5 +1,6 @@
 """Expand independent optical problem contracts/configuration; no case generator."""
 from pathlib import Path
+from caeoj_tools.author import public_model_catalog
 import json,math
 ROOT=Path(__file__).resolve().parents[3];CH=ROOT/'qbank/08-optics'
 SECTIONS=[('8.1-geometrical','几何光学',['layered-rays']),('8.2-coherence','相干与干涉',['coherent-interference','partial-coherence']),('8.3-diffraction','标量衍射',['fresnel-aperture','farfield-aperture']),('8.4-polarization','偏振',['jones-chain']),('8.5-layered-media','层状介质',['thin-film']),('8.6-guided-optics','导波光学',['slab-modes'])]
@@ -67,7 +68,7 @@ PHYS={
 }
 def description(s):return f'{s["kind"]} {s["shape"]}，`{s["unit"]}`；{s["meaning"]}'+('；严格正' if s.get('positive') else '')
 def main():
- ext=ROOT/'qbank/extensions/caeoj_ext/optics';ext.mkdir(parents=True,exist_ok=True);(ext/'models.json').write_text(json.dumps(M,ensure_ascii=False,indent=2)+'\n');toc=[]
+ ext=ROOT/'qbank/extensions/caeoj_ext/optics';ext.mkdir(parents=True,exist_ok=True);(ext/'models.json').write_text(json.dumps(public_model_catalog(M),ensure_ascii=False,indent=2)+'\n');toc=[]
  for sec,title,slugs in SECTIONS:
   sd=CH/sec;sd.mkdir(parents=True,exist_ok=True);links=[]
   for i,slug in enumerate(slugs,1):

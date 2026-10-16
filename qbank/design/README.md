@@ -25,8 +25,8 @@
 | 第 8 章 | [光学与光子学分析](chapter-08-optics.md) | 几何光学、波动光学、干涉、衍射、偏振及光在介质中的传播 |
 | 第 9 章 | [组分传输与化学反应分析](chapter-09-species-reactions.md) | 扩散、迁移、吸附、反应、反应流、燃烧及相关传质过程 |
 | 第 10 章 | [电化学分析](chapter-10-electrochemistry.md) | 离子输运、电极反应、电化学界面及电化学能量转换过程 |
-| 第 11 章 | [半导体与电子输运分析](chapter-11-semiconductor.md) | 载流子输运、产生与复合、电荷分布及相关器件物理；[逐题清单](chapter-11-task-plan.md)、[进度](reviews/chapter-11-progress.md) |
-| 第 12 章 | [颗粒与散体力学分析](chapter-12-granular.md) | 颗粒运动、碰撞、摩擦、黏附、堆积及散体整体响应；[逐题清单](chapter-12-task-plan.md)、[进度](reviews/chapter-12-progress.md) |
+| 第 11 章 | [半导体与电子输运分析](chapter-11-semiconductor.md) | 载流子输运、产生与复合、电荷分布及相关器件物理 |
+| 第 12 章 | [颗粒与散体力学分析](chapter-12-granular.md) | 颗粒运动、碰撞、摩擦、黏附、堆积及散体整体响应 |
 | 第 13 章 | [多孔介质与渗流分析](chapter-13-porous-media.md) | 饱和／非饱和渗流、多相渗流、裂隙与双重介质、孔隙尺度流动及多孔介质中的输运 |
 | 第 14 章 | [等离子体与带电粒子分析](chapter-14-plasma.md) | 放电、带电粒子输运、碰撞反应及电磁场作用 |
 | 第 15 章 | 辐射输运与核工程物理分析 | 光子、中子等粒子的输运、散射、吸收、能量沉积及相关工程物理过程 |
@@ -43,32 +43,24 @@
 5. **跨题覆盖与物理耦合分别评测。** 同一求解器分别完成流体题和结构题属于跨题能力；计算流体与结构相互作用属于耦合分析能力。生产任务可以组合不同章节的题目，无须为每种组合新建题目。
 6. **题目规划与算例建设分开。** 算例来源、覆盖、制作、参考验证及完成状态另行管理。PDEBench、FOAMBench 等只承担算例来源的角色；没有现成来源不改变题目定义。
 
-第 2 章的2.1—2.11已细化并完成65道题面及必需协议；初始24题编号保留。见[流体力学分析规划](chapter-02-fluid-mechanics.md)、[整章题目目录](../02-fluid-mechanics/README.md)及[最终进度与证据](reviews/chapter-02-progress.md)。数据、参考及正式评测未发布；其余章节按相同原则另行展开。
+## 逐章实施入口
 
-第二章全范围的有限逐题清单见[实施清单](chapter-02-task-plan.md)，逐节验证与审阅状态见[章级进度](reviews/chapter-02-progress.md)。
+逐题清单列出范围与拆分，章级目录定位实际题目，进度和审阅记录保存完成情况及验证限制。题面／配置完成与正式数据、参考、预算校准和评测发布分别记录，不在此重复维护验收结论。
 
-第三章已按[章规划](chapter-03-solid-mechanics.md)完成9节21题、自包含DATA、固体扩展、评测配置及独立考生复核；见[整章目录](../03-solid-mechanics/README.md)、[最终进度](reviews/chapter-03-progress.md)和[实现与审阅记录](reviews/chapter-03-implementation.md)。正式数据、参考、预算／容差校准及发布留后。
-
-第四章已按[章规划](chapter-04-multibody-mechanics.md)完成6节12题、自包含DATA、entities通用身份表、多体共享扩展、评测配置及独立考生复核；见[整章目录](../04-multibody-mechanics/README.md)和[最终进度与限制](reviews/chapter-04-progress.md)。正式数据、独立参考、预算／容差校准及发布留后。
-
-第五章已按[章规划](chapter-05-heat-transfer.md)完成6节13题、自包含DATA、热学共享扩展、评分执行配置及独立考生复核；见[整章目录](../05-heat-transfer/README.md)和[最终进度与限制](reviews/chapter-05-progress.md)。正式数据、独立参考、预算／容差校准及发布留后。
-
-第七章已按[章规划](chapter-07-electromagnetics.md)完成7节10题、自包含DATA、电磁共享扩展、评分执行配置及独立考生复核；见[整章目录](../07-electromagnetics/README.md)和[最终进度与限制](reviews/chapter-07-progress.md)。正式数据、独立参考、预算／容差校准及发布留后。
-
-第八章已按[章规划](chapter-08-optics.md)完成6节8题、自包含DATA、光学共享扩展、评分执行配置和独立考生复核；见[整章目录](../08-optics/README.md)和[最终进度与限制](reviews/chapter-08-progress.md)。正式数据、独立参考、模型适用性、预算／容差校准及发布留后。
-
-第九章已按[章规划](chapter-09-species-reactions.md)完成7节8题、自包含DATA、组分反应共享扩展、评分执行配置及独立考生复核；见[整章目录](../09-species-reactions/README.md)与[进度和证据](reviews/chapter-09-progress.md)。正式数据、独立参考、适用性、预算／容差校准及发布留后。
-
-第十章已按[章规划](chapter-10-electrochemistry.md)完成六节八题、自包含DATA、电化学共享扩展、评分执行配置及独立考生复核；见[整章目录](../10-electrochemistry/README.md)和[最终进度与限制](reviews/chapter-10-progress.md)。正式数据、独立参考、模型适用性、预算／容差校准及发布留后。
-
-第十一章已按[章规划](chapter-11-semiconductor.md)完成6节8题、自包含DATA、半导体共享扩展、评分执行配置及独立考生复核；见[整章目录](../11-semiconductor/README.md)和[最终进度与证据](reviews/chapter-11-progress.md)。正式数据、独立参考、适用性与谱条件证据、预算／容差校准和发布留后。
-
-第十二章已按[章规划](chapter-12-granular.md)完成6节7题、自包含DATA、颗粒共享声明扩展、评分执行配置及独立考生复核；见[整章目录](../12-granular/README.md)和[最终进度与证据](reviews/chapter-12-progress.md)。正式数据、独立参考、全程适用性、精度/预算校准、目标Linux执行及发布留后。
-
-第十三章已按[章规划](chapter-13-porous-media.md)完成6节13题、自包含DATA、多孔介质共享扩展、评分执行配置和独立考生复核；见[整章目录](../13-porous-media/README.md)、[逐题清单](chapter-13-task-plan.md)和[进度与验证](reviews/chapter-13-progress.md)。正式数据、独立参考、误差／资源校准及发布留后。
-
-第十四章按[章规划](chapter-14-plasma.md)完成5节10题、自包含DATA、等离子体共享扩展、评分执行配置及独立考生复核；见[整章目录](../14-plasma/README.md)和[进度与证据](reviews/chapter-14-progress.md)。正式数据、参考、误差／资源校准及发布留后。
-
-第十七章已按[章规划](chapter-17-multiphysics.md)完成7节12题、自包含DATA、连续体耦合共享扩展、评分执行配置及独立考生最终复核；见[整章目录](../17-multiphysics/README.md)、[最终进度](reviews/chapter-17-progress.md)与[实现及证据](reviews/chapter-17-implementation.md)。正式数据、独立参考、数值／适用性验证、预算／容差校准与发布留后。
-
-第十八章已按[章规划](chapter-18-system-multidomain.md)完成7节10题、自包含DATA、系统网络共享扩展、评分执行配置与独立考生最终复核；见[整章目录](../18-system-multidomain/README.md)、[进度](reviews/chapter-18-progress.md)、[实现和证据](reviews/chapter-18-implementation.md)。正式数据、独立参考、模型／数值验证、预算容差校准和发布留后。
+| 章 | 题目目录 | 逐题清单 | 进度与审阅 |
+|---|---|---|---|
+| 第 2 章 | [题目](../02-fluid-mechanics/README.md) | [清单](chapter-02-task-plan.md) | [进度](reviews/chapter-02-progress.md) |
+| 第 3 章 | [题目](../03-solid-mechanics/README.md) | [清单](chapter-03-task-plan.md) | [进度](reviews/chapter-03-progress.md) · [实施与审阅](reviews/chapter-03-implementation.md) |
+| 第 4 章 | [题目](../04-multibody-mechanics/README.md) | [清单](chapter-04-task-plan.md) | [进度](reviews/chapter-04-progress.md) · [实施与审阅](reviews/chapter-04-implementation.md) |
+| 第 5 章 | [题目](../05-heat-transfer/README.md) | [清单](chapter-05-task-plan.md) | [进度](reviews/chapter-05-progress.md) · [实施与审阅](reviews/chapter-05-implementation.md) |
+| 第 6 章 | [题目](../06-acoustics/README.md) | [清单](chapter-06-task-plan.md) | [进度](reviews/chapter-06-progress.md) · [实施与审阅](reviews/chapter-06-implementation.md) |
+| 第 7 章 | [题目](../07-electromagnetics/README.md) | [清单](chapter-07-task-plan.md) | [进度](reviews/chapter-07-progress.md) · [实施与审阅](reviews/chapter-07-implementation.md) |
+| 第 8 章 | [题目](../08-optics/README.md) | [清单](chapter-08-task-plan.md) | [进度](reviews/chapter-08-progress.md) · [实施与审阅](reviews/chapter-08-implementation.md) |
+| 第 9 章 | [题目](../09-species-reactions/README.md) | [清单](chapter-09-task-plan.md) | [进度](reviews/chapter-09-progress.md) · [实施与审阅](reviews/chapter-09-implementation.md) |
+| 第 10 章 | [题目](../10-electrochemistry/README.md) | [清单](chapter-10-task-plan.md) | [进度](reviews/chapter-10-progress.md) · [实施与审阅](reviews/chapter-10-implementation.md) |
+| 第 11 章 | [题目](../11-semiconductor/README.md) | [清单](chapter-11-task-plan.md) | [进度](reviews/chapter-11-progress.md) · [实施与审阅](reviews/chapter-11-implementation.md) |
+| 第 12 章 | [题目](../12-granular/README.md) | [清单](chapter-12-task-plan.md) | [进度](reviews/chapter-12-progress.md) · [实施与审阅](reviews/chapter-12-implementation.md) |
+| 第 13 章 | [题目](../13-porous-media/README.md) | [清单](chapter-13-task-plan.md) | [进度](reviews/chapter-13-progress.md) · [实施与审阅](reviews/chapter-13-implementation.md) |
+| 第 14 章 | [题目](../14-plasma/README.md) | [清单](chapter-14-task-plan.md) | [进度](reviews/chapter-14-progress.md) |
+| 第 17 章 | [题目](../17-multiphysics/README.md) | [清单](chapter-17-task-plan.md) | [进度](reviews/chapter-17-progress.md) · [实施与审阅](reviews/chapter-17-implementation.md) |
+| 第 18 章 | [题目](../18-system-multidomain/README.md) | [清单](chapter-18-task-plan.md) | [进度](reviews/chapter-18-progress.md) · [实施与审阅](reviews/chapter-18-implementation.md) |

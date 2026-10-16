@@ -1,5 +1,6 @@
 """Maintain self-contained system-network statements; no data or reference solver."""
 from pathlib import Path
+from caeoj_tools.author import public_model_catalog
 import json
 ROOT=Path(__file__).resolve().parents[3]
 MODELS={}
@@ -233,7 +234,7 @@ spatial_dimension=1，为一维端口／支路坐标标记；geometries、meshes
     if selected is None:
         d=ROOT/'qbank/18-system-multidomain';(d/'README.md').write_text('# 第十八章 系统级多领域分析\n\n7节10题，集总／一维分布网络与跨域系统；完成题面与配置不代表正式数据、参考或校准就绪。\n\n| 编号／题名 | 题面 | DATA |\n|---|---|---|\n'+''.join(f"| {c['title']} | [instruction]({c['section']}/{s}/instruction.md) | [DATA]({c['section']}/{s}/DATA.md) |\n" for s,c in MODELS.items())+'\n维护入口：[规划](../design/chapter-18-system-multidomain.md)、[进度](../design/reviews/chapter-18-progress.md)。\n', encoding='utf-8')
         public=ROOT/'qbank/extensions/caeoj_ext/systems/models.json'
-        if public.parent.exists():public.write_text(json.dumps({k:{key:v for key,v in c.items() if key not in ('equations','notes','title','section','timeout')} for k,c in MODELS.items()},indent=2)+'\n', encoding='utf-8')
+        if public.parent.exists():public.write_text(json.dumps(public_model_catalog({k:{key:v for key,v in c.items() if key not in ('equations','notes','title','section','timeout')} for k,c in MODELS.items()}),indent=2)+'\n', encoding='utf-8')
 
 if __name__=='__main__':
     import sys

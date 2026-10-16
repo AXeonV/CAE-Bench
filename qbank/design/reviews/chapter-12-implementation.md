@@ -8,7 +8,7 @@
 
 出题先固定能力、材料响应、方法责任与观测，再由DATA定义字段/轴/重建；缺少几何或来源数据没有删题。固定球形、单值滑动力律及离散群体反应是公开比较范围，不冒充任意颗粒物理。候选可自由选择时间积分、邻域、刚性处理及语言；静摩擦历史、滚动/扭转阻力、一般活动壁面、非球形和双向流固反馈明确留后。周期题以宏观应力/接触网络观测及周期邻接为能力目标，非按容器形状拆碰撞题。
 
-通用entities已经能表达运动颗粒、代表体、体积级和矩阵，无核心表示缺口。共享声明实现位于`qbank/extensions/caeoj_ext/granular`，可信能力`granular.dynamics`，公开白名单仅必要代码及models.json。无需修改核心、CONTRACT、通用Schema、SDK或发布器，也未新增本题extension。维护模板`qbank/maintenance/authoring/build_granular.py`及普通安装验证`verify_granular_install.py`不进入考生包。RUNTIME、核心/扩展职责、评测维护说明和README已同步；现有技能指向这些当前说明，不需新增安装、注册或阅读流程。
+通用entities已经能表达运动颗粒、代表体、体积级和矩阵，无核心表示缺口。共享声明实现位于`qbank/extensions/caeoj_ext/granular`，可信能力`granular.dynamics`，公开白名单仅必要代码及models.json。无需修改核心、CONTRACT、通用Schema、SDK或发布器，也未新增本题extension。维护模板`qbank/maintenance/authoring/build_granular.py`及普通安装验证`verify_install.py（共享安装检查入口）`不进入考生包。RUNTIME、核心/扩展职责、评测维护说明和README已同步；现有技能指向这些当前说明，不需新增安装、注册或阅读流程。
 
 ## 独立考生审阅与反例闭合
 
@@ -60,7 +60,7 @@ Get-ChildItem qbank/12-granular -Directory | ForEach-Object {
 ./.venv/Scripts/python.exe -X utf8 -m unittest discover -s tests -p test_grading_policy.py
 ./.venv/Scripts/python.exe -X utf8 -m unittest discover -s tests -p test_grading.py
 ./.venv/Scripts/python.exe -X utf8 -m unittest discover -s tests -p test_quantity_grading.py
-./.venv/Scripts/python.exe qbank/maintenance/authoring/verify_granular_install.py
+./.venv/Scripts/python.exe qbank/maintenance/authoring/verify_install.py --domain granular --output runs/authoring/chapter-12/install-check
 ```
 
 Windows AMD64 Python3.13.16，独立安装锁定依赖和装配ID见摘要。颗粒9组、半导体7组、多体6组、装配8组、评分策略16组、评分14组及quantity绑定8组，共68项通过。首轮有一条测试用例错误地将t b/m=1e4当超界；改用确实超过1e5的质量/阻力组合后通过，没有为错误测试放宽公开约束。

@@ -3,6 +3,7 @@
 This is an authoring template, not a case generator, numerical solver or reference.
 """
 from pathlib import Path
+from caeoj_tools.author import public_model_catalog
 import argparse
 import json
 
@@ -407,7 +408,7 @@ def main():
     (CHAPTER / 'README.md').write_text('\n'.join(toc) + '\n', encoding='utf-8')
     ext = ROOT / 'qbank/extensions/caeoj_ext/porous'
     ext.mkdir(parents=True, exist_ok=True)
-    (ext / 'models.json').write_text(json.dumps(MODELS, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    (ext / 'models.json').write_text(json.dumps(public_model_catalog(MODELS), ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
 
 if __name__ == '__main__':

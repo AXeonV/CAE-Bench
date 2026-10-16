@@ -4,6 +4,7 @@ No case data, reference solutions, or public solver dependency is generated.
 Run from repository root; --batch selects a section range.
 """
 from pathlib import Path
+from caeoj_tools.author import public_model_catalog
 import argparse
 import json
 
@@ -341,7 +342,7 @@ def render(batch=None):
  (parent/'README.md').write_text(index)
  if not batch:
   ext=ROOT/'qbank/extensions/caeoj_ext/solid';ext.mkdir(exist_ok=True)
-  (ext/'models.json').write_text(json.dumps(CAT,ensure_ascii=False,indent=2)+'\n')
+  (ext/'models.json').write_text(json.dumps(public_model_catalog(CAT),ensure_ascii=False,indent=2)+'\n')
 
 if __name__=='__main__':
  parser=argparse.ArgumentParser();parser.add_argument('--batch',nargs=2,type=int);args=parser.parse_args();render(args.batch)

@@ -1,5 +1,6 @@
 """Expand independent electromagnetic contracts/configuration; no data maker."""
 from pathlib import Path
+from caeoj_tools.author import public_model_catalog
 import json,math
 ROOT=Path(__file__).resolve().parents[3];CH=ROOT/'qbank/07-electromagnetics'
 SECTIONS=[('7.1-electrostatics','静电场',['electrostatic','floating-electrode']),('7.2-conduction','电流传导',['dc-conduction','dielectric-relaxation']),('7.3-magnetostatics','静磁场',['magnetostatic']),('7.4-eddy-currents','磁准静态涡流',['harmonic-eddy']),('7.5-waves','高频全波',['maxwell-cavity']),('7.6-circuits','集总电路',['rlc-transient','rlc-harmonic']),('7.7-field-circuit','场—路反馈',['coil-circuit'])]
@@ -80,7 +81,7 @@ PHYS['rlc-harmonic']=CIRCUIT+'e^(+iωt)相量，电容I=iωCv，电感v=iωLI；
 CIRCUIT_RULE='nodes为全部电路节点entities，2..33个；branches为全部支路entities，1..64个。两组ID各自非负唯一，可数值重合但不是同一对象；ground_node必须属于nodes。所有location只能为这两组之一的非空entities子集；条件支路集合按实际ID形成branches的无遗漏、无重叠划分。tail/head字段须为int64节点真实ID、不同且属于nodes；参数及端点静态。所有节点至少在一个支路上，所有节点通过电阻子图连通（保障参考和耗散），电压源子图无无向环（平行两源也算环）。其他RLC及源可有并联。合法数据须进一步保证约束相容、DAE正则且响应唯一，校验器的图检查不证明这些性质。无空间坐标、mesh、geometry、points或aggregate。'
 def description(s):return f'{s["kind"]} {s["shape"]}，{s["unit"]}；{s["meaning"]}'+('；严格正' if s.get('positive') else '；非负' if s.get('lower')==0 else '')
 def main():
- ext=ROOT/'qbank/extensions/caeoj_ext/electromagnetic';ext.mkdir(parents=True,exist_ok=True);(ext/'models.json').write_text(json.dumps(M,ensure_ascii=False,indent=2)+'\n');toc=[]
+ ext=ROOT/'qbank/extensions/caeoj_ext/electromagnetic';ext.mkdir(parents=True,exist_ok=True);(ext/'models.json').write_text(json.dumps(public_model_catalog(M),ensure_ascii=False,indent=2)+'\n');toc=[]
  for sec,title,slugs in SECTIONS:
   sd=CH/sec;sd.mkdir(parents=True,exist_ok=True);links=[]
   for i,slug in enumerate(slugs,1):

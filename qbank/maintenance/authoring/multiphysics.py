@@ -1,5 +1,6 @@
 """Maintenance-only statement source; no case data or reference solver."""
 from pathlib import Path
+from caeoj_tools.author import public_model_catalog
 import json
 ROOT=Path(__file__).resolve().parents[3]
 MODELS={}
@@ -243,7 +244,7 @@ spatial_dimension=1；geometries与meshes为空对象。连续体区间由length
     if selected is None:
         public=ROOT/'qbank/extensions/caeoj_ext/multiphysics/models.json'
         if public.parent.exists():
-            public.write_text(json.dumps({k:{key:v for key,v in c.items() if key not in ('equations','notes','title','section','timeout')} for k,c in MODELS.items()},indent=2)+'\n', encoding='utf-8')
+            public.write_text(json.dumps(public_model_catalog({k:{key:v for key,v in c.items() if key not in ('equations','notes','title','section','timeout')} for k,c in MODELS.items()}),indent=2)+'\n', encoding='utf-8')
         d=ROOT/'qbank/17-multiphysics';(d/'README.md').write_text('# 第十七章 多物理场耦合分析\n\n7节12题；给定一维连续体模型，求解方法自由。全部题面／自包含DATA与配置已编写不表示正式数据、参考、校准或评测已就绪。\n\n| 编号／题名 | 题面 | DATA |\n|---|---|---|\n'+''.join(f"| {c['title']} | [instruction]({c['section']}/{s}/instruction.md) | [DATA]({c['section']}/{s}/DATA.md) |\n" for s,c in MODELS.items())+'\n维护入口：[章规划](../design/chapter-17-multiphysics.md)、[进度与限制](../design/reviews/chapter-17-progress.md)。\n', encoding='utf-8')
 
 if __name__=='__main__':

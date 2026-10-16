@@ -235,7 +235,7 @@ def render(slug, section, number):
 
 {PHYSICS[slug]}
 
-采用二维平面固定参考域，按单位厚度解释体积守恒与流量。骨架固定且等温，无未声明的相变、力学变形或热反馈。材料关系是输入物理事实；语言、软件、数值离散、内部网格及收敛策略自行选择。输入参考网格只定义材料、边界和观测，不强制数值方法。{'稳态不进行物理时间推进。' if c['steady'] else '固定或自适应时间步、稳定性控制及每步非线性迭代自行选择；必须输出给定请求时刻，不能将输出间隔当固定内部步长。'}
+采用二维平面固定参考域，按单位厚度解释体积、源项与流量。骨架固定且等温，无未声明的相变、力学变形或热反馈。材料关系是输入物理事实；语言、软件、数值离散、内部网格及收敛策略自行选择。输入参考网格只定义材料、边界和观测，不强制数值方法。{'稳态不进行物理时间推进。' if c['steady'] else '固定或自适应时间步、稳定性控制及每步非线性迭代自行选择；必须输出给定请求时刻，不能将输出间隔当固定内部步长。'}
 
 ## 输入与输出
 
@@ -312,6 +312,13 @@ physics.model 必须为 `porous-{slug}-v1`，parameters 恰含下表全部键。
         data += '数据保证初态与 t0 的给定状态边界相容。若请求 t0，已给定状态按其初态空间重建输出，代数量由该初态及材料计算；依赖梯度的通量用初态在各三角形内的梯度计算，不先投影或修改初态。界面法向通量连续要求适用于 t>t0，不要求任意初态梯度已经满足该条件。\n'
         if c['family'] == 'pore':
             data += '孔隙流初态只给速度，t0 压力取唯一物理响应的有限右极限并遵守已声明的压力基准；数据保证该极限存在。\n'
+        else:
+            natural = {'darcy': 'normal_flux、leakance 及默认零通量',
+                       'richards': 'normal_flux 及默认零通量',
+                       'two_phase': 'phase_mass_flux 及默认两相零通量',
+                       'dual': '两个连续体各自的 normal_flux 及默认零通量',
+                       'transport': 'diffusive_flux 及默认零扩散通量'}[c['family']]
+            data += f'外边界 {natural} 条件从 t>t0 起生效；t0 的通量输出仍按初态单元内梯度计算，初态不要求额外匹配这些自然通量条件。\n'
     data += '''
 fields 的逻辑名与 array key 可任意取协议允许的唯一名称，条件引用逻辑名，HDF5 使用 array key。所有数值场 dtype=float64。scalar 为 [T,N,1]、component_shape=[1]、components=["value"]；vector 为 [T,N,2]、[2]、["x","y"]；tensor 为 [T,N,2,2]、[2,2]、["xx","xy","yx","yy"]。不使用 Voigt、局部坐标或省略轴。
 
@@ -394,7 +401,7 @@ def main():
     toc = ['# 第十三章 多孔介质与渗流分析', '', '固定骨架二维渗流、孔隙尺度流动与输运；题目按能力划分，具体几何和工况属于算例。', '']
     for section, title, slugs in SECTIONS:
         toc.append(f'- [{section.split("-")[0]} {title}]({section}/README.md)：{len(slugs)} 题')
-    toc += ['', '整章六节十三题的题面、契约和配置按阶段实施；正式数据、参考及发布另行建设。',
+    toc += ['', '整章六节十三题已完成题面、契约和配置设计；正式数据、参考及发布另行建设。',
             '', '维护方入口：[章规划](../design/chapter-13-porous-media.md)、[逐题清单](../design/chapter-13-task-plan.md)、[进度与验证](../design/reviews/chapter-13-progress.md)。']
     CHAPTER.mkdir(exist_ok=True)
     (CHAPTER / 'README.md').write_text('\n'.join(toc) + '\n', encoding='utf-8')

@@ -9,6 +9,6 @@
 - [13.5 孔隙尺度流动](13.5-pore-scale/README.md)：2 题
 - [13.6 多孔介质输运](13.6-transport/README.md)：2 题
 
-整章六节十三题的题面、契约和配置按阶段实施；正式数据、参考及发布另行建设。
+整章六节十三题已完成题面、契约和配置设计；正式数据、参考及发布另行建设。
 
 维护方入口：[章规划](../design/chapter-13-porous-media.md)、[逐题清单](../design/chapter-13-task-plan.md)、[进度与验证](../design/reviews/chapter-13-progress.md)。

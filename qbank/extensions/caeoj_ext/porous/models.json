@@ -1,0 +1,2595 @@
+{
+  "darcy-steady": {
+    "name": "各向异性饱和稳态渗流",
+    "family": "darcy",
+    "steady": true,
+    "parameters": {
+      "density": {
+        "unit": "kg/m3",
+        "meaning": "恒定参考密度 ρ",
+        "positive": true
+      },
+      "viscosity": {
+        "unit": "Pa.s",
+        "meaning": "动力黏度 μ",
+        "positive": true
+      },
+      "gravity_x": {
+        "unit": "m/s2",
+        "meaning": "重力加速度 x 分量 gx"
+      },
+      "gravity_y": {
+        "unit": "m/s2",
+        "meaning": "重力加速度 y 分量 gy"
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "porous_medium",
+        "where": "cells",
+        "data": {
+          "permeability": {
+            "unit": "m2",
+            "meaning": "全局对称正定本征渗透率 K；特征值位于 [1e-16,1e-6] m2，条件数≤1e6",
+            "kind": "tensor",
+            "shape": [
+              2,
+              2
+            ],
+            "spd": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "volume_source": {
+        "role": "source",
+        "variable": "volume",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "1/s",
+            "meaning": "单位总体积净体积注入 Q；正值注入",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "pressure": {
+        "role": "boundary",
+        "variable": "pressure",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "Pa",
+            "meaning": "给定压力 pD",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "normal_flux": {
+        "role": "boundary",
+        "variable": "volume_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "向域外 Darcy 体积通量 q·n",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "leakance": {
+        "role": "boundary",
+        "variable": "volume_flux",
+        "where": "facets",
+        "data": {
+          "conductance": {
+            "unit": "m/(Pa.s)",
+            "meaning": "边界导通系数 L≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "external_pressure": {
+            "unit": "Pa",
+            "meaning": "外界压力 pe",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "pressure": {
+        "unit": "Pa",
+        "meaning": "压力 p 的单元面积平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 1.0,
+        "rtol": 0.01
+      },
+      "darcy_velocity": {
+        "unit": "m/s",
+        "meaning": "按总体积截面积定义的 Darcy 体积通量 q，不是 q/φ",
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-08,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 300
+  },
+  "darcy-transient": {
+    "name": "饱和介质储集渗流",
+    "family": "darcy",
+    "steady": false,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "物理初始时刻 t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "结束时刻 tf>t0"
+      },
+      "density": {
+        "unit": "kg/m3",
+        "meaning": "恒定参考密度 ρ",
+        "positive": true
+      },
+      "viscosity": {
+        "unit": "Pa.s",
+        "meaning": "动力黏度 μ",
+        "positive": true
+      },
+      "gravity_x": {
+        "unit": "m/s2",
+        "meaning": "重力加速度 x 分量 gx"
+      },
+      "gravity_y": {
+        "unit": "m/s2",
+        "meaning": "重力加速度 y 分量 gy"
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "porous_medium",
+        "where": "cells",
+        "data": {
+          "permeability": {
+            "unit": "m2",
+            "meaning": "全局对称正定本征渗透率 K；特征值位于 [1e-16,1e-6] m2，条件数≤1e6",
+            "kind": "tensor",
+            "shape": [
+              2,
+              2
+            ],
+            "spd": true
+          },
+          "storage": {
+            "unit": "1/Pa",
+            "meaning": "单位总体积压力储集系数 C>0，已含孔隙体积分数",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "volume_source": {
+        "role": "source",
+        "variable": "volume",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "1/s",
+            "meaning": "单位总体积净体积注入 Q；正值注入",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "pressure": {
+        "role": "boundary",
+        "variable": "pressure",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "Pa",
+            "meaning": "给定压力 pD",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "normal_flux": {
+        "role": "boundary",
+        "variable": "volume_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "向域外 Darcy 体积通量 q·n",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "leakance": {
+        "role": "boundary",
+        "variable": "volume_flux",
+        "where": "facets",
+        "data": {
+          "conductance": {
+            "unit": "m/(Pa.s)",
+            "meaning": "边界导通系数 L≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "external_pressure": {
+            "unit": "Pa",
+            "meaning": "外界压力 pe",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "initial_pressure": {
+        "role": "initial",
+        "variable": "pressure",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "Pa",
+            "meaning": "初始压力 p0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      }
+    },
+    "outputs": {
+      "pressure": {
+        "unit": "Pa",
+        "meaning": "压力 p 的单元面积平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 1.0,
+        "rtol": 0.01
+      },
+      "darcy_velocity": {
+        "unit": "m/s",
+        "meaning": "按总体积截面积定义的 Darcy 体积通量 q，不是 q/φ",
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-08,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 900
+  },
+  "forchheimer-steady": {
+    "name": "惯性阻力稳态渗流",
+    "family": "darcy",
+    "steady": true,
+    "parameters": {
+      "density": {
+        "unit": "kg/m3",
+        "meaning": "恒定参考密度 ρ",
+        "positive": true
+      },
+      "viscosity": {
+        "unit": "Pa.s",
+        "meaning": "动力黏度 μ",
+        "positive": true
+      },
+      "gravity_x": {
+        "unit": "m/s2",
+        "meaning": "重力加速度 x 分量 gx"
+      },
+      "gravity_y": {
+        "unit": "m/s2",
+        "meaning": "重力加速度 y 分量 gy"
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "porous_medium",
+        "where": "cells",
+        "data": {
+          "permeability": {
+            "unit": "m2",
+            "meaning": "全局对称正定本征渗透率 K；特征值位于 [1e-16,1e-6] m2，条件数≤1e6",
+            "kind": "tensor",
+            "shape": [
+              2,
+              2
+            ],
+            "spd": true
+          },
+          "inertial_resistance": {
+            "unit": "1/m",
+            "meaning": "二次阻力 β≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "volume_source": {
+        "role": "source",
+        "variable": "volume",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "1/s",
+            "meaning": "单位总体积净体积注入 Q；正值注入",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "pressure": {
+        "role": "boundary",
+        "variable": "pressure",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "Pa",
+            "meaning": "给定压力 pD",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "normal_flux": {
+        "role": "boundary",
+        "variable": "volume_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "向域外 Darcy 体积通量 q·n",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "leakance": {
+        "role": "boundary",
+        "variable": "volume_flux",
+        "where": "facets",
+        "data": {
+          "conductance": {
+            "unit": "m/(Pa.s)",
+            "meaning": "边界导通系数 L≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "external_pressure": {
+            "unit": "Pa",
+            "meaning": "外界压力 pe",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "pressure": {
+        "unit": "Pa",
+        "meaning": "压力 p 的单元面积平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 1.0,
+        "rtol": 0.01
+      },
+      "darcy_velocity": {
+        "unit": "m/s",
+        "meaning": "按总体积截面积定义的 Darcy 体积通量 q，不是 q/φ",
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-08,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 900
+  },
+  "richards-steady": {
+    "name": "非饱和稳态渗流",
+    "family": "richards",
+    "steady": true,
+    "parameters": {},
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "unsaturated_medium",
+        "where": "cells",
+        "data": {
+          "hydraulic_conductivity": {
+            "unit": "m/s",
+            "meaning": "饱和水力传导张量 Ks；特征值位于 [1e-12,1e-2] m/s，条件数≤1e6",
+            "kind": "tensor",
+            "shape": [
+              2,
+              2
+            ],
+            "spd": true
+          },
+          "porosity": {
+            "unit": "1",
+            "meaning": "孔隙体积分数 φ，0.05≤φ≤0.8",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0.05,
+            "upper": 0.8
+          },
+          "residual_water": {
+            "unit": "1",
+            "meaning": "残余体积含水率 θr，0≤θr<φ",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0,
+            "upper": 0.8
+          },
+          "retention_alpha": {
+            "unit": "1/m",
+            "meaning": "持水参数 α，0.01≤α≤10",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0.01,
+            "upper": 10
+          },
+          "retention_n": {
+            "unit": "1",
+            "meaning": "持水参数 n，1.2≤n≤4",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 1.2,
+            "upper": 4
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "volume_source": {
+        "role": "source",
+        "variable": "water_volume",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "1/s",
+            "meaning": "单位总体积净水体积注入 Q",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "head": {
+        "role": "boundary",
+        "variable": "pressure_head",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "m",
+            "meaning": "相对恒定气压的压力水头 hD，−100≤hD≤100",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": -100,
+            "upper": 100
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "normal_flux": {
+        "role": "boundary",
+        "variable": "water_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "向外 Darcy 水通量",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "pressure_head": {
+        "unit": "m",
+        "meaning": "压力水头 h 的单元平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.001,
+        "rtol": 0.01
+      },
+      "water_content": {
+        "unit": "1",
+        "meaning": "体积含水率 θ(h) 的单元平均，不含弹性储集量",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.0001,
+        "rtol": 0.01
+      },
+      "darcy_velocity": {
+        "unit": "m/s",
+        "meaning": "Darcy 水通量 q 的单元平均",
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-08,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 900
+  },
+  "richards-transient": {
+    "name": "变饱和瞬态渗流",
+    "family": "richards",
+    "steady": false,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "物理初始时刻 t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "结束时刻 tf>t0"
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "unsaturated_medium",
+        "where": "cells",
+        "data": {
+          "hydraulic_conductivity": {
+            "unit": "m/s",
+            "meaning": "饱和水力传导张量 Ks；特征值位于 [1e-12,1e-2] m/s，条件数≤1e6",
+            "kind": "tensor",
+            "shape": [
+              2,
+              2
+            ],
+            "spd": true
+          },
+          "porosity": {
+            "unit": "1",
+            "meaning": "孔隙体积分数 φ，0.05≤φ≤0.8",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0.05,
+            "upper": 0.8
+          },
+          "residual_water": {
+            "unit": "1",
+            "meaning": "残余体积含水率 θr，0≤θr<φ",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0,
+            "upper": 0.8
+          },
+          "retention_alpha": {
+            "unit": "1/m",
+            "meaning": "持水参数 α，0.01≤α≤10",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0.01,
+            "upper": 10
+          },
+          "retention_n": {
+            "unit": "1",
+            "meaning": "持水参数 n，1.2≤n≤4",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 1.2,
+            "upper": 4
+          },
+          "saturated_storage": {
+            "unit": "1/m",
+            "meaning": "饱和区水头储集 Ss>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "volume_source": {
+        "role": "source",
+        "variable": "water_volume",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "1/s",
+            "meaning": "单位总体积净水体积注入 Q",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "head": {
+        "role": "boundary",
+        "variable": "pressure_head",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "m",
+            "meaning": "相对恒定气压的压力水头 hD，−100≤hD≤100",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": -100,
+            "upper": 100
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "normal_flux": {
+        "role": "boundary",
+        "variable": "water_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "向外 Darcy 水通量",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "initial_head": {
+        "role": "initial",
+        "variable": "pressure_head",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "m",
+            "meaning": "初始压力水头，−100≤h0≤100",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": -100,
+            "upper": 100
+          }
+        },
+        "required": true,
+        "static": true
+      }
+    },
+    "outputs": {
+      "pressure_head": {
+        "unit": "m",
+        "meaning": "压力水头 h 的单元平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.001,
+        "rtol": 0.01
+      },
+      "water_content": {
+        "unit": "1",
+        "meaning": "体积含水率 θ(h) 的单元平均，不含弹性储集量",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.0001,
+        "rtol": 0.01
+      },
+      "darcy_velocity": {
+        "unit": "m/s",
+        "meaning": "Darcy 水通量 q 的单元平均",
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-08,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 900
+  },
+  "immiscible-two-phase": {
+    "name": "不可压缩两相渗流",
+    "family": "two_phase",
+    "steady": false,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "物理初始时刻 t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "结束时刻 tf>t0"
+      },
+      "gravity_x": {
+        "unit": "m/s2",
+        "meaning": "重力加速度 x 分量 gx"
+      },
+      "gravity_y": {
+        "unit": "m/s2",
+        "meaning": "重力加速度 y 分量 gy"
+      },
+      "density_w": {
+        "unit": "kg/m3",
+        "meaning": "润湿相参考密度 ρ0",
+        "positive": true
+      },
+      "viscosity_w": {
+        "unit": "Pa.s",
+        "meaning": "润湿相动力黏度 μ",
+        "positive": true
+      },
+      "density_n": {
+        "unit": "kg/m3",
+        "meaning": "非润湿相参考密度 ρ0",
+        "positive": true
+      },
+      "viscosity_n": {
+        "unit": "Pa.s",
+        "meaning": "非润湿相动力黏度 μ",
+        "positive": true
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "two_phase_medium",
+        "where": "cells",
+        "data": {
+          "permeability": {
+            "unit": "m2",
+            "meaning": "全局对称正定本征渗透率 K；特征值位于 [1e-16,1e-6] m2，条件数≤1e6",
+            "kind": "tensor",
+            "shape": [
+              2,
+              2
+            ],
+            "spd": true
+          },
+          "porosity": {
+            "unit": "1",
+            "meaning": "孔隙体积分数 φ，0.05≤φ≤0.8",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0.05,
+            "upper": 0.8
+          },
+          "residual_w": {
+            "unit": "1",
+            "meaning": "润湿相残余孔隙饱和度 Swr≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0,
+            "upper": 0.45
+          },
+          "residual_n": {
+            "unit": "1",
+            "meaning": "非润湿相残余孔隙饱和度 Snr≥0；Swr+Snr≤0.8",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0,
+            "upper": 0.45
+          },
+          "capillary_scale": {
+            "unit": "Pa",
+            "meaning": "线性毛细响应尺度 pe，1≤pe≤1e6",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 1,
+            "upper": 1000000.0
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "phase_source": {
+        "role": "source",
+        "variable": "phase_mass",
+        "where": "cells",
+        "data": {
+          "wetting": {
+            "unit": "kg/(m3.s)",
+            "meaning": "单位总体积润湿相净质量注入 Qw",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          },
+          "nonwetting": {
+            "unit": "kg/(m3.s)",
+            "meaning": "单位总体积非润湿相净质量注入 Qn",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "phase_state": {
+        "role": "boundary",
+        "variable": "phase_state",
+        "where": "nodes",
+        "data": {
+          "wetting_pressure": {
+            "unit": "Pa",
+            "meaning": "润湿相压力 pw",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          },
+          "wetting_saturation": {
+            "unit": "1",
+            "meaning": "润湿相孔隙饱和度 Sw",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0,
+            "upper": 1
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "phase_mass_flux": {
+        "role": "boundary",
+        "variable": "phase_mass",
+        "where": "facets",
+        "data": {
+          "wetting": {
+            "unit": "kg/(m2.s)",
+            "meaning": "向外润湿相质量通量 ρw qw·n",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          },
+          "nonwetting": {
+            "unit": "kg/(m2.s)",
+            "meaning": "向外非润湿相质量通量 ρn qn·n",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "initial_state": {
+        "role": "initial",
+        "variable": "phase_state",
+        "where": "domain",
+        "data": {
+          "wetting_pressure": {
+            "unit": "Pa",
+            "meaning": "润湿相压力 pw",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          },
+          "wetting_saturation": {
+            "unit": "1",
+            "meaning": "润湿相孔隙饱和度 Sw",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0,
+            "upper": 1
+          }
+        },
+        "required": true,
+        "static": true
+      }
+    },
+    "outputs": {
+      "wetting_pressure": {
+        "unit": "Pa",
+        "meaning": "pw 单元平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 1.0,
+        "rtol": 0.01
+      },
+      "wetting_saturation": {
+        "unit": "1",
+        "meaning": "Sw 单元平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.001,
+        "rtol": 0.01
+      },
+      "wetting_velocity": {
+        "unit": "m/s",
+        "meaning": "该相相对于总体积截面的 Darcy 通量",
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-08,
+        "rtol": 0.01
+      },
+      "nonwetting_velocity": {
+        "unit": "m/s",
+        "meaning": "该相相对于总体积截面的 Darcy 通量",
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-08,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 900
+  },
+  "compressible-two-phase": {
+    "name": "弱可压缩两相渗流",
+    "family": "two_phase",
+    "steady": false,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "物理初始时刻 t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "结束时刻 tf>t0"
+      },
+      "gravity_x": {
+        "unit": "m/s2",
+        "meaning": "重力加速度 x 分量 gx"
+      },
+      "gravity_y": {
+        "unit": "m/s2",
+        "meaning": "重力加速度 y 分量 gy"
+      },
+      "density_w": {
+        "unit": "kg/m3",
+        "meaning": "润湿相参考密度 ρ0",
+        "positive": true
+      },
+      "viscosity_w": {
+        "unit": "Pa.s",
+        "meaning": "润湿相动力黏度 μ",
+        "positive": true
+      },
+      "density_n": {
+        "unit": "kg/m3",
+        "meaning": "非润湿相参考密度 ρ0",
+        "positive": true
+      },
+      "viscosity_n": {
+        "unit": "Pa.s",
+        "meaning": "非润湿相动力黏度 μ",
+        "positive": true
+      },
+      "reference_pressure": {
+        "unit": "Pa",
+        "meaning": "密度参考绝对压力 pr>0",
+        "positive": true
+      },
+      "pressure_min": {
+        "unit": "Pa",
+        "meaning": "适用绝对压力下界 pmin>0",
+        "positive": true
+      },
+      "pressure_max": {
+        "unit": "Pa",
+        "meaning": "适用绝对压力上界 pmax>pmin",
+        "positive": true
+      },
+      "compressibility_w": {
+        "unit": "1/Pa",
+        "meaning": "该相等温压缩率 c>0",
+        "positive": true
+      },
+      "compressibility_n": {
+        "unit": "1/Pa",
+        "meaning": "该相等温压缩率 c>0",
+        "positive": true
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "two_phase_medium",
+        "where": "cells",
+        "data": {
+          "permeability": {
+            "unit": "m2",
+            "meaning": "全局对称正定本征渗透率 K；特征值位于 [1e-16,1e-6] m2，条件数≤1e6",
+            "kind": "tensor",
+            "shape": [
+              2,
+              2
+            ],
+            "spd": true
+          },
+          "porosity": {
+            "unit": "1",
+            "meaning": "孔隙体积分数 φ，0.05≤φ≤0.8",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0.05,
+            "upper": 0.8
+          },
+          "residual_w": {
+            "unit": "1",
+            "meaning": "润湿相残余孔隙饱和度 Swr≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0,
+            "upper": 0.45
+          },
+          "residual_n": {
+            "unit": "1",
+            "meaning": "非润湿相残余孔隙饱和度 Snr≥0；Swr+Snr≤0.8",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0,
+            "upper": 0.45
+          },
+          "capillary_scale": {
+            "unit": "Pa",
+            "meaning": "线性毛细响应尺度 pe，1≤pe≤1e6",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 1,
+            "upper": 1000000.0
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "phase_source": {
+        "role": "source",
+        "variable": "phase_mass",
+        "where": "cells",
+        "data": {
+          "wetting": {
+            "unit": "kg/(m3.s)",
+            "meaning": "单位总体积润湿相净质量注入 Qw",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          },
+          "nonwetting": {
+            "unit": "kg/(m3.s)",
+            "meaning": "单位总体积非润湿相净质量注入 Qn",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "phase_state": {
+        "role": "boundary",
+        "variable": "phase_state",
+        "where": "nodes",
+        "data": {
+          "wetting_pressure": {
+            "unit": "Pa",
+            "meaning": "润湿相压力 pw",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          },
+          "wetting_saturation": {
+            "unit": "1",
+            "meaning": "润湿相孔隙饱和度 Sw",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0,
+            "upper": 1
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "phase_mass_flux": {
+        "role": "boundary",
+        "variable": "phase_mass",
+        "where": "facets",
+        "data": {
+          "wetting": {
+            "unit": "kg/(m2.s)",
+            "meaning": "向外润湿相质量通量 ρw qw·n",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          },
+          "nonwetting": {
+            "unit": "kg/(m2.s)",
+            "meaning": "向外非润湿相质量通量 ρn qn·n",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "initial_state": {
+        "role": "initial",
+        "variable": "phase_state",
+        "where": "domain",
+        "data": {
+          "wetting_pressure": {
+            "unit": "Pa",
+            "meaning": "润湿相压力 pw",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          },
+          "wetting_saturation": {
+            "unit": "1",
+            "meaning": "润湿相孔隙饱和度 Sw",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0,
+            "upper": 1
+          }
+        },
+        "required": true,
+        "static": true
+      }
+    },
+    "outputs": {
+      "wetting_pressure": {
+        "unit": "Pa",
+        "meaning": "pw 单元平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 1.0,
+        "rtol": 0.01
+      },
+      "wetting_saturation": {
+        "unit": "1",
+        "meaning": "Sw 单元平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.001,
+        "rtol": 0.01
+      },
+      "wetting_velocity": {
+        "unit": "m/s",
+        "meaning": "该相相对于总体积截面的 Darcy 通量",
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-08,
+        "rtol": 0.01
+      },
+      "nonwetting_velocity": {
+        "unit": "m/s",
+        "meaning": "该相相对于总体积截面的 Darcy 通量",
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-08,
+        "rtol": 0.01
+      },
+      "wetting_inventory": {
+        "unit": "kg/m3",
+        "meaning": "单位总体积该相质量 φραSα 的平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.001,
+        "rtol": 0.01
+      },
+      "nonwetting_inventory": {
+        "unit": "kg/m3",
+        "meaning": "单位总体积该相质量 φραSα 的平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 0.001,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 900
+  },
+  "embedded-fracture": {
+    "name": "嵌入裂隙稳态渗流",
+    "family": "fracture",
+    "steady": true,
+    "parameters": {
+      "density": {
+        "unit": "kg/m3",
+        "meaning": "恒定参考密度 ρ",
+        "positive": true
+      },
+      "viscosity": {
+        "unit": "Pa.s",
+        "meaning": "动力黏度 μ",
+        "positive": true
+      },
+      "gravity_x": {
+        "unit": "m/s2",
+        "meaning": "重力加速度 x 分量 gx"
+      },
+      "gravity_y": {
+        "unit": "m/s2",
+        "meaning": "重力加速度 y 分量 gy"
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "porous_medium",
+        "where": "cells",
+        "data": {
+          "permeability": {
+            "unit": "m2",
+            "meaning": "全局对称正定本征渗透率 K；特征值位于 [1e-16,1e-6] m2，条件数≤1e6",
+            "kind": "tensor",
+            "shape": [
+              2,
+              2
+            ],
+            "spd": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "volume_source": {
+        "role": "source",
+        "variable": "volume",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "1/s",
+            "meaning": "单位总体积净体积注入 Q；正值注入",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "pressure": {
+        "role": "boundary",
+        "variable": "pressure",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "Pa",
+            "meaning": "给定压力 pD",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "normal_flux": {
+        "role": "boundary",
+        "variable": "volume_flux",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "向域外 Darcy 体积通量 q·n",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "leakance": {
+        "role": "boundary",
+        "variable": "volume_flux",
+        "where": "facets",
+        "data": {
+          "conductance": {
+            "unit": "m/(Pa.s)",
+            "meaning": "边界导通系数 L≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "external_pressure": {
+            "unit": "Pa",
+            "meaning": "外界压力 pe",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "fracture_material": {
+        "role": "material",
+        "variable": "fracture",
+        "where": "fractures",
+        "data": {
+          "aperture": {
+            "unit": "m",
+            "meaning": "裂隙等效开度 a>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "tangential_permeability": {
+            "unit": "m2",
+            "meaning": "切向本征渗透率 kf>0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "exchange": {
+            "unit": "m/(Pa.s)",
+            "meaning": "单位裂隙长度的净交换导通 α>0；已合并两侧贡献",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "fracture_source": {
+        "role": "source",
+        "variable": "fracture_volume",
+        "where": "fractures",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "每单位线长的体积注入 Qf",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      }
+    },
+    "outputs": {
+      "pressure": {
+        "unit": "Pa",
+        "meaning": "压力 p 的单元面积平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 1.0,
+        "rtol": 0.01
+      },
+      "darcy_velocity": {
+        "unit": "m/s",
+        "meaning": "按总体积截面积定义的 Darcy 体积通量 q，不是 q/φ",
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-08,
+        "rtol": 0.01
+      },
+      "fracture_pressure": {
+        "unit": "Pa",
+        "meaning": "裂隙线压 pf 的线段长度平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "fractures",
+        "atol": 1.0,
+        "rtol": 0.01
+      },
+      "fracture_discharge": {
+        "unit": "m2/s",
+        "meaning": "开度积分的全局切向体积通量 qf",
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "where": "fractures",
+        "atol": 1e-10,
+        "rtol": 0.01
+      },
+      "fracture_exchange": {
+        "unit": "m/s",
+        "meaning": "α(pm|Γ−pf) 的线段平均，正值由基质进入裂隙",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "fractures",
+        "atol": 1e-09,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 300
+  },
+  "dual-continuum": {
+    "name": "双连续体瞬态渗流",
+    "family": "dual",
+    "steady": false,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "物理初始时刻 t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "结束时刻 tf>t0"
+      },
+      "density": {
+        "unit": "kg/m3",
+        "meaning": "恒定参考密度 ρ",
+        "positive": true
+      },
+      "viscosity": {
+        "unit": "Pa.s",
+        "meaning": "动力黏度 μ",
+        "positive": true
+      },
+      "gravity_x": {
+        "unit": "m/s2",
+        "meaning": "重力加速度 x 分量 gx"
+      },
+      "gravity_y": {
+        "unit": "m/s2",
+        "meaning": "重力加速度 y 分量 gy"
+      }
+    },
+    "records": {
+      "matrix_pressure": {
+        "role": "boundary",
+        "variable": "matrix_pressure",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "Pa",
+            "meaning": "基质连续体给定压力",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "matrix_normal_flux": {
+        "role": "boundary",
+        "variable": "matrix_volume",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "基质连续体向外折算体积通量",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "initial_matrix": {
+        "role": "initial",
+        "variable": "matrix_pressure",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "Pa",
+            "meaning": "基质连续体初压",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "fracture_pressure": {
+        "role": "boundary",
+        "variable": "fracture_pressure",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "Pa",
+            "meaning": "裂隙连续体给定压力",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "fracture_normal_flux": {
+        "role": "boundary",
+        "variable": "fracture_volume",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "裂隙连续体向外折算体积通量",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "initial_fracture": {
+        "role": "initial",
+        "variable": "fracture_pressure",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "Pa",
+            "meaning": "裂隙连续体初压",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "material": {
+        "role": "material",
+        "variable": "dual_medium",
+        "where": "cells",
+        "data": {
+          "exchange": {
+            "unit": "1/(Pa.s)",
+            "meaning": "单位总体积交换 α>0，正流向为基质至裂隙连续体",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "matrix_permeability": {
+            "unit": "m2",
+            "meaning": "基质连续体体积折算渗透率 K，已含体积份额",
+            "kind": "tensor",
+            "shape": [
+              2,
+              2
+            ],
+            "spd": true
+          },
+          "matrix_storage": {
+            "unit": "1/Pa",
+            "meaning": "基质连续体单位总体积压力储集 C>0，已含体积份额",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "fracture_permeability": {
+            "unit": "m2",
+            "meaning": "裂隙连续体体积折算渗透率 K，已含体积份额",
+            "kind": "tensor",
+            "shape": [
+              2,
+              2
+            ],
+            "spd": true
+          },
+          "fracture_storage": {
+            "unit": "1/Pa",
+            "meaning": "裂隙连续体单位总体积压力储集 C>0，已含体积份额",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "volume_source": {
+        "role": "source",
+        "variable": "dual_volume",
+        "where": "cells",
+        "data": {
+          "matrix": {
+            "unit": "1/s",
+            "meaning": "基质单位总体积注入",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          },
+          "fracture": {
+            "unit": "1/s",
+            "meaning": "裂隙连续体单位总体积注入",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      }
+    },
+    "outputs": {
+      "matrix_pressure": {
+        "unit": "Pa",
+        "meaning": "基质连续体压力平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 1.0,
+        "rtol": 0.01
+      },
+      "matrix_velocity": {
+        "unit": "m/s",
+        "meaning": "基质连续体体积折算 Darcy 通量平均",
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-08,
+        "rtol": 0.01
+      },
+      "fracture_pressure": {
+        "unit": "Pa",
+        "meaning": "裂隙连续体压力平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 1.0,
+        "rtol": 0.01
+      },
+      "fracture_velocity": {
+        "unit": "m/s",
+        "meaning": "裂隙连续体体积折算 Darcy 通量平均",
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-08,
+        "rtol": 0.01
+      },
+      "exchange_rate": {
+        "unit": "1/s",
+        "meaning": "α(pm−pf) 的单元平均，正值基质流向裂隙",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 1e-08,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 900
+  },
+  "pore-creeping": {
+    "name": "固定孔隙低惯性流动",
+    "family": "pore",
+    "steady": true,
+    "parameters": {
+      "density": {
+        "unit": "kg/m3",
+        "meaning": "恒定参考密度 ρ",
+        "positive": true
+      },
+      "viscosity": {
+        "unit": "Pa.s",
+        "meaning": "动力黏度 μ",
+        "positive": true
+      },
+      "pressure_mean": {
+        "unit": "Pa",
+        "meaning": "仅当全部外边界为速度条件时指定的体域平均压力；存在牵引边界时必须为 0 且不再约束平均压"
+      }
+    },
+    "records": {
+      "body_force": {
+        "role": "source",
+        "variable": "momentum",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "N/m3",
+            "meaning": "每单位流体体积体力 f，已包含重力",
+            "kind": "vector",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "wall": {
+        "role": "boundary",
+        "variable": "velocity",
+        "where": "facets",
+        "data": {
+          "motion": {
+            "option": "stationary",
+            "meaning": "固定无滑移孔壁"
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "velocity": {
+        "role": "boundary",
+        "variable": "velocity",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "给定流体速度 uD",
+            "kind": "vector",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "traction": {
+        "role": "boundary",
+        "variable": "traction",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "Pa",
+            "meaning": "全局总牵引 σn，σ=−pI+μ(∇u+∇uᵀ)",
+            "kind": "vector",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "pressure": {
+        "unit": "Pa",
+        "meaning": "流体机械压力 p 的单元平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 1.0,
+        "rtol": 0.01
+      },
+      "pore_velocity": {
+        "unit": "m/s",
+        "meaning": "孔隙内部真实流体速度 u 的单元平均",
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-05,
+        "rtol": 0.01
+      },
+      "mean_pore_velocity": {
+        "unit": "m/s",
+        "meaning": "流体区域面积平均 ∫Ωu dA/|Ω|，不是总体积表观速度",
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "where": "mean",
+        "atol": 1e-05,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 300
+  },
+  "pore-laminar-transient": {
+    "name": "固定孔隙层流瞬态流动",
+    "family": "pore",
+    "steady": false,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "物理初始时刻 t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "结束时刻 tf>t0"
+      },
+      "density": {
+        "unit": "kg/m3",
+        "meaning": "恒定参考密度 ρ",
+        "positive": true
+      },
+      "viscosity": {
+        "unit": "Pa.s",
+        "meaning": "动力黏度 μ",
+        "positive": true
+      },
+      "pressure_mean": {
+        "unit": "Pa",
+        "meaning": "仅当全部外边界为速度条件时指定的体域平均压力；存在牵引边界时必须为 0 且不再约束平均压"
+      }
+    },
+    "records": {
+      "body_force": {
+        "role": "source",
+        "variable": "momentum",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "N/m3",
+            "meaning": "每单位流体体积体力 f，已包含重力",
+            "kind": "vector",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "wall": {
+        "role": "boundary",
+        "variable": "velocity",
+        "where": "facets",
+        "data": {
+          "motion": {
+            "option": "stationary",
+            "meaning": "固定无滑移孔壁"
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "velocity": {
+        "role": "boundary",
+        "variable": "velocity",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "给定流体速度 uD",
+            "kind": "vector",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "traction": {
+        "role": "boundary",
+        "variable": "traction",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "Pa",
+            "meaning": "全局总牵引 σn，σ=−pI+μ(∇u+∇uᵀ)",
+            "kind": "vector",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "initial_velocity": {
+        "role": "initial",
+        "variable": "velocity",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "初始流体速度 u0",
+            "kind": "vector",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      }
+    },
+    "outputs": {
+      "pressure": {
+        "unit": "Pa",
+        "meaning": "流体机械压力 p 的单元平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 1.0,
+        "rtol": 0.01
+      },
+      "pore_velocity": {
+        "unit": "m/s",
+        "meaning": "孔隙内部真实流体速度 u 的单元平均",
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-05,
+        "rtol": 0.01
+      },
+      "mean_pore_velocity": {
+        "unit": "m/s",
+        "meaning": "流体区域面积平均 ∫Ωu dA/|Ω|，不是总体积表观速度",
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "where": "mean",
+        "atol": 1e-05,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 1200
+  },
+  "porous-tracer": {
+    "name": "饱和多孔介质被动输运",
+    "family": "transport",
+    "steady": false,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "物理初始时刻 t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "结束时刻 tf>t0"
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "transport_medium",
+        "where": "cells",
+        "data": {
+          "porosity": {
+            "unit": "1",
+            "meaning": "孔隙体积分数 φ，0.05≤φ≤0.8",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0.05,
+            "upper": 0.8
+          },
+          "molecular_diffusivity": {
+            "unit": "m2/s",
+            "meaning": "孔隙有效分子扩散 Dm>0，已含曲折度修正",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "longitudinal_dispersivity": {
+            "unit": "m",
+            "meaning": "纵向弥散度 aL≥aT≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "transverse_dispersivity": {
+            "unit": "m",
+            "meaning": "横向弥散度 aT≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "given_flux": {
+        "role": "source",
+        "variable": "darcy_velocity",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "给定稳态 Darcy 通量 q，不是孔隙流速",
+            "kind": "vector",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "solute_source": {
+        "role": "source",
+        "variable": "solute_mass",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "kg/(m3.s)",
+            "meaning": "单位总体积溶质净质量注入 Q",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "initial_concentration": {
+        "role": "initial",
+        "variable": "concentration",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "kg/m3",
+            "meaning": "初始水相浓度 c0≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "concentration": {
+        "role": "boundary",
+        "variable": "concentration",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "kg/m3",
+            "meaning": "给定水相浓度 cD≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "diffusive_flux": {
+        "role": "boundary",
+        "variable": "solute_diffusion",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "kg/(m2.s)",
+            "meaning": "向外扩散／弥散质量通量 (−φD∇c)·n，不含平流",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "concentration": {
+        "unit": "kg/m3",
+        "meaning": "水相浓度 c 的单元平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 1e-05,
+        "rtol": 0.01
+      },
+      "solute_flux": {
+        "unit": "kg/(m2.s)",
+        "meaning": "总溶质通量 qc−φD∇c 的单元平均",
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-09,
+        "rtol": 0.01
+      },
+      "stored_mass": {
+        "unit": "kg/m3",
+        "meaning": "单位总体积总溶质存量的平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 1e-05,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 900
+  },
+  "porous-sorption-decay": {
+    "name": "多孔介质吸附衰减输运",
+    "family": "transport",
+    "steady": false,
+    "parameters": {
+      "start_time": {
+        "unit": "s",
+        "meaning": "物理初始时刻 t0"
+      },
+      "end_time": {
+        "unit": "s",
+        "meaning": "结束时刻 tf>t0"
+      }
+    },
+    "records": {
+      "material": {
+        "role": "material",
+        "variable": "transport_medium",
+        "where": "cells",
+        "data": {
+          "porosity": {
+            "unit": "1",
+            "meaning": "孔隙体积分数 φ，0.05≤φ≤0.8",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0.05,
+            "upper": 0.8
+          },
+          "molecular_diffusivity": {
+            "unit": "m2/s",
+            "meaning": "孔隙有效分子扩散 Dm>0，已含曲折度修正",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "longitudinal_dispersivity": {
+            "unit": "m",
+            "meaning": "纵向弥散度 aL≥aT≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "transverse_dispersivity": {
+            "unit": "m",
+            "meaning": "横向弥散度 aT≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "solid_density": {
+            "unit": "kg/m3",
+            "meaning": "固体颗粒真密度 ρs>0，不是干容重",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "positive": true
+          },
+          "distribution_coefficient": {
+            "unit": "m3/kg",
+            "meaning": "线性平衡吸附系数 Kd≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "dissolved_decay": {
+            "unit": "1/s",
+            "meaning": "溶解相衰减常数 λw≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          },
+          "sorbed_decay": {
+            "unit": "1/s",
+            "meaning": "吸附相衰减常数 λs≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "given_flux": {
+        "role": "source",
+        "variable": "darcy_velocity",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "m/s",
+            "meaning": "给定稳态 Darcy 通量 q，不是孔隙流速",
+            "kind": "vector",
+            "shape": [
+              2
+            ]
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "solute_source": {
+        "role": "source",
+        "variable": "solute_mass",
+        "where": "cells",
+        "data": {
+          "value": {
+            "unit": "kg/(m3.s)",
+            "meaning": "单位总体积溶质净质量注入 Q",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": true,
+        "static": false
+      },
+      "initial_concentration": {
+        "role": "initial",
+        "variable": "concentration",
+        "where": "domain",
+        "data": {
+          "value": {
+            "unit": "kg/m3",
+            "meaning": "初始水相浓度 c0≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          }
+        },
+        "required": true,
+        "static": true
+      },
+      "concentration": {
+        "role": "boundary",
+        "variable": "concentration",
+        "where": "nodes",
+        "data": {
+          "value": {
+            "unit": "kg/m3",
+            "meaning": "给定水相浓度 cD≥0",
+            "kind": "scalar",
+            "shape": [
+              1
+            ],
+            "lower": 0
+          }
+        },
+        "required": false,
+        "static": false
+      },
+      "diffusive_flux": {
+        "role": "boundary",
+        "variable": "solute_diffusion",
+        "where": "facets",
+        "data": {
+          "value": {
+            "unit": "kg/(m2.s)",
+            "meaning": "向外扩散／弥散质量通量 (−φD∇c)·n，不含平流",
+            "kind": "scalar",
+            "shape": [
+              1
+            ]
+          }
+        },
+        "required": false,
+        "static": false
+      }
+    },
+    "outputs": {
+      "concentration": {
+        "unit": "kg/m3",
+        "meaning": "水相浓度 c 的单元平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 1e-05,
+        "rtol": 0.01
+      },
+      "solute_flux": {
+        "unit": "kg/(m2.s)",
+        "meaning": "总溶质通量 qc−φD∇c 的单元平均",
+        "kind": "vector",
+        "shape": [
+          2
+        ],
+        "where": "cells",
+        "atol": 1e-09,
+        "rtol": 0.01
+      },
+      "stored_mass": {
+        "unit": "kg/m3",
+        "meaning": "单位总体积总溶质存量的平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 1e-05,
+        "rtol": 0.01
+      },
+      "sorbed_mass": {
+        "unit": "kg/m3",
+        "meaning": "单位总体积固相吸附质量的平均",
+        "kind": "scalar",
+        "shape": [
+          1
+        ],
+        "where": "cells",
+        "atol": 1e-05,
+        "rtol": 0.01
+      }
+    },
+    "timeout": 900
+  }
+}

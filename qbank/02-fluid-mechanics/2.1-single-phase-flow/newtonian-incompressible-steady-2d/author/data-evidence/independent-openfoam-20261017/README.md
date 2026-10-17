@@ -1,5 +1,7 @@
 # 其余 19 例的 OpenFOAM 独立交叉验证
 
+详细记录已外置到独立 HF 维护归档；本页提到的 JSON、CSV 和 runs/ 均相对于装配后的 `work/211-evidence/independent-openfoam-20261017/`。获取和重放命令见[维护入口](../../README.md)，固定归档版本与摘要见[archive-index.json](../archive-index.json)。Git 只保留本页、逐例结论、摘要和生产者信息。
+
 验证对象是补充分支 `cases/2-1-1-supplement` 固定提交 `fbe115effe8131bd575c0cde1c9ca87a9d87fd3a` 中除 `010 / lid-square` 外的全部 19 例。原参考生产者是 Lethe；本次采用 OpenFOAM Foundation 的现成 `incompressibleFluid` 模块，通过 `foamRun` 实际求解。结果、逐例结论与局限见本目录 `report.md`；全部分量差异见 `pointwise-differences.csv`，详细指标及 case ID 见 `comparison.json`。
 
 ## 来源与独立性
@@ -29,7 +31,7 @@ OpenFOAM-dev 源码固定为 `5de9f113a9e3d0f76ae8f9df6ec02554c866851b`，已安
 | gauge pressure、pin | OpenFOAM 解的是运动学压力，乘 rho 转为 Pa；用独立解在输入 pin 的采样值实施指定 0 Pa 点基准，未读取原参考来拟合压力偏移 |
 | probes，point | 使用上游 sets/points、cellPoint 插值，逐点核对输出坐标与顺序；采样 U、p、gradU，按 DATA 的 sqrt(2 D:D) 计算剪切率；输出 clock 与 IDs 精确复制 |
 
-逐档 `translation.json` 保存输入摘要、面积、网格数量、材料、源拟合误差、边界类型／长度／实际面数和观测点。实际运行的 system、constant 字典和初始 U/p 已归档为 `actual-configurations.tar.gz`，不只是模板；该大文件保留在忽略的本地维护目录及 titan，位置和摘要见 `configuration-archive.json`。完整网格与场、全日志和动态源编译产物保留在远端维护原始档案，其位置及摘要在 `raw-results.json`。
+逐档 `translation.json` 保存输入摘要、面积、网格数量、材料、源拟合误差、边界类型／长度／实际面数和观测点。原始配置与场已迁移至固定 HF 证据提交：完整原始结果为 `raw/openfoam-results.tar.gz`，实际 system、constant 字典和初始字段另存 `raw/openfoam-configurations.tar.gz`，早期诊断记录为 `raw/openfoam-diagnostics.tar.gz`。全部大小和摘要由轻量索引绑定；冻结的原始 JSON 仍保留实际执行时的位置，不将这些历史路径作为下载依赖。
 
 ## 比较与接口审计
 
@@ -39,7 +41,7 @@ OpenFOAM-dev 源码固定为 `5de9f113a9e3d0f76ae8f9df6ec02554c866851b`，已安
 
 原输入、参考、grading、正式选样均不修改；HF main 和补充分支前后提交检查见 `hf-before.json` / `hf-after.json`。本次没有上传操作。
 
-归档后已重读全部原始档案成员并复核摘要，随后清理 titan 本次展开目录；保留配置和原始维护档案。本地临时文件删除被自动审批以 `blocked by policy` 拒绝，未换用其他删除手段，`work/211-openfoam-crosscheck` 保留临时文件及独立的配置维护档案；远端和本地状态分列于 `cleanup.json`。先前制池／benchmark 目录不在本次清理范围。
+历史归档和清理状态保存在冻结的 `cleanup.json` 中。本次进一步将原始维护档案上传至独立 HF 分支，并通过固定提交重新获取；迁移验证记录见轻量索引同目录的 migration-validation.json。
 
 ## 复现
 

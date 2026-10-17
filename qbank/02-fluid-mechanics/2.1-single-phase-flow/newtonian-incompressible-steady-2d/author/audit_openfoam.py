@@ -7,7 +7,7 @@ from caeoj.validation import read_mesh
 
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 
-def audit(source,evidence,task):
+def audit(source,evidence,task,output=None):
     rows=json.loads((evidence/'comparison.json').read_text());reports=[]
     for row in rows:
         inp=source/'cases'/row['name'];problem=load_problem(inp/'problem.json');j=problem.manifest;arr=problem.arrays
@@ -76,8 +76,10 @@ def audit(source,evidence,task):
                 specification_hashes={p.name:sha(p) for p in [task/'instruction.md',task/'DATA.md',Path('docs/CONTRACT.md'),task/'data-manifest.json']},
                 mappings={'geometry':'DATA 清单与数组；CONTRACT 网格与位置','boundaries':'DATA 边界、输入场采样','source':'DATA 初态及体加速度、输入场采样','pressure':'DATA 分析声明、压力点基准','outputs':'DATA 输出、CONTRACT 结果数组'},
                 limitations='This audit establishes representation/consumption equivalence; numerical conclusions are separately recorded in comparison.json and report.md.')
-    (evidence/'interface-audit.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    output=output or evidence/'interface-audit.json'
+    output.parent.mkdir(parents=True,exist_ok=True)
+    output.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print('All 19 inputs and all independent outputs audited')
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('source',type=Path);p.add_argument('evidence',type=Path);p.add_argument('task',type=Path);a=p.parse_args();audit(a.source,a.evidence,a.task)
+    p=argparse.ArgumentParser();p.add_argument('source',type=Path);p.add_argument('evidence',type=Path);p.add_argument('task',type=Path);p.add_argument('--output',type=Path);a=p.parse_args();audit(a.source,a.evidence,a.task,a.output)

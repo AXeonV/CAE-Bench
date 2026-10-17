@@ -97,7 +97,7 @@ def collect(source,runs,catalog,output):
     return rows
 
 
-def grade(source,output):
+def grade(source,output,report_directory=None):
     from caeoj.sdk import load_problem,load_result
     from caeoj.case_grading import grade_case
     rows=json.loads((output/'comparison.json').read_text());records=[]
@@ -108,7 +108,7 @@ def grade(source,output):
         graded=grade_case(inp/'problem.json',result,ref/'grading.json')
         records.append(dict(name=name,case_id=row['case_id'],level=n,contract_valid=True,grading=graded))
         print(name,graded['status'],graded['score'],flush=True)
-    dump(output/'production-grading.json',records)
+    dump((report_directory or output)/'production-grading.json',records)
 
 
 def report(output):
@@ -137,7 +137,7 @@ def report(output):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('source',type=Path);p.add_argument('output',type=Path);p.add_argument('--runs',type=Path);p.add_argument('--catalog',type=Path);p.add_argument('--grade',action='store_true');p.add_argument('--report',action='store_true');a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('source',type=Path);p.add_argument('output',type=Path);p.add_argument('--runs',type=Path);p.add_argument('--catalog',type=Path);p.add_argument('--grade',action='store_true');p.add_argument('--report',action='store_true');p.add_argument('--validation-output',type=Path);a=p.parse_args()
     if a.runs:collect(a.source,a.runs,a.catalog,a.output)
-    if a.grade:grade(a.source,a.output)
+    if a.grade:grade(a.source,a.output,a.validation_output)
     if a.report:report(a.output)

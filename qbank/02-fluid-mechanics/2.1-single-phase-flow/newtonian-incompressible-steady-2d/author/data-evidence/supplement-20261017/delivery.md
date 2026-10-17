@@ -47,6 +47,6 @@ python -m caeoj_tools.cli data select --task newtonian-incompressible-steady-2d 
 
 选样命令已实际执行验证。以后装配和 benchmark 应继续固定本提交，按运行技能审核并使用生成的选择；本次未装配正式测试或冻结评测条件。
 
-原始求解结果维护档案保留在 titan 的 `/home/zhouzhiyu/caeoj-211-supplement-20261017/evidence/raw-solver-results.tar.gz`，摘要见 raw-solver-results.sha256。Titan 的展开载荷与传输包已删除，维护档案摘要复核通过。
+原始结果、详细审计和逐档记录已另存 HF 独立维护分支；固定提交、大小和摘要由上级目录的 [archive-index.json](../archive-index.json) 绑定。获取与装配见[维护入口](../../README.md)，不再要求访问工作站目录。
 
-本地临时载荷清理未完成：自动审批拒绝递归删除 `work/211-supplement-20261017` 和本次固定提交的 HF 缓存快照，理由仅为 `blocked by policy`。没有改用其他方式绕过拒绝，残留路径及证据子目录的保留处理见 cleanup.json。此限制不影响已完成的远端入池及验证。
+原始清理状态仍按执行时的事实保存在冻结证据中的 cleanup.json；本次迁移不改写历史记录。迁移后的取回、完整性及判分验证结果见上级目录 migration-validation.json。

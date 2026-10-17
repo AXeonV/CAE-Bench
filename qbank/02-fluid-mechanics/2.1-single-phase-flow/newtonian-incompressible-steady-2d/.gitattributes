@@ -1,5 +1,4 @@
-# Preserve producer recipes and evidence bytes used by recorded SHA-256 bindings.
+# Preserve producer recipe bytes; detailed evidence is immutable in HF archives.
 author/*.py -text
-# Raw solver records include producer formatting and CRLF; do not rewrite them.
-author/data-evidence/** -text -whitespace
+author/data-evidence/** text eol=lf
 data-manifest.json -text whitespace=cr-at-eol

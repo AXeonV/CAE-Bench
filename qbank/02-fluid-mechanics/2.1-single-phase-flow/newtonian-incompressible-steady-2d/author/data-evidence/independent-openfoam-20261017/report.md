@@ -34,4 +34,4 @@
 
 标准方腔 010 不在本次范围，原 Ghia 中线速度比较保持原记录；本次 19 例覆盖也不代表 pressure_outlet、traction、periodic、高 Re 或全题所有合法输入已验证。计算使用 titan 的可用资源，未重新认证考生资源限制，未运行 LLM 或 Agent benchmark。
 
-详细来源、物理转换及复现见 README.md；实际配置归档位置与摘要见 configuration-archive.json，完整逐点差异见 pointwise-differences.csv，逐档采样、收敛记录与完整 HDF5 在 runs/，原始维护档案位置及 SHA-256 见 raw-results.json。
+详细来源、物理转换及复现见 README.md；完整逐点差异、逐档采样、收敛记录和 HDF5 已外置到 HF 维护归档。固定提交、归档大小和 SHA-256 见上级目录 archive-index.json，下载及只读重放流程见本题 author/README.md。原始配置、结果和诊断档案也可按相同固定提交获取。

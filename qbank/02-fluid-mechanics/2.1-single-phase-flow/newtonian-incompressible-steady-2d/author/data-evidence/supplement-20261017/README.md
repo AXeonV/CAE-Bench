@@ -1,5 +1,7 @@
 # 2.1.1：20 个新增算例，2026-10-17
 
+详细 JSON、逐档日志和配置已外置到独立 HF 维护归档。本页是 Git 中的来源摘要；本页提到的详细文件均相对于装配后的 `work/211-evidence/supplement-20261017/`。固定版本获取、摘要校验及判分重放见[维护入口](../../README.md)。原始证据快照保持原字节，索引见[archive-index.json](../archive-index.json)。
+
 后续验证：除标准方腔 010 外的 19 例已用另一套现成 OpenFOAM 求解器实际交叉验证，逐例差异、结论和局限见[独立验证报告](../independent-openfoam-20261017/report.md)。以下保留初次制池时的出处和验证记录；原 Lethe 参考未改动。
 
 本批仅入 HF 独立分支，正式测试／样例选择为空；没有调用 LLM 考生，没有运行 Agent benchmark。最终提交、逐例 ID、描述摘要和后续选样命令见本目录的 `delivery.md`、`catalog.json` 和 `select-cases.ps1`。`hf-start.json` 记录起始 main 及分支重建过程，`hf-upload.json` 记录实际上传回执，`remote-transport.json` 记录固定提交重新获取后的完整验证。
@@ -48,6 +50,6 @@
 
 ## 复现与保留
 
-制作程序在本题 author/，逐例配置、原始生产者摘要、执行日志、输入及参考摘要在本目录。复现所需软件版本已固定；远端工作目录中的 `evidence/raw-solver-results.tar.gz` 保留所有 62 档最终原始网格、VTU、配置和日志，摘要见 `raw-solver-results.sha256`；它是维护证据，不上传 HF 消费树。再次计算按 `run_supplement.py` 运行 4/8/16 档，再对 square 单独运行 32/64 档，执行 `check_ghia.py`、`convert_supplement.py`、`audit_supplement.py`。转换脚本不下载或上传数据；上传／拉取／装配使用现有 caeoj_tools.data_pool。
+制作程序在本题 author/，逐例配置、执行日志、输入及参考摘要从固定 HF 证据提交装配。本次归档同时保存了所有 62 档最终原始网格、VTU、配置和日志，对应下载后的 `raw/lethe-results.tar.gz`；大小和摘要由轻量索引绑定，不再依赖工作站路径。再次计算按 `run_supplement.py` 运行 4/8/16 档，再对 square 单独运行 32/64 档，执行 `check_ghia.py`、`convert_supplement.py`、`audit_supplement.py`。转换脚本不下载或上传数据；case 的上传／拉取／装配使用现有 caeoj_tools.data_pool。
 
-HF 保存的参考是全部实际请求输出的完整 HDF5，不是稀疏文献表。HF 不带求解器、转换代码、作者报告或临时执行载荷。清理情况、保留的原始档案位置及任何未完成项在 delivery.md 中记录。
+case 消费树保存全部实际请求输出的完整 HDF5，不是稀疏文献表，不包含求解器、作者报告或临时执行载荷。独立维护归档与 case 池分开存放，不进入公开包。历史清理状态保存在冻结证据快照；本次迁移的验证记录见轻量索引同目录的 migration-validation.json。

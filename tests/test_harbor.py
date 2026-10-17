@@ -5,6 +5,7 @@ import importlib.util
 import json
 from pathlib import Path
 import shutil
+import subprocess
 import sys
 import tempfile
 import tomllib
@@ -55,6 +56,12 @@ class HarborTests(unittest.TestCase):
         shutil.copytree(source / 'harbor', task / 'harbor')
         shutil.copytree(ROOT / 'src/utils/harbor', self.root / 'src/utils/harbor')
 
+    def set_policy(self, policy):
+        from caeoj_tools.grading_policy import write_direct_grading
+        task=self.root/TASK_PATH
+        for reference in list((task/'reference').iterdir())+list((task/'samples').glob('*/reference')):
+            write_direct_grading(reference,policy)
+
     def prepared(self):
         publisher.publish(TASK, root=self.root)
         return Path(prepare.prepare(TASK, self.root)['task_directory'])
@@ -64,7 +71,7 @@ class HarborTests(unittest.TestCase):
         config = {'timeout_seconds': 600,
                   'verifier_budget': {'base_seconds': 300, 'per_case_overhead_seconds': 60}}
         merged = tomllib.loads(prepare.task_config(template, {}, judge_config=config, case_count=3))
-        self.assertEqual(merged['verifier']['timeout_sec'], 2280)
+        self.assertEqual(merged['verifier']['timeout_sec'], 2460)
         self.assertEqual(merged['verifier']['network_mode'], 'no-network')
         self.assertEqual(merged['environment']['gpus'], 0)
         merged = tomllib.loads(prepare.task_config(template, {'verifier': {'timeout_sec': 5000}},
@@ -98,7 +105,7 @@ class HarborTests(unittest.TestCase):
         policy = {'version': 2, 'quantities': {'temperature': {'unit': 'K', 'rule': {
             'metric': 'pointwise', 'time': 'per_time', 'components': 'per_component',
             'atol': .01, 'rtol': 0}}}}
-        (task / 'grading.json').write_text(json.dumps(policy))
+        self.set_policy(policy)
         config_path = task / 'judge-config.json'
         config = json.loads(config_path.read_text())
         config_path.write_text(json.dumps(config))
@@ -120,13 +127,14 @@ class HarborTests(unittest.TestCase):
         report = json.loads((logs / 'report.json').read_text())
         self.assertEqual(report['score'], 1)
         self.assertEqual(report['reward'], .5)
-        self.assertEqual(report['policy_sha256'], policy_hash(policy))
-        self.assertEqual(set(report['cases'][1]['fields']), {'renamed_observation'})
-        self.assertIn('bound_policy_sha256', report['cases'][1])
+        self.assertEqual(set(report['evaluation_manifest']), {row['case'] for row in report['cases']})
+        self.assertEqual(set(report['cases'][1]['checks']['outputs']['fields']), {'renamed_observation'})
+        self.assertIn('grading_sha256', report['cases'][1])
 
     def test_unknown_quantity_fails_preflight_before_submission_execution(self):
         task = self.root / TASK_PATH
-        (task / 'grading.json').write_text(json.dumps({'version': 2, 'quantities': {
+        (task/'author').mkdir(parents=True,exist_ok=True)
+        (task / 'author/grading-template.json').write_text(json.dumps({'version': 2, 'quantities': {
             'temperature': {'unit': 'K', 'rule': {'metric': 'pointwise', 'time': 'per_time',
             'components': 'per_component', 'atol': .01, 'rtol': 0}}}}))
         config_path = task / 'judge-config.json'
@@ -178,7 +186,7 @@ class HarborTests(unittest.TestCase):
         self.assertEqual({p.name for p in (directory / 'environment').iterdir()},
                          {'Dockerfile', 'agent.zip', 'requirements.txt'})
         with zipfile.ZipFile(directory / 'environment/agent.zip') as bundle:
-            self.assertFalse(any('/reference/' in p or '/author/' in p or '/cases/' in p for p in bundle.namelist()))
+            self.assertFalse(any('/author/' in p or '/cases/' in p or p.startswith(TASK_PATH.as_posix()+'/reference/') for p in bundle.namelist()))
         self.assertEqual(len(list((directory / 'tests/reference').glob('*/reference.h5'))), 2)
         self.assertTrue((directory / 'solution/baseline.py').is_file())
         self.assertEqual((directory / 'environment/requirements.txt').read_text().strip(), 'scipy==1.18.1')
@@ -238,7 +246,7 @@ class HarborTests(unittest.TestCase):
         self.assertEqual(config['agent']['timeout_sec'], 240)
         self.assertEqual(config['environment']['cpus'], 1)
         self.assertEqual(config['environment']['memory_mb'], 1024)
-        self.assertEqual(config['verifier']['timeout_sec'], 450)  # 300 + 2 * (15 + 60)
+        self.assertEqual(config['verifier']['timeout_sec'], 570)  # 300 + 2 * (15 + 60)
         self.assertEqual(config['verifier']['environment_mode'], 'separate')
         instruction = (directory / 'instruction.md').read_text(encoding='utf-8')
         self.assertIn(f'/app/{(TASK_PATH.parent / task).as_posix()}/samples/01/', instruction)
@@ -274,9 +282,9 @@ class HarborTests(unittest.TestCase):
         config_path = self.root / TASK_PATH / 'judge-config.json'
         config = json.loads(config_path.read_text())
         config.update(stage='provisional', max_output_bytes=2*1024**3)
-        policy_path = self.root / TASK_PATH / 'grading.json'
+        policy_path = next((self.root/TASK_PATH/'reference').glob('*/grading.json'))
         policy = json.loads(policy_path.read_text())
-        policy['quantities']['temperature']['rule'].update(atol=0.1, rtol=0.2)
+        policy['checks'][0]['policy']['quantities']['temperature']['rule'].update(atol=0.1, rtol=0.2)
         policy_path.write_text(json.dumps(policy))
         config_path.write_text(json.dumps(config))
         publisher.publish(TASK, root=self.root)
@@ -290,7 +298,7 @@ class HarborTests(unittest.TestCase):
         self.assertNotIn('校准', instruction)
         self.assertNotIn('Harbor', instruction)
         self.assertNotIn('独立内存限制', instruction)
-        self.assertIn('0.1 + 0.2×', instruction)
+        self.assertNotIn('0.1 + 0.2×', instruction)
         self.assertIn('1024 MB', instruction)
         self.assertIn(str(2*1024**3), instruction)
 
@@ -302,16 +310,17 @@ class HarborTests(unittest.TestCase):
                 {'metric': 'rmse', 'time': 'per_time', 'components': 'per_component', 'limit': .01},
                 {'metric': 'violation_fraction', 'time': 'per_time', 'components': 'joint',
                  'count': 'spatial_points', 'atol': .02, 'rtol': 0, 'limit': .01}]}}}
-        (task / 'grading.json').write_text(json.dumps(policy))
+        self.set_policy(policy)
         config_path = task / 'judge-config.json'
         config = json.loads(config_path.read_text())
         config_path.write_text(json.dumps(config))
         directory = self.prepared()
-        self.assertIn('空间点', (directory / 'instruction.md').read_text())
-        self.assertIn(' 且 ', (directory / 'instruction.md').read_text())
+        self.assertNotIn('空间点', (directory / 'instruction.md').read_text())
+        self.assertNotIn(' 且 ', (directory / 'instruction.md').read_text())
         with zipfile.ZipFile(directory / 'environment/agent.zip') as archive:
-            public = json.loads(archive.read(f'{TASK_PATH.as_posix()}/grading.json'))
-            self.assertEqual(policy_hash(public), policy_hash(policy))
+            public = json.loads(archive.read(f'{TASK_PATH.as_posix()}/samples/01/reference/grading.json'))
+            self.assertEqual(policy_hash(public['checks'][0]['policy']), policy_hash(policy))
+            self.assertNotIn(f'{TASK_PATH.as_posix()}/grading.json', archive.namelist())
             self.assertIn('src/caeoj/grading.schema.json', archive.namelist())
         private = directory / 'tests'; logs = self.root / 'policy-logs'
         names = sorted(p.name for p in (private / 'cases').iterdir())
@@ -333,15 +342,15 @@ class HarborTests(unittest.TestCase):
         report = json.loads((logs / 'report.json').read_text())
         self.assertEqual(report['score'], 1)
         self.assertTrue(report['complete'])
-        self.assertEqual(report['policy_sha256'], policy_hash(policy))
+        self.assertEqual(set(report['evaluation_manifest']), {row['case'] for row in report['cases']})
         self.assertIn('elapsed_seconds', report['cases'][0])
-        self.assertEqual(report['cases'][1]['fields']['temperature']['operator'], 'all')
+        self.assertEqual(report['cases'][1]['checks']['outputs']['fields']['temperature']['operator'], 'all')
         policy['fields']['temperature']['all'][0]['limit'] = .1
-        (task / 'grading.json').write_text(json.dumps(policy))
+        self.set_policy(policy)
         with self.assertRaisesRegex(ValueError, 'stale'):
             prepare.prepare(TASK, self.root)
 
-    def test_output_size_limit_is_configurable_and_retains_legacy_default(self):
+    def test_output_size_limit_is_configurable_with_explicit_default(self):
         self.assertEqual(judge.output_limit({}),128*1024**2)
         for bad in (0,-1,True,1.5,'100'):
             with self.assertRaises(ValueError):judge.output_limit({'max_output_bytes':bad})
@@ -421,6 +430,21 @@ class HarborTests(unittest.TestCase):
         self.assertIsNone(report['limits']['max_output_bytes'])
         self.assertEqual(float((logs / 'reward.txt').read_text()), 0.5)
 
+    def test_evaluation_timeout_is_infrastructure_error_without_reward(self):
+        directory = self.prepared()
+        private = directory / 'tests'
+        logs = self.root / 'evaluation-timeout'
+        def execution(work, timeout, case_logs):
+            write_hdf5(work / 'result.h5', read_hdf5(private / 'reference' / case_logs.name / 'reference.h5'))
+        with patch.object(judge, 'TESTS', private), patch.object(judge, 'LOGS', logs), \
+                patch.object(judge, 'freeze_submission', return_value=True), \
+                patch.object(judge, 'execute', side_effect=execution), \
+                patch.object(judge.os, 'chown', create=True), \
+                patch.object(judge.subprocess, 'run', side_effect=subprocess.TimeoutExpired('evaluation', 60)):
+            with self.assertRaisesRegex(RuntimeError, 'Evaluation infrastructure timeout'):
+                judge.main()
+        self.assertFalse((logs / 'reward.txt').exists())
+
     def test_bad_reference_is_infrastructure_error_without_reward(self):
         directory = self.prepared()
         private = directory / 'tests'
@@ -437,12 +461,14 @@ class HarborTests(unittest.TestCase):
     def test_missing_or_duplicate_policy_source_fails_before_solver_execution(self):
         directory = self.prepared()
         private = directory / 'tests'
+        original_policy=next((private/'reference').glob('*/grading.json'))
         for duplicate in (False, True):
             with self.subTest(duplicate=duplicate):
                 config = json.loads((private/'judge-config.json').read_text())
-                policy = private/'grading.json'
+                policy = original_policy
                 if duplicate:
-                    shutil.copyfile(self.root/TASK_PATH/'grading.json', policy)
+                    source=next((self.root/TASK_PATH/'reference').glob('*/grading.json'))
+                    shutil.copyfile(source, policy)
                     config.update(atol=.01, rtol=0)
                     (private/'judge-config.json').write_text(json.dumps(config))
                 else:

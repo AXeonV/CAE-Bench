@@ -16,7 +16,7 @@ from caeoj.sdk import load_problem,write_result
 from caeoj.validation import validate_input,validate_output,output_support
 from caeoj.grading import grade_arrays
 from caeoj.grading_policy import resolve_policy
-from caeoj_tools.grading_policy import task_policy
+from caeoj_tools.grading_policy import author_policy
 from caeoj_tools.task_paths import task_directory
 from caeoj_tools.assembly import runtime_materials
 
@@ -131,7 +131,7 @@ class GranularTests(unittest.TestCase):
                   'size_density':(1e-3,.002),'number_density':(1e-3,.002)}
         for slug,cfg in models().items():
             with self.subTest(slug=slug),tempfile.TemporaryDirectory() as tmp:
-                path,m=fixture(tmp,slug);p=load_problem(path);policy=task_policy(task_directory(slug,ROOT),p);bound=resolve_policy(policy,p)
+                path,m=fixture(tmp,slug);p=load_problem(path);policy=author_policy(task_directory(slug,ROOT),p);bound=resolve_policy(policy,p)
                 ref={k:p.arrays[k].copy() for k in output_support(p)}
                 for name,s in m['outputs'].items():
                     want=(1e-10,.002 if cfg['population'] else 1e-6) if s['quantity']=='solid_fraction' else expected[s['quantity']]
@@ -170,7 +170,7 @@ class GranularTests(unittest.TestCase):
             self.assertEqual(merged['environment']['cpus'],2);self.assertEqual(merged['environment']['memory_mb'],2048)
             self.assertEqual(merged['environment']['gpus'],0);self.assertEqual(merged['agent']['timeout_sec'],3600)
             self.assertEqual(merged['environment']['build_timeout_sec'],1200)
-            self.assertEqual(merged['verifier']['timeout_sec'],max(1200,180+5*(AUTHOR_MODELS[slug]['timeout']+60)))
+            self.assertEqual(merged['verifier']['timeout_sec'],max(1200,180+5*(AUTHOR_MODELS[slug]['timeout']+120)))
             self.assertEqual(merged['verifier']['network_mode'],'no-network');self.assertEqual(merged['verifier']['environment_mode'],'separate')
         public,runtime=runtime_materials({s:task_directory(s,ROOT) for s in models()},ROOT)
         self.assertEqual(set(runtime['extensions']),{'granular.dynamics'})

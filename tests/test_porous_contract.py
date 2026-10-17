@@ -24,7 +24,7 @@ from caeoj.grading_policy import resolve_policy
 from caeoj.sdk import load_problem, write_result
 from caeoj.validation import validate_input, validate_output
 from caeoj_tools.assembly import runtime_materials
-from caeoj_tools.grading_policy import task_policy
+from caeoj_tools.grading_policy import author_policy
 from caeoj_tools.task_paths import task_directory
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -143,7 +143,7 @@ class PorousContractTests(unittest.TestCase):
             with self.subTest(slug=slug), tempfile.TemporaryDirectory() as temporary:
                 path, m = fixture(temporary, slug)
                 problem = load_problem(path)
-                policy = task_policy(task_directory(slug, ROOT), problem)
+                policy = author_policy(task_directory(slug, ROOT), problem)
                 bound = resolve_policy(policy, problem)
                 ref = {problem.manifest['locations'][s['location']]['ids']: problem.arrays[problem.manifest['locations'][s['location']]['ids']]
                        for s in m['outputs'].values()}
@@ -186,7 +186,7 @@ class PorousContractTests(unittest.TestCase):
             self.assertIsNone(config['max_output_bytes'])
             self.assertEqual(merged['environment']['cpus'], 4)
             self.assertEqual(merged['environment']['memory_mb'], 4096)
-            self.assertEqual(merged['verifier']['timeout_sec'], max(1200, 300+7*(AUTHOR_MODELS[slug]['timeout']+60)))
+            self.assertEqual(merged['verifier']['timeout_sec'], max(1200, 300+7*(AUTHOR_MODELS[slug]['timeout']+120)))
 
     def test_public_runtime_closure_is_isolated_and_keeps_checks(self):
         tasks = {s: task_directory(s, ROOT) for s in models()}

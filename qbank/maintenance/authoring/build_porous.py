@@ -391,7 +391,7 @@ def main():
                 atol=s['atol'], rtol=s['rtol'])) for q, s in cfg['outputs'].items()})
             config = dict(timeout_seconds=cfg['timeout'], max_output_bytes=None, stage='provisional',
                           verifier_budget=dict(base_seconds=300, per_case_overhead_seconds=60))
-            for name, value in [('grading.json', policy), ('judge-config.json', config)]:
+            for name, value in [('author/grading-template.json', policy), ('judge-config.json', config)]:
                 (directory / name).write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
             harbor = directory / 'harbor'
             harbor.mkdir(exist_ok=True)

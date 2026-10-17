@@ -117,7 +117,7 @@ class QuantityPolicyTests(unittest.TestCase):
 
     def test_all_chapter_two_configs_grade_requested_quantities_and_exact_boundaries(self):
         from caeoj.grading_policy import load_policy
-        policies = sorted((ROOT / 'qbank/02-fluid-mechanics').glob('*/*/grading.json'))
+        policies = sorted((ROOT / 'qbank/02-fluid-mechanics').glob('*/*/author/grading-template.json'))
         self.assertEqual(len(policies), 65)
         for path in policies:
             with self.subTest(task=path.parent.name):
@@ -157,9 +157,10 @@ class QuantityPolicyTests(unittest.TestCase):
             cases = task / 'cases'
             shutil.copytree(SMOKE / 'cases/09-vector-2d', cases / 'one')
             (task / 'judge-config.json').write_text(json.dumps({'timeout_seconds': 10}))
-            (task / 'grading.json').write_text(json.dumps({'version': 2, 'default': {
-                'metric': 'pointwise', 'time': 'per_time', 'components': 'per_component',
-                'atol': 0, 'rtol': 0}}))
+            from caeoj_tools.grading_policy import write_direct_grading
+            reference=task/'reference/one';reference.mkdir(parents=True)
+            shutil.copyfile(SMOKE/'reference/09-vector-2d/reference.h5',reference/'reference.h5')
+            write_direct_grading(reference, {'version':2,'default':{'metric':'pointwise','time':'per_time','components':'per_component','atol':0,'rtol':0}})
             program = task / 'solve.py'
             program.write_text('''import argparse
 from caeoj.sdk import load_problem, write_result
@@ -169,16 +170,13 @@ write_result(a.output,problem,{s['array']:problem.arrays[s['array']]+1e-7 for s 
 ''')
             report = run_smoke(cases, program, task / 'report.json')
             self.assertEqual(report['cases'][0]['status'], 'wrong_answer')
-            self.assertEqual(report['cases'][0]['policy_version'], 2)
+            self.assertIn('evaluation_sha256',report['cases'][0])
             # The same 1e-7 error would pass the old hardcoded smoke defaults.
             self.assertFalse(report['passed'])
-            (task/'grading.json').unlink()
-            with self.assertRaises(FileNotFoundError):
+            (reference/'grading.json').unlink()
+            with self.assertRaises((FileNotFoundError,ValueError)):
                 run_smoke(cases, program, task/'missing-policy.json')
-            (task/'judge-config.json').unlink()
-            # Standalone generated cases use the real smoke task's policy.
-            report = run_smoke(cases, program, task/'default-task-policy.json')
-            self.assertTrue(report['passed'])
+
 
 
 if __name__ == '__main__':

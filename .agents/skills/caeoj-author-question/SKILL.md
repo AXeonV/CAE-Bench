@@ -1,48 +1,28 @@
 ---
 name: caeoj-author-question
-description: 为 CAE-Bench-OJ 按单题、节或章补齐缺失或模糊的规划，再撰写试题、核查 I/O 契约并组织独立设计及考生审阅；用于从零建设章节或成组题面重构，不默认生成算例数据或发布评测。
+description: 为 CAE-Bench-OJ 规划并编写单题、节或章，协调 DATA 设计、独立设计审阅与考生审阅；适用于新题建设和题面重构。
 ---
 
-# CAE 题目出题
+# 出题
 
-支持单题、节、章及有明确边界的成组任务；按实际目标补全必要的上级规划。
+读取 [题库哲学](../../../qbank/PHILOSOPHY.md)、目标章／节规划和[出题工作流](../../../qbank/design/AUTHORING.md)；具体设计疑问再查[经验清单](../../../qbank/design/AUTHORING-LESSONS.md)。本技能拥有任务目标、能力范围、建模／方法责任、资源及评价设计。
 
-读取仓库根目录下 `qbank/PHILOSOPHY.md`、`qbank/design/README.md`、已有的目标章／节规划及 [出题工作流](../../../qbank/design/AUTHORING.md)，同时读取 [经验清单](../../../qbank/design/AUTHORING-LESSONS.md)，按该工作流完成用户指定阶段。规划不存在或只有方向时，先补齐，不将缺少规划当作出题的阻塞条件。不要将 2.1 的物理范围、材料集合、目录 slug、阈值或资源上限机械复制到其他领域。
+1. 明确目标清单、交付阶段和数据是否在范围内。上级规划不足时，先按“章内各节 → 目标节逐题清单”补足必要范围，保存到 `qbank/design/` 并更新索引；不展开无关节。既有决定冲突或关键目标无法判断时提出具体选项，常规设计自主推进。
+2. 规划与能力清单形成后调用 [caeoj-design-review](../caeoj-design-review/SKILL.md)，处理设计意见，再编写 instruction.md。
+3. 调用 [caeoj-design-data](../caeoj-design-data/SKILL.md) 完成自包含 DATA.md，联合处理题面与接口问题。实现归属按[核心与扩展职责](../../../qbank/design/CORE-AND-EXTENSIONS.md)，公开边界按[公开接口](../../../qbank/design/PUBLIC-INTERFACE.md)。
+4. 核查题面、DATA 和工具支持一致，运行下述静态检查；调用 [caeoj-candidate-review](../caeoj-candidate-review/SKILL.md)，默认题面模式。可复用 DATA 流程对同一最终版本的审阅；修订后复核受影响内容。设计目标改变时也复核设计。
+5. 按用户阶段交付。涉及已有数据时交 [caeoj-data-review](../caeoj-data-review/SKILL.md)；要求评测配置时交 [caeoj-configure-judge](../caeoj-configure-judge/SKILL.md)。数据制作和正式评测仅在任务包含时执行。
 
-先记录目标编号、现有规划的清晰程度、交付阶段、数据是否在范围内、已有用户改动和依赖协议。按“总体章目录 → 章内各节 → 目标节的逐题清单”自上而下补足依赖：例如第三章未规划而用户要求 3.1，先提出并保存第三章各节规划，再细化 3.1；2.3 只有方向时先将其拆为明确题目。章级只需确定各节范围、相邻边界及后续方向，不展开无关节的全部题面。保留已有编号和决定，给新增选择记录依据。
+考生解释性材料仅为本题 instruction.md、DATA.md 和通用 CONTRACT.md；各自职责见出题工作流。设计审阅与考生审阅使用独立上下文，不能向考生补充作者解释或设计报告。
 
-将规划写入 `qbank/design/` 并更新目录。规划先于题面；先提出可审查的具体方案，再按用户要求继续：仅请求规划则止于规划，请求完成出题则对符合已定原则的常规选择自主推进，不默认增加逐级批准环节。只有冲突于已有决定或无法合理判定的关键目标才提出具体选项澄清，同时推进独立工作。未要求生成数据时，完成到题面阶段；保留已有数据，不为占位伪造样例或标答。不把“自动化工作流”解释为定时任务，也不因补足上级规划而实施其他节。
+整章任务先列全目标，再按节或协议依赖分批实施。记录各项规划、题面、接口、审阅、配置、数据及未决状态；续作核对实际文件与记录。最后检查跨节覆盖、编号、重复和公共语义；共享接口变化时复核所有受影响题目。缺数据不阻止题面交付，但不能宣称数据就绪或正式发布。
 
-工作顺序：规划盘点与逐级补全 → 逐题能力清单 → 调用 [caeoj-design-review](../caeoj-design-review/SKILL.md) → 处理设计意见 → instruction.md → 调用 [caeoj-design-data](../caeoj-design-data/SKILL.md) 设计自包含 DATA.md → 反馈并联合修订题面 → 静态检查 → 调用 [caeoj-candidate-review](../caeoj-candidate-review/SKILL.md) → 修订与复核 → 维护记录及交付。出题技能负责物理目标、支持范围、建模／方法责任、资源及评价目标；DATA 设计负责输入输出契约，仅在现有表示或工具不足时补基础设施。不能以几何、来源或模型名称填满清单，也不能把题面欠定问题转成 DATA 内的隐藏假设。仅有题面草稿不是完整出题交付；牵涉用户未授权的新物理范围或发布行为时，明确待决事项。
-
-整章任务先形成覆盖全部目标节的有限逐题清单，再按节或协议依赖分批实施。维护逐节状态表，记录规划、题面、协议实现、静态检查、设计审阅、考生审阅、未决项及下一步；已有完成项只核查和必要修订，不从头重做。中断／续作先读取记录并核对实际文件，不把一次上下文或一次回复当作整章范围。共享协议或公共文档改变后重查所有受影响题目的验证与审阅状态，最后做章内覆盖、编号、跨节重复和公共语义一致性核查。不得仅因题目很多、协议尚未存在或数据暂缺而将目标节静默删去或只留下 TODO；未完成项如实保留，继续推进其他可完成项。
-
-实现归属遵守[核心与扩展职责](../../../qbank/design/CORE-AND-EXTENSIONS.md)：普通题目修改本题目录，可复用物理能力修改 `qbank/extensions/caeoj_ext/`，专用公开规则按需进入本题 `extension/`；数据／参考制作在 `author/`，共享维护操作在 `src/caeoj_tools/`。只有通用表示或扩展接口不足才修改核心；新增题目通常不改发布脚本。扩展按物理能力组织，不绑定章号、题号或来源。交付遵守[考生侧公开接口](../../../qbank/design/PUBLIC-INTERFACE.md)，目录拆分不增加考生安装、注册和阅读工作。
-
-目录和装配实况见[运行装配维护说明](../../../qbank/maintenance/RUNTIME.md)：`qbank/design/` 保存规划、架构与出题流程，`qbank/maintenance/` 保存内部实现说明和可复用作者工具，`qbank/extensions/` 提供公开运行所需的共享领域能力。维护资料与运行扩展分开，不把维护规范或生成器打进考生包。
-
-考生阅读集合仅为本题 instruction.md、DATA.md、docs/CONTRACT.md。禁止新建章节 COMMON／共享 DATA 作为解题依赖，或引用维护规范、评分规范、其他题目和源码补定义。维护模板可复用，实际交付逐题完整；领域资料放 qbank/maintenance，不随考生包发布。
-
-规划与逐题能力清单形成后调用 [caeoj-design-review](../caeoj-design-review/SKILL.md)，检查问题族定位、划分、来源独立性及建模评价一致性；仅规划任务到此完成审阅，不要求题面或样例。最终题面须核对设计落实，能力边界或评价目标改变时请求相关设计复核。设计与考生使用独立上下文，不把设计解释或报告交给考生补题意。
-
-交付前调用 [caeoj-candidate-review](../caeoj-candidate-review/SKILL.md) 组织独立考生审阅，默认使用允许缺样例的题面模式；用户要求检查真实考试材料时显式选择考试材料模式。可与 DATA 设计共用同一最终版本审阅，由本技能处理意见、同步维护模板并请求受影响文件复核；记录实际覆盖及未决项，不以作者自审代替独立审阅。
-
-维护方另查最终 DATA、工具和配置的支持范围一致性，方法见 DATA 技能的[验证流程](../caeoj-design-data/references/workflow.md)；考生审阅不能替代该核查。
-
-运行脚本检查现有题面（不写输入数据、不执行题目代码）：
+题面阶段使用：
 
 ```sh
-python .agents/skills/caeoj-author-question/scripts/check_statements.py \
-  --section qbank/<chapter>/<section> \
-  --output runs/authoring/<section>/static.json
+python .agents/skills/caeoj-author-question/scripts/check_statements.py --section qbank/<chapter>/<section> --output runs/authoring/<section>/static.json
 ```
 
-仅规划阶段不运行该脚本。脚本仅识别节目录直接子目录中的 `instruction.md`／`DATA.md`，检查该节 Markdown 中的常规内联文件链接和 JSON 代码块，并拒绝逐题双文件指向额外解释文档／外部协议的链接；本题 examples／samples 中的公开数据文件可链接。纯文本依赖和完整 Markdown 语义仍需人工审阅。题目数量与规划的语义对应、物理和协议正确性仍由 Agent 核查。采用其他布局时调整入口或脚本，不为通过检查改坏既有结构。
+脚本只检查节下直接题目目录的双文件、常规内联链接和 JSON 片段；不验证纯文本依赖、物理自包含或数值正确性。仅规划时无需运行。维护方还须按 [DATA 验证流程](../caeoj-design-data/references/workflow.md)核对契约与实现。
 
-当用户要求评测配置、可运行任务或发布时，调用 [caeoj-configure-judge](../caeoj-configure-judge/SKILL.md)，依据题面与 DATA 配置当前评分／执行框架。可运行评测必须有实际生效的规则和资源设置，但不要求每题手写某个固定文件名。仅题面阶段不伪造配置就绪：单列配置、数据绑定、执行验证和发布状态；缺少正式数据时完成可证部分并记录依赖，不能为运行组装器制造样例。
-
-涉及已有实际数据时结合 [caeoj-data-review](../caeoj-data-review/SKILL.md)核查全部输入输出；其 inventory 当前只自动发现 `cases/*/problem.json` 与 `samples/*/input/problem.json`，qbank 的 `examples` 须另行遍历，不能遗漏后声称完整审计。数据缺失不阻止题面交付，但不能声明已完成数据验证或正式发布。
-
-修改协议、SDK、评分、目录或装配流程时，同步受影响技能及其引用、README 操作指南；当前实现细节引用维护文档；运行说明聚焦共享机制，题数、历史成绩、平台验收及迁移记录留在题目或审阅材料中。章级设计目录用链接定位逐题清单、进度和审阅，避免再维护一份逐章验收摘要。
-
-维护方审阅记录按工作流保留新增规划及依据、已发现问题、修订及剩余限制。检查 diff，按用户的提交偏好提交本次文件；不纳入无关改动。最终分别报告规划、题面／DATA、独立设计审阅、独立考生审阅、评测配置与执行、数据和发布状态，不以测试数代替物理或参考准确性证据。
+交付题目及必要规划、审阅意见处理和验证证据；逐阶段报告实际完成范围及未决项。维护记录保留理由和证据，公共说明只链接其权威位置。

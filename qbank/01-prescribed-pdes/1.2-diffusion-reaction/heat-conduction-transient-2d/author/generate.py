@@ -9,6 +9,7 @@ import numpy as np
 
 from caeoj.grading import grade_files
 from caeoj.grading_policy import load_policy
+from caeoj_tools.grading_policy import materialize_references
 from caeoj.sdk import load_problem, write_result
 from caeoj.validation import write_json
 from catalog import CASES, SIDES
@@ -88,7 +89,7 @@ def generate_case(case, destination):
 
 
 def publish_samples(destination):
-    policy = load_policy(ROOT/'grading.json')
+    policy = load_policy(ROOT/'author/grading-template.json')
     # A zero fixture and an independent nonzero mixed-boundary fixture.
     for number, case_name in [('01', '01-zero'), ('02', '15-four-operators')]:
         sample = destination/'samples'/number
@@ -123,8 +124,8 @@ def generate(destination=ROOT, selected=None):
     (destination/'TEST-CASES.md').write_text('\n'.join(lines)+'\n', encoding='utf-8')
     if selected is None:
         publish_samples(destination)
+    materialize_references(destination, load_policy(ROOT/'author/grading-template.json'))
     return len(cases)
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

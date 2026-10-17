@@ -16,7 +16,7 @@ from caeoj.grading_policy import resolve_policy
 from caeoj.sdk import load_problem
 from caeoj.validation import output_support
 from caeoj_tools.assembly import runtime_materials
-from caeoj_tools.grading_policy import task_policy
+from caeoj_tools.grading_policy import author_policy
 from caeoj_tools.task_paths import task_directory
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -34,7 +34,7 @@ class SolidJudgeTests(unittest.TestCase):
         for slug in models():
             with self.subTest(task=slug),tempfile.TemporaryDirectory() as tmp:
                 path,m=fixture(tmp,slug);problem=load_problem(path);task=task_directory(slug,ROOT)
-                policy=task_policy(task,problem);bound=resolve_policy(policy,problem)
+                policy=author_policy(task,problem);bound=resolve_policy(policy,problem)
                 support=output_support(problem)
                 reference={key:problem.arrays[key].copy() for key in support}
                 for name,s in m['outputs'].items():
@@ -58,7 +58,7 @@ class SolidJudgeTests(unittest.TestCase):
             merged=tomllib.loads(prepare.task_config(template,overrides,judge_config=config,case_count=2))
             self.assertEqual(merged['environment']['cpus'],4);self.assertEqual(merged['environment']['memory_mb'],8192)
             self.assertEqual(merged['verifier']['environment_mode'],'separate');self.assertEqual(merged['verifier']['network_mode'],'no-network')
-            self.assertEqual(merged['verifier']['timeout_sec'],300+2*(AUTHOR_MODELS[slug]['timeout']+60))
+            self.assertEqual(merged['verifier']['timeout_sec'],300+2*(AUTHOR_MODELS[slug]['timeout']+120))
             self.assertEqual(config['timeout_seconds'],AUTHOR_MODELS[slug]['timeout']);self.assertIsNone(judge.output_limit(config))
         # Unknown resource keys must not silently disappear.
         with self.assertRaises(ValueError):prepare.task_config(template,{'environment':{'cores':4}})

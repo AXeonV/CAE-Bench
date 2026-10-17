@@ -43,7 +43,7 @@ python 'qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/author/c
 
 源项 `q=-kΔT_exact` 和各边条件由同一解析温度函数推导，标答为该函数在网格节点处的值，解析解不写入输入。源项与边界数据存为多项式系数，具体解释见 DATA.md。
 
-每点限时 **1 秒**、内存上限 **1024 MB**；所有节点绝对误差 **≤0.01 K** 得 1 分，否则 0 分，满分 **32 分**。相对容差为零，以 `grading.json` 为准；逐例时限见 `judge-config.json`；Harbor 内存配置见 `harbor/task.toml`。
+每点限时 **1 秒**、内存上限 **1024 MB**；所有节点绝对误差 **≤0.01 K** 得 1 分，否则 0 分，满分 **32 分**。相对容差为零，以 每例 `reference/grading.json` 为准；逐例时限见 `judge-config.json`；Harbor 内存配置见 `harbor/task.toml`。
 
 基线只读取输入，用 P1 有限元独立求解；当前 32/32 通过，最大绝对误差约 **0.00324 K**。该结果验证当前数据与阈值，题目不限定求解方法。
 

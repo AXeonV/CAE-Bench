@@ -59,7 +59,7 @@ def _run(args):
             for path in (PROJECT_ROOT/'qbank').glob('**/data-manifest.json'):
                 if pool.checked_json(path).get('task_id') == args.task_id:
                     raise pool.PoolError('Task ID already assigned: ' + args.task_id)
-            value = {'schema_version': 3, 'task_id': args.task_id,
+            value = {'schema_version': 4, 'task_id': args.task_id,
                      'repository': {'repo_id': args.repo_id, 'repo_type': 'dataset',
                                     'path': task.relative_to(PROJECT_ROOT).as_posix()}}
         return pool.pack(args.source or task, args.output, value)

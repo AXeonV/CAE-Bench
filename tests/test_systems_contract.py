@@ -15,7 +15,7 @@ from caeoj.sdk import load_problem,write_result,load_result
 from caeoj.validation import validate_input,validate_output,output_support
 from caeoj.grading import grade_arrays
 from caeoj.grading_policy import resolve_policy
-from caeoj_tools.grading_policy import task_policy
+from caeoj_tools.grading_policy import author_policy
 from caeoj_tools.task_paths import task_directory
 from caeoj_tools.assembly import runtime_materials
 ROOT=Path(__file__).resolve().parents[1]
@@ -111,7 +111,7 @@ class SystemTests(unittest.TestCase):
         defaults={'angle':(1e-7,.002),'angular_velocity':(1e-7,.002),'transmitted_torque':(1e-6,.002),'pressure':(1e-3,.002),'volume_flow':(1e-9,.002),'endpoint_volume_flow':(1e-9,.003),'absolute_pressure':(1e-3,.002),'mass_flow':(1e-9,.002),'temperature':(1e-5,.002),'heat_rate':(1e-5,.002),'voltage':(1e-7,.002),'current':(1e-8,.002),'displacement':(1e-8,.003),'velocity':(1e-7,.003),'chamber_pressure':(1e-2,.003),'control_voltage':(1e-6,.002)}
         for slug in models():
             with self.subTest(slug=slug),tempfile.TemporaryDirectory() as tmp:
-                path,m=fixture(tmp,slug);p=load_problem(path);policy=task_policy(task_directory(slug,ROOT),p);bound=resolve_policy(policy,p)
+                path,m=fixture(tmp,slug);p=load_problem(path);policy=author_policy(task_directory(slug,ROOT),p);bound=resolve_policy(policy,p)
                 ref={k:p.arrays[k].copy() for k in output_support(p)}
                 for s in m['outputs'].values():ref[s['array']]=np.zeros((len(p.arrays[m['time_axes'][s['time_axis']]]),len(p.arrays[m['locations'][s['location']]['ids']]),*s['component_shape']))
                 for name,s in m['outputs'].items():
@@ -135,7 +135,7 @@ class SystemTests(unittest.TestCase):
             self.assertEqual(config['timeout_seconds'],expected[slug]);self.assertIsNone(config['max_output_bytes'])
             self.assertEqual(merged['environment']['cpus'],2);self.assertEqual(merged['environment']['memory_mb'],4096);self.assertEqual(merged['environment']['gpus'],0)
             self.assertEqual(merged['agent']['timeout_sec'],3600);self.assertEqual(merged['environment']['build_timeout_sec'],1800)
-            self.assertEqual(merged['verifier']['environment_mode'],'separate');self.assertEqual(merged['verifier']['network_mode'],'no-network');self.assertEqual(merged['verifier']['timeout_sec'],max(1200,300+3*(expected[slug]+60)))
+            self.assertEqual(merged['verifier']['environment_mode'],'separate');self.assertEqual(merged['verifier']['network_mode'],'no-network');self.assertEqual(merged['verifier']['timeout_sec'],max(1200,300+3*(expected[slug]+120)))
         files,runtime=runtime_materials({s:task_directory(s,ROOT) for s in models()},ROOT)
         self.assertEqual(set(runtime['extensions']),{'systems.networks'})
         self.assertFalse(any(any(v in n for v in ('caeoj_tools','/author/','maintenance','/cases/','/reference/')) for n in files))

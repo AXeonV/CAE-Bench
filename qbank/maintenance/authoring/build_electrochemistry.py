@@ -212,7 +212,8 @@ spatial_dimension=1，meshes、geometries均为空。entities表示真实有限�
             data=data.replace('"time":"constant或linear"','"time":"linear"')
             (t/'DATA.md').write_text(data)
             policy={'version':2,'quantities':{q:dict(unit=s['unit'],rule=dict(metric='pointwise',time='per_time',components='per_component',atol=s['atol'],rtol=s['rtol'])) for q,s in c['outputs'].items()}}
-            (t/'grading.json').write_text(json.dumps(policy,indent=2)+'\n')
+            (t/'author').mkdir(parents=True,exist_ok=True)
+            (t/'author/grading-template.json').write_text(json.dumps(policy,indent=2)+'\n')
             (t/'judge-config.json').write_text(json.dumps(dict(timeout_seconds=c['timeout'],max_output_bytes=None,stage='provisional',verifier_budget=dict(base_seconds=300,per_case_overhead_seconds=60)),indent=2)+'\n')
             (t/'harbor').mkdir(exist_ok=True)
             (t/'harbor/task.toml').write_text('[agent]\ntimeout_sec = 3600.0\n\n[environment]\nbuild_timeout_sec = 1800.0\ncpus = 2\nmemory_mb = 4096\ngpus = 0\nos = "linux"\n\n[verifier]\nnetwork_mode = "no-network"\n')

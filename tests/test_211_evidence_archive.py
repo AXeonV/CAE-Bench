@@ -7,6 +7,7 @@ import shutil
 import tarfile
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from caeoj_tools import data_pool as pool
 
@@ -67,6 +68,34 @@ class EvidenceArchiveTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             evidence.fetch(self.index, destination, store=self.store)
         self.assertEqual((destination/'my-notes.txt').read_text(), 'keep')
+
+    def test_verified_cache_links_are_allowed_but_assembled_links_are_rejected(self):
+        self.value.update(case_commit='b'*40, source_git_commit='c'*40, evidence_files=2)
+        release={k:self.value[k] for k in ('schema_version','case_commit','source_git_commit','evidence_files','archives')}
+        path=self.repository/'evidence/release.json';path.write_text(json.dumps(release),encoding='utf-8')
+        self.value['release_manifest']=dict(path='evidence/release.json',**evidence.entry(path));self.save()
+        cache=self.root/'cache';cache.mkdir();native=True
+        for source in (self.repository/'evidence').iterdir():
+            target=cache/source.name
+            try:target.symlink_to(source)
+            except OSError:
+                # Windows may lack symlink privileges; emulate only cache-link metadata.
+                native=False;shutil.copyfile(source,target)
+        class CacheStore:
+            def get(self,name):return cache/Path(name).name
+        original=Path.is_symlink
+        def cached_link(p):return p.parent==cache or original(p)
+        destination=self.root/'assembled'
+        with patch.object(Path,'is_symlink',original if native else cached_link):
+            result=evidence.fetch(self.index,destination,store=CacheStore(),include_raw=True)
+        self.assertEqual(result['evidence_files'],2)
+        self.assertEqual((destination/'log.txt').read_bytes(),self.contents['log.txt'])
+        self.assertEqual(evidence.verify(self.index,destination),result)
+        target=destination/'log.txt'
+        # Allowing the remote cache link must not weaken destination path validation.
+        with patch.object(Path,'is_symlink',lambda p:p==target or original(p)):
+            with self.assertRaises((ValueError,pool.PoolError)):
+                evidence.verify(self.index,destination)
 
     def test_mutable_revision_and_damaged_archive_fail_before_assembly(self):
         self.value['repository']['revision'] = 'main'

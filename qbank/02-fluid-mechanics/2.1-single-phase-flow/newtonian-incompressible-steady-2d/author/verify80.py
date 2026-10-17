@@ -9,9 +9,9 @@ from caeoj.case_grading import grade_case
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('selection',type=Path);p.add_argument('destination',type=Path);p.add_argument('report',type=Path)
-    p.add_argument('--revision',required=True);p.add_argument('--cache',type=Path,required=True);p.add_argument('--include-existing',type=Path);a=p.parse_args()
+    p.add_argument('--revision',required=True);p.add_argument('--cache',type=Path,required=True);p.add_argument('--include-existing',type=Path);p.add_argument('--expected-cases',type=int,choices=[80,100],default=80);a=p.parse_args()
     assert re.fullmatch('[a-f0-9]{40}',a.revision)
-    value=pool.manifest(a.selection);assert len(value['cases'])==80
+    value=pool.manifest(a.selection);assert len(value['cases'])==a.expected_cases
     if a.include_existing:
         old=pool.manifest(a.include_existing);assert old['repository']==value['repository'] and not set(old['cases'])&set(value['cases'])
         value={**value,'cases':{**old['cases'],**value['cases']},'samples':{}}

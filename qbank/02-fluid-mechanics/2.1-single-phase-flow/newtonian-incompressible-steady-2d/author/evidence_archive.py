@@ -24,8 +24,8 @@ def entry(path):
     return dict(size_bytes=path.stat().st_size, sha256=pool.digest(path))
 
 
-def check_file(path, expected):
-    if not path.is_file() or path.is_symlink() or entry(path) != {
+def check_file(path, expected, *, allow_cache_link=False):
+    if not path.is_file() or (path.is_symlink() and not allow_cache_link) or entry(path) != {
             k: expected[k] for k in ('size_bytes', 'sha256')}:
         raise ValueError(f'Evidence size/SHA-256 mismatch: {path}')
 
@@ -158,17 +158,17 @@ def fetch(index_path, destination, *, cache_dir=None, include_raw=False, store=N
     store = store or pool.HubStore(repository['repo_id'], revision=repository['revision'], cache_dir=cache_dir)
     if 'release_manifest' in index:
         release_path = Path(store.get(index['release_manifest']['path']))
-        check_file(release_path, index['release_manifest'])
+        check_file(release_path, index['release_manifest'], allow_cache_link=True)
         release = json.loads(release_path.read_text(encoding='utf-8'))
         for key in ('schema_version', 'case_commit', 'source_git_commit', 'evidence_files', 'archives'):
             if release[key] != index[key]:
                 raise ValueError(f'Fixed release manifest differs from the Git index: {key}')
     tree = next(a for a in index['archives'] if a['kind'] == 'tree')
     manifest = Path(store.get(tree['inventory']['path']))
-    check_file(manifest, tree['inventory'])
+    check_file(manifest, tree['inventory'], allow_cache_link=True)
     files = inventory_files(json.loads(manifest.read_text(encoding='utf-8')))
     archive = Path(store.get(tree['path']))
-    check_file(archive, tree)
+    check_file(archive, tree, allow_cache_link=True)
     destination.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='.evidence-', dir=destination.parent) as temporary:
         stage = Path(temporary)/'payload'
@@ -178,7 +178,7 @@ def fetch(index_path, destination, *, cache_dir=None, include_raw=False, store=N
         for a in index['archives']:
             if include_raw and a['kind'] == 'raw':
                 raw = Path(store.get(a['path']))
-                check_file(raw, a)
+                check_file(raw, a, allow_cache_link=True)
                 (stage/'raw').mkdir(exist_ok=True)
                 shutil.copyfile(raw, stage/'raw'/Path(a['path']).name)
         pool.write_json(stage/RECEIPT, dict(schema_version=1, index_sha256=pool.digest(index_path),

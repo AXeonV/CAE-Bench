@@ -5,7 +5,7 @@ description: 审计 CAE-Bench-OJ 全部实际输入及公开输出与题面、DA
 
 # 实际数据审计
 
-先读取目标题目的 instruction.md、DATA.md 和 `docs/CONTRACT.md`，再枚举全部实际输入及公开输出。三文件是对照依据，维护实现只能帮助定位问题，不能补足公开定义。本技能不替代独立设计或考生审阅。
+先读取目标题目的 instruction.md、DATA.md 和 `docs/CONTRACT.md`，再枚举本次审计范围的全部实际输入及公开输出。来源建设可交付指定新增批次：记录题目与 staging／装配位置，覆盖本批全部材料，不把未加载的既有池条目计为已审计。三文件是对照依据，维护实现只能帮助定位问题，不能补足公开定义。本技能不替代独立设计或考生审阅。
 
 ## 盘点
 
@@ -39,4 +39,4 @@ python .agents/skills/caeoj-data-review/scripts/inventory.py --task qbank/<chapt
 
 完整提交与稀疏参考分别按各自契约检查；配置不引入题面未声明的判据。结构、契约、数值／物理和资源验证分别陈述；文件摘要一致或参考存在不证明数值准确。隐藏输入证据留维护报告，公开材料不增加标答、算法或隐藏测试提示，校验器不补物理或纠正答案。
 
-冲突时记录双方依据，不默认数据正确。用户授权修复后按问题归属联合 [caeoj-design-data](../caeoj-design-data/SKILL.md) 或出题环节处理，重跑受影响检查。配置、打包及 benchmark 仅在本次任务包含时执行，相关操作引用对应技能与维护指南。
+冲突时记录双方依据，不默认数据正确。用户授权修复后按问题归属联合 [caeoj-design-data](../caeoj-design-data/SKILL.md) 或出题环节处理，重跑受影响检查。来源或参考需重新制作时反馈当前协调方，制作流程见 [caeoj-source-cases](../caeoj-source-cases/SKILL.md)，不递归启动建设。配置、打包及 benchmark 仅在本次任务包含时执行，相关操作引用对应技能与维护指南。

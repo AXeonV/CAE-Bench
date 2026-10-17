@@ -8,6 +8,8 @@
 
 有 data-manifest.json 时按[数据操作](../../../../qbank/maintenance/DATA-SYNC.md)获取并严格核验；装配是准备步骤，数据制作及选样改变另按用户范围处理。核对全部所选输入／参考、公开样例、字段和策略绑定。已有数据审计及独立审阅可按 SHA256 与覆盖复用；疑点交对应技能处理。
 
+用户按池 case ID 指定本次测试／样例时，先用数据工具生成临时选择（`select --revision <HF提交> --output <选择文件>`），再采用该选择完成装配和冻结，记录本次选择与既有默认清单的区别；新增入池条目不自动加入运行。缺少所需 case 时，建设工作交 [caeoj-source-cases](../../caeoj-source-cases/SKILL.md)，不以缺数据为由自动调用模型或改变范围。
+
 确认 Docker、主机架构、空间、凭据配置和 Harbor，按[评测维护说明](../../../../qbank/maintenance/EVALUATION.md)核对实际隔离与限额。环境安装、开发回归和 Oracle 仅在准备或诊断需要时运行；Oracle 不证明一般参考精度。
 
 通过 `publish_dist.py`、`prepare_harbor.py` 生成公开包与任务，操作见 [README](../../../../README.md#运行)，实现见[运行说明](../../../../qbank/maintenance/RUNTIME.md)。内容和绑定匹配时可复用产物；过期则重建。工具装配不制作数值样例，缺正式数据须报告。

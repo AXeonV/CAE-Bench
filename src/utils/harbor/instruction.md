@@ -22,6 +22,5 @@ python /app/submission/solve.py --input /app/${task_path}/samples/${sample}/inpu
 python -m caeoj validate-output --input /app/${task_path}/samples/${sample}/input/problem.json --output /app/sample-result.h5
 ```
 
-公开样例目录：${samples}。
+${sample_materials}
 校验器仅检查数据协议；数值正确性由独立判分器检查。
-已提供的公开完整提交示例位于 `/app/${task_path}/samples/${sample}/output/result.h5`。

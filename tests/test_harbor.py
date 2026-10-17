@@ -58,6 +58,31 @@ class HarborTests(unittest.TestCase):
         publisher.publish(TASK, root=self.root)
         return Path(prepare.prepare(TASK, self.root)['task_directory'])
 
+    def test_instruction_lists_only_published_sample_assets(self):
+        task = self.root / TASK_PATH
+        for example in task.glob('samples/*/output/result.h5'):
+            example.unlink()
+        directory = self.prepared()
+        instruction = (directory/'instruction.md').read_text(encoding='utf-8')
+        self.assertNotIn('output/result.h5', instruction)
+        self.assertNotIn('完整提交示例', instruction)
+        with zipfile.ZipFile(directory/'environment/agent.zip') as bundle:
+            for sample in ('01', '02'):
+                for relative in ('input/problem.json', 'reference/grading.json', 'reference/reference.h5'):
+                    name = f'{TASK_PATH.as_posix()}/samples/{sample}/{relative}'
+                    self.assertIn(name, bundle.namelist())
+                    self.assertIn(f'`/app/{name}`', instruction)
+        self.assertIn('python -m caeoj grade', instruction)
+
+    def test_instruction_handles_mixed_sample_examples(self):
+        task = self.root / TASK_PATH
+        (task/'samples/01/output/result.h5').unlink()
+        directory = self.prepared()
+        instruction = (directory/'instruction.md').read_text(encoding='utf-8')
+        self.assertNotIn(f'{TASK_PATH.as_posix()}/samples/01/output/result.h5', instruction)
+        self.assertIn(f'`/app/{TASK_PATH.as_posix()}/samples/02/output/result.h5`', instruction)
+        self.assertEqual(instruction.count('完整提交示例：'), 1)
+
     def test_declared_nested_assets_survive_staging_and_can_be_graded(self):
         from caeoj.sdk import load_problem
         from caeoj.case_grading import grade_case
@@ -242,6 +267,8 @@ class HarborTests(unittest.TestCase):
         self.assertIn(f'/app/{TASK_PATH.as_posix()}/samples/02/', instruction)
         self.assertIn('read_constant', instruction)
         self.assertIn('read_field', instruction)
+        for sample in ('01', '02'):
+            self.assertIn(f'`/app/{TASK_PATH.as_posix()}/samples/{sample}/output/result.h5`', instruction)
         self.assertNotIn('${', instruction)
         config = tomllib.loads((directory / 'task.toml').read_text(encoding='utf-8'))
         self.assertEqual(config['verifier']['environment_mode'], 'separate')

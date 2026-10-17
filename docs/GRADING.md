@@ -62,7 +62,7 @@ python -m caeoj grade --input problem.json --output result.h5 --grading referenc
 
 ## 数值策略
 
-下面的version 1／2是内层数值规则的两种当前绑定方式，不是外层case配置。独立数组比较API仍用于数值工具测试；正式题库执行只读取case配置。
+下面的version 1／2是内层数值规则的两种当前绑定方式，不是外层case配置。
 
 ## 配置与逻辑
 

@@ -25,7 +25,7 @@ python -m caeoj_tools.cli smoke
 
 扩展按物理组织，章节重排不改扩展 ID。cfd-2.1 与 fluid-* 等输入标识对应实际声明，移动内部模块不改写输入语义。
 
-公开 `models.json` 仅保存声明检查所需的模型元数据。作者模板保留执行预算和评分参数，导出时由 `caeoj_tools.author.public_model_catalog` 去掉 `timeout` 及输出定义中的 `atol/rtol`；实际评分来自每个case的reference/grading.json，执行设置来自执行配置。模板位于 `qbank/maintenance/`，不进入公开装配。
+公开 `models.json` 仅保存声明检查所需的模型元数据。作者侧模型定义保留执行预算和评分参数，导出时由 `caeoj_tools.author.public_model_catalog` 去掉 `timeout` 及输出定义中的 `atol/rtol`；其构建脚本位于 `qbank/maintenance/`，不进入公开装配。实际评分与逐题作者模板的职责见[评测配置](EVALUATION.md)。
 
 ## 描述字段与检查接口
 
@@ -41,6 +41,7 @@ python -m caeoj_tools.cli smoke
 | schemas | package:resource 相对资源路径，必须在 files 内 |
 | schema_overrides | 仅允许使用核心 public-runtime.json 明确列出的扩展点；不同扩展不能轮流覆盖同一点 |
 | check | module:function，接收已通过通用检查的 problem、errors，追加标准诊断；无额外检查时省略 |
+| evaluators | 可信评价器标识到实现入口的映射；接口与约束见[判题说明](../../docs/GRADING.md) |
 | geometry | 是否需要网格连接关系与节点坐标等较昂贵的几何信息 |
 | condition_compatibility | module:function，接收 problem、condition、field_spec；返回 None 表示沿用通用关联规则，True／False 表示该领域的关联判断 |
 | dependencies | 可选 PEP 508 Python 依赖要求，与核心依赖合并后验证并锁定完整传递闭包 |
@@ -55,7 +56,7 @@ Schema 由核心结构和所需扩展片段组合，仍严格拒绝未知键。�
 
 普通题目复用现有扩展，只需在可信 tasks 表中显式绑定，不修改核心和发布器。确需题目运行代码时，可以新增本题 `extension/runtime.json`，使用上述扩展字段并增加唯一的 `id: task.<name>`；其 files 相对 extension 目录，例如 `caeoj_task_ext/<name>/__init__.py`。该扩展可以依赖共享扩展；其整个目录不会递归公开。
 
-题目特有检查必须对应 instruction／DATA 的公开约束。参数、阈值与资源差异使用现有数据／配置，不为这些差异制造 Python 模块。当前自定义运行钩子用于契约检查；需要新评分指标时仍先修通用指标或设计明确的评分接口，不能把参考解包装成检查扩展。
+题目特有检查必须对应 instruction／DATA 的公开约束。参数、阈值与资源差异使用现有数据／配置，不为这些差异制造 Python 模块。声明检查通过 `check` 接入，独立评价通过 `evaluators` 接入；两者职责分开，不能把参考解包装成检查扩展。
 
 ## 装配与交付
 

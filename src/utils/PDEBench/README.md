@@ -10,7 +10,7 @@
 
 ## 试运行评测
 
-仓库已提供 11 题的公开 grading.json（沿用各题 atol/rtol，每时刻每字段允许最多 0.1% 偏差空间点）、judge-config.json 与 Harbor 资源配置，详见 [试运行参数和运行步骤](EVALUATION.md)。baseline 可选，尚未正式校准；数据准备工具不覆盖这些已追踪配置。
+仓库已提供 11 题的作者侧 author/grading-template.json（沿用各题 atol/rtol，每时刻每字段允许最多 0.1% 偏差空间点）、judge-config.json 与 Harbor 资源配置，详见 [试运行参数和运行步骤](EVALUATION.md)。baseline 可选，尚未正式校准；转换完成时由作者模板生成每例 reference/grading.json；运行时仅读取 case 配置。
 
 ## 克隆后使用
 

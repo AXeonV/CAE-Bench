@@ -391,5 +391,9 @@ def prepare_task(model,catalog,task,cache,staging,budget,local=None,pool=64,time
             'remaining':['Calibrate error thresholds and execution resources; no judge-config generated']}
     if any(r['estimated_output_bytes']>128*1024**2 for r in records):
         report['remaining'].append('Current Harbor output-size limit is 128 MiB; high-dimensional outputs require an audited change')
+    from caeoj_tools.grading_policy import materialize_references, author_policy
+    from caeoj_tools.task_paths import task_directory
+    from caeoj_tools.author import PROJECT_ROOT
+    materialize_references(task, author_policy(task_directory(model.task, PROJECT_ROOT)))
     atomic_json(task/'author'/'preparation.json',report)
     return report

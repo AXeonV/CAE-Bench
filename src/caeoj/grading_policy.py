@@ -47,7 +47,7 @@ def load_policy(path):
 
 
 def validate_policy(policy, problem=None):
-    schema = json.loads(Path(__file__).with_name('grading.schema.json').read_text())
+    schema = json.loads(Path(__file__).with_name('grading.schema.json').read_text(encoding='utf-8'))
     try:
         jsonschema.Draft202012Validator(schema).validate(policy)
     except RecursionError as exc:

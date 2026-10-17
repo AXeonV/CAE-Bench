@@ -19,19 +19,27 @@ class PoolTests(unittest.TestCase):
         self.addCleanup(self.temporary.cleanup)
         self.root = Path(self.temporary.name)
         self.source = self.root/'generated'
-        self.value = {'schema_version': 3, 'task_id': 'caeoj-000123',
+        self.value = {'schema_version': 4, 'task_id': 'caeoj-000123',
                       'repository': {'repo_id': 'owner/test', 'repo_type': 'dataset', 'path': 'qbank/ch/sec/task'}}
+        from caeoj_tools.author import load_author_module
+        from caeoj.sdk import load_problem
+        from caeoj.storage import write_hdf5
+        from caeoj.validation import output_support
+        from caeoj_tools.grading_policy import write_direct_grading
+        scratch = self.root/'fixture'
+        load_author_module('smoke-test', 'examples').make_cases(scratch)
         for name, parameter in (('a', 1), ('b', 2)):
             directory = self.source/'cases'/name
-            directory.mkdir(parents=True)
-            pool.write_json(directory/'problem.json', {'data_file': 'input.h5', 'geometries': {},
-                            'meshes': {'main': {'file': 'mesh.msh'}}, 'parameter': parameter})
-            (directory/'input.h5').write_bytes(b'input' + bytes([parameter]))
-            (directory/'mesh.msh').write_bytes(b'shared-mesh')
+            shutil.copytree(scratch/'09-vector-2d',directory)
+            problem_json = pool.checked_json(directory/'problem.json')
+            problem_json.setdefault('physics', {'model':'identity','parameters':{}})['parameters']['parameter']={'value':parameter,'unit':'1'}
+            pool.write_json(directory/'problem.json',problem_json)
+            problem = load_problem(directory/'problem.json')
             ref = self.source/'reference'/name
-            ref.mkdir(parents=True)
-            (ref/'reference.h5').write_bytes(b'answer' + bytes([parameter]))
+            write_hdf5(ref/'reference.h5',{k:problem.arrays[k] for k in output_support(problem)|{v['array'] for v in problem.manifest['outputs'].values()}})
+            write_direct_grading(ref, {'version':2,'default':{'metric':'pointwise','time':'per_time','components':'per_component','atol':1e-6,'rtol':0}})
         shutil.copytree(self.source/'cases/a', self.source/'samples/01/input')
+        shutil.copytree(self.source/'reference/a',self.source/'samples/01/reference')
         sample = self.source/'samples/01/output'
         sample.mkdir()
         shutil.copyfile(self.source/'reference/a/reference.h5', sample/'result.h5')
@@ -224,7 +232,7 @@ class PoolTests(unittest.TestCase):
         old = deepcopy(self.selection)
         old['schema_version'] = 2
         pool.write_json(self.root/'old-selection.json', old)
-        with self.assertRaisesRegex(pool.PoolError, 'schema_version 3'):
+        with self.assertRaisesRegex(pool.PoolError, 'schema_version 4'):
             pool.manifest(self.root/'old-selection.json')
 
     def test_reference_derivation_stays_in_evidence_not_hf(self):
@@ -274,6 +282,23 @@ class PoolTests(unittest.TestCase):
             with self.assertRaisesRegex(pool.PoolError, 'Input changed'):
                 pool.pack(self.source, output, self.value)
         self.assertFalse((output/'selection.json').exists())
+
+    def test_manual_descriptor_cannot_disguise_grading_json_as_submission_example(self):
+        binding=self.selection['samples']['01']['case']
+        descriptor=self.store.get(self.value['repository']['path']+'/'+binding['path'])
+        item=pool.checked_json(descriptor);item['example']='reference/grading.json'
+        pool.write_json(descriptor,item)
+        for role in ('cases','samples'):
+            for choice in self.selection[role].values():
+                if choice['case']['path']==binding['path']:choice['case']['sha256']=pool.digest(descriptor)
+        with self.assertRaises(ValueError):pool.fetch(self.selection,self.store)
+
+    def test_example_must_belong_to_bound_reference_group(self):
+        binding=self.selection['samples']['01']['case']
+        descriptor=self.store.get(self.value['repository']['path']+'/'+binding['path'])
+        item=pool.checked_json(descriptor);item['example']='input/problem.json'
+        with self.assertRaisesRegex(pool.PoolError,'Example'):
+            pool.item_files(self.store,self.value['repository']['path'],binding,item,{})
 
 
 if __name__ == '__main__':

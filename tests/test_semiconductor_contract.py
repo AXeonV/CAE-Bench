@@ -17,7 +17,7 @@ from caeoj.sdk import load_problem, write_result
 from caeoj.validation import validate_input, validate_output, output_support
 from caeoj.grading import grade_arrays
 from caeoj.grading_policy import resolve_policy
-from caeoj_tools.grading_policy import task_policy
+from caeoj_tools.grading_policy import author_policy
 from caeoj_tools.task_paths import task_directory
 from caeoj_tools.assembly import runtime_materials
 
@@ -132,7 +132,7 @@ class SemiconductorTests(unittest.TestCase):
                     expected['electron_density']=(1e10,.003);expected['hole_density']=(1e10,.003)
                 elif slug=='semiconductor-trap-kinetics':
                     expected['electron_density']=(1e10,.003);expected['hole_density']=(1e10,.003)
-                p=load_problem(path);policy=task_policy(task_directory(slug,ROOT),p);bound=resolve_policy(policy,p)
+                p=load_problem(path);policy=author_policy(task_directory(slug,ROOT),p);bound=resolve_policy(policy,p)
                 ref={k:p.arrays[k].copy() for k in output_support(p)}
                 for name,s in m['outputs'].items():
                     rule=bound['fields'][name]
@@ -173,7 +173,7 @@ class SemiconductorTests(unittest.TestCase):
             self.assertEqual(merged['environment']['cpus'],2);self.assertEqual(merged['environment']['memory_mb'],2048)
             self.assertEqual(merged['environment']['gpus'],0);self.assertEqual(merged['environment']['os'],'linux')
             self.assertEqual(merged['agent']['timeout_sec'],3600);self.assertEqual(merged['environment']['build_timeout_sec'],1200)
-            self.assertEqual(merged['verifier']['timeout_sec'],max(1200,180+4*(AUTHOR_MODELS[slug]['timeout']+60)))
+            self.assertEqual(merged['verifier']['timeout_sec'],max(1200,180+4*(AUTHOR_MODELS[slug]['timeout']+120)))
             self.assertEqual(merged['verifier']['environment_mode'],'separate');self.assertEqual(merged['verifier']['network_mode'],'no-network')
         public,runtime=runtime_materials({s:task_directory(s,ROOT) for s in models()},ROOT)
         self.assertEqual(set(runtime['extensions']),{'semiconductor.transport'})

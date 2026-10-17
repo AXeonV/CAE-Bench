@@ -1,42 +1,21 @@
-# 题目评测配置维护说明
+# 评测配置与消费
 
-本文件供维护方使用，不作为考生契约，不进入公开解题包。题面的任务、评分和资源，及 DATA 的观测定义仍是配置要求来源。配置／实现修订流程见 [配置技能](../../.agents/skills/caeoj-configure-judge/SKILL.md)。
+题面与DATA拥有公开要求，case的reference/grading.json拥有实际评价计划与数值规则。参考可以是完整输出或稀疏观测，运行器先预检，求解后完整校验提交，再提取和评分。配置语法及错误分类见[判题说明](../../docs/GRADING.md)，HF布局见[数据池设计](../design/DATA-STORAGE.md)。
 
-## 当前配置与消费点
+## 运行设置
 
-| 文件／字段 | 消费者与语义 |
-|---|---|
-| judge-config.json / timeout_seconds | 私有 judge 的逐例求解墙钟，含启动及求解程序自身 I/O |
-| judge-config.json / max_output_bytes | judge 检查普通结果文件；null 不设独立字节上限，省略保持旧128MiB默认。题面未承诺该限额时不暗加限制，仍须满足公开的逻辑输出规模、内存及时限 |
-| judge-config.json / verifier_budget | 组装器计算 `max(模板或逐题总时限, base_seconds + N × (timeout_seconds + per_case_overhead_seconds))`；N来自实际隐藏cases，不能用样例数、0或虚构数字代替 |
-| grading.json v1 | 固定 outputs 逻辑字段的数值策略；所有题目均显式提供评分策略，judge-config 不定义容差 |
-| grading.json v2 | 按实际 outputs.quantity 与 unit 逐例绑定逻辑名，再交给同一数值引擎；未请求可选量不评分，未知quantity报错。仅第0章用default覆盖任意回传标签 |
-| harbor/task.toml | 与共享模板合并，给出生成／构建预算、CPU与内存；GPU、OS及独立verifier网络策略也在合并结果中明确 |
-| harbor/requirements.txt | 补充共享镜像与 pyproject 依赖，逐题声明需要固定的版本 |
+judge-config.json只定义执行设置，不提供评分或回退容差。timeout_seconds为逐例求解墙钟；max_output_bytes显式null不设独立文件字节限额，省略为128MiB；evaluation_timeout_seconds为独立评价worker时限，默认60秒。评价超时是基础设施错误，不能记考生零分。
 
-瞬态热传导的本地 `author/check.py` 使用 `judge-config.json` 的 `memory_mb` 检查进程 RSS；Harbor 使用本题 `harbor/task.toml` 的容器配额。两者的内存承诺应一致，由回归测试核对。
+verifier_budget按实际case数计算总时限，包含求解、评价及装载／报告开销；总预算不得截断合法逐例执行。Harbor模板和本题harbor/task.toml合并Agent、构建、CPU和内存资源；verifier独立且无网络。执行主机需验证阶段隔离和限额实际生效，解析配置不能替代执行证据。
 
-v2 偏置只允许已公开的数值或显式 `{"parameter":"pressure_reference"}`，不根据物理参数名自动启用偏置。策略模板哈希与逐例绑定哈希分别记录；绑定不能改写参考／候选数值或重新对齐压力。详情见 [评分实现说明](../../docs/GRADING.md)。
+瞬态热传导author/check.py的memory_mb本地RSS检查与Harbor容器内存声明应一致。
 
-## Harbor 与环境
+## 准备和发布
 
-共享镜像固定 `linux/amd64`，模板为 Linux、0 GPU、独立 verifier，`verifier.network_mode="no-network"`；Agent 阶段仍可准备依赖。实际执行主机须使用支持阶段网络字段及 separate 模式的 Harbor 版本，并验证容器限额和网络配置生效；配置解析不能代替运行验证。
+已有HF清单先按[数据操作](DATA-SYNC.md)装配并严格核验。发布器只公开样例reference/grading.json及声明资产，不导出题目级策略或隐藏case配置。正确提交示例与判题参考分别验证，稀疏参考不冒充完整result.h5。
 
-CPU／内存承诺来自题面，并在合并后的容器配置中核对；未声明时不凭空添加配额。verifier 总预算按逐题配置和实际案例数计算，包含校验、复制、判分与报告开销，不能改变逐例时限。临时 fixture 和配置解析不证明目标容器限额、参考精度或预算已经校准；标记为 provisional 的配置仍需真实数据验证。
+prepare_harbor预检全部case配置，核对公开包内容，隐藏参考仅装入独立verifier。每例配置及输入／参考／代码闭包摘要进入报告，不再维护虚假的全题单policy摘要。样例本地判分与verifier调用同一case评价入口。
 
-## 数据就绪与使用
+制数模板保存在author/grading-template.json，由作者工具显式生成每例配置；它不是运行时来源。无数据题可维护模板及题面，不能据此宣称case绑定、数值参考或预算已校准。实际判题不提供题目级策略兼容或缺省评分。
 
-题目与数据状态见[题库设计](../design/README.md)及各题 README；配置存在不表示评测已就绪。公开材料发布要求完整可用的样例输入与输出；Harbor 组装还要求实际隐藏 cases 和对应 reference，不能用空目录或临时 fixture 替代。
-
-已有 `data-manifest.json` 的题目先按[数据池操作](DATA-SYNC.md)用 `caeoj-maint data assemble` 获取并装配，再执行 `data verify --strict`。发布器自动严格核验样例，Harbor 准备严格核验所选输入、参考、依赖及重复选样；不一致即停止。历史样例/测试重叠需审核并重选，不因材料迁移成功就跳过检查。网上公开数据不改变考生与 verifier 的材料边界。
-
-可用两道热传导验证本地公开包与Harbor组装：
-
-```sh
-python src/utils/publish_dist.py --task heat-conduction-steady-2d
-python src/utils/prepare_harbor.py --task heat-conduction-steady-2d
-```
-
-其余数据未齐的题目保持组装前置检查，不声称可运行。已生成的旧包应重建；不因为策略模板已可绑定就给空数据发布评测。新数据的实际输出集合、单位和压力参数必须通过加载预检；错误输入／参考／配置属于基础设施问题，不能记作考生数值失分。
-
-实施证据、独立审阅与验证范围见 [本轮记录](../design/reviews/judge-configuration.md)。
+case级策略只实现题面允许的判据。应用新的取样方法到真实题目前须公开其重建及误差含义并审阅；当前题目保持原有完整输出直接比较。历史样例／测试重叠仍按严格检查阻断，不因迁移取消。

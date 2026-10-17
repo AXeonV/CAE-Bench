@@ -406,6 +406,7 @@ write_result(a.output,problem,fields)
     def test_runner_failure_statuses_and_bad_input(self):
         mini = self.root / "mini"
         shutil.copytree(self.case, mini / self.case.name)
+        shutil.copytree(CASES.parent / "reference" / self.case.name, self.root / "reference" / self.case.name)
         for source, status in (("raise RuntimeError('fail')", "runtime_error"), ("pass", "missing_output"),
                                ("import time; time.sleep(2)", "timeout")):
             program = self.root / "failure.py"

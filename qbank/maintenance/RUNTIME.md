@@ -25,7 +25,7 @@ python -m caeoj_tools.cli smoke
 
 扩展按物理组织，章节重排不改扩展 ID。cfd-2.1 与 fluid-* 等输入标识对应实际声明，移动内部模块不改写输入语义。
 
-公开 `models.json` 仅保存声明检查所需的模型元数据。作者模板保留执行预算和评分参数，导出时由 `caeoj_tools.author.public_model_catalog` 去掉 `timeout` 及输出定义中的 `atol/rtol`；实际评分与执行设置分别来自 `grading.json` 和执行配置。模板位于 `qbank/maintenance/`，不进入公开装配。
+公开 `models.json` 仅保存声明检查所需的模型元数据。作者模板保留执行预算和评分参数，导出时由 `caeoj_tools.author.public_model_catalog` 去掉 `timeout` 及输出定义中的 `atol/rtol`；实际评分来自每个case的reference/grading.json，执行设置来自执行配置。模板位于 `qbank/maintenance/`，不进入公开装配。
 
 ## 描述字段与检查接口
 

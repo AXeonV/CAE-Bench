@@ -9,7 +9,7 @@ description: 审计 CAE-Bench-OJ 全部实际输入及公开输出与题面、DA
 
 ## 盘点
 
-题目有 data-manifest.json 时按[数据池操作](../../../qbank/maintenance/DATA-SYNC.md)核对选择、case 描述摘要及输入／参考完整性，使用现有 `data verify`；缺本地装配不等于 HF 无数据，需要获取时按指南操作，不覆盖差异或刷新绑定掩盖问题。作者证据在 `author/data-evidence/`。
+题目有 data-manifest.json 时按[数据池操作](../../../qbank/maintenance/DATA-SYNC.md)核对选择、case描述摘要、case判题计划及参考覆盖，使用现有 `data verify`；缺本地装配不等于 HF 无数据，需要获取时按指南操作，不覆盖差异或刷新绑定掩盖问题。作者证据在 `author/data-evidence/`。
 
 ```sh
 python .agents/skills/caeoj-data-review/scripts/inventory.py --task qbank/<chapter>/<section>/<task> --output runs/data-review/<task>/inventory.json
@@ -37,6 +37,6 @@ python .agents/skills/caeoj-data-review/scripts/inventory.py --task qbank/<chapt
 
 默认只写 `runs/data-review/<task>/report.md`。记录文件版本、输入数、变体和示例覆盖、缺失／未验证项；问题给出严重度、数据路径、文档位置、证据、影响及最小建议，区分文档问题、数据问题和资料不足。结论为“通过”“需修订”或“资料不足，未完成”；有影响读取的未定义分支或冲突时不能通过。
 
-结构、契约、数值／物理和资源验证分别陈述；文件摘要一致或参考存在不证明数值准确。隐藏输入证据留维护报告，公开材料不增加标答、算法或隐藏测试提示，校验器不补物理或纠正答案。
+完整提交与稀疏参考分别按各自契约检查；配置不引入题面未声明的判据。结构、契约、数值／物理和资源验证分别陈述；文件摘要一致或参考存在不证明数值准确。隐藏输入证据留维护报告，公开材料不增加标答、算法或隐藏测试提示，校验器不补物理或纠正答案。
 
 冲突时记录双方依据，不默认数据正确。用户授权修复后按问题归属联合 [caeoj-design-data](../caeoj-design-data/SKILL.md) 或出题环节处理，重跑受影响检查。配置、打包及 benchmark 仅在本次任务包含时执行，相关操作引用对应技能与维护指南。

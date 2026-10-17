@@ -4,7 +4,7 @@
 
 ## 材料与安装
 
-考生的题意与数据规则只来自本题 `instruction.md`、`DATA.md` 和通用 `CONTRACT.md`。包根 README 提供安装、真实样例路径和命令，不增加题意；公开样例包含完整输入与正确输出。`grading.json` 及生成的 `GRADING.md` 是公开评分规则的机器配置与可读表示，不替代题面。
+考生的题意与数据规则只来自本题 `instruction.md`、`DATA.md` 和通用 `CONTRACT.md`。包根 README 提供安装、真实样例路径和命令，不增加题意；公开样例包含完整输入与可复现判分的参考；完整提交示例单独保存，不能用稀疏参考冒充。公开样例的 `reference/grading.json` 仅用于本地复现评分；隐藏case配置不进入公开包，题意仍完整由三文件定义。
 
 公开包包含装配后的核心、必要领域扩展及资源，统一执行一次普通安装：
 
@@ -29,7 +29,7 @@ Python 与第三方依赖要求由生成的安装元数据声明；Gmsh 等系�
 ```sh
 python -m caeoj validate-input <sample>/input/problem.json
 python -m caeoj validate-output --input <sample>/input/problem.json --output result.h5
-python -m caeoj grade --input <sample>/input/problem.json --output result.h5 --reference <sample>/output/result.h5 --grading <task>/grading.json
+python -m caeoj grade --input <sample>/input/problem.json --output result.h5 --grading <sample>/reference/grading.json
 python -m caeoj info --input <sample>/input/problem.json
 ```
 

@@ -10,9 +10,9 @@ python -m caeoj_tools.cli data --help
 python -m caeoj_tools.cli data pack --task heat-conduction-steady-2d --output work/heat-pool
 ```
 
-`--task` 是唯一题目目录名。已有版本 3 清单时沿用身份和仓库定位；新题必须显式 `--task-id caeoj-000123`，工具检查编号不重复。可用 `--source` 读取独立生成目录，用 `--repo-id` 为新题指定仓库。输出必须为空。
+`--task` 是唯一题目目录名。已有版本 4 清单时沿用身份和仓库定位；新题必须显式 `--task-id caeoj-000123`，工具检查编号不重复。可用 `--source` 读取独立生成目录，用 `--repo-id` 为新题指定仓库。输出必须为空。
 
-bundle 的 `repository/` 只含小型索引与每个 case 的完整输入、`reference.h5`、`case.json`。相同输入的样例复用 case；不同 case 的网格不共享。`evidence/` 单独收集非消费参考记录和样例验证材料，不会上传。已有来源证书核对输入绑定并在描述中保留必要身份，完整记录仍是作者材料。
+bundle 的 `repository/` 包含索引、case 描述、输入及reference/grading.json绑定的全部判题资产。相同输入的样例复用 case；不同 case 的网格不共享。`evidence/` 单独收集非消费参考记录和样例验证材料，不会上传。已有来源证书核对输入绑定并在描述中保留必要身份，完整记录仍是作者材料。
 
 生成器应把解析、catalog、验证报告直接写到 `author/data-evidence/`。审核 bundle/evidence 后将应维护的 JSON 证据归到该目录；数字中间件留忽略的工作空间，不为追求原目录还原而再次引入附件机制。制池不修改正式选样，不自动重新求参考，也不将材料齐备宣称为数值通过。
 
@@ -38,7 +38,7 @@ python -m caeoj_tools.cli data select --task heat-conduction-steady-2d --case '0
 
 参数可重复，格式为 `[本地编号=]case-id`；省略编号则依次为 001、002 等。命令生成完整选择集合，未列的角色/条目不保留。默认写回本题清单，建议先用 `--output` 审核，再保存为题目 `data-manifest.json`。
 
-选择绑定 case 描述摘要，检查输入/参考完整性及输入/来源轨迹重复。仅开发用途可加 `--allow-incomplete`，正式消费仍阻断缺失参考。选样不下载数值载荷，不支持附件或共享依赖声明。
+选择绑定 case 描述摘要，检查输入/参考完整性及输入/来源轨迹重复。仅开发用途可加 `--allow-incomplete`，正式消费仍阻断缺失参考。选样不下载数值载荷，不支持附件或跨case依赖声明。
 
 ## 下载与装配
 
@@ -57,11 +57,11 @@ python -m caeoj_tools.cli data assemble --task heat-conduction-steady-2d --cases
 
 `--cases`/`--samples` 不传表示该角色全部选择；出现但不带名字表示不取该角色。每个 case 默认取得输入和对应参考，不下载作者证据。参考待补时结果 `complete: false` 并列出缺失，不能报告完整成功。
 
-case 输入原字节复制到本地 `cases/<编号>/` 或样例 `input/`；参考映射为对应 `reference.h5` 或样例 `output/result.h5`。所有资产已经在输入目录内，不需要路径改写或跨目录读取。
+case 输入原字节复制到本地 `cases/<编号>/` 或样例 `input/`；参考组装配到测试 reference/<编号>/ 或样例 samples/<编号>/reference/。仅声明了完整提交示例的case另装配样例output/result.h5；稀疏参考不作此映射。所有资产已经在输入目录内，不需要路径改写或跨目录读取。
 
 相同文件跳过，差异先停止，显式 `--update` 才覆盖。装配先暂存、预检后写入，失败回滚，回执最后更新。改变范围/选样需清理旧已管理文件时也要 `--update`；被用户改过的旧文件和未知文件不静默删除。不要并发装配同题；异常进程留下锁时先检查 PID，再处理自己的遗留锁。
 
-本地 `.data-assembly.json` 回执由 Git 忽略。不要编辑回执伪造通过；校验从其保留的 SHA 绑定原始描述推导预期数据。旧布局迁移时，先把维护材料安全归档，再显式更新装配，让旧回执清理其管理的旧侧文件；不把原作者材料直接丢弃。
+本地 `.data-assembly.json` 回执由 Git 忽略。不要编辑回执伪造通过；校验从其保留的 SHA 绑定原始描述推导预期数据。清理或更换已装配数据前，先归档需要保留的作者材料。
 
 ## 核验与消费
 
@@ -81,3 +81,5 @@ python -m caeoj_tools.cli data verify --task heat-conduction-steady-2d --strict
 HF 是题目输入与参考的存储位置；本地 `cases/`、`reference/`、`samples/` 和回执仅在需要消费时装配，不要求常驻。仅有 problem.json 而缺少资产的题库骨架不保留、不上传 HF。PDEBench 冻结来源选择和历史放在本题 `author/data-evidence/reference/`，它们是制作配方，不表示数据就绪。
 
 清理前先固定 HF 提交并核对已上传载荷的大小与 SHA-256；删除本地数据时一并清除装配回执、暂存 bundle、下载缓存与包含数据的发布包。维护证据保留在 author 中。再次使用已有数据按上文 assemble 拉取；尚未制备上传的题目先走制作与发布流程。
+
+每例判题配置与参考同属HF数据。pack、fetch及verify通过可信评价器检查参考覆盖，不仅检查文件存在；制数时由作者模板显式生成配置。完整性不包含参考精度认证。

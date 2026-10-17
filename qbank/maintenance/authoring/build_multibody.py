@@ -171,7 +171,8 @@ def main():
    for doc in ('instruction.md','DATA.md'):
     path=td/doc;path.write_text(clean(path.read_text(),slug,cfg))
    policy=dict(version=2,quantities={q:dict(unit=s['unit'],rule=dict(metric='pointwise',time='per_time',components='per_component',atol=s['atol'],rtol=.01)) for q,s in cfg['outputs'].items()})
-   (td/'grading.json').write_text(json.dumps(policy,indent=2)+'\n')
+   (td/'author').mkdir(parents=True,exist_ok=True)
+   (td/'author/grading-template.json').write_text(json.dumps(policy,indent=2)+'\n')
    (td/'judge-config.json').write_text(json.dumps(dict(timeout_seconds=cfg['timeout'],max_output_bytes=None,stage='provisional',verifier_budget=dict(base_seconds=300,per_case_overhead_seconds=60)),indent=2)+'\n')
    (td/'harbor').mkdir(exist_ok=True);(td/'harbor/requirements.txt').write_text('scipy==1.18.1\n');(td/'harbor/task.toml').write_text('[agent]\ntimeout_sec = 3600.0\n\n[environment]\nbuild_timeout_sec = 1800.0\ncpus = 4\nmemory_mb = 8192\ngpus = 0\nos = "linux"\n\n[verifier]\nnetwork_mode = "no-network"\n')
   (sd/'README.md').write_text(f'# {sec.split("-")[0]} {title}\n\n'+'\n'.join(sr)+'\n')

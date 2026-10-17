@@ -9,7 +9,7 @@ SIGMA=5.670374419e-8
 
 
 @lru_cache(maxsize=1)
-def models():return json.loads(files(__package__).joinpath('models.json').read_text())
+def models():return json.loads(files(__package__).joinpath('models.json').read_text(encoding='utf-8'))
 
 
 def shape(spec,parameters):return [int(parameters['patch_count']) if n=='p' else n for n in spec['shape']]

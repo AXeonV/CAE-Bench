@@ -448,29 +448,13 @@ python -m caeoj validate-output --input 'problem.json' --output 'result.h5'
 
 通用校验器检查结构和引用，领域检查器补充题目明确规定的声明约束；均不修改数据，不重排或匹配等价网格，不验证 CAD、网格质量、PDE、守恒、完整物理适用性或解误差。
 
-判分由独立模块 `src/caeoj/grading.py` 实现，输出与参考 HDF5 必须满足同一个输出契约。可通过公开 `grading.json` 配置按字段的逐值容差、RMSE、NRMSE、最大误差和超限比例，并用 AND／OR 组合条件。本题 instruction.md 必须完整给出实际采用的指标、聚合范围、阈值和任何固定偏置；不需要考生另读评分规范来补足判据。grading.json 是对应的机器配置，这些评分参数不进入 problem.json 物理输入。
-
-未提供评分策略时，浮点场逐分量使用：
-
-`|result-reference| ≤ atol + rtol·|reference|`
-
-`atol`、`rtol` 由题目明确并在评测前固定，全部值通过才得 1 分。整数／布尔场必须完全一致；IDs 和时间轴必须与输入精确一致，评分策略不能放宽这些要求。
-
-使用评分策略：
+判题由共享评价实现执行，实际配置位于每个case的reference/grading.json。提交结果始终满足本题完整outputs契约；参考可与提交同结构，也可按case评价契约提供稀疏观测。题面与DATA必须完整说明评价含义，不依赖机器配置补定义。
 
 ```sh
-python -m caeoj grade --input 'problem.json' --output 'result.h5' --reference 'reference.h5' --grading 'grading.json'
+python -m caeoj grade --input problem.json --output result.h5 --grading reference/grading.json
 ```
 
-使用逐值容差：
-
-```sh
-python -m caeoj grade --input 'problem.json' --output 'result.h5' --reference 'reference.h5' --atol '<atol>' --rtol '<rtol>'
-```
-
-不提供 `--grading` 时仍可使用 `--atol`、`--rtol`；两种方式不能同时指定。`grade` 退出码为 0（通过）、1（答案错误或非法输出）、2（输入／参考数据错误或配置、命令参数错误）。参考输出由出题方提供，不要求与输入场相同。
-
-判分与结构诊断分开：`validate-output` 不比较参考值。参考数据错误不能算作选手失分，报告 score 为 null。
+评分参数不进入 problem.json 物理输入。CLI以0表示通过、1表示候选非法或答案错误、2表示输入／参考／配置／工具错误；基础设施错误不计考生零分。
 
 ## 12. 支持范围与扩展规则
 

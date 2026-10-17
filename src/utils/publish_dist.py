@@ -14,8 +14,7 @@ import zipfile
 from caeoj.sdk import load_problem
 from caeoj_tools.task_paths import task_directory
 from caeoj_tools.files import atomic_replace
-from caeoj_tools.grading_policy import task_policy
-from caeoj.grading_policy import validate_policy, render_policy
+from caeoj.case_grading import prepare_case
 from caeoj.validation import ContractError, validate_input, validate_output
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -35,7 +34,7 @@ def agent_readme(task_path, sample, *, include_install=True):
     installation = INSTALLATION if include_install else ""
     return f"""# 解题材料
 
-阅读 `{task_path}/instruction.md`、同题 DATA.md 和 `docs/CONTRACT.md` 即可确定完整任务与数据规则。公开示例在 `{task_path}/samples/`；grading.json 与 GRADING.md 是供工具使用的评分策略及其可读表示。
+阅读 `{task_path}/instruction.md`、同题 DATA.md 和 `docs/CONTRACT.md` 即可确定完整任务与数据规则。公开示例在 `{task_path}/samples/`；每个样例的 reference/grading.json 供本地判分使用，不是额外题意。
 
 {installation}
 
@@ -45,7 +44,7 @@ def agent_readme(task_path, sample, *, include_install=True):
 python -m caeoj validate-input {task_path}/samples/{sample}/input/problem.json
 python solve.py --input {task_path}/samples/{sample}/input/problem.json --output result.h5
 python -m caeoj validate-output --input {task_path}/samples/{sample}/input/problem.json --output result.h5
-python -m caeoj grade --input {task_path}/samples/{sample}/input/problem.json --output result.h5 --reference {task_path}/samples/{sample}/output/result.h5 --grading {task_path}/grading.json
+python -m caeoj grade --input {task_path}/samples/{sample}/input/problem.json --output result.h5 --grading {task_path}/samples/{sample}/reference/grading.json
 ```
 
 校验器检查结构、引用及声明约束，不验证或纠正物理结果。
@@ -76,9 +75,6 @@ def collect_materials(task, root=PROJECT_ROOT):
     paths = sorted((task_dir / "samples").glob("*/input/problem.json"))
     if not paths:
         raise ValueError(f"No complete public samples in {task_path}/samples; add them before publishing")
-    policy = task_policy(task_dir, load_problem(paths[0]), read_bytes=lambda p: read_public_file(root, p))
-    files[f'{task_path}/grading.json'] = (json.dumps(policy, ensure_ascii=False, indent=2) + '\n').encode()
-    files[f'{task_path}/GRADING.md'] = render_policy(policy).encode()
     samples = []
     for path in paths:
         # Check the path before allowing the contract loader to read it.
@@ -92,16 +88,21 @@ def collect_materials(task, root=PROJECT_ROOT):
             if not asset.resolve().is_relative_to(path.parent.resolve()):
                 raise ValueError(f"Sample asset escapes its input directory: {name}")
             add(asset)
-        validate_policy(policy, load_problem(path))
         diagnostics = validate_input(path)
         if not diagnostics["valid"]:
             raise ContractError(diagnostics)
         sample = path.parent.parent
-        result = sample / "output/result.h5"
-        add(result)
-        diagnostics = validate_output(path, result)
-        if not diagnostics["valid"]:
-            raise ContractError(diagnostics)
+        prepared = prepare_case(load_problem(path), sample/'reference/grading.json')
+        for name in prepared.evidence['assets']:
+            add(sample/'reference'/name)
+        result = sample/'output/result.h5'
+        if result.is_file():
+            add(result)
+            diagnostics = validate_output(path, result)
+            if not diagnostics['valid']: raise ContractError(diagnostics)
+            from caeoj.case_grading import grade_case
+            grade = grade_case(path, result, sample/'reference/grading.json')
+            if grade['score'] != 1: raise ValueError('Public submission example fails its case evaluation')
         samples.append(sample.name)
     files["README.md"] = agent_readme(task_path, samples[0])
     manifest = {"task": task, "public_samples": samples, "assembly": runtime["id"],

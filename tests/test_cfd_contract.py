@@ -12,7 +12,7 @@ import unittest
 import numpy as np
 
 from caeoj.cfd import check_cfd, material_viscosity
-from caeoj.grading import grade_files
+from caeoj.case_grading import grade_case
 from caeoj.sdk import (absolute_pressure, boundary_geometry, boundary_integral,
                        condition_values, density_at_pressure, dynamic_viscosity, load_problem,
                        load_result, periodic_face_pairs, sample_field, write_result)
@@ -74,11 +74,14 @@ class CFDContractTests(unittest.TestCase):
                 np.testing.assert_array_equal(ref['pressure'],0.)
                 np.testing.assert_array_equal(ref['force'],0.)
                 np.testing.assert_allclose(ref['density'],density_at_pressure(p,0.))
-                self.assertEqual(grade_files(path,path.parent/'reference.h5',path.parent/'reference.h5',atol=0,rtol=0)['score'],1)
+                from caeoj_tools.grading_policy import write_direct_grading
+                from grading_fixtures import pointwise_policy
+                write_direct_grading(path.parent, pointwise_policy(atol=0, rtol=0))
+                self.assertEqual(grade_case(path,path.parent/'reference.h5',path.parent/'grading.json')['score'],1)
                 wrong={s['array']:ref[s['array']].copy() for s in p.manifest['outputs'].values()}
                 wrong['force'][:]=1.
                 write_result(self.root/'wrong.h5',p,wrong)
-                self.assertEqual(grade_files(path,self.root/'wrong.h5',path.parent/'reference.h5',atol=0,rtol=0)['score'],0)
+                self.assertEqual(grade_case(path,self.root/'wrong.h5',path.parent/'grading.json')['score'],0)
 
     def test_opt_in_is_explicit_and_old_declarations_cannot_conflict(self):
         original=deepcopy(self.m)

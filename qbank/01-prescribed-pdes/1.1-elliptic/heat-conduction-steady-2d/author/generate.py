@@ -4,16 +4,15 @@ import argparse
 import json
 from pathlib import Path
 import shutil
-from tempfile import TemporaryDirectory
 
 import gmsh
 import numpy as np
 from numpy.polynomial.polynomial import polyval2d
 
 from caeoj.sdk import load_problem, write_result
-from caeoj.grading import grade_files
+from caeoj.case_grading import grade_case
 from caeoj.grading_policy import load_policy
-from caeoj_tools.grading_policy import materialize_references
+from caeoj_tools.grading_policy import materialize_references, write_direct_grading
 from caeoj.validation import GMSH_LOCK, write_json
 from catalog import Case, CASES, SIDES, D, R, N, F, source_coefficients, boundary_coefficients, exact_mean, equation
 
@@ -33,9 +32,9 @@ def publish_sample(destination):
     answer = np.full((1, len(problem.arrays["node_ids"]), 1), 4.0, dtype=np.float64)
     output = sample / "output" / "result.h5"
     write_result(output, problem, {"temperature": answer})
-    policy = load_policy(TASK_ROOT/'author/grading-template.json')
-    report = grade_files(problem.path, output, destination / "reference" / name / "reference.h5",
-                         policy=policy)
+    reference = sample/'reference'
+    shutil.copytree(destination/'reference'/name, reference, dirs_exist_ok=True)
+    report = grade_case(problem.path, output, reference/'grading.json')
     write_json(Path(destination) / "author/data-evidence/samples" / sample.name / "verification.json", {"case": name, **report})
     if report["score"] != 1:
         raise ValueError("Public sample did not pass the task grader")
@@ -47,15 +46,15 @@ def publish_mixed_sample(destination):
     case = Case("sample-02-mixed-boundaries", {(0, 0): 1.0, (1, 0): 1.0, (0, 1): 1.0},
                 (D, N, F, R), nx=2, ny=2, alpha=1.0, beta_ratio=1.0)
     sample = Path(destination) / "samples/02"
-    with TemporaryDirectory(prefix="heat-sample-reference-") as temporary:
-        record, coordinates = generate_case(case, sample / "input", Path(temporary))
-        write_json(Path(destination)/"author/data-evidence/reference"/case.name/"analytic.json", record)
-        problem = load_problem(sample / "input/problem.json")
-        answer = (1.0 + coordinates[:, 0] + coordinates[:, 1])[None, :, None]
-        output = sample / "output/result.h5"
-        write_result(output, problem, {"temperature": answer})
-        report = grade_files(problem.path, output, Path(temporary)/"reference.h5",
-                             policy=load_policy(TASK_ROOT/'author/grading-template.json'))
+    reference = sample/'reference'
+    record, coordinates = generate_case(case, sample/'input', reference)
+    write_json(Path(destination)/"author/data-evidence/reference"/case.name/"analytic.json", record)
+    write_direct_grading(reference, load_policy(TASK_ROOT/'author/grading-template.json'))
+    problem = load_problem(sample / "input/problem.json")
+    answer = (1.0 + coordinates[:, 0] + coordinates[:, 1])[None, :, None]
+    output = sample / "output/result.h5"
+    write_result(output, problem, {"temperature": answer})
+    report = grade_case(problem.path, output, reference/'grading.json')
     write_json(Path(destination)/"author/data-evidence/samples"/sample.name/"verification.json",
                {"case": case.name, **report})
     if report["score"] != 1:
@@ -204,8 +203,8 @@ def generate(destination=TASK_ROOT):
         if all(op in (N, F) for op in case.boundaries):
             descriptions += ["", f"另给定域平均温度 `{record['mean_temperature']:.12g} K`。"]
     (destination / "TEST-CASES.md").write_text("\n".join(descriptions) + "\n", encoding="utf-8")
-    publish_sample(destination)
     materialize_references(destination, load_policy(TASK_ROOT/'author/grading-template.json'))
+    publish_sample(destination)
     return len(CASES)
 
 if __name__ == "__main__":

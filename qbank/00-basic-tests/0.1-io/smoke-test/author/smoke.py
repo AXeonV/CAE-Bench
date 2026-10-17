@@ -1,4 +1,4 @@
-"""Local smoke execution and aggregation; grading lives in grading.py."""
+"""Local smoke execution and aggregation using each case's evaluation plan."""
 from pathlib import Path
 import json
 import math

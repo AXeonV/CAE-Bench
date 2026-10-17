@@ -14,7 +14,7 @@ from qbank.maintenance.authoring.build_acoustic import M as AUTHOR_MODELS
 from caeoj_ext.acoustic import models,helmholtz_hessian
 from caeoj.sdk import load_problem,write_result
 from caeoj.validation import validate_input,validate_output,output_support
-from caeoj.grading import grade_arrays
+from grading_fixtures import evaluate_arrays
 from caeoj.grading_policy import resolve_policy
 from caeoj_tools.task_paths import task_directory
 from caeoj_tools.grading_policy import author_policy
@@ -126,16 +126,16 @@ class AcousticTests(unittest.TestCase):
                     q=s['quantity'];expected=(1e-5,.01) if q in ('pressure','scattered_pressure') else (1e-7,.01)
                     self.assertEqual((bound['fields'][name]['atol'],bound['fields'][name]['rtol']),expected)
                     actual=deepcopy(ref);tol=bound['fields'][name]['atol'];actual[s['array']][:]=tol
-                    self.assertEqual(grade_arrays(p,actual,ref,policy=policy)['score'],1)
+                    self.assertEqual(evaluate_arrays(p,actual,ref,policy=policy)['score'],1)
                     actual[s['array']].flat[0]=np.nextafter(tol,np.inf)
-                    self.assertEqual(grade_arrays(p,actual,ref,policy=policy)['score'],0)
+                    self.assertEqual(evaluate_arrays(p,actual,ref,policy=policy)['score'],0)
                     nonzero=deepcopy(ref);nonzero[s['array']][:]=100.;actual=deepcopy(nonzero)
                     edge=100.+expected[0]+100.*expected[1]
                     if edge-100.>expected[0]+100.*expected[1]:edge=np.nextafter(edge,-np.inf)
                     actual[s['array']][:]=edge
-                    self.assertEqual(grade_arrays(p,actual,nonzero,policy=policy)['score'],1)
+                    self.assertEqual(evaluate_arrays(p,actual,nonzero,policy=policy)['score'],1)
                     actual[s['array']].flat[0]=np.nextafter(actual[s['array']].flat[0],np.inf)
-                    self.assertEqual(grade_arrays(p,actual,nonzero,policy=policy)['score'],0)
+                    self.assertEqual(evaluate_arrays(p,actual,nonzero,policy=policy)['score'],0)
                 config=json.loads((task/'judge-config.json').read_text());override=tomllib.loads((task/'harbor/task.toml').read_text());merged=tomllib.loads(prepare.task_config(template,override,judge_config=config,case_count=3))
                 self.assertEqual(config['timeout_seconds'],AUTHOR_MODELS[slug]['timeout']);self.assertIsNone(config['max_output_bytes'])
                 self.assertEqual(merged['environment']['memory_mb'],6144);self.assertEqual(merged['environment']['cpus'],4);self.assertEqual(merged['environment']['gpus'],0)
@@ -143,7 +143,7 @@ class AcousticTests(unittest.TestCase):
                 self.assertEqual(merged['verifier']['network_mode'],'no-network');self.assertEqual(merged['verifier']['environment_mode'],'separate');self.assertEqual(merged['verifier']['timeout_sec'],max(1200,300+3*(AUTHOR_MODELS[slug]['timeout']+120)))
                 self.assertEqual((task/'harbor/requirements.txt').read_text().strip(),'scipy==1.18.1')
                 bad=deepcopy(ref);bad.pop(next(iter(m['outputs'].values()))['array'])
-                self.assertEqual(grade_arrays(p,bad,ref,policy=policy)['score'],0);self.assertIsNone(grade_arrays(p,ref,bad,policy=policy)['score'])
+                self.assertEqual(evaluate_arrays(p,bad,ref,policy=policy)['score'],0);self.assertIsNone(evaluate_arrays(p,ref,bad,policy=policy)['score'])
         files,runtime=runtime_materials({s:task_directory(s,ROOT) for s in models()},ROOT)
         self.assertEqual(set(runtime['extensions']),{'acoustic.linear'})
         self.assertFalse(any(any(v in name for v in ('caeoj_tools','/author/','maintenance','/cases/','/reference/')) for name in files))

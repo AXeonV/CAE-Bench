@@ -7,7 +7,7 @@ import shutil
 
 import numpy as np
 
-from caeoj.grading import grade_files
+from caeoj.case_grading import grade_case
 from caeoj.grading_policy import load_policy
 from caeoj_tools.grading_policy import materialize_references
 from caeoj.sdk import load_problem, write_result
@@ -89,7 +89,6 @@ def generate_case(case, destination):
 
 
 def publish_samples(destination):
-    policy = load_policy(ROOT/'author/grading-template.json')
     # A zero fixture and an independent nonzero mixed-boundary fixture.
     for number, case_name in [('01', '01-zero'), ('02', '15-four-operators')]:
         sample = destination/'samples'/number
@@ -101,7 +100,11 @@ def publish_samples(destination):
         output = sample/'output/result.h5'
         output.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(reference_path, output)
-        report = grade_files(problem.path, output, reference_path, policy=policy)
+        reference = sample/'reference'
+        reference.mkdir(parents=True, exist_ok=True)
+        for name in ('reference.h5', 'grading.json'):
+            shutil.copyfile(destination/'reference'/case_name/name, reference/name)
+        report = grade_case(problem.path, output, reference/'grading.json')
         if report['score'] != 1:
             raise ValueError('Public output failed its task grader')
         write_json(destination/'author/data-evidence/samples'/number/'verification.json', {'case': case_name, **report})
@@ -122,9 +125,9 @@ def generate(destination=ROOT, selected=None):
         lines.append(f"| {case.name} | {case.profile} | {' / '.join(case.boundaries)} | {record['nodes']} | "
                      f"{record['triangles']} | {record['output_times_s'][1]:.6g} / {record['output_times_s'][-1]:.6g} |")
     (destination/'TEST-CASES.md').write_text('\n'.join(lines)+'\n', encoding='utf-8')
+    materialize_references(destination, load_policy(ROOT/'author/grading-template.json'))
     if selected is None:
         publish_samples(destination)
-    materialize_references(destination, load_policy(ROOT/'author/grading-template.json'))
     return len(cases)
 
 if __name__ == '__main__':

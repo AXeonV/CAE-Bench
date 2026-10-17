@@ -2,6 +2,8 @@
 
 题目 instruction.md、DATA.md 和通用 CONTRACT.md 构成完整考生契约。实际判题配置位于每例 `reference/grading.json`，属于本例数据；不存在题目级运行时评分配置。作者可在 `author/grading-template.json` 保存制数模板，但运行器不读取模板。
 
+`atol`、`rtol` 仍分别表示绝对与相对容差，适用指标必须在数值规则中显式给出。它们不是独立的评分入口；CLI 不接受单独的容差参数，也不提供隐式默认容差。
+
 ## 执行与材料边界
 
 先用 `prepare_case(problem, grading_path)` 预检配置、参考及观测，再完整校验提交并执行评价。CLI、公开样例和 Harbor 共用 `caeoj.case_grading`；Harbor 的独立 worker 有单独评价时限，超时属于基础设施错误。

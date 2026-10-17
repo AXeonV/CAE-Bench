@@ -185,7 +185,6 @@ class PublishTests(unittest.TestCase):
 import json
 from pathlib import Path
 from caeoj.sdk import load_problem
-from caeoj.grading import grade_files
 from caeoj.grading_policy import load_policy
 from caeoj.runtime import describe
 paths = sorted(Path('qbank').glob('*/*/*/samples/01/input/problem.json'))

@@ -8,7 +8,7 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 - **通用数据协议**：Gmsh 存网格，HDF5 存数组，JSON 声明字段和条件；各题目明确物理或数学问题与输入范围，求解程序按同一协议读写。
 - **纠正 Agent I/O**：Agent 在理解输入、编写和调试程序时可随时调用**结构校验器**，根据诊断修改读写实现，减少输入输出理解错误的负担。*校验器检查格式、引用及声明约束，不验证或纠正物理结果。*
-- **提交后独立评测**：逐例执行提交程序，重新校验输出并按题目误差阈值与标答比较，每点 0/1 分，汇总结果和日志。
+- **提交后独立评测**：逐 case 评分，重新校验程序输出并按本例规则评价，每点 0/1 分，汇总结果和日志。
 
 ## 项目结构
 
@@ -29,12 +29,14 @@ flowchart LR
     Core --> Cli["cli.py<br/>校验、判分及工具信息命令"]
     Core --> Storage["sdk.py · storage.py<br/>数据读取与 HDF5 写入"]
     Core --> Validation["validation.py<br/>结构校验；problem.schema.json 定义元数据"]
-    Core --> Grading["grading*.py<br/>评分策略与指标；grading.schema.json 定义配置"]
+    Core --> CaseGrading["case_grading.py · case-grading.schema.json<br/>评分配置预检与评价入口"]
+    Core --> Grading["grading_policy.py · grading_metrics.py<br/>数值规则绑定与指标；grading.schema.json 定义数值策略"]
     Core --> Runtime["runtime.py<br/>加载装配描述、组合 Schema 与声明检查"]
 
     Src --> Tools["caeoj_tools/<br/>维护工具，不进入考生包"]
     Tools --> AuthorTools["task_paths.py · author.py<br/>题目定位与作者工具加载"]
-    Tools --> Policy["grading_policy.py<br/>读取题目评分配置"]
+    Tools --> Policy["grading_policy.py<br/>从作者模板生成评分配置"]
+    Tools --> DataPool["data_pool.py · data_pool_cli.py<br/>HF 制池、上传、选样、装配与核验"]
     Tools --> Assembly["assembly.py · dependencies.py<br/>公开运行装配与依赖锁定"]
 
     Src --> Utils["utils/"]
@@ -43,10 +45,11 @@ flowchart LR
     Utils --> Harbor["harbor/<br/>通用模板与逐例判题逻辑"]
     Utils --> PDEBench["PDEBench/<br/>来源数据获取、协议转换与参考审核"]
 
-    Qbank --> Task["#lt;章#gt;/#lt;节#gt;/#lt;题目#gt;/<br/>题面、DATA、样例、测试与本题配置"]
-    Task --> Author["author/<br/>本题数据与参考制作、基线及本地验证"]
-    Task --> Private["cases/ · reference/<br/>隐藏输入与私有参考"]
-    Task --> Samples["samples/<br/>完整公开样例"]
+    Qbank --> Task["#lt;章#gt;/#lt;节#gt;/#lt;题目#gt;/<br/>题面、DATA、数据选择与执行配置"]
+    Task --> Author["author/<br/>制数工具、评分模板、来源证据及基线"]
+    Task --> Selection["data-manifest.json<br/>按需提供 HF 池与测试／样例选择"]
+    Task --> Private["cases/ · reference/<br/>按需装配的测试输入、参考与评分配置"]
+    Task --> Samples["samples/<br/>按需装配的公开输入、评分材料与提交示例"]
     Task --> TaskHarbor["harbor/<br/>本题环境与依赖补充"]
     Task --> TaskExtension["extension/<br/>按需提供本题专用的公开契约检查"]
 
@@ -56,7 +59,7 @@ flowchart LR
     Qbank --> Maintenance["maintenance/<br/>维护实现说明、领域规范及可复用作者工具"]
     Maintenance --> Protocols["protocols/<br/>内部领域说明，不作为额外考生契约"]
     Maintenance --> Authoring["authoring/<br/>按物理能力复用的题面／DATA 构建工具"]
-    Maintenance --> MaintenanceDocs["RUNTIME.md · EVALUATION.md<br/>当前运行装配与评测配置说明"]
+    Maintenance --> MaintenanceDocs["RUNTIME.md · EVALUATION.md · DATA-SYNC.md<br/>运行装配、评测配置与数据池操作"]
 
     Qbank --> Extensions["extensions/"]
     Extensions --> Shared["caeoj_ext/<br/>共享领域声明检查与辅助函数"]

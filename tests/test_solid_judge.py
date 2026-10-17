@@ -11,7 +11,7 @@ import numpy as np
 from solid_fixture import fixture
 from caeoj_ext.solid import models
 from qbank.maintenance.solid_authoring import CAT as AUTHOR_MODELS
-from caeoj.grading import grade_arrays
+from grading_fixtures import evaluate_arrays
 from caeoj.grading_policy import resolve_policy
 from caeoj.sdk import load_problem
 from caeoj.validation import output_support
@@ -39,16 +39,16 @@ class SolidJudgeTests(unittest.TestCase):
                 reference={key:problem.arrays[key].copy() for key in support}
                 for name,s in m['outputs'].items():
                     reference[s['array']]=np.zeros((len(problem.arrays[m['time_axes'][s['time_axis']]]),len(problem.arrays[m['locations'][s['location']]['ids']]),*s['component_shape']))
-                self.assertEqual(grade_arrays(problem,deepcopy(reference),reference,policy=policy)['score'],1)
+                self.assertEqual(evaluate_arrays(problem,deepcopy(reference),reference,policy=policy)['score'],1)
                 for name,s in m['outputs'].items():
                     actual=deepcopy(reference);tol=bound['fields'][name]['atol'];actual[s['array']][:]=tol
-                    self.assertEqual(grade_arrays(problem,actual,reference,policy=policy)['score'],1)
+                    self.assertEqual(evaluate_arrays(problem,actual,reference,policy=policy)['score'],1)
                     actual[s['array']].flat[0]=np.nextafter(tol,np.inf)
-                    self.assertEqual(grade_arrays(problem,actual,reference,policy=policy)['score'],0)
+                    self.assertEqual(evaluate_arrays(problem,actual,reference,policy=policy)['score'],0)
                 # Relative part at a nonzero hand-chosen reference.
                 actual=deepcopy(reference);name,s=next(iter(m['outputs'].items()));ref=1.;atol=bound['fields'][name]['atol']
                 reference[s['array']][:]=ref;actual[s['array']][:]=ref+atol+.01*ref+1e-5
-                self.assertEqual(grade_arrays(problem,actual,reference,policy=policy)['score'],0)
+                self.assertEqual(evaluate_arrays(problem,actual,reference,policy=policy)['score'],0)
 
     def test_harbor_resource_merge_budget_and_output_consumer(self):
         prepare=load_file('solid_prepare','src/utils/prepare_harbor.py');judge=load_file('solid_judge','src/utils/harbor/tests/judge.py')

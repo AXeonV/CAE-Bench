@@ -19,7 +19,7 @@ import numpy as np
 from porous_fixture import fixture, replace_manifest
 from caeoj_ext.porous import models
 from qbank.maintenance.authoring.build_porous import MODELS as AUTHOR_MODELS
-from caeoj.grading import grade_arrays
+from grading_fixtures import evaluate_arrays
 from caeoj.grading_policy import resolve_policy
 from caeoj.sdk import load_problem, write_result
 from caeoj.validation import validate_input, validate_output
@@ -156,9 +156,9 @@ class PorousContractTests(unittest.TestCase):
                     actual = deepcopy(ref)
                     tolerance = bound['fields'][name]['atol']
                     actual[spec['array']][:] = tolerance
-                    self.assertEqual(grade_arrays(problem, actual, ref, policy=policy)['score'], 1)
+                    self.assertEqual(evaluate_arrays(problem, actual, ref, policy=policy)['score'], 1)
                     actual[spec['array']].flat[0] = np.nextafter(tolerance, np.inf)
-                    self.assertEqual(grade_arrays(problem, actual, ref, policy=policy)['score'], 0)
+                    self.assertEqual(evaluate_arrays(problem, actual, ref, policy=policy)['score'], 0)
                     nonzero = deepcopy(ref)
                     for field in m['outputs'].values():
                         nonzero[field['array']][:] = 8.
@@ -166,12 +166,12 @@ class PorousContractTests(unittest.TestCase):
                     rule = bound['fields'][name]
                     limit = rule['atol'] + rule['rtol'] * 8.
                     actual[spec['array']][:] = np.nextafter(8. + limit, 8.)
-                    self.assertEqual(grade_arrays(problem, actual, nonzero, policy=policy)['score'], 1)
+                    self.assertEqual(evaluate_arrays(problem, actual, nonzero, policy=policy)['score'], 1)
                     actual[spec['array']].flat[0] = np.nextafter(8. + limit, np.inf)
-                    self.assertEqual(grade_arrays(problem, actual, nonzero, policy=policy)['score'], 0)
+                    self.assertEqual(evaluate_arrays(problem, actual, nonzero, policy=policy)['score'], 0)
                 bad_ref = deepcopy(ref)
                 bad_ref.pop(next(iter(m['outputs'].values()))['array'])
-                self.assertIsNone(grade_arrays(problem, ref, bad_ref, policy=policy)['score'])
+                self.assertIsNone(evaluate_arrays(problem, ref, bad_ref, policy=policy)['score'])
 
     def test_resource_configs_are_consumed(self):
         sys.path.insert(0, str(ROOT/'src/utils'))

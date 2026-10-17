@@ -14,7 +14,7 @@ from caeoj_ext.granular import models
 from qbank.maintenance.authoring.build_granular import MODELS as AUTHOR_MODELS
 from caeoj.sdk import load_problem,write_result
 from caeoj.validation import validate_input,validate_output,output_support
-from caeoj.grading import grade_arrays
+from grading_fixtures import evaluate_arrays
 from caeoj.grading_policy import resolve_policy
 from caeoj_tools.grading_policy import author_policy
 from caeoj_tools.task_paths import task_directory
@@ -139,20 +139,20 @@ class GranularTests(unittest.TestCase):
                     ref[s['array']]=np.zeros((2,len(p.arrays[m['locations'][s['location']]['ids']]),*s['component_shape']))
                 for name,s in m['outputs'].items():
                     rule=bound['fields'][name];tol=rule['atol'];actual=deepcopy(ref);actual[s['array']][:]=tol
-                    self.assertEqual(grade_arrays(p,actual,ref,policy=policy)['score'],1)
+                    self.assertEqual(evaluate_arrays(p,actual,ref,policy=policy)['score'],1)
                     actual[s['array']].flat[0]=np.nextafter(tol,np.inf)
-                    self.assertEqual(grade_arrays(p,actual,ref,policy=policy)['score'],0)
+                    self.assertEqual(evaluate_arrays(p,actual,ref,policy=policy)['score'],0)
                     if rule['rtol']:
                         baseline=10*tol/rule['rtol'];nonzero=deepcopy(ref);nonzero[s['array']][:]=baseline
                         tau=tol+rule['rtol']*baseline;edge=baseline+tau
                         if edge-baseline>tau:edge=np.nextafter(edge,-np.inf)
                         actual=deepcopy(nonzero);actual[s['array']][:]=edge
-                        self.assertEqual(grade_arrays(p,actual,nonzero,policy=policy)['score'],1)
+                        self.assertEqual(evaluate_arrays(p,actual,nonzero,policy=policy)['score'],1)
                         actual[s['array']].flat[0]=np.nextafter(edge,np.inf)
-                        self.assertEqual(grade_arrays(p,actual,nonzero,policy=policy)['score'],0)
+                        self.assertEqual(evaluate_arrays(p,actual,nonzero,policy=policy)['score'],0)
                 bad=deepcopy(ref);del bad[next(iter(m['outputs'].values()))['array']]
-                self.assertEqual(grade_arrays(p,bad,ref,policy=policy)['score'],0)
-                self.assertIsNone(grade_arrays(p,ref,bad,policy=policy)['score'])
+                self.assertEqual(evaluate_arrays(p,bad,ref,policy=policy)['score'],0)
+                self.assertIsNone(evaluate_arrays(p,ref,bad,policy=policy)['score'])
                 s=deepcopy(next(iter(m['outputs'].values())));s['array']='duplicate_quantity_answer';m['outputs']['another_name']=s
                 path.write_text(json.dumps(m));p=load_problem(path)
                 self.assertIn('another_name',resolve_policy(policy,p)['fields'])

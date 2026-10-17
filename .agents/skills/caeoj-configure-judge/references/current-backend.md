@@ -4,7 +4,7 @@
 
 | 要核对的机制 | 当前入口 |
 |---|---|
-| case计划预检、可信评价器、观测提取与评分 | `src/caeoj/case_grading.py`；`src/caeoj/grading_policy.py`、`grading.schema.json`、`grading_metrics.py`、`grading.py` |
+| case计划预检、可信评价器、观测提取与评分 | `src/caeoj/case_grading.py`；`src/caeoj/grading_policy.py`、`grading.schema.json`、`grading_metrics.py` |
 | 逐例执行、错误分类和汇总 | `src/utils/harbor/tests/judge.py`；`src/caeoj/cli.py` |
 | 任务目录、资源覆盖及总预算 | `src/utils/prepare_harbor.py`、`src/utils/harbor/task.toml`；本题 `judge-config.json`、`harbor/` |
 | 公开包、运行闭包、依赖锁 | `src/utils/publish_dist.py`；`src/caeoj_tools/assembly.py`、`dependencies.py` |

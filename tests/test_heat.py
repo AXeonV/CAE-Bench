@@ -9,7 +9,8 @@ import unittest
 
 import numpy as np
 
-from caeoj.grading import grade_arrays, grade_files
+from grading_fixtures import evaluate_arrays
+from caeoj.case_grading import grade_case
 from caeoj.grading_policy import load_policy
 from caeoj.sdk import load_problem, load_result, read_constant, read_field
 from caeoj_tools.author import PROJECT_ROOT
@@ -54,7 +55,7 @@ class HeatTests(unittest.TestCase):
         arrays = {key: problem.arrays[key] for key in output_support(problem)}
         arrays["temperature"] = temperature
         self.assertTrue(check_result(problem, arrays)["valid"])
-        return grade_arrays(problem, arrays, reference, policy=self.policy)
+        return evaluate_arrays(problem, arrays, reference, policy=self.policy)
 
     def case(self, prefix):
         return next(item for item in self.cases if item[0].path.parent.name.startswith(prefix))
@@ -76,8 +77,7 @@ class HeatTests(unittest.TestCase):
         np.testing.assert_array_equal(result["node_ids"], np.arange(1, 10, dtype=np.int64))
         np.testing.assert_array_equal(result["temperature"], np.full((1, 9, 1), 4.0))
         self.assertEqual(len(problem.arrays["domain_ids"]), 8)
-        report = grade_files(problem.path, sample/"output/result.h5", TASK/"reference"/original.path.parent.name/"reference.h5",
-                             policy=self.policy)
+        report = grade_case(problem.path, sample/"output/result.h5", sample/'reference/grading.json')
         self.assertEqual(report["score"], 1)
         np.testing.assert_array_equal(result["temperature"], reference["temperature"])
         saved = json.loads((TASK/"author/data-evidence/samples"/sample.name/"verification.json").read_text(encoding="utf-8"))
@@ -130,11 +130,7 @@ class HeatTests(unittest.TestCase):
         np.testing.assert_allclose(reference["temperature"], expected_temperature, atol=1e-14, rtol=0)
         self.assertEqual(self.grade(problem, baseline.solve(problem), reference)["score"], 1)
         saved = json.loads((TASK/"author/data-evidence/samples"/sample.name/"verification.json").read_text(encoding="utf-8"))
-        # The analytic values were checked above; samples no longer retain a
-        # duplicate author-side HDF5 solely to reproduce a verification report.
-        private_reference = sample / "output/result.h5"
-        report = grade_files(problem.path, sample / "output/result.h5", private_reference,
-                             policy=self.policy)
+        report = grade_case(problem.path, sample/"output/result.h5", sample/'reference/grading.json')
         self.assertEqual(report["score"], 1)
         self.assertEqual(saved, {"case": saved["case"], **report})
 

@@ -7,7 +7,6 @@ import unittest
 from unittest.mock import patch
 import numpy as np
 from caeoj.case_grading import direct_config, grade_case, prepare_case
-from caeoj.grading import grade_arrays
 from caeoj.grading_policy import resolve_policy
 from caeoj.sdk import load_problem
 from caeoj.storage import write_hdf5
@@ -107,15 +106,14 @@ class CaseGradingTests(unittest.TestCase):
         self.grading.write_text(self.grading.read_text()+' ')
         with self.assertRaisesRegex(ValueError,'changed after preflight'): prepared.evaluate(self.arrays)
 
-    def test_direct_outputs_matches_existing_numerical_engine(self):
+    def test_direct_outputs_accepts_equal_and_rejects_larger_errors(self):
         policy={'version':2,'default':deepcopy(RULE)}
         write_hdf5(self.work/'reference.h5',self.arrays)
         self.config=direct_config(policy);self.save()
-        for delta in [0.,1e-8]:
+        for delta,score in [(0.,1),(1e-8,0)]:
             result=deepcopy(self.arrays);result['velocity']+=delta
             write_hdf5(self.output,result)
-            expected=grade_arrays(self.problem,result,self.arrays,policy=policy)
-            actual=self.grade();self.assertEqual(actual['score'],expected['score'])
+            self.assertEqual(self.grade()['score'],score)
 
     def test_unknown_provider_is_not_imported_from_config(self):
         self.config['checks'][0]['evaluator']='arbitrary.module:prepare';self.save()

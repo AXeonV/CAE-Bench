@@ -148,7 +148,6 @@ class HarborTests(unittest.TestCase):
         self.assertFalse(judge.output_within_limit(self.root, None))
 
     def test_quantity_policy_is_bound_per_case_in_real_private_grader(self):
-        from caeoj.grading_policy import policy_hash
         task = self.root / TASK_PATH
         policy = {'version': 2, 'quantities': {'temperature': {'unit': 'K', 'rule': {
             'metric': 'pointwise', 'time': 'per_time', 'components': 'per_component',
@@ -350,8 +349,7 @@ class HarborTests(unittest.TestCase):
         self.assertIn('1024 MB', instruction)
         self.assertIn(str(2*1024**3), instruction)
 
-    def test_public_policy_hash_and_private_grader_agree(self):
-        from caeoj.grading_policy import policy_hash
+    def test_public_case_policy_and_private_grader_agree(self):
         task = self.root / TASK_PATH
         policy = {'version': 1, 'fields': {'temperature': {
             'all': [
@@ -367,7 +365,7 @@ class HarborTests(unittest.TestCase):
         self.assertNotIn(' 且 ', (directory / 'instruction.md').read_text(encoding='utf-8'))
         with zipfile.ZipFile(directory / 'environment/agent.zip') as archive:
             public = json.loads(archive.read(f'{TASK_PATH.as_posix()}/samples/01/reference/grading.json'))
-            self.assertEqual(policy_hash(public['checks'][0]['policy']), policy_hash(policy))
+            self.assertEqual(public['checks'][0]['policy'], policy)
             self.assertNotIn(f'{TASK_PATH.as_posix()}/grading.json', archive.namelist())
             self.assertIn('src/caeoj/grading.schema.json', archive.namelist())
         private = directory / 'tests'; logs = self.root / 'policy-logs'

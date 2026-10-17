@@ -13,7 +13,7 @@ from systems_fixture import fixture
 from caeoj_ext.systems import models,incidence
 from caeoj.sdk import load_problem,write_result,load_result
 from caeoj.validation import validate_input,validate_output,output_support
-from caeoj.grading import grade_arrays
+from grading_fixtures import evaluate_arrays
 from caeoj.grading_policy import resolve_policy
 from caeoj_tools.grading_policy import author_policy
 from caeoj_tools.task_paths import task_directory
@@ -122,9 +122,9 @@ class SystemTests(unittest.TestCase):
                     for base in (0.,100.):
                         reference=deepcopy(ref);reference[s['array']][:]=base;actual=deepcopy(reference);tol=want[0]+want[1]*base;edge=base+tol
                         if edge-base>tol:edge=np.nextafter(edge,-np.inf)
-                        actual[s['array']][:]=edge;self.assertEqual(grade_arrays(p,actual,reference,policy=policy)['score'],1)
-                        actual[s['array']].flat[0]=np.nextafter(edge,np.inf);self.assertEqual(grade_arrays(p,actual,reference,policy=policy)['score'],0)
-                bad=deepcopy(ref);bad.pop(next(iter(m['outputs'].values()))['array']);self.assertEqual(grade_arrays(p,bad,ref,policy=policy)['score'],0);self.assertIsNone(grade_arrays(p,ref,bad,policy=policy)['score'])
+                        actual[s['array']][:]=edge;self.assertEqual(evaluate_arrays(p,actual,reference,policy=policy)['score'],1)
+                        actual[s['array']].flat[0]=np.nextafter(edge,np.inf);self.assertEqual(evaluate_arrays(p,actual,reference,policy=policy)['score'],0)
+                bad=deepcopy(ref);bad.pop(next(iter(m['outputs'].values()))['array']);self.assertEqual(evaluate_arrays(p,bad,ref,policy=policy)['score'],0);self.assertIsNone(evaluate_arrays(p,ref,bad,policy=policy)['score'])
     def test_resource_consumers_and_public_closure(self):
         spec=importlib.util.spec_from_file_location('system_prepare',ROOT/'src/utils/prepare_harbor.py');prepare=importlib.util.module_from_spec(spec);sys.path.insert(0,str(ROOT/'src/utils'))
         try:spec.loader.exec_module(prepare)

@@ -10,8 +10,8 @@ import unittest
 
 import numpy as np
 
-from caeoj.grading import grade_arrays, grade_files
-from caeoj.grading_policy import load_policy, policy_hash, render_policy, validate_policy
+from grading_fixtures import evaluate_arrays
+from caeoj.grading_policy import load_policy, render_policy, validate_policy
 from caeoj.sdk import load_problem
 from caeoj.validation import output_support
 
@@ -43,7 +43,7 @@ class PolicyTests(unittest.TestCase):
         return {'version': 1, 'fields': {'velocity': tree}}
 
     def grade(self, tree):
-        return grade_arrays(self.problem, self.actual, self.reference, policy=self.policy(tree))
+        return evaluate_arrays(self.problem, self.actual, self.reference, policy=self.policy(tree))
 
     def test_rmse_known_value_and_equality(self):
         self.actual['velocity'][:] = .1
@@ -53,7 +53,7 @@ class PolicyTests(unittest.TestCase):
         self.actual['velocity'][:, 0, :] = .2
         n = self.actual['velocity'].shape[1]
         report = self.grade(self.leaf(limit=1))
-        self.assertAlmostEqual(report['fields']['velocity']['groups'][0]['value'], .2/np.sqrt(n))
+        self.assertAlmostEqual(report['checks']['outputs']['fields']['velocity']['groups'][0]['value'], .2/np.sqrt(n))
 
     def test_all_any_and_fraction(self):
         self.actual['velocity'][:, 0, 0] = .09
@@ -65,7 +65,7 @@ class PolicyTests(unittest.TestCase):
         b['limit'] = 0
         self.assertEqual(self.grade(tree)['score'], 0)
         self.assertEqual(self.grade({'any': [b, a]})['score'], 1)
-        self.assertEqual(len(self.grade({'any': [a,b]})['fields']['velocity']['children']), 2)
+        self.assertEqual(len(self.grade({'any': [a,b]})['checks']['outputs']['fields']['velocity']['children']), 2)
 
     def test_spatial_points_count_all_components(self):
         self.actual['velocity'][:, 0, 0] = .2
@@ -110,14 +110,14 @@ class PolicyTests(unittest.TestCase):
         self.assertEqual(self.grade(self.leaf('nrmse',scale_floor=1,limit=.1))['score'],1)
         self.assertEqual(self.grade(self.leaf('nrmse',scale_floor=.1,limit=.1))['score'],0)
         self.reference['velocity'][:]=2;self.actual['velocity'][:]=2.2
-        self.assertAlmostEqual(self.grade(self.leaf('nrmse',limit=1))['fields']['velocity']['groups'][0]['value'],.1)
+        self.assertAlmostEqual(self.grade(self.leaf('nrmse',limit=1))['checks']['outputs']['fields']['velocity']['groups'][0]['value'],.1)
 
     def test_maxima_and_zero_denominator(self):
         self.actual['velocity'][:,0,0] = .3
         self.assertEqual(self.grade(self.leaf('max_abs',limit=.3))['score'],1)
         self.assertEqual(self.grade(self.leaf('max_scaled',limit=2))['score'],0)
         r=self.grade(self.leaf('max_scaled',atol=0,limit=100))
-        self.assertEqual(r['score'],0);self.assertEqual(r['fields']['velocity']['groups'][0]['value'],'overflow')
+        self.assertEqual(r['score'],0);self.assertEqual(r['checks']['outputs']['fields']['velocity']['groups'][0]['value'],'overflow')
         self.actual['velocity'][:] = 0
         self.assertEqual(self.grade(self.leaf('max_scaled',atol=0,limit=0))['score'],1)
 
@@ -128,7 +128,7 @@ class PolicyTests(unittest.TestCase):
         self.assertEqual(self.grade(self.leaf('nrmse',limit=2))['score'],1)
         r=self.grade(self.leaf(limit=1e308))
         self.assertEqual(r['score'],0);json.dumps(r,allow_nan=False)
-        self.assertEqual(r['fields']['velocity']['groups'][0]['value'],'overflow')
+        self.assertEqual(r['checks']['outputs']['fields']['velocity']['groups'][0]['value'],'overflow')
 
     def test_weighted_rms_and_unweighted_proportion(self):
         p=self.problem;n=self.actual['velocity'].shape[1]
@@ -140,7 +140,7 @@ class PolicyTests(unittest.TestCase):
         w=np.ones((1,n,1));w[0,0,0]=9;p.arrays['weights']=w
         self.actual['velocity'][:,0,0]=1
         r=self.grade(self.leaf(limit=10,weight_field='weights'))
-        self.assertAlmostEqual(r['fields']['velocity']['groups'][0]['value'],np.sqrt(9/(n+8)))
+        self.assertAlmostEqual(r['checks']['outputs']['fields']['velocity']['groups'][0]['value'],np.sqrt(9/(n+8)))
         self.assertEqual(self.grade(self.leaf('violation_fraction',limit=1/n,weight_field='weights'))['score'],1)
         w[0,0,0]=0
         with self.assertRaises(ValueError): self.grade(self.leaf(weight_field='weights'))
@@ -154,16 +154,15 @@ class PolicyTests(unittest.TestCase):
     def test_configuration_rejects_ambiguity_and_unknown_fields(self):
         for tree in [{'any':[]},self.leaf(metric='unknown'),self.leaf(limit=-1),self.leaf(limit=np.inf),self.leaf(extra=True),self.leaf('nrmse',scale_floor=0)]:
             with self.subTest(tree=tree),self.assertRaises(ValueError):self.grade(tree)
-        with self.assertRaises(ValueError):grade_arrays(self.problem,self.actual,self.reference,policy=self.policy(self.leaf()),atol=.1)
         with self.assertRaises(ValueError):validate_policy({'version':1,'fields':{}},self.problem)
         with self.assertRaises(ValueError):validate_policy({'version':True,'fields':{}})
 
     def test_worst_location_hash_render_and_no_mutation(self):
         self.actual['velocity'][:,0,0]=.3;before=deepcopy(self.actual)
-        r=self.grade(self.leaf('max_abs',limit=.1));group=r['fields']['velocity']['groups'][0]
+        r=self.grade(self.leaf('max_abs',limit=.1));group=r['checks']['outputs']['fields']['velocity']['groups'][0]
         loc=self.problem.manifest['locations'][self.problem.manifest['outputs']['velocity']['location']]
         self.assertEqual(group['worst_location']['id'],int(self.problem.arrays[loc['ids']][0]))
-        self.assertEqual(r['policy_sha256'],policy_hash(self.policy(self.leaf('max_abs',limit=.1))))
+        self.assertEqual(len(r['grading_sha256']),64)
         self.assertIn('空间点',render_policy(self.policy(self.leaf('violation_fraction',components='joint',count='spatial_points'))))
         for key in self.actual:np.testing.assert_array_equal(self.actual[key],before[key])
 
@@ -178,7 +177,7 @@ class PolicyTests(unittest.TestCase):
         self.assertEqual(normal,chunked)
         self.reference['velocity'][:]=1e200; self.actual['velocity'][:]=1e200
         self.reference['velocity'][:,0,0]=0;self.actual['velocity'][:,0,0]=1e-100
-        value=self.grade(tree)['fields']['velocity']['groups'][0]['value']
+        value=self.grade(tree)['checks']['outputs']['fields']['velocity']['groups'][0]['value']
         self.assertGreater(value,0)
 
     def test_integer_fields_and_reference_error_remain_mandatory(self):
@@ -187,9 +186,9 @@ class PolicyTests(unittest.TestCase):
         ref={k:p.arrays[k].copy() for k in keys}; actual=deepcopy(ref)
         policy={'version':1,'fields':{name:self.leaf(limit=1e6) for name,spec in p.manifest['outputs'].items() if spec['dtype']=='float64'}}
         actual['region_label'][0,0,0]+=1
-        self.assertEqual(grade_arrays(p,actual,ref,policy=policy)['score'],0)
+        self.assertEqual(evaluate_arrays(p,actual,ref,policy=policy)['score'],0)
         ref['temperature']=ref['temperature'][0]
-        self.assertIsNone(grade_arrays(p,actual,ref,policy=policy)['score'])
+        self.assertIsNone(evaluate_arrays(p,actual,ref,policy=policy)['score'])
 
     def test_cli_policy_and_conflict(self):
         with tempfile.TemporaryDirectory(dir=ROOT/'runs') as tmp:

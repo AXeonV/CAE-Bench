@@ -15,7 +15,7 @@ import h5py
 import numpy as np
 
 from caeoj.sdk import id_to_row, load_problem, load_result, read_constant, read_field, target_ids, write_result
-from caeoj.grading import grade_arrays
+from grading_fixtures import evaluate_arrays, pointwise_policy
 from caeoj_tools.author import PROJECT_ROOT, load_author_module
 _examples = load_author_module('smoke-test', 'examples')
 CASE_NAMES = _examples.CASE_NAMES
@@ -79,7 +79,7 @@ class ContractTests(unittest.TestCase):
                 p = load_problem(path)
                 result = write_result(self.root / "result.h5", p,
                     {s["array"]: p.arrays[s["array"]].copy() for s in p.manifest["outputs"].values()})
-                self.assertEqual(grade_arrays(p, result, echo_reference(p))["score"], 1)
+                self.assertEqual(evaluate_arrays(p, result, echo_reference(p), policy=pointwise_policy(atol=0, rtol=0))["score"], 1)
 
     def test_wrong_shape_and_rank(self):
         for change in (lambda x: x.transpose(0, 2, 1), lambda x: x[0], lambda x: x.reshape(-1),
@@ -112,7 +112,7 @@ class ContractTests(unittest.TestCase):
             arrays["velocity"] = change(arrays["velocity"])
             write_hdf5(self.root / 'wrong.h5', arrays)
             self.assertTrue(validate_output(self.path, self.root / "wrong.h5")["valid"])
-            self.assertEqual(grade_arrays(p, arrays, echo_reference(p))["status"], "wrong_answer")
+            self.assertEqual(evaluate_arrays(p, arrays, echo_reference(p), policy=pointwise_policy(atol=0, rtol=0))["status"], "wrong_answer")
 
     def test_standard_storage_layout_compression_and_byte_order(self):
         p, arrays = self.output()
@@ -120,7 +120,7 @@ class ContractTests(unittest.TestCase):
         for array in (np.asfortranarray(original), original.astype(">f8")):
             arrays["velocity"] = array
             write_hdf5(self.root / 'standard.h5', arrays, compression="gzip")
-            self.assertEqual(grade_arrays(p, load_result(p, self.root / "standard.h5"), echo_reference(p))["score"], 1)
+            self.assertEqual(evaluate_arrays(p, load_result(p, self.root / "standard.h5"), echo_reference(p), policy=pointwise_policy(atol=0, rtol=0))["score"], 1)
             np.testing.assert_array_equal(arrays["velocity"], original)
 
     def test_strings_and_corrupt_hdf5(self):

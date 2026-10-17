@@ -6,7 +6,7 @@ import unittest
 
 import numpy as np
 
-from caeoj.grading import grade_arrays
+from grading_fixtures import evaluate_arrays
 from caeoj.grading_policy import load_policy, validate_policy
 from caeoj.sdk import load_problem
 from caeoj_tools.task_paths import task_directory
@@ -56,17 +56,17 @@ class EquationPolicyTests(unittest.TestCase):
         validate_policy(policy, p)
         # One spatial point with both components wrong: exactly 0.1%, accepted.
         actual['velocity'][1, 0, :] = .2
-        self.assertEqual(grade_arrays(p, actual, ref, policy=policy)['score'], 1)
+        self.assertEqual(evaluate_arrays(p, actual, ref, policy=policy)['score'], 1)
         # Two distinct points wrong even in different components: 0.2%, rejected.
         actual['velocity'][1, 1, 0] = .2
-        report = grade_arrays(p, actual, ref, policy=policy)
+        report = evaluate_arrays(p, actual, ref, policy=policy)
         self.assertEqual(report['score'], 0)
-        self.assertEqual(report['fields']['velocity']['groups'][1]['failed_values'], 2)
+        self.assertEqual(report['checks']['outputs']['fields']['velocity']['groups'][1]['failed_values'], 2)
         # Another good time cannot dilute a bad time's fraction.
-        self.assertEqual(report['fields']['velocity']['groups'][1]['value'], .002)
+        self.assertEqual(report['checks']['outputs']['fields']['velocity']['groups'][1]['value'], .002)
         # A tiny count still cannot bypass structural invalidity.
         actual['velocity'][1, 0, 0] = np.nan
-        self.assertEqual(grade_arrays(p, actual, ref, policy=policy)['status'], 'invalid_output')
+        self.assertEqual(evaluate_arrays(p, actual, ref, policy=policy)['status'], 'invalid_output')
 
 
 if __name__ == '__main__':

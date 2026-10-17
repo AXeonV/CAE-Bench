@@ -1,5 +1,4 @@
 """Versioned public grading policy, validation and participant descriptions."""
-import hashlib
 from copy import deepcopy
 import json
 import math
@@ -7,24 +6,6 @@ from pathlib import Path
 
 import jsonschema
 import numpy as np
-
-DEFAULT_ATOL = 1e-6
-DEFAULT_RTOL = 1e-5
-
-
-def _tolerance(atol, rtol):
-    try:
-        valid = math.isfinite(atol) and math.isfinite(rtol) and atol >= 0 and rtol >= 0
-    except (TypeError, OverflowError):
-        valid = False
-    if not valid:
-        raise ValueError("atol and rtol must be finite nonnegative numbers.")
-    return {"atol": float(atol), "rtol": float(rtol)}
-
-
-UNSET = object()
-METRICS = ('pointwise', 'rmse', 'nrmse', 'max_abs', 'max_scaled', 'violation_fraction')
-
 
 def parse_policy(text):
     def reject(token):
@@ -149,12 +130,6 @@ def resolve_policy(policy, problem):
     """Return the numerical field policy, preserving the source policy object."""
     validate_policy(policy, problem)
     return _bind_quantities(policy, problem) if policy['version'] == 2 else policy
-
-
-def policy_hash(policy):
-    validate_policy(policy)
-    return hashlib.sha256(json.dumps(policy, sort_keys=True, separators=(',', ':'),
-                                    allow_nan=False).encode()).hexdigest()
 
 
 def render_policy(policy):

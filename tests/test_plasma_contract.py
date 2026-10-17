@@ -15,7 +15,7 @@ import numpy as np
 
 from plasma_fixture import fixture
 from caeoj_ext.plasma import models
-from caeoj.grading import grade_arrays
+from grading_fixtures import evaluate_arrays
 from caeoj.grading_policy import resolve_policy
 from caeoj.sdk import load_problem, write_result
 from caeoj.validation import output_support, validate_input, validate_output
@@ -169,14 +169,14 @@ class PlasmaContractTests(unittest.TestCase):
                 reference = {k: problem.arrays[k].copy() for k in output_support(problem)}
                 for field in m['outputs'].values():
                     reference[field['array']] = np.zeros((len(problem.arrays[m['time_axes']['output']]), len(problem.arrays[m['locations'][field['location']]['ids']]), *field['component_shape']))
-                self.assertEqual(grade_arrays(problem, reference, reference, policy=policy)['score'], 1)
+                self.assertEqual(evaluate_arrays(problem, reference, reference, policy=policy)['score'], 1)
                 for name, field in m['outputs'].items():
                     actual = deepcopy(reference)
                     tolerance = bound['fields'][name]['atol']
                     actual[field['array']].flat[0] = tolerance
-                    self.assertEqual(grade_arrays(problem, actual, reference, policy=policy)['score'], 1)
+                    self.assertEqual(evaluate_arrays(problem, actual, reference, policy=policy)['score'], 1)
                     actual[field['array']].flat[0] = np.nextafter(tolerance, np.inf)
-                    self.assertEqual(grade_arrays(problem, actual, reference, policy=policy)['score'], 0)
+                    self.assertEqual(evaluate_arrays(problem, actual, reference, policy=policy)['score'], 0)
                 config = json.loads((task / 'judge-config.json').read_text())
                 overrides = tomllib.loads((task / 'harbor/task.toml').read_text())
                 merged = tomllib.loads(prepare.task_config((ROOT / 'src/utils/harbor/task.toml').read_text(), overrides, judge_config=config, case_count=3))

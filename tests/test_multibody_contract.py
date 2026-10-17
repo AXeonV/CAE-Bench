@@ -14,7 +14,7 @@ from caeoj_ext.multibody import models
 from qbank.maintenance.authoring.build_multibody import M as AUTHOR_MODELS
 from caeoj.sdk import load_problem,write_result
 from caeoj.validation import check_problem,validate_output,output_support
-from caeoj.grading import grade_arrays
+from grading_fixtures import evaluate_arrays
 from caeoj.grading_policy import resolve_policy
 from caeoj_tools.task_paths import task_directory
 from caeoj_tools.grading_policy import author_policy
@@ -35,12 +35,12 @@ class MultibodyTests(unittest.TestCase):
                 write_result(Path(tmp)/'result.h5',problem,{s['array']:ref[s['array']] for s in m['outputs'].values()})
                 self.assertTrue(validate_output(path,Path(tmp)/'result.h5')['valid'])
                 policy=author_policy(task_directory(slug,ROOT),problem);bound=resolve_policy(policy,problem)
-                self.assertEqual(grade_arrays(problem,deepcopy(ref),ref,policy=policy)['score'],1)
+                self.assertEqual(evaluate_arrays(problem,deepcopy(ref),ref,policy=policy)['score'],1)
                 for name,s in m['outputs'].items():
                     actual=deepcopy(ref);tol=bound['fields'][name]['atol'];actual[s['array']][:]=tol
-                    self.assertEqual(grade_arrays(problem,actual,ref,policy=policy)['score'],1)
+                    self.assertEqual(evaluate_arrays(problem,actual,ref,policy=policy)['score'],1)
                     actual[s['array']].flat[0]=np.nextafter(tol,np.inf)
-                    self.assertEqual(grade_arrays(problem,actual,ref,policy=policy)['score'],0)
+                    self.assertEqual(evaluate_arrays(problem,actual,ref,policy=policy)['score'],0)
     def test_hand_chosen_invalid_declarations(self):
         def data(op,key,val):
             return lambda m,p:next(c for c in m['conditions'] if c['operator']==op)['data'].__setitem__(key,val)
@@ -93,8 +93,8 @@ class MultibodyTests(unittest.TestCase):
             for s in m['outputs'].values():ref[s['array']]=np.zeros((1,len(problem.arrays[m['locations'][s['location']]['ids']]),*s['component_shape']))
             policy=author_policy(task_directory('normal-impact',ROOT),problem)
             bad=deepcopy(ref);bad.pop('answer_impulse0')
-            self.assertEqual(grade_arrays(problem,bad,ref,policy=policy)['score'],0)
-            result=grade_arrays(problem,ref,bad,policy=policy)
+            self.assertEqual(evaluate_arrays(problem,bad,ref,policy=policy)['score'],0)
+            result=evaluate_arrays(problem,ref,bad,policy=policy)
             self.assertIsNone(result['score'])
 
     def test_public_closure(self):

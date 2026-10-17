@@ -9,8 +9,9 @@ import unittest
 
 import numpy as np
 
-from caeoj.grading import grade_arrays
-from caeoj.grading_policy import policy_hash, render_policy, resolve_policy, validate_policy
+from grading_fixtures import evaluate_arrays
+from caeoj.grading_metrics import evaluate_field
+from caeoj.grading_policy import resolve_policy, render_policy, validate_policy
 from caeoj.sdk import load_problem
 from caeoj.validation import output_support
 
@@ -42,13 +43,12 @@ class QuantityPolicyTests(unittest.TestCase):
         policy['quantities']['pressure'] = self.policy('pressure', 'Pa',
             reference_offset={'parameter': 'pressure_reference'})['quantities']['pressure']
         self.actual['velocity'][:] = .125
-        self.assertEqual(grade_arrays(self.problem, self.actual, self.reference, policy=policy)['score'], 1)
+        self.assertEqual(evaluate_arrays(self.problem, self.actual, self.reference, policy=policy)['score'], 1)
         self.actual['velocity'][0, 0, 1] = np.nextafter(.125, np.inf)
-        report = grade_arrays(self.problem, self.actual, self.reference, policy=policy)
+        report = evaluate_arrays(self.problem, self.actual, self.reference, policy=policy)
         self.assertEqual(report['score'], 0)
-        self.assertEqual(set(report['fields']), {'sampled_speed'})
-        self.assertEqual(report['policy_version'], 2)
-        self.assertEqual(report['policy_sha256'], policy_hash(policy))
+        self.assertEqual(set(report['checks']['outputs']['fields']), {'sampled_speed'})
+        self.assertEqual(len(report['grading_sha256']), 64)
 
     def test_all_outputs_with_the_same_quantity_are_checked(self):
         spec = deepcopy(self.problem.manifest['outputs']['sampled_speed'])
@@ -56,9 +56,9 @@ class QuantityPolicyTests(unittest.TestCase):
         self.problem.manifest['outputs']['another_observation'] = spec
         self.reference['another_array'] = self.reference['velocity'].copy()
         self.actual['another_array'] = self.reference['velocity'].copy() + .25
-        report = grade_arrays(self.problem, self.actual, self.reference, policy=self.policy())
+        report = evaluate_arrays(self.problem, self.actual, self.reference, policy=self.policy())
         self.assertEqual(report['score'], 0)
-        self.assertEqual(set(report['fields']), {'sampled_speed', 'another_observation'})
+        self.assertEqual(set(report['checks']['outputs']['fields']), {'sampled_speed', 'another_observation'})
 
     def test_unknown_quantity_wrong_unit_and_mixed_policy_versions_fail(self):
         for policy in (self.policy('not_velocity'), self.policy(unit='Pa'),
@@ -76,16 +76,16 @@ class QuantityPolicyTests(unittest.TestCase):
         original = deepcopy(policy)
         self.reference['velocity'][:] = 100010.
         self.actual['velocity'][:] = 100011.5
-        first = grade_arrays(p, self.actual, self.reference, policy=policy)
+        first = evaluate_arrays(p, self.actual, self.reference, policy=policy)
         self.assertEqual(first['score'], 1)  # error 1.5 == .5 + .1 * 10
         self.actual['velocity'][0, 0, 0] = np.nextafter(100011.5, np.inf)
-        self.assertEqual(grade_arrays(p, self.actual, self.reference, policy=policy)['score'], 0)
+        self.assertEqual(evaluate_arrays(p, self.actual, self.reference, policy=policy)['score'], 0)
         self.actual['velocity'][:] = 100011.5
         p.manifest['physics']['parameters']['pressure_reference']['value'] = 100005.
-        second = grade_arrays(p, self.actual, self.reference, policy=policy)
+        second = evaluate_arrays(p, self.actual, self.reference, policy=policy)
         self.assertEqual(second['score'], 0)  # unchanged error, smaller relative scale
-        self.assertEqual(first['policy_sha256'], second['policy_sha256'])
-        self.assertNotEqual(first['bound_policy_sha256'], second['bound_policy_sha256'])
+        self.assertEqual(first['grading_sha256'], second['grading_sha256'])
+        self.assertNotEqual(first['evaluation_sha256'], second['evaluation_sha256'])
         self.assertEqual(policy, original)
         self.assertIn('physics.parameters.pressure_reference.value', render_policy(policy))
 
@@ -98,7 +98,7 @@ class QuantityPolicyTests(unittest.TestCase):
         for constant in invalid:
             p.manifest['physics'] = {'model': 'identity', 'parameters': {'pressure_reference': constant}}
             with self.subTest(constant=constant), self.assertRaises(ValueError):
-                grade_arrays(p, self.actual, self.reference, policy=policy)
+                evaluate_arrays(p, self.actual, self.reference, policy=policy)
         tree = policy['quantities']['pressure']['rule']
         with self.assertRaises(ValueError):
             validate_policy({'version': 1, 'fields': {'sampled_speed': tree}})
@@ -109,12 +109,12 @@ class QuantityPolicyTests(unittest.TestCase):
         reference = {key: p.arrays[key].copy() for key in keys}
         policy = {'version': 2, 'default': self.policy()['quantities']['velocity']['rule']}
         actual = deepcopy(reference)
-        self.assertEqual(grade_arrays(p, actual, reference, policy=policy)['score'], 1)
+        self.assertEqual(evaluate_arrays(p, actual, reference, policy=policy)['score'], 1)
         actual['mask'][0, 0, 0] = ~actual['mask'][0, 0, 0]
-        self.assertEqual(grade_arrays(p, actual, reference, policy=policy)['score'], 0)
+        self.assertEqual(evaluate_arrays(p, actual, reference, policy=policy)['score'], 0)
         actual = deepcopy(reference)
         actual['region_label'][0, 0, 0] += 1
-        self.assertEqual(grade_arrays(p, actual, reference, policy=policy)['score'], 0)
+        self.assertEqual(evaluate_arrays(p, actual, reference, policy=policy)['score'], 0)
 
     def test_all_chapter_two_configs_grade_requested_quantities_and_exact_boundaries(self):
         from caeoj.grading_policy import load_policy
@@ -143,11 +143,14 @@ class QuantityPolicyTests(unittest.TestCase):
                         'pressure_reference': {'value': 65536., 'unit': 'Pa'}}})
                 problem = SimpleNamespace(manifest=manifest, arrays={**reference,
                     'coordinates': np.array([[0., 0.]])})
-                self.assertEqual(grade_arrays(problem, actual, reference, policy=policy)['score'], 1)
+                bound = resolve_policy(policy, problem)
+                def accepted():
+                    return all(evaluate_field(problem, name, actual[spec['array']], reference[spec['array']], bound['fields'][name])['passed'] for name,spec in outputs.items())
+                self.assertTrue(accepted())
                 for key in (s['array'] for s in outputs.values()):
                     before = actual[key].copy()
                     actual[key][:] = np.nextafter(actual[key], np.inf)
-                    self.assertEqual(grade_arrays(problem, actual, reference, policy=policy)['score'], 0)
+                    self.assertFalse(accepted())
                     actual[key] = before
 
     def test_local_smoke_consumes_its_configured_policy(self):

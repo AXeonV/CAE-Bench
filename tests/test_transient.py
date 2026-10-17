@@ -14,7 +14,8 @@ import unittest
 
 import numpy as np
 
-from caeoj.grading import grade_arrays, grade_files
+from grading_fixtures import evaluate_arrays
+from caeoj.case_grading import grade_case
 from caeoj.grading_policy import load_policy
 from caeoj.sdk import load_problem, load_result
 from caeoj.validation import check_result, output_support, validate_input
@@ -61,7 +62,7 @@ class TransientTests(unittest.TestCase):
     def grade(self, problem, values, reference):
         arrays = {key: problem.arrays[key] for key in output_support(problem)} | {'temperature': values}
         self.assertTrue(check_result(problem, arrays)['valid'])
-        return grade_arrays(problem, arrays, reference, policy=self.policy)
+        return evaluate_arrays(problem, arrays, reference, policy=self.policy)
 
     def test_suite_ranges_mesh_scale_and_boundary_coverage(self):
         self.assertEqual(len(self.cases), 24)
@@ -195,8 +196,7 @@ class TransientTests(unittest.TestCase):
             directory = TASK/'samples'/sample
             p = load_problem(directory/'input/problem.json')
             saved = json.loads((TASK/'author/data-evidence/samples'/sample/'verification.json').read_text(encoding='utf-8'))
-            report = grade_files(p.path, directory/'output/result.h5',
-                                 TASK/'reference'/saved['case']/'reference.h5', policy=self.policy)
+            report = grade_case(p.path, directory/'output/result.h5', directory/'reference/grading.json')
             self.assertEqual(report['score'], 1)
         with tempfile.TemporaryDirectory(dir=PROJECT/'runs') as tmp:
             directory = Path(tmp)
@@ -208,8 +208,7 @@ class TransientTests(unittest.TestCase):
                                       '--output', str(directory/'result.h5')], cwd=directory, env=env,
                                      capture_output=True, timeout=self.config['timeout_seconds'])
             self.assertEqual(process.returncode, 0, process.stderr)
-            self.assertEqual(grade_files(p, directory/'result.h5', TASK/'samples/02/output/result.h5',
-                                        policy=self.policy)['score'], 1)
+            self.assertEqual(grade_case(p, directory/'result.h5', TASK/'samples/02/reference/grading.json')['score'], 1)
 
     def test_public_release_excludes_author_formulas_and_resources(self):
         spec = importlib.util.spec_from_file_location('transient_publish', PROJECT/'src/utils/publish_dist.py')

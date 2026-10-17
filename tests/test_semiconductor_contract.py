@@ -15,9 +15,9 @@ from caeoj_ext.semiconductor import models
 from qbank.maintenance.authoring.build_semiconductor import MODELS as AUTHOR_MODELS
 from caeoj.sdk import load_problem, write_result
 from caeoj.validation import validate_input, validate_output, output_support
-from caeoj.grading import grade_arrays
+from grading_fixtures import evaluate_arrays
 from caeoj.grading_policy import resolve_policy
-from caeoj_tools.grading_policy import task_policy
+from caeoj_tools.grading_policy import author_policy
 from caeoj_tools.task_paths import task_directory
 from caeoj_tools.assembly import runtime_materials
 
@@ -132,7 +132,7 @@ class SemiconductorTests(unittest.TestCase):
                     expected['electron_density']=(1e10,.003);expected['hole_density']=(1e10,.003)
                 elif slug=='semiconductor-trap-kinetics':
                     expected['electron_density']=(1e10,.003);expected['hole_density']=(1e10,.003)
-                p=load_problem(path);policy=task_policy(task_directory(slug,ROOT),p);bound=resolve_policy(policy,p)
+                p=load_problem(path);policy=author_policy(task_directory(slug,ROOT),p);bound=resolve_policy(policy,p)
                 ref={k:p.arrays[k].copy() for k in output_support(p)}
                 for name,s in m['outputs'].items():
                     rule=bound['fields'][name]
@@ -140,21 +140,21 @@ class SemiconductorTests(unittest.TestCase):
                     ref[s['array']]=np.zeros((len(p.arrays[m['time_axes'][s['time_axis']]]),len(p.arrays[m['locations'][s['location']]['ids']]),*s['component_shape']))
                 for name,s in m['outputs'].items():
                     tol=bound['fields'][name]['atol'];actual=deepcopy(ref);actual[s['array']][:]=tol
-                    self.assertEqual(grade_arrays(p,actual,ref,policy=policy)['score'],1)
+                    self.assertEqual(evaluate_arrays(p,actual,ref,policy=policy)['score'],1)
                     actual[s['array']].flat[0]=np.nextafter(tol,np.inf)
-                    self.assertEqual(grade_arrays(p,actual,ref,policy=policy)['score'],0)
+                    self.assertEqual(evaluate_arrays(p,actual,ref,policy=policy)['score'],0)
                     # Exercise the relative term independently of zero-reference tests.
                     rtol=bound['fields'][name]['rtol'];baseline=10*tol/rtol
                     nonzero=deepcopy(ref);nonzero[s['array']][:]=baseline
                     actual=deepcopy(nonzero);tau=tol+rtol*baseline;edge=baseline+tau
                     if edge-baseline>tau:edge=np.nextafter(edge,-np.inf)
                     actual[s['array']][:]=edge
-                    self.assertEqual(grade_arrays(p,actual,nonzero,policy=policy)['score'],1)
+                    self.assertEqual(evaluate_arrays(p,actual,nonzero,policy=policy)['score'],1)
                     actual[s['array']].flat[0]=np.nextafter(edge,np.inf)
-                    self.assertEqual(grade_arrays(p,actual,nonzero,policy=policy)['score'],0)
+                    self.assertEqual(evaluate_arrays(p,actual,nonzero,policy=policy)['score'],0)
                 bad=deepcopy(ref);del bad[next(iter(m['outputs'].values()))['array']]
-                self.assertEqual(grade_arrays(p,bad,ref,policy=policy)['score'],0)
-                self.assertIsNone(grade_arrays(p,ref,bad,policy=policy)['score'])
+                self.assertEqual(evaluate_arrays(p,bad,ref,policy=policy)['score'],0)
+                self.assertIsNone(evaluate_arrays(p,ref,bad,policy=policy)['score'])
                 # Repeated quantity with distinct logical/array names is public and must bind.
                 s=deepcopy(next(iter(m['outputs'].values())));s['array']='another_answer'
                 m['outputs']['another_logical_name']=s;path.write_text(json.dumps(m))
@@ -173,7 +173,7 @@ class SemiconductorTests(unittest.TestCase):
             self.assertEqual(merged['environment']['cpus'],2);self.assertEqual(merged['environment']['memory_mb'],2048)
             self.assertEqual(merged['environment']['gpus'],0);self.assertEqual(merged['environment']['os'],'linux')
             self.assertEqual(merged['agent']['timeout_sec'],3600);self.assertEqual(merged['environment']['build_timeout_sec'],1200)
-            self.assertEqual(merged['verifier']['timeout_sec'],max(1200,180+4*(AUTHOR_MODELS[slug]['timeout']+60)))
+            self.assertEqual(merged['verifier']['timeout_sec'],max(1200,180+4*(AUTHOR_MODELS[slug]['timeout']+120)))
             self.assertEqual(merged['verifier']['environment_mode'],'separate');self.assertEqual(merged['verifier']['network_mode'],'no-network')
         public,runtime=runtime_materials({s:task_directory(s,ROOT) for s in models()},ROOT)
         self.assertEqual(set(runtime['extensions']),{'semiconductor.transport'})

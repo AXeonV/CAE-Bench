@@ -10,6 +10,12 @@
 
 考生获得的材料、一次安装、统一命令和稳定 SDK，以及单题／多题装配的验收要求见[考生侧公开接口与材料装配](PUBLIC-INTERFACE.md)；内部拆分不应增加考生使用负担。
 
+HF 题内数据池、稳定身份、选样清单及目录装配见[题库数据存储设计](DATA-STORAGE.md)。`caeoj-maint data` 制池、上传、选样、下载装配与核验操作见[数据池操作](../maintenance/DATA-SYNC.md)，实际迁移证据见[迁移记录](reviews/data-storage-migration.md)。
+
+Case 级判题的实施、HF 迁移和验证证据见[实施记录](reviews/case-grading.md)及[后续修复](reviews/case-grading-followup.md)，当前协议以[判题说明](../../docs/GRADING.md)为准。
+
+通用工具的历史实施见[数据池工具实施与验证](reviews/data-pool-tools.md)；当前自包含目录的迁移及验证见[case 布局收束](reviews/case-pool-simplification.md)。
+
 ## 章级目录
 
 | 章 | 章名 | 覆盖范围 |

@@ -1,6 +1,68 @@
-# 数值评分策略
+# Case 级判题
 
-`grading.json` 是公开、可追踪的数值评分配置。CLI、公开样例和 Harbor 使用同一套 `caeoj.grading` 实现；配置结构见 `src/caeoj/grading.schema.json`。运行资源仍由 `judge-config.json` 与 `harbor/task.toml` 定义，不进入 `problem.json` 数据协议。
+题目 instruction.md、DATA.md 和通用 CONTRACT.md 构成完整考生契约。实际判题配置位于每例 `reference/grading.json`，属于本例数据；不存在题目级运行时评分配置。作者可在 `author/grading-template.json` 保存制数模板，但运行器不读取模板。
+
+`atol`、`rtol` 仍分别表示绝对与相对容差，适用指标必须在数值规则中显式给出。它们不是独立的评分入口；CLI 不接受单独的容差参数，也不提供隐式默认容差。
+
+## 执行与材料边界
+
+先用 `prepare_case(problem, grading_path)` 预检配置、参考及观测，再完整校验提交并执行评价。CLI、公开样例和 Harbor 共用 `caeoj.case_grading`；Harbor 的独立 worker 有单独评价时限，超时属于基础设施错误。
+
+```sh
+python -m caeoj grade --input problem.json --output result.h5 --grading reference/grading.json
+```
+
+隐藏例的配置和参考只进入 verifier；公开包仅提供样例的判题材料和必要工具。考生无需阅读机器配置补题意。观察什么、采用何种重建、误差和通过含义必须由题面／DATA完整说明；配置不能增加隐藏要求。
+
+## 配置与扩展
+
+外层固定 `version: 1`，`checks` 为非空数组，每项有唯一 `id` 和可信 `evaluator` 标识；全部评价项通过才得到本例1分。未知标识、未知参数、重复键／ID、缺失资产和非有限配置均拒绝。
+
+最小整场配置如下（阈值仅示范，不是正式校准值）：
+
+```json
+{
+  "version": 1,
+  "checks": [{
+    "id": "outputs",
+    "evaluator": "direct_outputs",
+    "reference": "reference.h5",
+    "policy": {"version": 2, "default": {
+      "metric": "pointwise", "time": "per_time", "components": "per_component",
+      "atol": 0.01, "rtol": 0
+    }}
+  }]
+}
+```
+
+标准 `direct_outputs` 项包含 `id`、`evaluator`、`reference`（相对配置目录的HDF5文件）和 `policy`。参考按完整输出契约校验，policy采用下述当前数值策略形式，所有提交字段均比较。整数／布尔值精确一致。
+
+`field.sample_points` 项包含 `id`、`evaluator`、`source_output`、`components`、`observations`、`reference` 和 `rule`。它不改变提交契约：即使只评一个速度分量，考生仍须提交本题全部输出。
+
+- `source_output` 是实际 outputs 逻辑名；仅支持二维一阶三角形网格的float64节点点值场。
+- `components` 为非空、无重复、按原输出顺序排列的标签子集。
+- `observations` 恰含 `file`、`points`、`ids`、`times`、`cells`，后四者为同一个HDF5中的key。points为float64[N,2]，ids为唯一int64[N]，times为有限严格递增float64[T]，cells为int64[N]包含三角形tag。
+- 包含单元由作者预计算；共享实现检查单元、测点位置及节点覆盖，再按P1重建。节点按tag映射，不按行号推断。仅允许请求提交已有的精确时刻，不做时间插值。三角形重心坐标允许64倍机器epsilon的边界舍入误差，随后夹到[0,1]并归一化；其他域外点拒绝，退化单元拒绝。
+- `reference` 恰含 `file`、`array`、`ids`、`times`、`unit`。参考是float64[T,N,K]，单位与源场一致，IDs及时间轴与观测严格一致。仅提供这些稀疏值即可形成完整参考。
+- `rule` 使用下述数值条件树；首期点取样采用等采样权重，不接受weight_field或输入参数形式的偏置。显式数值reference_offset仍按相同含义计算。
+
+路径全部相对配置所在目录，不允许越界、链接、外部载荷或下载。所有读取的HDF5数组必须被绑定，不能用额外数组藏另一套评价条件。
+
+核心提供上述标识。可信已安装provider可在所选extension运行描述的 `evaluators` 中声明 `标识: 模块:prepare函数`；HF不指定导入目标。prepare接口为 `(problem, check, assets) -> evaluate`，使用assets绑定并校验全部参考；evaluate接收已通过完整契约检查的结果数组，返回含bool passed的诊断。共享数值比较使用 `evaluate_observation`，不制造临时problem。标识不能覆盖其他实现，公开装配核对声明函数所在文件闭包。扩展代码及依赖由维护者安装，不能由case动态加载。
+
+提取算法不得读取参考值来调整结果。自定义实现必须有公开数学定义、适用性检查和独立测试，不能自行放宽规则或补物理。
+
+## 证据与错误
+
+报告按case记录grading、配置及参考资产、输入资产、选中运行绑定和评价实现闭包摘要，以及组合evaluation_sha256；评价项记录分量与观测诊断。预检后文件变化拒绝，Harbor核对worker证据与预检一致。
+
+坏输入返回input_error；坏配置、参考、提取实现或评价预算返回evaluation_error，score为null，CLI退出2。非法候选输出返回invalid_output，score为0；数值不通过为wrong_answer；其余通过为accepted。CLI对应退出1／0。结构校验不能被OR或稀疏评价绕过。
+
+文件摘要完整、参考覆盖完整、数值可信和能力覆盖是不同证据。这里只验证前两者及确定的计算过程，不认证参考精度或运行资源校准。
+
+## 数值策略
+
+下面的version 1／2是内层数值规则的两种当前绑定方式，不是外层case配置。独立数组比较API仍用于数值工具测试；正式题库执行只读取case配置。
 
 ## 配置与逻辑
 
@@ -75,7 +137,7 @@ version 2 可显式提供 `default` 条件树，作为未匹配 quantity 的 flo
 
 version 2 的 `reference_offset` 可为有限数值，或 `{"parameter":"pressure_reference"}`：仅从本例 `physics.parameters.pressure_reference` 的带单位有限标量绑定，单位必须与该输出完全一致。不接受 bool、表达式、参考／候选答案拟合值或隐含压力参数；缺失、错误类型／单位属于基础设施错误。其他物理 `reference_pressure` 不会自动启用评分偏置。未请求的量不绑定其参数。
 
-绑定产生数值型 version 1 规则交给同一评分引擎，模板不被改写。报告的 `policy_sha256` 对应公开原模板，`bound_policy_sha256` 对应该案例的实际数值规则。CLI、公开样例、组装预检和私有 verifier 都消费同一个原模板，不能只按第一个样例冻结字段集合。
+每个 case 的 quantity 策略绑定本 case 的输出声明，产生数值型 version 1 规则交给同一评分引擎。正式 CLI、样例预检和私有 verifier 读取该 case 的 `reference/grading.json`，报告通过 `grading_sha256` 和 `evaluation_sha256` 绑定策略、资产和运行代码。`author/grading-template.json` 仅供制数工具生成 case 策略，运行时不读取；不能按第一个样例冻结其他 case 的字段集合。
 
 ## 指标定义
 
@@ -96,7 +158,7 @@ version 2 的 `reference_offset` 可为有限数值，或 `{"parameter":"pressur
 
 例如绝对压力输出 `reference=100010 Pa`、`result=100012 Pa`，公开 `reference_offset=100000 Pa`、atol=0.5 Pa、rtol=0.1，则允许误差为1.5 Pa，实际误差2 Pa，判失败；省略偏置时允许误差10001.5 Pa。偏置并非允许改变压力基准：两份HDF5仍存绝对静压。以每例输入中的 pressure_reference 固定尺度时，可用 version 2 显式绑定；version 1 仍须逐例公开对应的数值策略。没有真实算例时只能完成模板及临时工具验证，不能据此宣称数据绑定或正式评测已发布。
 
-省略或显式给0完全保留旧评分行为。非零偏置的计算以浮点尾数/指数处理可能溢出的差与容差乘积，避免把有限输入中的巨大相对尺度错误当作无条件通过，也避免先减去两个背景值后再相减造成额外消减。
+省略或显式给 0 时，公式等价于不减背景值的相对误差。非零偏置的计算以浮点尾数/指数处理可能溢出的差与容差乘积，避免把有限输入中的巨大相对尺度错误当作无条件通过，也避免先减去两个背景值后再相减造成额外消减。
 
 `max_scaled` 的 τ 为零时，零误差记为 0，非零误差记为 ∞。报告将非有限的指标值写为字符串 `overflow`，不输出非法 JSON 的 Infinity。有限数组产生非常大的误差属于答案错误；非有限的提交数组先由结构校验拒绝。
 
@@ -114,27 +176,3 @@ version 2 的 `reference_offset` 可为有限数值，或 `{"parameter":"pressur
 各叶先在全部范围完成判断，然后求值条件树。例如 `A OR B` 要求 A 在全部范围通过，或 B 在全部范围通过；不是允许每个时刻随意选择 A 或 B。所有输出时刻参与计算，包括初始时刻。
 
 默认等空间采样权重。可选 `weight_field` 引用输入中已经声明的 float64 标量字段，必须与输出 location 相同、shape 为 `[1,N,1]`，每项有限且严格为正。按 `√(Σ w e² / Σ w)` 计算 RMS；同一权重应用于每个分量和时刻。单位任意但内部一致，整体缩放权重不改变结果。权重只影响 RMSE、参考 RMS 和 NRMSE，不影响最大值或超限比例。不会自动从 Gmsh 网格猜测积分权重。
-
-## 接口与兼容
-
-```bash
-python -m caeoj grade \
-  --input problem.json --output result.h5 --reference reference.h5 \
-  --grading grading.json
-```
-
-Python 接口为 `grade_arrays(problem, result, reference, policy=policy)` 和 `grade_files(input, output, reference, policy=policy)`，可用 `load_policy(path)` 读取和校验配置。
-
-单点 CLI／SDK 不指定策略时可使用 `atol/rtol` 逐值比较；显式策略与显式 atol/rtol 不能同时提供。题库运行统一使用题目 `grading.json`，`judge-config.json` 只保存执行设置，不再提供容差或缺省评分规则。
-
-发布器导出题目 `grading.json` 与从该策略生成的 `GRADING.md`。Harbor 组装校验 ZIP 内策略与实际评分策略的哈希一致，过期发布包必须重发。公开包包含指标实现、配置 Schema 和样例判分命令，不包含隐藏输入、参考轨迹或审核信息。
-
-## 报告和失败分类
-
-结构校验不允许被 OR 绕过，IDs、时间轴、shape、dtype 与有限值要求保持严格。输入或参考错误返回 score=null；配置错误在开始求解前报告。运行超时、程序报错和缺失输出由执行器记录，不尝试数值评分。
-
-新策略报告包含策略版本、规范化 JSON 的 SHA-256、各字段条件树、全部叶节点的各范围指标值与通过情况，及最大绝对误差所在的时间、ID 和扁平分量索引。OR 的未决定分支也会报告，便于解释。整数/布尔字段沿用精确比较报告。实际数组不会被改写或纠正。
-
-Harbor 每例完成后写该例 `report.json`，并原子更新汇总报告。汇总包含 completed_cases、complete、每例求解墙钟耗时 elapsed_seconds（不含判分计算与输入复制）。中间 reward 为已通过数除以计划总例数；只有全部完成后才写 reward.txt。基础设施错误仍会中止评测，不能伪装为答案错误。
-
-指标采用分块统计与尺度归一化，避免为每个条件复制完整三维数组或直接计算巨大浮点数的平方；相同范围和容差的指标复用统计量。

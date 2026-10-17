@@ -3,8 +3,7 @@ import argparse
 from importlib.metadata import PackageNotFoundError, version
 import json
 
-from .grading import grade_files
-from .grading_policy import UNSET, load_policy
+from .case_grading import grade_case
 from .validation import ContractError, validate_input, validate_output
 
 
@@ -33,13 +32,10 @@ def main(argv=None):
     output_parser = commands.add_parser('validate-output', help='Check output contract, not answer accuracy')
     output_parser.add_argument('--input', required=True)
     output_parser.add_argument('--output', required=True)
-    grade_parser = commands.add_parser('grade', help='Grade against an explicitly supplied reference HDF5')
+    grade_parser = commands.add_parser('grade', help='Evaluate a complete submission using case grading.json')
     grade_parser.add_argument('--input', required=True)
     grade_parser.add_argument('--output', required=True)
-    grade_parser.add_argument('--reference', required=True)
-    grade_parser.add_argument('--atol', type=float, default=UNSET)
-    grade_parser.add_argument('--rtol', type=float, default=UNSET)
-    grade_parser.add_argument('--grading', help='Public grading.json policy')
+    grade_parser.add_argument('--grading', required=True, help='Case reference/grading.json')
     info_parser = commands.add_parser('info', help='Describe installed tools and input contract support')
     info_parser.add_argument('--input', help='Input problem.json whose support should be inspected')
     try:
@@ -60,9 +56,7 @@ def main(argv=None):
                 result = runtime.describe(manifest)
             result = {'core_version': _version(), **result}
         else:
-            result = grade_files(args.input, args.output, args.reference,
-                                 atol=args.atol, rtol=args.rtol,
-                                 policy=load_policy(args.grading) if args.grading else None)
+            result = grade_case(args.input, args.output, args.grading)
     except ContractError as exc:
         result = exc.report
     except (OSError, ValueError, RuntimeError, ImportError) as exc:

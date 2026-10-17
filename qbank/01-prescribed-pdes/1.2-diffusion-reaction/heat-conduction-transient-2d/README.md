@@ -14,7 +14,7 @@
 | `samples/01/`、`samples/02/` | 完整公开输入与正确输出；验证记录留在出题端 |
 | `cases/<case>/` | Gmsh 网格、元数据和初始节点场 |
 | `reference/<case>/reference.h5` | 连续方程级数解在指定节点／时刻的标答 |
-| `reference/<case>/analytic.json` | 积分收敛、级数尾界及网格规模记录 |
+| `author/data-evidence/reference/<case>/analytic.json` | 积分收敛、级数尾界与网格记录，不进入 HF |
 | `author/catalog.py` | **定义测试点**：初始节点值配方、边界和网格配置 |
 | `author/mesh.py` | **生成网格**：Gmsh 划分与 tag 关联 |
 | `author/oracle.py` | **计算标答**：初始场数值积分与特征函数级数求和 |
@@ -25,6 +25,8 @@
 | `harbor/` | 本题依赖和资源配置补充 |
 
 ## 出题与验证
+
+HF 题内数据池管理输入与参考，包括 JSON；本题 `data-manifest.json` 选择池条目并绑定本地测试与样例编号。首次使用按[数据获取与维护](../../../maintenance/DATA-SYNC.md)拉取、核验并装配 `cases/`、`reference/`、`samples/`。以下命令用于制作或修订数据；重新生成后需更新池与选样绑定。
 
 在项目根目录，激活 Python 环境后运行：
 
@@ -44,7 +46,7 @@ python 'qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transien
 
 标答采用连续方程的特征函数级数：对实际分片线性初值数值积分得到展开系数，再在指定节点和正时间求和；零时刻直接复制初始节点值。标答生成检查积分收敛与级数尾界，目标误差为 `1e-8 K`；公式与细节见 DESIGN.md。baseline 独立读取输入求解，不参与生成标答。
 
-每点全部输出时刻、全部节点的绝对误差不超过 0.02 K 得 1 分，否则得 0 分；24 点满分 24。评分配置见 `grading.json`；单点限时 5 秒、内存 1,024 MB，执行配置见 `judge-config.json` 和 `harbor/task.toml`。
+每点全部输出时刻、全部节点的绝对误差不超过 0.02 K 得 1 分，否则得 0 分；24 点满分 24。评分配置见 每例 `reference/grading.json`；单点限时 5 秒、内存 1,024 MB，执行配置见 `judge-config.json` 和 `harbor/task.toml`。
 
 ## 时间策略与基线
 

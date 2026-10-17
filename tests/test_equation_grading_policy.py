@@ -6,13 +6,15 @@ import unittest
 
 import numpy as np
 
-from caeoj.grading import grade_arrays
+from grading_fixtures import evaluate_arrays
 from caeoj.grading_policy import load_policy, validate_policy
 from caeoj.sdk import load_problem
 from caeoj_tools.task_paths import task_directory
 from caeoj.validation import output_support
 
 ROOT = Path(__file__).resolve().parents[1]
+from task_fixtures import task_fixture
+SMOKE = task_fixture("smoke-test")
 
 
 class EquationPolicyTests(unittest.TestCase):
@@ -27,20 +29,20 @@ class EquationPolicyTests(unittest.TestCase):
         for family, (atol, rtol) in tolerances.items():
             task = task_directory(family, ROOT)
             with self.subTest(task=task.name):
-                policy = load_policy(task / 'grading.json')
-                manifest = json.loads(next((task / 'samples').glob('*/input/problem.json')).read_text())
-                fields = {name for name, spec in manifest['outputs'].items() if spec['dtype'] == 'float64'}
+                policy = load_policy(task / 'author/grading-template.json')
+                from utils.PDEBench.models import BY_TASK
+                fields = {item[0] for item in BY_TASK[family].fields}
                 self.assertEqual(set(policy['fields']), fields)
                 for node in policy['fields'].values():
                     self.assertEqual(node, {'metric': 'violation_fraction', 'time': 'per_time',
                         'components': 'joint', 'count': 'spatial_points', 'atol': atol, 'rtol': rtol, 'limit': .001})
-                config = json.loads((task / 'judge-config.json').read_text())
+                config = json.loads((task / 'judge-config.json').read_text(encoding='utf-8'))
                 self.assertNotIn('atol', config)
                 self.assertNotIn('rtol', config)
                 self.assertGreater(config['timeout_seconds'], 0)
 
     def test_exact_fraction_boundary_and_component_union(self):
-        p = load_problem(ROOT / 'qbank/00-basic-tests/0.1-io/smoke-test/cases/09-vector-2d/problem.json')
+        p = load_problem(SMOKE / 'cases/09-vector-2d/problem.json')
         spec = p.manifest['outputs']['velocity']
         loc = p.manifest['locations'][spec['location']]
         p.arrays[loc['ids']] = np.arange(1, 1001, dtype=np.int64)
@@ -54,17 +56,17 @@ class EquationPolicyTests(unittest.TestCase):
         validate_policy(policy, p)
         # One spatial point with both components wrong: exactly 0.1%, accepted.
         actual['velocity'][1, 0, :] = .2
-        self.assertEqual(grade_arrays(p, actual, ref, policy=policy)['score'], 1)
+        self.assertEqual(evaluate_arrays(p, actual, ref, policy=policy)['score'], 1)
         # Two distinct points wrong even in different components: 0.2%, rejected.
         actual['velocity'][1, 1, 0] = .2
-        report = grade_arrays(p, actual, ref, policy=policy)
+        report = evaluate_arrays(p, actual, ref, policy=policy)
         self.assertEqual(report['score'], 0)
-        self.assertEqual(report['fields']['velocity']['groups'][1]['failed_values'], 2)
+        self.assertEqual(report['checks']['outputs']['fields']['velocity']['groups'][1]['failed_values'], 2)
         # Another good time cannot dilute a bad time's fraction.
-        self.assertEqual(report['fields']['velocity']['groups'][1]['value'], .002)
+        self.assertEqual(report['checks']['outputs']['fields']['velocity']['groups'][1]['value'], .002)
         # A tiny count still cannot bypass structural invalidity.
         actual['velocity'][1, 0, 0] = np.nan
-        self.assertEqual(grade_arrays(p, actual, ref, policy=policy)['status'], 'invalid_output')
+        self.assertEqual(evaluate_arrays(p, actual, ref, policy=policy)['status'], 'invalid_output')
 
 
 if __name__ == '__main__':

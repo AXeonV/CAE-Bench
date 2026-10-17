@@ -13,10 +13,10 @@
 | `instruction.md` | 简洁题面 |
 | `DATA.md` | 题目必需的字段与连续函数解释 |
 | `samples/01/input/`、`samples/01/output/` | 题面引用的完整公开示例输入与正确输出，复用题库第 01 点 |
-| `samples/01/verification.json` | 示例答案按本题阈值判分的验证记录 |
+| `author/data-evidence/samples/01/verification.json` | 示例答案按本题阈值判分的维护记录，不进入 HF |
 | `cases/<case>/problem.json, input.h5, mesh.msh, mesh.geo` | 32 组输入，遵守通用数据协议 |
 | `reference/<case>/reference.h5` | 在实际网格节点处代入解析解生成的标答 |
-| `reference/<case>/analytic.json` | 解析温度系数、源项和每条边的公式，可审计标答 |
+| `author/data-evidence/reference/<case>/analytic.json` | 解析温度系数、源项和逐边公式，留在作者材料 |
 | `TEST-CASES.md` | 全部解析解和逐边条件的可读清单 |
 | `judge-config.json` | 冻结的误差阈值及单点时限 |
 | `author/catalog.py` | **定义测试点**：记录解析温度函数、边界类型及参数、网格设置。 |
@@ -26,6 +26,8 @@
 | `harbor/` | 本题 SciPy 依赖及内存限制补充 |
 
 ## 出题与验证
+
+HF 题内数据池管理输入与参考，包括 JSON；本题 `data-manifest.json` 选择池条目并绑定本地测试与样例编号。首次使用按[数据获取与维护](../../../maintenance/DATA-SYNC.md)拉取、核验并装配 `cases/`、`reference/`、`samples/`。以下命令用于制作或修订数据；重新生成后需更新池与选样绑定。
 
 在项目根目录，激活 Python 环境后运行：
 
@@ -41,7 +43,7 @@ python 'qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/author/c
 
 源项 `q=-kΔT_exact` 和各边条件由同一解析温度函数推导，标答为该函数在网格节点处的值，解析解不写入输入。源项与边界数据存为多项式系数，具体解释见 DATA.md。
 
-每点限时 **1 秒**、内存上限 **1024 MB**；所有节点绝对误差 **≤0.01 K** 得 1 分，否则 0 分，满分 **32 分**。相对容差为零，以 `grading.json` 为准；逐例时限见 `judge-config.json`；Harbor 内存配置见 `harbor/task.toml`。
+每点限时 **1 秒**、内存上限 **1024 MB**；所有节点绝对误差 **≤0.01 K** 得 1 分，否则 0 分，满分 **32 分**。相对容差为零，以 每例 `reference/grading.json` 为准；逐例时限见 `judge-config.json`；Harbor 内存配置见 `harbor/task.toml`。
 
 基线只读取输入，用 P1 有限元独立求解；当前 32/32 通过，最大绝对误差约 **0.00324 K**。该结果验证当前数据与阈值，题目不限定求解方法。
 

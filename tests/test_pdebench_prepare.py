@@ -246,7 +246,7 @@ class ConversionTests(unittest.TestCase):
     def test_frozen_selections_match_current_contracts(self):
         for model in MODELS:
             task=task_directory(model.task,ROOT)
-            selection=json.loads((task/'reference/selection.json').read_text(encoding='utf-8'))
+            selection=json.loads((task/'author/data-evidence/reference/selection.json').read_text(encoding='utf-8'))
             with self.subTest(task=model.task):
                 self.assertEqual(selection['contract_sha256'],contract_hash(task))
 
@@ -386,7 +386,7 @@ class PipelineTests(unittest.TestCase):
             kwargs={'local':local,'max_cases':1}
             first=prepare_task(model,catalog,task,cache,stage,budget,**kwargs)
             self.assertEqual(first['status'],'references_prepared')
-            selection=json.loads((task/'reference/selection.json').read_text())
+            selection=json.loads((task/'author/data-evidence/reference/selection.json').read_text())
             sample_keys={(e['source_id'],e['index']) for e in selection['entries'] if e['kind']=='sample'}
             hidden_keys={(e['source_id'],e['index']) for e in selection['entries'] if e['kind']=='case'}
             self.assertFalse(sample_keys&hidden_keys)

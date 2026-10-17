@@ -4,7 +4,7 @@
 
 ## 材料与安装
 
-考生的题意与数据规则只来自本题 `instruction.md`、`DATA.md` 和通用 `CONTRACT.md`。包根 README 提供安装、真实样例路径和命令，不增加题意；公开样例包含完整输入与正确输出。`grading.json` 及生成的 `GRADING.md` 是公开评分规则的机器配置与可读表示，不替代题面。
+考生的题意与数据规则只来自本题 `instruction.md`、`DATA.md` 和通用 `CONTRACT.md`。包根 README 提供安装、真实样例路径和命令，不增加题意；公开样例包含完整输入与可复现判分的参考；完整提交示例单独保存，不能用稀疏参考冒充。公开样例的 `reference/grading.json` 仅用于本地复现评分；隐藏case配置不进入公开包，题意仍完整由三文件定义。
 
 公开包包含装配后的核心、必要领域扩展及资源，统一执行一次普通安装：
 
@@ -18,6 +18,10 @@ Python 与第三方依赖要求由生成的安装元数据声明；Gmsh 等系�
 
 维护工具、作者代码、隐藏 cases、私有 reference、内部规范及审核记录不进入公开包。运行代码和资源逐项列入白名单，不递归公开整个题目或扩展目录。文件清单与装配身份只绑定公开内容，不包含隐藏数据的清单或哈希。
 
+这里的隐藏／私有指考生运行环境的装配角色；HF 上数据可公开访问，存储边界见[数据存储设计](DATA-STORAGE.md)。整题 `data-manifest.json` 不进入考生包。
+
+维护方用 `caeoj-maint data assemble` 按清单装配本地测试或完整样例。发布器离线严格核验已装配的选中样例，Harbor 准备严格核验全套材料与重复选样；两者均不联网获取或自动重选。发布只带样例及其依赖，不把池索引、条目描述、回执或未选材料打入考生包。
+
 ## CLI 与基础 SDK
 
 `python -m caeoj` 和 `caeoj` 进入同一实现。发布包将下列占位符替换为真实路径：
@@ -25,7 +29,7 @@ Python 与第三方依赖要求由生成的安装元数据声明；Gmsh 等系�
 ```sh
 python -m caeoj validate-input <sample>/input/problem.json
 python -m caeoj validate-output --input <sample>/input/problem.json --output result.h5
-python -m caeoj grade --input <sample>/input/problem.json --output result.h5 --reference <sample>/output/result.h5 --grading <task>/grading.json
+python -m caeoj grade --input <sample>/input/problem.json --output result.h5 --grading <sample>/reference/grading.json
 python -m caeoj info --input <sample>/input/problem.json
 ```
 

@@ -19,12 +19,12 @@ import numpy as np
 from porous_fixture import fixture, replace_manifest
 from caeoj_ext.porous import models
 from qbank.maintenance.authoring.build_porous import MODELS as AUTHOR_MODELS
-from caeoj.grading import grade_arrays
+from grading_fixtures import evaluate_arrays
 from caeoj.grading_policy import resolve_policy
 from caeoj.sdk import load_problem, write_result
 from caeoj.validation import validate_input, validate_output
 from caeoj_tools.assembly import runtime_materials
-from caeoj_tools.grading_policy import task_policy
+from caeoj_tools.grading_policy import author_policy
 from caeoj_tools.task_paths import task_directory
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -143,7 +143,7 @@ class PorousContractTests(unittest.TestCase):
             with self.subTest(slug=slug), tempfile.TemporaryDirectory() as temporary:
                 path, m = fixture(temporary, slug)
                 problem = load_problem(path)
-                policy = task_policy(task_directory(slug, ROOT), problem)
+                policy = author_policy(task_directory(slug, ROOT), problem)
                 bound = resolve_policy(policy, problem)
                 ref = {problem.manifest['locations'][s['location']]['ids']: problem.arrays[problem.manifest['locations'][s['location']]['ids']]
                        for s in m['outputs'].values()}
@@ -156,9 +156,9 @@ class PorousContractTests(unittest.TestCase):
                     actual = deepcopy(ref)
                     tolerance = bound['fields'][name]['atol']
                     actual[spec['array']][:] = tolerance
-                    self.assertEqual(grade_arrays(problem, actual, ref, policy=policy)['score'], 1)
+                    self.assertEqual(evaluate_arrays(problem, actual, ref, policy=policy)['score'], 1)
                     actual[spec['array']].flat[0] = np.nextafter(tolerance, np.inf)
-                    self.assertEqual(grade_arrays(problem, actual, ref, policy=policy)['score'], 0)
+                    self.assertEqual(evaluate_arrays(problem, actual, ref, policy=policy)['score'], 0)
                     nonzero = deepcopy(ref)
                     for field in m['outputs'].values():
                         nonzero[field['array']][:] = 8.
@@ -166,12 +166,12 @@ class PorousContractTests(unittest.TestCase):
                     rule = bound['fields'][name]
                     limit = rule['atol'] + rule['rtol'] * 8.
                     actual[spec['array']][:] = np.nextafter(8. + limit, 8.)
-                    self.assertEqual(grade_arrays(problem, actual, nonzero, policy=policy)['score'], 1)
+                    self.assertEqual(evaluate_arrays(problem, actual, nonzero, policy=policy)['score'], 1)
                     actual[spec['array']].flat[0] = np.nextafter(8. + limit, np.inf)
-                    self.assertEqual(grade_arrays(problem, actual, nonzero, policy=policy)['score'], 0)
+                    self.assertEqual(evaluate_arrays(problem, actual, nonzero, policy=policy)['score'], 0)
                 bad_ref = deepcopy(ref)
                 bad_ref.pop(next(iter(m['outputs'].values()))['array'])
-                self.assertIsNone(grade_arrays(problem, ref, bad_ref, policy=policy)['score'])
+                self.assertIsNone(evaluate_arrays(problem, ref, bad_ref, policy=policy)['score'])
 
     def test_resource_configs_are_consumed(self):
         sys.path.insert(0, str(ROOT/'src/utils'))
@@ -186,7 +186,7 @@ class PorousContractTests(unittest.TestCase):
             self.assertIsNone(config['max_output_bytes'])
             self.assertEqual(merged['environment']['cpus'], 4)
             self.assertEqual(merged['environment']['memory_mb'], 4096)
-            self.assertEqual(merged['verifier']['timeout_sec'], max(1200, 300+7*(AUTHOR_MODELS[slug]['timeout']+60)))
+            self.assertEqual(merged['verifier']['timeout_sec'], max(1200, 300+7*(AUTHOR_MODELS[slug]['timeout']+120)))
 
     def test_public_runtime_closure_is_isolated_and_keeps_checks(self):
         tasks = {s: task_directory(s, ROOT) for s in models()}

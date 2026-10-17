@@ -14,13 +14,15 @@ import unittest
 
 import numpy as np
 
-from caeoj.grading import grade_arrays, grade_files
+from grading_fixtures import evaluate_arrays
+from caeoj.case_grading import grade_case
 from caeoj.grading_policy import load_policy
 from caeoj.sdk import load_problem, load_result
 from caeoj.validation import check_result, output_support, validate_input
 
 PROJECT = Path(__file__).resolve().parents[1]
-TASK = PROJECT/'qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d'
+from task_fixtures import task_fixture, project_fixture
+TASK = task_fixture('heat-conduction-transient-2d')
 
 
 def author(name):
@@ -37,14 +39,14 @@ baseline, oracle = author('baseline'), author('oracle')
 class TransientTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.config = json.loads((TASK/'judge-config.json').read_text())
-        cls.policy = load_policy(TASK/'grading.json')
+        cls.config = json.loads((TASK/'judge-config.json').read_text(encoding='utf-8'))
+        cls.policy = load_policy(TASK/'author/grading-template.json')
         cls.cases = {}
         for path in sorted((TASK/'cases').glob('*/problem.json')):
             p = load_problem(path)
             ref = TASK/'reference'/path.parent.name
             cls.cases[path.parent.name] = (p, load_result(p, ref/'reference.h5'),
-                                          json.loads((ref/'analytic.json').read_text()))
+                                          json.loads((TASK/'author/data-evidence/reference'/path.parent.name/'analytic.json').read_text(encoding='utf-8')))
 
     def case(self, prefix):
         return next(data for name, data in self.cases.items() if name.startswith(prefix))
@@ -53,14 +55,14 @@ class TransientTests(unittest.TestCase):
         # author/check.py is an independent live consumer of this legacy key.
         # Removing it just because the shared judge does not read it breaks
         # local runs; keep the two existing execution paths consistent.
-        container = tomllib.loads((TASK/'harbor/task.toml').read_text())
+        container = tomllib.loads((TASK/'harbor/task.toml').read_text(encoding='utf-8'))
         self.assertEqual(self.config['memory_mb'], container['environment']['memory_mb'])
         self.assertEqual(self.config['memory_mb'], 1024)
 
     def grade(self, problem, values, reference):
         arrays = {key: problem.arrays[key] for key in output_support(problem)} | {'temperature': values}
         self.assertTrue(check_result(problem, arrays)['valid'])
-        return grade_arrays(problem, arrays, reference, policy=self.policy)
+        return evaluate_arrays(problem, arrays, reference, policy=self.policy)
 
     def test_suite_ranges_mesh_scale_and_boundary_coverage(self):
         self.assertEqual(len(self.cases), 24)
@@ -193,9 +195,8 @@ class TransientTests(unittest.TestCase):
         for sample in ('01', '02'):
             directory = TASK/'samples'/sample
             p = load_problem(directory/'input/problem.json')
-            saved = json.loads((directory/'verification.json').read_text())
-            report = grade_files(p.path, directory/'output/result.h5',
-                                 TASK/'reference'/saved['case']/'reference.h5', policy=self.policy)
+            saved = json.loads((TASK/'author/data-evidence/samples'/sample/'verification.json').read_text(encoding='utf-8'))
+            report = grade_case(p.path, directory/'output/result.h5', directory/'reference/grading.json')
             self.assertEqual(report['score'], 1)
         with tempfile.TemporaryDirectory(dir=PROJECT/'runs') as tmp:
             directory = Path(tmp)
@@ -207,17 +208,18 @@ class TransientTests(unittest.TestCase):
                                       '--output', str(directory/'result.h5')], cwd=directory, env=env,
                                      capture_output=True, timeout=self.config['timeout_seconds'])
             self.assertEqual(process.returncode, 0, process.stderr)
-            self.assertEqual(grade_files(p, directory/'result.h5', TASK/'samples/02/output/result.h5',
-                                        policy=self.policy)['score'], 1)
+            self.assertEqual(grade_case(p, directory/'result.h5', TASK/'samples/02/reference/grading.json')['score'], 1)
 
     def test_public_release_excludes_author_formulas_and_resources(self):
         spec = importlib.util.spec_from_file_location('transient_publish', PROJECT/'src/utils/publish_dist.py')
         publisher = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(publisher)
-        files, samples = publisher.collect_materials('heat-conduction-transient-2d')
+        with tempfile.TemporaryDirectory() as temporary:
+            project = project_fixture(temporary, ['heat-conduction-transient-2d'])
+            files, samples = publisher.collect_materials('heat-conduction-transient-2d', project)
         self.assertEqual(samples, ['01', '02'])
         for path in files:
-            self.assertFalse(set(Path(path).parts) & {'author', 'reference', 'cases'})
+            self.assertFalse(set(Path(path).parts) & {'author', 'cases'})
             self.assertFalse(path.endswith(('DESIGN.md', 'TEST-CASES.md', 'verification.json')))
 
     def test_valid_boundary_only_mesh_has_no_unknowns_to_time_integrate(self):
@@ -226,7 +228,7 @@ class TransientTests(unittest.TestCase):
             directory = Path(tmp)
             mesh.generate_mesh(catalog.Case('boundary-only', 'zero', nx=1, ny=4), directory)
             ids, _, _, groups = mesh.read_mesh(directory/'mesh.msh')
-            m = json.loads((TASK/'samples/01/input/problem.json').read_text())
+            m = json.loads((TASK/'samples/01/input/problem.json').read_text(encoding='utf-8'))
             arrays = {'node_ids': ids, 'times': np.array([0, .003, .007, .016, .035, .08], dtype=np.float64),
                       'initial_times': np.array([0.0], dtype=np.float64),
                       'initial_temperature': np.zeros((1, len(ids), 1), dtype=np.float64)}

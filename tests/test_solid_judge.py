@@ -11,12 +11,12 @@ import numpy as np
 from solid_fixture import fixture
 from caeoj_ext.solid import models
 from qbank.maintenance.solid_authoring import CAT as AUTHOR_MODELS
-from caeoj.grading import grade_arrays
+from grading_fixtures import evaluate_arrays
 from caeoj.grading_policy import resolve_policy
 from caeoj.sdk import load_problem
 from caeoj.validation import output_support
 from caeoj_tools.assembly import runtime_materials
-from caeoj_tools.grading_policy import task_policy
+from caeoj_tools.grading_policy import author_policy
 from caeoj_tools.task_paths import task_directory
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -34,21 +34,21 @@ class SolidJudgeTests(unittest.TestCase):
         for slug in models():
             with self.subTest(task=slug),tempfile.TemporaryDirectory() as tmp:
                 path,m=fixture(tmp,slug);problem=load_problem(path);task=task_directory(slug,ROOT)
-                policy=task_policy(task,problem);bound=resolve_policy(policy,problem)
+                policy=author_policy(task,problem);bound=resolve_policy(policy,problem)
                 support=output_support(problem)
                 reference={key:problem.arrays[key].copy() for key in support}
                 for name,s in m['outputs'].items():
                     reference[s['array']]=np.zeros((len(problem.arrays[m['time_axes'][s['time_axis']]]),len(problem.arrays[m['locations'][s['location']]['ids']]),*s['component_shape']))
-                self.assertEqual(grade_arrays(problem,deepcopy(reference),reference,policy=policy)['score'],1)
+                self.assertEqual(evaluate_arrays(problem,deepcopy(reference),reference,policy=policy)['score'],1)
                 for name,s in m['outputs'].items():
                     actual=deepcopy(reference);tol=bound['fields'][name]['atol'];actual[s['array']][:]=tol
-                    self.assertEqual(grade_arrays(problem,actual,reference,policy=policy)['score'],1)
+                    self.assertEqual(evaluate_arrays(problem,actual,reference,policy=policy)['score'],1)
                     actual[s['array']].flat[0]=np.nextafter(tol,np.inf)
-                    self.assertEqual(grade_arrays(problem,actual,reference,policy=policy)['score'],0)
+                    self.assertEqual(evaluate_arrays(problem,actual,reference,policy=policy)['score'],0)
                 # Relative part at a nonzero hand-chosen reference.
                 actual=deepcopy(reference);name,s=next(iter(m['outputs'].items()));ref=1.;atol=bound['fields'][name]['atol']
                 reference[s['array']][:]=ref;actual[s['array']][:]=ref+atol+.01*ref+1e-5
-                self.assertEqual(grade_arrays(problem,actual,reference,policy=policy)['score'],0)
+                self.assertEqual(evaluate_arrays(problem,actual,reference,policy=policy)['score'],0)
 
     def test_harbor_resource_merge_budget_and_output_consumer(self):
         prepare=load_file('solid_prepare','src/utils/prepare_harbor.py');judge=load_file('solid_judge','src/utils/harbor/tests/judge.py')
@@ -58,7 +58,7 @@ class SolidJudgeTests(unittest.TestCase):
             merged=tomllib.loads(prepare.task_config(template,overrides,judge_config=config,case_count=2))
             self.assertEqual(merged['environment']['cpus'],4);self.assertEqual(merged['environment']['memory_mb'],8192)
             self.assertEqual(merged['verifier']['environment_mode'],'separate');self.assertEqual(merged['verifier']['network_mode'],'no-network')
-            self.assertEqual(merged['verifier']['timeout_sec'],300+2*(AUTHOR_MODELS[slug]['timeout']+60))
+            self.assertEqual(merged['verifier']['timeout_sec'],300+2*(AUTHOR_MODELS[slug]['timeout']+120))
             self.assertEqual(config['timeout_seconds'],AUTHOR_MODELS[slug]['timeout']);self.assertIsNone(judge.output_limit(config))
         # Unknown resource keys must not silently disappear.
         with self.assertRaises(ValueError):prepare.task_config(template,{'environment':{'cores':4}})

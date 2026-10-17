@@ -352,7 +352,7 @@ def prepare_task(model,catalog,task,cache,staging,budget,local=None,pool=64,time
                  max_cases=None,reference_root=None,reference_mode='independent',refresh_contract=False):
     sources=source_files(model,catalog)
     if not sources: raise PreparationError("No pinned sources for task")
-    selection_path=task/'reference'/'selection.json'
+    selection_path=task/'author/data-evidence/reference'/'selection.json'
     identity=hashlib.sha256(json.dumps({'catalog':catalog,'contract':contract_hash(task),
                       'pool':pool,'max_cases':max_cases,'version':VERSION},sort_keys=True).encode()).hexdigest()
     options={'pool':pool,'max_cases':max_cases}
@@ -361,7 +361,7 @@ def prepare_task(model,catalog,task,cache,staging,budget,local=None,pool=64,time
         if selection.get('identity')!=identity:
             if not refresh_contract or selection.get('source_files')!=sources or selection.get('options',options)!=options:
                 raise PreparationError("Frozen selection differs from this catalog/contract/options; use a separate output root or explicit --refresh-contract for a reviewed contract revision")
-            archive=task/'reference/history'/('selection-'+selection['identity']+'.json')
+            archive=task/'author/data-evidence/reference/history'/('selection-'+selection['identity']+'.json')
             atomic_json(archive,selection)
             selection={**selection,'identity':identity,'options':options,
                        'contract_sha256':contract_hash(task),'previous_identity':selection['identity']}
@@ -391,5 +391,9 @@ def prepare_task(model,catalog,task,cache,staging,budget,local=None,pool=64,time
             'remaining':['Calibrate error thresholds and execution resources; no judge-config generated']}
     if any(r['estimated_output_bytes']>128*1024**2 for r in records):
         report['remaining'].append('Current Harbor output-size limit is 128 MiB; high-dimensional outputs require an audited change')
+    from caeoj_tools.grading_policy import materialize_references, author_policy
+    from caeoj_tools.task_paths import task_directory
+    from caeoj_tools.author import PROJECT_ROOT
+    materialize_references(task, author_policy(task_directory(model.task, PROJECT_ROOT)))
     atomic_json(task/'author'/'preparation.json',report)
     return report

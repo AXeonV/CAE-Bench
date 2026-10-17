@@ -13,10 +13,10 @@ from multiphysics_fixture import fixture
 from caeoj_ext.multiphysics import models
 from caeoj.sdk import load_problem,write_result,load_result
 from caeoj.validation import validate_input,validate_output,output_support
-from caeoj.grading import grade_arrays
+from grading_fixtures import evaluate_arrays
 from caeoj.grading_policy import resolve_policy
 from caeoj_tools.task_paths import task_directory
-from caeoj_tools.grading_policy import task_policy
+from caeoj_tools.grading_policy import author_policy
 from caeoj_tools.assembly import runtime_materials
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -90,7 +90,7 @@ class CoupledTests(unittest.TestCase):
         expected={'pressure':(1e-3,.003),'velocity':(1e-7,.003),'wall_displacement':(1e-10,.003),'piston_displacement':(1e-9,.003),'temperature_rise':(1e-5,.003),'displacement':(1e-9,.003),'electric_potential':(1e-7,.003),'axial_stress':(1e-2,.002),'electric_displacement':(1e-10,.002),'magnetic_field':(1e-6,.003),'pore_pressure':(1e-3,.003),'temperature':(1e-5,.002),'total_heat_flux':(1e-4,.003)}
         for slug,cfg in models().items():
             with self.subTest(slug=slug),tempfile.TemporaryDirectory() as tmp:
-                path,m=fixture(tmp,slug);p=load_problem(path);policy=task_policy(task_directory(slug,ROOT),p);bound=resolve_policy(policy,p)
+                path,m=fixture(tmp,slug);p=load_problem(path);policy=author_policy(task_directory(slug,ROOT),p);bound=resolve_policy(policy,p)
                 ref={k:p.arrays[k].copy() for k in output_support(p)}
                 for s in m['outputs'].values():ref[s['array']]=np.zeros((len(p.arrays[m['time_axes'][s['time_axis']]]),len(p.arrays[m['locations'][s['location']]['ids']]),*s['component_shape']))
                 for name,s in m['outputs'].items():
@@ -102,9 +102,9 @@ class CoupledTests(unittest.TestCase):
                     for base in (0.,100.):
                         reference=deepcopy(ref);reference[s['array']][:]=base;actual=deepcopy(reference);edge=base+want[0]+want[1]*base
                         if edge-base>want[0]+want[1]*base:edge=np.nextafter(edge,-np.inf)
-                        actual[s['array']][:]=edge;self.assertEqual(grade_arrays(p,actual,reference,policy=policy)['score'],1)
-                        actual[s['array']].flat[0]=np.nextafter(edge,np.inf);self.assertEqual(grade_arrays(p,actual,reference,policy=policy)['score'],0)
-                bad=deepcopy(ref);bad.pop(next(iter(m['outputs'].values()))['array']);self.assertEqual(grade_arrays(p,bad,ref,policy=policy)['score'],0);self.assertIsNone(grade_arrays(p,ref,bad,policy=policy)['score'])
+                        actual[s['array']][:]=edge;self.assertEqual(evaluate_arrays(p,actual,reference,policy=policy)['score'],1)
+                        actual[s['array']].flat[0]=np.nextafter(edge,np.inf);self.assertEqual(evaluate_arrays(p,actual,reference,policy=policy)['score'],0)
+                bad=deepcopy(ref);bad.pop(next(iter(m['outputs'].values()))['array']);self.assertEqual(evaluate_arrays(p,bad,ref,policy=policy)['score'],0);self.assertIsNone(evaluate_arrays(p,ref,bad,policy=policy)['score'])
     def test_actual_backend_resource_merge_and_public_closure(self):
         spec=importlib.util.spec_from_file_location('coupled_prepare',ROOT/'src/utils/prepare_harbor.py');prepare=importlib.util.module_from_spec(spec);sys.path.insert(0,str(ROOT/'src/utils'))
         try:spec.loader.exec_module(prepare)
@@ -116,7 +116,7 @@ class CoupledTests(unittest.TestCase):
             self.assertEqual(config['timeout_seconds'],timeout);self.assertIsNone(config['max_output_bytes'])
             self.assertEqual(merged['environment']['cpus'],2);self.assertEqual(merged['environment']['memory_mb'],4096);self.assertEqual(merged['environment']['gpus'],0)
             self.assertEqual(merged['agent']['timeout_sec'],3600);self.assertEqual(merged['environment']['build_timeout_sec'],1800)
-            self.assertEqual(merged['verifier']['network_mode'],'no-network');self.assertEqual(merged['verifier']['environment_mode'],'separate');self.assertEqual(merged['verifier']['timeout_sec'],max(1200,300+3*(timeout+60)))
+            self.assertEqual(merged['verifier']['network_mode'],'no-network');self.assertEqual(merged['verifier']['environment_mode'],'separate');self.assertEqual(merged['verifier']['timeout_sec'],max(1200,300+3*(timeout+120)))
         files,runtime=runtime_materials({s:task_directory(s,ROOT) for s in models()},ROOT)
         self.assertEqual(set(runtime['extensions']),{'multiphysics.continuum'})
         self.assertFalse(any(any(v in n for v in ('caeoj_tools','/author/','maintenance','/cases/','/reference/')) for n in files))

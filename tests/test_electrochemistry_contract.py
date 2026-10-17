@@ -13,10 +13,10 @@ from electrochemistry_fixture import fixture
 from caeoj_ext.electrochemistry import models
 from caeoj.sdk import load_problem,write_result
 from caeoj.validation import validate_input,validate_output,output_support
-from caeoj.grading import grade_arrays
+from grading_fixtures import evaluate_arrays
 from caeoj.grading_policy import resolve_policy
 from caeoj_tools.task_paths import task_directory
-from caeoj_tools.grading_policy import task_policy
+from caeoj_tools.grading_policy import author_policy
 from caeoj_tools.assembly import runtime_materials
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -122,7 +122,7 @@ class ElectrochemistryTests(unittest.TestCase):
         template=(ROOT/'src/utils/harbor/task.toml').read_text()
         for slug,cfg in models().items():
             with self.subTest(slug=slug),tempfile.TemporaryDirectory() as tmp:
-                path,m=fixture(tmp,slug);p=load_problem(path);task=task_directory(slug,ROOT);policy=task_policy(task,p);bound=resolve_policy(policy,p)
+                path,m=fixture(tmp,slug);p=load_problem(path);task=task_directory(slug,ROOT);policy=author_policy(task,p);bound=resolve_policy(policy,p)
                 ref={k:p.arrays[k].copy() for k in output_support(p)}
                 for s in m['outputs'].values():ref[s['array']]=np.zeros((3 if cfg['dynamic'] else 1,len(p.arrays[m['locations'][s['location']]['ids']]),*s['component_shape']))
                 for name,s in m['outputs'].items():
@@ -130,23 +130,23 @@ class ElectrochemistryTests(unittest.TestCase):
                     tol,rtol=({**{q:(v,.002) for q,v in dict(surface_charge_left=1e-8,surface_charge_right=1e-8,potential=2e-6,metal_potential=2e-6,concentration=1e-6,surface_concentration=1e-6,faradaic_current=1e-5,capacitive_current=1e-5,area_impedance=1e-7,solid_concentration_negative=.01,solid_concentration_positive=.01,surface_stoichiometry=1e-5,cell_voltage=1e-4,reversible_voltage=2e-6,electric_power=.001,heat_release=.001).items()}})[s['quantity']]
                     self.assertEqual((bound['fields'][name]['atol'],bound['fields'][name]['rtol']),(tol,rtol))
                     candidate=deepcopy(ref);candidate[s['array']][:]=tol
-                    self.assertEqual(grade_arrays(p,candidate,ref,policy=policy)['score'],1)
+                    self.assertEqual(evaluate_arrays(p,candidate,ref,policy=policy)['score'],1)
                     candidate[s['array']].flat[0]=np.nextafter(tol,np.inf)
-                    self.assertEqual(grade_arrays(p,candidate,ref,policy=policy)['score'],0)
+                    self.assertEqual(evaluate_arrays(p,candidate,ref,policy=policy)['score'],0)
                     nonzero=deepcopy(ref);nonzero[s['array']][:]=100.;candidate=deepcopy(nonzero);edge=100.+tol+100.*rtol
                     if edge-100.>tol+100.*rtol:edge=np.nextafter(edge,-np.inf)
-                    candidate[s['array']][:]=edge;self.assertEqual(grade_arrays(p,candidate,nonzero,policy=policy)['score'],1)
-                    candidate[s['array']].flat[0]=np.nextafter(edge,np.inf);self.assertEqual(grade_arrays(p,candidate,nonzero,policy=policy)['score'],0)
+                    candidate[s['array']][:]=edge;self.assertEqual(evaluate_arrays(p,candidate,nonzero,policy=policy)['score'],1)
+                    candidate[s['array']].flat[0]=np.nextafter(edge,np.inf);self.assertEqual(evaluate_arrays(p,candidate,nonzero,policy=policy)['score'],0)
                 bad=deepcopy(ref);bad.pop(next(iter(m['outputs'].values()))['array'])
-                self.assertEqual(grade_arrays(p,bad,ref,policy=policy)['score'],0)
-                self.assertIsNone(grade_arrays(p,ref,bad,policy=policy)['score'])
+                self.assertEqual(evaluate_arrays(p,bad,ref,policy=policy)['score'],0)
+                self.assertIsNone(evaluate_arrays(p,ref,bad,policy=policy)['score'])
                 config=json.loads((task/'judge-config.json').read_text());override=tomllib.loads((task/'harbor/task.toml').read_text());merged=tomllib.loads(prepare.task_config(template,override,judge_config=config,case_count=3))
                 expected=1200 if slug in ('blocking-pnp','particle-battery') else 900 if slug=='electrode-diffusion' else 600 if slug=='ionic-equilibrium' else 240
                 self.assertEqual(config['timeout_seconds'],expected);self.assertIsNone(config['max_output_bytes'])
                 for k,v in dict(cpus=2,memory_mb=4096,gpus=0,os='linux',build_timeout_sec=1800.).items():self.assertEqual(merged['environment'][k],v)
                 self.assertEqual(merged['agent']['timeout_sec'],3600.)
                 self.assertEqual(merged['verifier']['network_mode'],'no-network');self.assertEqual(merged['verifier']['environment_mode'],'separate')
-                self.assertEqual(merged['verifier']['timeout_sec'],max(1200,300+3*(expected+60)))
+                self.assertEqual(merged['verifier']['timeout_sec'],max(1200,300+3*(expected+120)))
         files,runtime=runtime_materials({s:task_directory(s,ROOT) for s in models()},ROOT)
         self.assertEqual(set(runtime['extensions']),{'electrochemistry.interfaces_transport'})
         self.assertFalse(any(any(v in name for v in ('caeoj_tools','/author/','maintenance','/cases/','/reference/')) for name in files))

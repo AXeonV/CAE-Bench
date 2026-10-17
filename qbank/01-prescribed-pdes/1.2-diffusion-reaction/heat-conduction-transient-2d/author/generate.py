@@ -7,8 +7,9 @@ import shutil
 
 import numpy as np
 
-from caeoj.grading import grade_files
+from caeoj.case_grading import grade_case
 from caeoj.grading_policy import load_policy
+from caeoj_tools.grading_policy import materialize_references
 from caeoj.sdk import load_problem, write_result
 from caeoj.validation import write_json
 from catalog import CASES, SIDES
@@ -83,12 +84,11 @@ def generate_case(case, destination):
               'first_diffusion_length_m': float(np.sqrt(case.k/case.capacity*arrays['times'][1])),
               'output_times_s': arrays['times'].tolist(),
               'reference': certificate}
-    write_json(reference_dir/'analytic.json', record)
+    write_json(Path(destination)/'author/data-evidence/reference'/case.name/'analytic.json', record)
     return record
 
 
 def publish_samples(destination):
-    policy = load_policy(ROOT/'grading.json')
     # A zero fixture and an independent nonzero mixed-boundary fixture.
     for number, case_name in [('01', '01-zero'), ('02', '15-four-operators')]:
         sample = destination/'samples'/number
@@ -100,17 +100,21 @@ def publish_samples(destination):
         output = sample/'output/result.h5'
         output.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(reference_path, output)
-        report = grade_files(problem.path, output, reference_path, policy=policy)
+        reference = sample/'reference'
+        reference.mkdir(parents=True, exist_ok=True)
+        for name in ('reference.h5', 'grading.json'):
+            shutil.copyfile(destination/'reference'/case_name/name, reference/name)
+        report = grade_case(problem.path, output, reference/'grading.json')
         if report['score'] != 1:
             raise ValueError('Public output failed its task grader')
-        write_json(sample/'verification.json', {'case': case_name, **report})
+        write_json(destination/'author/data-evidence/samples'/number/'verification.json', {'case': case_name, **report})
 
 
 def generate(destination=ROOT, selected=None):
     destination = Path(destination)
     cases = [case for case in CASES if selected is None or case.name in selected]
     records = [generate_case(case, destination) for case in cases]
-    write_json(destination/'reference/catalog.json', records)
+    write_json(destination/'author/data-evidence/reference/catalog.json', records)
     lines = ['# 瞬态测试设计（出题材料）', '',
              '初始配方仅用于生成节点值；连续初始条件始终是该网格上的分片线性场。',
              '所有正时间标答来自连续方程特征函数展开，不来自 baseline。', '',
@@ -121,10 +125,10 @@ def generate(destination=ROOT, selected=None):
         lines.append(f"| {case.name} | {case.profile} | {' / '.join(case.boundaries)} | {record['nodes']} | "
                      f"{record['triangles']} | {record['output_times_s'][1]:.6g} / {record['output_times_s'][-1]:.6g} |")
     (destination/'TEST-CASES.md').write_text('\n'.join(lines)+'\n', encoding='utf-8')
+    materialize_references(destination, load_policy(ROOT/'author/grading-template.json'))
     if selected is None:
         publish_samples(destination)
     return len(cases)
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

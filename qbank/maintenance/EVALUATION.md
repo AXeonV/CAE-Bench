@@ -12,7 +12,7 @@ verifier_budget按实际case数计算总时限，包含求解、评价及装载�
 
 ## 准备和发布
 
-已有HF清单先按[数据操作](DATA-SYNC.md)装配并严格核验。发布器只公开样例reference/grading.json及声明资产，不导出题目级策略或隐藏case配置。正确提交示例与判题参考分别验证，稀疏参考不冒充完整result.h5。
+已有HF清单先按[数据操作](DATA-SYNC.md)装配并严格核验。发布器只公开样例reference/grading.json及声明资产，不导出题目级策略或隐藏case配置。正确提交示例与判题参考分别验证，稀疏参考不冒充完整result.h5。Harbor 的样例说明根据已校验公开包的实际文件逐例生成，仅在包含 output/result.h5 时列出完整提交示例。
 
 prepare_harbor预检全部case配置，核对公开包内容，隐藏参考仅装入独立verifier。每例配置及输入／参考／代码闭包摘要进入报告，不再维护虚假的全题单policy摘要。样例本地判分与verifier调用同一case评价入口。
 

@@ -30,6 +30,8 @@ def collect(root):
             spec=row['definition'];xy=probes(spec);path=sorted(d.glob('solution.*.00000.vtu'))[-1];values=sample(vtu(path),xy,relative_pressure=not spec.get('open_shaped'));values['pressure']*=spec['rho']
             angle=spec.get('coordinate_rotation_radians',0.);R=np.array([[np.cos(angle),-np.sin(angle)],[np.sin(angle),np.cos(angle)]])
             values['velocity']=values['velocity']@R.T
+            # velocity_gradient preserves the producer frame; xy/velocity use the
+            # case frame. The rotation and invariant shear norm are documented.
             np.savez_compressed(dest/'samples.npz',xy=xy@R.T,**values)
             executions.append(r)
         if name in ('x80-periodic-straight','x80-periodic-counter-wall'):

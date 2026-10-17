@@ -178,7 +178,7 @@ HPC 可追加 `--override-cpus '<cpu-quota>' --override-memory-mb '<memory-mb>'`
 
 ### 按需验证与诊断
 
-**开发回归：题目或基础设施修改后、打包前执行相关测试。** `<test-file>` 取对应题目 README 中的文件；全量回归前补齐各相关测试依赖的本地数据。
+**开发回归：题目或基础设施修改后、打包前执行相关测试。** `<test-file>` 取对应题目 README 中的文件；测试在系统临时目录生成 fixture，不依赖本地题库载荷、装配回执或 HF 下载；无需先装配正式数据。
 
 ```sh
 python -m unittest discover -s tests -p '<test-file>.py' -v

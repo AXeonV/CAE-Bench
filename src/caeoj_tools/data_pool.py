@@ -195,7 +195,7 @@ def item_files(store, prefix, binding, item, descriptors):
 
 def plan(value, store, cases=None, samples=None):
     prefix = value['repository']['path']
-    result = {'files': {}, 'descriptors': {}, 'incomplete': [], 'overlaps': [], 'scope': {}}
+    result = {'files': {}, 'descriptors': {}, 'incomplete': [], 'overlaps': [], 'public_cases': [], 'scope': {}}
     fingerprints = {}
     destinations = {}
     def add(target, entry):
@@ -247,11 +247,21 @@ def plan(value, store, cases=None, samples=None):
             if all(key in origin for key in ('source_id', 'source_md5', 'sample_index')):
                 keys.append('trajectory:' + json.dumps({k: origin[k] for k in (
                     'source_id', 'source_md5', 'sample_index')}, sort_keys=True))
-            duplicate = next((fingerprints[k] for k in keys if k in fingerprints), None)
-            if duplicate:
-                result['overlaps'].append([duplicate, f'{role}/{name}'])
+            # The same explicitly selected pool item may be both a public sample
+            # and a scored case. Keep every prior identity to catch duplicates
+            # within a role, even when a public pair also exists.
+            prior = {entry[0]: entry for key in keys for entry in fingerprints.get(key, [])}
+            identity = f'{role}/{name}'
+            for previous, previous_role, previous_name, previous_selection in prior.values():
+                if (previous_role != role and previous_selection == selection):
+                    case_name = name if role == 'cases' else previous_name
+                    sample_name = name if role == 'samples' else previous_name
+                    result['public_cases'].append({'case': case_name, 'sample': sample_name,
+                                                   'case_id': selection['case_id']})
+                else:
+                    result['overlaps'].append([previous, identity])
             for key in keys:
-                fingerprints[key] = f'{role}/{name}'
+                fingerprints.setdefault(key, []).append((identity, role, name, selection))
     # File/directory collisions must fail before any download or mutation.
     for target in result['files']:
         for parent in PurePosixPath(target).parents:
@@ -378,7 +388,8 @@ def _assemble(task, value, store, *, update=False, **options):
             raise
     return {'revision': store.revision, 'files': len(desired['files']), 'changed': len(changes),
             'removed': len(stale), 'complete': not desired['incomplete'],
-            'incomplete': desired['incomplete'], 'overlaps': desired['overlaps']}
+            'incomplete': desired['incomplete'], 'overlaps': desired['overlaps'],
+            'public_cases': desired['public_cases']}
 
 
 def verify(task, *, strict=False, samples_only=False):
@@ -386,6 +397,7 @@ def verify(task, *, strict=False, samples_only=False):
     task = Path(task)
     value = manifest(task/'data-manifest.json')
     errors = []
+    public_cases = []
     try:
         receipt = checked_json(within(task, RECEIPT))
         if receipt.get('selection_sha256') != hashlib.sha256(encoded(value)).hexdigest():
@@ -403,6 +415,7 @@ def verify(task, *, strict=False, samples_only=False):
         with tempfile.TemporaryDirectory() as temporary:
             current = plan(value, ReceiptStore(), cases=[] if samples_only else None,
                            samples=None)
+        public_cases = current['public_cases']
         for name, entry in current['files'].items():
             if not matches(within(task, name), entry):
                 errors.append('Local SHA/size mismatch or missing: ' + name)
@@ -435,7 +448,7 @@ def verify(task, *, strict=False, samples_only=False):
         raise PoolError('; '.join(errors))
     for error in errors:
         warnings.warn(error, stacklevel=2)
-    return {'valid': not errors, 'errors': errors}
+    return {'valid': not errors, 'errors': errors, 'public_cases': public_cases}
 
 
 def select(value, store, cases, samples, *, allow_incomplete=False):

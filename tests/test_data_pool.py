@@ -55,7 +55,8 @@ class PoolTests(unittest.TestCase):
     def test_pack_reuses_samples_but_keeps_cases_self_contained(self):
         self.assertEqual(self.selection['samples']['01']['case_id'], self.selection['cases']['a']['case_id'])
         result = pool.assemble(self.task, self.selection, self.store)
-        self.assertEqual(result['overlaps'], [['cases/a', 'samples/01']])
+        self.assertEqual(result['overlaps'], [])
+        self.assertEqual(result['public_cases'], [{'case':'a','sample':'01','case_id':self.selection['cases']['a']['case_id']}])
         for directory in ('cases', 'reference', 'samples'):
             for f in (self.source/directory).rglob('*'):
                 if f.is_file():
@@ -67,8 +68,7 @@ class PoolTests(unittest.TestCase):
         self.assertFalse((self.task/'samples/01/verification.json').exists())
         self.assertEqual(pool.assemble(self.task, self.selection, self.store)['changed'], 0)
         self.assertTrue(pool.verify(self.task)['valid'])
-        with self.assertRaisesRegex(pool.PoolError, 'Overlapping'):
-            pool.verify(self.task, strict=True)
+        self.assertTrue(pool.verify(self.task, strict=True)['valid'])
         self.assertTrue(pool.verify(self.task, strict=True, samples_only=True)['valid'])
 
     def test_select_disjoint_bindings_and_descriptor_tampering(self):
@@ -77,8 +77,11 @@ class PoolTests(unittest.TestCase):
         pool.write_json(self.task/'data-manifest.json', chosen)
         pool.assemble(self.task, chosen, self.store)
         self.assertTrue(pool.verify(self.task, strict=True)['valid'])
-        with self.assertRaisesRegex(pool.PoolError, 'duplicate inputs'):
-            pool.select(self.selection, self.store, [a], [a])
+        public = pool.select(self.selection, self.store, [a], [a])
+        self.assertEqual(len(pool.plan(public,self.store)['public_cases']),1)
+        for cases,samples in (([a,a],[]),([],[a,a])):
+            with self.assertRaisesRegex(pool.PoolError,'duplicate inputs'):
+                pool.select(self.selection,self.store,cases,samples)
         f = self.store.get(self.value['repository']['path'] + '/' + chosen['cases']['01']['case']['path'])
         f.write_bytes(f.read_bytes() + b' ')
         with self.assertRaisesRegex(pool.PoolError, 'Descriptor SHA'):
@@ -100,6 +103,33 @@ class PoolTests(unittest.TestCase):
             pool.assemble(self.task, self.selection, self.store, update=True)
         self.assertEqual(path.read_bytes(), expected)
 
+    def test_public_pair_does_not_hide_duplicates_within_either_role(self):
+        for role in ('cases','samples'):
+            value = deepcopy(self.selection)
+            source = 'a' if role=='cases' else '01'
+            value[role]['duplicate'] = deepcopy(value[role][source])
+            result = pool.plan(value,self.store)
+            self.assertTrue(result['public_cases'])
+            self.assertTrue(result['overlaps'])
+            pool.write_json(self.task/'data-manifest.json',value)
+            pool.assemble(self.task,value,self.store,update=True)
+            with self.assertRaisesRegex(pool.PoolError,'Overlapping'):
+                pool.verify(self.task,strict=True)
+
+    def test_same_trajectory_with_different_inputs_is_not_a_public_sample_exception(self):
+        value = deepcopy(self.selection)
+        for name in ('a','b'):
+            binding = value['cases'][name]['case']
+            path = self.store.get(value['repository']['path']+'/'+binding['path'])
+            item = pool.checked_json(path)
+            item['origin']['certificate_identity'] = {'source_id':'one','source_md5':'abc','sample_index':2}
+            pool.write_json(path,item)
+            binding['sha256'] = pool.digest(path)
+        value['samples']['01'] = deepcopy(value['cases']['a'])
+        result = pool.plan(value,self.store)
+        self.assertIn(['cases/a','cases/b'],result['overlaps'])
+        self.assertEqual(len(result['public_cases']),1)
+
     def test_reselection_removes_only_unchanged_managed_files(self):
         pool.assemble(self.task, self.selection, self.store)
         chosen = deepcopy(self.selection)
@@ -114,7 +144,7 @@ class PoolTests(unittest.TestCase):
         shutil.copyfile(self.source/'cases/a/input.h5', self.task/'cases/a/input.h5')
         pool.assemble(self.task, chosen, self.store, update=True)
         self.assertFalse((self.task/'cases/a/problem.json').exists())
-        self.assertEqual((self.task/'cases/a/user.txt').read_text(), 'keep')
+        self.assertEqual((self.task/'cases/a/user.txt').read_text(encoding='utf-8'), 'keep')
 
     def test_partial_download_receipt_cannot_pass_full_benchmark(self):
         pool.assemble(self.task, self.selection, self.store, cases=[])

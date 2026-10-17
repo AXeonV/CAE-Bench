@@ -16,11 +16,13 @@ from caeoj.sdk import load_problem
 from caeoj.validation import output_support
 
 ROOT = Path(__file__).resolve().parents[1]
+from task_fixtures import task_fixture
+SMOKE = task_fixture("smoke-test")
 
 
 class PolicyTests(unittest.TestCase):
     def setUp(self):
-        self.problem = load_problem(ROOT / 'qbank/00-basic-tests/0.1-io/smoke-test/cases/09-vector-2d/problem.json')
+        self.problem = load_problem(SMOKE / 'cases/09-vector-2d/problem.json')
         p = self.problem
         self.reference = {key: p.arrays[key].copy() for key in output_support(p) | {s['array'] for s in p.manifest['outputs'].values()}}
         self.reference['velocity'][:] = 0
@@ -180,7 +182,7 @@ class PolicyTests(unittest.TestCase):
         self.assertGreater(value,0)
 
     def test_integer_fields_and_reference_error_remain_mandatory(self):
-        p=load_problem(ROOT/'qbank/00-basic-tests/0.1-io/smoke-test/cases/08-scalars-and-dtypes/problem.json')
+        p=load_problem(SMOKE/'cases/08-scalars-and-dtypes/problem.json')
         keys=output_support(p)|{s['array'] for s in p.manifest['outputs'].values()}
         ref={k:p.arrays[k].copy() for k in keys}; actual=deepcopy(ref)
         policy={'version':1,'fields':{name:self.leaf(limit=1e6) for name,spec in p.manifest['outputs'].items() if spec['dtype']=='float64'}}

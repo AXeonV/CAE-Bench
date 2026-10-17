@@ -40,7 +40,7 @@ class RuntimeAssemblyTests(unittest.TestCase):
         for path in ROOT.glob('qbank/*/*/*/instruction.md'):
             with self.subTest(task=path.parent.name):
                 load_policy(path.parent/'author/grading-template.json')
-                config = json.loads((path.parent/'judge-config.json').read_text())
+                config = json.loads((path.parent/'judge-config.json').read_text(encoding='utf-8'))
                 self.assertFalse({'atol', 'rtol'} & set(config))
 
     def test_author_template_requires_explicit_source_and_no_execution_tolerances(self):
@@ -121,7 +121,7 @@ class RuntimeAssemblyTests(unittest.TestCase):
                 runtime_materials({TASK:task},root)
 
     def test_all_authored_tasks_have_explicit_bindings_and_minimal_public_core(self):
-        data=json.loads((ROOT/'qbank/extensions/caeoj_bundle/runtime.json').read_text())
+        data=json.loads((ROOT/'qbank/extensions/caeoj_bundle/runtime.json').read_text(encoding='utf-8'))
         names={p.parent.name for p in ROOT.glob('qbank/*/*/*/instruction.md')}
         self.assertEqual(names,set(data['tasks']))
         files,runtime_data=runtime_materials({TASK:task_directory(TASK,ROOT)},ROOT)

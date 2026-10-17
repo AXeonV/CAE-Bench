@@ -78,9 +78,10 @@ def task_config(template, overrides, *, judge_config=None, case_count=None):
 def prepare(task, root=PROJECT_ROOT):
     root = Path(root).resolve()
     source = task_directory(task, root)
+    public_cases = []
     if (source / 'data-manifest.json').is_file():
         from caeoj_tools.data_pool import verify
-        verify(source, strict=True)
+        public_cases = verify(source, strict=True)['public_cases']
     task_path = source.relative_to(root).as_posix()
     template = root / 'src/utils/harbor'
     cases = sorted((source / 'cases').glob('*/problem.json'))
@@ -159,13 +160,20 @@ def prepare(task, root=PROJECT_ROOT):
         if baseline.is_file():
             copy(baseline, Path('solution/baseline.py'))
         copy(source / 'judge-config.json', Path('tests/judge-config.json'))
+        (staged/'tests/selection.json').write_text(json.dumps({'public_cases': public_cases}, indent=2)+'\n', encoding='utf-8')
         for path in cases:
-            for asset in path.parent.iterdir():
-                if asset.is_file():
-                    copy(asset, Path('tests/cases') / path.parent.name / asset.name)
-            prepared = prepare_case(load_problem(path), source/'reference'/path.parent.name/'grading.json')
+            problem = load_problem(path)
+            assets = [path.name, problem.manifest['data_file']]
+            assets += [item['file'] for table in ('meshes', 'geometries')
+                       for item in problem.manifest[table].values()]
+            for name in dict.fromkeys(assets):
+                copy(path.parent/name, Path('tests/cases')/path.parent.name/name)
+            prepared = prepare_case(problem, source/'reference'/path.parent.name/'grading.json')
             for name in prepared.evidence['assets']:
                 copy(source/'reference'/path.parent.name/name, Path('tests/reference')/path.parent.name/name)
+            # Verify the copied package itself before replacing any old task.
+            prepare_case(load_problem(staged/'tests/cases'/path.parent.name/path.name),
+                         staged/'tests/reference'/path.parent.name/'grading.json')
         # Replace only the checked generated task directory; preserve job logs.
         if destination.exists():
             shutil.rmtree(destination)
@@ -173,7 +181,7 @@ def prepare(task, root=PROJECT_ROOT):
         # ACLs, which must not follow the published task into its destination.
         shutil.copytree(staged, destination)
     return {'task_directory': str(destination), 'cases': len(cases), 'archive': str(archive),
-            'oracle_available': baseline.is_file()}
+            'oracle_available': baseline.is_file(), 'public_cases': public_cases}
 
 
 if __name__ == '__main__':

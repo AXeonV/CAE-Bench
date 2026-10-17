@@ -9,7 +9,7 @@ import argparse
 import json
 
 ROOT = Path(__file__).resolve().parents[2]
-SECTIONS = json.loads((ROOT/'qbank/maintenance/solid-plan.json').read_text())
+SECTIONS = json.loads((ROOT/'qbank/maintenance/solid-plan.json').read_text(encoding='utf-8'))
 CAT = {}
 Q = {
  'displacement':('m','vector',1e-6,'nodes','位移u，参考全局坐标分量'),

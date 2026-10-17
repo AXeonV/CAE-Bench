@@ -14,6 +14,7 @@ import unittest
 import zipfile
 
 from caeoj_tools.author import PROJECT_ROOT
+from task_fixtures import project_fixture
 from caeoj.validation import ContractError
 
 spec = importlib.util.spec_from_file_location("publish_dist", PROJECT_ROOT / "src/utils/publish_dist.py")
@@ -27,17 +28,18 @@ class PublishTests(unittest.TestCase):
         temporary = tempfile.TemporaryDirectory(dir=PROJECT_ROOT / "runs")
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name)
+        self.project = project_fixture(self.root/"project", ["heat-conduction-steady-2d", "heat-conduction-transient-2d"])
 
     def extracted_bundle(self):
-        report = publisher.publish("heat-conduction-steady-2d", self.root / "dist")
+        report = publisher.publish("heat-conduction-steady-2d", self.root / "dist", self.project)
         extracted = self.root / "agent"
         with zipfile.ZipFile(report["archive"]) as bundle:
             bundle.extractall(extracted)
         return extracted, report
 
     def test_manifest_reproducibility_and_public_only_contents(self):
-        first = publisher.publish("heat-conduction-steady-2d", self.root)
-        second = publisher.publish("heat-conduction-steady-2d", self.root)
+        first = publisher.publish("heat-conduction-steady-2d", self.root, self.project)
+        second = publisher.publish("heat-conduction-steady-2d", self.root, self.project)
         self.assertEqual(first["sha256"], second["sha256"])
         with zipfile.ZipFile(first["archive"]) as bundle:
             names = bundle.namelist()
@@ -116,7 +118,7 @@ class PublishTests(unittest.TestCase):
         for reference in (task/'samples').glob('*/reference'):
             write_direct_grading(reference, policy)
         path = task / 'samples/02/input/problem.json'
-        manifest = json.loads(path.read_text())
+        manifest = json.loads(path.read_text(encoding='utf-8'))
         manifest['outputs']['other_name'] = manifest['outputs'].pop('temperature')
         path.write_text(json.dumps(manifest))
         released = publisher.publish('heat-conduction-steady-2d', self.root / 'quantity-dist', root)
@@ -152,7 +154,7 @@ class PublishTests(unittest.TestCase):
     def test_bad_task_names_and_missing_samples_fail(self):
         for name in ("../heat-conduction-steady-2d", "/tmp", "heat-conduction-steady-2d/author"):
             with self.assertRaises(ValueError):
-                publisher.collect_materials(name)
+                publisher.collect_materials(name, self.project)
         root, _ = self.extracted_bundle()
         shutil.rmtree(root / "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples")
         with self.assertRaisesRegex(ValueError, "No complete public samples"):
@@ -160,7 +162,7 @@ class PublishTests(unittest.TestCase):
 
     def test_public_preflight_uses_staged_binding_and_checks_hook(self):
         from caeoj_tools.assembly import validate_public_runtime
-        files, _ = publisher.collect_materials('heat-conduction-steady-2d')
+        files, _ = publisher.collect_materials('heat-conduction-steady-2d', self.project)
         key='src/caeoj_bundle/runtime.json'
         data=json.loads(files[key])
         data['extensions']['task.broken']={'version':1,'requires':[], 'check':'caeoj_task_ext.probe:check'}
@@ -173,7 +175,7 @@ class PublishTests(unittest.TestCase):
 
     def test_multitask_package_switches_contracts_without_reinstallation(self):
         tasks = ['heat-conduction-steady-2d', 'heat-conduction-transient-2d']
-        result = publisher.publish(tasks, self.root/'multi-dist')
+        result = publisher.publish(tasks, self.root/'multi-dist', self.project)
         extracted = self.root/'multi-agent'
         with zipfile.ZipFile(result['archive']) as bundle:
             manifest = json.loads(bundle.read('MANIFEST.json'))

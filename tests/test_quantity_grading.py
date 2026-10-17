@@ -15,7 +15,8 @@ from caeoj.sdk import load_problem
 from caeoj.validation import output_support
 
 ROOT = Path(__file__).resolve().parents[1]
-SMOKE = ROOT / 'qbank/00-basic-tests/0.1-io/smoke-test'
+from task_fixtures import task_fixture
+SMOKE = task_fixture('smoke-test')
 
 
 class QuantityPolicyTests(unittest.TestCase):

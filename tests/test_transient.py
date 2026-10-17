@@ -20,7 +20,8 @@ from caeoj.sdk import load_problem, load_result
 from caeoj.validation import check_result, output_support, validate_input
 
 PROJECT = Path(__file__).resolve().parents[1]
-TASK = PROJECT/'qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d'
+from task_fixtures import task_fixture, project_fixture
+TASK = task_fixture('heat-conduction-transient-2d')
 
 
 def author(name):
@@ -37,14 +38,14 @@ baseline, oracle = author('baseline'), author('oracle')
 class TransientTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.config = json.loads((TASK/'judge-config.json').read_text())
+        cls.config = json.loads((TASK/'judge-config.json').read_text(encoding='utf-8'))
         cls.policy = load_policy(TASK/'author/grading-template.json')
         cls.cases = {}
         for path in sorted((TASK/'cases').glob('*/problem.json')):
             p = load_problem(path)
             ref = TASK/'reference'/path.parent.name
             cls.cases[path.parent.name] = (p, load_result(p, ref/'reference.h5'),
-                                          json.loads((TASK/'author/data-evidence/reference'/path.parent.name/'analytic.json').read_text()))
+                                          json.loads((TASK/'author/data-evidence/reference'/path.parent.name/'analytic.json').read_text(encoding='utf-8')))
 
     def case(self, prefix):
         return next(data for name, data in self.cases.items() if name.startswith(prefix))
@@ -53,7 +54,7 @@ class TransientTests(unittest.TestCase):
         # author/check.py is an independent live consumer of this legacy key.
         # Removing it just because the shared judge does not read it breaks
         # local runs; keep the two existing execution paths consistent.
-        container = tomllib.loads((TASK/'harbor/task.toml').read_text())
+        container = tomllib.loads((TASK/'harbor/task.toml').read_text(encoding='utf-8'))
         self.assertEqual(self.config['memory_mb'], container['environment']['memory_mb'])
         self.assertEqual(self.config['memory_mb'], 1024)
 
@@ -193,7 +194,7 @@ class TransientTests(unittest.TestCase):
         for sample in ('01', '02'):
             directory = TASK/'samples'/sample
             p = load_problem(directory/'input/problem.json')
-            saved = json.loads((TASK/'author/data-evidence/samples'/sample/'verification.json').read_text())
+            saved = json.loads((TASK/'author/data-evidence/samples'/sample/'verification.json').read_text(encoding='utf-8'))
             report = grade_files(p.path, directory/'output/result.h5',
                                  TASK/'reference'/saved['case']/'reference.h5', policy=self.policy)
             self.assertEqual(report['score'], 1)
@@ -214,7 +215,9 @@ class TransientTests(unittest.TestCase):
         spec = importlib.util.spec_from_file_location('transient_publish', PROJECT/'src/utils/publish_dist.py')
         publisher = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(publisher)
-        files, samples = publisher.collect_materials('heat-conduction-transient-2d')
+        with tempfile.TemporaryDirectory() as temporary:
+            project = project_fixture(temporary, ['heat-conduction-transient-2d'])
+            files, samples = publisher.collect_materials('heat-conduction-transient-2d', project)
         self.assertEqual(samples, ['01', '02'])
         for path in files:
             self.assertFalse(set(Path(path).parts) & {'author', 'cases'})
@@ -226,7 +229,7 @@ class TransientTests(unittest.TestCase):
             directory = Path(tmp)
             mesh.generate_mesh(catalog.Case('boundary-only', 'zero', nx=1, ny=4), directory)
             ids, _, _, groups = mesh.read_mesh(directory/'mesh.msh')
-            m = json.loads((TASK/'samples/01/input/problem.json').read_text())
+            m = json.loads((TASK/'samples/01/input/problem.json').read_text(encoding='utf-8'))
             arrays = {'node_ids': ids, 'times': np.array([0, .003, .007, .016, .035, .08], dtype=np.float64),
                       'initial_times': np.array([0.0], dtype=np.float64),
                       'initial_temperature': np.zeros((1, len(ids), 1), dtype=np.float64)}

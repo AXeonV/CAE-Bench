@@ -23,7 +23,8 @@ _smoke = load_author_module('smoke-test', 'smoke')
 run_smoke = _smoke.run_smoke
 from caeoj.validation import ContractError, output_support, read_json, read_hdf5, validate_input, validate_output, write_json
 
-CASES = PROJECT_ROOT / "qbank/00-basic-tests/0.1-io/smoke-test/cases"
+from task_fixtures import task_fixture
+CASES = task_fixture("smoke-test")/"cases"
 
 
 def echo_reference(problem):
@@ -155,7 +156,7 @@ class ContractTests(unittest.TestCase):
         self.assertIn("E_DUPLICATE_KEY", self.codes(validate_input(self.path)))
         self.m["physics"] = {"model": "anything", "parameters": {"k": {"value": 1.0, "unit": "1"}}}
         self.save()
-        self.path.write_text(self.path.read_text().replace('"value": 1.0', '"value": 1e999'), encoding="utf-8")
+        self.path.write_text(self.path.read_text(encoding='utf-8').replace('"value": 1.0', '"value": 1e999'), encoding="utf-8")
         self.assertIn("E_FINITE", self.codes(validate_input(self.path)))
 
     def test_input_extra_arrays_and_role_collision(self):

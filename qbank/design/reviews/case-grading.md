@@ -2,6 +2,8 @@
 
 以 PR19 的 `5acb08d` 为基础，执行协议见[判题说明](../../../docs/GRADING.md)，数据布局见[数据池设计](../DATA-STORAGE.md)。本记录保存实施范围与证据，不另行定义接口。
 
+本记录保存初始提交的验证状态；嵌套资产、无本地数据测试及送分样例的后续修订见[后续修复记录](case-grading-followup.md)。
+
 ## 实施范围
 
 - 每例 `reference/grading.json` 是运行时唯一评价入口。229 份原题目配置原值迁入 `author/grading-template.json`，仅供制数使用；不存在题目级回退。

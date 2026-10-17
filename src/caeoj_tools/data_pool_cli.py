@@ -81,7 +81,7 @@ def _run(args):
     options = {'cases': args.cases, 'samples': args.samples}
     if args.data_command == 'fetch':
         result = pool.fetch(value, store, **options)
-        return {k: result[k] for k in ('revision', 'scope', 'incomplete', 'overlaps')} | {
+        return {k: result[k] for k in ('revision', 'scope', 'incomplete', 'overlaps', 'public_cases')} | {
             'files': len(result['files']), 'complete': not result['incomplete']}
     if selection != task/'data-manifest.json':
         raise pool.PoolError('Install the reviewed selection at task/data-manifest.json before assembly')

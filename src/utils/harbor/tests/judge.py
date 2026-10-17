@@ -81,11 +81,11 @@ def execute(directory, timeout, logs):
     return result
 
 
-def save_report(config, results, total, evaluation_manifest, *, complete=False):
+def save_report(config, results, total, evaluation_manifest, public_cases, *, complete=False):
     passed = sum(row['score'] == 1 for row in results)
     report = {'score': passed, 'total_cases': total, 'completed_cases': len(results),
               'complete': complete, 'reward': passed / total, 'cases': results,
-              'evaluation_manifest': evaluation_manifest}
+              'evaluation_manifest': evaluation_manifest, 'public_cases': public_cases}
     if config.get('stage'):
         report['stage'] = config['stage']
     report['limits'] = {'timeout_seconds': config['timeout_seconds'],
@@ -111,6 +111,8 @@ def main():
         raise ValueError('No judge cases')
     if 'atol' in config or 'rtol' in config:
         raise ValueError('Scoring belongs in grading.json, not judge-config atol/rtol')
+    public_cases = json.loads((TESTS/'selection.json').read_text(encoding='utf-8'))['public_cases']
+    public_by_case = {item['case']: item['sample'] for item in public_cases}
     evaluation_manifest = {}
     # Reject bad reference/configuration before any candidate process starts.
     for path in paths:
@@ -128,7 +130,7 @@ def main():
         logs.mkdir()
         if submission_error:
             results.append({'case': case, 'score': 0, 'status': submission_error})
-            save_report(config, results, len(paths), evaluation_manifest)
+            save_report(config, results, len(paths), evaluation_manifest, public_cases)
             continue
         with tempfile.TemporaryDirectory(prefix='caeoj-') as temporary:
             directory = Path(temporary)
@@ -162,10 +164,12 @@ def main():
                     if outcome['score'] is None:
                         raise RuntimeError(f'Judge infrastructure error: {case}: {outcome}')
             row = {'case': case, **outcome, 'elapsed_seconds': elapsed}
+            if case in public_by_case:
+                row['public_sample'] = public_by_case[case]
             results.append(row)
             (logs / 'report.json').write_text(json.dumps(row, indent=2, allow_nan=False) + '\n')
-            save_report(config, results, len(paths), evaluation_manifest)
-    report = save_report(config, results, len(paths), evaluation_manifest, complete=True)
+            save_report(config, results, len(paths), evaluation_manifest, public_cases)
+    report = save_report(config, results, len(paths), evaluation_manifest, public_cases, complete=True)
     print(json.dumps({key: value for key, value in report.items() if key != 'cases'}))
 
 

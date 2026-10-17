@@ -15,7 +15,8 @@ from caeoj.sdk import load_problem, load_result, read_constant, read_field
 from caeoj_tools.author import PROJECT_ROOT
 from caeoj.validation import check_result, output_support
 
-TASK = PROJECT_ROOT / "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d"
+from task_fixtures import task_fixture
+TASK = task_fixture("heat-conduction-steady-2d")
 
 
 def import_author(name):

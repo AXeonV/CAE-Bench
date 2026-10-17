@@ -1,5 +1,7 @@
 # 2.1.1 算例维护材料
 
+- [第二批80例](data-evidence/supplement80-20261018/README.md)：新增范围、解析与数值参考出处、独立验证边界、重放入口；固定交付索引另列于该目录。
+
 - [初次制池与来源记录](data-evidence/supplement-20261017/README.md)：工况来源、Lethe 参考生产者、Ghia 中线比较、数值和资源验收、全部输入及判分链审计。
 - [交付与选样入口](data-evidence/supplement-20261017/delivery.md)：固定 HF 分支及提交、20 个 case ID、逐例描述和显式指定 revision 的选样命令。
 - [OpenFOAM 独立交叉验证](data-evidence/independent-openfoam-20261017/report.md)：其余 19 例的逐例差异、三档网格结果、判分链验证及局限；转换方法和复现命令见同目录 README。

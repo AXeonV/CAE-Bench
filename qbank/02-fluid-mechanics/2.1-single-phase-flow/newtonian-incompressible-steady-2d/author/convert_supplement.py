@@ -59,10 +59,10 @@ def field(quantity,location,kind='scalar',unit='',value_kind='point',array=None)
                 components=['x','y'] if c==2 else ['value'])
 
 
-def write_case(s,xy,ref,source,meshdir,policy):
+def write_case(s,xy,ref,source,meshdir,policy,input_n=4):
     name=s['name']; inp=source/'cases'/name; reference=source/'reference'/name
     inp.mkdir(parents=True,exist_ok=True);reference.mkdir(parents=True,exist_ok=True)
-    xyz,quads,cell_ids,boundary=build_mesh(s,4,meshdir)
+    xyz,quads,cell_ids,boundary=build_mesh(s,input_n,meshdir)
     shutil.copyfile(meshdir/'mesh.msh',inp/'mesh.msh')
     arrays=dict(clock=np.array([0.]),probe_ids=np.arange(1001,1001+len(xy),dtype=np.int64),
                 probe_xy=xy,pin_ids=np.array([7],dtype=np.int64),pin_xy=xy[:1],

@@ -11,7 +11,7 @@ description: 为 CAE-Bench-OJ 规划并编写单题、节或章，协调 DATA �
 2. 规划与能力清单形成后调用 [caeoj-design-review](../caeoj-design-review/SKILL.md)，处理设计意见，再编写 instruction.md。
 3. 调用 [caeoj-design-data](../caeoj-design-data/SKILL.md) 完成自包含 DATA.md，联合处理题面与接口问题。实现归属按[核心与扩展职责](../../../qbank/design/CORE-AND-EXTENSIONS.md)，公开边界按[公开接口](../../../qbank/design/PUBLIC-INTERFACE.md)。
 4. 核查题面、DATA 和工具支持一致，运行下述静态检查；调用 [caeoj-candidate-review](../caeoj-candidate-review/SKILL.md)，默认题面模式。可复用 DATA 流程对同一最终版本的审阅；修订后复核受影响内容。设计目标改变时也复核设计。
-5. 按用户阶段交付。涉及已有数据时交 [caeoj-data-review](../caeoj-data-review/SKILL.md)；要求评测配置时交 [caeoj-configure-judge](../caeoj-configure-judge/SKILL.md)。数据制作和正式评测仅在任务包含时执行。
+5. 按用户阶段交付。涉及已有数据时交 [caeoj-data-review](../caeoj-data-review/SKILL.md)；要求评测配置时交 [caeoj-configure-judge](../caeoj-configure-judge/SKILL.md)。用户要求实际算例建设时交 [caeoj-source-cases](../caeoj-source-cases/SKILL.md)；数据制作和正式评测仅在任务包含时执行。
 
 考生解释性材料仅为本题 instruction.md、DATA.md 和通用 CONTRACT.md；各自职责见出题工作流。设计审阅与考生审阅使用独立上下文，不能向考生补充作者解释或设计报告。
 

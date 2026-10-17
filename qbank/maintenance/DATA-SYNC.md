@@ -2,6 +2,8 @@
 
 布局与字段的唯一说明见[存储设计](../design/DATA-STORAGE.md)。维护 CLI 为 `python -m caeoj_tools.cli data`（安装后等价 `caeoj-maint data`），支持 `pack/upload/select/fetch/assemble/verify`，不进行物理求解、判据修订或精度认证。
 
+寻找来源、实际求解器计算及参考验证由 [caeoj-source-cases](../../.agents/skills/caeoj-source-cases/SKILL.md) 按[算例制作与溯源](CASE-SOURCING.md)协调；本页只拥有通用数据管理操作。入池不自动改变正式选样。
+
 ## 环境与制池
 
 ```sh

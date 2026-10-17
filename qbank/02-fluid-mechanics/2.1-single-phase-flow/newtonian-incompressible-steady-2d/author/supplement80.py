@@ -3,7 +3,7 @@
 Run subcommands on Linux with the pinned producer and its dependencies.
 """
 from pathlib import Path
-import argparse, concurrent.futures, hashlib, json, os, subprocess, time
+import argparse, concurrent.futures, hashlib, json, os, re, subprocess, tempfile, time
 import numpy as np
 from prepare_supplement import build_mesh, configuration, wall_velocity, inside
 from convert_supplement import probes, sample, vtu, write_case
@@ -66,12 +66,34 @@ def specifications():
         s=dict(name='x80-periodic-'+label,boxes=[[0,0,6,3]],holes=holes,drive='force',force=force,
                nu=.08,rho=3.,periodic=True,difficulty='medium',purpose='zero pressure-jump periodic transport: '+label)
         s.update(extra);result.append(s)
+    # Replace one shallow-cavity member with a genuinely nonuniform flow-rate inlet.
+    result[0]=dict(name='x80-inlet-shaped-channel',boxes=[[0,0,6,2]],holes=[],drive='force',nu=.08,rho=1.,
+                   open_shaped=True,difficulty='medium',purpose='piecewise-constant positive inlet shape; total rate normalization and symmetric natural outlet stress')
     assert len(result)==64 and len({s['name'] for s in result})==64
     return result
 
 
 def prm(s,b):
     text=configuration(s,b)
+    if s.get('open_shaped'):
+        # The upstream power-law branch at n=1 is exactly constant Newtonian
+        # viscosity, and uses the symmetric stress needed at natural boundaries.
+        text=text.replace('set kinematic viscosity = 0.08','''set kinematic viscosity = 0.08
+  set rheological model = power-law
+  subsection non newtonian
+   subsection power-law
+    set K = 0.08
+    set n = 1
+   end
+  end''')
+        start=text.index('subsection boundary conditions');bc='subsection boundary conditions\n set number = '+str(len(b))+'\n'
+        for idx,k in enumerate(b):
+            bc+=f' subsection bc {idx}\n set id = {k}\n'
+            if k==4:bc+=' set type = function weak\n set beta = 10000\n subsection u\n set Function expression = if(y<1,0.025,0.075)\n end\n subsection v\n set Function expression = 0\n end\n'
+            elif k==5:bc+=' set type = neumann traction\n subsection traction fn\n set Function expression = 0;0;0\n end\n'
+            else:bc+=' set type = noslip\n'
+            bc+=' end\n'
+        return (text[:start]+bc+'end\n').replace('set tolerance = 1e-10','set tolerance = 1e-8').replace('set beta = 10000',f"set beta = {s.get('weak_penalty',10000)}")
     if s.get('periodic'):
         # Only the principal side is declared; Lethe adds its paired neighbour.
         start=text.index('subsection boundary conditions')
@@ -94,7 +116,11 @@ def run_one(root,s,n,solver,slot):
     d=root/'runs'/s['name']/f'n{n}';d.mkdir(parents=True,exist_ok=True)
     if (d/'execution.json').exists():
         old=json.loads((d/'execution.json').read_text())
-        if old['returncode']==0:return old
+        if old['returncode']==0:
+            with tempfile.TemporaryDirectory() as tmp:
+                _,_,_,b=build_mesh(s,n,Path(tmp))
+                if prm(s,b)!=(d/'case.prm').read_text():raise ValueError('Cached configuration changed; preserve it and use a new root: '+str(d))
+            return old
     xyz,q,ids,b=build_mesh(s,n,d)
     (d/'case.prm').write_text(prm(s,b));(d/'definition.json').write_text(json.dumps(s,indent=2))
     cpus=sorted(os.sched_getaffinity(0))[slot*4:slot*4+4]
@@ -105,6 +131,7 @@ def run_one(root,s,n,solver,slot):
     record=dict(returncode=p.returncode,seconds=time.monotonic()-t,cells=len(q),nodes=len(xyz),cpu_ids=cpus)
     (d/'execution.json').write_text(json.dumps(record,indent=2))
     print(s['name'],n,record,flush=True)
+    if p.returncode:raise RuntimeError(str(d/'solver.log'))
     return record
 
 
@@ -117,6 +144,9 @@ def worker(root,jobs,solver,slot):
 def run(a):
     specs=specifications()
     if a.names:specs=[s for s in specs if s['name'] in a.names]
+    if a.penalty is not None:
+        for s in specs:
+            if s.get('open_shaped'):s['weak_penalty']=a.penalty
     jobs=[(s,n) for n in a.levels for s in specs]
     with concurrent.futures.ProcessPoolExecutor(a.workers) as pool:
         fs=[pool.submit(worker,a.root,jobs[i::a.workers],a.solver,i) for i in range(a.workers)]
@@ -125,8 +155,12 @@ def run(a):
 
 def convert(a):
     import h5py
-    policy=json.loads(a.policy.read_text());records=[]
-    for s in specifications():
+    policy=json.loads(a.policy.read_text());records=[];specs=specifications()
+    if a.names:
+        existing=json.loads((a.root/'numerical-validation.json').read_text())
+        known={s['name'] for s in specs};records=[r for r in existing if r['name'] in known and r['name'] not in a.names]
+        specs=[s for s in specs if s['name'] in a.names]
+    for s in specs:
         xy=probes(s);levels={}
         for d in sorted((a.root/'runs'/s['name']).glob('n*'),key=lambda p:int(p.name[1:])):
             if not (d/'execution.json').exists():continue
@@ -134,7 +168,7 @@ def convert(a):
             if r['returncode']!=0:continue
             paths=sorted(d.glob('solution.*.00000.vtu'))
             if not paths:continue
-            raw=vtu(paths[-1]);v=sample(raw,xy)
+            raw=vtu(paths[-1]);v=sample(raw,xy,relative_pressure=not s.get('open_shaped'))
             # Lethe writes kinematic pressure and normalized point gauge.
             v['pressure']*=s['rho']
             if 'coordinate_rotation_radians' in s:
@@ -156,6 +190,28 @@ def convert(a):
         inp=a.source/'cases'/s['name'];j=json.loads((inp/'problem.json').read_text())
         j['materials']['liquid']['density']['parameters']['density']['value']=s['rho']
         j['materials']['liquid']['viscosity']['parameters']['dynamic_viscosity']['value']=s['rho']*s['nu']
+        if s.get('open_shaped'):
+            j['analysis'].pop('pressure_gauge')
+            with h5py.File(inp/'input.h5','r+') as h:
+                for c in j['conditions']:
+                    if c['location']=='wall_4':
+                        c['operator']='flow_rate';c['data']=dict(rate={'field':'demand'},shape={'field':'profile_shape'})
+                        ids=h['wall_4_ids'][:];count=len(ids)
+                        # build_mesh enumerates left boundary segments; read their endpoint coordinates.
+                        import gmsh
+                        gmsh.initialize();gmsh.option.setNumber('General.Terminal',0);gmsh.open(str(inp/'mesh.msh'))
+                        tags,points,_=gmsh.model.mesh.getNodes();coords={int(k):p for k,p in zip(tags,np.array(points).reshape(-1,3))}
+                        _,ee,cc=gmsh.model.mesh.getElements(1);edge_map={int(tag):vs for ii,vv in zip(ee,cc) for tag,vs in zip(ii,np.array(vv).reshape(-1,2))};gmsh.finalize()
+                        yy=np.array([np.mean([coords[int(v)][1] for v in edge_map[int(tag)]]) for tag in ids]);shape=np.where(yy<1,1.,3.)
+                        lengths=np.array([np.linalg.norm(coords[int(edge_map[int(tag)][1])]-coords[int(edge_map[int(tag)][0])]) for tag in ids]);assert abs(shape@lengths-4.)<1e-12
+                        for key,q,u,values,space in [('demand','requested_rate','m2/s',np.full(count,.1),'uniform'),('profile_shape','positive_weights','1',shape,'piecewise_constant')]:
+                            from convert_supplement import field
+                            f=field(q,'wall_4','scalar',u,'average',key);f['sampling']=dict(space=space,time='constant',extrapolation='forbid');j['fields'][key]=f;h[key]=values[None,:,None]
+                    elif c['location']=='wall_5':
+                        c['operator']='traction';c['data']={'traction':{'field':'natural_stress'}}
+                        from convert_supplement import field
+                        f=field('prescribed_total_traction','wall_5','vector','Pa','average','natural_stress');f['sampling']=dict(space='uniform',time='constant',extrapolation='hold');j['fields']['natural_stress']=f
+                        h['natural_stress']=np.zeros((1,len(h['wall_5_ids']),2))
         if s.get('periodic'):
             for c in j['conditions']:
                 if c['location'] in ('wall_4','wall_5'):
@@ -189,6 +245,6 @@ def convert(a):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();sub=p.add_subparsers(dest='action',required=True)
-    r=sub.add_parser('run');r.add_argument('root',type=Path);r.add_argument('--levels',nargs='+',type=int,default=[4,8,16]);r.add_argument('--workers',type=int,default=8);r.add_argument('--solver',required=True);r.add_argument('--names',nargs='+')
-    c=sub.add_parser('convert');c.add_argument('root',type=Path);c.add_argument('source',type=Path);c.add_argument('policy',type=Path)
+    r=sub.add_parser('run');r.add_argument('root',type=Path);r.add_argument('--levels',nargs='+',type=int,default=[4,8,16]);r.add_argument('--workers',type=int,default=8);r.add_argument('--solver',required=True);r.add_argument('--names',nargs='+');r.add_argument('--penalty',type=float)
+    c=sub.add_parser('convert');c.add_argument('root',type=Path);c.add_argument('source',type=Path);c.add_argument('policy',type=Path);c.add_argument('--names',nargs='+')
     a=p.parse_args();run(a) if a.action=='run' else convert(a)

@@ -19,14 +19,15 @@ def collect(root):
         for n in map(int,row['levels']):
             d=root/'runs'/name/f'n{n}';r=json.loads((d/'execution.json').read_text());log=(d/'solver.log').read_text()
             residuals=re.findall(r'alpha\s*=.*?res\s*=\s*([\deE.+-]+)',log)
-            assert r['returncode']==0 and residuals and float(residuals[-1])<=1e-10,(d,residuals[-1:])
+            tolerance=1e-8 if row['definition'].get('open_shaped') else 1e-10
+            assert r['returncode']==0 and residuals and float(residuals[-1])<=tolerance,(d,residuals[-1:])
             resource=(d/'resource.txt').read_text();rss=int(re.search(r'Maximum resident set size \(kbytes\):\s*(\d+)',resource).group(1))
             assert r['seconds']<600 and rss<4*1024*1024 and len(r['cpu_ids'])==4
-            r.update(name=name,level=n,last_nonlinear_residual=float(residuals[-1]),peak_rss_kib=rss)
+            r.update(name=name,level=n,last_nonlinear_residual=float(residuals[-1]),nonlinear_tolerance=tolerance,peak_rss_kib=rss)
             dest=evidence/'lethe'/name/f'n{n}';dest.mkdir(parents=True,exist_ok=True)
             for f in ('case.prm','solver.log','execution.json','definition.json','resource.txt'):shutil.copyfile(d/f,dest/f)
             # Exact sampled data from every solved level remain available without raw download.
-            spec=row['definition'];xy=probes(spec);path=sorted(d.glob('solution.*.00000.vtu'))[-1];values=sample(vtu(path),xy);values['pressure']*=spec['rho']
+            spec=row['definition'];xy=probes(spec);path=sorted(d.glob('solution.*.00000.vtu'))[-1];values=sample(vtu(path),xy,relative_pressure=not spec.get('open_shaped'));values['pressure']*=spec['rho']
             angle=spec.get('coordinate_rotation_radians',0.);R=np.array([[np.cos(angle),-np.sin(angle)],[np.sin(angle),np.cos(angle)]])
             values['velocity']=values['velocity']@R.T
             np.savez_compressed(dest/'samples.npz',xy=xy@R.T,**values)

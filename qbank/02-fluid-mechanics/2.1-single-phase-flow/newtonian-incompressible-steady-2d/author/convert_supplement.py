@@ -32,7 +32,7 @@ def probes(s):
                      if all(inside(x+dx,y+dy,s) for dx,dy in [(.01,.01),(-.01,.01),(.01,-.01),(-.01,-.01)])])
 
 
-def sample(raw,xy):
+def sample(raw,xy,*,relative_pressure=True):
     result={}
     for key in ('velocity','pressure','velocity_gradient'):
         values=[]
@@ -45,7 +45,7 @@ def sample(raw,xy):
             values.append(raw[key][hit].mean(axis=0))
         result[key]=np.array(values)
     result['velocity']=result['velocity'][:,:2]
-    result['pressure']-=result['pressure'][0]
+    if relative_pressure:result['pressure']-=result['pressure'][0]
     g=result['velocity_gradient'].reshape(-1,3,3)[:,:2,:2]
     d=(g+g.transpose(0,2,1))/2
     result['shear_rate']=np.sqrt(2*np.einsum('nij,nij->n',d,d))[:,None]

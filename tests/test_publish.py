@@ -207,5 +207,43 @@ print('multi-task: four alternating reads and grades passed')
         self.assertIn('four alternating',execution.stdout)
 
 
+class DomainPublishTests(unittest.TestCase):
+    def test_radiation_and_microstructure_bundle_with_disposable_samples(self):
+        from importlib import import_module
+        import numpy as np
+        from caeoj.sdk import load_problem, write_result
+        from caeoj_tools.grading_policy import author_policy, write_direct_grading
+        from caeoj_tools.task_paths import task_directory
+        with tempfile.TemporaryDirectory() as temporary:
+            root = project_fixture(Path(temporary)/'project', [])
+            tasks = []
+            for domain in ('radiation', 'microstructure'):
+                fixture = import_module(domain+'_fixture').fixture
+                for slug in import_module('caeoj_ext.'+domain).models():
+                    source = task_directory(slug, PROJECT_ROOT)
+                    task = root/source.relative_to(PROJECT_ROOT)
+                    sample = task/'samples/01'
+                    path, manifest = fixture(sample/'input', slug)
+                    for name in ('instruction.md', 'DATA.md'):
+                        shutil.copyfile(source/name, task/name)
+                    problem = load_problem(path)
+                    values = {s['array']: np.zeros((
+                        len(problem.arrays[manifest['time_axes'][s['time_axis']]]),
+                        len(problem.arrays[manifest['locations'][s['location']]['ids']]),
+                        *s['component_shape'])) for s in manifest['outputs'].values()}
+                    write_result(sample/'output/result.h5', problem, values)
+                    write_result(sample/'reference/reference.h5', problem, values)
+                    write_direct_grading(sample/'reference', author_policy(source, problem))
+                    tasks.append(slug)
+            report = publisher.publish(tasks, Path(temporary)/'dist', root)
+            with zipfile.ZipFile(report['archive']) as bundle:
+                manifest = json.loads(bundle.read('MANIFEST.json'))
+                self.assertEqual(manifest['tasks'], sorted(tasks))
+                self.assertEqual(len(tasks), 15)
+                self.assertFalse(any('author' in Path(name).parts for name in bundle.namelist()))
+                runtime = json.loads(bundle.read('src/caeoj_bundle/runtime.json'))
+                self.assertEqual(set(runtime['extensions']), {'radiation.nuclear', 'microstructure.phase_field'})
+
+
 if __name__ == "__main__":
     unittest.main()

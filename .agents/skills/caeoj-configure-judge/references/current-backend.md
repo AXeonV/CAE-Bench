@@ -11,6 +11,6 @@
 | 公开模型元数据和可信 provider | `src/caeoj_tools/author.py`；`src/caeoj/runtime.py`；`qbank/extensions/` |
 | 数据绑定与前置校验 | `src/caeoj_tools/data_pool.py`；本题 `data-manifest.json` |
 | 本题额外执行消费者 | 本题 `author/`，检索字段全部读取者，不假定 Harbor 是唯一消费者 |
-| 现有验证 | `tests/test_grading_policy.py`、`test_runtime_assembly.py`、`test_harbor.py`、`test_publish.py` 及受影响领域专项 |
+| 现有验证 | `tests/grading_fixtures.py`（实际 case 评价 fixture）、`qbank/maintenance/authoring/verify_install.py`（共享安装验证），以及评分、装配、Harbor 与领域专项测试 |
 
 题目目录和配置存在不表示数据就绪；单点 CLI 成功也不表示容器资源、网络隔离或完整 benchmark 已验证。

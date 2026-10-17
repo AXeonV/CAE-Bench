@@ -20,6 +20,8 @@ CATALOGS = {
     'semiconductor': ('authoring.build_semiconductor', 'MODELS'),
     'granular': ('authoring.build_granular', 'MODELS'),
     'porous': ('authoring.build_porous', 'MODELS'),
+    'radiation': ('authoring.build_radiation', 'MODELS'),
+    'microstructure': ('authoring.build_microstructure', 'MODELS'),
     'solid': ('solid_authoring', 'CAT'),
 }
 

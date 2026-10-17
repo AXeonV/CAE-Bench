@@ -89,10 +89,12 @@ flowchart LR
 | [第 12 章](qbank/12-granular/README.md) | 颗粒与散体力学 |
 | [第 13 章](qbank/13-porous-media/README.md) | 多孔介质与渗流 |
 | [第 14 章](qbank/14-plasma/README.md) | 等离子体与带电粒子 |
+| [第 15 章](qbank/15-radiation-nuclear/README.md) | 辐射输运与核工程物理分析 |
+| [第 16 章](qbank/16-microstructure/README.md) | 材料组织与微观演化分析 |
 | [第 17 章](qbank/17-multiphysics/README.md) | 多物理场耦合 |
 | [第 18 章](qbank/18-system-multidomain/README.md) | 系统级多领域分析 |
 
-第 2～14、17～18 章已完成各自首版清单的题面、DATA 和评测配置；正式数值数据、参考及评测发布仍待完成。第 15、16 章仍处于总体规划阶段。逐章交付范围和证据见[题库设计](qbank/design/README.md)。
+第 2～18 章已完成各自首版清单的题面、DATA 和评测配置；正式数值数据、参考及评测发布仍待完成。逐章交付范围和证据见[题库设计](qbank/design/README.md)。
 
 ## 维护技能
 

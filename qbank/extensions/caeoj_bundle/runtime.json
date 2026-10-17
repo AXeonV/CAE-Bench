@@ -817,6 +817,75 @@
         "caeoj_ext/systems/__init__.py",
         "caeoj_ext/systems/models.json"
       ]
+    },
+    "radiation.nuclear": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model": "radiation-photon-absorption-v1"
+        },
+        {
+          "physics.model": "radiation-slab-transport-steady-v1"
+        },
+        {
+          "physics.model": "radiation-slab-transport-transient-v1"
+        },
+        {
+          "physics.model": "radiation-neutron-diffusion-source-v1"
+        },
+        {
+          "physics.model": "radiation-neutron-diffusion-critical-v1"
+        },
+        {
+          "physics.model": "radiation-point-kinetics-v1"
+        },
+        {
+          "physics.model": "radiation-decay-network-v1"
+        },
+        {
+          "physics.model": "radiation-irradiated-network-v1"
+        }
+      ],
+      "check": "caeoj_ext.radiation:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/radiation/__init__.py",
+        "caeoj_ext/radiation/models.json"
+      ]
+    },
+    "microstructure.phase_field": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model": "microstructure-binary-separation-v1"
+        },
+        {
+          "physics.model": "microstructure-ternary-separation-v1"
+        },
+        {
+          "physics.model": "microstructure-order-relaxation-v1"
+        },
+        {
+          "physics.model": "microstructure-driven-ordering-v1"
+        },
+        {
+          "physics.model": "microstructure-grain-coarsening-v1"
+        },
+        {
+          "physics.model": "microstructure-coupled-precipitation-v1"
+        },
+        {
+          "physics.model": "microstructure-crystal-density-v1"
+        }
+      ],
+      "check": "caeoj_ext.microstructure:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/microstructure/__init__.py",
+        "caeoj_ext/microstructure/models.json"
+      ]
     }
   },
   "tasks": {
@@ -1479,6 +1548,51 @@
     ],
     "sampled-position-servo": [
       "systems.networks"
+    ],
+    "photon-absorption": [
+      "radiation.nuclear"
+    ],
+    "slab-transport-steady": [
+      "radiation.nuclear"
+    ],
+    "slab-transport-transient": [
+      "radiation.nuclear"
+    ],
+    "neutron-diffusion-source": [
+      "radiation.nuclear"
+    ],
+    "neutron-diffusion-critical": [
+      "radiation.nuclear"
+    ],
+    "point-kinetics": [
+      "radiation.nuclear"
+    ],
+    "decay-network": [
+      "radiation.nuclear"
+    ],
+    "irradiated-network": [
+      "radiation.nuclear"
+    ],
+    "binary-separation": [
+      "microstructure.phase_field"
+    ],
+    "ternary-separation": [
+      "microstructure.phase_field"
+    ],
+    "order-relaxation": [
+      "microstructure.phase_field"
+    ],
+    "driven-ordering": [
+      "microstructure.phase_field"
+    ],
+    "grain-coarsening": [
+      "microstructure.phase_field"
+    ],
+    "coupled-precipitation": [
+      "microstructure.phase_field"
+    ],
+    "crystal-density": [
+      "microstructure.phase_field"
     ]
   },
   "aliases": {
@@ -1520,7 +1634,9 @@
     "porous-",
     "plasma-",
     "multiphysics-",
-    "systems-"
+    "systems-",
+    "radiation-",
+    "microstructure-"
   ],
   "model_namespace_diagnostics": {
     "fluid-energy-": "E_FLUID",
@@ -1539,6 +1655,8 @@
     "porous-": "E_POROUS",
     "plasma-": "E_PLASMA",
     "multiphysics-": "E_MULTIPHYSICS",
-    "systems-": "E_SYSTEMS"
+    "systems-": "E_SYSTEMS",
+    "radiation-": "E_RADIATION",
+    "microstructure-": "E_MICROSTRUCTURE"
   }
 }

@@ -1,0 +1,4809 @@
+[
+  {
+    "name": "force-island-chamber",
+    "case_id": "case-026d4fd42eeba2d5268e1be8",
+    "level": 32,
+    "contract_valid": true,
+    "grading": {
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "all_outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "velocity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1044,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 84
+                },
+                {
+                  "time_index": 0,
+                  "component_index": 1,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1064,
+                    "component_index": 1
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 84
+                }
+              ],
+              "observation": {
+                "quantity": "velocity",
+                "unit": "m/s",
+                "components": [
+                  "x",
+                  "y"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "pressure": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.1,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1065,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 84
+                }
+              ],
+              "observation": {
+                "quantity": "pressure",
+                "unit": "Pa",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "density": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.0001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 84
+                }
+              ],
+              "observation": {
+                "quantity": "density",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "dynamic_viscosity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 84
+                }
+              ],
+              "observation": {
+                "quantity": "dynamic_viscosity",
+                "unit": "Pa.s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "shear_rate": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.01,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1053,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 84
+                }
+              ],
+              "observation": {
+                "quantity": "shear_rate",
+                "unit": "1/s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "778193403a68a8a1dbe52590dfeb28b719e44fc0487d67c267817380e3b6a4f8",
+      "assets": {
+        "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961",
+        "reference.h5": "6dbb44ce7201d0c0890f71f2cdac50c390df08cc78bb64102662f1a1af3cef98"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+        "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+        "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+        "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+        "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+        "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+        "extension/caeoj_ext/fluid/single_phase/__init__.py": "70bb6c773ecbe190577c3131e4d703215aedafe905ba82e12cd697f7b3fdf378",
+        "extension/caeoj_ext/fluid/single_phase/schema.json": "d521bc026a760883c30af29693b7715ae1b40e43569e09f6677e1699e95cb860"
+      },
+      "input_assets": {
+        "problem.json": "7b58075adf2c0ed6a7d0a7ea714549acefaf02cfafc9842ab4389632df13151e",
+        "input.h5": "7aaf5f93133b6c4b15b108d408a750a6635cd7c710303b70d83df7836acc3d29",
+        "mesh.msh": "a15a6a77b6a3fb61290570db0344ad2db567e5825dc654c224a99704cde63fa3"
+      },
+      "runtime_binding_sha256": "54e52a15125128f79c105cd739960854f7cd9771f50d169f99ce2f99c03e13b4",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "7b1881704242fe22fb8b8280c2d5528ddaabac5df6cd32655019623c7c0b4d75"
+    }
+  },
+  {
+    "name": "force-split-recess",
+    "case_id": "case-e8f85c3a1f5574b5b7210265",
+    "level": 32,
+    "contract_valid": true,
+    "grading": {
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "all_outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "velocity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1022,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 99
+                },
+                {
+                  "time_index": 0,
+                  "component_index": 1,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1028,
+                    "component_index": 1
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 99
+                }
+              ],
+              "observation": {
+                "quantity": "velocity",
+                "unit": "m/s",
+                "components": [
+                  "x",
+                  "y"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "pressure": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.1,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1075,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 99
+                }
+              ],
+              "observation": {
+                "quantity": "pressure",
+                "unit": "Pa",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "density": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.0001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 99
+                }
+              ],
+              "observation": {
+                "quantity": "density",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "dynamic_viscosity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 99
+                }
+              ],
+              "observation": {
+                "quantity": "dynamic_viscosity",
+                "unit": "Pa.s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "shear_rate": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.01,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1023,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 99
+                }
+              ],
+              "observation": {
+                "quantity": "shear_rate",
+                "unit": "1/s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "778193403a68a8a1dbe52590dfeb28b719e44fc0487d67c267817380e3b6a4f8",
+      "assets": {
+        "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961",
+        "reference.h5": "2c16067e539a5d7128fba0957fb91df1f9d09394e081afb88a365af91d8bc77a"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+        "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+        "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+        "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+        "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+        "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+        "extension/caeoj_ext/fluid/single_phase/__init__.py": "70bb6c773ecbe190577c3131e4d703215aedafe905ba82e12cd697f7b3fdf378",
+        "extension/caeoj_ext/fluid/single_phase/schema.json": "d521bc026a760883c30af29693b7715ae1b40e43569e09f6677e1699e95cb860"
+      },
+      "input_assets": {
+        "problem.json": "7b58075adf2c0ed6a7d0a7ea714549acefaf02cfafc9842ab4389632df13151e",
+        "input.h5": "90e803f792b9cb433dd601391f8605cef3e1a61a8db6b745201c1e3e7cc7363e",
+        "mesh.msh": "185420bbbd9a7ca0fe6c83da188a2d5b6c521309128f400e30833f0b5ce02239"
+      },
+      "runtime_binding_sha256": "54e52a15125128f79c105cd739960854f7cd9771f50d169f99ce2f99c03e13b4",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "d630d5e8c48bb118682f89b015c26fc8a054ad319f5fa139e7aaf882b015cbfb"
+    }
+  },
+  {
+    "name": "force-three-ribs",
+    "case_id": "case-4c8211e10cfe6755bdc61e0e",
+    "level": 32,
+    "contract_valid": true,
+    "grading": {
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "all_outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "velocity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1082,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 111
+                },
+                {
+                  "time_index": 0,
+                  "component_index": 1,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1020,
+                    "component_index": 1
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 111
+                }
+              ],
+              "observation": {
+                "quantity": "velocity",
+                "unit": "m/s",
+                "components": [
+                  "x",
+                  "y"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "pressure": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.1,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1105,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 111
+                }
+              ],
+              "observation": {
+                "quantity": "pressure",
+                "unit": "Pa",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "density": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.0001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 111
+                }
+              ],
+              "observation": {
+                "quantity": "density",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "dynamic_viscosity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 111
+                }
+              ],
+              "observation": {
+                "quantity": "dynamic_viscosity",
+                "unit": "Pa.s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "shear_rate": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.01,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1055,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 111
+                }
+              ],
+              "observation": {
+                "quantity": "shear_rate",
+                "unit": "1/s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "778193403a68a8a1dbe52590dfeb28b719e44fc0487d67c267817380e3b6a4f8",
+      "assets": {
+        "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961",
+        "reference.h5": "7a72ab6a736378a678beabe34e4fc94ae4e8eb1ddb291f572138b3b0dc6abdd2"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+        "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+        "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+        "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+        "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+        "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+        "extension/caeoj_ext/fluid/single_phase/__init__.py": "70bb6c773ecbe190577c3131e4d703215aedafe905ba82e12cd697f7b3fdf378",
+        "extension/caeoj_ext/fluid/single_phase/schema.json": "d521bc026a760883c30af29693b7715ae1b40e43569e09f6677e1699e95cb860"
+      },
+      "input_assets": {
+        "problem.json": "7b58075adf2c0ed6a7d0a7ea714549acefaf02cfafc9842ab4389632df13151e",
+        "input.h5": "d3c1822448fb5ba8ad10e70f5fb49e7a7343aa7e00d89e9a9882f18317cf1a16",
+        "mesh.msh": "8d241be80b27d98377643b964d9a6190290d333717874b46da674b40e1339409"
+      },
+      "runtime_binding_sha256": "54e52a15125128f79c105cd739960854f7cd9771f50d169f99ce2f99c03e13b4",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "20eafd15dfe93e4623d5512d8d1ecd8ec7c88b3f195c3e639cebe35483f17301"
+    }
+  },
+  {
+    "name": "four-wall-circulation",
+    "case_id": "case-0e6015c13e8f493dbf620799",
+    "level": 32,
+    "contract_valid": true,
+    "grading": {
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "all_outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "velocity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1080,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 81
+                },
+                {
+                  "time_index": 0,
+                  "component_index": 1,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1018,
+                    "component_index": 1
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 81
+                }
+              ],
+              "observation": {
+                "quantity": "velocity",
+                "unit": "m/s",
+                "components": [
+                  "x",
+                  "y"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "pressure": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.1,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1064,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 81
+                }
+              ],
+              "observation": {
+                "quantity": "pressure",
+                "unit": "Pa",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "density": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.0001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 81
+                }
+              ],
+              "observation": {
+                "quantity": "density",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "dynamic_viscosity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 81
+                }
+              ],
+              "observation": {
+                "quantity": "dynamic_viscosity",
+                "unit": "Pa.s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "shear_rate": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.01,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1002,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 81
+                }
+              ],
+              "observation": {
+                "quantity": "shear_rate",
+                "unit": "1/s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "778193403a68a8a1dbe52590dfeb28b719e44fc0487d67c267817380e3b6a4f8",
+      "assets": {
+        "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961",
+        "reference.h5": "e20bbdccabb5a9c3eae458be4251ecd5721e971a1367e23116e710db19d5ec80"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+        "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+        "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+        "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+        "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+        "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+        "extension/caeoj_ext/fluid/single_phase/__init__.py": "70bb6c773ecbe190577c3131e4d703215aedafe905ba82e12cd697f7b3fdf378",
+        "extension/caeoj_ext/fluid/single_phase/schema.json": "d521bc026a760883c30af29693b7715ae1b40e43569e09f6677e1699e95cb860"
+      },
+      "input_assets": {
+        "problem.json": "6d16737bbf8c42e61c68cac541606c867c789cf8e01404031a780f4b44638dec",
+        "input.h5": "058e9bedaffa762a6aca8cfbbf4326a512863aac14212d93158f5c8f1a756e80",
+        "mesh.msh": "321cc840807f09b248abd7fa46eeafb54642553058b75ea51df34f50899d0adf"
+      },
+      "runtime_binding_sha256": "54e52a15125128f79c105cd739960854f7cd9771f50d169f99ce2f99c03e13b4",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "a966a7d52beba9c6a092144fcaa2291df950ab486968797cfee66f7c59da0e2f"
+    }
+  },
+  {
+    "name": "lid-central-pedestal",
+    "case_id": "case-dbefd5f506818454526b5154",
+    "level": 32,
+    "contract_valid": true,
+    "grading": {
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "all_outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "velocity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1079,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 79
+                },
+                {
+                  "time_index": 0,
+                  "component_index": 1,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1079,
+                    "component_index": 1
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 79
+                }
+              ],
+              "observation": {
+                "quantity": "velocity",
+                "unit": "m/s",
+                "components": [
+                  "x",
+                  "y"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "pressure": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.1,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1079,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 79
+                }
+              ],
+              "observation": {
+                "quantity": "pressure",
+                "unit": "Pa",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "density": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.0001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 79
+                }
+              ],
+              "observation": {
+                "quantity": "density",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "dynamic_viscosity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 79
+                }
+              ],
+              "observation": {
+                "quantity": "dynamic_viscosity",
+                "unit": "Pa.s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "shear_rate": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.01,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1009,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 79
+                }
+              ],
+              "observation": {
+                "quantity": "shear_rate",
+                "unit": "1/s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "778193403a68a8a1dbe52590dfeb28b719e44fc0487d67c267817380e3b6a4f8",
+      "assets": {
+        "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961",
+        "reference.h5": "38f8f65cdbc6f084a211e2ee995c2c4d9e75cec19c64b378c881cf309a575e35"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+        "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+        "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+        "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+        "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+        "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+        "extension/caeoj_ext/fluid/single_phase/__init__.py": "70bb6c773ecbe190577c3131e4d703215aedafe905ba82e12cd697f7b3fdf378",
+        "extension/caeoj_ext/fluid/single_phase/schema.json": "d521bc026a760883c30af29693b7715ae1b40e43569e09f6677e1699e95cb860"
+      },
+      "input_assets": {
+        "problem.json": "602562d32c111b82f9287113031934d1cae274c55cc73e64fce0bbdb2f292d1f",
+        "input.h5": "d2665924924924e8030e581379f513f53833c4fd5a6ed7479792db43c1034353",
+        "mesh.msh": "e138d8c6ea08240bbdd08dafc9336e0b69836fa7424c7ef78be607499f05c07c"
+      },
+      "runtime_binding_sha256": "54e52a15125128f79c105cd739960854f7cd9771f50d169f99ce2f99c03e13b4",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "9807c18d39360d0afa23467a550860e88d31dc0a7bbf428685b114dc57c81cce"
+    }
+  },
+  {
+    "name": "lid-cross-chamber",
+    "case_id": "case-3fe4488e94450f59afd66166",
+    "level": 32,
+    "contract_valid": true,
+    "grading": {
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "all_outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "velocity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1085,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 115
+                },
+                {
+                  "time_index": 0,
+                  "component_index": 1,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1085,
+                    "component_index": 1
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 115
+                }
+              ],
+              "observation": {
+                "quantity": "velocity",
+                "unit": "m/s",
+                "components": [
+                  "x",
+                  "y"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "pressure": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.1,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1033,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 115
+                }
+              ],
+              "observation": {
+                "quantity": "pressure",
+                "unit": "Pa",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "density": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.0001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 115
+                }
+              ],
+              "observation": {
+                "quantity": "density",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "dynamic_viscosity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 115
+                }
+              ],
+              "observation": {
+                "quantity": "dynamic_viscosity",
+                "unit": "Pa.s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "shear_rate": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.01,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1033,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 115
+                }
+              ],
+              "observation": {
+                "quantity": "shear_rate",
+                "unit": "1/s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "778193403a68a8a1dbe52590dfeb28b719e44fc0487d67c267817380e3b6a4f8",
+      "assets": {
+        "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961",
+        "reference.h5": "9e2b88e3137084af901e4112d9ae0191091b8ddb5174f3433aac386c830122e0"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+        "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+        "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+        "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+        "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+        "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+        "extension/caeoj_ext/fluid/single_phase/__init__.py": "70bb6c773ecbe190577c3131e4d703215aedafe905ba82e12cd697f7b3fdf378",
+        "extension/caeoj_ext/fluid/single_phase/schema.json": "d521bc026a760883c30af29693b7715ae1b40e43569e09f6677e1699e95cb860"
+      },
+      "input_assets": {
+        "problem.json": "602562d32c111b82f9287113031934d1cae274c55cc73e64fce0bbdb2f292d1f",
+        "input.h5": "5cb75f869502d031e38727415223fd03f412dea091e12ed2bd66b10981928b0a",
+        "mesh.msh": "cda2c73a05c977ae88a1089e28f6c6ed3c01ec3c020d283cf8eb754c6f4a7efa"
+      },
+      "runtime_binding_sha256": "54e52a15125128f79c105cd739960854f7cd9771f50d169f99ce2f99c03e13b4",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "77e6a50783dab09f72334667388191320193fe1311cd3d031c5617708329da7f"
+    }
+  },
+  {
+    "name": "lid-L-chamber",
+    "case_id": "case-fda4785a3d9d80b6a0822fb6",
+    "level": 32,
+    "contract_valid": true,
+    "grading": {
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "all_outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "velocity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1085,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 85
+                },
+                {
+                  "time_index": 0,
+                  "component_index": 1,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1085,
+                    "component_index": 1
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 85
+                }
+              ],
+              "observation": {
+                "quantity": "velocity",
+                "unit": "m/s",
+                "components": [
+                  "x",
+                  "y"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "pressure": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.1,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1085,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 85
+                }
+              ],
+              "observation": {
+                "quantity": "pressure",
+                "unit": "Pa",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "density": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.0001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 85
+                }
+              ],
+              "observation": {
+                "quantity": "density",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "dynamic_viscosity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 85
+                }
+              ],
+              "observation": {
+                "quantity": "dynamic_viscosity",
+                "unit": "Pa.s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "shear_rate": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.01,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1011,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 85
+                }
+              ],
+              "observation": {
+                "quantity": "shear_rate",
+                "unit": "1/s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "778193403a68a8a1dbe52590dfeb28b719e44fc0487d67c267817380e3b6a4f8",
+      "assets": {
+        "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961",
+        "reference.h5": "7820338d3efa10b8d1600d1735f5474d7c68f8b4dcee760bdca951fcaef2997f"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+        "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+        "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+        "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+        "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+        "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+        "extension/caeoj_ext/fluid/single_phase/__init__.py": "70bb6c773ecbe190577c3131e4d703215aedafe905ba82e12cd697f7b3fdf378",
+        "extension/caeoj_ext/fluid/single_phase/schema.json": "d521bc026a760883c30af29693b7715ae1b40e43569e09f6677e1699e95cb860"
+      },
+      "input_assets": {
+        "problem.json": "602562d32c111b82f9287113031934d1cae274c55cc73e64fce0bbdb2f292d1f",
+        "input.h5": "de1a9e7a688f93a1533b11afa796a3eedbb923bb4650a1a4ce360acfe6ccd8db",
+        "mesh.msh": "30a38db863cdc2b60b992f391d54bc2ddf7ea8487531d99bbc5d82dfb15b9e25"
+      },
+      "runtime_binding_sha256": "54e52a15125128f79c105cd739960854f7cd9771f50d169f99ce2f99c03e13b4",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "a37f536d7d884d14e2e2e5891ded0a32ca27b3dba528b8b175608da9f98ab522"
+    }
+  },
+  {
+    "name": "lid-offset-baffle",
+    "case_id": "case-68c02a8d2b43c88ee8b57f70",
+    "level": 32,
+    "contract_valid": true,
+    "grading": {
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "all_outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "velocity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1009,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 81
+                },
+                {
+                  "time_index": 0,
+                  "component_index": 1,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1034,
+                    "component_index": 1
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 81
+                }
+              ],
+              "observation": {
+                "quantity": "velocity",
+                "unit": "m/s",
+                "components": [
+                  "x",
+                  "y"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "pressure": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.1,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1081,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 81
+                }
+              ],
+              "observation": {
+                "quantity": "pressure",
+                "unit": "Pa",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "density": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.0001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 81
+                }
+              ],
+              "observation": {
+                "quantity": "density",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "dynamic_viscosity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 81
+                }
+              ],
+              "observation": {
+                "quantity": "dynamic_viscosity",
+                "unit": "Pa.s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "shear_rate": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.01,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1009,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 81
+                }
+              ],
+              "observation": {
+                "quantity": "shear_rate",
+                "unit": "1/s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "778193403a68a8a1dbe52590dfeb28b719e44fc0487d67c267817380e3b6a4f8",
+      "assets": {
+        "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961",
+        "reference.h5": "3c02314ea4eb1e279b3e62f5f7fdb278254587613a226520893cd1317aff0b20"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+        "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+        "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+        "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+        "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+        "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+        "extension/caeoj_ext/fluid/single_phase/__init__.py": "70bb6c773ecbe190577c3131e4d703215aedafe905ba82e12cd697f7b3fdf378",
+        "extension/caeoj_ext/fluid/single_phase/schema.json": "d521bc026a760883c30af29693b7715ae1b40e43569e09f6677e1699e95cb860"
+      },
+      "input_assets": {
+        "problem.json": "602562d32c111b82f9287113031934d1cae274c55cc73e64fce0bbdb2f292d1f",
+        "input.h5": "27de916a3f4bdf02cb0fc578c87e0c39dcdf6e3cc583169b7763da5cc5c87a4e",
+        "mesh.msh": "ad0b2c94f54b60063f2dd555754daeb3dea725354b0c9219fdb186c56a9e15ad"
+      },
+      "runtime_binding_sha256": "54e52a15125128f79c105cd739960854f7cd9771f50d169f99ce2f99c03e13b4",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "b0961aa4827afeaeddc18f6d144779c78d5d532ebfc0eec86d8de626697f2889"
+    }
+  },
+  {
+    "name": "lid-serpentine-chamber",
+    "case_id": "case-9b46104936e50028823b2557",
+    "level": 32,
+    "contract_valid": true,
+    "grading": {
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "all_outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "velocity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1011,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 99
+                },
+                {
+                  "time_index": 0,
+                  "component_index": 1,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1037,
+                    "component_index": 1
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 99
+                }
+              ],
+              "observation": {
+                "quantity": "velocity",
+                "unit": "m/s",
+                "components": [
+                  "x",
+                  "y"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "pressure": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.1,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1099,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 99
+                }
+              ],
+              "observation": {
+                "quantity": "pressure",
+                "unit": "Pa",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "density": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.0001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 99
+                }
+              ],
+              "observation": {
+                "quantity": "density",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "dynamic_viscosity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 99
+                }
+              ],
+              "observation": {
+                "quantity": "dynamic_viscosity",
+                "unit": "Pa.s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "shear_rate": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.01,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1099,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 99
+                }
+              ],
+              "observation": {
+                "quantity": "shear_rate",
+                "unit": "1/s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "778193403a68a8a1dbe52590dfeb28b719e44fc0487d67c267817380e3b6a4f8",
+      "assets": {
+        "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961",
+        "reference.h5": "75aed23e8280c4b8232d504f5eadaff9535cbea3d3eb79d4fdbf72da19b50bfb"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+        "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+        "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+        "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+        "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+        "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+        "extension/caeoj_ext/fluid/single_phase/__init__.py": "70bb6c773ecbe190577c3131e4d703215aedafe905ba82e12cd697f7b3fdf378",
+        "extension/caeoj_ext/fluid/single_phase/schema.json": "d521bc026a760883c30af29693b7715ae1b40e43569e09f6677e1699e95cb860"
+      },
+      "input_assets": {
+        "problem.json": "687b862c4579a3940ccd9848cb5204dce736f3f4072d3c23b841a3b31d2987c2",
+        "input.h5": "f4b1e32df77e6625aed6873e6baf3431ece8b9ff3395346f6890778510f355e7",
+        "mesh.msh": "767a3da4112d0d187885b25469bd28e925db2971172aebe064cd977f4c9a32a7"
+      },
+      "runtime_binding_sha256": "54e52a15125128f79c105cd739960854f7cd9771f50d169f99ce2f99c03e13b4",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "d7338f775acc21250e24f5accd0bf030a6dcdb541571cf6586366421d9deece2"
+    }
+  },
+  {
+    "name": "lid-square-obstacle",
+    "case_id": "case-3332523b90c9f1044dc4b9af",
+    "level": 32,
+    "contract_valid": true,
+    "grading": {
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "all_outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "velocity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1096,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 96
+                },
+                {
+                  "time_index": 0,
+                  "component_index": 1,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1011,
+                    "component_index": 1
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 96
+                }
+              ],
+              "observation": {
+                "quantity": "velocity",
+                "unit": "m/s",
+                "components": [
+                  "x",
+                  "y"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "pressure": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.1,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1096,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 96
+                }
+              ],
+              "observation": {
+                "quantity": "pressure",
+                "unit": "Pa",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "density": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.0001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 96
+                }
+              ],
+              "observation": {
+                "quantity": "density",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "dynamic_viscosity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 96
+                }
+              ],
+              "observation": {
+                "quantity": "dynamic_viscosity",
+                "unit": "Pa.s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "shear_rate": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.01,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1011,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 96
+                }
+              ],
+              "observation": {
+                "quantity": "shear_rate",
+                "unit": "1/s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "778193403a68a8a1dbe52590dfeb28b719e44fc0487d67c267817380e3b6a4f8",
+      "assets": {
+        "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961",
+        "reference.h5": "02844f9ad947ecd80b951c247e9ac077ec1293ceded2f500cca521d5abff09e7"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+        "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+        "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+        "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+        "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+        "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+        "extension/caeoj_ext/fluid/single_phase/__init__.py": "70bb6c773ecbe190577c3131e4d703215aedafe905ba82e12cd697f7b3fdf378",
+        "extension/caeoj_ext/fluid/single_phase/schema.json": "d521bc026a760883c30af29693b7715ae1b40e43569e09f6677e1699e95cb860"
+      },
+      "input_assets": {
+        "problem.json": "602562d32c111b82f9287113031934d1cae274c55cc73e64fce0bbdb2f292d1f",
+        "input.h5": "06f4daa35080f1770b8524876eae3c319b13d3e674ec59ced0c531a4eae159e7",
+        "mesh.msh": "a1e3a002869cbce262e95f9a9fdd691401573c054edbd6e1d0f95263c1ce22c8"
+      },
+      "runtime_binding_sha256": "54e52a15125128f79c105cd739960854f7cd9771f50d169f99ce2f99c03e13b4",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "934392019e69ea7d08634629de07acc70ec50e5a80f92f1752d591a318c3463f"
+    }
+  },
+  {
+    "name": "lid-staggered-islands",
+    "case_id": "case-a738752d73231f6a64c0f942",
+    "level": 32,
+    "contract_valid": true,
+    "grading": {
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "all_outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "velocity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1135,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 135
+                },
+                {
+                  "time_index": 0,
+                  "component_index": 1,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1011,
+                    "component_index": 1
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 135
+                }
+              ],
+              "observation": {
+                "quantity": "velocity",
+                "unit": "m/s",
+                "components": [
+                  "x",
+                  "y"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "pressure": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.1,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1135,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 135
+                }
+              ],
+              "observation": {
+                "quantity": "pressure",
+                "unit": "Pa",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "density": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.0001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 135
+                }
+              ],
+              "observation": {
+                "quantity": "density",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "dynamic_viscosity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 135
+                }
+              ],
+              "observation": {
+                "quantity": "dynamic_viscosity",
+                "unit": "Pa.s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "shear_rate": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.01,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1011,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 135
+                }
+              ],
+              "observation": {
+                "quantity": "shear_rate",
+                "unit": "1/s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "778193403a68a8a1dbe52590dfeb28b719e44fc0487d67c267817380e3b6a4f8",
+      "assets": {
+        "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961",
+        "reference.h5": "411efccb54de222a3bcd93ad2bb1087cb8a42f9b6ee6a1d3cba11ddd86d946d1"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+        "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+        "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+        "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+        "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+        "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+        "extension/caeoj_ext/fluid/single_phase/__init__.py": "70bb6c773ecbe190577c3131e4d703215aedafe905ba82e12cd697f7b3fdf378",
+        "extension/caeoj_ext/fluid/single_phase/schema.json": "d521bc026a760883c30af29693b7715ae1b40e43569e09f6677e1699e95cb860"
+      },
+      "input_assets": {
+        "problem.json": "602562d32c111b82f9287113031934d1cae274c55cc73e64fce0bbdb2f292d1f",
+        "input.h5": "f47428bb1ace16919cd2ac4bb8fbf0df0da6f75101fdf554c841ab1c8e33aa26",
+        "mesh.msh": "cfe6c64f1f2cffcee0a5f69e935364b616a85cac524b77926ed34c4f258aed93"
+      },
+      "runtime_binding_sha256": "54e52a15125128f79c105cd739960854f7cd9771f50d169f99ce2f99c03e13b4",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "02028dd67ecad81507aa7c53df5fe144910c1f9e327b89b704ca5eaa50177e8e"
+    }
+  },
+  {
+    "name": "lid-step-floor",
+    "case_id": "case-4585e0421691b3f39b24058f",
+    "level": 32,
+    "contract_valid": true,
+    "grading": {
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "all_outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "velocity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1087,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 87
+                },
+                {
+                  "time_index": 0,
+                  "component_index": 1,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1087,
+                    "component_index": 1
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 87
+                }
+              ],
+              "observation": {
+                "quantity": "velocity",
+                "unit": "m/s",
+                "components": [
+                  "x",
+                  "y"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "pressure": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.1,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1007,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 87
+                }
+              ],
+              "observation": {
+                "quantity": "pressure",
+                "unit": "Pa",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "density": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.0001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 87
+                }
+              ],
+              "observation": {
+                "quantity": "density",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "dynamic_viscosity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 87
+                }
+              ],
+              "observation": {
+                "quantity": "dynamic_viscosity",
+                "unit": "Pa.s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "shear_rate": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.01,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1007,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 87
+                }
+              ],
+              "observation": {
+                "quantity": "shear_rate",
+                "unit": "1/s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "778193403a68a8a1dbe52590dfeb28b719e44fc0487d67c267817380e3b6a4f8",
+      "assets": {
+        "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961",
+        "reference.h5": "f95648d6774f79982c57b3fff089602a241f3ffa20d5962cb2df08f851f4d01a"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+        "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+        "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+        "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+        "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+        "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+        "extension/caeoj_ext/fluid/single_phase/__init__.py": "70bb6c773ecbe190577c3131e4d703215aedafe905ba82e12cd697f7b3fdf378",
+        "extension/caeoj_ext/fluid/single_phase/schema.json": "d521bc026a760883c30af29693b7715ae1b40e43569e09f6677e1699e95cb860"
+      },
+      "input_assets": {
+        "problem.json": "602562d32c111b82f9287113031934d1cae274c55cc73e64fce0bbdb2f292d1f",
+        "input.h5": "3f0c97d0452269fbff6350bdcf926ea5862dac4b44140c9c706273a672af6f16",
+        "mesh.msh": "754789b867a8dd338ce1faf46d5af0b3d3933da09ddf7942898fbcda848c1d71"
+      },
+      "runtime_binding_sha256": "54e52a15125128f79c105cd739960854f7cd9771f50d169f99ce2f99c03e13b4",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "6cb9a7352c4bb6a1e8a6c1f9e32f22563b16603d3c618e19ca0c7c2cb64058b9"
+    }
+  },
+  {
+    "name": "lid-T-chamber",
+    "case_id": "case-f9894cc19c74db756546b5a9",
+    "level": 32,
+    "contract_valid": true,
+    "grading": {
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "all_outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "velocity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1093,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 93
+                },
+                {
+                  "time_index": 0,
+                  "component_index": 1,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1093,
+                    "component_index": 1
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 93
+                }
+              ],
+              "observation": {
+                "quantity": "velocity",
+                "unit": "m/s",
+                "components": [
+                  "x",
+                  "y"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "pressure": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.1,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1093,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 93
+                }
+              ],
+              "observation": {
+                "quantity": "pressure",
+                "unit": "Pa",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "density": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.0001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 93
+                }
+              ],
+              "observation": {
+                "quantity": "density",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "dynamic_viscosity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 93
+                }
+              ],
+              "observation": {
+                "quantity": "dynamic_viscosity",
+                "unit": "Pa.s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "shear_rate": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.01,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1005,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 93
+                }
+              ],
+              "observation": {
+                "quantity": "shear_rate",
+                "unit": "1/s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "778193403a68a8a1dbe52590dfeb28b719e44fc0487d67c267817380e3b6a4f8",
+      "assets": {
+        "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961",
+        "reference.h5": "1974b39dc220f374545feff562120c8446948223c1c65e6cff4791d51c26b895"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+        "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+        "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+        "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+        "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+        "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+        "extension/caeoj_ext/fluid/single_phase/__init__.py": "70bb6c773ecbe190577c3131e4d703215aedafe905ba82e12cd697f7b3fdf378",
+        "extension/caeoj_ext/fluid/single_phase/schema.json": "d521bc026a760883c30af29693b7715ae1b40e43569e09f6677e1699e95cb860"
+      },
+      "input_assets": {
+        "problem.json": "602562d32c111b82f9287113031934d1cae274c55cc73e64fce0bbdb2f292d1f",
+        "input.h5": "177128537835d8def9c98389be4941a312f9af5fecff12cadc5f155efed606f2",
+        "mesh.msh": "0c8678f69c6fe894a5bfb88c09710748f75ad0d693f811cfad4d5567345281a9"
+      },
+      "runtime_binding_sha256": "54e52a15125128f79c105cd739960854f7cd9771f50d169f99ce2f99c03e13b4",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "476eb98308be9945a6744d09c25f44f1543baadf0a407b6d9624187d6aca422f"
+    }
+  },
+  {
+    "name": "lid-two-obstacles",
+    "case_id": "case-cfc58477001d526050bc651f",
+    "level": 32,
+    "contract_valid": true,
+    "grading": {
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "all_outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "velocity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1105,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 105
+                },
+                {
+                  "time_index": 0,
+                  "component_index": 1,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1009,
+                    "component_index": 1
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 105
+                }
+              ],
+              "observation": {
+                "quantity": "velocity",
+                "unit": "m/s",
+                "components": [
+                  "x",
+                  "y"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "pressure": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.1,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1105,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 105
+                }
+              ],
+              "observation": {
+                "quantity": "pressure",
+                "unit": "Pa",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "density": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.0001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 105
+                }
+              ],
+              "observation": {
+                "quantity": "density",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "dynamic_viscosity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 105
+                }
+              ],
+              "observation": {
+                "quantity": "dynamic_viscosity",
+                "unit": "Pa.s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "shear_rate": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.01,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1009,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 105
+                }
+              ],
+              "observation": {
+                "quantity": "shear_rate",
+                "unit": "1/s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "778193403a68a8a1dbe52590dfeb28b719e44fc0487d67c267817380e3b6a4f8",
+      "assets": {
+        "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961",
+        "reference.h5": "7f6daba2f3e78df7b0018934088e69121c28aaeee799db5cc6568509328a9fde"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+        "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+        "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+        "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+        "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+        "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+        "extension/caeoj_ext/fluid/single_phase/__init__.py": "70bb6c773ecbe190577c3131e4d703215aedafe905ba82e12cd697f7b3fdf378",
+        "extension/caeoj_ext/fluid/single_phase/schema.json": "d521bc026a760883c30af29693b7715ae1b40e43569e09f6677e1699e95cb860"
+      },
+      "input_assets": {
+        "problem.json": "602562d32c111b82f9287113031934d1cae274c55cc73e64fce0bbdb2f292d1f",
+        "input.h5": "fce29749251f7f2376e73e687f12f03ced1ca1c262adb122602a91aebc842f36",
+        "mesh.msh": "b90a846e88f81fd2e9bf6719d18ac1485bcaa94cf8299f897a8ca33da38e929a"
+      },
+      "runtime_binding_sha256": "54e52a15125128f79c105cd739960854f7cd9771f50d169f99ce2f99c03e13b4",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "0ddd1ead724533aa52eaf44e021411b24ebcda2f352a7de855d862772ba21b82"
+    }
+  },
+  {
+    "name": "opposed-lids",
+    "case_id": "case-8f50767a53296e3d12436c21",
+    "level": 32,
+    "contract_valid": true,
+    "grading": {
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "all_outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "velocity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1055,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 55
+                },
+                {
+                  "time_index": 0,
+                  "component_index": 1,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 1
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 55
+                }
+              ],
+              "observation": {
+                "quantity": "velocity",
+                "unit": "m/s",
+                "components": [
+                  "x",
+                  "y"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "pressure": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.1,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1051,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 55
+                }
+              ],
+              "observation": {
+                "quantity": "pressure",
+                "unit": "Pa",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "density": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.0001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 55
+                }
+              ],
+              "observation": {
+                "quantity": "density",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "dynamic_viscosity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 55
+                }
+              ],
+              "observation": {
+                "quantity": "dynamic_viscosity",
+                "unit": "Pa.s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "shear_rate": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.01,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1006,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 55
+                }
+              ],
+              "observation": {
+                "quantity": "shear_rate",
+                "unit": "1/s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "778193403a68a8a1dbe52590dfeb28b719e44fc0487d67c267817380e3b6a4f8",
+      "assets": {
+        "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961",
+        "reference.h5": "8fa919180fbbedfbbb7c22a1edd7de9b4ba94a512b34adce5f2ebdbdebe2c5d7"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+        "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+        "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+        "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+        "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+        "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+        "extension/caeoj_ext/fluid/single_phase/__init__.py": "70bb6c773ecbe190577c3131e4d703215aedafe905ba82e12cd697f7b3fdf378",
+        "extension/caeoj_ext/fluid/single_phase/schema.json": "d521bc026a760883c30af29693b7715ae1b40e43569e09f6677e1699e95cb860"
+      },
+      "input_assets": {
+        "problem.json": "e063e6cf8c1441d6c55cf13af720e60c3f7638566eeef86b41b280d8d75fab5d",
+        "input.h5": "56e7bbe5b9d8afdfb44d936b662aa9f3f6841e41de6954d9ee5523081d96aa07",
+        "mesh.msh": "f55e427e67e105fef98fcd193e1cce68d9559a82e3ff5ba8cab65ca837aed8d8"
+      },
+      "runtime_binding_sha256": "54e52a15125128f79c105cd739960854f7cd9771f50d169f99ce2f99c03e13b4",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "1eb590dadcc013565d19a4d031cf628831d7ef560e90f6b8ef14b279fdb01897"
+    }
+  },
+  {
+    "name": "opposed-side-walls",
+    "case_id": "case-154ee75bd3aeb1ff6008c91b",
+    "level": 32,
+    "contract_valid": true,
+    "grading": {
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "all_outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "velocity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1073,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 81
+                },
+                {
+                  "time_index": 0,
+                  "component_index": 1,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1009,
+                    "component_index": 1
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 81
+                }
+              ],
+              "observation": {
+                "quantity": "velocity",
+                "unit": "m/s",
+                "components": [
+                  "x",
+                  "y"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "pressure": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.1,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1009,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 81
+                }
+              ],
+              "observation": {
+                "quantity": "pressure",
+                "unit": "Pa",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "density": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.0001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 81
+                }
+              ],
+              "observation": {
+                "quantity": "density",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "dynamic_viscosity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 81
+                }
+              ],
+              "observation": {
+                "quantity": "dynamic_viscosity",
+                "unit": "Pa.s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "shear_rate": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.01,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 81
+                }
+              ],
+              "observation": {
+                "quantity": "shear_rate",
+                "unit": "1/s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "778193403a68a8a1dbe52590dfeb28b719e44fc0487d67c267817380e3b6a4f8",
+      "assets": {
+        "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961",
+        "reference.h5": "cdf14b926b56b29ab32b79aa49f976b6e788a394c02a2bc2be4551a6f284a866"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+        "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+        "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+        "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+        "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+        "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+        "extension/caeoj_ext/fluid/single_phase/__init__.py": "70bb6c773ecbe190577c3131e4d703215aedafe905ba82e12cd697f7b3fdf378",
+        "extension/caeoj_ext/fluid/single_phase/schema.json": "d521bc026a760883c30af29693b7715ae1b40e43569e09f6677e1699e95cb860"
+      },
+      "input_assets": {
+        "problem.json": "1e5d87ab60aeccfede1e9096482ea975a3a17b32b34dc8e75ce66070c3bc3682",
+        "input.h5": "8c1400a6ecddbe157d3090e42871d7e5c34bb08223b02c1b1826277bcfd83d31",
+        "mesh.msh": "321cc840807f09b248abd7fa46eeafb54642553058b75ea51df34f50899d0adf"
+      },
+      "runtime_binding_sha256": "54e52a15125128f79c105cd739960854f7cd9771f50d169f99ce2f99c03e13b4",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "c37eaf6fc811930145d1872b6154bada3cbda3b8ae443d002b53337a649a2427"
+    }
+  },
+  {
+    "name": "rotational-force-square",
+    "case_id": "case-5b87a66b28e481e82ab5cf2b",
+    "level": 32,
+    "contract_valid": true,
+    "grading": {
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "all_outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "velocity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1028,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 49
+                },
+                {
+                  "time_index": 0,
+                  "component_index": 1,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1046,
+                    "component_index": 1
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 49
+                }
+              ],
+              "observation": {
+                "quantity": "velocity",
+                "unit": "m/s",
+                "components": [
+                  "x",
+                  "y"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "pressure": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.1,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1025,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 49
+                }
+              ],
+              "observation": {
+                "quantity": "pressure",
+                "unit": "Pa",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "density": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.0001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 49
+                }
+              ],
+              "observation": {
+                "quantity": "density",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "dynamic_viscosity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 49
+                }
+              ],
+              "observation": {
+                "quantity": "dynamic_viscosity",
+                "unit": "Pa.s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "shear_rate": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.01,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 49
+                }
+              ],
+              "observation": {
+                "quantity": "shear_rate",
+                "unit": "1/s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "778193403a68a8a1dbe52590dfeb28b719e44fc0487d67c267817380e3b6a4f8",
+      "assets": {
+        "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961",
+        "reference.h5": "30e4300c81fa3888b1765db5982afb345c7e13946dc43d6de5bb31e39bf6b905"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+        "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+        "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+        "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+        "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+        "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+        "extension/caeoj_ext/fluid/single_phase/__init__.py": "70bb6c773ecbe190577c3131e4d703215aedafe905ba82e12cd697f7b3fdf378",
+        "extension/caeoj_ext/fluid/single_phase/schema.json": "d521bc026a760883c30af29693b7715ae1b40e43569e09f6677e1699e95cb860"
+      },
+      "input_assets": {
+        "problem.json": "2193bb2378a33c8106ec3ba8b550146dc6b123343c808d3bae4768780013f56f",
+        "input.h5": "e484ed184d128aec2a6e10dd7056e7ad3f12d2b00a473a56b93645423ee8014a",
+        "mesh.msh": "4770e9c0373017d8548f31255b3cadcb83f321cc291cb9ec437a33e4abf3076e"
+      },
+      "runtime_binding_sha256": "54e52a15125128f79c105cd739960854f7cd9771f50d169f99ce2f99c03e13b4",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "6d06aa18916d5116177615a3d25a099f8adc07c2109fb01da02b0c7a2ee0cd5d"
+    }
+  },
+  {
+    "name": "shear-force-slip-channel",
+    "case_id": "case-a50104253013998d8905d65e",
+    "level": 32,
+    "contract_valid": true,
+    "grading": {
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "all_outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "velocity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1051,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 55
+                },
+                {
+                  "time_index": 0,
+                  "component_index": 1,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1043,
+                    "component_index": 1
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 55
+                }
+              ],
+              "observation": {
+                "quantity": "velocity",
+                "unit": "m/s",
+                "components": [
+                  "x",
+                  "y"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "pressure": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.1,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1005,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 55
+                }
+              ],
+              "observation": {
+                "quantity": "pressure",
+                "unit": "Pa",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "density": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.0001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 55
+                }
+              ],
+              "observation": {
+                "quantity": "density",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "dynamic_viscosity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 55
+                }
+              ],
+              "observation": {
+                "quantity": "dynamic_viscosity",
+                "unit": "Pa.s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "shear_rate": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.01,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1043,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 55
+                }
+              ],
+              "observation": {
+                "quantity": "shear_rate",
+                "unit": "1/s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "778193403a68a8a1dbe52590dfeb28b719e44fc0487d67c267817380e3b6a4f8",
+      "assets": {
+        "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961",
+        "reference.h5": "53fbb3fda4471af17e0e5ca0f1d5a7e1ea41fd7df4627373357ad0d17606d3cd"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+        "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+        "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+        "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+        "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+        "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+        "extension/caeoj_ext/fluid/single_phase/__init__.py": "70bb6c773ecbe190577c3131e4d703215aedafe905ba82e12cd697f7b3fdf378",
+        "extension/caeoj_ext/fluid/single_phase/schema.json": "d521bc026a760883c30af29693b7715ae1b40e43569e09f6677e1699e95cb860"
+      },
+      "input_assets": {
+        "problem.json": "c7efb5d6569acb9d91fe87e9fe8d798929cb3775bd45a0d4ecbf4f8e07deefbe",
+        "input.h5": "3f7c71c4aa63d95577cc349cae268e043c20bd04be62cd9f5ad5c9170106c126",
+        "mesh.msh": "f55e427e67e105fef98fcd193e1cce68d9559a82e3ff5ba8cab65ca837aed8d8"
+      },
+      "runtime_binding_sha256": "54e52a15125128f79c105cd739960854f7cd9771f50d169f99ce2f99c03e13b4",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "cf1a2d6bb98f1d05dcfeb270a2b4ea39f87bdb070134357aecae09696b363e4f"
+    }
+  },
+  {
+    "name": "side-driven",
+    "case_id": "case-f5d5b32cc81a01f07530987b",
+    "level": 32,
+    "contract_valid": true,
+    "grading": {
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "all_outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "velocity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1007,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 63
+                },
+                {
+                  "time_index": 0,
+                  "component_index": 1,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1007,
+                    "component_index": 1
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 63
+                }
+              ],
+              "observation": {
+                "quantity": "velocity",
+                "unit": "m/s",
+                "components": [
+                  "x",
+                  "y"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "pressure": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.1,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1007,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 63
+                }
+              ],
+              "observation": {
+                "quantity": "pressure",
+                "unit": "Pa",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "density": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.0001,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 63
+                }
+              ],
+              "observation": {
+                "quantity": "density",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "dynamic_viscosity": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 63
+                }
+              ],
+              "observation": {
+                "quantity": "dynamic_viscosity",
+                "unit": "Pa.s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            },
+            "shear_rate": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 0.01,
+                "rtol": 0.01
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1001,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 63
+                }
+              ],
+              "observation": {
+                "quantity": "shear_rate",
+                "unit": "1/s",
+                "components": [
+                  "value"
+                ],
+                "location": "probes",
+                "time_axis": "steady"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "778193403a68a8a1dbe52590dfeb28b719e44fc0487d67c267817380e3b6a4f8",
+      "assets": {
+        "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961",
+        "reference.h5": "72cf355150ccad760c22fab5bf7ab0de2bfe826535d79235b1e3efdd1c623eda"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+        "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+        "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+        "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+        "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+        "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+        "extension/caeoj_ext/fluid/single_phase/__init__.py": "70bb6c773ecbe190577c3131e4d703215aedafe905ba82e12cd697f7b3fdf378",
+        "extension/caeoj_ext/fluid/single_phase/schema.json": "d521bc026a760883c30af29693b7715ae1b40e43569e09f6677e1699e95cb860"
+      },
+      "input_assets": {
+        "problem.json": "64a063bd11c07c114a051d6aa1ea16de50e9bc23ac452d0cbe00b266fd2c0789",
+        "input.h5": "ecb596164fb37fea8b0f64a06ed0920b79e51ce28192c80fb020a8dc4a27d46d",
+        "mesh.msh": "906311187a84071469b0ec6369a9243eb9ba4a97272df84611ef0fe21f8b6633"
+      },
+      "runtime_binding_sha256": "54e52a15125128f79c105cd739960854f7cd9771f50d169f99ce2f99c03e13b4",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "7b161e420ed6b609ba69ff8f969fb4b5b1c7322172425791fdb856b201a849f3"
+    }
+  }
+]

@@ -1,0 +1,46 @@
+{
+  "mesh": {
+    "command": [
+      "blockMesh"
+    ],
+    "returncode": 0,
+    "seconds": 1.0772332740016282,
+    "log_sha256": "1cc5f4c2f1a156e3e97e08fc471e22b449ae2460e7043a0676ff7f1c63bb1662"
+  },
+  "check_mesh": {
+    "command": [
+      "checkMesh"
+    ],
+    "returncode": 0,
+    "seconds": 1.3385270410217345,
+    "log_sha256": "5b60d3fa5e3eb75cf9efb5fdf284916332d9eee5f32f94d999fc7e74ec6efc09"
+  },
+  "initialization": {
+    "command": [
+      "mapFields",
+      "/home/zhouzhiyu/caeoj-211-supplement-20261017/independent-openfoam/runs-final/opposed-side-walls/n24",
+      "-consistent",
+      "-sourceTime",
+      "latestTime",
+      "-mapMethod",
+      "cellPointInterpolate"
+    ],
+    "returncode": 0,
+    "seconds": 2.222775558999274,
+    "log_sha256": "da44371f660aa97ce369f04b87a47229a8c7459b17540ea3d296fc5f82611ea7",
+    "source_level": 24,
+    "source_execution_sha256": "836951d4290eb11c1b0142a4cbb4090b5ac9e73d834f0647a62d22a41c9a3433"
+  },
+  "solver": {
+    "command": [
+      "foamRun"
+    ],
+    "returncode": 0,
+    "seconds": 45.40947702398989,
+    "log_sha256": "f1caedaa5ee8862ff1c4a6a46a1b0909f71b7126b28ed4b21ba476b82b2f6403"
+  },
+  "converged": true,
+  "last_time": [
+    "733s"
+  ]
+}

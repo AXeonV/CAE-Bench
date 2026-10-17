@@ -1,0 +1,46 @@
+{
+  "mesh": {
+    "command": [
+      "blockMesh"
+    ],
+    "returncode": 0,
+    "seconds": 0.8784205919946544,
+    "log_sha256": "dbaf91085d1b90110efe57a3ce8f537ca9dfce9ee80b8315dfc34d7dcf38f185"
+  },
+  "check_mesh": {
+    "command": [
+      "checkMesh"
+    ],
+    "returncode": 0,
+    "seconds": 2.5015583289787173,
+    "log_sha256": "b18d320fbd1efb097ecbedd3faec305d7c2aee677028b5a611d2ab731efb910b"
+  },
+  "initialization": {
+    "command": [
+      "mapFields",
+      "/home/zhouzhiyu/caeoj-211-supplement-20261017/independent-openfoam/runs-final/lid-central-pedestal/n24",
+      "-consistent",
+      "-sourceTime",
+      "latestTime",
+      "-mapMethod",
+      "cellPointInterpolate"
+    ],
+    "returncode": 0,
+    "seconds": 1.8068670579814352,
+    "log_sha256": "d0ca5000b8166dd7256663eede5d35c19d9bc9b6f45e3177f97da59357cf5fda",
+    "source_level": 24,
+    "source_execution_sha256": "a5abee992153da6d3a6510a2fb144ff99bad7031a13897caa880529ed2d23eca"
+  },
+  "solver": {
+    "command": [
+      "foamRun"
+    ],
+    "returncode": 0,
+    "seconds": 59.33333180198679,
+    "log_sha256": "e5dd0c837dad5eb5d6fef602533218f9f305c6f1d14cb834a08ab6fd26a5418c"
+  },
+  "converged": true,
+  "last_time": [
+    "541s"
+  ]
+}

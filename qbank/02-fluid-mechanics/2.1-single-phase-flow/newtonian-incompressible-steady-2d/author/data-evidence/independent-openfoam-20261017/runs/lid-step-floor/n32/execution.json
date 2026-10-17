@@ -1,0 +1,46 @@
+{
+  "mesh": {
+    "command": [
+      "blockMesh"
+    ],
+    "returncode": 0,
+    "seconds": 1.126249121967703,
+    "log_sha256": "1c24a94382948247966ddbcea831e6ea07f969b2bb773a263b92d021e5f47955"
+  },
+  "check_mesh": {
+    "command": [
+      "checkMesh"
+    ],
+    "returncode": 0,
+    "seconds": 1.2055571179953404,
+    "log_sha256": "25b7a238fa35d74c8ce82d8bf1701948ec78b43c6d9e3c60b4804e1829f87c6a"
+  },
+  "initialization": {
+    "command": [
+      "mapFields",
+      "/home/zhouzhiyu/caeoj-211-supplement-20261017/independent-openfoam/runs-final/lid-step-floor/n24",
+      "-consistent",
+      "-sourceTime",
+      "latestTime",
+      "-mapMethod",
+      "cellPointInterpolate"
+    ],
+    "returncode": 0,
+    "seconds": 2.6320371979963966,
+    "log_sha256": "baf8ec8d933d1409f2c9801c5ccc552833118bbf67772dd0ab5d642867bc9411",
+    "source_level": 24,
+    "source_execution_sha256": "b6bd97ec5d770597eb9b67bfc1bf3e50e277f8c3160eb2193e4bfd878dadd6b5"
+  },
+  "solver": {
+    "command": [
+      "foamRun"
+    ],
+    "returncode": 0,
+    "seconds": 78.63177150400588,
+    "log_sha256": "a3bf902475684ed7a48e45e791c100728b28070cadfa7a1130091bdaca1eb33f"
+  },
+  "converged": true,
+  "last_time": [
+    "919s"
+  ]
+}

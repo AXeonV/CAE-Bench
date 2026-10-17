@@ -1,0 +1,1911 @@
+[
+  {
+    "name": "lid-square",
+    "definition": {
+      "name": "lid-square",
+      "boxes": [
+        [
+          0,
+          0,
+          4,
+          4
+        ]
+      ],
+      "drive": "lid",
+      "nu": 0.004
+    },
+    "probes": 49,
+    "levels": {
+      "4": {
+        "returncode": 0,
+        "seconds": 0.9302005767822266,
+        "cells": 256,
+        "nodes": 289,
+        "raw_vtu_sha256": "226859bfac384a7fe96e1967f3e988db79fae098b669fd817a326085d69606a6",
+        "configuration_sha256": "ecf559a41da0616670a32ea3ece7f52c313782a525c987e46af48a1c069843cc",
+        "solver_mesh_sha256": "7358ccb1c079c9cf9302727492e4fcf4959a18770f1ebf471c4e04ead9bbc667"
+      },
+      "8": {
+        "returncode": 0,
+        "seconds": 1.8069353103637695,
+        "cells": 1024,
+        "nodes": 1089,
+        "raw_vtu_sha256": "1638ba1758b75e12e01638b7dfeda3a3f31fb263006a4c273cf3fd2f73bf4c71",
+        "configuration_sha256": "ecf559a41da0616670a32ea3ece7f52c313782a525c987e46af48a1c069843cc",
+        "solver_mesh_sha256": "19cdcbd92a9a447135f9813e0c54163ebc96de76a2e88def0f093e8063509f2c"
+      },
+      "16": {
+        "returncode": 0,
+        "seconds": 7.745849132537842,
+        "cells": 4096,
+        "nodes": 4225,
+        "raw_vtu_sha256": "eb791033b384bfc5b338203f447b25a7fda25c3e23075d900f61248448bde7f0",
+        "configuration_sha256": "ecf559a41da0616670a32ea3ece7f52c313782a525c987e46af48a1c069843cc",
+        "solver_mesh_sha256": "28e1143cb52319a26545b5231d092f2467b2910be333d8b4068319ca99831ff6"
+      },
+      "32": {
+        "returncode": 0,
+        "seconds": 19.985784769058228,
+        "cells": 16384,
+        "nodes": 16641,
+        "raw_vtu_sha256": "59c2ca41e024d6a260fef56a7893a2772b0f1ab900c92164d908206fff97ec0c",
+        "configuration_sha256": "e7c9ad7e993421a3cec1d0594ab54d2aa81585c658b40accc5ac2abece6f5d2c",
+        "solver_mesh_sha256": "746618d88923c45c965199b392e361c6b2901e99be9d075e546bc26d7cfce8b9"
+      },
+      "64": {
+        "returncode": 0,
+        "seconds": 139.48706912994385,
+        "cells": 65536,
+        "nodes": 66049,
+        "raw_vtu_sha256": "10944b6f5fc4fe380d52bffd4be30e5ed6da20ee337cd549b59d5ac481e0a534",
+        "configuration_sha256": "ecf559a41da0616670a32ea3ece7f52c313782a525c987e46af48a1c069843cc",
+        "solver_mesh_sha256": "98430751668126a25c0b42def22b1b68f80313804b5a842f8cd79940ff255cf5"
+      }
+    },
+    "comparison": {
+      "4-8": {
+        "velocity": {
+          "max_abs": 0.002424769103527069,
+          "max_tolerance_fraction": 1.6569916037496206
+        },
+        "pressure": {
+          "max_abs": 7.320515578612685e-05,
+          "max_tolerance_fraction": 0.0007319889437958686
+        },
+        "shear_rate": {
+          "max_abs": 0.006282850399365179,
+          "max_tolerance_fraction": 0.6117418035472197
+        }
+      },
+      "8-16": {
+        "velocity": {
+          "max_abs": 0.0012050345540046692,
+          "max_tolerance_fraction": 0.8153273783890873
+        },
+        "pressure": {
+          "max_abs": 4.032760625705123e-05,
+          "max_tolerance_fraction": 0.00040323994340369317
+        },
+        "shear_rate": {
+          "max_abs": 0.0022884195869071478,
+          "max_tolerance_fraction": 0.20205123490402851
+        }
+      },
+      "16-32": {
+        "velocity": {
+          "max_abs": 0.0006049834191799164,
+          "max_tolerance_fraction": 0.40766358437963696
+        },
+        "pressure": {
+          "max_abs": 2.1352432668209076e-05,
+          "max_tolerance_fraction": 0.00021350474666637063
+        },
+        "shear_rate": {
+          "max_abs": 0.0014225976991219802,
+          "max_tolerance_fraction": 0.12544772801089374
+        }
+      },
+      "32-64": {
+        "velocity": {
+          "max_abs": 0.000303708016872406,
+          "max_tolerance_fraction": 0.204233425272361
+        },
+        "pressure": {
+          "max_abs": 1.1006603017449379e-05,
+          "max_tolerance_fraction": 0.00011005581608163887
+        },
+        "shear_rate": {
+          "max_abs": 0.0007854727261842331,
+          "max_tolerance_fraction": 0.06921673339879339
+        }
+      }
+    },
+    "accepted": true,
+    "input_files": {
+      "input.h5": "43dc806b20f8df009b156ff5266dc8251482991cc6dbb238d8d470d301b5e2e4",
+      "problem.json": "b7677dfc760090679e0ed96aed0f288289d24df7a26053e0985a7c86cab5779d",
+      "mesh.msh": "4770e9c0373017d8548f31255b3cadcb83f321cc291cb9ec437a33e4abf3076e"
+    },
+    "reference_files": {
+      "reference.h5": "9329720ad3df14257d485b6635fd34d665f6ad72133c2aed3615f3cb7ecfdb06",
+      "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961"
+    }
+  },
+  {
+    "name": "rotational-force-square",
+    "definition": {
+      "name": "rotational-force-square",
+      "boxes": [
+        [
+          0,
+          0,
+          4,
+          4
+        ]
+      ],
+      "drive": "force",
+      "force": [
+        "-0.01*y",
+        "0.01*x"
+      ]
+    },
+    "probes": 49,
+    "levels": {
+      "4": {
+        "returncode": 0,
+        "seconds": 0.7265262603759766,
+        "cells": 256,
+        "nodes": 289,
+        "raw_vtu_sha256": "3301d418660bc08f2a1ac1f939361fd2e69efa3d697fc5a86257e810676da465",
+        "configuration_sha256": "34c9aceeede16ae59e7528e60689bc332d9c33db644f3e4b04797893f8bac9b7",
+        "solver_mesh_sha256": "7358ccb1c079c9cf9302727492e4fcf4959a18770f1ebf471c4e04ead9bbc667"
+      },
+      "8": {
+        "returncode": 0,
+        "seconds": 1.3961515426635742,
+        "cells": 1024,
+        "nodes": 1089,
+        "raw_vtu_sha256": "600578f3b1e806eae03844f47bf51c9f6984a6a85d32116b2f4ff47bc6eb5de8",
+        "configuration_sha256": "34c9aceeede16ae59e7528e60689bc332d9c33db644f3e4b04797893f8bac9b7",
+        "solver_mesh_sha256": "19cdcbd92a9a447135f9813e0c54163ebc96de76a2e88def0f093e8063509f2c"
+      },
+      "16": {
+        "returncode": 0,
+        "seconds": 5.15046238899231,
+        "cells": 4096,
+        "nodes": 4225,
+        "raw_vtu_sha256": "a528014549752364451d95a5ffee336e1300c70af3f4b76c691f063fe53cd3e9",
+        "configuration_sha256": "34c9aceeede16ae59e7528e60689bc332d9c33db644f3e4b04797893f8bac9b7",
+        "solver_mesh_sha256": "28e1143cb52319a26545b5231d092f2467b2910be333d8b4068319ca99831ff6"
+      }
+    },
+    "comparison": {
+      "4-8": {
+        "velocity": {
+          "max_abs": 4.241243004798889e-06,
+          "max_tolerance_fraction": 0.0033071281456616445
+        },
+        "pressure": {
+          "max_abs": 3.388477489352226e-05,
+          "max_tolerance_fraction": 0.00033875416073680936
+        },
+        "shear_rate": {
+          "max_abs": 0.0010190762436585177,
+          "max_tolerance_fraction": 0.09733260873991359
+        }
+      },
+      "8-16": {
+        "velocity": {
+          "max_abs": 2.644956111907959e-07,
+          "max_tolerance_fraction": 0.0002062412069170361
+        },
+        "pressure": {
+          "max_abs": 8.362461812794209e-06,
+          "max_tolerance_fraction": 8.360159128310478e-05
+        },
+        "shear_rate": {
+          "max_abs": 0.00025389034756059803,
+          "max_tolerance_fraction": 0.024243346899611398
+        }
+      }
+    },
+    "accepted": true,
+    "input_files": {
+      "input.h5": "e484ed184d128aec2a6e10dd7056e7ad3f12d2b00a473a56b93645423ee8014a",
+      "problem.json": "2193bb2378a33c8106ec3ba8b550146dc6b123343c808d3bae4768780013f56f",
+      "mesh.msh": "4770e9c0373017d8548f31255b3cadcb83f321cc291cb9ec437a33e4abf3076e"
+    },
+    "reference_files": {
+      "reference.h5": "30e4300c81fa3888b1765db5982afb345c7e13946dc43d6de5bb31e39bf6b905",
+      "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961"
+    }
+  },
+  {
+    "name": "opposed-lids",
+    "definition": {
+      "name": "opposed-lids",
+      "boxes": [
+        [
+          0,
+          0,
+          6,
+          3
+        ]
+      ],
+      "drive": "opposed"
+    },
+    "probes": 55,
+    "levels": {
+      "4": {
+        "returncode": 0,
+        "seconds": 0.6994369029998779,
+        "cells": 288,
+        "nodes": 325,
+        "raw_vtu_sha256": "684236a7f3ce9fbec43415c12140bf394b81e856391180e17eaf3c0d2ba1d631",
+        "configuration_sha256": "3379ab83dfca05bacde77d4642e35e353ce62caf79b90efed6e992784b16f787",
+        "solver_mesh_sha256": "ef86d99d9b16c4d51c7ed21e20114d02202a966dc9d619a9f2eec894bceb729e"
+      },
+      "8": {
+        "returncode": 0,
+        "seconds": 1.4137649536132812,
+        "cells": 1152,
+        "nodes": 1225,
+        "raw_vtu_sha256": "2d9d7cf38f786f648bae086af1ecf42bceae571390ddd7d02f50e3855e443eeb",
+        "configuration_sha256": "3379ab83dfca05bacde77d4642e35e353ce62caf79b90efed6e992784b16f787",
+        "solver_mesh_sha256": "a7fd242ca8c200507e426b401365d4959a74012c0890a9e209c3a23ebf24c0bf"
+      },
+      "16": {
+        "returncode": 0,
+        "seconds": 6.385044097900391,
+        "cells": 4608,
+        "nodes": 4753,
+        "raw_vtu_sha256": "8a3e45b012a449e4f5e7bb36f9f8c9c4f52e716b71d9de6d36029e387b59edec",
+        "configuration_sha256": "3379ab83dfca05bacde77d4642e35e353ce62caf79b90efed6e992784b16f787",
+        "solver_mesh_sha256": "ba38e6881563c5d4e4529d1e88c468e596de11087883d338f8acc9838a11fbdd"
+      }
+    },
+    "comparison": {
+      "4-8": {
+        "velocity": {
+          "max_abs": 0.00011603196617215872,
+          "max_tolerance_fraction": 0.11458481589163483
+        },
+        "pressure": {
+          "max_abs": 3.10651957988739e-05,
+          "max_tolerance_fraction": 0.00030927637422504476
+        },
+        "shear_rate": {
+          "max_abs": 0.001868430366902176,
+          "max_tolerance_fraction": 0.18327905783972656
+        }
+      },
+      "8-16": {
+        "velocity": {
+          "max_abs": 3.686058335006237e-06,
+          "max_tolerance_fraction": 0.003640218335280864
+        },
+        "pressure": {
+          "max_abs": 2.5406479835510254e-06,
+          "max_tolerance_fraction": 2.5343414606494808e-05
+        },
+        "shear_rate": {
+          "max_abs": 0.0005106919030865853,
+          "max_tolerance_fraction": 0.05006997715187388
+        }
+      }
+    },
+    "accepted": true,
+    "input_files": {
+      "input.h5": "56e7bbe5b9d8afdfb44d936b662aa9f3f6841e41de6954d9ee5523081d96aa07",
+      "problem.json": "e063e6cf8c1441d6c55cf13af720e60c3f7638566eeef86b41b280d8d75fab5d",
+      "mesh.msh": "f55e427e67e105fef98fcd193e1cce68d9559a82e3ff5ba8cab65ca837aed8d8"
+    },
+    "reference_files": {
+      "reference.h5": "8fa919180fbbedfbbb7c22a1edd7de9b4ba94a512b34adce5f2ebdbdebe2c5d7",
+      "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961"
+    }
+  },
+  {
+    "name": "shear-force-slip-channel",
+    "definition": {
+      "name": "shear-force-slip-channel",
+      "boxes": [
+        [
+          0,
+          0,
+          6,
+          3
+        ]
+      ],
+      "drive": "force",
+      "force": [
+        "0.01*y",
+        "0"
+      ],
+      "slip": [
+        4,
+        5
+      ]
+    },
+    "probes": 55,
+    "levels": {
+      "4": {
+        "returncode": 0,
+        "seconds": 0.7063643932342529,
+        "cells": 288,
+        "nodes": 325,
+        "raw_vtu_sha256": "753bb5401a839831dc75e7d38f3e49ac9b33fea71c7dd5b82b86e56826d6cba2",
+        "configuration_sha256": "95c34131ae903eed6105a0cb193ad2eaff40c0169ea67d637fe5b554ba0e6b2c",
+        "solver_mesh_sha256": "ef86d99d9b16c4d51c7ed21e20114d02202a966dc9d619a9f2eec894bceb729e"
+      },
+      "8": {
+        "returncode": 0,
+        "seconds": 1.5364933013916016,
+        "cells": 1152,
+        "nodes": 1225,
+        "raw_vtu_sha256": "012cc8c9f8c0b3b3fe38f3ee33fcb4b4fbe0b059c19ae532974683a3234bf875",
+        "configuration_sha256": "95c34131ae903eed6105a0cb193ad2eaff40c0169ea67d637fe5b554ba0e6b2c",
+        "solver_mesh_sha256": "a7fd242ca8c200507e426b401365d4959a74012c0890a9e209c3a23ebf24c0bf"
+      },
+      "16": {
+        "returncode": 0,
+        "seconds": 6.999297857284546,
+        "cells": 4608,
+        "nodes": 4753,
+        "raw_vtu_sha256": "a492e6c9906a09913d8f378d02ade84a2a9568516e5b6e594419e66136eb66ab",
+        "configuration_sha256": "95c34131ae903eed6105a0cb193ad2eaff40c0169ea67d637fe5b554ba0e6b2c",
+        "solver_mesh_sha256": "ba38e6881563c5d4e4529d1e88c468e596de11087883d338f8acc9838a11fbdd"
+      }
+    },
+    "comparison": {
+      "4-8": {
+        "velocity": {
+          "max_abs": 2.969987690448761e-06,
+          "max_tolerance_fraction": 0.0027285744670761656
+        },
+        "pressure": {
+          "max_abs": 4.075467586517334e-06,
+          "max_tolerance_fraction": 4.071431059325867e-05
+        },
+        "shear_rate": {
+          "max_abs": 0.0004189335187934108,
+          "max_tolerance_fraction": 0.0413756362954375
+        }
+      },
+      "8-16": {
+        "velocity": {
+          "max_abs": 1.8440186977386475e-07,
+          "max_tolerance_fraction": 0.00016941261499413865
+        },
+        "pressure": {
+          "max_abs": 9.96515154838562e-07,
+          "max_tolerance_fraction": 9.959832646514445e-06
+        },
+        "shear_rate": {
+          "max_abs": 0.00010481341897487784,
+          "max_tolerance_fraction": 0.01035074259981288
+        }
+      }
+    },
+    "accepted": true,
+    "input_files": {
+      "input.h5": "3f7c71c4aa63d95577cc349cae268e043c20bd04be62cd9f5ad5c9170106c126",
+      "problem.json": "c7efb5d6569acb9d91fe87e9fe8d798929cb3775bd45a0d4ecbf4f8e07deefbe",
+      "mesh.msh": "f55e427e67e105fef98fcd193e1cce68d9559a82e3ff5ba8cab65ca837aed8d8"
+    },
+    "reference_files": {
+      "reference.h5": "53fbb3fda4471af17e0e5ca0f1d5a7e1ea41fd7df4627373357ad0d17606d3cd",
+      "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961"
+    }
+  },
+  {
+    "name": "side-driven",
+    "definition": {
+      "name": "side-driven",
+      "boxes": [
+        [
+          0,
+          0,
+          5,
+          4
+        ]
+      ],
+      "drive": "side"
+    },
+    "probes": 63,
+    "levels": {
+      "4": {
+        "returncode": 0,
+        "seconds": 0.8365159034729004,
+        "cells": 320,
+        "nodes": 357,
+        "raw_vtu_sha256": "f69d8bcf3fee3e6ce85dbcd454d75a16d3c483345b30952b86c746f0928d0764",
+        "configuration_sha256": "81a36141358b55503092aa1e5fb5a6d0ef9830206e4f554ab67e41a7dce0bbb5",
+        "solver_mesh_sha256": "c1bbcda66da65a7fdf4eff1744dddaa34a57e06ad888077ad1188dd31a14cfaf"
+      },
+      "8": {
+        "returncode": 0,
+        "seconds": 1.653285026550293,
+        "cells": 1280,
+        "nodes": 1353,
+        "raw_vtu_sha256": "82b72ba089dbc2271f983240b4de3d8fb0cddc51a2c51d6a09dff9a4db33de81",
+        "configuration_sha256": "81a36141358b55503092aa1e5fb5a6d0ef9830206e4f554ab67e41a7dce0bbb5",
+        "solver_mesh_sha256": "332de7c7923a5806b5888e9aa9d9698553cb578d054cc72a6046f0d7d5c55110"
+      },
+      "16": {
+        "returncode": 0,
+        "seconds": 8.035214900970459,
+        "cells": 5120,
+        "nodes": 5265,
+        "raw_vtu_sha256": "f7d199714dfa52186823a5a1baae92bba90638ce3afaca5869f1ca22ef394a9c",
+        "configuration_sha256": "81a36141358b55503092aa1e5fb5a6d0ef9830206e4f554ab67e41a7dce0bbb5",
+        "solver_mesh_sha256": "64a0f0f95468a9d87e6e73e77af4ebe77e4e59c8d5fded2a1b66f470160046c2"
+      }
+    },
+    "comparison": {
+      "4-8": {
+        "velocity": {
+          "max_abs": 0.00011675665155053139,
+          "max_tolerance_fraction": 0.11495282933184318
+        },
+        "pressure": {
+          "max_abs": 3.1908974051475525e-05,
+          "max_tolerance_fraction": 0.0003174253883235606
+        },
+        "shear_rate": {
+          "max_abs": 0.0007885856098862193,
+          "max_tolerance_fraction": 0.07551928631214201
+        }
+      },
+      "8-16": {
+        "velocity": {
+          "max_abs": 3.7139980122447014e-06,
+          "max_tolerance_fraction": 0.0036564852038075807
+        },
+        "pressure": {
+          "max_abs": 2.4349428713321686e-06,
+          "max_tolerance_fraction": 2.430275072604052e-05
+        },
+        "shear_rate": {
+          "max_abs": 0.0005514272308662221,
+          "max_tolerance_fraction": 0.052779826434633824
+        }
+      }
+    },
+    "accepted": true,
+    "input_files": {
+      "input.h5": "ecb596164fb37fea8b0f64a06ed0920b79e51ce28192c80fb020a8dc4a27d46d",
+      "problem.json": "64a063bd11c07c114a051d6aa1ea16de50e9bc23ac452d0cbe00b266fd2c0789",
+      "mesh.msh": "906311187a84071469b0ec6369a9243eb9ba4a97272df84611ef0fe21f8b6633"
+    },
+    "reference_files": {
+      "reference.h5": "72cf355150ccad760c22fab5bf7ab0de2bfe826535d79235b1e3efdd1c623eda",
+      "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961"
+    }
+  },
+  {
+    "name": "lid-step-floor",
+    "definition": {
+      "name": "lid-step-floor",
+      "boxes": [
+        [
+          0,
+          1,
+          3,
+          5
+        ],
+        [
+          3,
+          0,
+          6,
+          5
+        ]
+      ],
+      "drive": "lid"
+    },
+    "probes": 87,
+    "levels": {
+      "4": {
+        "returncode": 0,
+        "seconds": 0.9211525917053223,
+        "cells": 432,
+        "nodes": 477,
+        "raw_vtu_sha256": "2027de9eff59660787e4316058399dc2cd15655bb46a16b0d0f002bfd0401cca",
+        "configuration_sha256": "04d0424d70b91b492574c8c07e3b2e16cee258892500e212d3251b976004db69",
+        "solver_mesh_sha256": "fbfd41ed4f7ecd3e63188ae5a5db2b961ff3efb466961e2753f721e1d1623132"
+      },
+      "8": {
+        "returncode": 0,
+        "seconds": 2.136723756790161,
+        "cells": 1728,
+        "nodes": 1817,
+        "raw_vtu_sha256": "e35184939438834d96ef640795d6355ff36d287a9498d98110dcab465d0fad1a",
+        "configuration_sha256": "04d0424d70b91b492574c8c07e3b2e16cee258892500e212d3251b976004db69",
+        "solver_mesh_sha256": "5eb483c984b2f8eaf2319a3887e580add8c439ddbe561f4e598947e0bbc2fe8a"
+      },
+      "16": {
+        "returncode": 0,
+        "seconds": 10.429500579833984,
+        "cells": 6912,
+        "nodes": 7089,
+        "raw_vtu_sha256": "fb469ea6ef952977919160ea100eec4405e62ccd393ff10146f523a7a0305cc6",
+        "configuration_sha256": "04d0424d70b91b492574c8c07e3b2e16cee258892500e212d3251b976004db69",
+        "solver_mesh_sha256": "7fa6c7a1725cd6bce4524e1266a87fc35bbd7bbc64a861813e5cf46ebfe3ae30"
+      }
+    },
+    "comparison": {
+      "4-8": {
+        "velocity": {
+          "max_abs": 0.0001182638225145638,
+          "max_tolerance_fraction": 0.11707892812612918
+        },
+        "pressure": {
+          "max_abs": 0.00015630386769771576,
+          "max_tolerance_fraction": 0.0015617573205359216
+        },
+        "shear_rate": {
+          "max_abs": 0.0008516941765016883,
+          "max_tolerance_fraction": 0.07848507569368118
+        }
+      },
+      "8-16": {
+        "velocity": {
+          "max_abs": 4.893401637673378e-05,
+          "max_tolerance_fraction": 0.046027238967763125
+        },
+        "pressure": {
+          "max_abs": 3.279722295701504e-05,
+          "max_tolerance_fraction": 0.0003277022888009644
+        },
+        "shear_rate": {
+          "max_abs": 0.0005447240299655959,
+          "max_tolerance_fraction": 0.05203792358189041
+        }
+      }
+    },
+    "accepted": true,
+    "input_files": {
+      "input.h5": "3f0c97d0452269fbff6350bdcf926ea5862dac4b44140c9c706273a672af6f16",
+      "problem.json": "602562d32c111b82f9287113031934d1cae274c55cc73e64fce0bbdb2f292d1f",
+      "mesh.msh": "754789b867a8dd338ce1faf46d5af0b3d3933da09ddf7942898fbcda848c1d71"
+    },
+    "reference_files": {
+      "reference.h5": "f95648d6774f79982c57b3fff089602a241f3ffa20d5962cb2df08f851f4d01a",
+      "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961"
+    }
+  },
+  {
+    "name": "lid-central-pedestal",
+    "definition": {
+      "name": "lid-central-pedestal",
+      "boxes": [
+        [
+          0,
+          0,
+          6,
+          5
+        ]
+      ],
+      "holes": [
+        [
+          2,
+          0,
+          4,
+          2
+        ]
+      ],
+      "drive": "lid"
+    },
+    "probes": 79,
+    "levels": {
+      "4": {
+        "returncode": 0,
+        "seconds": 0.9557116031646729,
+        "cells": 416,
+        "nodes": 469,
+        "raw_vtu_sha256": "fef26b3a0e0ec43897fae556c7ecf5fcb0ea57e83ab5ba7bc1eb98cf3441d802",
+        "configuration_sha256": "8f54d200ea601a424b936f5a3c26bca7477f6e5d39db0fa47f96c6c3ab481f3b",
+        "solver_mesh_sha256": "cadac373d84101df746c586a24760b62acb3a65e2d58c71604b4b2bad8cd6609"
+      },
+      "8": {
+        "returncode": 0,
+        "seconds": 2.0106678009033203,
+        "cells": 1664,
+        "nodes": 1769,
+        "raw_vtu_sha256": "8e51d277d9ed50e144125ed2e4781c481a275f0935d0f42a09c4262134cc28a0",
+        "configuration_sha256": "8f54d200ea601a424b936f5a3c26bca7477f6e5d39db0fa47f96c6c3ab481f3b",
+        "solver_mesh_sha256": "ce58ef3bdc2f8dc585e989eddd6cdef02f888710ef56be22aed91361e67d1074"
+      },
+      "16": {
+        "returncode": 0,
+        "seconds": 11.247324705123901,
+        "cells": 6656,
+        "nodes": 6865,
+        "raw_vtu_sha256": "787e6d4bb6b3e75e2f664e888886512e355a6d44531b80b78b261af6d72ed993",
+        "configuration_sha256": "8f54d200ea601a424b936f5a3c26bca7477f6e5d39db0fa47f96c6c3ab481f3b",
+        "solver_mesh_sha256": "8b7c5bf632e9c7028ead0771fc8e2d766f82d68d2b3dfc8123f449c3785ff937"
+      }
+    },
+    "comparison": {
+      "4-8": {
+        "velocity": {
+          "max_abs": 0.00012068892829120159,
+          "max_tolerance_fraction": 0.11844921582537937
+        },
+        "pressure": {
+          "max_abs": 0.00020206160843372345,
+          "max_tolerance_fraction": 0.0020163105124077394
+        },
+        "shear_rate": {
+          "max_abs": 0.0008508978433472356,
+          "max_tolerance_fraction": 0.08169966849445406
+        }
+      },
+      "8-16": {
+        "velocity": {
+          "max_abs": 4.219496622681618e-05,
+          "max_tolerance_fraction": 0.04031073843751907
+        },
+        "pressure": {
+          "max_abs": 5.533592775464058e-05,
+          "max_tolerance_fraction": 0.0005521771187609608
+        },
+        "shear_rate": {
+          "max_abs": 0.0005837414841321498,
+          "max_tolerance_fraction": 0.05601703043278874
+        }
+      }
+    },
+    "accepted": true,
+    "input_files": {
+      "input.h5": "d2665924924924e8030e581379f513f53833c4fd5a6ed7479792db43c1034353",
+      "problem.json": "602562d32c111b82f9287113031934d1cae274c55cc73e64fce0bbdb2f292d1f",
+      "mesh.msh": "e138d8c6ea08240bbdd08dafc9336e0b69836fa7424c7ef78be607499f05c07c"
+    },
+    "reference_files": {
+      "reference.h5": "38f8f65cdbc6f084a211e2ee995c2c4d9e75cec19c64b378c881cf309a575e35",
+      "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961"
+    }
+  },
+  {
+    "name": "lid-square-obstacle",
+    "definition": {
+      "name": "lid-square-obstacle",
+      "boxes": [
+        [
+          0,
+          0,
+          6,
+          6
+        ]
+      ],
+      "holes": [
+        [
+          2,
+          2,
+          4,
+          4
+        ]
+      ],
+      "drive": "lid"
+    },
+    "probes": 96,
+    "levels": {
+      "4": {
+        "returncode": 0,
+        "seconds": 1.0922503471374512,
+        "cells": 512,
+        "nodes": 576,
+        "raw_vtu_sha256": "9be580a34b723dc26f95f3b70f3f6dbbfff0393a39d226b7ed5573069817dca5",
+        "configuration_sha256": "04f212babc9705bfe2d764092fcd546dcb86a487b5e4c4e271f8f71574e6ad1e",
+        "solver_mesh_sha256": "3611d0e4ef28fb0169d923b9ddd4e06182c9c13ed157a9516aaf45da2b6b3f73"
+      },
+      "8": {
+        "returncode": 0,
+        "seconds": 2.3025386333465576,
+        "cells": 2048,
+        "nodes": 2176,
+        "raw_vtu_sha256": "92986ab699ae351c39a8cc9f778cfd6a9b29864a24f5f87af21c6e43ab62921b",
+        "configuration_sha256": "04f212babc9705bfe2d764092fcd546dcb86a487b5e4c4e271f8f71574e6ad1e",
+        "solver_mesh_sha256": "5d46e6247cfcfc32b325124fa3bda1e65b119c6eefa230c4b2fa5dee97dfa64a"
+      },
+      "16": {
+        "returncode": 0,
+        "seconds": 11.481412410736084,
+        "cells": 8192,
+        "nodes": 8448,
+        "raw_vtu_sha256": "cf7ced34595afa46a09e7ac78e5e468206ea736592f18f4aa33365a8ed929d3a",
+        "configuration_sha256": "04f212babc9705bfe2d764092fcd546dcb86a487b5e4c4e271f8f71574e6ad1e",
+        "solver_mesh_sha256": "f3fffd8f96da64bd236d7aa5258850e6058a5f8720eddcb64861edfe68e3d851"
+      }
+    },
+    "comparison": {
+      "4-8": {
+        "velocity": {
+          "max_abs": 0.00012705032713711262,
+          "max_tolerance_fraction": 0.1243199541738929
+        },
+        "pressure": {
+          "max_abs": 0.0002544117160141468,
+          "max_tolerance_fraction": 0.0025401974676808104
+        },
+        "shear_rate": {
+          "max_abs": 0.0012923042299299668,
+          "max_tolerance_fraction": 0.1275853348369962
+        }
+      },
+      "8-16": {
+        "velocity": {
+          "max_abs": 5.992967635393143e-05,
+          "max_tolerance_fraction": 0.056761948359256055
+        },
+        "pressure": {
+          "max_abs": 6.552087143063545e-05,
+          "max_tolerance_fraction": 0.0006541949619312129
+        },
+        "shear_rate": {
+          "max_abs": 0.0005594341060721417,
+          "max_tolerance_fraction": 0.05377940525620642
+        }
+      }
+    },
+    "accepted": true,
+    "input_files": {
+      "input.h5": "06f4daa35080f1770b8524876eae3c319b13d3e674ec59ced0c531a4eae159e7",
+      "problem.json": "602562d32c111b82f9287113031934d1cae274c55cc73e64fce0bbdb2f292d1f",
+      "mesh.msh": "a1e3a002869cbce262e95f9a9fdd691401573c054edbd6e1d0f95263c1ce22c8"
+    },
+    "reference_files": {
+      "reference.h5": "02844f9ad947ecd80b951c247e9ac077ec1293ceded2f500cca521d5abff09e7",
+      "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961"
+    }
+  },
+  {
+    "name": "lid-two-obstacles",
+    "definition": {
+      "name": "lid-two-obstacles",
+      "boxes": [
+        [
+          0,
+          0,
+          8,
+          5
+        ]
+      ],
+      "holes": [
+        [
+          2,
+          1,
+          3,
+          3
+        ],
+        [
+          5,
+          1,
+          6,
+          3
+        ]
+      ],
+      "drive": "lid"
+    },
+    "probes": 105,
+    "levels": {
+      "4": {
+        "returncode": 0,
+        "seconds": 1.0367724895477295,
+        "cells": 576,
+        "nodes": 651,
+        "raw_vtu_sha256": "205096024af43a641839017a2a7376ea17d9f773a4d05f195976712bbbf1e857",
+        "configuration_sha256": "f9f0dddde957f3ab8644d28e349885805c96979e5a0f6480332ef3c8a1b7cada",
+        "solver_mesh_sha256": "3cf0726c9334d1d25ace1b3665756bcced80c23c3376c611671dee06fe50a219"
+      },
+      "8": {
+        "returncode": 0,
+        "seconds": 2.5628957748413086,
+        "cells": 2304,
+        "nodes": 2455,
+        "raw_vtu_sha256": "f42d7e900949fd5f2ff73e4dedb68fa5caf9463cd510a5420965eebc89cb0b15",
+        "configuration_sha256": "f9f0dddde957f3ab8644d28e349885805c96979e5a0f6480332ef3c8a1b7cada",
+        "solver_mesh_sha256": "4f455d6411ae94f4c78e9aa9f34558da8d2ccc98f36d5785cd85b8a8581bb8b1"
+      },
+      "16": {
+        "returncode": 0,
+        "seconds": 18.15461277961731,
+        "cells": 9216,
+        "nodes": 9519,
+        "raw_vtu_sha256": "b99aed3444c3587636a162ed64d75a618c961ed22ec88d0e743c5adad74cb797",
+        "configuration_sha256": "f9f0dddde957f3ab8644d28e349885805c96979e5a0f6480332ef3c8a1b7cada",
+        "solver_mesh_sha256": "8857760348e90fa7c1c33902ce335eb03e03f38749d8e83dc009613b2a61778e"
+      }
+    },
+    "comparison": {
+      "4-8": {
+        "velocity": {
+          "max_abs": 0.0001968666911125183,
+          "max_tolerance_fraction": 0.18005784662417015
+        },
+        "pressure": {
+          "max_abs": 0.0005445477436296642,
+          "max_tolerance_fraction": 0.005414122974120269
+        },
+        "shear_rate": {
+          "max_abs": 0.0015174780451993747,
+          "max_tolerance_fraction": 0.15020190862744073
+        }
+      },
+      "8-16": {
+        "velocity": {
+          "max_abs": 9.769108146429062e-05,
+          "max_tolerance_fraction": 0.09153820690509869
+        },
+        "pressure": {
+          "max_abs": 0.00019200361566618085,
+          "max_tolerance_fraction": 0.0019089443575537894
+        },
+        "shear_rate": {
+          "max_abs": 0.0006136125674251827,
+          "max_tolerance_fraction": 0.0593133931820467
+        }
+      }
+    },
+    "accepted": true,
+    "input_files": {
+      "input.h5": "fce29749251f7f2376e73e687f12f03ced1ca1c262adb122602a91aebc842f36",
+      "problem.json": "602562d32c111b82f9287113031934d1cae274c55cc73e64fce0bbdb2f292d1f",
+      "mesh.msh": "b90a846e88f81fd2e9bf6719d18ac1485bcaa94cf8299f897a8ca33da38e929a"
+    },
+    "reference_files": {
+      "reference.h5": "7f6daba2f3e78df7b0018934088e69121c28aaeee799db5cc6568509328a9fde",
+      "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961"
+    }
+  },
+  {
+    "name": "lid-offset-baffle",
+    "definition": {
+      "name": "lid-offset-baffle",
+      "boxes": [
+        [
+          0,
+          0,
+          6,
+          5
+        ]
+      ],
+      "holes": [
+        [
+          2,
+          0,
+          3,
+          3
+        ]
+      ],
+      "drive": "lid"
+    },
+    "probes": 81,
+    "levels": {
+      "4": {
+        "returncode": 0,
+        "seconds": 1.029761791229248,
+        "cells": 432,
+        "nodes": 489,
+        "raw_vtu_sha256": "2ecb3627780af8773b7cb89681931e4daa5171fd81d383a5b73a44a9a38b8440",
+        "configuration_sha256": "8d6d360e1f1739467e2fa4278a2f37130318ccdbe33a55e3f6b0c081667b0b7e",
+        "solver_mesh_sha256": "6b06eda01deee6dda81df4f4c825963d7de890023fcd7ecf277f490044370370"
+      },
+      "8": {
+        "returncode": 0,
+        "seconds": 1.782195806503296,
+        "cells": 1728,
+        "nodes": 1841,
+        "raw_vtu_sha256": "bb0734b4258a4ce7d68993bcff2e084b29cf43050191af957fb1dbeb7b4d4f78",
+        "configuration_sha256": "8d6d360e1f1739467e2fa4278a2f37130318ccdbe33a55e3f6b0c081667b0b7e",
+        "solver_mesh_sha256": "9f016c70d7d96af941ecdf09b923abcdb2f532406a96683352608461fd75a5e2"
+      },
+      "16": {
+        "returncode": 0,
+        "seconds": 12.454809188842773,
+        "cells": 6912,
+        "nodes": 7137,
+        "raw_vtu_sha256": "75b269b94650ea3da011207a1a7a4916962a505c259cf29dc4ec1fd631fda1b5",
+        "configuration_sha256": "8d6d360e1f1739467e2fa4278a2f37130318ccdbe33a55e3f6b0c081667b0b7e",
+        "solver_mesh_sha256": "5b06e3c489397580022aef49e83e1a5d3a3d80285fe6bfab98437860ebf5c688"
+      }
+    },
+    "comparison": {
+      "4-8": {
+        "velocity": {
+          "max_abs": 0.00017872639000415802,
+          "max_tolerance_fraction": 0.1532769910800628
+        },
+        "pressure": {
+          "max_abs": 0.0006011733785271645,
+          "max_tolerance_fraction": 0.0059881962987811815
+        },
+        "shear_rate": {
+          "max_abs": 0.0014351332556885952,
+          "max_tolerance_fraction": 0.14235047093426578
+        }
+      },
+      "8-16": {
+        "velocity": {
+          "max_abs": 0.0001218356192111969,
+          "max_tolerance_fraction": 0.10875554537136185
+        },
+        "pressure": {
+          "max_abs": 0.0001657223328948021,
+          "max_tolerance_fraction": 0.0016507076238809128
+        },
+        "shear_rate": {
+          "max_abs": 0.0006950181421304484,
+          "max_tolerance_fraction": 0.06749750050306083
+        }
+      }
+    },
+    "accepted": true,
+    "input_files": {
+      "input.h5": "27de916a3f4bdf02cb0fc578c87e0c39dcdf6e3cc583169b7763da5cc5c87a4e",
+      "problem.json": "602562d32c111b82f9287113031934d1cae274c55cc73e64fce0bbdb2f292d1f",
+      "mesh.msh": "ad0b2c94f54b60063f2dd555754daeb3dea725354b0c9219fdb186c56a9e15ad"
+    },
+    "reference_files": {
+      "reference.h5": "3c02314ea4eb1e279b3e62f5f7fdb278254587613a226520893cd1317aff0b20",
+      "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961"
+    }
+  },
+  {
+    "name": "force-island-chamber",
+    "definition": {
+      "name": "force-island-chamber",
+      "boxes": [
+        [
+          0,
+          0,
+          6,
+          5
+        ]
+      ],
+      "holes": [
+        [
+          3,
+          2,
+          4,
+          4
+        ]
+      ],
+      "drive": "force",
+      "force": [
+        "-0.01*y",
+        "0.01*x"
+      ]
+    },
+    "probes": 84,
+    "levels": {
+      "4": {
+        "returncode": 0,
+        "seconds": 1.0445542335510254,
+        "cells": 448,
+        "nodes": 504,
+        "raw_vtu_sha256": "765332573adc74a237b2e72df0ee71615de2c68b50abdc5c1df1f3b433e5e2a1",
+        "configuration_sha256": "b1816b6e97f54afeaba1245b111ca968c66a806a032da0b288c5dac39aa8b98c",
+        "solver_mesh_sha256": "18dec7777933af77b9f68a59a54047e0ee794ade467bb852bb978b076dffed5b"
+      },
+      "8": {
+        "returncode": 0,
+        "seconds": 1.987830400466919,
+        "cells": 1792,
+        "nodes": 1904,
+        "raw_vtu_sha256": "e1ea9dea9f6144fb2946bf7b760c7301ed2ee0c35bdc41df073b150ddd7c51fb",
+        "configuration_sha256": "b1816b6e97f54afeaba1245b111ca968c66a806a032da0b288c5dac39aa8b98c",
+        "solver_mesh_sha256": "cd1c375b3d7df04e14bee30a9c39484485509ffe5257ce1b59e50eeba34e5301"
+      },
+      "16": {
+        "returncode": 0,
+        "seconds": 12.340797662734985,
+        "cells": 7168,
+        "nodes": 7392,
+        "raw_vtu_sha256": "b91e147c385e1565dee200b2561c30cefa4b853d7c701c8b67df73110e155489",
+        "configuration_sha256": "b1816b6e97f54afeaba1245b111ca968c66a806a032da0b288c5dac39aa8b98c",
+        "solver_mesh_sha256": "bc8ed92ffd160286c7495ccd197f7b5da0cba75877c014577903fe6877e0d665"
+      }
+    },
+    "comparison": {
+      "4-8": {
+        "velocity": {
+          "max_abs": 0.000734575092792511,
+          "max_tolerance_fraction": 0.3785868544205772
+        },
+        "pressure": {
+          "max_abs": 0.0012239194475114346,
+          "max_tolerance_fraction": 0.01216755039283825
+        },
+        "shear_rate": {
+          "max_abs": 0.0035994102088059143,
+          "max_tolerance_fraction": 0.3195285937667129
+        }
+      },
+      "8-16": {
+        "velocity": {
+          "max_abs": 0.00031556934118270874,
+          "max_tolerance_fraction": 0.21391579335474667
+        },
+        "pressure": {
+          "max_abs": 0.0002936641685664654,
+          "max_tolerance_fraction": 0.0029193663544128438
+        },
+        "shear_rate": {
+          "max_abs": 0.0015196542712081346,
+          "max_tolerance_fraction": 0.14204753795061165
+        }
+      }
+    },
+    "accepted": true,
+    "input_files": {
+      "input.h5": "7aaf5f93133b6c4b15b108d408a750a6635cd7c710303b70d83df7836acc3d29",
+      "problem.json": "7b58075adf2c0ed6a7d0a7ea714549acefaf02cfafc9842ab4389632df13151e",
+      "mesh.msh": "a15a6a77b6a3fb61290570db0344ad2db567e5825dc654c224a99704cde63fa3"
+    },
+    "reference_files": {
+      "reference.h5": "6dbb44ce7201d0c0890f71f2cdac50c390df08cc78bb64102662f1a1af3cef98",
+      "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961"
+    }
+  },
+  {
+    "name": "lid-L-chamber",
+    "definition": {
+      "name": "lid-L-chamber",
+      "boxes": [
+        [
+          0,
+          0,
+          3,
+          6
+        ],
+        [
+          3,
+          3,
+          6,
+          6
+        ]
+      ],
+      "drive": "lid"
+    },
+    "probes": 85,
+    "levels": {
+      "4": {
+        "returncode": 0,
+        "seconds": 1.105940341949463,
+        "cells": 432,
+        "nodes": 481,
+        "raw_vtu_sha256": "198402bec89b5fdf776e707796b93cf35e6cc2dccceb161206a4dcb3285365ec",
+        "configuration_sha256": "abde42aa53b5f4fb5180d1ef23446c3eef2c59f806e20d62c1bff38489e6a901",
+        "solver_mesh_sha256": "ed37a316f7a5c1374d2708c88e0435674fa66111cbf6ecfc8dae27bd491852f8"
+      },
+      "8": {
+        "returncode": 0,
+        "seconds": 2.008892059326172,
+        "cells": 1728,
+        "nodes": 1825,
+        "raw_vtu_sha256": "cb9e49355e9b08f59124007fab3245913af8fb96ff5abead8f4cf3a4736698ee",
+        "configuration_sha256": "abde42aa53b5f4fb5180d1ef23446c3eef2c59f806e20d62c1bff38489e6a901",
+        "solver_mesh_sha256": "ae457b37c6b28000734534be87841bda3ff8470264991296159756d158d829b2"
+      },
+      "16": {
+        "returncode": 0,
+        "seconds": 12.145909309387207,
+        "cells": 6912,
+        "nodes": 7105,
+        "raw_vtu_sha256": "72971bfb709d095bfc6bf78d09bf7ef1a0f8bfe34d308dd1e538708bb3ba0def",
+        "configuration_sha256": "abde42aa53b5f4fb5180d1ef23446c3eef2c59f806e20d62c1bff38489e6a901",
+        "solver_mesh_sha256": "7b984d6407a32ff66e9a05a044e837787286a96f3fd420b7a19e86ddaa81a1d0"
+      }
+    },
+    "comparison": {
+      "4-8": {
+        "velocity": {
+          "max_abs": 0.00011723209172487259,
+          "max_tolerance_fraction": 0.11491339414298032
+        },
+        "pressure": {
+          "max_abs": 0.00025158002972602844,
+          "max_tolerance_fraction": 0.002514335410294155
+        },
+        "shear_rate": {
+          "max_abs": 0.0007943822573959966,
+          "max_tolerance_fraction": 0.07611068979663964
+        }
+      },
+      "8-16": {
+        "velocity": {
+          "max_abs": 7.80448317527771e-05,
+          "max_tolerance_fraction": 0.07376526044084786
+        },
+        "pressure": {
+          "max_abs": 5.673058331012726e-05,
+          "max_tolerance_fraction": 0.0005669722906503086
+        },
+        "shear_rate": {
+          "max_abs": 0.0005503356098764053,
+          "max_tolerance_fraction": 0.0527005080235872
+        }
+      }
+    },
+    "accepted": true,
+    "input_files": {
+      "input.h5": "de1a9e7a688f93a1533b11afa796a3eedbb923bb4650a1a4ce360acfe6ccd8db",
+      "problem.json": "602562d32c111b82f9287113031934d1cae274c55cc73e64fce0bbdb2f292d1f",
+      "mesh.msh": "30a38db863cdc2b60b992f391d54bc2ddf7ea8487531d99bbc5d82dfb15b9e25"
+    },
+    "reference_files": {
+      "reference.h5": "7820338d3efa10b8d1600d1735f5474d7c68f8b4dcee760bdca951fcaef2997f",
+      "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961"
+    }
+  },
+  {
+    "name": "lid-T-chamber",
+    "definition": {
+      "name": "lid-T-chamber",
+      "boxes": [
+        [
+          0,
+          3,
+          8,
+          6
+        ],
+        [
+          3,
+          0,
+          5,
+          3
+        ]
+      ],
+      "drive": "lid"
+    },
+    "probes": 93,
+    "levels": {
+      "4": {
+        "returncode": 0,
+        "seconds": 1.10760498046875,
+        "cells": 480,
+        "nodes": 537,
+        "raw_vtu_sha256": "87375414fc89a4b19ecad2d3dd10215e524a97846ec58d35d98c3dae6b24b59d",
+        "configuration_sha256": "363dd3fa2c21333f384038b4eb500b31b405b4aee8f519e2f8c792edee842aec",
+        "solver_mesh_sha256": "5a6e838d6ed6e0a602e1708f3d94664b79d27a9e6c16b0e0702721db17dc293f"
+      },
+      "8": {
+        "returncode": 0,
+        "seconds": 1.9982819557189941,
+        "cells": 1920,
+        "nodes": 2033,
+        "raw_vtu_sha256": "0e47859423999c5d13f90ee3d91f180aeec31ee28150dfbd6866dfe088a2c342",
+        "configuration_sha256": "363dd3fa2c21333f384038b4eb500b31b405b4aee8f519e2f8c792edee842aec",
+        "solver_mesh_sha256": "4e7d9a98c7d3bf979d2dec6a4f5ae759f26763ca5142fe9984cb615d8ff3ef59"
+      },
+      "16": {
+        "returncode": 0,
+        "seconds": 11.804245710372925,
+        "cells": 7680,
+        "nodes": 7905,
+        "raw_vtu_sha256": "f6afc76f7d57100197e610ca8ac5ca6e2ce7a3fc2a994ea375262dca6aec5b77",
+        "configuration_sha256": "363dd3fa2c21333f384038b4eb500b31b405b4aee8f519e2f8c792edee842aec",
+        "solver_mesh_sha256": "63c71d89204a3adb578b0a76f7bde1fcd696ab4d7c093a49e1aebc4a68affd9d"
+      }
+    },
+    "comparison": {
+      "4-8": {
+        "velocity": {
+          "max_abs": 0.00015579070895910263,
+          "max_tolerance_fraction": 0.13811670312593471
+        },
+        "pressure": {
+          "max_abs": 0.0002488088794052601,
+          "max_tolerance_fraction": 0.002482790798857269
+        },
+        "shear_rate": {
+          "max_abs": 0.0009128702296179389,
+          "max_tolerance_fraction": 0.08772899526873143
+        }
+      },
+      "8-16": {
+        "velocity": {
+          "max_abs": 9.13906842470169e-05,
+          "max_tolerance_fraction": 0.08416968171593477
+        },
+        "pressure": {
+          "max_abs": 5.612615495920181e-05,
+          "max_tolerance_fraction": 0.000560063294347167
+        },
+        "shear_rate": {
+          "max_abs": 0.0006112255205950948,
+          "max_tolerance_fraction": 0.058705739059495846
+        }
+      }
+    },
+    "accepted": true,
+    "input_files": {
+      "input.h5": "177128537835d8def9c98389be4941a312f9af5fecff12cadc5f155efed606f2",
+      "problem.json": "602562d32c111b82f9287113031934d1cae274c55cc73e64fce0bbdb2f292d1f",
+      "mesh.msh": "0c8678f69c6fe894a5bfb88c09710748f75ad0d693f811cfad4d5567345281a9"
+    },
+    "reference_files": {
+      "reference.h5": "1974b39dc220f374545feff562120c8446948223c1c65e6cff4791d51c26b895",
+      "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961"
+    }
+  },
+  {
+    "name": "lid-cross-chamber",
+    "definition": {
+      "name": "lid-cross-chamber",
+      "boxes": [
+        [
+          0,
+          2,
+          8,
+          5
+        ],
+        [
+          2,
+          0,
+          5,
+          7
+        ]
+      ],
+      "drive": "lid"
+    },
+    "probes": 115,
+    "levels": {
+      "4": {
+        "returncode": 0,
+        "seconds": 1.1493465900421143,
+        "cells": 576,
+        "nodes": 637,
+        "raw_vtu_sha256": "1d63de4fc9067d740d3f783b3092f03659e095ab21ea60079eb16301ce50351c",
+        "configuration_sha256": "25cbe6a3b20f9629e2bc3df7c8120d0be063b73c963c06ded27b69ca3cd40447",
+        "solver_mesh_sha256": "574b1e3f1e5360df411055b2311ec3d35d149e1814c87fb68e0a7b20808abff9"
+      },
+      "8": {
+        "returncode": 0,
+        "seconds": 2.5279884338378906,
+        "cells": 2304,
+        "nodes": 2425,
+        "raw_vtu_sha256": "ba59766f46f8e974fd45edfd1da30ea02c2b4fafab009fe057d72a94adec1293",
+        "configuration_sha256": "25cbe6a3b20f9629e2bc3df7c8120d0be063b73c963c06ded27b69ca3cd40447",
+        "solver_mesh_sha256": "acd53d16952df7ede3c23d0b59362b699f3fbd41c3fe57de7c7d4849ad894297"
+      },
+      "16": {
+        "returncode": 0,
+        "seconds": 13.502542495727539,
+        "cells": 9216,
+        "nodes": 9457,
+        "raw_vtu_sha256": "dd29c37df078eff916fdd8329c636af17584c591fb131baf1695d852a295a238",
+        "configuration_sha256": "25cbe6a3b20f9629e2bc3df7c8120d0be063b73c963c06ded27b69ca3cd40447",
+        "solver_mesh_sha256": "8bdcddb48c178c38cb3fe29d642336cddef469781d838598ea2c98b01d1d461d"
+      }
+    },
+    "comparison": {
+      "4-8": {
+        "velocity": {
+          "max_abs": 0.00011773407459259033,
+          "max_tolerance_fraction": 0.1143360812758779
+        },
+        "pressure": {
+          "max_abs": 4.246010212227702e-05,
+          "max_tolerance_fraction": 0.00042456889984490037
+        },
+        "shear_rate": {
+          "max_abs": 0.0015991059709425243,
+          "max_tolerance_fraction": 0.15693177282593565
+        }
+      },
+      "8-16": {
+        "velocity": {
+          "max_abs": 1.4745630323886871e-05,
+          "max_tolerance_fraction": 0.014528030148463926
+        },
+        "pressure": {
+          "max_abs": 9.802170097827911e-06,
+          "max_tolerance_fraction": 9.801418949698532e-05
+        },
+        "shear_rate": {
+          "max_abs": 0.0005956299394491854,
+          "max_tolerance_fraction": 0.05748053435638172
+        }
+      }
+    },
+    "accepted": true,
+    "input_files": {
+      "input.h5": "5cb75f869502d031e38727415223fd03f412dea091e12ed2bd66b10981928b0a",
+      "problem.json": "602562d32c111b82f9287113031934d1cae274c55cc73e64fce0bbdb2f292d1f",
+      "mesh.msh": "cda2c73a05c977ae88a1089e28f6c6ed3c01ec3c020d283cf8eb754c6f4a7efa"
+    },
+    "reference_files": {
+      "reference.h5": "9e2b88e3137084af901e4112d9ae0191091b8ddb5174f3433aac386c830122e0",
+      "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961"
+    }
+  },
+  {
+    "name": "force-three-ribs",
+    "definition": {
+      "name": "force-three-ribs",
+      "boxes": [
+        [
+          0,
+          0,
+          9,
+          5
+        ]
+      ],
+      "holes": [
+        [
+          1,
+          0,
+          2,
+          2
+        ],
+        [
+          4,
+          0,
+          5,
+          3
+        ],
+        [
+          7,
+          0,
+          8,
+          2
+        ]
+      ],
+      "drive": "force",
+      "force": [
+        "0.01*y",
+        "0"
+      ]
+    },
+    "probes": 111,
+    "levels": {
+      "4": {
+        "returncode": 0,
+        "seconds": 1.2002320289611816,
+        "cells": 608,
+        "nodes": 693,
+        "raw_vtu_sha256": "3373046e9d8c0ae09cfe829f3c8414e0d39d25a15bc41f380bb869658a187b7d",
+        "configuration_sha256": "f8b9756e38caf857fad049c8777ce2d4569af55efa18d4a9506b6a3873e39e97",
+        "solver_mesh_sha256": "9a070ae9f6b57457a859560a360a6c6cdf0db173838acc294abe738bfbc0ad57"
+      },
+      "8": {
+        "returncode": 0,
+        "seconds": 2.692732572555542,
+        "cells": 2432,
+        "nodes": 2601,
+        "raw_vtu_sha256": "3d64cd5b24b2273d9b4af5d93d5d567701cdaf26012a7478d5eba3c21857eb24",
+        "configuration_sha256": "f8b9756e38caf857fad049c8777ce2d4569af55efa18d4a9506b6a3873e39e97",
+        "solver_mesh_sha256": "ddf94d781b12f23e42d2e37ca01bdaa4f8e37fb737101d5193866daf8f5aa67a"
+      },
+      "16": {
+        "returncode": 0,
+        "seconds": 13.533910751342773,
+        "cells": 9728,
+        "nodes": 10065,
+        "raw_vtu_sha256": "6e666c01c8dab9d18e70bf6917c4abce5f681e9054aacff1646939624b222e51",
+        "configuration_sha256": "f8b9756e38caf857fad049c8777ce2d4569af55efa18d4a9506b6a3873e39e97",
+        "solver_mesh_sha256": "a358f9c0394299c4912133690f04a463f0a38f44df6c2cba5739233beb95ff1c"
+      }
+    },
+    "comparison": {
+      "4-8": {
+        "velocity": {
+          "max_abs": 0.00015981867909431458,
+          "max_tolerance_fraction": 0.1420378060168583
+        },
+        "pressure": {
+          "max_abs": 0.0004653036594390869,
+          "max_tolerance_fraction": 0.004546556024979934
+        },
+        "shear_rate": {
+          "max_abs": 0.0011118336159222295,
+          "max_tolerance_fraction": 0.10968405047366848
+        }
+      },
+      "8-16": {
+        "velocity": {
+          "max_abs": 9.342143312096596e-05,
+          "max_tolerance_fraction": 0.0870029944779203
+        },
+        "pressure": {
+          "max_abs": 0.00014241784811019897,
+          "max_tolerance_fraction": 0.0013915680689426631
+        },
+        "shear_rate": {
+          "max_abs": 0.0004201054312460012,
+          "max_tolerance_fraction": 0.040643179815461894
+        }
+      }
+    },
+    "accepted": true,
+    "input_files": {
+      "input.h5": "d3c1822448fb5ba8ad10e70f5fb49e7a7343aa7e00d89e9a9882f18317cf1a16",
+      "problem.json": "7b58075adf2c0ed6a7d0a7ea714549acefaf02cfafc9842ab4389632df13151e",
+      "mesh.msh": "8d241be80b27d98377643b964d9a6190290d333717874b46da674b40e1339409"
+    },
+    "reference_files": {
+      "reference.h5": "7a72ab6a736378a678beabe34e4fc94ae4e8eb1ddb291f572138b3b0dc6abdd2",
+      "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961"
+    }
+  },
+  {
+    "name": "lid-staggered-islands",
+    "definition": {
+      "name": "lid-staggered-islands",
+      "boxes": [
+        [
+          0,
+          0,
+          8,
+          6
+        ]
+      ],
+      "holes": [
+        [
+          2,
+          1,
+          3,
+          3
+        ],
+        [
+          5,
+          3,
+          6,
+          5
+        ]
+      ],
+      "drive": "lid"
+    },
+    "probes": 135,
+    "levels": {
+      "4": {
+        "returncode": 0,
+        "seconds": 1.3479771614074707,
+        "cells": 704,
+        "nodes": 783,
+        "raw_vtu_sha256": "a1cbf452d77522933d872a6e5361bf095f30bd308e4bc76454402b08a37683e8",
+        "configuration_sha256": "5730bda975381c5a787211e50cca61a29626040ce16d667e00cb00b8ab9d0a7a",
+        "solver_mesh_sha256": "4683314f692f6de12c635ca38dd258ef52f3b6dd8c3fcb3eb5acae970cabea27"
+      },
+      "8": {
+        "returncode": 0,
+        "seconds": 3.155291795730591,
+        "cells": 2816,
+        "nodes": 2975,
+        "raw_vtu_sha256": "b11dd463c814923c4e9029ae6e627a6803b2957a3b2cb75b843060f9a4fb8337",
+        "configuration_sha256": "5730bda975381c5a787211e50cca61a29626040ce16d667e00cb00b8ab9d0a7a",
+        "solver_mesh_sha256": "c7e32c158a81d7475e79c74a0a77c2f4c625867c2206591f70356b602f28f2c9"
+      },
+      "16": {
+        "returncode": 0,
+        "seconds": 17.02037239074707,
+        "cells": 11264,
+        "nodes": 11583,
+        "raw_vtu_sha256": "1fc7a672d5a023438b76fdb1f21ba7531afd888e20b1971dd59743d667bf4bb9",
+        "configuration_sha256": "5730bda975381c5a787211e50cca61a29626040ce16d667e00cb00b8ab9d0a7a",
+        "solver_mesh_sha256": "49aa65cc3328a7ef60934049416d7b3372073183fcfa842c0eb48e6ed01770a8"
+      }
+    },
+    "comparison": {
+      "4-8": {
+        "velocity": {
+          "max_abs": 0.0001541348174214363,
+          "max_tolerance_fraction": 0.13667872491068542
+        },
+        "pressure": {
+          "max_abs": 0.000457538990303874,
+          "max_tolerance_fraction": 0.004561951113244234
+        },
+        "shear_rate": {
+          "max_abs": 0.0009984320374828819,
+          "max_tolerance_fraction": 0.09699455567049008
+        }
+      },
+      "8-16": {
+        "velocity": {
+          "max_abs": 0.00010685157030820847,
+          "max_tolerance_fraction": 0.09658079489626574
+        },
+        "pressure": {
+          "max_abs": 0.0001398834865540266,
+          "max_tolerance_fraction": 0.0013947067693210993
+        },
+        "shear_rate": {
+          "max_abs": 0.000575697112173354,
+          "max_tolerance_fraction": 0.055203905583236665
+        }
+      }
+    },
+    "accepted": true,
+    "input_files": {
+      "input.h5": "f47428bb1ace16919cd2ac4bb8fbf0df0da6f75101fdf554c841ab1c8e33aa26",
+      "problem.json": "602562d32c111b82f9287113031934d1cae274c55cc73e64fce0bbdb2f292d1f",
+      "mesh.msh": "cfe6c64f1f2cffcee0a5f69e935364b616a85cac524b77926ed34c4f258aed93"
+    },
+    "reference_files": {
+      "reference.h5": "411efccb54de222a3bcd93ad2bb1087cb8a42f9b6ee6a1d3cba11ddd86d946d1",
+      "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961"
+    }
+  },
+  {
+    "name": "four-wall-circulation",
+    "definition": {
+      "name": "four-wall-circulation",
+      "boxes": [
+        [
+          0,
+          0,
+          5,
+          5
+        ]
+      ],
+      "drive": "circulation"
+    },
+    "probes": 81,
+    "levels": {
+      "4": {
+        "returncode": 0,
+        "seconds": 1.139000654220581,
+        "cells": 400,
+        "nodes": 441,
+        "raw_vtu_sha256": "6d515d4fe3b49988eee2004f0a402fdef368d93a8ecd399d39f9a61b680ff9db",
+        "configuration_sha256": "e00be74ca5c4e7bd17e530191a096c721a16a82cbbcfb29a8428098cca952642",
+        "solver_mesh_sha256": "a747b8a475cedcd98fbc666b2b8b839ae97cca8ae09a66f288002a21fb9f9450"
+      },
+      "8": {
+        "returncode": 0,
+        "seconds": 2.1368215084075928,
+        "cells": 1600,
+        "nodes": 1681,
+        "raw_vtu_sha256": "08f45cd800b3459500da9cd1b7bb594ac2e8f078ef0e917c940c8181a26ab120",
+        "configuration_sha256": "e00be74ca5c4e7bd17e530191a096c721a16a82cbbcfb29a8428098cca952642",
+        "solver_mesh_sha256": "31ee6585b9d4959b560a7b4cd0c11b819b2f35840a9ab3777ef9343c6726573d"
+      },
+      "16": {
+        "returncode": 0,
+        "seconds": 7.964014291763306,
+        "cells": 6400,
+        "nodes": 6561,
+        "raw_vtu_sha256": "432a1c9f9215a92d808242fb38569dbe6d18550b083e5782fd2f89ce766327fb",
+        "configuration_sha256": "e00be74ca5c4e7bd17e530191a096c721a16a82cbbcfb29a8428098cca952642",
+        "solver_mesh_sha256": "b3e40a6160138281f5c3b488080ce5a659d69a49cade2dcb82a98b2b99b9ca45"
+      }
+    },
+    "comparison": {
+      "4-8": {
+        "velocity": {
+          "max_abs": 0.00011910498142242432,
+          "max_tolerance_fraction": 0.08867676679471452
+        },
+        "pressure": {
+          "max_abs": 2.7195550501346588e-05,
+          "max_tolerance_fraction": 0.000271932642085083
+        },
+        "shear_rate": {
+          "max_abs": 0.0011254659610057394,
+          "max_tolerance_fraction": 0.10319881114075129
+        }
+      },
+      "8-16": {
+        "velocity": {
+          "max_abs": 2.7455389499664307e-06,
+          "max_tolerance_fraction": 0.0020391277009007267
+        },
+        "pressure": {
+          "max_abs": 3.5080593079328537e-06,
+          "max_tolerance_fraction": 3.506233071266577e-05
+        },
+        "shear_rate": {
+          "max_abs": 0.0002252128888010213,
+          "max_tolerance_fraction": 0.020655003134364622
+        }
+      }
+    },
+    "accepted": true,
+    "input_files": {
+      "input.h5": "058e9bedaffa762a6aca8cfbbf4326a512863aac14212d93158f5c8f1a756e80",
+      "problem.json": "6d16737bbf8c42e61c68cac541606c867c789cf8e01404031a780f4b44638dec",
+      "mesh.msh": "321cc840807f09b248abd7fa46eeafb54642553058b75ea51df34f50899d0adf"
+    },
+    "reference_files": {
+      "reference.h5": "e20bbdccabb5a9c3eae458be4251ecd5721e971a1367e23116e710db19d5ec80",
+      "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961"
+    }
+  },
+  {
+    "name": "opposed-side-walls",
+    "definition": {
+      "name": "opposed-side-walls",
+      "boxes": [
+        [
+          0,
+          0,
+          5,
+          5
+        ]
+      ],
+      "drive": "side-opposed"
+    },
+    "probes": 81,
+    "levels": {
+      "4": {
+        "returncode": 0,
+        "seconds": 1.0670557022094727,
+        "cells": 400,
+        "nodes": 441,
+        "raw_vtu_sha256": "55f8fc8b3d6f244eb6a61167c63dd176a4c3071dcf1e719dae6d892879694766",
+        "configuration_sha256": "dd56202c0913acc9d9c95dacc4b5ccb2a932f720d101cf633441c9890e5fafef",
+        "solver_mesh_sha256": "a747b8a475cedcd98fbc666b2b8b839ae97cca8ae09a66f288002a21fb9f9450"
+      },
+      "8": {
+        "returncode": 0,
+        "seconds": 1.984217643737793,
+        "cells": 1600,
+        "nodes": 1681,
+        "raw_vtu_sha256": "2d262293508a03a6b9f13f877f37ffb38a40a9a7655d1e139204675fa765a853",
+        "configuration_sha256": "dd56202c0913acc9d9c95dacc4b5ccb2a932f720d101cf633441c9890e5fafef",
+        "solver_mesh_sha256": "31ee6585b9d4959b560a7b4cd0c11b819b2f35840a9ab3777ef9343c6726573d"
+      },
+      "16": {
+        "returncode": 0,
+        "seconds": 7.931858539581299,
+        "cells": 6400,
+        "nodes": 6561,
+        "raw_vtu_sha256": "cbfbceb5550504f7c43d3a84234582a633d24dec957387d73490c47907b47929",
+        "configuration_sha256": "dd56202c0913acc9d9c95dacc4b5ccb2a932f720d101cf633441c9890e5fafef",
+        "solver_mesh_sha256": "b3e40a6160138281f5c3b488080ce5a659d69a49cade2dcb82a98b2b99b9ca45"
+      }
+    },
+    "comparison": {
+      "4-8": {
+        "velocity": {
+          "max_abs": 0.00011661264579743147,
+          "max_tolerance_fraction": 0.11618479281774252
+        },
+        "pressure": {
+          "max_abs": 3.077695146203041e-05,
+          "max_tolerance_fraction": 0.00030609692723996824
+        },
+        "shear_rate": {
+          "max_abs": 0.0010159003579018888,
+          "max_tolerance_fraction": 0.09127296195317437
+        }
+      },
+      "8-16": {
+        "velocity": {
+          "max_abs": 3.71187343262136e-06,
+          "max_tolerance_fraction": 0.003698117765557012
+        },
+        "pressure": {
+          "max_abs": 1.7881393432617188e-06,
+          "max_tolerance_fraction": 1.783515167389472e-05
+        },
+        "shear_rate": {
+          "max_abs": 0.0005111076525428984,
+          "max_tolerance_fraction": 0.04863915268945911
+        }
+      }
+    },
+    "accepted": true,
+    "input_files": {
+      "input.h5": "8c1400a6ecddbe157d3090e42871d7e5c34bb08223b02c1b1826277bcfd83d31",
+      "problem.json": "1e5d87ab60aeccfede1e9096482ea975a3a17b32b34dc8e75ce66070c3bc3682",
+      "mesh.msh": "321cc840807f09b248abd7fa46eeafb54642553058b75ea51df34f50899d0adf"
+    },
+    "reference_files": {
+      "reference.h5": "cdf14b926b56b29ab32b79aa49f976b6e788a394c02a2bc2be4551a6f284a866",
+      "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961"
+    }
+  },
+  {
+    "name": "force-split-recess",
+    "definition": {
+      "name": "force-split-recess",
+      "boxes": [
+        [
+          0,
+          2,
+          8,
+          5
+        ],
+        [
+          0,
+          0,
+          2,
+          2
+        ],
+        [
+          6,
+          0,
+          8,
+          2
+        ]
+      ],
+      "drive": "force",
+      "force": [
+        "0",
+        "0.01*x"
+      ]
+    },
+    "probes": 99,
+    "levels": {
+      "4": {
+        "returncode": 0,
+        "seconds": 1.1571807861328125,
+        "cells": 512,
+        "nodes": 573,
+        "raw_vtu_sha256": "4f39f181e4de7732fb90b4d10d97a09381ed28a9d651ed5b63092b4195628d20",
+        "configuration_sha256": "cf49678098156146616b904f69c011a5e41ec3688fd0f4462efa59e2e2268163",
+        "solver_mesh_sha256": "090d44c0e27cc508818917f3a99332b7d08616b09b53067e5159c9054fb23c26"
+      },
+      "8": {
+        "returncode": 0,
+        "seconds": 2.3698160648345947,
+        "cells": 2048,
+        "nodes": 2169,
+        "raw_vtu_sha256": "13bc145ce7e22a21ea85b1c176e34abc24fad968165ccf2ffaa63f2ffb7a47b9",
+        "configuration_sha256": "cf49678098156146616b904f69c011a5e41ec3688fd0f4462efa59e2e2268163",
+        "solver_mesh_sha256": "dd0f2649f9488c80adc0eca9e048d61c2cb1af4d7b53470e8111cf10513aa9cc"
+      },
+      "16": {
+        "returncode": 0,
+        "seconds": 9.962370157241821,
+        "cells": 8192,
+        "nodes": 8433,
+        "raw_vtu_sha256": "52d2aed860575ca49e70923d2352f119d04b5105d1b139930ab6d3c5b1cda960",
+        "configuration_sha256": "cf49678098156146616b904f69c011a5e41ec3688fd0f4462efa59e2e2268163",
+        "solver_mesh_sha256": "e5d0c30216149cbad63e165d4b7c33d57b79efab6886b855da79e171e90ce842"
+      }
+    },
+    "comparison": {
+      "4-8": {
+        "velocity": {
+          "max_abs": 0.00011827470734715462,
+          "max_tolerance_fraction": 0.11098878469895182
+        },
+        "pressure": {
+          "max_abs": 0.00040040258318185806,
+          "max_tolerance_fraction": 0.003976643941579925
+        },
+        "shear_rate": {
+          "max_abs": 0.0009639376299010165,
+          "max_tolerance_fraction": 0.09530610366432714
+        }
+      },
+      "8-16": {
+        "velocity": {
+          "max_abs": 8.102878928184509e-05,
+          "max_tolerance_fraction": 0.07644575614985782
+        },
+        "pressure": {
+          "max_abs": 0.00010894797742366791,
+          "max_tolerance_fraction": 0.0010820175612114293
+        },
+        "shear_rate": {
+          "max_abs": 0.0003871780862300528,
+          "max_tolerance_fraction": 0.03747780498265597
+        }
+      }
+    },
+    "accepted": true,
+    "input_files": {
+      "input.h5": "90e803f792b9cb433dd601391f8605cef3e1a61a8db6b745201c1e3e7cc7363e",
+      "problem.json": "7b58075adf2c0ed6a7d0a7ea714549acefaf02cfafc9842ab4389632df13151e",
+      "mesh.msh": "185420bbbd9a7ca0fe6c83da188a2d5b6c521309128f400e30833f0b5ce02239"
+    },
+    "reference_files": {
+      "reference.h5": "2c16067e539a5d7128fba0957fb91df1f9d09394e081afb88a365af91d8bc77a",
+      "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961"
+    }
+  },
+  {
+    "name": "lid-serpentine-chamber",
+    "definition": {
+      "name": "lid-serpentine-chamber",
+      "boxes": [
+        [
+          0,
+          4,
+          8,
+          6
+        ],
+        [
+          0,
+          2,
+          2,
+          4
+        ],
+        [
+          0,
+          0,
+          6,
+          2
+        ],
+        [
+          4,
+          2,
+          6,
+          3
+        ]
+      ],
+      "drive": "lid",
+      "force": [
+        "0.01*y",
+        "0"
+      ]
+    },
+    "probes": 99,
+    "levels": {
+      "4": {
+        "returncode": 0,
+        "seconds": 1.1977384090423584,
+        "cells": 544,
+        "nodes": 621,
+        "raw_vtu_sha256": "3ee654dd80ed71c049d791ccaae47e461c8b187ee32a3aeb07b8dcd5521772ce",
+        "configuration_sha256": "bbe5bbb47869132c6c551c597cd566474f887257b4b40c2cb4687c0a390cb810",
+        "solver_mesh_sha256": "97c69a9b73e23c9b7264400babfbd5eba03ae6f880d1a8ed6dd72bb869ba3458"
+      },
+      "8": {
+        "returncode": 0,
+        "seconds": 2.287442445755005,
+        "cells": 2176,
+        "nodes": 2329,
+        "raw_vtu_sha256": "94747559386e7e49a4029a461946af6a3e9403c113f1919f38ed27cddc934cd6",
+        "configuration_sha256": "bbe5bbb47869132c6c551c597cd566474f887257b4b40c2cb4687c0a390cb810",
+        "solver_mesh_sha256": "0d642ec34d385eb2ad91e1cb5d139c0fbc9950b50dba8a968d1df20295ce51ce"
+      },
+      "16": {
+        "returncode": 0,
+        "seconds": 8.41201400756836,
+        "cells": 8704,
+        "nodes": 9009,
+        "raw_vtu_sha256": "df3604f342ccaaa7671f1094d53d8f6ee38391158fd7474baa9f79167b12b201",
+        "configuration_sha256": "bbe5bbb47869132c6c551c597cd566474f887257b4b40c2cb4687c0a390cb810",
+        "solver_mesh_sha256": "6b3ff03794f49cfa62b22674fb73ef52a67ecc5a9e1c33172eace7d4a2791808"
+      }
+    },
+    "comparison": {
+      "4-8": {
+        "velocity": {
+          "max_abs": 0.0001868661493062973,
+          "max_tolerance_fraction": 0.16650216328835601
+        },
+        "pressure": {
+          "max_abs": 0.0005804933607578278,
+          "max_tolerance_fraction": 0.005770361553291107
+        },
+        "shear_rate": {
+          "max_abs": 0.0014717404501519843,
+          "max_tolerance_fraction": 0.13846099711397106
+        }
+      },
+      "8-16": {
+        "velocity": {
+          "max_abs": 0.00013199914246797562,
+          "max_tolerance_fraction": 0.1220448318915715
+        },
+        "pressure": {
+          "max_abs": 0.00015031546354293823,
+          "max_tolerance_fraction": 0.0014941800719701103
+        },
+        "shear_rate": {
+          "max_abs": 0.0006623164767332046,
+          "max_tolerance_fraction": 0.06376471522062072
+        }
+      }
+    },
+    "accepted": true,
+    "input_files": {
+      "input.h5": "f4b1e32df77e6625aed6873e6baf3431ece8b9ff3395346f6890778510f355e7",
+      "problem.json": "687b862c4579a3940ccd9848cb5204dce736f3f4072d3c23b841a3b31d2987c2",
+      "mesh.msh": "767a3da4112d0d187885b25469bd28e925db2971172aebe064cd977f4c9a32a7"
+    },
+    "reference_files": {
+      "reference.h5": "75aed23e8280c4b8232d504f5eadaff9535cbea3d3eb79d4fdbf72da19b50bfb",
+      "grading.json": "ce8f8bbf0f9f0f5c1af5425e9faf8c048fbb4147fae34fc246d916fc4d600961"
+    }
+  }
+]

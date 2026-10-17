@@ -1,0 +1,921 @@
+{
+  "revision": "fbe115effe8131bd575c0cde1c9ca87a9d87fd3a",
+  "assembly": {
+    "revision": "fbe115effe8131bd575c0cde1c9ca87a9d87fd3a",
+    "files": 100,
+    "changed": 100,
+    "removed": 0,
+    "complete": true,
+    "incomplete": [],
+    "overlaps": [],
+    "public_cases": []
+  },
+  "strict_verify": {
+    "valid": true,
+    "errors": [],
+    "public_cases": []
+  },
+  "actual_inputs_and_grading": [
+    {
+      "name": "force-island-chamber",
+      "valid": true,
+      "nodes": 504,
+      "triangles": 896,
+      "area": 28.0,
+      "boundary_edges": 112,
+      "connected": true,
+      "boundary_partition": true,
+      "wall_motion_tangent": true,
+      "probes": 84,
+      "operators": {
+        "no_slip": 5,
+        "acceleration": 1
+      },
+      "outputs": [
+        "velocity",
+        "pressure",
+        "density",
+        "dynamic_viscosity",
+        "shear_rate"
+      ],
+      "positive": {
+        "status": "accepted",
+        "score": 1
+      },
+      "negative_controls": {
+        "velocity": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "pressure": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "shear_rate": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "missing_velocity": {
+          "status": "invalid_output",
+          "score": 0
+        }
+      }
+    },
+    {
+      "name": "force-split-recess",
+      "valid": true,
+      "nodes": 573,
+      "triangles": 1024,
+      "area": 32.0,
+      "boundary_edges": 120,
+      "connected": true,
+      "boundary_partition": true,
+      "wall_motion_tangent": true,
+      "probes": 99,
+      "operators": {
+        "no_slip": 5,
+        "acceleration": 1
+      },
+      "outputs": [
+        "velocity",
+        "pressure",
+        "density",
+        "dynamic_viscosity",
+        "shear_rate"
+      ],
+      "positive": {
+        "status": "accepted",
+        "score": 1
+      },
+      "negative_controls": {
+        "velocity": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "pressure": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "shear_rate": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "missing_velocity": {
+          "status": "invalid_output",
+          "score": 0
+        }
+      }
+    },
+    {
+      "name": "force-three-ribs",
+      "valid": true,
+      "nodes": 693,
+      "triangles": 1216,
+      "area": 38.0,
+      "boundary_edges": 168,
+      "connected": true,
+      "boundary_partition": true,
+      "wall_motion_tangent": true,
+      "probes": 111,
+      "operators": {
+        "no_slip": 5,
+        "acceleration": 1
+      },
+      "outputs": [
+        "velocity",
+        "pressure",
+        "density",
+        "dynamic_viscosity",
+        "shear_rate"
+      ],
+      "positive": {
+        "status": "accepted",
+        "score": 1
+      },
+      "negative_controls": {
+        "velocity": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "pressure": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "shear_rate": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "missing_velocity": {
+          "status": "invalid_output",
+          "score": 0
+        }
+      }
+    },
+    {
+      "name": "four-wall-circulation",
+      "valid": true,
+      "nodes": 441,
+      "triangles": 800,
+      "area": 25.0,
+      "boundary_edges": 80,
+      "connected": true,
+      "boundary_partition": true,
+      "wall_motion_tangent": true,
+      "probes": 81,
+      "operators": {
+        "moving_wall": 4
+      },
+      "outputs": [
+        "velocity",
+        "pressure",
+        "density",
+        "dynamic_viscosity",
+        "shear_rate"
+      ],
+      "positive": {
+        "status": "accepted",
+        "score": 1
+      },
+      "negative_controls": {
+        "velocity": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "pressure": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "shear_rate": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "missing_velocity": {
+          "status": "invalid_output",
+          "score": 0
+        }
+      }
+    },
+    {
+      "name": "lid-central-pedestal",
+      "valid": true,
+      "nodes": 469,
+      "triangles": 832,
+      "area": 26.0,
+      "boundary_edges": 104,
+      "connected": true,
+      "boundary_partition": true,
+      "wall_motion_tangent": true,
+      "probes": 79,
+      "operators": {
+        "no_slip": 4,
+        "moving_wall": 1
+      },
+      "outputs": [
+        "velocity",
+        "pressure",
+        "density",
+        "dynamic_viscosity",
+        "shear_rate"
+      ],
+      "positive": {
+        "status": "accepted",
+        "score": 1
+      },
+      "negative_controls": {
+        "velocity": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "pressure": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "shear_rate": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "missing_velocity": {
+          "status": "invalid_output",
+          "score": 0
+        }
+      }
+    },
+    {
+      "name": "lid-cross-chamber",
+      "valid": true,
+      "nodes": 637,
+      "triangles": 1152,
+      "area": 36.0,
+      "boundary_edges": 120,
+      "connected": true,
+      "boundary_partition": true,
+      "wall_motion_tangent": true,
+      "probes": 115,
+      "operators": {
+        "no_slip": 4,
+        "moving_wall": 1
+      },
+      "outputs": [
+        "velocity",
+        "pressure",
+        "density",
+        "dynamic_viscosity",
+        "shear_rate"
+      ],
+      "positive": {
+        "status": "accepted",
+        "score": 1
+      },
+      "negative_controls": {
+        "velocity": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "pressure": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "shear_rate": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "missing_velocity": {
+          "status": "invalid_output",
+          "score": 0
+        }
+      }
+    },
+    {
+      "name": "lid-L-chamber",
+      "valid": true,
+      "nodes": 481,
+      "triangles": 864,
+      "area": 27.0,
+      "boundary_edges": 96,
+      "connected": true,
+      "boundary_partition": true,
+      "wall_motion_tangent": true,
+      "probes": 85,
+      "operators": {
+        "no_slip": 4,
+        "moving_wall": 1
+      },
+      "outputs": [
+        "velocity",
+        "pressure",
+        "density",
+        "dynamic_viscosity",
+        "shear_rate"
+      ],
+      "positive": {
+        "status": "accepted",
+        "score": 1
+      },
+      "negative_controls": {
+        "velocity": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "pressure": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "shear_rate": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "missing_velocity": {
+          "status": "invalid_output",
+          "score": 0
+        }
+      }
+    },
+    {
+      "name": "lid-offset-baffle",
+      "valid": true,
+      "nodes": 489,
+      "triangles": 864,
+      "area": 27.0,
+      "boundary_edges": 112,
+      "connected": true,
+      "boundary_partition": true,
+      "wall_motion_tangent": true,
+      "probes": 81,
+      "operators": {
+        "no_slip": 4,
+        "moving_wall": 1
+      },
+      "outputs": [
+        "velocity",
+        "pressure",
+        "density",
+        "dynamic_viscosity",
+        "shear_rate"
+      ],
+      "positive": {
+        "status": "accepted",
+        "score": 1
+      },
+      "negative_controls": {
+        "velocity": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "pressure": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "shear_rate": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "missing_velocity": {
+          "status": "invalid_output",
+          "score": 0
+        }
+      }
+    },
+    {
+      "name": "lid-serpentine-chamber",
+      "valid": true,
+      "nodes": 621,
+      "triangles": 1088,
+      "area": 34.0,
+      "boundary_edges": 152,
+      "connected": true,
+      "boundary_partition": true,
+      "wall_motion_tangent": true,
+      "probes": 99,
+      "operators": {
+        "no_slip": 4,
+        "moving_wall": 1,
+        "acceleration": 1
+      },
+      "outputs": [
+        "velocity",
+        "pressure",
+        "density",
+        "dynamic_viscosity",
+        "shear_rate"
+      ],
+      "positive": {
+        "status": "accepted",
+        "score": 1
+      },
+      "negative_controls": {
+        "velocity": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "pressure": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "shear_rate": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "missing_velocity": {
+          "status": "invalid_output",
+          "score": 0
+        }
+      }
+    },
+    {
+      "name": "lid-square",
+      "valid": true,
+      "nodes": 289,
+      "triangles": 512,
+      "area": 16.0,
+      "boundary_edges": 64,
+      "connected": true,
+      "boundary_partition": true,
+      "wall_motion_tangent": true,
+      "probes": 49,
+      "operators": {
+        "moving_wall": 1,
+        "no_slip": 3
+      },
+      "outputs": [
+        "velocity",
+        "pressure",
+        "density",
+        "dynamic_viscosity",
+        "shear_rate"
+      ],
+      "positive": {
+        "status": "accepted",
+        "score": 1
+      },
+      "negative_controls": {
+        "velocity": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "pressure": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "shear_rate": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "missing_velocity": {
+          "status": "invalid_output",
+          "score": 0
+        }
+      }
+    },
+    {
+      "name": "lid-square-obstacle",
+      "valid": true,
+      "nodes": 576,
+      "triangles": 1024,
+      "area": 32.0,
+      "boundary_edges": 128,
+      "connected": true,
+      "boundary_partition": true,
+      "wall_motion_tangent": true,
+      "probes": 96,
+      "operators": {
+        "no_slip": 4,
+        "moving_wall": 1
+      },
+      "outputs": [
+        "velocity",
+        "pressure",
+        "density",
+        "dynamic_viscosity",
+        "shear_rate"
+      ],
+      "positive": {
+        "status": "accepted",
+        "score": 1
+      },
+      "negative_controls": {
+        "velocity": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "pressure": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "shear_rate": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "missing_velocity": {
+          "status": "invalid_output",
+          "score": 0
+        }
+      }
+    },
+    {
+      "name": "lid-staggered-islands",
+      "valid": true,
+      "nodes": 783,
+      "triangles": 1408,
+      "area": 44.0,
+      "boundary_edges": 160,
+      "connected": true,
+      "boundary_partition": true,
+      "wall_motion_tangent": true,
+      "probes": 135,
+      "operators": {
+        "no_slip": 4,
+        "moving_wall": 1
+      },
+      "outputs": [
+        "velocity",
+        "pressure",
+        "density",
+        "dynamic_viscosity",
+        "shear_rate"
+      ],
+      "positive": {
+        "status": "accepted",
+        "score": 1
+      },
+      "negative_controls": {
+        "velocity": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "pressure": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "shear_rate": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "missing_velocity": {
+          "status": "invalid_output",
+          "score": 0
+        }
+      }
+    },
+    {
+      "name": "lid-step-floor",
+      "valid": true,
+      "nodes": 477,
+      "triangles": 864,
+      "area": 27.0,
+      "boundary_edges": 88,
+      "connected": true,
+      "boundary_partition": true,
+      "wall_motion_tangent": true,
+      "probes": 87,
+      "operators": {
+        "no_slip": 4,
+        "moving_wall": 1
+      },
+      "outputs": [
+        "velocity",
+        "pressure",
+        "density",
+        "dynamic_viscosity",
+        "shear_rate"
+      ],
+      "positive": {
+        "status": "accepted",
+        "score": 1
+      },
+      "negative_controls": {
+        "velocity": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "pressure": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "shear_rate": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "missing_velocity": {
+          "status": "invalid_output",
+          "score": 0
+        }
+      }
+    },
+    {
+      "name": "lid-T-chamber",
+      "valid": true,
+      "nodes": 537,
+      "triangles": 960,
+      "area": 30.0,
+      "boundary_edges": 112,
+      "connected": true,
+      "boundary_partition": true,
+      "wall_motion_tangent": true,
+      "probes": 93,
+      "operators": {
+        "no_slip": 4,
+        "moving_wall": 1
+      },
+      "outputs": [
+        "velocity",
+        "pressure",
+        "density",
+        "dynamic_viscosity",
+        "shear_rate"
+      ],
+      "positive": {
+        "status": "accepted",
+        "score": 1
+      },
+      "negative_controls": {
+        "velocity": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "pressure": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "shear_rate": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "missing_velocity": {
+          "status": "invalid_output",
+          "score": 0
+        }
+      }
+    },
+    {
+      "name": "lid-two-obstacles",
+      "valid": true,
+      "nodes": 651,
+      "triangles": 1152,
+      "area": 36.0,
+      "boundary_edges": 152,
+      "connected": true,
+      "boundary_partition": true,
+      "wall_motion_tangent": true,
+      "probes": 105,
+      "operators": {
+        "no_slip": 4,
+        "moving_wall": 1
+      },
+      "outputs": [
+        "velocity",
+        "pressure",
+        "density",
+        "dynamic_viscosity",
+        "shear_rate"
+      ],
+      "positive": {
+        "status": "accepted",
+        "score": 1
+      },
+      "negative_controls": {
+        "velocity": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "pressure": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "shear_rate": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "missing_velocity": {
+          "status": "invalid_output",
+          "score": 0
+        }
+      }
+    },
+    {
+      "name": "opposed-lids",
+      "valid": true,
+      "nodes": 325,
+      "triangles": 576,
+      "area": 18.0,
+      "boundary_edges": 72,
+      "connected": true,
+      "boundary_partition": true,
+      "wall_motion_tangent": true,
+      "probes": 55,
+      "operators": {
+        "moving_wall": 2,
+        "no_slip": 2
+      },
+      "outputs": [
+        "velocity",
+        "pressure",
+        "density",
+        "dynamic_viscosity",
+        "shear_rate"
+      ],
+      "positive": {
+        "status": "accepted",
+        "score": 1
+      },
+      "negative_controls": {
+        "velocity": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "pressure": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "shear_rate": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "missing_velocity": {
+          "status": "invalid_output",
+          "score": 0
+        }
+      }
+    },
+    {
+      "name": "opposed-side-walls",
+      "valid": true,
+      "nodes": 441,
+      "triangles": 800,
+      "area": 25.0,
+      "boundary_edges": 80,
+      "connected": true,
+      "boundary_partition": true,
+      "wall_motion_tangent": true,
+      "probes": 81,
+      "operators": {
+        "no_slip": 2,
+        "moving_wall": 2
+      },
+      "outputs": [
+        "velocity",
+        "pressure",
+        "density",
+        "dynamic_viscosity",
+        "shear_rate"
+      ],
+      "positive": {
+        "status": "accepted",
+        "score": 1
+      },
+      "negative_controls": {
+        "velocity": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "pressure": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "shear_rate": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "missing_velocity": {
+          "status": "invalid_output",
+          "score": 0
+        }
+      }
+    },
+    {
+      "name": "rotational-force-square",
+      "valid": true,
+      "nodes": 289,
+      "triangles": 512,
+      "area": 16.0,
+      "boundary_edges": 64,
+      "connected": true,
+      "boundary_partition": true,
+      "wall_motion_tangent": true,
+      "probes": 49,
+      "operators": {
+        "no_slip": 4,
+        "acceleration": 1
+      },
+      "outputs": [
+        "velocity",
+        "pressure",
+        "density",
+        "dynamic_viscosity",
+        "shear_rate"
+      ],
+      "positive": {
+        "status": "accepted",
+        "score": 1
+      },
+      "negative_controls": {
+        "velocity": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "pressure": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "shear_rate": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "missing_velocity": {
+          "status": "invalid_output",
+          "score": 0
+        }
+      }
+    },
+    {
+      "name": "shear-force-slip-channel",
+      "valid": true,
+      "nodes": 325,
+      "triangles": 576,
+      "area": 18.0,
+      "boundary_edges": 72,
+      "connected": true,
+      "boundary_partition": true,
+      "wall_motion_tangent": true,
+      "probes": 55,
+      "operators": {
+        "no_slip": 2,
+        "slip": 2,
+        "acceleration": 1
+      },
+      "outputs": [
+        "velocity",
+        "pressure",
+        "density",
+        "dynamic_viscosity",
+        "shear_rate"
+      ],
+      "positive": {
+        "status": "accepted",
+        "score": 1
+      },
+      "negative_controls": {
+        "velocity": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "pressure": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "shear_rate": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "missing_velocity": {
+          "status": "invalid_output",
+          "score": 0
+        }
+      }
+    },
+    {
+      "name": "side-driven",
+      "valid": true,
+      "nodes": 357,
+      "triangles": 640,
+      "area": 20.0,
+      "boundary_edges": 72,
+      "connected": true,
+      "boundary_partition": true,
+      "wall_motion_tangent": true,
+      "probes": 63,
+      "operators": {
+        "no_slip": 3,
+        "moving_wall": 1
+      },
+      "outputs": [
+        "velocity",
+        "pressure",
+        "density",
+        "dynamic_viscosity",
+        "shear_rate"
+      ],
+      "positive": {
+        "status": "accepted",
+        "score": 1
+      },
+      "negative_controls": {
+        "velocity": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "pressure": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "shear_rate": {
+          "status": "wrong_answer",
+          "score": 0
+        },
+        "missing_velocity": {
+          "status": "invalid_output",
+          "score": 0
+        }
+      }
+    }
+  ]
+}

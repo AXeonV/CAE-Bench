@@ -1,0 +1,5 @@
+# Preserve producer recipes and evidence bytes used by recorded SHA-256 bindings.
+author/*.py -text
+# Raw solver records include producer formatting and CRLF; do not rewrite them.
+author/data-evidence/** -text -whitespace
+data-manifest.json -text whitespace=cr-at-eol

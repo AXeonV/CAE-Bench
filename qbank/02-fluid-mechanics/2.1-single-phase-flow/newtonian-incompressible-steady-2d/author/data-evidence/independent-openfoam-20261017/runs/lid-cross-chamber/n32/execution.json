@@ -1,0 +1,46 @@
+{
+  "mesh": {
+    "command": [
+      "blockMesh"
+    ],
+    "returncode": 0,
+    "seconds": 1.2315383600071073,
+    "log_sha256": "a22de28e4488870b9fc35d4f2349f7960abe957c5b8d7e07c3185b7a987e5f77"
+  },
+  "check_mesh": {
+    "command": [
+      "checkMesh"
+    ],
+    "returncode": 0,
+    "seconds": 3.5391057020169683,
+    "log_sha256": "6cfd93cb40cc8540d22b05099eaf62f7c612b14c6c67d87a85272bdc007f7220"
+  },
+  "initialization": {
+    "command": [
+      "mapFields",
+      "/home/zhouzhiyu/caeoj-211-supplement-20261017/independent-openfoam/runs-final/lid-cross-chamber/n24",
+      "-consistent",
+      "-sourceTime",
+      "latestTime",
+      "-mapMethod",
+      "cellPointInterpolate"
+    ],
+    "returncode": 0,
+    "seconds": 3.811273280007299,
+    "log_sha256": "ddc126ed0bb21a4a6daf448b768b286f4cc12c309740d5dfc29d2e82f5c59e9a",
+    "source_level": 24,
+    "source_execution_sha256": "d353836db68b26325ae55e3bf0bffc75d4fd0263efdce9d9e97d5560988adeaf"
+  },
+  "solver": {
+    "command": [
+      "foamRun"
+    ],
+    "returncode": 0,
+    "seconds": 89.46339535701554,
+    "log_sha256": "3f57d211d9f766c2e58be9482b8f1042422280817de9d15f3cccf6cf95c7e737"
+  },
+  "converged": true,
+  "last_time": [
+    "1004s"
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "mesh": {
+    "command": [
+      "blockMesh"
+    ],
+    "returncode": 0,
+    "seconds": 0.8635602860013023,
+    "log_sha256": "cd38bce756054ba7a264e7b1b420af5d862dfe9b791625b20a04ce8d638bf86e"
+  },
+  "check_mesh": {
+    "command": [
+      "checkMesh"
+    ],
+    "returncode": 0,
+    "seconds": 1.380821458005812,
+    "log_sha256": "645e218d1c827cd650653b071173c0dc5435c0df30e9c18b263b41b6970b68bb"
+  },
+  "initialization": {
+    "command": [
+      "mapFields",
+      "/home/zhouzhiyu/caeoj-211-supplement-20261017/independent-openfoam/runs-final/force-island-chamber/n24",
+      "-consistent",
+      "-sourceTime",
+      "latestTime",
+      "-mapMethod",
+      "cellPointInterpolate"
+    ],
+    "returncode": 0,
+    "seconds": 2.445728066028096,
+    "log_sha256": "765122892fc13e63e278dfea7b46fa01305b0611e2c71dce5318d695c7febecd",
+    "source_level": 24,
+    "source_execution_sha256": "8800eaa95a3c6eb4ca99f1c36e510e0a5445b3853bc0c7d7b4c47e85c4e9bf16"
+  },
+  "solver": {
+    "command": [
+      "foamRun"
+    ],
+    "returncode": 0,
+    "seconds": 60.08478594303597,
+    "log_sha256": "c280c3506390716e20bbfcaa46dacfca86c85e5da31e778108d931d164ac7ad3"
+  },
+  "converged": true,
+  "last_time": [
+    "653s"
+  ]
+}

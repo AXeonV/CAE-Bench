@@ -1,0 +1,46 @@
+{
+  "mesh": {
+    "command": [
+      "blockMesh"
+    ],
+    "returncode": 0,
+    "seconds": 1.086040714988485,
+    "log_sha256": "dca495a148b55d0d3955cba720f66e495c76a5fe76b274b6d6d40be01bf624b0"
+  },
+  "check_mesh": {
+    "command": [
+      "checkMesh"
+    ],
+    "returncode": 0,
+    "seconds": 0.7681422070018016,
+    "log_sha256": "153d7a62ac92af6825990619aa672083b0d0491717de1bc01a6dcf2289830926"
+  },
+  "initialization": {
+    "command": [
+      "mapFields",
+      "/home/zhouzhiyu/caeoj-211-supplement-20261017/independent-openfoam/runs-final/side-driven/n24",
+      "-consistent",
+      "-sourceTime",
+      "latestTime",
+      "-mapMethod",
+      "cellPointInterpolate"
+    ],
+    "returncode": 0,
+    "seconds": 1.6585978270159103,
+    "log_sha256": "7b1875e085886e88a934b9d249a47c0dedcda97a95eb7b28b2513d57c0535b80",
+    "source_level": 24,
+    "source_execution_sha256": "39648e0c80085e4b7db14f89e0e8a28ca33ee8022014b371a8989ad61a995e93"
+  },
+  "solver": {
+    "command": [
+      "foamRun"
+    ],
+    "returncode": 0,
+    "seconds": 40.374429998977575,
+    "log_sha256": "6c49c6832955c0bfcc2262b8f76ce628c99b2b2c5a05474918887df094af1500"
+  },
+  "converged": true,
+  "last_time": [
+    "700s"
+  ]
+}

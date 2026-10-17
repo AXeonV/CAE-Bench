@@ -572,6 +572,252 @@
         "caeoj_ext/optics/models.json"
       ]
     },
+    "species.transport_kinetics": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model_prefix": "species-"
+        }
+      ],
+      "check": "caeoj_ext.species:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/species/__init__.py",
+        "caeoj_ext/species/models.json"
+      ]
+    },
+    "electrochemistry.interfaces_transport": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model_prefix": "electrochemistry-"
+        }
+      ],
+      "check": "caeoj_ext.electrochemistry:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/electrochemistry/__init__.py",
+        "caeoj_ext/electrochemistry/models.json"
+      ]
+    },
+    "semiconductor.transport": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model_prefix": "semiconductor-"
+        }
+      ],
+      "check": "caeoj_ext.semiconductor:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/semiconductor/__init__.py",
+        "caeoj_ext/semiconductor/models.json"
+      ]
+    },
+    "granular.dynamics": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model_prefix": "granular-"
+        }
+      ],
+      "check": "caeoj_ext.granular:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/granular/__init__.py",
+        "caeoj_ext/granular/models.json"
+      ]
+    },
+    "porous.flow_transport": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model": "porous-darcy-steady-v1"
+        },
+        {
+          "physics.model": "porous-darcy-transient-v1"
+        },
+        {
+          "physics.model": "porous-forchheimer-steady-v1"
+        },
+        {
+          "physics.model": "porous-richards-steady-v1"
+        },
+        {
+          "physics.model": "porous-richards-transient-v1"
+        },
+        {
+          "physics.model": "porous-immiscible-two-phase-v1"
+        },
+        {
+          "physics.model": "porous-compressible-two-phase-v1"
+        },
+        {
+          "physics.model": "porous-embedded-fracture-v1"
+        },
+        {
+          "physics.model": "porous-dual-continuum-v1"
+        },
+        {
+          "physics.model": "porous-pore-creeping-v1"
+        },
+        {
+          "physics.model": "porous-pore-laminar-transient-v1"
+        },
+        {
+          "physics.model": "porous-porous-tracer-v1"
+        },
+        {
+          "physics.model": "porous-porous-sorption-decay-v1"
+        }
+      ],
+      "geometry": true,
+      "check": "caeoj_ext.porous:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/porous/__init__.py",
+        "caeoj_ext/porous/models.json"
+      ]
+    },
+    "plasma": {
+      "version": 1,
+      "requires": [],
+      "geometry": true,
+      "error_code": "E_PLASMA",
+      "selectors": [
+        {
+          "physics.model": "plasma-charged-orbits-v1"
+        },
+        {
+          "physics.model": "plasma-relativistic-orbits-v1"
+        },
+        {
+          "physics.model": "plasma-collisional-states-v1"
+        },
+        {
+          "physics.model": "plasma-plasma-chemistry-v1"
+        },
+        {
+          "physics.model": "plasma-vlasov-poisson-v1"
+        },
+        {
+          "physics.model": "plasma-space-charge-beam-v1"
+        },
+        {
+          "physics.model": "plasma-isothermal-discharge-v1"
+        },
+        {
+          "physics.model": "plasma-energy-discharge-v1"
+        },
+        {
+          "physics.model": "plasma-cold-plasma-relaxation-v1"
+        },
+        {
+          "physics.model": "plasma-magnetized-plasma-slab-v1"
+        }
+      ],
+      "check": "caeoj_ext.plasma:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/plasma/__init__.py",
+        "caeoj_ext/plasma/models.json"
+      ]
+    },
+    "multiphysics.continuum": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model": "multiphysics-compliant-tube-wave-v1"
+        },
+        {
+          "physics.model": "multiphysics-acoustic-piston-feedback-v1"
+        },
+        {
+          "physics.model": "multiphysics-constrained-thermal-expansion-v1"
+        },
+        {
+          "physics.model": "multiphysics-reciprocal-thermoelastic-wave-v1"
+        },
+        {
+          "physics.model": "multiphysics-steady-joule-feedback-v1"
+        },
+        {
+          "physics.model": "multiphysics-transient-joule-feedback-v1"
+        },
+        {
+          "physics.model": "multiphysics-static-piezoelectric-rod-v1"
+        },
+        {
+          "physics.model": "multiphysics-shunted-piezoelectric-rod-v1"
+        },
+        {
+          "physics.model": "multiphysics-magnetic-diffusion-elasticity-v1"
+        },
+        {
+          "physics.model": "multiphysics-biot-consolidation-v1"
+        },
+        {
+          "physics.model": "multiphysics-thermo-poroelastic-transient-v1"
+        },
+        {
+          "physics.model": "multiphysics-thermoelectric-leg-v1"
+        }
+      ],
+      "check": "caeoj_ext.multiphysics:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/multiphysics/__init__.py",
+        "caeoj_ext/multiphysics/models.json"
+      ]
+    },
+    "systems.networks": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model": "systems-geared-torsional-network-v1"
+        },
+        {
+          "physics.model": "systems-deadzone-transmission-network-v1"
+        },
+        {
+          "physics.model": "systems-nonlinear-hydraulic-network-v1"
+        },
+        {
+          "physics.model": "systems-distributed-pipe-network-v1"
+        },
+        {
+          "physics.model": "systems-isothermal-pneumatic-network-v1"
+        },
+        {
+          "physics.model": "systems-radiative-thermal-network-v1"
+        },
+        {
+          "physics.model": "systems-nonlinear-diode-rlc-network-v1"
+        },
+        {
+          "physics.model": "systems-motor-thermal-feedback-system-v1"
+        },
+        {
+          "physics.model": "systems-electrohydraulic-actuator-system-v1"
+        },
+        {
+          "physics.model": "systems-sampled-position-servo-v1"
+        }
+      ],
+      "check": "caeoj_ext.systems:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/systems/__init__.py",
+        "caeoj_ext/systems/models.json"
+      ]
+    },
     "radiation.nuclear": {
       "version": 1,
       "requires": [],
@@ -657,6 +903,7 @@
     "heat-conduction-steady-2d": [],
     "darcy-flow-2d": [],
     "smoke-test": [],
+    "case-grading-test": [],
     "passive-particles-3d": [
       "fluid.multiphase"
     ],
@@ -1074,6 +1321,234 @@
     "slab-modes": [
       "optics.linear"
     ],
+    "fick-diffusion": [
+      "species.transport_kinetics"
+    ],
+    "imposed-field-migration": [
+      "species.transport_kinetics"
+    ],
+    "competitive-adsorption": [
+      "species.transport_kinetics"
+    ],
+    "pore-adsorption": [
+      "species.transport_kinetics"
+    ],
+    "mass-action-network": [
+      "species.transport_kinetics"
+    ],
+    "reactive-transport": [
+      "species.transport_kinetics"
+    ],
+    "adiabatic-combustion": [
+      "species.transport_kinetics"
+    ],
+    "partition-transfer": [
+      "species.transport_kinetics"
+    ],
+    "ionic-equilibrium": [
+      "electrochemistry.interfaces_transport"
+    ],
+    "blocking-pnp": [
+      "electrochemistry.interfaces_transport"
+    ],
+    "mixed-potential": [
+      "electrochemistry.interfaces_transport"
+    ],
+    "capacitive-redox": [
+      "electrochemistry.interfaces_transport"
+    ],
+    "redox-impedance": [
+      "electrochemistry.interfaces_transport"
+    ],
+    "electrode-diffusion": [
+      "electrochemistry.interfaces_transport"
+    ],
+    "particle-battery": [
+      "electrochemistry.interfaces_transport"
+    ],
+    "fuel-cell-energy": [
+      "electrochemistry.interfaces_transport"
+    ],
+    "semiconductor-equilibrium": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-drift-steady": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-drift-transient": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-bulk-recombination": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-trap-kinetics": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-minority-diffusion": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-landauer": [
+      "semiconductor.transport"
+    ],
+    "semiconductor-effective-mass": [
+      "semiconductor.transport"
+    ],
+    "granular-forced-motion": [
+      "granular.dynamics"
+    ],
+    "granular-normal-contact": [
+      "granular.dynamics"
+    ],
+    "granular-sliding-friction": [
+      "granular.dynamics"
+    ],
+    "granular-cohesive-contact": [
+      "granular.dynamics"
+    ],
+    "granular-periodic-assembly": [
+      "granular.dynamics"
+    ],
+    "granular-coagulation": [
+      "granular.dynamics"
+    ],
+    "granular-fragmentation": [
+      "granular.dynamics"
+    ],
+    "darcy-steady": [
+      "porous.flow_transport"
+    ],
+    "darcy-transient": [
+      "porous.flow_transport"
+    ],
+    "forchheimer-steady": [
+      "porous.flow_transport"
+    ],
+    "richards-steady": [
+      "porous.flow_transport"
+    ],
+    "richards-transient": [
+      "porous.flow_transport"
+    ],
+    "immiscible-two-phase": [
+      "porous.flow_transport"
+    ],
+    "compressible-two-phase": [
+      "porous.flow_transport"
+    ],
+    "embedded-fracture": [
+      "porous.flow_transport"
+    ],
+    "dual-continuum": [
+      "porous.flow_transport"
+    ],
+    "pore-creeping": [
+      "porous.flow_transport"
+    ],
+    "pore-laminar-transient": [
+      "porous.flow_transport"
+    ],
+    "porous-tracer": [
+      "porous.flow_transport"
+    ],
+    "porous-sorption-decay": [
+      "porous.flow_transport"
+    ],
+    "charged-orbits": [
+      "plasma"
+    ],
+    "relativistic-orbits": [
+      "plasma"
+    ],
+    "collisional-states": [
+      "plasma"
+    ],
+    "plasma-chemistry": [
+      "plasma"
+    ],
+    "vlasov-poisson": [
+      "plasma"
+    ],
+    "space-charge-beam": [
+      "plasma"
+    ],
+    "isothermal-discharge": [
+      "plasma"
+    ],
+    "energy-discharge": [
+      "plasma"
+    ],
+    "cold-plasma-relaxation": [
+      "plasma"
+    ],
+    "magnetized-plasma-slab": [
+      "plasma"
+    ],
+    "compliant-tube-wave": [
+      "multiphysics.continuum"
+    ],
+    "acoustic-piston-feedback": [
+      "multiphysics.continuum"
+    ],
+    "constrained-thermal-expansion": [
+      "multiphysics.continuum"
+    ],
+    "reciprocal-thermoelastic-wave": [
+      "multiphysics.continuum"
+    ],
+    "steady-joule-feedback": [
+      "multiphysics.continuum"
+    ],
+    "transient-joule-feedback": [
+      "multiphysics.continuum"
+    ],
+    "static-piezoelectric-rod": [
+      "multiphysics.continuum"
+    ],
+    "shunted-piezoelectric-rod": [
+      "multiphysics.continuum"
+    ],
+    "magnetic-diffusion-elasticity": [
+      "multiphysics.continuum"
+    ],
+    "biot-consolidation": [
+      "multiphysics.continuum"
+    ],
+    "thermo-poroelastic-transient": [
+      "multiphysics.continuum"
+    ],
+    "thermoelectric-leg": [
+      "multiphysics.continuum"
+    ],
+    "geared-torsional-network": [
+      "systems.networks"
+    ],
+    "deadzone-transmission-network": [
+      "systems.networks"
+    ],
+    "nonlinear-hydraulic-network": [
+      "systems.networks"
+    ],
+    "distributed-pipe-network": [
+      "systems.networks"
+    ],
+    "isothermal-pneumatic-network": [
+      "systems.networks"
+    ],
+    "radiative-thermal-network": [
+      "systems.networks"
+    ],
+    "nonlinear-diode-rlc-network": [
+      "systems.networks"
+    ],
+    "motor-thermal-feedback-system": [
+      "systems.networks"
+    ],
+    "electrohydraulic-actuator-system": [
+      "systems.networks"
+    ],
+    "sampled-position-servo": [
+      "systems.networks"
+    ],
     "photon-absorption": [
       "radiation.nuclear"
     ],
@@ -1152,6 +1627,14 @@
     "acoustic-",
     "electromagnetic-",
     "optics-",
+    "species-",
+    "electrochemistry-",
+    "semiconductor-",
+    "granular-",
+    "porous-",
+    "plasma-",
+    "multiphysics-",
+    "systems-",
     "radiation-",
     "microstructure-"
   ],
@@ -1165,6 +1648,14 @@
     "acoustic-": "E_ACOUSTIC",
     "electromagnetic-": "E_ELECTROMAGNETIC",
     "optics-": "E_OPTICS",
+    "species-": "E_SPECIES",
+    "electrochemistry-": "E_ELECTROCHEMISTRY",
+    "semiconductor-": "E_SEMICONDUCTOR",
+    "granular-": "E_GRANULAR",
+    "porous-": "E_POROUS",
+    "plasma-": "E_PLASMA",
+    "multiphysics-": "E_MULTIPHYSICS",
+    "systems-": "E_SYSTEMS",
     "radiation-": "E_RADIATION",
     "microstructure-": "E_MICROSTRUCTURE"
   }

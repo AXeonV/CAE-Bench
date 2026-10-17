@@ -13,7 +13,7 @@ from caeoj import runtime
 from caeoj.cli import main
 from caeoj.grading_policy import load_policy
 from caeoj.sdk import load_problem
-from caeoj_tools.grading_policy import task_policy
+from caeoj_tools.grading_policy import author_policy
 from caeoj.validation import schema_errors
 from caeoj_tools.assembly import runtime_materials
 from caeoj_tools.task_paths import task_directory
@@ -30,7 +30,7 @@ class RuntimeAssemblyTests(unittest.TestCase):
             output = io.StringIO()
             with redirect_stdout(output):
                 code = main(['grade', '--input', str(path), '--output', 'unused.h5',
-                             '--reference', 'unused-reference.h5'])
+                             '--grading', 'unused-grading.json'])
             self.assertEqual(code, 2)
             result = json.loads(output.getvalue())
             self.assertEqual(result['status'], 'input_error')
@@ -39,20 +39,20 @@ class RuntimeAssemblyTests(unittest.TestCase):
     def test_every_task_declares_a_single_scoring_source(self):
         for path in ROOT.glob('qbank/*/*/*/instruction.md'):
             with self.subTest(task=path.parent.name):
-                load_policy(path.parent/'grading.json')
-                config = json.loads((path.parent/'judge-config.json').read_text())
+                load_policy(path.parent/'author/grading-template.json')
+                config = json.loads((path.parent/'judge-config.json').read_text(encoding='utf-8'))
                 self.assertFalse({'atol', 'rtol'} & set(config))
 
-    def test_missing_policy_does_not_fall_back_to_default_tolerances(self):
-        problem = load_problem(task_directory(TASK, ROOT)/'samples/01/input/problem.json')
+    def test_author_template_requires_explicit_source_and_no_execution_tolerances(self):
         with tempfile.TemporaryDirectory() as temporary:
             task = Path(temporary)
             with self.assertRaises(FileNotFoundError):
-                task_policy(task, problem)
-            (task/'grading.json').write_text(json.dumps(load_policy(task_directory(TASK, ROOT)/'grading.json')))
+                author_policy(task)
+            (task/'author').mkdir()
+            (task/'author/grading-template.json').write_text(json.dumps(load_policy(task_directory(TASK, ROOT)/'author/grading-template.json')))
             (task/'judge-config.json').write_text('{"atol": 0.01, "rtol": 0}')
-            with self.assertRaisesRegex(ValueError, 'Scoring belongs in grading.json'):
-                task_policy(task, problem)
+            with self.assertRaisesRegex(ValueError, 'Scoring belongs in case grading.json'):
+                author_policy(task)
 
     def test_malformed_metadata_has_schema_diagnostics_and_no_traceback(self):
         for value in (None, [], {'task': []}, {'task': {}}):
@@ -121,7 +121,7 @@ class RuntimeAssemblyTests(unittest.TestCase):
                 runtime_materials({TASK:task},root)
 
     def test_all_authored_tasks_have_explicit_bindings_and_minimal_public_core(self):
-        data=json.loads((ROOT/'qbank/extensions/caeoj_bundle/runtime.json').read_text())
+        data=json.loads((ROOT/'qbank/extensions/caeoj_bundle/runtime.json').read_text(encoding='utf-8'))
         names={p.parent.name for p in ROOT.glob('qbank/*/*/*/instruction.md')}
         self.assertEqual(names,set(data['tasks']))
         files,runtime_data=runtime_materials({TASK:task_directory(TASK,ROOT)},ROOT)

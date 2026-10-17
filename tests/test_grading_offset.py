@@ -6,17 +6,18 @@ import unittest
 
 import numpy as np
 
-from caeoj.grading import grade_arrays
+from grading_fixtures import evaluate_arrays
 from caeoj.grading_policy import parse_policy, render_policy, validate_policy
 from caeoj.sdk import load_problem
 from caeoj.validation import output_support
 
-ROOT=Path(__file__).resolve().parents[1]
+from task_fixtures import task_fixture
+SMOKE=task_fixture('smoke-test')
 
 
 class ReferenceOffsetTests(unittest.TestCase):
     def setUp(self):
-        self.problem=load_problem(ROOT/'qbank/00-basic-tests/0.1-io/smoke-test/cases/09-vector-2d/problem.json')
+        self.problem=load_problem(SMOKE/'cases/09-vector-2d/problem.json')
         keys=output_support(self.problem)|{s['array'] for s in self.problem.manifest['outputs'].values()}
         self.reference={k:self.problem.arrays[k].copy() for k in keys}
         self.actual=deepcopy(self.reference)
@@ -28,7 +29,7 @@ class ReferenceOffsetTests(unittest.TestCase):
 
     def policy(self,tree):return {'version':1,'fields':{'velocity':tree}}
 
-    def grade(self,tree):return grade_arrays(self.problem,self.actual,self.reference,policy=self.policy(tree))
+    def grade(self,tree):return evaluate_arrays(self.problem,self.actual,self.reference,policy=self.policy(tree))
 
     def set_values(self,a,b):self.actual['velocity'][:]=a;self.reference['velocity'][:]=b
 
@@ -39,7 +40,7 @@ class ReferenceOffsetTests(unittest.TestCase):
             leaf=self.leaf(metric)
             with self.subTest(metric=metric):
                 report=self.grade(leaf);self.assertEqual(report['score'],0)
-                if metric=='max_scaled':self.assertAlmostEqual(report['fields']['velocity']['groups'][0]['value'],4/3)
+                if metric=='max_scaled':self.assertAlmostEqual(report['checks']['outputs']['fields']['velocity']['groups'][0]['value'],4/3)
                 leaf.pop('reference_offset');self.assertEqual(self.grade(leaf)['score'],1)
         self.set_values(100011.5,100010.)
         for metric in ('pointwise','violation_fraction','max_scaled'):self.assertEqual(self.grade(self.leaf(metric))['score'],1)
@@ -47,7 +48,7 @@ class ReferenceOffsetTests(unittest.TestCase):
     def test_cache_distinguishes_offsets_in_same_tree(self):
         self.set_values(100012.,100010.)
         tree={'all':[self.leaf(),self.leaf(reference_offset=0)]}
-        r=self.grade(tree)['fields']['velocity']
+        r=self.grade(tree)['checks']['outputs']['fields']['velocity']
         self.assertFalse(r['children'][0]['passed']);self.assertTrue(r['children'][1]['passed'])
         self.assertEqual(self.grade({'any':list(reversed(tree['all']))})['score'],1)
 
@@ -55,8 +56,8 @@ class ReferenceOffsetTests(unittest.TestCase):
         for metric in ('pointwise','violation_fraction','max_scaled'):
             self.set_values(10.,11.)
             leaf=self.leaf(metric);leaf.pop('reference_offset')
-            before=self.grade(leaf)['fields']['velocity']
-            after=self.grade(dict(leaf,reference_offset=0))['fields']['velocity']
+            before=self.grade(leaf)['checks']['outputs']['fields']['velocity']
+            after=self.grade(dict(leaf,reference_offset=0))['checks']['outputs']['fields']['velocity']
             self.assertEqual(before['groups'],after['groups']);self.assertEqual(before['passed'],after['passed'])
         self.set_values(-100012.,-100010.)
         self.assertEqual(self.grade(self.leaf(reference_offset=-100000.))['score'],0)
@@ -85,7 +86,7 @@ class ReferenceOffsetTests(unittest.TestCase):
                 da,db,do,dt,dr=map(Decimal.from_float,(a,b,offset,atol,rtol))
                 expected=abs(da-db)/(dt+dr*abs(db-do))
             leaf=self.leaf('max_scaled',atol=atol,rtol=rtol,reference_offset=offset,limit=1)
-            report=self.grade(leaf);value=report['fields']['velocity']['groups'][0]['value']
+            report=self.grade(leaf);value=report['checks']['outputs']['fields']['velocity']['groups'][0]['value']
             with self.subTest(case=(a,b,offset,rtol)):
                 self.assertEqual(report['score'],int(expected<=1))
                 if expected>Decimal.from_float(np.finfo(float).max):self.assertEqual(value,'overflow')

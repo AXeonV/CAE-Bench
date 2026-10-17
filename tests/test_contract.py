@@ -15,7 +15,7 @@ import h5py
 import numpy as np
 
 from caeoj.sdk import id_to_row, load_problem, load_result, read_constant, read_field, target_ids, write_result
-from caeoj.grading import grade_arrays
+from grading_fixtures import evaluate_arrays, pointwise_policy
 from caeoj_tools.author import PROJECT_ROOT, load_author_module
 _examples = load_author_module('smoke-test', 'examples')
 CASE_NAMES = _examples.CASE_NAMES
@@ -23,7 +23,8 @@ _smoke = load_author_module('smoke-test', 'smoke')
 run_smoke = _smoke.run_smoke
 from caeoj.validation import ContractError, output_support, read_json, read_hdf5, validate_input, validate_output, write_json
 
-CASES = PROJECT_ROOT / "qbank/00-basic-tests/0.1-io/smoke-test/cases"
+from task_fixtures import task_fixture
+CASES = task_fixture("smoke-test")/"cases"
 
 
 def echo_reference(problem):
@@ -78,7 +79,7 @@ class ContractTests(unittest.TestCase):
                 p = load_problem(path)
                 result = write_result(self.root / "result.h5", p,
                     {s["array"]: p.arrays[s["array"]].copy() for s in p.manifest["outputs"].values()})
-                self.assertEqual(grade_arrays(p, result, echo_reference(p))["score"], 1)
+                self.assertEqual(evaluate_arrays(p, result, echo_reference(p), policy=pointwise_policy(atol=0, rtol=0))["score"], 1)
 
     def test_wrong_shape_and_rank(self):
         for change in (lambda x: x.transpose(0, 2, 1), lambda x: x[0], lambda x: x.reshape(-1),
@@ -111,7 +112,7 @@ class ContractTests(unittest.TestCase):
             arrays["velocity"] = change(arrays["velocity"])
             write_hdf5(self.root / 'wrong.h5', arrays)
             self.assertTrue(validate_output(self.path, self.root / "wrong.h5")["valid"])
-            self.assertEqual(grade_arrays(p, arrays, echo_reference(p))["status"], "wrong_answer")
+            self.assertEqual(evaluate_arrays(p, arrays, echo_reference(p), policy=pointwise_policy(atol=0, rtol=0))["status"], "wrong_answer")
 
     def test_standard_storage_layout_compression_and_byte_order(self):
         p, arrays = self.output()
@@ -119,7 +120,7 @@ class ContractTests(unittest.TestCase):
         for array in (np.asfortranarray(original), original.astype(">f8")):
             arrays["velocity"] = array
             write_hdf5(self.root / 'standard.h5', arrays, compression="gzip")
-            self.assertEqual(grade_arrays(p, load_result(p, self.root / "standard.h5"), echo_reference(p))["score"], 1)
+            self.assertEqual(evaluate_arrays(p, load_result(p, self.root / "standard.h5"), echo_reference(p), policy=pointwise_policy(atol=0, rtol=0))["score"], 1)
             np.testing.assert_array_equal(arrays["velocity"], original)
 
     def test_strings_and_corrupt_hdf5(self):
@@ -155,7 +156,7 @@ class ContractTests(unittest.TestCase):
         self.assertIn("E_DUPLICATE_KEY", self.codes(validate_input(self.path)))
         self.m["physics"] = {"model": "anything", "parameters": {"k": {"value": 1.0, "unit": "1"}}}
         self.save()
-        self.path.write_text(self.path.read_text().replace('"value": 1.0', '"value": 1e999'), encoding="utf-8")
+        self.path.write_text(self.path.read_text(encoding='utf-8').replace('"value": 1.0', '"value": 1e999'), encoding="utf-8")
         self.assertIn("E_FINITE", self.codes(validate_input(self.path)))
 
     def test_input_extra_arrays_and_role_collision(self):
@@ -406,6 +407,7 @@ write_result(a.output,problem,fields)
     def test_runner_failure_statuses_and_bad_input(self):
         mini = self.root / "mini"
         shutil.copytree(self.case, mini / self.case.name)
+        shutil.copytree(CASES.parent / "reference" / self.case.name, self.root / "reference" / self.case.name)
         for source, status in (("raise RuntimeError('fail')", "runtime_error"), ("pass", "missing_output"),
                                ("import time; time.sleep(2)", "timeout")):
             program = self.root / "failure.py"

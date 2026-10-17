@@ -73,9 +73,7 @@
         ],
         "unit": "m",
         "meaning": "终点坐标",
-        "location": "rays",
-        "atol": 1e-08,
-        "rtol": 0
+        "location": "rays"
       },
       "terminal_direction": {
         "kind": "vector",
@@ -84,9 +82,7 @@
         ],
         "unit": "1",
         "meaning": "终点方向",
-        "location": "rays",
-        "atol": 1e-08,
-        "rtol": 0
+        "location": "rays"
       },
       "optical_path": {
         "kind": "scalar",
@@ -95,9 +91,7 @@
         ],
         "unit": "m",
         "meaning": "从发射到终止的∫n ds",
-        "location": "rays",
-        "atol": 1e-08,
-        "rtol": 1e-06
+        "location": "rays"
       },
       "termination": {
         "kind": "scalar",
@@ -106,9 +100,7 @@
         ],
         "unit": "1",
         "meaning": "0=成功出射，1=首次全反射后终止",
-        "location": "rays",
-        "atol": 0,
-        "rtol": 0
+        "location": "rays"
       }
     },
     "locations": {
@@ -124,8 +116,7 @@
         "maximum": 128,
         "meaning": "各独立入射射线"
       }
-    },
-    "timeout": 180
+    }
   },
   "coherent-interference": {
     "name": "单频相干光干涉",
@@ -196,9 +187,7 @@
         ],
         "unit": "V/m",
         "meaning": "相干标量复场U",
-        "location": "receivers",
-        "atol": 1e-06,
-        "rtol": 0.005
+        "location": "receivers"
       },
       "intensity": {
         "kind": "scalar",
@@ -207,9 +196,7 @@
         ],
         "unit": "W/m2",
         "meaning": "平均强度",
-        "location": "receivers",
-        "atol": 1e-08,
-        "rtol": 0.005
+        "location": "receivers"
       }
     },
     "locations": {
@@ -225,8 +212,7 @@
         "maximum": 256,
         "meaning": "真实三维接收点"
       }
-    },
-    "timeout": 180
+    }
   },
   "partial-coherence": {
     "name": "部分相干光强",
@@ -306,9 +292,7 @@
         ],
         "unit": "W/m2",
         "meaning": "平均强度",
-        "location": "receivers",
-        "atol": 1e-08,
-        "rtol": 0.005
+        "location": "receivers"
       }
     },
     "locations": {
@@ -330,8 +314,7 @@
         "maximum": 1,
         "meaning": "唯一随机系综参数对象"
       }
-    },
-    "timeout": 180
+    }
   },
   "fresnel-aperture": {
     "name": "有限孔径近轴衍射",
@@ -379,9 +362,7 @@
         ],
         "unit": "V/m",
         "meaning": "有限距离复场U",
-        "location": "receivers",
-        "atol": 1e-06,
-        "rtol": 0.005
+        "location": "receivers"
       },
       "intensity": {
         "kind": "scalar",
@@ -390,9 +371,7 @@
         ],
         "unit": "W/m2",
         "meaning": "|U|²/(2Z)",
-        "location": "receivers",
-        "atol": 1e-08,
-        "rtol": 0.005
+        "location": "receivers"
       }
     },
     "locations": {
@@ -413,8 +392,7 @@
         "maximum": 256,
         "meaning": "真实三维接收点，z>0"
       }
-    },
-    "timeout": 900
+    }
   },
   "farfield-aperture": {
     "name": "有限孔径角分布衍射",
@@ -477,9 +455,7 @@
         ],
         "unit": "V",
         "meaning": "远场系数A(s)",
-        "location": "directions",
-        "atol": 1e-08,
-        "rtol": 0.005
+        "location": "directions"
       },
       "radiant_intensity": {
         "kind": "scalar",
@@ -488,9 +464,7 @@
         ],
         "unit": "W/sr",
         "meaning": "每单位立体角功率|A|²/(2Z)",
-        "location": "directions",
-        "atol": 1e-09,
-        "rtol": 0.005
+        "location": "directions"
       }
     },
     "locations": {
@@ -511,8 +485,7 @@
         "maximum": 256,
         "meaning": "出射方向对象，无空间接收距离"
       }
-    },
-    "timeout": 600
+    }
   },
   "jones-chain": {
     "name": "被动偏振元件链",
@@ -569,9 +542,7 @@
         ],
         "unit": "V/m",
         "meaning": "输出Ex、Ey复振幅",
-        "location": "states",
-        "atol": 1e-06,
-        "rtol": 0.005
+        "location": "states"
       },
       "stokes": {
         "kind": "components",
@@ -580,9 +551,7 @@
         ],
         "unit": "V2/m2",
         "meaning": "按S0,S1,S2,S3顺序",
-        "location": "states",
-        "atol": 1e-07,
-        "rtol": 0.005
+        "location": "states"
       },
       "intensity": {
         "kind": "scalar",
@@ -591,9 +560,7 @@
         ],
         "unit": "W/m2",
         "meaning": "S0/(2Z)",
-        "location": "states",
-        "atol": 1e-08,
-        "rtol": 0.005
+        "location": "states"
       }
     },
     "locations": {
@@ -609,8 +576,7 @@
         "maximum": 64,
         "meaning": "彼此独立的输入偏振态"
       }
-    },
-    "timeout": 180
+    }
   },
   "thin-film": {
     "name": "多层薄膜相干响应",
@@ -686,9 +652,7 @@
         ],
         "unit": "1",
         "meaning": "固定切向电场基底的复振幅系数r",
-        "location": "system",
-        "atol": 1e-07,
-        "rtol": 0.002
+        "location": "system"
       },
       "transmission": {
         "kind": "components",
@@ -697,9 +661,7 @@
         ],
         "unit": "1",
         "meaning": "固定切向电场基底的复振幅系数t",
-        "location": "system",
-        "atol": 1e-07,
-        "rtol": 0.002
+        "location": "system"
       },
       "reflectance": {
         "kind": "scalar",
@@ -708,9 +670,7 @@
         ],
         "unit": "1",
         "meaning": "功率反射率R",
-        "location": "system",
-        "atol": 1e-08,
-        "rtol": 0.002
+        "location": "system"
       },
       "transmittance": {
         "kind": "scalar",
@@ -719,9 +679,7 @@
         ],
         "unit": "1",
         "meaning": "功率透射率T",
-        "location": "system",
-        "atol": 1e-08,
-        "rtol": 0.002
+        "location": "system"
       }
     },
     "locations": {
@@ -737,8 +695,7 @@
         "maximum": 1,
         "meaning": "唯一完整层系对象"
       }
-    },
-    "timeout": 300
+    }
   },
   "slab-modes": {
     "name": "分层平板导波模态",
@@ -810,9 +767,7 @@
         ],
         "unit": "1",
         "meaning": "neff=β/k0，按从大到小排序",
-        "location": "modes",
-        "atol": 1e-07,
-        "rtol": 0
+        "location": "modes"
       },
       "mode_profile": {
         "kind": "components",
@@ -821,9 +776,7 @@
         ],
         "unit": "m^(-1/2)",
         "meaning": "所有m个实归一化剖面；分量顺序同modes IDs",
-        "location": "receivers",
-        "atol": 1e-05,
-        "rtol": 0.005
+        "location": "receivers"
       }
     },
     "locations": {
@@ -845,7 +798,6 @@
         "maximum": 256,
         "meaning": "真实横向采样点(x,0,0)，可在芯层或包层"
       }
-    },
-    "timeout": 1200
+    }
   }
 }

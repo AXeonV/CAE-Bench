@@ -8,4 +8,4 @@
 - [16.4 析出与组织耦合](16.4-precipitation/README.md)
 - [16.5 晶体尺度密度组织](16.5-crystal/README.md)
 
-维护：[规划](../design/chapter-16-microstructure.md)、[逐题清单](../design/chapter-16-task-plan.md)、[进度](../design/reviews/chapter-16-progress.md)。
+维护：[规划](../design/chapter-16-microstructure.md)、[逐题清单](../design/chapter-16-task-plan.md)、[进度](../design/reviews/chapter-16-progress.md)、[声明维护](../maintenance/protocols/MICROSTRUCTURE.md)。

@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "quantities": {
+    "wetting_pressure": {
+      "unit": "Pa",
+      "rule": {
+        "metric": "pointwise",
+        "time": "per_time",
+        "components": "per_component",
+        "atol": 1.0,
+        "rtol": 0.01
+      }
+    },
+    "wetting_saturation": {
+      "unit": "1",
+      "rule": {
+        "metric": "pointwise",
+        "time": "per_time",
+        "components": "per_component",
+        "atol": 0.001,
+        "rtol": 0.01
+      }
+    },
+    "wetting_velocity": {
+      "unit": "m/s",
+      "rule": {
+        "metric": "pointwise",
+        "time": "per_time",
+        "components": "per_component",
+        "atol": 1e-08,
+        "rtol": 0.01
+      }
+    },
+    "nonwetting_velocity": {
+      "unit": "m/s",
+      "rule": {
+        "metric": "pointwise",
+        "time": "per_time",
+        "components": "per_component",
+        "atol": 1e-08,
+        "rtol": 0.01
+      }
+    }
+  }
+}

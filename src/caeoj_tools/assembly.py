@@ -141,6 +141,9 @@ def runtime_materials(tasks, root):
         return ('src/'+module.replace('.','/')+'.py' in files or
                 'src/'+module.replace('.','/')+'/__init__.py' in files)
     for name in selected:
+        for target in catalog['extensions'][name].get('evaluators', {}).values():
+            if not available(target):
+                raise ValueError('Missing declared evaluator implementation: '+target)
         for key in ('check','condition_compatibility'):
             if catalog['extensions'][name].get(key) and not available(catalog['extensions'][name][key]):
                 raise ValueError(f'Missing declared extension implementation: {name}.{key}')
@@ -199,12 +202,15 @@ def validate_public_runtime(files):
 from pathlib import Path
 sys.path.insert(0, str(Path(sys.argv[1])/'src'))
 from caeoj.sdk import load_problem, load_result
-from caeoj.grading_policy import load_policy, validate_policy
+from caeoj.case_grading import prepare_case
 root=Path(sys.argv[1])
 for path in root.glob('qbank/*/*/*/samples/*/input/problem.json'):
     problem=load_problem(path)
-    load_result(problem, path.parent.parent/'output/result.h5')
-    validate_policy(load_policy(path.parents[3]/'grading.json'), problem)
+    prepared=prepare_case(problem, path.parent.parent/'reference/grading.json')
+    if (path.parent.parent/'output/result.h5').is_file():
+        arrays=load_result(problem, path.parent.parent/'output/result.h5')
+        if prepared.evaluate(arrays)['score'] != 1:
+            raise RuntimeError('Public submission example fails isolated case evaluation')
 '''
         result = subprocess.run([sys.executable, '-I', '-c', script, str(root)],
                                 cwd=root, capture_output=True, text=True, timeout=120)

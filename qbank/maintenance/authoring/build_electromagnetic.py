@@ -1,5 +1,6 @@
 """Expand independent electromagnetic contracts/configuration; no data maker."""
 from pathlib import Path
+from caeoj_tools.author import public_model_catalog
 import json,math
 ROOT=Path(__file__).resolve().parents[3];CH=ROOT/'qbank/07-electromagnetics'
 SECTIONS=[('7.1-electrostatics','静电场',['electrostatic','floating-electrode']),('7.2-conduction','电流传导',['dc-conduction','dielectric-relaxation']),('7.3-magnetostatics','静磁场',['magnetostatic']),('7.4-eddy-currents','磁准静态涡流',['harmonic-eddy']),('7.5-waves','高频全波',['maxwell-cavity']),('7.6-circuits','集总电路',['rlc-transient','rlc-harmonic']),('7.7-field-circuit','场—路反馈',['coil-circuit'])]
@@ -80,7 +81,7 @@ PHYS['rlc-harmonic']=CIRCUIT+'e^(+iωt)相量，电容I=iωCv，电感v=iωLI；
 CIRCUIT_RULE='nodes为全部电路节点entities，2..33个；branches为全部支路entities，1..64个。两组ID各自非负唯一，可数值重合但不是同一对象；ground_node必须属于nodes。所有location只能为这两组之一的非空entities子集；条件支路集合按实际ID形成branches的无遗漏、无重叠划分。tail/head字段须为int64节点真实ID、不同且属于nodes；参数及端点静态。所有节点至少在一个支路上，所有节点通过电阻子图连通（保障参考和耗散），电压源子图无无向环（平行两源也算环）。其他RLC及源可有并联。合法数据须进一步保证约束相容、DAE正则且响应唯一，校验器的图检查不证明这些性质。无空间坐标、mesh、geometry、points或aggregate。'
 def description(s):return f'{s["kind"]} {s["shape"]}，{s["unit"]}；{s["meaning"]}'+('；严格正' if s.get('positive') else '；非负' if s.get('lower')==0 else '')
 def main():
- ext=ROOT/'qbank/extensions/caeoj_ext/electromagnetic';ext.mkdir(parents=True,exist_ok=True);(ext/'models.json').write_text(json.dumps(M,ensure_ascii=False,indent=2)+'\n');toc=[]
+ ext=ROOT/'qbank/extensions/caeoj_ext/electromagnetic';ext.mkdir(parents=True,exist_ok=True);(ext/'models.json').write_text(json.dumps(public_model_catalog(M),ensure_ascii=False,indent=2)+'\n');toc=[]
  for sec,title,slugs in SECTIONS:
   sd=CH/sec;sd.mkdir(parents=True,exist_ok=True);links=[]
   for i,slug in enumerate(slugs,1):
@@ -117,7 +118,8 @@ def main():
    (td/'DATA.md').write_text(f'# {slug} 数据契约\n\n入口problem.json和data_file引用的扁平HDF5，路径相对清单。physics恰为model、parameters；model=`electromagnetic-{slug}-v1`，task可省略，出现须为`{slug}`。禁止profile、contract_version、analysis或materials混用；不能以题号补物理。\n\n## 物理定义\n\n'+physics+'\n\n## 全局参数\n\nparameters恰含下表项，每项只有value和unit；有限实数，布尔不能作数值，整数须JSON整数。空表表示parameters={}。\n\n| 参数 | 单位 | 含义与范围 |\n|---|---|---|\n'+'\n'.join(f'| `{k}` | `{s["unit"]}` | {s["meaning"]} |' for k,s in c['parameters'].items())+'\n\n## 几何和身份\n\n'+geometry+'\n\n## 时间、数组与重建\n\n'+times+'\n\n'+fields+'\n\n## 条件全集\n\n'+'\n\n'.join(records)+'\n\n## 输出\n\n逻辑名与array key自由，每个quantity至少出现一次，可重复请求；全部float64，无sampling，时间轴为'+axis+'，shape及components遵守前述规则。\n\n| quantity | 类型、单位与含义 | 位置与value_kind |\n|---|---|---|\n'+'\n'.join(outs)+'\n\n'+obs+'结果仅含输出array及所需IDs／时间轴，严格复制输入身份与行序，不导出输入场、坐标或新网格。\n\n## 接收限制\n\n'+size+frame_limit+'，输入场和输出场各至多4000000数值分量。'+admit+'结构合法不代表电磁结果正确。\n')
    tol='\n'.join(f'| `{q}` | {s["atol"]} | {s["rtol"]} | `{s["unit"]}` |' for q,s in c['outputs'].items())
    (td/'instruction.md').write_text(f'# {num} {c["name"]}\n\n实现覆盖整个公开问题族的可复用求解器，冻结后处理多个未见算例。'+physics+'\n\n'+('元件、源、拓扑及观测由算例变化。' if circuit else '几何、材料、源及观测由算例变化。')+'考生负责相容实现、内部离散／积分、线性代数与误差控制，语言和软件自由；覆盖整个契约的解析或降阶方法同样有效，不要求复制参考程序。仅需[本题DATA](DATA.md)及[通用CONTRACT](../../../../docs/CONTRACT.md)确定输入输出。\n\n## 运行与资源\n\n'+size+frame_limit+'，输入／输出场各至多4000000分量。规模、预算及容差为待校准设计目标，正式数据须独立证明可达精度。\n\n'+f'入口`python solve.py --input /path/problem.json --output /path/result.h5`。每例Linux AMD64、{c["timeout"]}秒墙钟（含启动和I/O）、4CPU、8192MB、0GPU，逐例无网络；程序0退出并完成HDF5写入，无独立字节上限。生成求解器3600秒、构建1800秒；提前提供Python3、NumPy、SciPy、h5py、Gmsh、jsonschema、C++/OpenMP/OpenMPI/HDF5，不强制Python。\n\n## 评分\n\n每有效例正常退出、结构合法且全部quantity的所有时刻／实体／分量满足`|结果−参考|≤atol(quantity)+rtol(quantity)|参考|`得1分，否则0分，等号接受。'+('复量实虚分别比较，不调整全局相位、不用幅值或RMS替代。' if harm else '')+'无去均值、拟合或超限豁免。\n\n| quantity | atol | rtol | 单位 |\n|---|---|---|---|\n'+tol+'\n\n成绩为通过有效例数／有效例数；输入、配置或参考错误为基础设施错误，不计考生失败；无有效例不产生成绩。结构和有限值遵守CONTRACT；容差与资源须正式评测前校准，工具测试不构成物理精度证据。\n')
-   (td/'grading.json').write_text(json.dumps(dict(version=2,quantities={q:dict(unit=s['unit'],rule=dict(metric='pointwise',time='per_time',components='per_component',atol=s['atol'],rtol=s['rtol'])) for q,s in c['outputs'].items()}),indent=2)+'\n')
+   (td/'author').mkdir(parents=True,exist_ok=True)
+   (td/'author/grading-template.json').write_text(json.dumps(dict(version=2,quantities={q:dict(unit=s['unit'],rule=dict(metric='pointwise',time='per_time',components='per_component',atol=s['atol'],rtol=s['rtol'])) for q,s in c['outputs'].items()}),indent=2)+'\n')
    (td/'judge-config.json').write_text(json.dumps(dict(timeout_seconds=c['timeout'],max_output_bytes=None,stage='provisional',verifier_budget=dict(base_seconds=300,per_case_overhead_seconds=60)),indent=2)+'\n')
    (td/'harbor').mkdir(exist_ok=True);(td/'harbor/requirements.txt').write_text('scipy==1.18.1\n');(td/'harbor/task.toml').write_text('[agent]\ntimeout_sec = 3600.0\n\n[environment]\nbuild_timeout_sec = 1800.0\ncpus = 4\nmemory_mb = 8192\ngpus = 0\nos = "linux"\n\n[verifier]\nnetwork_mode = "no-network"\n')
   (sd/'README.md').write_text(f'# {sec.split("-")[0]} {title}\n\n'+'\n'.join(links)+'\n');toc.append(f'- [{sec.split("-")[0]} {title}]({sec}/README.md)')

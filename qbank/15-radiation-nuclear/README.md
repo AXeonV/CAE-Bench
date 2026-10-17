@@ -8,4 +8,4 @@
 - [15.4 中子动力学](15.4-kinetics/README.md)
 - [15.5 核素库存演化](15.5-inventory/README.md)
 
-维护：[章规划](../design/chapter-15-radiation-nuclear.md)、[清单](../design/chapter-15-task-plan.md)、[进度](../design/reviews/chapter-15-progress.md)。
+维护：[章规划](../design/chapter-15-radiation-nuclear.md)、[清单](../design/chapter-15-task-plan.md)、[进度](../design/reviews/chapter-15-progress.md)、[声明维护](../maintenance/protocols/RADIATION.md)。

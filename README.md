@@ -8,7 +8,7 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 - **通用数据协议**：Gmsh 存网格，HDF5 存数组，JSON 声明字段和条件；各题目明确物理或数学问题与输入范围，求解程序按同一协议读写。
 - **纠正 Agent I/O**：Agent 在理解输入、编写和调试程序时可随时调用**结构校验器**，根据诊断修改读写实现，减少输入输出理解错误的负担。*校验器检查格式、引用及声明约束，不验证或纠正物理结果。*
-- **提交后独立评测**：逐例执行提交程序，重新校验输出并按题目误差阈值与标答比较，每点 0/1 分，汇总结果和日志。
+- **提交后独立评测**：逐 case 评分，重新校验程序输出并按本例规则评价，每点 0/1 分，汇总结果和日志。
 
 ## 项目结构
 
@@ -29,12 +29,14 @@ flowchart LR
     Core --> Cli["cli.py<br/>校验、判分及工具信息命令"]
     Core --> Storage["sdk.py · storage.py<br/>数据读取与 HDF5 写入"]
     Core --> Validation["validation.py<br/>结构校验；problem.schema.json 定义元数据"]
-    Core --> Grading["grading*.py<br/>评分策略与指标；grading.schema.json 定义配置"]
+    Core --> CaseGrading["case_grading.py · case-grading.schema.json<br/>评分配置预检与评价入口"]
+    Core --> Grading["grading_policy.py · grading_metrics.py<br/>数值规则绑定与指标；grading.schema.json 定义数值策略"]
     Core --> Runtime["runtime.py<br/>加载装配描述、组合 Schema 与声明检查"]
 
     Src --> Tools["caeoj_tools/<br/>维护工具，不进入考生包"]
     Tools --> AuthorTools["task_paths.py · author.py<br/>题目定位与作者工具加载"]
-    Tools --> Policy["grading_policy.py<br/>读取题目评分配置"]
+    Tools --> Policy["grading_policy.py<br/>从作者模板生成评分配置"]
+    Tools --> DataPool["data_pool.py · data_pool_cli.py<br/>HF 制池、上传、选样、装配与核验"]
     Tools --> Assembly["assembly.py · dependencies.py<br/>公开运行装配与依赖锁定"]
 
     Src --> Utils["utils/"]
@@ -43,10 +45,11 @@ flowchart LR
     Utils --> Harbor["harbor/<br/>通用模板与逐例判题逻辑"]
     Utils --> PDEBench["PDEBench/<br/>来源数据获取、协议转换与参考审核"]
 
-    Qbank --> Task["#lt;章#gt;/#lt;节#gt;/#lt;题目#gt;/<br/>题面、DATA、样例、测试与本题配置"]
-    Task --> Author["author/<br/>本题数据与参考制作、基线及本地验证"]
-    Task --> Private["cases/ · reference/<br/>隐藏输入与私有参考"]
-    Task --> Samples["samples/<br/>完整公开样例"]
+    Qbank --> Task["#lt;章#gt;/#lt;节#gt;/#lt;题目#gt;/<br/>题面、DATA、数据选择与执行配置"]
+    Task --> Author["author/<br/>制数工具、评分模板、来源证据及基线"]
+    Task --> Selection["data-manifest.json<br/>按需提供 HF 池与测试／样例选择"]
+    Task --> Private["cases/ · reference/<br/>按需装配的测试输入、参考与评分配置"]
+    Task --> Samples["samples/<br/>按需装配的公开输入、评分材料与提交示例"]
     Task --> TaskHarbor["harbor/<br/>本题环境与依赖补充"]
     Task --> TaskExtension["extension/<br/>按需提供本题专用的公开契约检查"]
 
@@ -56,7 +59,7 @@ flowchart LR
     Qbank --> Maintenance["maintenance/<br/>维护实现说明、领域规范及可复用作者工具"]
     Maintenance --> Protocols["protocols/<br/>内部领域说明，不作为额外考生契约"]
     Maintenance --> Authoring["authoring/<br/>按物理能力复用的题面／DATA 构建工具"]
-    Maintenance --> MaintenanceDocs["RUNTIME.md · EVALUATION.md<br/>当前运行装配与评测配置说明"]
+    Maintenance --> MaintenanceDocs["RUNTIME.md · EVALUATION.md · DATA-SYNC.md<br/>运行装配、评测配置与数据池操作"]
 
     Qbank --> Extensions["extensions/"]
     Extensions --> Shared["caeoj_ext/<br/>共享领域声明检查与辅助函数"]
@@ -80,10 +83,18 @@ flowchart LR
 | [第 6 章](qbank/06-acoustics/README.md) | 声学分析 |
 | [第 7 章](qbank/07-electromagnetics/README.md) | 电磁场与电路 |
 | [第 8 章](qbank/08-optics/README.md) | 光学与光子学 |
+| [第 9 章](qbank/09-species-reactions/README.md) | 组分传输与化学反应 |
+| [第 10 章](qbank/10-electrochemistry/README.md) | 电化学分析 |
+| [第 11 章](qbank/11-semiconductor/README.md) | 半导体与电子输运 |
+| [第 12 章](qbank/12-granular/README.md) | 颗粒与散体力学 |
+| [第 13 章](qbank/13-porous-media/README.md) | 多孔介质与渗流 |
+| [第 14 章](qbank/14-plasma/README.md) | 等离子体与带电粒子 |
 | [第 15 章](qbank/15-radiation-nuclear/README.md) | 辐射输运与核工程物理分析 |
 | [第 16 章](qbank/16-microstructure/README.md) | 材料组织与微观演化分析 |
+| [第 17 章](qbank/17-multiphysics/README.md) | 多物理场耦合 |
+| [第 18 章](qbank/18-system-multidomain/README.md) | 系统级多领域分析 |
 
-第 2～8 章及第 15～16 章已完成题面、DATA 和评测配置；正式数值数据、参考及评测发布仍待完成。
+第 2～18 章已完成各自首版清单的题面、DATA 和评测配置；正式数值数据、参考及评测发布仍待完成。逐章交付范围和证据见[题库设计](qbank/design/README.md)。
 
 ## 维护技能
 
@@ -91,9 +102,12 @@ Skill 是供维护 Agent 使用的工作流，位于 `.agents/skills/`，可在�
 
 | 技能 | 用途 |
 |---|---|
-| [caeoj-author-section](.agents/skills/caeoj-author-section/SKILL.md) | 补齐章节规划，撰写题面并组织独立考生审阅 |
+| [caeoj-author-question](.agents/skills/caeoj-author-question/SKILL.md) | 补齐单题／章节规划，撰写题面并协调独立设计、考生审阅 |
 | [caeoj-design-data](.agents/skills/caeoj-design-data/SKILL.md) | 设计自包含 DATA.md，按需补足协议及工具支持 |
-| [caeoj-audit-data](.agents/skills/caeoj-audit-data/SKILL.md) | 对照题面、协议和全部实际数据，审核 I/O 定义与读取分支 |
+| [caeoj-manage-data](.agents/skills/caeoj-manage-data/SKILL.md) | 制作和上传 HF 题内数据池，选样、下载装配与完整性核验 |
+| [caeoj-design-review](.agents/skills/caeoj-design-review/SKILL.md) | 独立检查问题族定位、能力划分、来源独立性与建模评价一致性 |
+| [caeoj-candidate-review](.agents/skills/caeoj-candidate-review/SKILL.md) | 独立考生只读审阅题面与选定公开样例，支持题面／考试材料两种模式 |
+| [caeoj-data-review](.agents/skills/caeoj-data-review/SKILL.md) | 对照题面、协议和全部实际数据，审核 I/O 定义与读取分支 |
 | [caeoj-configure-judge](.agents/skills/caeoj-configure-judge/SKILL.md) | 配置评分与执行资源，核查判题实现并验证配置生效 |
 | [caeoj-run-benchmark](.agents/skills/caeoj-run-benchmark/SKILL.md) | 准备并运行 Agent 评测，管理监控、冻结条件与结果汇总 |
 
@@ -115,6 +129,8 @@ python -m pip install -e '.[maint,heat,pdebench]' -e qbank/extensions harbor
 
 **数据缺失或重新制作时准备数据。** 选择本题适用的一种方式；数据完整且与本次题目版本一致时可直接进入评测主线。
 
+已有 `data-manifest.json` 的题目先执行 `python -m caeoj_tools.cli data assemble --task '<task>'`，按选样从 HF 获取并装配，再用 `data verify --task '<task>' --strict` 核验。制池、上传、选样及覆盖规则见[数据池操作](qbank/maintenance/DATA-SYNC.md)。发布和 Harbor 准备已接入离线前置检查。本地数据和回执由 Git 忽略；只有需要制作或修订数据时才使用下面的生成流程。
+
 有独立生成器的题目生成输入、参考与公开样例：
 
 ```sh
@@ -131,7 +147,7 @@ python src/utils/PDEBench/prepare.py --tasks '<task>' --budget-gb 60 --no-bootst
 
 ### 评测主线
 
-**1. 打包公开材料并统一组装 Harbor 环境。** 确认题面、DATA、完整公开样例、隐藏输入与参考均已就绪。评分由 `grading.json` 定义，逐例时限放在 `judge-config.json`，CPU／内存等容器资源放在 `harbor/task.toml`，依赖补充放在 `harbor/requirements.txt`。
+**1. 打包公开材料并统一组装 Harbor 环境。** 确认题面、DATA、完整公开样例、隐藏输入与参考均已就绪。评分由每例 `reference/grading.json` 定义，逐例时限放在 `judge-config.json`，CPU／内存等容器资源放在 `harbor/task.toml`，依赖补充放在 `harbor/requirements.txt`。
 
 ```sh
 python src/utils/publish_dist.py --task '<task>'
@@ -167,7 +183,7 @@ HPC 可追加 `--override-cpus '<cpu-quota>' --override-memory-mb '<memory-mb>'`
 
 ### 按需验证与诊断
 
-**开发回归：题目或基础设施修改后、打包前执行相关测试。** `<test-file>` 取对应题目 README 中的文件；全量回归前补齐各相关测试依赖的本地数据。
+**开发回归：题目或基础设施修改后、打包前执行相关测试。** `<test-file>` 取对应题目 README 中的文件；测试在系统临时目录生成 fixture，不依赖本地题库载荷、装配回执或 HF 下载；无需先装配正式数据。
 
 ```sh
 python -m unittest discover -s tests -p '<test-file>.py' -v
@@ -189,11 +205,11 @@ python -m caeoj validate-output --input '<task-dir>/cases/<case>/problem.json' -
 harbor run -p 'runs/harbor/tasks/<task>' -e docker -a oracle -k 1 -n 1 -o 'runs/harbor/jobs'
 ```
 
-**单点复核：检查已有求解程序的输出和成绩。** 判分会独立校验输出结构，数值规则使用本题 `grading.json`。
+**单点复核：检查已有求解程序的输出和成绩。** 判分会独立校验输出结构，规则使用本case的 `reference/grading.json`。
 
 ```sh
 python '<solver.py>' --input '<task-dir>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5'
-python -m caeoj grade --input '<task-dir>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5' --reference '<task-dir>/reference/<case>/reference.h5' --grading '<task-dir>/grading.json'
+python -m caeoj grade --input '<task-dir>/cases/<case>/problem.json' --output 'runs/<task>/<case>/result.h5' --grading '<task-dir>/reference/<case>/grading.json'
 ```
 
 校验返回 `valid/errors` JSON；判分每点为 0/1，退出码 2 表示基础设施或命令参数错误。评分方式见 [GRADING.md](docs/GRADING.md)。

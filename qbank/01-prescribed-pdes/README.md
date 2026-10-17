@@ -24,7 +24,7 @@
 
 ## 使用与维护
 
-考生只需本题 instruction.md、DATA.md 和通用 CONTRACT.md。各题 README、author 和 reference 为维护资料；来源与离散参考的局限保留在算例及参考层，不成为题名或隐藏要求。
+考生只需本题 instruction.md、DATA.md 和通用 CONTRACT.md。各题 README 和 author 为维护资料；来源与离散参考的局限保留在算例及参考层，不成为题名或隐藏要求。
 
 项目工具按唯一 slug 在 `qbank/<chapter>/<section>/<task>/` 定位题目。保持 slug 唯一；同名目录或链接目录会被拒绝，避免误选题。迁移后的命令仍使用 `--task <slug>`：
 

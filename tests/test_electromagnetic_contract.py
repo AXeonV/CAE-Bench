@@ -11,12 +11,13 @@ import h5py
 import numpy as np
 from electromagnetic_fixture import fixture
 from caeoj_ext.electromagnetic import models
+from qbank.maintenance.authoring.build_electromagnetic import M as AUTHOR_MODELS
 from caeoj.sdk import load_problem,write_result
 from caeoj.validation import validate_input,validate_output,output_support
-from caeoj.grading import grade_arrays
+from grading_fixtures import evaluate_arrays
 from caeoj.grading_policy import resolve_policy
 from caeoj_tools.task_paths import task_directory
-from caeoj_tools.grading_policy import task_policy
+from caeoj_tools.grading_policy import author_policy
 from caeoj_tools.assembly import runtime_materials
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -118,31 +119,31 @@ class ElectromagneticTests(unittest.TestCase):
         template=(ROOT/'src/utils/harbor/task.toml').read_text()
         for slug,cfg in models().items():
             with self.subTest(slug=slug),tempfile.TemporaryDirectory() as tmp:
-                path,m=fixture(tmp,slug);p=load_problem(path);task=task_directory(slug,ROOT);policy=task_policy(task,p);bound=resolve_policy(policy,p)
+                path,m=fixture(tmp,slug);p=load_problem(path);task=task_directory(slug,ROOT);policy=author_policy(task,p);bound=resolve_policy(policy,p)
                 ref={k:p.arrays[k].copy() for k in output_support(p)}
                 for s in m['outputs'].values():ref[s['array']]=np.zeros((len(p.arrays[m['time_axes'][s['time_axis']]]),len(p.arrays[m['locations'][s['location']]['ids']]),*s['component_shape']))
                 for name,s in m['outputs'].items():
                     q=s['quantity'];expected=({'potential':1e-6,'node_voltage':1e-6,'branch_voltage':1e-6,'electrode_potential':1e-6,'electric_displacement':1e-10,'vector_potential':1e-9,'magnetic_flux_density':1e-8,'coil_current':1e-8,'branch_current':1e-8,'flux_linkage':1e-9,'joule_loss':1e-8}.get(q,1e-7),.005)
                     self.assertEqual((bound['fields'][name]['atol'],bound['fields'][name]['rtol']),expected)
                     actual=deepcopy(ref);tol=bound['fields'][name]['atol'];actual[s['array']][:]=tol
-                    self.assertEqual(grade_arrays(p,actual,ref,policy=policy)['score'],1)
+                    self.assertEqual(evaluate_arrays(p,actual,ref,policy=policy)['score'],1)
                     actual[s['array']].flat[0]=np.nextafter(tol,np.inf)
-                    self.assertEqual(grade_arrays(p,actual,ref,policy=policy)['score'],0)
+                    self.assertEqual(evaluate_arrays(p,actual,ref,policy=policy)['score'],0)
                     nonzero=deepcopy(ref);nonzero[s['array']][:]=100.;actual=deepcopy(nonzero)
                     edge=100.+expected[0]+100.*expected[1]
                     if edge-100.>expected[0]+100.*expected[1]:edge=np.nextafter(edge,-np.inf)
                     actual[s['array']][:]=edge
-                    self.assertEqual(grade_arrays(p,actual,nonzero,policy=policy)['score'],1)
+                    self.assertEqual(evaluate_arrays(p,actual,nonzero,policy=policy)['score'],1)
                     actual[s['array']].flat[0]=np.nextafter(actual[s['array']].flat[0],np.inf)
-                    self.assertEqual(grade_arrays(p,actual,nonzero,policy=policy)['score'],0)
+                    self.assertEqual(evaluate_arrays(p,actual,nonzero,policy=policy)['score'],0)
                 config=json.loads((task/'judge-config.json').read_text());override=tomllib.loads((task/'harbor/task.toml').read_text());merged=tomllib.loads(prepare.task_config(template,override,judge_config=config,case_count=3))
-                self.assertEqual(config['timeout_seconds'],cfg['timeout']);self.assertIsNone(config['max_output_bytes'])
+                self.assertEqual(config['timeout_seconds'],AUTHOR_MODELS[slug]['timeout']);self.assertIsNone(config['max_output_bytes'])
                 self.assertEqual(merged['environment']['memory_mb'],8192);self.assertEqual(merged['environment']['cpus'],4);self.assertEqual(merged['environment']['gpus'],0)
                 self.assertEqual(merged['agent']['timeout_sec'],3600);self.assertEqual(merged['environment']['build_timeout_sec'],1800)
-                self.assertEqual(merged['verifier']['network_mode'],'no-network');self.assertEqual(merged['verifier']['environment_mode'],'separate');self.assertEqual(merged['verifier']['timeout_sec'],max(1200,300+3*(cfg['timeout']+60)))
+                self.assertEqual(merged['verifier']['network_mode'],'no-network');self.assertEqual(merged['verifier']['environment_mode'],'separate');self.assertEqual(merged['verifier']['timeout_sec'],max(1200,300+3*(AUTHOR_MODELS[slug]['timeout']+120)))
                 self.assertEqual((task/'harbor/requirements.txt').read_text().strip(),'scipy==1.18.1')
                 bad=deepcopy(ref);bad.pop(next(iter(m['outputs'].values()))['array'])
-                self.assertEqual(grade_arrays(p,bad,ref,policy=policy)['score'],0);self.assertIsNone(grade_arrays(p,ref,bad,policy=policy)['score'])
+                self.assertEqual(evaluate_arrays(p,bad,ref,policy=policy)['score'],0);self.assertIsNone(evaluate_arrays(p,ref,bad,policy=policy)['score'])
         files,runtime=runtime_materials({s:task_directory(s,ROOT) for s in models()},ROOT)
         self.assertEqual(set(runtime['extensions']),{'electromagnetic.linear'})
         self.assertFalse(any(any(v in name for v in ('caeoj_tools','/author/','maintenance','/cases/','/reference/')) for name in files))

@@ -1,5 +1,6 @@
 """Expand independent material-evolution contracts; never generate case data."""
 from pathlib import Path
+from caeoj_tools.author import public_model_catalog
 import json
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -54,7 +55,7 @@ for sec,title,slugs in SECTIONS:
         if slug=='grain-coarsening':
             c['parameters'].update(grain_count=p('1','取向数K，JSON整数2..6，状态分量顺序为η1..ηK',integer=True,lower=2,upper=6), competition=p('1','竞争系数γ>1',lower_exclusive=1))
         if slug=='coupled-precipitation':
-            c['parameters'].update(coupling_energy=p('J/m3','偏聚能系数B>0',positive=True), reference=p('1','c_ref，任意有限实数'), partition=p('1','δ>0',positive=True))
+            c['parameters'].update(coupling_energy=p('J/m3','偏聚能系数B>0',positive=True), reference=p('1','参考成分偏差c_ref'), partition=p('1','δ>0',positive=True))
         if slug=='crystal-density':
             c['parameters'].update(length_scale=p('m','ell>0，确定晶体尺度',positive=True),undercooling=p('1','约化二次能系数r，有限实数，不是Kelvin温度'))
         c['state_order'] = {'binary-separation':'[c]','ternary-separation':'[c1,c2]（c3从约束确定，不另输入）','order-relaxation':'[η]','driven-ordering':'[η]','grain-coarsening':'[η1,…,ηK]，标签固定','coupled-precipitation':'[c,η]','crystal-density':'[n]'}[slug]
@@ -94,7 +95,7 @@ def describe(v,size):
 
 def main():
     ext=ROOT/'qbank/extensions/caeoj_ext/microstructure';ext.mkdir(parents=True,exist_ok=True)
-    (ext/'models.json').write_text(json.dumps(MODELS,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    (ext/'models.json').write_text(json.dumps(public_model_catalog(MODELS),ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     toc=[]
     for sec,title,slugs in SECTIONS:
         sd=CH/sec;sd.mkdir(parents=True,exist_ok=True);links=[]
@@ -118,7 +119,7 @@ def main():
             for op,r in c['records'].items():
                 records.append(f'### `{op}`\n\nconditions中该operator恰一条完整记录：role=`{r["role"]}`，variable=`{r["variable"]}`，operator=`{op}`，location=`{r["location"]}`，字段时间轴=`{r["axis"]}`；data恰含下列全部键，无默认值：\n\n| data键 | 类型、单位及含义 |\n|---|---|\n'+'\n'.join(f'| `{key}` | {describe(v,c["state_size"])} |' for key,v in r['data'].items()))
             outputs='\n'.join(f'| `{q}` | {describe(v,c["state_size"])} |' for q,v in c['outputs'].items())
-            data=f'# {slug} 数据契约\n\n入口problem.json和data_file引用的扁平HDF5遵循CONTRACT，所有路径相对清单目录。physics恰含model、parameters，model=`microstructure-{slug}-v1`；task可省略，出现只能为`{slug}`。不接受profile、contract_version、analysis或materials混用。\n\n## 物理与边界\n\n{PHYS[slug]}\n\n二维连续周期矩形Ω=[0,Lx)×[0,Ly)，x、y单位m。场及本题动力学涉及的全部阶空间导数在两对边周期匹配；没有墙面、流入／流出或隐藏表面能。材料系数均匀、恒定，外驱若有仅按本题显式定义。\n\n## 参数全集\n\nphysics.parameters恰含下表全部项，每项仅value和unit；所有数值有限，布尔不可作数值，整数必须JSON整数。\n\n| 参数 | 单位 | 定义及范围 |\n|---|---|---|\n{parameters}\n\n## 对象与身份\n\nspatial_dimension=2；meshes和geometries必须为空，不存在未给定空间网格。locations恰含system、modes、probes：system为entities且IDs恰[0]；modes为entities，1..32个系数对象，IDs非负严格递增，可不连续；probes为points，1..128个真实坐标，coordinates为float64[N,2]，0≤x<Lx、0≤y<Ly，IDs非负严格递增，不要求坐标排序。探针不是内部计算网格，重复坐标允许，但身份独立。\n\n## 初态的连续定义\n\n{initial}\n\n## 时间与场数组\n\n{timing}\n\n所有字段float64，shape=[T,N,*component_shape]；T按字段time_axis，N按location IDs。scalar的component_shape=[1]、components=["value"]；components类型按表shape代入s'+('及k=grain_count' if slug=='grain-coarsening' else '')+'，components标签为按行优先展开的c1..cL，末轴变化最快。矩阵若有必须存完整数组。所有value_kind=point；entities字段是对象自身系数，不是空间平均或探针值。data只接受{"field":"逻辑字段名"}；fields记录的array才是HDF5 key，两种名称自由。字段与引用必须同location及所定时间轴；quantity等于data键名，value例外等于该条件variable。fields恰为实际被引用项，无内联常量、选项或隐式广播。\n\n每个输入字段显式sampling：space=uniform（独立系数对象之间无插值）、extrapolation=forbid；static的time=constant'+('、control的time=linear' if slug=='driven-ordering' else '')+'。连续初态按上节公式，不能按sampling枚举猜测空间插值。\n\n## 条件全集\n\n'+'\n\n'.join(records)+f'\n\n## 输出\n\n每种quantity至少一次，可重复请求；逻辑字段名及array key自由。均为probes上连续解的指定时刻点值，float64、value_kind=point、time_axis=requests、无sampling；shape及分量标签遵循上节，不是空间／时间平均。\n\n| quantity | 类型、单位与含义 |\n|---|---|\n{outputs}\n\n结果仅含输出array及其输入probes IDs／requests时间数组的精确副本；不导出坐标、输入模态、内部离散或其他数组。势和驱动力必须按给定绝对公式输出，不能借动力学只依赖导数而加常量；不旋转、平移组织、重排标签或拟合幅度。\n\n## 接收和验证限制\n\n输入场及输出场总分量分别≤2000000。所有浮点值有限，初态的保守范围按上节逐项检查。正式数据须独立验证模型适用、连续观测存在、内部空间／时间收敛、参考精度和相同预算内可达性；不得以参数正值、格式合法、守恒或自由能下降代替数值正确性证据。\n'
+            data=f'# {slug} 数据契约\n\n入口problem.json和data_file引用的扁平HDF5遵循CONTRACT，所有路径相对清单目录。physics恰含model、parameters，model=`microstructure-{slug}-v1`；task可省略，出现只能为`{slug}`。不接受profile、contract_version、analysis或materials混用。\n\n## 物理与边界\n\n{PHYS[slug]}\n\n二维连续周期矩形Ω=[0,Lx)×[0,Ly)，x、y单位m。场及本题动力学涉及的全部阶空间导数在两对边周期匹配；没有墙面、流入／流出或隐藏表面能。材料系数均匀、恒定，外驱若有仅按本题显式定义。\n\n## 参数全集\n\nphysics.parameters恰含下表全部项，每项仅value和unit；所有数值有限，布尔不可作数值，整数必须JSON整数。\n\n| 参数 | 单位 | 定义及范围 |\n|---|---|---|\n{parameters}\n\n## 对象与身份\n\nspatial_dimension=2；meshes和geometries必须为空，不存在未给定空间网格。locations恰含system、modes、probes：system为entities且IDs恰[0]；modes为entities，1..32个系数对象，IDs非负严格递增，可不连续；probes为points，1..128个真实坐标，coordinates为float64[N,2]，0≤x<Lx、0≤y<Ly，IDs非负严格递增，不要求坐标排序。探针不是内部计算网格，重复坐标允许，但身份独立。\n\n## 初态的连续定义\n\n{initial}\n\n## 时间与场数组\n\n{timing}\n\n所有字段float64，shape=[T,N,*component_shape]；T按字段time_axis，N按location IDs。scalar的component_shape=[1]、components=["value"]；components类型按表shape代入s'+('及k=grain_count' if slug=='grain-coarsening' else '')+'，components标签为按行优先展开的c1..cL，末轴变化最快。矩阵若有必须存完整数组。所有value_kind=point；entities字段是对象自身系数，不是空间平均或探针值。data只接受{"field":"逻辑字段名"}；fields记录的array才是HDF5 key，两种名称自由。字段与引用必须同location及所定时间轴；quantity等于data键名，value例外等于该条件variable。fields恰为实际被引用项，无内联常量、选项或隐式广播。\n\n每个输入字段显式sampling：space=uniform（独立系数对象之间无插值）、extrapolation=forbid；static的time=constant'+('、control的time=linear' if slug=='driven-ordering' else '')+'。连续初态按上节公式，不能按sampling枚举猜测空间插值。\n\n## 条件全集\n\n'+'\n\n'.join(records)+f'\n\n## 输出\n\n每种quantity至少一次，可重复请求；逻辑字段名及array key自由。均为probes上连续解的指定时刻点值，float64、value_kind=point、time_axis=requests、无sampling；shape及分量标签遵循上节，不是空间／时间平均。\n\n| quantity | 类型、单位与含义 |\n|---|---|\n{outputs}\n\n结果仅含输出array及其输入probes IDs／requests时间数组的精确副本；不导出坐标、输入模态、内部离散或其他数组。势和驱动力必须按给定绝对公式输出，不能借动力学只依赖导数而加常量；不旋转、平移组织、重排标签或拟合幅度。\n\n## 接收限制\n\n输入场及输出场总分量分别≤2000000。所有浮点值有限，初态的保守范围按上节逐项检查。\n'
             if slug=='ternary-separation':
                 data=data.replace('## 输出\n', '迁移率矩阵检查要求存储值M12=M21，且M11>0、M22>0、M11M22−M12²>0；不取对称部分或修正特征值。\n\n## 输出\n')
             data=data.replace('## 条件全集\n', f'## 条件全集\n\nconditions恰含{len(c["records"])}条记录，下列每种operator各一条，无其他条件；记录顺序自由。\n')
@@ -132,8 +133,8 @@ def main():
             if slug in ('order-relaxation','driven-ordering','grain-coarsening','coupled-precipitation'):bounds+='τa=L A t_end≤10。'
             if slug=='coupled-precipitation':bounds+='B/A∈[0.1,10]，τc=M A t_end/ℓ0²≤1。'
             if slug=='driven-ordering':bounds+='所有控制结点|b|/A≤2，区间内由线性插值继承此界限。'
-            bounds+='这些是不依赖内部算法的公开接收上限，包含端点，暂定用于控制界面／晶体尺度、长宽比与演化跨度，不是已完成预算校准的证据。有效物理输入还保证全部请求的连续观测可表示为有限float64；正式数据须逐例独立验证，不用结构检查替代。'
-            data=data.replace('## 接收和验证限制\n', '## 接收和验证限制\n\n'+bounds+'\n')
+            bounds+='上述接收范围包含端点，用于限定界面／晶体尺度、长宽比与演化跨度。全部请求的连续观测可表示为有限float64，并可在公开资源预算内达到评分精度。'
+            data=data.replace('## 接收限制\n', '## 接收限制\n\n'+bounds+'\n')
             data=data.replace('components类型按表shape代入s'+('及k=grain_count' if slug=='grain-coarsening' else ''),'components类型按表shape'+('（K=grain_count）' if slug=='grain-coarsening' else ''))
             if slug!='ternary-separation':data=data.replace('矩阵若有必须存完整数组。','')
             if slug!='coupled-precipitation':data=data.replace('κ（或κc、κη）','κ')
@@ -145,7 +146,7 @@ def main():
                 data=data.replace('势和驱动力必须按给定绝对公式输出，不能借动力学只依赖导数而加常量','驱动力必须按给定有符号公式输出，不加常量或取模')
             (td/'DATA.md').write_text(data,encoding='utf-8')
             tolerances='\n'.join(f'| `{q}` | {v["atol"]} | {v["rtol"]} | `{v["unit"]}` |' for q,v in c['outputs'].items())
-            instruction=f'# {num} {c["name"]}\n\n实现覆盖公开问题族的可复用求解器，冻结后处理多个未见算例。{PHYS[slug]}\n\n问题位于二维周期矩形，材料系数、组织初态、尺寸、请求时刻'+('及外场历史' if slug=='driven-ordering' else '')+'随算例变化。输入及精确初边值定义见[本题DATA](DATA.md)，存储和通用引用见[CONTRACT](../../../../docs/CONTRACT.md)，三文件构成全部题意。考生负责给定有效材料模型的数值实现、内部空间离散、非线性／高阶处理和时间误差控制；不要求某种软件、算法或复现参考实现。覆盖完整公开范围的解析／降阶方法同样有效。初态用有限三角级数定义，不要求谱方法，也不允许把连续演化固定截断到初始模式。\n\n## 运行与资源\n\n入口`python solve.py --input /path/problem.json --output /path/result.h5`。每例Linux AMD64、{c["timeout"]}秒墙钟（含启动与I/O）、2CPU、4096MB、0GPU、逐例无网络；0退出并完成关闭结果文件，无独立输出字节限额。生成求解器3600秒、构建1800秒；提供Python3、NumPy、SciPy、h5py、Gmsh、jsonschema及C++/OpenMP/OpenMPI/HDF5，不强制Python。输入模式1..32、探针1..128、输出帧1..256；输入／输出场各≤2000000分量。模式及输出点数不限制内部数值自由度；容差、规模和预算为待校准设计目标，正式数据须有独立预算内精度证据。\n\n## 评分\n\n每有效例正常退出、结构合法且每quantity全部时刻／探针／分量满足`|结果−参考|≤atol+rtol·|参考|`得1分，否则0分，等号接受。无常量势平移、组织平移／旋转、幅度拟合或标签重排；守恒、能量下降或低残差不替代逐值结果。\n\n| quantity | atol | rtol | 单位 |\n|---|---|---|---|\n{tolerances}\n\n成绩=通过有效例数／有效例总数。输入、参考或配置错误属基础设施错误，不计为考生失分；无有效例不产生成绩。工具验证不证明物理参考、收敛或预算已校准。\n'
+            instruction=f'# {num} {c["name"]}\n\n实现覆盖公开问题族的可复用求解器，冻结后处理多个未见算例。\n\n问题位于二维周期矩形，材料系数、组织初态、尺寸、请求时刻'+('及外场历史' if slug=='driven-ordering' else '')+'随算例变化。输入及精确初边值定义见[本题DATA](DATA.md)，存储和通用引用见[CONTRACT](../../../../docs/CONTRACT.md)，三文件构成全部题意。考生负责给定有效材料模型的数值实现、内部空间离散、非线性／高阶处理和时间误差控制；不要求某种软件、算法或复现参考实现。覆盖完整公开范围的解析／降阶方法同样有效。初态用有限三角级数定义，不要求谱方法，也不允许把连续演化固定截断到初始模式。\n\n## 运行与资源\n\n入口`python solve.py --input /path/problem.json --output /path/result.h5`。每例Linux AMD64、{c["timeout"]}秒墙钟（含启动与I/O）、2CPU、4096MB、0GPU、逐例无网络；0退出并完成关闭结果文件，无独立输出字节限额。生成求解器3600秒、构建1800秒；提供Python3、NumPy、SciPy、h5py、Gmsh、jsonschema及C++/OpenMP/OpenMPI/HDF5，不强制Python。输入模式1..32、探针1..128、输出帧1..256；输入／输出场各≤2000000分量。模式及输出点数不限制内部数值自由度。\n\n## 评分\n\n每有效例正常退出、结构合法且每quantity全部时刻／探针／分量满足`|结果−参考|≤atol+rtol·|参考|`得1分，否则0分，等号接受。无常量势平移、组织平移／旋转、幅度拟合或标签重排；守恒、能量下降或低残差不替代逐值结果。\n\n| quantity | atol | rtol | 单位 |\n|---|---|---|---|\n{tolerances}\n\n成绩=通过有效例数／有效例总数。输入、参考或配置错误属基础设施错误，不计为考生失分；无有效例不产生成绩。\n'
             if slug!='grain-coarsening':
                 instruction=instruction.replace('或标签重排','')
             instruction=instruction.replace('{c["timeout"]}',str(c['timeout'])).replace('{tolerances}',tolerances)
@@ -155,14 +156,15 @@ def main():
             instruction=instruction.replace('界面／晶体尺度','晶体尺度' if slug=='crystal-density' else '界面尺度')
             (td/'instruction.md').write_text(instruction,encoding='utf-8')
             policy=dict(version=2,quantities={q:dict(unit=v['unit'],rule=dict(metric='pointwise',time='per_time',components='per_component',atol=v['atol'],rtol=v['rtol'])) for q,v in c['outputs'].items()})
-            (td/'grading.json').write_text(json.dumps(policy,indent=2)+'\n',encoding='utf-8')
+            (td/'author').mkdir(exist_ok=True)
+            (td/'author/grading-template.json').write_text(json.dumps(policy,indent=2)+'\n',encoding='utf-8')
             (td/'judge-config.json').write_text(json.dumps(dict(timeout_seconds=c['timeout'],max_output_bytes=None,stage='provisional',verifier_budget=dict(base_seconds=300,per_case_overhead_seconds=60)),indent=2)+'\n',encoding='utf-8')
             (td/'harbor').mkdir(exist_ok=True)
             (td/'harbor/requirements.txt').write_text('scipy==1.18.1\n',encoding='utf-8')
             (td/'harbor/task.toml').write_text('[agent]\ntimeout_sec = 3600.0\n\n[environment]\nbuild_timeout_sec = 1800.0\ncpus = 2\nmemory_mb = 4096\ngpus = 0\nos = "linux"\n\n[verifier]\nnetwork_mode = "no-network"\n',encoding='utf-8')
         (sd/'README.md').write_text(f'# {sec.split("-")[0]} {title}\n\n'+'\n'.join(links)+'\n',encoding='utf-8')
         toc.append(f'- [{sec.split("-")[0]} {title}]({sec}/README.md)')
-    (CH/'README.md').write_text('# 第十六章 材料组织与微观演化分析\n\n五节七题；考生仅依赖本题instruction、DATA及通用CONTRACT。正式数据、参考与发布留后。\n\n'+'\n'.join(toc)+'\n\n维护：[规划](../design/chapter-16-microstructure.md)、[逐题清单](../design/chapter-16-task-plan.md)、[进度](../design/reviews/chapter-16-progress.md)。\n',encoding='utf-8')
+    (CH/'README.md').write_text('# 第十六章 材料组织与微观演化分析\n\n五节七题；考生仅依赖本题instruction、DATA及通用CONTRACT。正式数据、参考与发布留后。\n\n'+'\n'.join(toc)+'\n\n维护：[规划](../design/chapter-16-microstructure.md)、[逐题清单](../design/chapter-16-task-plan.md)、[进度](../design/reviews/chapter-16-progress.md)、[声明维护](../maintenance/protocols/MICROSTRUCTURE.md)。\n',encoding='utf-8')
 
 
 if __name__=='__main__':

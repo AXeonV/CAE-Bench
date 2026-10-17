@@ -4,11 +4,12 @@ No case data, reference solutions, or public solver dependency is generated.
 Run from repository root; --batch selects a section range.
 """
 from pathlib import Path
+from caeoj_tools.author import public_model_catalog
 import argparse
 import json
 
 ROOT = Path(__file__).resolve().parents[2]
-SECTIONS = json.loads((ROOT/'qbank/maintenance/solid-plan.json').read_text())
+SECTIONS = json.loads((ROOT/'qbank/maintenance/solid-plan.json').read_text(encoding='utf-8'))
 CAT = {}
 Q = {
  'displacement':('m','vector',1e-6,'nodes','位移u，参考全局坐标分量'),
@@ -329,7 +330,8 @@ def render(batch=None):
 '''
    (folder/'instruction.md').write_text(instr);(folder/'DATA.md').write_text(data_text(cfg))
    policy={'version':2,'quantities':{q:{'unit':x['unit'],'rule':dict(metric='pointwise',time='per_time',components='per_component',atol=x['atol'],rtol=.01)} for q,x in cfg['output_specs'].items()}}
-   (folder/'grading.json').write_text(json.dumps(policy,ensure_ascii=False,indent=2)+'\n')
+   (folder/'author').mkdir(parents=True,exist_ok=True)
+   (folder/'author/grading-template.json').write_text(json.dumps(policy,ensure_ascii=False,indent=2)+'\n')
    (folder/'judge-config.json').write_text(json.dumps(dict(timeout_seconds=cfg['timeout'],max_output_bytes=None,stage='provisional',verifier_budget=dict(base_seconds=300,per_case_overhead_seconds=60)),indent=2)+'\n')
    (folder/'harbor').mkdir(exist_ok=True)
    (folder/'harbor/task.toml').write_text('[agent]\ntimeout_sec = 3600.0\n\n[environment]\nbuild_timeout_sec = 1800.0\ncpus = 4\nmemory_mb = 8192\ngpus = 0\nos = "linux"\n\n[verifier]\nnetwork_mode = "no-network"\n')
@@ -341,7 +343,7 @@ def render(batch=None):
  (parent/'README.md').write_text(index)
  if not batch:
   ext=ROOT/'qbank/extensions/caeoj_ext/solid';ext.mkdir(exist_ok=True)
-  (ext/'models.json').write_text(json.dumps(CAT,ensure_ascii=False,indent=2)+'\n')
+  (ext/'models.json').write_text(json.dumps(public_model_catalog(CAT),ensure_ascii=False,indent=2)+'\n')
 
 if __name__=='__main__':
  parser=argparse.ArgumentParser();parser.add_argument('--batch',nargs=2,type=int);args=parser.parse_args();render(args.batch)

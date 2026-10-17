@@ -1,5 +1,6 @@
 """Expand task-specific public statements and metadata. No case/reference maker."""
 from pathlib import Path
+from caeoj_tools.author import public_model_catalog
 import json
 ROOT=Path(__file__).resolve().parents[3];CH=ROOT/'qbank/05-heat-transfer'
 SECTIONS=[('5.1-conduction','导热与各向异性',['thermal-steady','thermal-transient','anisotropic-conduction']),('5.2-properties','温度相关热物性',['nonlinear-conductivity','nonlinear-capacity']),('5.3-interfaces-layers','界面与降维薄层',['thermal-contact','thin-sheet-heat']),('5.4-convection','给定流场下的对流换热',['prescribed-advection-heat','conjugate-prescribed-flow']),('5.5-radiation','热辐射',['radiative-boundary','gray-enclosure']),('5.6-phase-change','相变传热',['mushy-enthalpy','isothermal-stefan'])]
@@ -79,7 +80,7 @@ def describe(s):
  return f"{s['kind']} {s['shape']}，`{s['unit']}`；{s['meaning']}"+('，dtype=int64' if s.get('dtype')=='int64' else '')
 
 def main():
- ext=ROOT/'qbank/extensions/caeoj_ext/thermal';ext.mkdir(parents=True,exist_ok=True);(ext/'models.json').write_text(json.dumps(M,ensure_ascii=False,indent=2)+'\n')
+ ext=ROOT/'qbank/extensions/caeoj_ext/thermal';ext.mkdir(parents=True,exist_ok=True);(ext/'models.json').write_text(json.dumps(public_model_catalog(M),ensure_ascii=False,indent=2)+'\n')
  toc=[]
  for sec,title,slugs in SECTIONS:
   sd=CH/sec;sd.mkdir(parents=True,exist_ok=True);links=[]
@@ -142,7 +143,8 @@ def main():
    (td/'instruction.md').write_text(f'# {num} {c["name"]}\n\n实现本题完整公开问题族的可复用求解器，冻结后处理多个未见算例。'+PHYS[slug]+'\n\n具体材料、参数、几何或离散表面、热载荷、初态（仅瞬态）与输出由本题DATA定义。考生负责依据给定物理事实建立相容热分析，选择适当表示、离散、非线性及时间求解和误差控制；不能替换本题给定的物理响应。语言、软件、内部网格和算法自由，覆盖公开范围的解析／降阶方法同样有效，不要求复现参考软件或参考离散。只需阅读[本题DATA](DATA.md)和[通用CONTRACT](../../../../docs/CONTRACT.md)。\n\n## 运行与规模\n\n'+('一套腔体、2..24个灰漫表面。' if gray else '参考网格至多4000顶维单元、10000节点。')+'每轴至多101帧，输入／输出场分别至多3000000分量；数据方须避免任意病态组合，并用独立基准证明预算内精度。当前预算与容差是待校准设计目标，不能视作已获得参考精度或物理验证。\n\n'+f'入口`python solve.py --input /path/problem.json --output /path/result.h5`；每例Linux AMD64、{c["timeout"]}秒墙钟（含启动和读写）、4CPU、6144MB、0GPU；逐例无网络。程序0退出并写出完整HDF5；无独立输出字节限额。生成求解器3600秒，构建1800秒。环境提前提供Python3、NumPy、SciPy、h5py、Gmsh、jsonschema、C++/OpenMP/OpenMPI/HDF5，不强制Python求解。\n\n## 评分\n\n每个有效例正常退出、输出结构合法、所有quantity在全部请求时刻／实体／分量上逐值满足`|结果−参考|≤atol(quantity)+rtol(quantity)|参考|`得1分，否则0分；阈值等号接受，无平移、拟合、重排、去均值或少数超限豁免。温度直接以K比较，rtol=0；不按绝对开尔文温度放宽相对误差。\n\n| quantity | atol | rtol | 单位 |\n|---|---|---|---|\n'+tolerances+'\n\n成绩为通过有效例数／有效例数；输入／配置／参考错误属于基础设施错误，不算考生失败，无有效例时不产生成绩。IDs、时间、shape、dtype及有限值严格遵守CONTRACT。正式数据、参考准确性、容差／预算校准及评测发布留后。\n')
    if steady:
     pth=td/'instruction.md';pth.write_text(pth.read_text().replace('、初态（仅瞬态）',''))
-   (td/'grading.json').write_text(json.dumps(dict(version=2,quantities={q:dict(unit=s['unit'],rule=dict(metric='pointwise',time='per_time',components='per_component',atol=s['atol'],rtol=s['rtol'])) for q,s in c['outputs'].items()}),indent=2)+'\n')
+   (td/'author').mkdir(parents=True,exist_ok=True)
+   (td/'author/grading-template.json').write_text(json.dumps(dict(version=2,quantities={q:dict(unit=s['unit'],rule=dict(metric='pointwise',time='per_time',components='per_component',atol=s['atol'],rtol=s['rtol'])) for q,s in c['outputs'].items()}),indent=2)+'\n')
    (td/'judge-config.json').write_text(json.dumps(dict(timeout_seconds=c['timeout'],max_output_bytes=None,stage='provisional',verifier_budget=dict(base_seconds=300,per_case_overhead_seconds=60)),indent=2)+'\n')
    (td/'harbor').mkdir(exist_ok=True);(td/'harbor/requirements.txt').write_text('scipy==1.18.1\n');(td/'harbor/task.toml').write_text('[agent]\ntimeout_sec = 3600.0\n\n[environment]\nbuild_timeout_sec = 1800.0\ncpus = 4\nmemory_mb = 6144\ngpus = 0\nos = "linux"\n\n[verifier]\nnetwork_mode = "no-network"\n')
   (sd/'README.md').write_text(f'# {sec.split("-")[0]} {title}\n\n'+'\n'.join(links)+'\n');toc.append(f'- [{sec.split("-")[0]} {title}]({sec}/README.md)')

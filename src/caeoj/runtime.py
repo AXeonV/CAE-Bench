@@ -39,7 +39,7 @@ def descriptor():
         return {'version': 1, 'id': 'core-only', 'extensions': {}, 'tasks': {},
                 'strict_tasks': False, 'aliases': {}, 'modules': {}}
     try:
-        data = read_metadata(files('caeoj_bundle').joinpath('runtime.json').read_text())
+        data = read_metadata(files('caeoj_bundle').joinpath('runtime.json').read_text(encoding='utf-8'))
         if not isinstance(data, dict) or type(data.get('version')) is not int or data['version'] != 1:
             raise ValueError('unsupported assembly version')
         if not isinstance(data.get('extensions'), dict) or not isinstance(data.get('tasks'), dict):
@@ -168,15 +168,15 @@ def schema(manifest):
 
 @lru_cache(maxsize=64)
 def _assembled_schema(names, identity):
-    base = json.loads(files('caeoj').joinpath('problem.schema.json').read_text())
-    points = json.loads(files('caeoj').joinpath('public-runtime.json').read_text()).get('schema_overrides', [])
+    base = json.loads(files('caeoj').joinpath('problem.schema.json').read_text(encoding='utf-8'))
+    points = json.loads(files('caeoj').joinpath('public-runtime.json').read_text(encoding='utf-8')).get('schema_overrides', [])
     fragments = []
     for name in names:
         spec = descriptor()['extensions'][name]
         for resource in spec.get('schemas', []):
             package, path = resource.split(':', 1)
             try:
-                fragment = json.loads(files(package).joinpath(path).read_text())
+                fragment = json.loads(files(package).joinpath(path).read_text(encoding='utf-8'))
             except (ImportError, OSError, ValueError) as exc:
                 raise RuntimeSupportError(f'Missing installed contract resource {resource}') from exc
             fragments.append((name, fragment, spec.get('schema_overrides', [])))

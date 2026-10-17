@@ -87,21 +87,18 @@
       "displacement": {
         "unit": "m",
         "kind": "vector",
-        "atol": 1e-06,
         "where": "nodes",
         "description": "位移u，参考全局坐标分量"
       },
       "stress": {
         "unit": "Pa",
         "kind": "tensor",
-        "atol": 100.0,
         "where": "cells",
         "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
       },
       "energy": {
         "unit": "J",
         "kind": "scalar",
-        "atol": 1e-05,
         "where": "sum",
         "description": "参考域上弹性储能积分"
       }
@@ -112,8 +109,7 @@
       "nodes": 15000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 900
+    }
   },
   "plane-strain": {
     "slug": "plane-strain",
@@ -196,21 +192,18 @@
       "displacement": {
         "unit": "m",
         "kind": "vector",
-        "atol": 1e-06,
         "where": "nodes",
         "description": "位移u，参考全局坐标分量"
       },
       "stress": {
         "unit": "Pa",
         "kind": "tensor",
-        "atol": 100.0,
         "where": "cells",
         "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
       },
       "energy": {
         "unit": "J/m",
         "kind": "scalar",
-        "atol": 1e-05,
         "where": "sum",
         "description": "参考域上弹性储能积分"
       }
@@ -221,8 +214,7 @@
       "nodes": 15000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 900
+    }
   },
   "elastic-solid-3d": {
     "slug": "elastic-solid-3d",
@@ -305,21 +297,18 @@
       "displacement": {
         "unit": "m",
         "kind": "vector",
-        "atol": 1e-06,
         "where": "nodes",
         "description": "位移u，参考全局坐标分量"
       },
       "stress": {
         "unit": "Pa",
         "kind": "tensor",
-        "atol": 100.0,
         "where": "cells",
         "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
       },
       "energy": {
         "unit": "J",
         "kind": "scalar",
-        "atol": 1e-05,
         "where": "sum",
         "description": "参考域上弹性储能积分"
       }
@@ -330,8 +319,7 @@
       "nodes": 15000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 900
+    }
   },
   "elastic-truss": {
     "slug": "elastic-truss",
@@ -406,14 +394,12 @@
       "displacement": {
         "unit": "m",
         "kind": "vector",
-        "atol": 1e-06,
         "where": "nodes",
         "description": "位移u，参考全局坐标分量"
       },
       "axial_force": {
         "unit": "N",
         "kind": "scalar",
-        "atol": 0.01,
         "where": "cells",
         "description": "轴向内力，受拉为正"
       }
@@ -424,8 +410,7 @@
       "nodes": 15000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 900
+    }
   },
   "elastic-beam": {
     "slug": "elastic-beam",
@@ -523,21 +508,18 @@
       "deflection": {
         "unit": "m",
         "kind": "scalar",
-        "atol": 1e-06,
         "where": "nodes",
         "description": "沿正横向的挠度w"
       },
       "slope": {
         "unit": "rad",
         "kind": "scalar",
-        "atol": 1e-05,
         "where": "nodes",
         "description": "梁截面转角dw/dx"
       },
       "bending_moment": {
         "unit": "N.m",
         "kind": "scalar",
-        "atol": 0.01,
         "where": "cells",
         "description": "梁弯矩EI·w″，按长度平均"
       }
@@ -548,8 +530,7 @@
       "nodes": 15000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 900
+    }
   },
   "elastic-plate": {
     "slug": "elastic-plate",
@@ -631,14 +612,12 @@
       "deflection": {
         "unit": "m",
         "kind": "scalar",
-        "atol": 1e-06,
         "where": "nodes",
         "description": "沿正横向的挠度w"
       },
       "curvature": {
         "unit": "1/m",
         "kind": "tensor",
-        "atol": 1e-05,
         "where": "cells",
         "description": "板曲率张量−Hessian(w)，全局xy完整矩阵"
       }
@@ -649,8 +628,7 @@
       "nodes": 15000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 900
+    }
   },
   "elastic-modes": {
     "slug": "elastic-modes",
@@ -715,7 +693,6 @@
       "frequency": {
         "unit": "Hz",
         "kind": "spectrum",
-        "atol": 0.001,
         "where": "mean",
         "description": "前k个正固有频率，升序，重数保留"
       }
@@ -726,8 +703,7 @@
       "nodes": 15000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 900
+    }
   },
   "elastic-transient": {
     "slug": "elastic-transient",
@@ -870,21 +846,18 @@
       "displacement": {
         "unit": "m",
         "kind": "vector",
-        "atol": 1e-06,
         "where": "nodes",
         "description": "位移u，参考全局坐标分量"
       },
       "velocity": {
         "unit": "m/s",
         "kind": "vector",
-        "atol": 1e-05,
         "where": "nodes",
         "description": "位移对物理时间导数"
       },
       "stress": {
         "unit": "Pa",
         "kind": "tensor",
-        "atol": 100.0,
         "where": "cells",
         "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
       }
@@ -895,8 +868,7 @@
       "nodes": 15000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 1500
+    }
   },
   "elastic-harmonic": {
     "slug": "elastic-harmonic",
@@ -1047,28 +1019,24 @@
       "displacement_real": {
         "unit": "m",
         "kind": "vector",
-        "atol": 1e-06,
         "where": "nodes",
         "description": "复位移幅实部"
       },
       "displacement_imag": {
         "unit": "m",
         "kind": "vector",
-        "atol": 1e-06,
         "where": "nodes",
         "description": "复位移幅虚部"
       },
       "stress_real": {
         "unit": "Pa",
         "kind": "tensor",
-        "atol": 100.0,
         "where": "cells",
         "description": "复应力幅实部"
       },
       "stress_imag": {
         "unit": "Pa",
         "kind": "tensor",
-        "atol": 100.0,
         "where": "cells",
         "description": "复应力幅虚部"
       }
@@ -1079,8 +1047,7 @@
       "nodes": 15000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 900
+    }
   },
   "hyperelastic-solid": {
     "slug": "hyperelastic-solid",
@@ -1177,21 +1144,18 @@
       "displacement": {
         "unit": "m",
         "kind": "vector",
-        "atol": 1e-06,
         "where": "nodes",
         "description": "位移u，参考全局坐标分量"
       },
       "stress": {
         "unit": "Pa",
         "kind": "tensor",
-        "atol": 100.0,
         "where": "cells",
         "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
       },
       "energy": {
         "unit": "J",
         "kind": "scalar",
-        "atol": 1e-05,
         "where": "sum",
         "description": "参考域上弹性储能积分"
       }
@@ -1202,8 +1166,7 @@
       "nodes": 15000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 1500
+    }
   },
   "elastic-buckling": {
     "slug": "elastic-buckling",
@@ -1284,7 +1247,6 @@
       "load_factor": {
         "unit": "1",
         "kind": "scalar",
-        "atol": 0.0001,
         "where": "mean",
         "description": "首个正屈曲载荷倍率"
       }
@@ -1295,8 +1257,7 @@
       "nodes": 15000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 900
+    }
   },
   "frictionless-contact": {
     "slug": "frictionless-contact",
@@ -1434,28 +1395,24 @@
       "displacement": {
         "unit": "m",
         "kind": "vector",
-        "atol": 1e-06,
         "where": "nodes",
         "description": "位移u，参考全局坐标分量"
       },
       "stress": {
         "unit": "Pa",
         "kind": "tensor",
-        "atol": 100.0,
         "where": "cells",
         "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
       },
       "contact_pressure": {
         "unit": "Pa",
         "kind": "scalar",
-        "atol": 100.0,
         "where": "contact",
         "description": "刚性障碍对固体的压应力大小p≥0，非接触处0"
       },
       "contact_traction": {
         "unit": "Pa",
         "kind": "vector",
-        "atol": 100.0,
         "where": "contact",
         "description": "刚性障碍对固体的总接触牵引，包含法向与切向"
       }
@@ -1466,8 +1423,7 @@
       "nodes": 15000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 1500
+    }
   },
   "frictional-contact": {
     "slug": "frictional-contact",
@@ -1612,28 +1568,24 @@
       "displacement": {
         "unit": "m",
         "kind": "vector",
-        "atol": 1e-06,
         "where": "nodes",
         "description": "位移u，参考全局坐标分量"
       },
       "stress": {
         "unit": "Pa",
         "kind": "tensor",
-        "atol": 100.0,
         "where": "cells",
         "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
       },
       "contact_pressure": {
         "unit": "Pa",
         "kind": "scalar",
-        "atol": 100.0,
         "where": "contact",
         "description": "刚性障碍对固体的压应力大小p≥0，非接触处0"
       },
       "contact_traction": {
         "unit": "Pa",
         "kind": "vector",
-        "atol": 100.0,
         "where": "contact",
         "description": "刚性障碍对固体的总接触牵引，包含法向与切向"
       }
@@ -1644,8 +1596,7 @@
       "nodes": 15000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 1500
+    }
   },
   "j2-plasticity": {
     "slug": "j2-plasticity",
@@ -1757,28 +1708,24 @@
       "displacement": {
         "unit": "m",
         "kind": "vector",
-        "atol": 1e-06,
         "where": "nodes",
         "description": "位移u，参考全局坐标分量"
       },
       "stress": {
         "unit": "Pa",
         "kind": "tensor",
-        "atol": 100.0,
         "where": "cells",
         "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
       },
       "plastic_strain": {
         "unit": "1",
         "kind": "tensor",
-        "atol": 1e-05,
         "where": "cells",
         "description": "完整小应变塑性应变，不是工程剪切"
       },
       "equivalent_plastic_strain": {
         "unit": "1",
         "kind": "scalar",
-        "atol": 1e-05,
         "where": "cells",
         "description": "累积等效塑性应变p"
       }
@@ -1789,8 +1736,7 @@
       "nodes": 15000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 1500
+    }
   },
   "linear-viscoelastic": {
     "slug": "linear-viscoelastic",
@@ -1901,21 +1847,18 @@
       "displacement": {
         "unit": "m",
         "kind": "vector",
-        "atol": 1e-06,
         "where": "nodes",
         "description": "位移u，参考全局坐标分量"
       },
       "stress": {
         "unit": "Pa",
         "kind": "tensor",
-        "atol": 100.0,
         "where": "cells",
         "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
       },
       "branch_stress": {
         "unit": "Pa",
         "kind": "tensor",
-        "atol": 100.0,
         "where": "cells",
         "description": "Maxwell偏支的偏应力q"
       }
@@ -1926,8 +1869,7 @@
       "nodes": 15000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 1500
+    }
   },
   "power-law-creep": {
     "slug": "power-law-creep",
@@ -2045,21 +1987,18 @@
       "displacement": {
         "unit": "m",
         "kind": "vector",
-        "atol": 1e-06,
         "where": "nodes",
         "description": "位移u，参考全局坐标分量"
       },
       "stress": {
         "unit": "Pa",
         "kind": "tensor",
-        "atol": 100.0,
         "where": "cells",
         "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
       },
       "creep_strain": {
         "unit": "1",
         "kind": "tensor",
-        "atol": 1e-05,
         "where": "cells",
         "description": "完整偏蠕变应变张量"
       }
@@ -2070,8 +2009,7 @@
       "nodes": 15000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 1500
+    }
   },
   "gradient-damage": {
     "slug": "gradient-damage",
@@ -2189,21 +2127,18 @@
       "displacement": {
         "unit": "m",
         "kind": "vector",
-        "atol": 1e-06,
         "where": "nodes",
         "description": "位移u，参考全局坐标分量"
       },
       "damage": {
         "unit": "1",
         "kind": "scalar",
-        "atol": 0.0001,
         "where": "nodes",
         "description": "不可逆连续损伤d∈[0,1]"
       },
       "energy": {
         "unit": "J/m",
         "kind": "scalar",
-        "atol": 1e-05,
         "where": "sum",
         "description": "完整内部能∫[g(d)ψ0+Gc(d²/(2ℓ)+ℓ|∇d|²/2)]dA，含裂纹正则化能"
       }
@@ -2214,8 +2149,7 @@
       "nodes": 15000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 1500
+    }
   },
   "linear-elastic-fracture": {
     "slug": "linear-elastic-fracture",
@@ -2298,21 +2232,18 @@
       "displacement": {
         "unit": "m",
         "kind": "vector",
-        "atol": 1e-06,
         "where": "nodes",
         "description": "位移u，参考全局坐标分量"
       },
       "stress": {
         "unit": "Pa",
         "kind": "tensor",
-        "atol": 100.0,
         "where": "cells",
         "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
       },
       "energy": {
         "unit": "J/m",
         "kind": "scalar",
-        "atol": 1e-05,
         "where": "sum",
         "description": "参考域上弹性储能积分"
       }
@@ -2323,8 +2254,7 @@
       "nodes": 15000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 900
+    }
   },
   "cohesive-interface": {
     "slug": "cohesive-interface",
@@ -2469,28 +2399,24 @@
       "displacement": {
         "unit": "m",
         "kind": "vector",
-        "atol": 1e-06,
         "where": "nodes",
         "description": "位移u，参考全局坐标分量"
       },
       "stress": {
         "unit": "Pa",
         "kind": "tensor",
-        "atol": 100.0,
         "where": "cells",
         "description": "Cauchy应力；小应变时等同线性应力，完整对称矩阵"
       },
       "opening": {
         "unit": "m",
         "kind": "scalar",
-        "atol": 1e-06,
         "where": "interface",
         "description": "界面正法向张开量，按初始界面长度平均"
       },
       "cohesive_traction": {
         "unit": "Pa",
         "kind": "scalar",
-        "atol": 100.0,
         "where": "interface",
         "description": "内聚拉应力T，按初始界面长度平均"
       }
@@ -2501,8 +2427,7 @@
       "nodes": 15000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 1500
+    }
   },
   "stress-life-fatigue": {
     "slug": "stress-life-fatigue",
@@ -2588,7 +2513,6 @@
       "fatigue_damage": {
         "unit": "1",
         "kind": "scalar",
-        "atol": 0.0001,
         "where": "sites",
         "description": "已累计Miner损伤，可大于1，不截断"
       }
@@ -2599,8 +2523,7 @@
       "nodes": 1000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 1500
+    }
   },
   "fatigue-crack-growth": {
     "slug": "fatigue-crack-growth",
@@ -2730,7 +2653,6 @@
       "crack_length": {
         "unit": "m",
         "kind": "scalar",
-        "atol": 1e-06,
         "where": "sites",
         "description": "给定一维裂纹路径上的标量裂长a"
       }
@@ -2741,7 +2663,6 @@
       "nodes": 1000,
       "frames": 201,
       "components": 3000000
-    },
-    "timeout": 1500
+    }
   }
 }

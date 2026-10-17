@@ -1,0 +1,1976 @@
+{
+  "geared-torsional-network": {
+    "parameters": {},
+    "records": {
+      "node_properties": {
+        "role": "material",
+        "location": "nodes",
+        "data": {
+          "inertia": {
+            "unit": "kg.m2",
+            "text": "J\uff0c\u8f6c\u52a8\u60ef\u91cf",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "drag": {
+            "unit": "N.m.s/rad",
+            "text": "d\uff0c\u5bf9\u60ef\u6027\u53c2\u8003\u7cfb\u9ecf\u6027\u963b\u529b",
+            "positive": false,
+            "nonnegative": true,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "edge_properties": {
+        "role": "material",
+        "location": "edges",
+        "data": {
+          "endpoints": {
+            "unit": "1",
+            "text": "[tail,head]\u4e3anodes\u4e2d\u7684\u5b9e\u9645int64 ID\uff0c\u4e0d\u662f\u884c\u53f7\uff1b\u4e24\u7aef\u4e0d\u540c",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              2
+            ],
+            "labels": [
+              "tail",
+              "head"
+            ],
+            "dtype": "int64"
+          },
+          "ratio": {
+            "unit": "1",
+            "text": "n\uff0c\u6709\u7b26\u53f7\u53d8\u6bd4\uff0c0.1\u2264|n|\u226410",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "stiffness": {
+            "unit": "N.m/rad",
+            "text": "k\uff0c\u5f39\u6027\u652f\u8def\u521a\u5ea6",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "damping": {
+            "unit": "N.m.s/rad",
+            "text": "c\uff0c\u5168\u7a0b\u5e76\u8054\u626d\u8f6c\u963b\u5c3c",
+            "positive": false,
+            "nonnegative": true,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "initial_nodes": {
+        "role": "initial",
+        "location": "nodes",
+        "data": {
+          "angle": {
+            "unit": "rad",
+            "text": "theta0\uff0c\u521d\u59cb\u89d2\u5ea6",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "angular_velocity": {
+            "unit": "rad/s",
+            "text": "omega0\uff0c\u521d\u59cb\u89d2\u901f\u5ea6",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "driving": {
+        "role": "source",
+        "location": "nodes",
+        "data": {
+          "torque": {
+            "unit": "N.m",
+            "text": "F\uff0c\u76f4\u63a5\u65bd\u52a0\u5230\u6bcf\u4e2a\u8282\u70b9\u7684\u6709\u7b26\u53f7\u5916\u529b\u77e9",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "load"
+      }
+    },
+    "outputs": {
+      "angle": {
+        "unit": "rad",
+        "text": "theta_i(t)",
+        "location": "nodes",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      },
+      "angular_velocity": {
+        "unit": "rad/s",
+        "text": "omega_i(t)",
+        "location": "nodes",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      },
+      "transmitted_torque": {
+        "unit": "N.m",
+        "text": "t_e(t)\uff0c\u5c3e\u7aef\u4f20\u5165\u529b\u77e9",
+        "location": "edges",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      }
+    },
+    "network": true
+  },
+  "deadzone-transmission-network": {
+    "parameters": {},
+    "records": {
+      "node_properties": {
+        "role": "material",
+        "location": "nodes",
+        "data": {
+          "inertia": {
+            "unit": "kg.m2",
+            "text": "J\uff0c\u8f6c\u52a8\u60ef\u91cf",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "drag": {
+            "unit": "N.m.s/rad",
+            "text": "d\uff0c\u5bf9\u60ef\u6027\u53c2\u8003\u7cfb\u9ecf\u6027\u963b\u529b",
+            "positive": false,
+            "nonnegative": true,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "edge_properties": {
+        "role": "material",
+        "location": "edges",
+        "data": {
+          "endpoints": {
+            "unit": "1",
+            "text": "[tail,head]\u4e3anodes\u4e2d\u7684\u5b9e\u9645int64 ID\uff0c\u4e0d\u662f\u884c\u53f7\uff1b\u4e24\u7aef\u4e0d\u540c",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              2
+            ],
+            "labels": [
+              "tail",
+              "head"
+            ],
+            "dtype": "int64"
+          },
+          "ratio": {
+            "unit": "1",
+            "text": "n\uff0c\u6709\u7b26\u53f7\u53d8\u6bd4\uff0c0.1\u2264|n|\u226410",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "stiffness": {
+            "unit": "N.m/rad",
+            "text": "k\uff0c\u5f39\u6027\u652f\u8def\u521a\u5ea6",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "damping": {
+            "unit": "N.m.s/rad",
+            "text": "c\uff0c\u5168\u7a0b\u5e76\u8054\u626d\u8f6c\u963b\u5c3c",
+            "positive": false,
+            "nonnegative": true,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "gap": {
+            "unit": "rad",
+            "text": "g\uff0c\u5bf9\u79f0\u5f39\u6027\u6b7b\u533a\u534a\u5bbd",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "initial_nodes": {
+        "role": "initial",
+        "location": "nodes",
+        "data": {
+          "angle": {
+            "unit": "rad",
+            "text": "theta0\uff0c\u521d\u59cb\u89d2\u5ea6",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "angular_velocity": {
+            "unit": "rad/s",
+            "text": "omega0\uff0c\u521d\u59cb\u89d2\u901f\u5ea6",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "driving": {
+        "role": "source",
+        "location": "nodes",
+        "data": {
+          "torque": {
+            "unit": "N.m",
+            "text": "F\uff0c\u76f4\u63a5\u65bd\u52a0\u5230\u6bcf\u4e2a\u8282\u70b9\u7684\u6709\u7b26\u53f7\u5916\u529b\u77e9",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "load"
+      }
+    },
+    "outputs": {
+      "angle": {
+        "unit": "rad",
+        "text": "theta_i(t)",
+        "location": "nodes",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      },
+      "angular_velocity": {
+        "unit": "rad/s",
+        "text": "omega_i(t)",
+        "location": "nodes",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      },
+      "transmitted_torque": {
+        "unit": "N.m",
+        "text": "t_e(t)\uff0c\u5c3e\u7aef\u4f20\u5165\u529b\u77e9",
+        "location": "edges",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      }
+    },
+    "network": true
+  },
+  "nonlinear-hydraulic-network": {
+    "parameters": {},
+    "records": {
+      "node_properties": {
+        "role": "material",
+        "location": "nodes",
+        "data": {
+          "compliance": {
+            "unit": "m3/Pa",
+            "text": "C\uff0c\u5bb9\u8154\u4f53\u79ef\u987a\u5e94\u6027",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "leakage": {
+            "unit": "m3/(Pa.s)",
+            "text": "G\uff0c\u5230\u5171\u540c\u538b\u529b\u96f6\u70b9\u7684\u6cc4\u6f0f\u5bfc\u7eb3",
+            "positive": false,
+            "nonnegative": true,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "edge_properties": {
+        "role": "material",
+        "location": "edges",
+        "data": {
+          "endpoints": {
+            "unit": "1",
+            "text": "[tail,head]\u4e3anodes\u4e2d\u7684\u5b9e\u9645int64 ID\uff0c\u4e0d\u662f\u884c\u53f7\uff1b\u4e24\u7aef\u4e0d\u540c",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              2
+            ],
+            "labels": [
+              "tail",
+              "head"
+            ],
+            "dtype": "int64"
+          },
+          "resistance": {
+            "unit": "Pa.s/m3",
+            "text": "R\uff0c\u7ebf\u6027\u6d41\u963b",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "quadratic_resistance": {
+            "unit": "Pa.s2/m6",
+            "text": "D\uff0c\u5e73\u65b9\u538b\u964d\u7cfb\u6570",
+            "positive": false,
+            "nonnegative": true,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "initial_nodes": {
+        "role": "initial",
+        "location": "nodes",
+        "data": {
+          "pressure": {
+            "unit": "Pa",
+            "text": "p0\uff0c\u521d\u59cb\u8868\u538b",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "driving": {
+        "role": "source",
+        "location": "nodes",
+        "data": {
+          "injection": {
+            "unit": "m3/s",
+            "text": "s\uff0c\u5916\u90e8\u6d41\u5165\u8282\u70b9\u4f53\u79ef\u6d41\u7387\uff0c\u6b63\u4e3a\u6ce8\u5165",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "load"
+      }
+    },
+    "outputs": {
+      "pressure": {
+        "unit": "Pa",
+        "text": "\u8282\u70b9\u8868\u538bp",
+        "location": "nodes",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      },
+      "volume_flow": {
+        "unit": "m3/s",
+        "text": "\u652f\u8defq\uff0c\u6309a\u2192b\u6b63\u5411",
+        "location": "edges",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      }
+    },
+    "network": true
+  },
+  "distributed-pipe-network": {
+    "parameters": {},
+    "records": {
+      "node_properties": {
+        "role": "material",
+        "location": "nodes",
+        "data": {
+          "compliance": {
+            "unit": "m3/Pa",
+            "text": "C\uff0c\u8282\u70b9\u5bb9\u8154\u987a\u5e94\u6027",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "leakage": {
+            "unit": "m3/(Pa.s)",
+            "text": "G\uff0c\u8282\u70b9\u5411\u5171\u540c\u96f6\u8868\u538b\u50a8\u69fd\u6cc4\u6f0f",
+            "positive": false,
+            "nonnegative": true,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "edge_properties": {
+        "role": "material",
+        "location": "edges",
+        "data": {
+          "endpoints": {
+            "unit": "1",
+            "text": "[tail,head]\u4e3anodes\u4e2d\u7684\u5b9e\u9645int64 ID\uff0c\u4e0d\u662f\u884c\u53f7\uff1b\u4e24\u7aef\u4e0d\u540c",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              2
+            ],
+            "labels": [
+              "tail",
+              "head"
+            ],
+            "dtype": "int64"
+          },
+          "length": {
+            "unit": "m",
+            "text": "l\uff0c\u7ba1\u957f",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "area": {
+            "unit": "m2",
+            "text": "A\uff0c\u622a\u9762\u79ef",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "density": {
+            "unit": "kg/m3",
+            "text": "rho\uff0c\u5bc6\u5ea6",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "bulk_modulus": {
+            "unit": "Pa",
+            "text": "K\uff0c\u4f53\u79ef\u6a21\u91cf",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "resistance_per_length": {
+            "unit": "Pa.s/m4",
+            "text": "r\uff0c\u65b9\u7a0b\u4e2d\u7684\u5355\u4f4d\u957f\u5ea6\u7ebf\u6027\u6d41\u963b",
+            "positive": false,
+            "nonnegative": true,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "driving": {
+        "role": "source",
+        "location": "nodes",
+        "data": {
+          "injection": {
+            "unit": "m3/s",
+            "text": "s\uff0c\u8282\u70b9\u5916\u90e8\u6ce8\u5165\u4f53\u79ef\u6d41\u7387\uff0ct=0\u6070\u4e3a0",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "load"
+      }
+    },
+    "outputs": {
+      "pressure": {
+        "unit": "Pa",
+        "text": "\u8282\u70b9\u8868\u538bp",
+        "location": "nodes",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      },
+      "endpoint_volume_flow": {
+        "unit": "m3/s",
+        "text": "[Q(0,t),Q(l,t)]\uff0c\u4e24\u4e2a\u5206\u91cf\u5747\u6cbf\u652f\u8def+x",
+        "location": "edges",
+        "shape": [
+          2
+        ],
+        "labels": [
+          "tail",
+          "head"
+        ],
+        "dtype": "float64"
+      }
+    },
+    "network": true
+  },
+  "isothermal-pneumatic-network": {
+    "parameters": {
+      "gas_constant": {
+        "unit": "J/(kg.K)",
+        "text": "Rg\uff0c\u6bd4\u6c14\u4f53\u5e38\u6570",
+        "positive": true,
+        "nonnegative": false,
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      },
+      "gas_temperature": {
+        "unit": "K",
+        "text": "Tg\uff0c\u5171\u540c\u6052\u5b9a\u7edd\u5bf9\u6e29\u5ea6",
+        "positive": true,
+        "nonnegative": false,
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      }
+    },
+    "records": {
+      "node_properties": {
+        "role": "material",
+        "location": "nodes",
+        "data": {
+          "volume": {
+            "unit": "m3",
+            "text": "V\uff0c\u56fa\u5b9a\u5bb9\u8154\u4f53\u79ef",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "edge_properties": {
+        "role": "material",
+        "location": "edges",
+        "data": {
+          "endpoints": {
+            "unit": "1",
+            "text": "[tail,head]\u4e3anodes\u4e2d\u7684\u5b9e\u9645int64 ID\uff0c\u4e0d\u662f\u884c\u53f7\uff1b\u4e24\u7aef\u4e0d\u540c",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              2
+            ],
+            "labels": [
+              "tail",
+              "head"
+            ],
+            "dtype": "int64"
+          },
+          "conductance": {
+            "unit": "kg/(s.Pa2)",
+            "text": "H\uff0c\u56fa\u5b9a\u6bdb\u7ec6\u8d28\u91cf\u5bfc\u901a\u7cfb\u6570",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "initial_nodes": {
+        "role": "initial",
+        "location": "nodes",
+        "data": {
+          "pressure": {
+            "unit": "Pa",
+            "text": "p0>0\uff0c\u521d\u59cb\u7edd\u5bf9\u538b\u529b",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "driving": {
+        "role": "source",
+        "location": "nodes",
+        "data": {
+          "mass_injection": {
+            "unit": "kg/s",
+            "text": "s\uff0c\u8282\u70b9\u5916\u90e8\u8d28\u91cf\u6ce8\u5165\uff0c\u5141\u8bb8\u6709\u7b26\u53f7\u62bd\u53d6",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "load"
+      }
+    },
+    "outputs": {
+      "absolute_pressure": {
+        "unit": "Pa",
+        "text": "\u8282\u70b9\u7edd\u5bf9\u538b\u529bp",
+        "location": "nodes",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      },
+      "mass_flow": {
+        "unit": "kg/s",
+        "text": "\u652f\u8defmdot\uff0c\u6b63\u5411a\u2192b",
+        "location": "edges",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      }
+    },
+    "network": true
+  },
+  "radiative-thermal-network": {
+    "parameters": {},
+    "records": {
+      "node_properties": {
+        "role": "material",
+        "location": "nodes",
+        "data": {
+          "heat_capacity": {
+            "unit": "J/K",
+            "text": "C\uff0c\u8282\u70b9\u96c6\u603b\u70ed\u5bb9",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "ambient_conductance": {
+            "unit": "W/K",
+            "text": "h\uff0c\u8282\u70b9\u5bf9\u5916\u754c\u70ed\u5bfc",
+            "positive": false,
+            "nonnegative": true,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "ambient_radiative_area": {
+            "unit": "m2",
+            "text": "Aenv\uff0c\u5bf9\u5916\u754c\u6709\u6548\u8f90\u5c04\u9762\u79ef",
+            "positive": false,
+            "nonnegative": true,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "edge_properties": {
+        "role": "material",
+        "location": "edges",
+        "data": {
+          "endpoints": {
+            "unit": "1",
+            "text": "[tail,head]\u4e3anodes\u4e2d\u7684\u5b9e\u9645int64 ID\uff0c\u4e0d\u662f\u884c\u53f7\uff1b\u4e24\u7aef\u4e0d\u540c",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              2
+            ],
+            "labels": [
+              "tail",
+              "head"
+            ],
+            "dtype": "int64"
+          },
+          "conductance": {
+            "unit": "W/K",
+            "text": "g\uff0c\u652f\u8def\u70ed\u5bfc",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "radiative_area": {
+            "unit": "m2",
+            "text": "Arad\uff0c\u652f\u8def\u6709\u6548\u8f90\u5c04\u9762\u79ef",
+            "positive": false,
+            "nonnegative": true,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "initial_nodes": {
+        "role": "initial",
+        "location": "nodes",
+        "data": {
+          "temperature": {
+            "unit": "K",
+            "text": "T0\uff0c\u521d\u59cb\u7edd\u5bf9\u6e29\u5ea6",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "driving": {
+        "role": "source",
+        "location": "nodes",
+        "data": {
+          "heat_source": {
+            "unit": "W",
+            "text": "S\uff0c\u5916\u90e8\u70ed\u7387\uff0c\u6b63\u52a0\u70ed",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "ambient_temperature": {
+            "unit": "K",
+            "text": "Ta\uff0c\u8282\u70b9\u5404\u81ea\u7684\u5916\u754c\u7edd\u5bf9\u6e29\u5ea6",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "load"
+      }
+    },
+    "outputs": {
+      "temperature": {
+        "unit": "K",
+        "text": "\u8282\u70b9\u7edd\u5bf9\u6e29\u5ea6T",
+        "location": "nodes",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      },
+      "heat_rate": {
+        "unit": "W",
+        "text": "\u652f\u8def\u70ed\u7387q\uff0c\u6b63\u5411a\u2192b",
+        "location": "edges",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      }
+    },
+    "network": true
+  },
+  "nonlinear-diode-rlc-network": {
+    "parameters": {},
+    "records": {
+      "node_properties": {
+        "role": "material",
+        "location": "nodes",
+        "data": {
+          "capacitance": {
+            "unit": "F",
+            "text": "C\uff0c\u5bf9\u5171\u540c\u5730\u7535\u5bb9",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "leakage": {
+            "unit": "S",
+            "text": "G\uff0c\u5bf9\u5171\u540c\u5730\u6f0f\u5bfc",
+            "positive": false,
+            "nonnegative": true,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "edge_properties": {
+        "role": "material",
+        "location": "edges",
+        "data": {
+          "endpoints": {
+            "unit": "1",
+            "text": "[tail,head]\u4e3anodes\u4e2d\u7684\u5b9e\u9645int64 ID\uff0c\u4e0d\u662f\u884c\u53f7\uff1b\u4e24\u7aef\u4e0d\u540c",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              2
+            ],
+            "labels": [
+              "tail",
+              "head"
+            ],
+            "dtype": "int64"
+          },
+          "inductance": {
+            "unit": "H",
+            "text": "L\uff0c\u652f\u8def\u7535\u611f",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "resistance": {
+            "unit": "Ohm",
+            "text": "R\uff0c\u652f\u8def\u7535\u963b",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "saturation_current": {
+            "unit": "A",
+            "text": "Is\uff0c\u5355\u4e8c\u6781\u7ba1\u9971\u548c\u7535\u6d41",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "thermal_voltage": {
+            "unit": "V",
+            "text": "Vt\uff0c\u6307\u5b9a\u4e8c\u6781\u7ba1\u70ed\u7535\u538b\uff0c\u56fa\u5b9a\u7269\u6027\u53c2\u6570",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "initial_nodes": {
+        "role": "initial",
+        "location": "nodes",
+        "data": {
+          "voltage": {
+            "unit": "V",
+            "text": "V0\uff0c\u8282\u70b9\u521d\u59cb\u7535\u52bf",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "initial_edges": {
+        "role": "initial",
+        "location": "edges",
+        "data": {
+          "current": {
+            "unit": "A",
+            "text": "I0\uff0c\u652f\u8def\u521d\u59cb\u7535\u6d41",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "driving": {
+        "role": "source",
+        "location": "nodes",
+        "data": {
+          "current_source": {
+            "unit": "A",
+            "text": "S\uff0c\u5411\u8282\u70b9\u6ce8\u5165\u7535\u6d41\uff0c\u5141\u8bb8\u6b63\u8d1f",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "load"
+      }
+    },
+    "outputs": {
+      "voltage": {
+        "unit": "V",
+        "text": "\u8282\u70b9\u5bf9\u5730\u7535\u52bfV",
+        "location": "nodes",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      },
+      "current": {
+        "unit": "A",
+        "text": "\u652f\u8def\u7535\u6d41I\uff0c\u6b63\u5411a\u2192b",
+        "location": "edges",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      }
+    },
+    "network": true
+  },
+  "motor-thermal-feedback-system": {
+    "parameters": {},
+    "records": {
+      "properties": {
+        "role": "material",
+        "location": "systems",
+        "data": {
+          "inductance": {
+            "unit": "H",
+            "text": "L\uff0c\u7535\u67a2\u7535\u611f",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "resistance": {
+            "unit": "Ohm",
+            "text": "R0\uff0c\u53c2\u8003\u6e29\u5ea6\u7535\u963b",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "motor_constant": {
+            "unit": "V.s/rad",
+            "text": "K\uff0c\u53cd\u7535\u52a8\u52bf\u5e38\u6570\uff1bSI\u6570\u503c\u4e5f\u4f5c\u529b\u77e9\u5e38\u6570N.m/A",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "inertia": {
+            "unit": "kg.m2",
+            "text": "J\uff0c\u8f6c\u5b50\u60ef\u91cf",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "drag": {
+            "unit": "N.m.s/rad",
+            "text": "B\uff0c\u673a\u68b0\u9ecf\u6027\u963b\u529b",
+            "positive": false,
+            "nonnegative": true,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "temperature_coefficient": {
+            "unit": "1/K",
+            "text": "a\uff0c\u7535\u963b\u6e29\u5ea6\u7cfb\u6570",
+            "positive": false,
+            "nonnegative": true,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "reference_temperature": {
+            "unit": "K",
+            "text": "Tref\uff0c\u521d\u59cb\u4e0e\u7535\u963b\u53c2\u8003\u7edd\u5bf9\u6e29\u5ea6",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "heat_capacity": {
+            "unit": "J/K",
+            "text": "Cth\uff0c\u7edf\u4e00\u70ed\u8282\u70b9\u70ed\u5bb9",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "heat_transfer": {
+            "unit": "W/K",
+            "text": "H\uff0c\u5bf9\u5916\u754c\u70ed\u5bfc",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "driving": {
+        "role": "source",
+        "location": "systems",
+        "data": {
+          "voltage": {
+            "unit": "V",
+            "text": "U\uff0c\u7aef\u7535\u538b",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "load_torque": {
+            "unit": "N.m",
+            "text": "tau\uff0c\u5916\u90e8\u6709\u7b26\u53f7\u963b\u529b\u77e9",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "ambient_temperature": {
+            "unit": "K",
+            "text": "Ta\uff0c\u5916\u754c\u7edd\u5bf9\u6e29\u5ea6",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "load"
+      }
+    },
+    "outputs": {
+      "current": {
+        "unit": "A",
+        "text": "\u7535\u67a2\u7535\u6d41i",
+        "location": "systems",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      },
+      "angular_velocity": {
+        "unit": "rad/s",
+        "text": "\u8f6c\u901fomega",
+        "location": "systems",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      },
+      "temperature": {
+        "unit": "K",
+        "text": "\u7edf\u4e00\u70ed\u8282\u70b9\u7edd\u5bf9\u6e29\u5ea6T",
+        "location": "systems",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      }
+    },
+    "network": false,
+    "control": false
+  },
+  "electrohydraulic-actuator-system": {
+    "parameters": {},
+    "records": {
+      "properties": {
+        "role": "material",
+        "location": "systems",
+        "data": {
+          "inductance": {
+            "unit": "H",
+            "text": "L\uff0c\u7535\u67a2\u7535\u611f",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "resistance": {
+            "unit": "Ohm",
+            "text": "R0\uff0c\u56fa\u5b9a\u7535\u67a2\u7535\u963b",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "motor_constant": {
+            "unit": "V.s/rad",
+            "text": "K\uff0c\u53cd\u7535\u52a8\u52bf\u5e38\u6570\uff1bSI\u6570\u503c\u4e5f\u4f5c\u529b\u77e9\u5e38\u6570N.m/A",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "inertia": {
+            "unit": "kg.m2",
+            "text": "J\uff0c\u8f6c\u5b50\u60ef\u91cf",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "drag": {
+            "unit": "N.m.s/rad",
+            "text": "B\uff0c\u673a\u68b0\u9ecf\u6027\u963b\u529b",
+            "positive": false,
+            "nonnegative": true,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "pump_displacement": {
+            "unit": "m3/rad",
+            "text": "D\uff0c\u6cf5\u6392\u91cf",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "internal_leakage": {
+            "unit": "m3/(Pa.s)",
+            "text": "Cl\uff0c\u53cc\u8154\u5185\u90e8\u6cc4\u6f0f\u5bfc\u7eb3",
+            "positive": false,
+            "nonnegative": true,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "mass": {
+            "unit": "kg",
+            "text": "M\uff0c\u5e73\u79fb\u8d28\u91cf",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "piston_area": {
+            "unit": "m2",
+            "text": "A\uff0c\u4e24\u8154\u76f8\u540c\u6709\u6548\u6d3b\u585e\u9762\u79ef",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "linear_damping": {
+            "unit": "N.s/m",
+            "text": "c\uff0c\u5e73\u79fb\u963b\u5c3c",
+            "positive": false,
+            "nonnegative": true,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "stiffness": {
+            "unit": "N/m",
+            "text": "k\uff0c\u5f39\u7c27\u521a\u5ea6",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "volume_a": {
+            "unit": "m3",
+            "text": "VA0\uff0cx=0\u65f6\u8154A\u4f53\u79ef",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "volume_b": {
+            "unit": "m3",
+            "text": "VB0\uff0cx=0\u65f6\u8154B\u4f53\u79ef",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "bulk_modulus": {
+            "unit": "Pa",
+            "text": "Kf\uff0c\u6db2\u4f53\u4f53\u79ef\u6a21\u91cf",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "reference_pressure": {
+            "unit": "Pa",
+            "text": "p0\uff0c\u5171\u540c\u53c2\u8003\u7edd\u5bf9\u538b\u529b",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "driving": {
+        "role": "source",
+        "location": "systems",
+        "data": {
+          "voltage": {
+            "unit": "V",
+            "text": "U\uff0c\u7535\u673a\u7aef\u7535\u538b",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "load_force": {
+            "unit": "N",
+            "text": "F\uff0c\u6709\u7b26\u53f7\u5916\u90e8\u963b\u529b",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "load"
+      }
+    },
+    "outputs": {
+      "current": {
+        "unit": "A",
+        "text": "\u7535\u67a2\u7535\u6d41i",
+        "location": "systems",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      },
+      "angular_velocity": {
+        "unit": "rad/s",
+        "text": "\u8f6c\u5b50\u89d2\u901f\u5ea6omega",
+        "location": "systems",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      },
+      "displacement": {
+        "unit": "m",
+        "text": "\u6d3b\u585e\u4f4d\u79fbx",
+        "location": "systems",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      },
+      "velocity": {
+        "unit": "m/s",
+        "text": "\u6d3b\u585e\u901f\u5ea6v",
+        "location": "systems",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      },
+      "chamber_pressure": {
+        "unit": "Pa",
+        "text": "[pA,pB]\uff0c\u4e24\u8154\u8868\u538b",
+        "location": "systems",
+        "shape": [
+          2
+        ],
+        "labels": [
+          "A",
+          "B"
+        ],
+        "dtype": "float64"
+      }
+    },
+    "network": false,
+    "control": false
+  },
+  "sampled-position-servo": {
+    "parameters": {},
+    "records": {
+      "properties": {
+        "role": "material",
+        "location": "systems",
+        "data": {
+          "inductance": {
+            "unit": "H",
+            "text": "L\uff0c\u7535\u67a2\u7535\u611f",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "resistance": {
+            "unit": "Ohm",
+            "text": "R0\uff0c\u56fa\u5b9a\u7535\u67a2\u7535\u963b",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "motor_constant": {
+            "unit": "V.s/rad",
+            "text": "K\uff0c\u53cd\u7535\u52a8\u52bf\u5e38\u6570\uff1bSI\u6570\u503c\u4e5f\u4f5c\u529b\u77e9\u5e38\u6570N.m/A",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "inertia": {
+            "unit": "kg.m2",
+            "text": "J\uff0c\u8f6c\u5b50\u60ef\u91cf",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "drag": {
+            "unit": "N.m.s/rad",
+            "text": "B\uff0c\u673a\u68b0\u9ecf\u6027\u963b\u529b",
+            "positive": false,
+            "nonnegative": true,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "proportional_gain": {
+            "unit": "V/rad",
+            "text": "Kp\uff0c\u6bd4\u4f8b\u589e\u76ca",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "integral_gain": {
+            "unit": "V/(rad.s)",
+            "text": "Ki\uff0c\u79ef\u5206\u589e\u76ca",
+            "positive": false,
+            "nonnegative": true,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          },
+          "voltage_limit": {
+            "unit": "V",
+            "text": "Umax\uff0c\u5bf9\u79f0\u9650\u5e45",
+            "positive": true,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "static"
+      },
+      "driving": {
+        "role": "source",
+        "location": "systems",
+        "data": {
+          "load_torque": {
+            "unit": "N.m",
+            "text": "tau\uff0c\u5916\u90e8\u6709\u7b26\u53f7\u963b\u529b\u77e9",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "load"
+      },
+      "reference": {
+        "role": "source",
+        "location": "systems",
+        "data": {
+          "position_reference": {
+            "unit": "rad",
+            "text": "r_k\uff0c\u91c7\u6837\u65f6\u949f\u7b2ck\u70b9\u7684\u53c2\u8003\u89d2\u5ea6",
+            "positive": false,
+            "nonnegative": false,
+            "shape": [
+              1
+            ],
+            "labels": [
+              "value"
+            ],
+            "dtype": "float64"
+          }
+        },
+        "axis": "control"
+      }
+    },
+    "outputs": {
+      "angle": {
+        "unit": "rad",
+        "text": "theta",
+        "location": "systems",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      },
+      "angular_velocity": {
+        "unit": "rad/s",
+        "text": "omega",
+        "location": "systems",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      },
+      "current": {
+        "unit": "A",
+        "text": "i",
+        "location": "systems",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      },
+      "control_voltage": {
+        "unit": "V",
+        "text": "\u4fdd\u6301\u7535\u538bU\uff0c\u5728\u91c7\u6837\u65f6\u949f\u70b9\u53d6\u65b0U_k",
+        "location": "systems",
+        "shape": [
+          1
+        ],
+        "labels": [
+          "value"
+        ],
+        "dtype": "float64"
+      }
+    },
+    "network": false,
+    "control": true
+  }
+}

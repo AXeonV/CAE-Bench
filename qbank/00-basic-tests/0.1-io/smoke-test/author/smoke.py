@@ -1,4 +1,4 @@
-"""Local smoke execution and aggregation; grading lives in grading.py."""
+"""Local smoke execution and aggregation using each case's evaluation plan."""
 from pathlib import Path
 import json
 import math
@@ -6,19 +6,17 @@ import subprocess
 import sys
 import uuid
 
-from caeoj.grading import grade_arrays
-from caeoj_tools.grading_policy import task_policy
+from caeoj.case_grading import prepare_case
 from caeoj.sdk import load_problem
-from caeoj.validation import ContractError, output_support, read_hdf5, write_json
+from caeoj.validation import ContractError, read_hdf5, write_json
 
 PROJECT_ROOT = Path(__file__).resolve().parents[5]
 
 
 def run_smoke(cases, program, report_path, timeout=None):
     task_dir = Path(cases).resolve().parent
-    if not any((task_dir/name).is_file() for name in ('judge-config.json', 'grading.json')):
-        # Generated scratch cases use this task's explicit execution and grading
-        # settings. A custom task directory must supply its own complete config.
+    if not any((task_dir/name).is_file() for name in ('judge-config.json',)):
+        # Generated scratch cases use this task's explicit execution settings.
         task_dir = Path(__file__).resolve().parents[1]
     config_path = task_dir / 'judge-config.json'
     config = json.loads(config_path.read_text()) if config_path.is_file() else {}
@@ -46,9 +44,7 @@ def run_smoke(cases, program, report_path, timeout=None):
             results.append({"case": path.parent.name, "status": "input_error", "score": None,
                             "contract": exc.report})
             continue
-        reference_keys = output_support(problem) | {s["array"] for s in problem.manifest["outputs"].values()}
-        reference = {key: problem.arrays[key] for key in reference_keys}
-        policy = task_policy(task_dir, problem)
+        prepared = prepare_case(problem, Path(cases).parent/'reference'/path.parent.name/'grading.json')
         try:
             execution = subprocess.run(
                 [sys.executable, str(program), "--input", str(path.resolve()), "--output", str(output)],
@@ -62,8 +58,7 @@ def run_smoke(cases, program, report_path, timeout=None):
                 grade = {"status": "missing_output", "score": 0}
             else:
                 try:
-                    grade = grade_arrays(problem, read_hdf5(output), reference,
-                                         policy=policy)
+                    grade = prepared.evaluate(read_hdf5(output))
                 except ContractError as exc:
                     grade = {"status": "invalid_output", "score": 0, "contract": exc.report}
         except subprocess.TimeoutExpired:

@@ -1,5 +1,6 @@
 """Expand independent radiation contracts/configuration, never numerical case data."""
 from pathlib import Path
+from caeoj_tools.author import public_model_catalog
 import json
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -122,7 +123,7 @@ def desc(s):
 def main():
     ext = ROOT/'qbank/extensions/caeoj_ext/radiation'
     ext.mkdir(parents=True, exist_ok=True)
-    (ext/'models.json').write_text(json.dumps(MODELS, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
+    (ext/'models.json').write_text(json.dumps(public_model_catalog(MODELS), ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
     toc = []
     for sec, title, slugs in SECTIONS:
         sd = CH/sec
@@ -160,10 +161,9 @@ def main():
                 special += '分支矩阵B和（若有）Y逐列和≤1，对角恰0，不用容差放宽；λ=0的核素其B列必须全0。B的正边图无环。矩阵分量顺序由nuclides IDs确定，不取决于conditions排列。'
             outputs = '\n'.join(f'| `{q}` | {desc(s)} | `{s["location"]}` |' for q,s in c['outputs'].items())
             # Expand only relevant physical branches into each independent contract.
-            data = f'# {slug} 数据契约\n\nproblem.json及data_file引用的扁平HDF5遵循通用CONTRACT，路径相对清单目录。physics恰含model、parameters；model=`radiation-{slug}-v1`。task可省略，若出现只能为`{slug}`；模型不由目录或ID推断。禁止profile、contract_version、analysis、materials混用。\n\n## 物理定义\n\n{PHYS[slug]}\n\n## 全局参数\n\nphysics.parameters恰含下表全部项，每项仅value和unit；数值有限，布尔不能作数值，整数须JSON整数。\n\n| 参数 | 单位 | 定义及范围 |\n|---|---|---|\n{params}\n\n## 对象与几何\n\nspatial_dimension固定1。meshes和geometries均为空。有限维库存和动力学中1仅为协议标记，不引入空间方程。locations恰含下表；IDs为int64、非负严格递增，system必须ID=[0]；其余固定ID规则按表。{special}\n\n| location | 定义与数量 |\n|---|---|\n{locs}\n\n## 时间与数组\n\n{timing}\n\n{fields}\n\n## 条件全集\n\n'+'\n\n'.join(records)+f'\n\n## 输出\n\n每个quantity至少出现一次，可重复请求，outputs逻辑名与array key自由；同quantity的单位、位置、shape均按表，float64、value_kind=point、时间轴={c["output_axis"]}、无sampling。值为定义的时刻状态或连续空间点值，不是时间／空间平均。\n\n| quantity | 类型、单位与含义 | location |\n|---|---|---|\n{outputs}\n\n结果仅含要求的输出array及其输入IDs／时间轴的精确副本，不导出坐标、输入场或额外数组。\n\n## 接收限制\n\n各表规模为公开上限；输入场总分量与输出场总分量分别不超过2000000。所有输入／输出浮点值有限。正式数据须独立验证模型适用、观测存在、参考收敛及同预算可达性，排除任意刚性、极厚光学层、极端增长、病态谱或下溢主导的不可辨识组合；这不是由结构检查自动证明的事实，不能由参数正值代替数值证据。\n'
+            data = f'# {slug} 数据契约\n\nproblem.json及data_file引用的扁平HDF5遵循通用CONTRACT，路径相对清单目录。physics恰含model、parameters；model=`radiation-{slug}-v1`。task可省略，若出现只能为`{slug}`；模型不由目录或ID推断。禁止profile、contract_version、analysis、materials混用。\n\n## 物理定义\n\n{PHYS[slug]}\n\n## 全局参数\n\nphysics.parameters恰含下表全部项，每项仅value和unit；数值有限，布尔不能作数值，整数须JSON整数。\n\n| 参数 | 单位 | 定义及范围 |\n|---|---|---|\n{params}\n\n## 对象与几何\n\nspatial_dimension固定1。meshes和geometries均为空。有限维库存和动力学中1仅为协议标记，不引入空间方程。locations恰含下表；IDs为int64、非负严格递增，system必须ID=[0]；其余固定ID规则按表。{special}\n\n| location | 定义与数量 |\n|---|---|\n{locs}\n\n## 时间与数组\n\n{timing}\n\n{fields}\n\n## 条件全集\n\n'+'\n\n'.join(records)+f'\n\n## 输出\n\n每个quantity至少出现一次，可重复请求，outputs逻辑名与array key自由；同quantity的单位、位置、shape均按表，float64、value_kind=point、时间轴={c["output_axis"]}、无sampling。值为定义的时刻状态或连续空间点值，不是时间／空间平均。\n\n| quantity | 类型、单位与含义 | location |\n|---|---|---|\n{outputs}\n\n结果仅含要求的输出array及其输入IDs／时间轴的精确副本，不导出坐标、输入场或额外数组。\n\n## 接收限制\n\n各表规模为公开上限；输入场总分量与输出场总分量分别不超过2000000。所有输入／输出浮点值有限。输入符合本题物理模型的适用范围，全部请求的观测存在且有限，并可在公开资源预算内达到评分精度。\n'
             data = data.replace('有限维库存和动力学中1仅为协议标记，不引入空间方程。', '1表示平板法向全局x轴。' if 'layers' in c['locations'] else '1仅为有限维系统的协议标记，不引入空间方程。')
             data = data.replace('值为定义的时刻状态或连续空间点值，不是时间／空间平均。', '各输出按下表定义，不另作时间或空间平均。')
-            data = data.replace('排除任意刚性、极厚光学层、极端增长、病态谱或下溢主导的不可辨识组合；', '正式数据接收须有预算内达到公开精度的独立数值证据；')
             if not any(r['role'] == 'initial' for r in c['records'].values()):
                 data = data.replace('静态参数及初态记录', '静态参数记录')
             if slug in ('photon-absorption', 'point-kinetics'):
@@ -172,21 +172,22 @@ def main():
                 data = data.replace('分支矩阵B和（若有）Y', '分支矩阵B')
             (td/'DATA.md').write_text(data, encoding='utf-8')
             tol = '\n'.join(f'| `{q}` | {s["atol"]} | {s["rtol"]} | `{s["unit"]}` |' for q,s in c['outputs'].items())
-            instruction = f'# {number} {c["name"]}\n\n实现覆盖公开问题族的可复用求解器，冻结后处理多个未见算例。{PHYS[slug]}\n\n层数、群数、材料、源／历史或网络及初态由输入变化；精确支持范围见[本题DATA](DATA.md)，通用存储见[CONTRACT](../../../../docs/CONTRACT.md)。这三份文件构成全部题意。考生负责实现给定物理响应、选择内部离散／积分／求解方法和控制数值误差；语言与软件自由，覆盖整个范围的解析／降阶方法同样有效，不要求复现参考算法。\n\n## 运行与资源\n\n入口`python solve.py --input /path/problem.json --output /path/result.h5`。程序0退出且关闭结果文件。每例Linux AMD64，{c["timeout"]}秒墙钟（含启动与I/O），2CPU、4096MB、0GPU，逐例无网络，无独立输出字节限额。生成求解器3600秒、构建1800秒。环境提供Python3、NumPy、SciPy、h5py、Gmsh、jsonschema及C++/OpenMP/OpenMPI/HDF5；不强制Python。对象数量和帧数依DATA，输入／输出场各至多2000000数值分量；采样帧不限制内部步数。规模、精度和预算为待校准设计目标，正式数据须用独立参考验证可达性。\n\n## 评分\n\n每有效例正常结束、结果结构合法且每quantity的每帧／对象／分量满足`|结果−参考|≤atol+rtol·|参考|`得1分，否则0分，等号接受。无去均值、幅度拟合、排序替换或超限豁免；临界题的归一化和正号必须遵守物理定义。\n\n| quantity | atol | rtol | 单位 |\n|---|---|---|---|\n{tol}\n\n成绩为通过有效例数／有效例总数。输入、配置或参考错误属基础设施错误，不计为考生失分；无有效例不产生成绩。工具验证不证明数值精度、物理适用性或资源预算已校准。\n'
+            instruction = f'# {number} {c["name"]}\n\n实现覆盖公开问题族的可复用求解器，冻结后处理多个未见算例。\n\n层数、群数、材料、源／历史或网络及初态由输入变化；精确支持范围见[本题DATA](DATA.md)，通用存储见[CONTRACT](../../../../docs/CONTRACT.md)。这三份文件构成全部题意。考生负责实现给定物理响应、选择内部离散／积分／求解方法和控制数值误差；语言与软件自由，覆盖整个范围的解析／降阶方法同样有效，不要求复现参考算法。\n\n## 运行与资源\n\n入口`python solve.py --input /path/problem.json --output /path/result.h5`。程序0退出且关闭结果文件。每例Linux AMD64，{c["timeout"]}秒墙钟（含启动与I/O），2CPU、4096MB、0GPU，逐例无网络，无独立输出字节限额。生成求解器3600秒、构建1800秒。环境提供Python3、NumPy、SciPy、h5py、Gmsh、jsonschema及C++/OpenMP/OpenMPI/HDF5；不强制Python。对象数量和帧数依DATA，输入／输出场各至多2000000数值分量；采样帧不限制内部步数。\n\n## 评分\n\n每有效例正常结束、结果结构合法且每quantity的每帧／对象／分量满足`|结果−参考|≤atol+rtol·|参考|`得1分，否则0分，等号接受。无去均值、幅度拟合、排序替换或超限豁免；临界题的归一化和正号必须遵守物理定义。\n\n| quantity | atol | rtol | 单位 |\n|---|---|---|---|\n{tol}\n\n成绩为通过有效例数／有效例总数。输入、配置或参考错误属基础设施错误，不计为考生失分；无有效例不产生成绩。\n'
             variation = {'photon-absorption':'层数、群数、层厚、吸收、群能和入射束', 'slab-transport-steady':'层数、群数、材料、源和入射', 'slab-transport-transient':'层数、群数、材料、群速、源、入射、初态和请求时刻', 'neutron-diffusion-source':'层数、群数、材料和源', 'neutron-diffusion-critical':'层数、群数和材料响应', 'point-kinetics':'缓发组数、材料参数、独立初态、控制历史和请求时刻', 'decay-network':'核素数、衰变参数、分支、初始库存和请求时刻', 'irradiated-network':'核素数、衰变和反应参数、分支、初始库存、通量历史和请求时刻'}[slug]
             instruction = instruction.replace('层数、群数、材料、源／历史或网络及初态', variation)
             if slug != 'neutron-diffusion-critical':
                 instruction = instruction.replace('；临界题的归一化和正号必须遵守物理定义', '')
             (td/'instruction.md').write_text(instruction, encoding='utf-8')
             policy = dict(version=2, quantities={q:dict(unit=s['unit'],rule=dict(metric='pointwise',time='per_time',components='per_component',atol=s['atol'],rtol=s['rtol'])) for q,s in c['outputs'].items()})
-            (td/'grading.json').write_text(json.dumps(policy, indent=2)+'\n', encoding='utf-8')
+            (td/'author').mkdir(exist_ok=True)
+            (td/'author/grading-template.json').write_text(json.dumps(policy, indent=2)+'\n', encoding='utf-8')
             (td/'judge-config.json').write_text(json.dumps(dict(timeout_seconds=c['timeout'],max_output_bytes=None,stage='provisional',verifier_budget=dict(base_seconds=300,per_case_overhead_seconds=60)),indent=2)+'\n', encoding='utf-8')
             (td/'harbor').mkdir(exist_ok=True)
             (td/'harbor/requirements.txt').write_text('scipy==1.18.1\n', encoding='utf-8')
             (td/'harbor/task.toml').write_text('[agent]\ntimeout_sec = 3600.0\n\n[environment]\nbuild_timeout_sec = 1800.0\ncpus = 2\nmemory_mb = 4096\ngpus = 0\nos = "linux"\n\n[verifier]\nnetwork_mode = "no-network"\n', encoding='utf-8')
         (sd/'README.md').write_text(f'# {sec.split("-")[0]} {title}\n\n'+'\n'.join(links)+'\n', encoding='utf-8')
         toc.append(f'- [{sec.split("-")[0]} {title}]({sec}/README.md)')
-    (CH/'README.md').write_text('# 第十五章 辐射输运与核工程物理分析\n\n五节八题；各题只依赖instruction、DATA及通用CONTRACT。正式数据、参考与发布留后。\n\n'+'\n'.join(toc)+'\n\n维护：[章规划](../design/chapter-15-radiation-nuclear.md)、[清单](../design/chapter-15-task-plan.md)、[进度](../design/reviews/chapter-15-progress.md)。\n', encoding='utf-8')
+    (CH/'README.md').write_text('# 第十五章 辐射输运与核工程物理分析\n\n五节八题；各题只依赖instruction、DATA及通用CONTRACT。正式数据、参考与发布留后。\n\n'+'\n'.join(toc)+'\n\n维护：[章规划](../design/chapter-15-radiation-nuclear.md)、[清单](../design/chapter-15-task-plan.md)、[进度](../design/reviews/chapter-15-progress.md)、[声明维护](../maintenance/protocols/RADIATION.md)。\n', encoding='utf-8')
 
 
 if __name__ == '__main__':

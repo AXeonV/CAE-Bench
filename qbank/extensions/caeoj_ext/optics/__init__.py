@@ -6,7 +6,7 @@ import numpy as np
 
 
 @lru_cache(maxsize=1)
-def models():return json.loads(files(__package__).joinpath('models.json').read_text())
+def models():return json.loads(files(__package__).joinpath('models.json').read_text(encoding='utf-8'))
 
 
 def shape(s,p):return [p['wave_count'] if x=='w' else p['mode_count'] if x=='m' else x for x in s['shape']]

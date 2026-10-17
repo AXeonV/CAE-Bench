@@ -1,5 +1,6 @@
 """Expand independent acoustic contracts and configurations; no case/reference maker."""
 from pathlib import Path
+from caeoj_tools.author import public_model_catalog
 import json,math
 ROOT=Path(__file__).resolve().parents[3];CH=ROOT/'qbank/06-acoustics'
 SECTIONS=[('6.1-propagation','有界介质声传播',['acoustic-transient','acoustic-harmonic']),('6.2-exterior','外域辐射与散射',['surface-radiation','rigid-scattering']),('6.3-absorption','等效介质吸收',['equivalent-fluid']),('6.4-thermoviscous','热黏声学',['thermoviscous-acoustics']),('6.5-aeroacoustics','气动声学',['uniform-flow-acoustics','lighthill-radiation']),('6.6-vibroacoustics','振声响应与耦合',['resonator-wall','modal-vibroacoustics'])]
@@ -99,7 +100,7 @@ def description(s):
  return f"{s['kind']} {s['shape']}；`{s['unit']}`；{s['meaning']}"
 
 def main():
- ext=ROOT/'qbank/extensions/caeoj_ext/acoustic';ext.mkdir(parents=True,exist_ok=True);(ext/'models.json').write_text(json.dumps(M,ensure_ascii=False,indent=2)+'\n');toc=[]
+ ext=ROOT/'qbank/extensions/caeoj_ext/acoustic';ext.mkdir(parents=True,exist_ok=True);(ext/'models.json').write_text(json.dumps(public_model_catalog(M),ensure_ascii=False,indent=2)+'\n');toc=[]
  for sec,title,slugs in SECTIONS:
   sd=CH/sec;sd.mkdir(parents=True,exist_ok=True);links=[]
   for j,slug in enumerate(slugs,1):
@@ -158,7 +159,8 @@ def main():
    (td/'DATA.md').write_text(f'# {slug} 数据契约\n\n入口problem.json及其data_file引用的扁平HDF5，路径相对清单。physics恰含model、parameters；model固定`acoustic-{slug}-v1`，task可省略，出现须为`{slug}`。禁止contract_version、profile、analysis、materials混用；不接受本题未列字段、模型或条件组合。\n\n## 物理定义\n\n'+PHYS[slug]+'\n\n## 全局参数\n\nparameters恰为下表全部项，各项只有value和unit，有限实数且布尔值不能作数值，整数须JSON整数。\n\n| 参数 | 单位 | 含义及值域 |\n|---|---|---|\n'+params+'\n\n## 几何、位置与身份\n\n'+geo+'\n\n## 时间、分量与输入重建\n\n'+time+'\n\n'+fields+'\n\n## 条件全集\n\n'+'\n\n'.join(records)+'\n\n'+bc+'\n\n## 输出\n\noutputs逻辑名与array key自由；每个quantity至少一次，可重复请求。全部float64、不含sampling、时间轴为'+axis+'，dtype／shape／components与单位按表及前述分量规则。\n\n| quantity | 类型、单位及定义 | 支持位置、value_kind |\n|---|---|---|\n'+outs+'\n\n'+observation+'结果HDF5仅含输出array、所需IDs及时间轴，严格复制输入身份与行序；不导出输入场、坐标或新网格。\n\n## 接收条件与限制\n\n'+size+'每轴至多101帧，全部输入／输出场各至多3000000数值分量。'+admission+'\n')
    tol='\n'.join(f'| `{q}` | {s["atol"]} | {s["rtol"]} | `{s["unit"]}` |' for q,s in c['outputs'].items())
    (td/'instruction.md').write_text(f'# {num} {c["name"]}\n\n实现覆盖本题完整公开问题族的可复用求解器，冻结后处理多个未见算例。'+PHYS[slug]+'\n\n具体几何、物性、声源、边界及观测在本题DATA定义，给定响应和范围不可替换。考生负责相容的建模实现、求解与误差控制，语言、软件、内部离散／积分步自由；覆盖整个契约的解析或降阶方法同样有效，不要求复现参考程序或参考网格离散。仅需[本题DATA](DATA.md)与[通用CONTRACT](../../../../docs/CONTRACT.md)补足输入输出。\n\n## 运行与资源\n\n'+size+'每轴至多101帧，输入与输出场分别至多3000000分量。当前规模、预算与容差均为待校准设计目标，正式数据须用独立基准证明预算内可达精度，排除任意病态或物理不唯一组合。\n\n'+f'入口`python solve.py --input /path/problem.json --output /path/result.h5`。每例Linux AMD64、{c["timeout"]}秒墙钟（含启动和I/O）、4CPU、6144MB、0GPU；逐例无网络。程序0退出并完成HDF5写入，无独立输出字节上限；生成求解器3600秒、构建1800秒。提前提供Python3、NumPy、SciPy、h5py、Gmsh、jsonschema、C++/OpenMP/OpenMPI/HDF5，不强制Python求解。\n\n## 评分\n\n每有效例正常退出、结构合法且所有输出quantity在全部时刻／实体／分量上满足`|结果−参考|≤atol(quantity)+rtol(quantity)|参考|`得1分，否则0分；阈值等号接受。'+('复量实部和虚部分别比较，不做全局相位旋转、幅值拟合或RMS替换。' if not tr else '')+'无去均值、重排、平移或少数超限豁免。\n\n| quantity | atol | rtol | 单位 |\n|---|---|---|---|\n'+tol+'\n\n本题成绩为通过有效例数／有效例数；输入、配置或参考错误是基础设施错误，不计考生失败，无有效例不产生成绩。IDs、时间、shape、dtype及有限值严格遵守CONTRACT。容差与资源须在评测前校准；工具回归不构成声学精度证据。\n')
-   (td/'grading.json').write_text(json.dumps(dict(version=2,quantities={q:dict(unit=s['unit'],rule=dict(metric='pointwise',time='per_time',components='per_component',atol=s['atol'],rtol=s['rtol'])) for q,s in c['outputs'].items()}),indent=2)+'\n')
+   (td/'author').mkdir(parents=True,exist_ok=True)
+   (td/'author/grading-template.json').write_text(json.dumps(dict(version=2,quantities={q:dict(unit=s['unit'],rule=dict(metric='pointwise',time='per_time',components='per_component',atol=s['atol'],rtol=s['rtol'])) for q,s in c['outputs'].items()}),indent=2)+'\n')
    (td/'judge-config.json').write_text(json.dumps(dict(timeout_seconds=c['timeout'],max_output_bytes=None,stage='provisional',verifier_budget=dict(base_seconds=300,per_case_overhead_seconds=60)),indent=2)+'\n')
    (td/'harbor').mkdir(exist_ok=True);(td/'harbor/requirements.txt').write_text('scipy==1.18.1\n');(td/'harbor/task.toml').write_text('[agent]\ntimeout_sec = 3600.0\n\n[environment]\nbuild_timeout_sec = 1800.0\ncpus = 4\nmemory_mb = 6144\ngpus = 0\nos = "linux"\n\n[verifier]\nnetwork_mode = "no-network"\n')
   (sd/'README.md').write_text(f'# {sec.split("-")[0]} {title}\n\n'+'\n'.join(links)+'\n');toc.append(f'- [{sec.split("-")[0]} {title}]({sec}/README.md)')

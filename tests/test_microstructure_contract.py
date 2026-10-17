@@ -13,23 +13,18 @@ from microstructure_fixture import fixture
 from caeoj_ext.microstructure import models
 from caeoj.sdk import load_problem,write_result
 from caeoj.validation import validate_input,validate_output,output_support
-from caeoj.grading import grade_arrays
+from grading_fixtures import evaluate_arrays
 from caeoj.grading_policy import resolve_policy
-from caeoj_tools.grading_policy import task_policy
+from caeoj_tools.grading_policy import author_policy
 from caeoj_tools.task_paths import task_directory
 from caeoj_tools.assembly import runtime_materials
 
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def temporary():
-    work=ROOT/'runs/authoring/chapter-16/fixtures';work.mkdir(parents=True,exist_ok=True)
-    return tempfile.TemporaryDirectory(dir=work)
-
-
 class MicrostructureTests(unittest.TestCase):
     def changed(self,slug,mutate):
-        with temporary() as tmp:
+        with tempfile.TemporaryDirectory() as tmp:
             path,m=fixture(tmp,slug);mutate(m,path.parent)
             path.write_text(json.dumps(m),encoding='utf-8');return validate_input(path)
 
@@ -51,7 +46,7 @@ class MicrostructureTests(unittest.TestCase):
 
     def test_models_sdk_identity_aliases_and_grain_counts(self):
         for slug in models():
-            with self.subTest(slug=slug),temporary() as tmp:
+            with self.subTest(slug=slug),tempfile.TemporaryDirectory() as tmp:
                 path,m=fixture(tmp,slug);p=load_problem(path)
                 values={s['array']:np.zeros((len(p.arrays[m['time_axes'][s['time_axis']]]),
                     len(p.arrays[m['locations'][s['location']]['ids']]),*s['component_shape'])) for s in m['outputs'].values()}
@@ -60,7 +55,7 @@ class MicrostructureTests(unittest.TestCase):
             self.valid(slug,lambda m,b:m.pop('task'))
             self.valid(slug,lambda m,b:m['conditions'].reverse())
         for count in (2,6):
-            with temporary() as tmp:
+            with tempfile.TemporaryDirectory() as tmp:
                 path,m=fixture(tmp,'grain-coarsening',grain_count=count)
                 self.assertTrue(validate_input(path)['valid'])
         def duplicate(m,b):
@@ -150,42 +145,42 @@ class MicrostructureTests(unittest.TestCase):
         timeouts={'binary-separation':900,'ternary-separation':1200,'order-relaxation':300,
             'driven-ordering':450,'grain-coarsening':1200,'coupled-precipitation':1200,'crystal-density':1800}
         for slug in models():
-            with self.subTest(slug=slug),temporary() as tmp:
+            with self.subTest(slug=slug),tempfile.TemporaryDirectory() as tmp:
                 path,m=fixture(tmp,slug);p=load_problem(path);task=task_directory(slug,ROOT)
-                policy=task_policy(task,p);bound=resolve_policy(policy,p)
+                policy=author_policy(task,p);bound=resolve_policy(policy,p)
                 ref={s['array']:np.zeros((len(p.arrays[m['time_axes'][s['time_axis']]]),
                     len(p.arrays[m['locations'][s['location']]['ids']]),*s['component_shape'])) for s in m['outputs'].values()}
                 ref.update({k:p.arrays[k].copy() for k in output_support(p)})
-                self.assertEqual(grade_arrays(p,ref,ref,policy=policy)['score'],1)
+                self.assertEqual(evaluate_arrays(p,ref,ref,policy=policy)['score'],1)
                 for name,s in m['outputs'].items():
                     atol=1e-5 if s['unit']=='1' else 1e-7;rtol=.005
                     self.assertEqual((bound['fields'][name]['atol'],bound['fields'][name]['rtol']),(atol,rtol))
                     actual=deepcopy(ref);actual[s['array']][:]=atol
-                    self.assertEqual(grade_arrays(p,actual,ref,policy=policy)['score'],1)
+                    self.assertEqual(evaluate_arrays(p,actual,ref,policy=policy)['score'],1)
                     actual[s['array']].flat[0]=np.nextafter(atol,np.inf)
-                    self.assertEqual(grade_arrays(p,actual,ref,policy=policy)['score'],0)
+                    self.assertEqual(evaluate_arrays(p,actual,ref,policy=policy)['score'],0)
                     nonzero=deepcopy(ref);nonzero[s['array']][:]=100.
                     actual=deepcopy(nonzero);edge=100.+atol+100.*rtol
                     if edge-100.>atol+100.*rtol:edge=np.nextafter(edge,-np.inf)
                     actual[s['array']][:]=edge
-                    self.assertEqual(grade_arrays(p,actual,nonzero,policy=policy)['score'],1)
+                    self.assertEqual(evaluate_arrays(p,actual,nonzero,policy=policy)['score'],1)
                     actual[s['array']].flat[0]=np.nextafter(edge,np.inf)
-                    self.assertEqual(grade_arrays(p,actual,nonzero,policy=policy)['score'],0)
+                    self.assertEqual(evaluate_arrays(p,actual,nonzero,policy=policy)['score'],0)
                 bad=deepcopy(ref);bad.pop(next(iter(m['outputs'].values()))['array'])
-                self.assertEqual(grade_arrays(p,bad,ref,policy=policy)['score'],0)
-                self.assertIsNone(grade_arrays(p,ref,bad,policy=policy)['score'])
-                config=json.loads((task/'judge-config.json').read_text());override=tomllib.loads((task/'harbor/task.toml').read_text())
+                self.assertEqual(evaluate_arrays(p,bad,ref,policy=policy)['score'],0)
+                self.assertIsNone(evaluate_arrays(p,ref,bad,policy=policy)['score'])
+                config=json.loads((task/'judge-config.json').read_text(encoding='utf-8'));override=tomllib.loads((task/'harbor/task.toml').read_text(encoding='utf-8'))
                 merged=tomllib.loads(prepare.task_config(template,override,judge_config=config,case_count=3))
                 self.assertEqual(config['timeout_seconds'],timeouts[slug]);self.assertIsNone(config['max_output_bytes'])
                 self.assertEqual(merged['environment']['cpus'],2);self.assertEqual(merged['environment']['memory_mb'],4096)
                 self.assertEqual(merged['environment']['gpus'],0);self.assertEqual(merged['agent']['timeout_sec'],3600)
                 self.assertEqual(merged['environment']['build_timeout_sec'],1800)
                 self.assertEqual(merged['verifier']['network_mode'],'no-network');self.assertEqual(merged['verifier']['environment_mode'],'separate')
-                self.assertEqual(merged['verifier']['timeout_sec'],max(1200,300+3*(timeouts[slug]+60)))
+                self.assertEqual(merged['verifier']['timeout_sec'],max(1200,300+3*(timeouts[slug]+120)))
                 instruction=(task/'instruction.md').read_text(encoding='utf-8')
                 self.assertNotIn('{c[',instruction);self.assertNotIn('{tolerances}',instruction)
                 self.assertIn(str(timeouts[slug])+'秒墙钟',instruction)
-                self.assertEqual((task/'harbor/requirements.txt').read_text().strip(),'scipy==1.18.1')
+                self.assertEqual((task/'harbor/requirements.txt').read_text(encoding='utf-8').strip(),'scipy==1.18.1')
         files,runtime=runtime_materials({slug:task_directory(slug,ROOT) for slug in models()},ROOT)
         self.assertEqual(set(runtime['extensions']),{'microstructure.phase_field'})
         self.assertFalse(any(any(k in name for k in ('caeoj_tools','/author/','maintenance','/cases/','/reference/')) for name in files))

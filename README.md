@@ -2,13 +2,15 @@
 
 CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕通用数据协议、结构校验、测试数据和独立判分组织，支持持续增加不同物理模型的题目和测试。
 
-考生阅读本题 `instruction.md`、`DATA.md` 和[通用数据协议](docs/CONTRACT.md)即可确定任务与数据规则。维护方可查阅[题库设计](qbank/design/README.md)、[运行装配](qbank/maintenance/RUNTIME.md)、[评分配置](docs/GRADING.md)及 [Agent 测试记录](docs/AGENT-RESULTS.md)。
+考生阅读本题 `instruction.md`、`DATA.md` 和 [通用数据协议](docs/CONTRACT.md) 即可确定任务与数据规则。维护方可查阅 [题库设计](qbank/design/README.md)、[运行装配](qbank/maintenance/RUNTIME.md)、[评分配置](docs/GRADING.md) 及 [Agent 测试记录](docs/AGENT-RESULTS.md)。
 
 ## 设计
 
-- **通用数据协议**：Gmsh 存网格，HDF5 存数组，JSON 声明字段和条件；各题目明确物理或数学问题与输入范围，求解程序按同一协议读写。
-- **纠正 Agent I/O**：Agent 在理解输入、编写和调试程序时可随时调用**结构校验器**，根据诊断修改读写实现，减少输入输出理解错误的负担。*校验器检查格式、引用及声明约束，不验证或纠正物理结果。*
-- **提交后独立评测**：逐 case 评分，重新校验程序输出并按本例规则评价，每点 0/1 分，汇总结果和日志。
+- **统一数据协议**：Gmsh 存网格，HDF5 存数组，JSON 声明字段和条件；题面与 DATA 明确本题任务及数据语义，求解程序按统一接口读写。
+- **核心与领域扩展**：通用核心（`src/caeoj/`）负责读写、结构校验与评分编排，领域扩展（`qbank/extensions/`）提供声明检查及评价器；维护工具（`src/caeoj_tools/`、`src/utils/`）按题目依赖和白名单装配公开材料与必要工具。
+- **做题时辅助校验**：Agent 可随时调用 SDK（`src/caeoj/sdk.py`）和**校验器**（`src/caeoj/validation.py`），减少数据读写与契约理解的负担；*校验器检查格式、引用及声明约束，不验证或纠正物理结果。*
+- **提交后独立评测**：考生材料与私有判题材料分开装配；判题器（`src/utils/harbor/tests/judge.py`）在提交后逐 case 执行、校验并按本例规则评分，每点 0/1 分，汇总结果和日志。
+- **数据与维护材料分存**：实际输入、参考和逐例评分配置上传至 [Hugging Face 数据池](https://huggingface.co/datasets/jimzhouzzy2006/CAE-Bench-OJ)，按固定版本与选样清单获取；题面、DATA、选样与执行配置、来源及验证证据、工具代码和 Skill 保留在代码仓库。
 
 ## 项目结构
 
@@ -94,7 +96,7 @@ flowchart LR
 | [第 17 章](qbank/17-multiphysics/README.md) | 多物理场耦合 |
 | [第 18 章](qbank/18-system-multidomain/README.md) | 系统级多领域分析 |
 
-第 2～18 章已完成各自首版清单的题面、DATA 和评测配置；正式数值数据、参考及评测发布仍待完成。逐章交付范围和证据见[题库设计](qbank/design/README.md)。
+第 2～18 章已完成各自首版清单的题面、DATA 和评测配置；正式数值数据、参考及评测发布仍待完成。逐章交付范围和证据见 [题库设计](qbank/design/README.md)。
 
 ## 维护技能
 
@@ -130,7 +132,7 @@ python -m pip install -e '.[maint,heat,pdebench]' -e qbank/extensions harbor
 
 **数据缺失或重新制作时准备数据。** 选择本题适用的一种方式；数据完整且与本次题目版本一致时可直接进入评测主线。
 
-已有 `data-manifest.json` 的题目先执行 `python -m caeoj_tools.cli data assemble --task '<task>'`，按选样从 HF 获取并装配，再用 `data verify --task '<task>' --strict` 核验。制池、上传、选样及覆盖规则见[数据池操作](qbank/maintenance/DATA-SYNC.md)。发布和 Harbor 准备已接入离线前置检查。本地数据和回执由 Git 忽略；只有需要制作或修订数据时才使用下面的生成流程。
+已有 `data-manifest.json` 的题目先执行 `python -m caeoj_tools.cli data assemble --task '<task>'`，按选样从 HF 获取并装配，再用 `data verify --task '<task>' --strict` 核验。制池、上传、选样及覆盖规则见 [数据池操作](qbank/maintenance/DATA-SYNC.md)。发布和 Harbor 准备已接入离线前置检查。本地数据和回执由 Git 忽略；只有需要制作或修订数据时才使用下面的生成流程。
 
 有独立生成器的题目生成输入、参考与公开样例：
 
@@ -144,7 +146,7 @@ python '<task-dir>/author/generate.py'
 python src/utils/PDEBench/prepare.py --tasks '<task>' --budget-gb 60 --no-bootstrap
 ```
 
-`--tasks all` 准备该适配器支持的全部题目；具体来源、选样与参考证据保存在本题 `reference/`。数据来源不作为题目分类或题目 ID。参考精度及资源预算的校准状态见本题说明和[评测说明](src/utils/PDEBench/EVALUATION.md)。
+`--tasks all` 准备该适配器支持的全部题目；具体来源、选样与参考证据保存在本题 `reference/`。数据来源不作为题目分类或题目 ID。参考精度及资源预算的校准状态见本题说明和 [评测说明](src/utils/PDEBench/EVALUATION.md)。
 
 ### 评测主线
 
@@ -180,7 +182,7 @@ HPC 可追加 `--override-cpus '<cpu-quota>' --override-memory-mb '<memory-mb>'`
 
 **4. 汇总结果。** 通过 Viewer 查看运行状态；各 trial 的 `verifier/report.json` 保存逐例状态、得分及误差，`reward.txt` 保存通过率。确认全部计划 trial 和测试点已完成，区分求解器失败与输入、参考、配置等基础设施错误。
 
-可使用 [caeoj-run-benchmark](.agents/skills/caeoj-run-benchmark/SKILL.md) 让维护 Agent 执行就绪检查、冻结条件、组装、监控与结果汇总。配置消费点、总预算及数据就绪要求见[维护说明](qbank/maintenance/EVALUATION.md)。
+可使用 [caeoj-run-benchmark](.agents/skills/caeoj-run-benchmark/SKILL.md) 让维护 Agent 执行就绪检查、冻结条件、组装、监控与结果汇总。配置消费点、总预算及数据就绪要求见 [维护说明](qbank/maintenance/EVALUATION.md)。
 
 ### 按需验证与诊断
 
@@ -191,7 +193,7 @@ python -m unittest discover -s tests -p '<test-file>.py' -v
 python -m unittest discover -s tests -v
 ```
 
-基础读写链路可用 `python -m caeoj_tools.cli smoke` 检查，详见[基础测试说明](qbank/00-basic-tests/README.md)。
+基础读写链路可用 `python -m caeoj_tools.cli smoke` 检查，详见 [基础测试说明](qbank/00-basic-tests/README.md)。
 
 **结构诊断：定位输入或输出问题时执行。** 发布和组装内部已有结构检查，以下单点命令供调试使用，无需每轮手工重复。
 

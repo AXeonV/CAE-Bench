@@ -1,8 +1,6 @@
 {
-  "status": "in_progress",
+  "status": "validated_subset",
   "target": 100,
-  "completed": 22,
-  "passed": 22,
   "cases": [
     {
       "case": "001-hydrostatic-01",
@@ -4633,7 +4631,999 @@
       ],
       "passed": true,
       "n": 12
+    },
+    {
+      "case": "024-couette-06",
+      "configuration": {
+        "name": "024-couette-06",
+        "family": "couette",
+        "variant": 5,
+        "lengths": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "origin": [
+          -0.26,
+          0.3,
+          -0.2
+        ],
+        "rotation": [
+          [
+            0.0,
+            0.9736663950053749,
+            -0.2279775235351884
+          ],
+          [
+            0.0,
+            0.2279775235351884,
+            0.9736663950053749
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "density": 1000.0,
+        "viscosity": 60.0,
+        "speed": 0.06,
+        "reynolds_target": 1.0,
+        "geometry": "box",
+        "input_mesh": "tet",
+        "pressure_kind": "absolute",
+        "pressure_value": 101325.0,
+        "gauge_kind": "point",
+        "source_parts": 1
+      },
+      "code_id": "00354459b579",
+      "attempts": [
+        {
+          "n": 12,
+          "runs": [
+            {
+              "run": {
+                "solver": "elmer",
+                "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                "wall_seconds": 21.783820804965217,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "elmer",
+                  "--image-id",
+                  "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/024-couette-06/00354459b579/elmer-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": null,
+                "absolute_solution_change": 7.53535621583393e-10,
+                "solution_norm": 2.5845950405153557,
+                "raw_sha256": {
+                  "flow.sif": "822b3c003828d399b02813308dcfc1c3bccf74791f94602880ac36abd3538ad8",
+                  "native_values.dat": "33fc0583c3d1dfa09a1530ff72f5372da2e8d0cabff9c27adc0ecabff6590566",
+                  "flow.log": "90b45beed95e897a69a5244bf26c75fffa8be2474f06a9411476948d25c912dd",
+                  "mesh/solution_t0001.vtu": "f8adef403ddda0a355e4cc6a1772735041aa65c97418cef262ac9bac6852259c"
+                }
+              },
+              "output_sha256": "4ade105deffcc3e6ed1639b63c364bf2d00266d042e9d847cb9c740b5cfc1678"
+            },
+            {
+              "run": {
+                "solver": "openfoam",
+                "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                "wall_seconds": 14.36872334999498,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "openfoam",
+                  "--image-id",
+                  "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/024-couette-06/00354459b579/openfoam-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": {
+                  "velocity_max_change": 5.30825383648903e-16,
+                  "kinematic_pressure_max_change": 6.715301224970861e-16,
+                  "continuity": 2.787998976350468e-17,
+                  "iterations": [
+                    1900.0,
+                    2000.0
+                  ]
+                },
+                "absolute_solution_change": null,
+                "solution_norm": null,
+                "raw_sha256": {
+                  "flow.log": "00e7eceb13b27d3e8e89857565045eb3307dc89e5030f3a37beb2be3880f0838",
+                  "system/fvSolution": "c2b779532fa0c7c3afc5be0205c9e9df354578b262608511f30b4450a7b866a6",
+                  "system/fvSchemes": "12572880a13d7cc1ede4601a0ee0471cabc92d7ae309bf4e3424475227d19fe7",
+                  "2000/U": "6128569edd59293ddf89bdb0ab6d035399e2d5d6c8a73e0d945b85aa2b0ea492",
+                  "2000/p": "8b6796c6c48347bbae4f871bff765d6576e8226ea9db7230c093dbd3e801c8bd",
+                  "1900/U": "44814430e297ec3b779f76c3d0860a76c4e37e7529c386bd15a604fbe11f269c",
+                  "1900/p": "d66003fa32f826287d88372be77064f0c1edf16c4dda4e4efa47643f20c01674",
+                  "0/U": "b8501e84619d5dbc812cc4a7a78002e7c20e675b6e5f7f6df1e019ca5697a25d",
+                  "0/p": "ae83366bdd0efdebecd91b0b6f50fb11438336b2c945108ad865013f6737dcb1",
+                  "constant/fvOptions": "05b825bf6f01d9d32c10a751a88b6c35e3574fd34722de2da0124b59e3af6397"
+                }
+              },
+              "output_sha256": "4f5da59d67e90650edbb4fb746356b823011b641e986ef7d0e930e472941223d"
+            }
+          ],
+          "cross_score": 1,
+          "errors": {
+            "answer_velocity": {
+              "max_abs": 2.4228044662285356e-06,
+              "max_budget_ratio": 0.002422745767835867
+            },
+            "answer_pressure": {
+              "max_abs": 0.00785600625385996,
+              "max_budget_ratio": 7.752509641113453e-06
+            },
+            "answer_density": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_dynamic_viscosity": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_traction": {
+              "max_abs": 0.015368304011644796,
+              "max_budget_ratio": 0.10337313434944158
+            },
+            "answer_mean_pressure": {
+              "max_abs": 0.0010473630245542154,
+              "max_budget_ratio": 1.0335649220200706e-06
+            },
+            "answer_shear": {
+              "max_abs": 1.0272066069585972e-05,
+              "max_budget_ratio": 0.0009690722276699223
+            },
+            "answer_force3": {
+              "max_abs": 0.0008376399491680786,
+              "max_budget_ratio": 0.003495465671181189
+            },
+            "answer_volume_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_mass_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_force4": {
+              "max_abs": 0.0010197904775850475,
+              "max_budget_ratio": 1.0336742893728912e-06
+            },
+            "answer_volume_flow4": {
+              "max_abs": 1.1709383462843449e-19,
+              "max_budget_ratio": 1.170938346284345e-13
+            },
+            "answer_mass_flow4": {
+              "max_abs": 1.1709383462843448e-16,
+              "max_budget_ratio": 1.1709383462843448e-10
+            }
+          },
+          "max_budget_ratio": 0.10337313434944158,
+          "producer_analytic_budget_ratio": 0.10326638364735558
+        }
+      ],
+      "passed": true,
+      "n": 12
+    },
+    {
+      "case": "025-couette-07",
+      "configuration": {
+        "name": "025-couette-07",
+        "family": "couette",
+        "variant": 6,
+        "lengths": [
+          2.0,
+          1.0,
+          0.5
+        ],
+        "origin": [
+          -0.4,
+          0.3,
+          -0.2
+        ],
+        "rotation": [
+          [
+            0.9171208228166051,
+            0.3986093279844229,
+            0.0
+          ],
+          [
+            -0.3986093279844229,
+            0.9171208228166051,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "density": 1.0,
+        "viscosity": 0.06,
+        "speed": 0.12,
+        "reynolds_target": 1.0,
+        "geometry": "box",
+        "input_mesh": "hex",
+        "pressure_kind": "gauge",
+        "pressure_value": 0.0,
+        "gauge_kind": "mean",
+        "source_parts": 1
+      },
+      "code_id": "00354459b579",
+      "attempts": [
+        {
+          "n": 12,
+          "runs": [
+            {
+              "run": {
+                "solver": "elmer",
+                "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                "wall_seconds": 21.8680444600177,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "elmer",
+                  "--image-id",
+                  "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/025-couette-07/00354459b579/elmer-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": null,
+                "absolute_solution_change": 4.1636695116307797e-10,
+                "solution_norm": 0.045296384995652125,
+                "raw_sha256": {
+                  "flow.sif": "2a9412d2d8aa74830c4766b0d35eef04a9c89ef6902f078d585186d69f5a630b",
+                  "native_values.dat": "cb6bf986ea73cc8b99458f3c55a110c9f665250935b274c1f6a3bc9f3e2e848f",
+                  "flow.log": "4d8f9cccdc5d2d56bb2401c9a0678733242923997fcc48ec3766d3ffb349798c",
+                  "mesh/solution_t0001.vtu": "319c0d3074899ae05b70efd87ee3be6ec354409a3df0ec486196ce1f55a1cd86"
+                }
+              },
+              "output_sha256": "8841b6488d78f7447c19119448c97ffcb60d8bce0c4cb8026ec63d17d55f0426"
+            },
+            {
+              "run": {
+                "solver": "openfoam",
+                "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                "wall_seconds": 13.79737396602286,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "openfoam",
+                  "--image-id",
+                  "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/025-couette-07/00354459b579/openfoam-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": {
+                  "velocity_max_change": 5.857050955349052e-13,
+                  "kinematic_pressure_max_change": 6.84280141940184e-16,
+                  "continuity": 8.349901716234016e-17,
+                  "iterations": [
+                    1900.0,
+                    2000.0
+                  ]
+                },
+                "absolute_solution_change": null,
+                "solution_norm": null,
+                "raw_sha256": {
+                  "flow.log": "f1e4439324f2b66ffe79382b7b33355cc453b6b143872bd2701d0697459d3d80",
+                  "system/fvSolution": "c2b779532fa0c7c3afc5be0205c9e9df354578b262608511f30b4450a7b866a6",
+                  "system/fvSchemes": "12572880a13d7cc1ede4601a0ee0471cabc92d7ae309bf4e3424475227d19fe7",
+                  "2000/U": "fdc68306ffb7d4b0a4911c8d89b06e9059b8948df266a90415d47c4858f362ef",
+                  "2000/p": "39ee21f9b1a13bb3b3af1d925d705edd55c7ece23eeaebe3082f468ff1b32617",
+                  "1900/U": "cbe9e6bd7cfff625720ff75d64ea94df84c62f5c31baf764e35108b7cf39b988",
+                  "1900/p": "115a534bb32d89d9560b4b6eb1c13dff8ba0092840d47e534ce20cc40cbafbe6",
+                  "0/U": "eaf520d787a9b26f82acc19009924f560f352de9d200391e12d1f229cf160675",
+                  "0/p": "ae83366bdd0efdebecd91b0b6f50fb11438336b2c945108ad865013f6737dcb1",
+                  "constant/fvOptions": "05b825bf6f01d9d32c10a751a88b6c35e3574fd34722de2da0124b59e3af6397"
+                }
+              },
+              "output_sha256": "290c5ec7e13b890bc012e3848dff57d7050066811b8c35e96125ef184e622eef"
+            }
+          ],
+          "cross_score": 1,
+          "errors": {
+            "answer_velocity": {
+              "max_abs": 3.669584677566326e-06,
+              "max_budget_ratio": 0.003393512277483878
+            },
+            "answer_pressure": {
+              "max_abs": 4.5155361374727514e-06,
+              "max_budget_ratio": 4.515534098467011e-05
+            },
+            "answer_density": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_dynamic_viscosity": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_traction": {
+              "max_abs": 0.00011015441892989631,
+              "max_budget_ratio": 0.0011012160113365171
+            },
+            "answer_mean_pressure": {
+              "max_abs": 2.144310963360055e-18,
+              "max_budget_ratio": 2.144310963360055e-17
+            },
+            "answer_shear": {
+              "max_abs": 2.1085225113931516e-05,
+              "max_budget_ratio": 0.0018591328638538661
+            },
+            "answer_force3": {
+              "max_abs": 1.206875519361994e-06,
+              "max_budget_ratio": 0.0011321314849311373
+            },
+            "answer_volume_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_mass_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_force4": {
+              "max_abs": 4.8783077490760496e-09,
+              "max_budget_ratio": 4.57613352363123e-06
+            },
+            "answer_volume_flow4": {
+              "max_abs": 8.314970900528962e-10,
+              "max_budget_ratio": 0.000831490176236339
+            },
+            "answer_mass_flow4": {
+              "max_abs": 8.314970900528962e-10,
+              "max_budget_ratio": 0.000831490176236339
+            }
+          },
+          "max_budget_ratio": 0.003393512277483878,
+          "producer_analytic_budget_ratio": 0.003393627309720402
+        }
+      ],
+      "passed": true,
+      "n": 12
+    },
+    {
+      "case": "027-couette-09",
+      "configuration": {
+        "name": "027-couette-09",
+        "family": "couette",
+        "variant": 8,
+        "lengths": [
+          1.0,
+          0.5,
+          1.5
+        ],
+        "origin": [
+          -0.26,
+          0.3,
+          -0.2
+        ],
+        "rotation": [
+          [
+            0.0,
+            0.9171208228166051,
+            0.3986093279844229
+          ],
+          [
+            0.0,
+            -0.3986093279844229,
+            0.9171208228166051
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "density": 10.0,
+        "viscosity": 0.03,
+        "speed": 0.03,
+        "reynolds_target": 5.0,
+        "geometry": "box",
+        "input_mesh": "pyramid",
+        "pressure_kind": "gauge",
+        "pressure_value": -1.0,
+        "gauge_kind": "mean",
+        "source_parts": 2
+      },
+      "code_id": "00354459b579",
+      "attempts": [
+        {
+          "n": 12,
+          "runs": [
+            {
+              "run": {
+                "solver": "elmer",
+                "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                "wall_seconds": 16.66003060096409,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "elmer",
+                  "--image-id",
+                  "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/027-couette-09/00354459b579/elmer-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": null,
+                "absolute_solution_change": 9.006079943292258e-10,
+                "solution_norm": 0.009035762578958722,
+                "raw_sha256": {
+                  "flow.sif": "dd8ef6f17e141d7e1f4b44c097021d51c06b32a7cbbcec8f2f0038b4ca03ba04",
+                  "native_values.dat": "569fe5f0b0bcc8c196d78f91d954faac7906174889674dd6922c4606b759fe10",
+                  "flow.log": "a86bb6b06e69e54febb81d876518632eae2f83f23d2feb22465381d266029019",
+                  "mesh/solution_t0001.vtu": "9e10c5ebca3ef7df8e167e2ee78aac227cf6f22ce8c587c259699322cd29c7df"
+                }
+              },
+              "output_sha256": "b2c4071777d9168ad82f4d32bbe74b655db790f30ae08f8aee51cb2c871953ef"
+            },
+            {
+              "run": {
+                "solver": "openfoam",
+                "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                "wall_seconds": 13.658836635993794,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "openfoam",
+                  "--image-id",
+                  "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/027-couette-09/00354459b579/openfoam-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": {
+                  "velocity_max_change": 1.0408340855860843e-17,
+                  "kinematic_pressure_max_change": 3.473375164933408e-18,
+                  "continuity": 1.299079644145737e-17,
+                  "iterations": [
+                    1900.0,
+                    2000.0
+                  ]
+                },
+                "absolute_solution_change": null,
+                "solution_norm": null,
+                "raw_sha256": {
+                  "flow.log": "963931eb7171fc19d50e82997c998cae9aab3bb32535da9b6adedc01621d25ec",
+                  "system/fvSolution": "c2b779532fa0c7c3afc5be0205c9e9df354578b262608511f30b4450a7b866a6",
+                  "system/fvSchemes": "12572880a13d7cc1ede4601a0ee0471cabc92d7ae309bf4e3424475227d19fe7",
+                  "2000/U": "10458f0f8d5dee5dff6c03772ebbafe7e7a5d3c308eae862ba554510e38282b5",
+                  "2000/p": "abb36f82913f7e2cf6b9389adbdbec85f05058caae11ddb8e07a329bed30c5d7",
+                  "1900/U": "0d87d327b4ce0e0b20d5b0706c9744b7e9086fd01d65fb3353a5ff941898ace2",
+                  "1900/p": "0c7f7ef7fe131548d1f76d0cdd175cdb7b358b5fdd48d854a5a952a08f994c93",
+                  "0/U": "6f2e6f093fb29c70fb1899dd7a930140ddbcbd6faf1f18c1d22d85e56f38aff5",
+                  "0/p": "ae83366bdd0efdebecd91b0b6f50fb11438336b2c945108ad865013f6737dcb1",
+                  "constant/fvOptions": "05b825bf6f01d9d32c10a751a88b6c35e3574fd34722de2da0124b59e3af6397"
+                }
+              },
+              "output_sha256": "aae83aa94a5e056de07cd171bbb336de8146c2304609d0e9a1abd08b98f2a3d9"
+            }
+          ],
+          "cross_score": 1,
+          "errors": {
+            "answer_velocity": {
+              "max_abs": 3.7678187500100706e-06,
+              "max_budget_ratio": 0.00366047674853754
+            },
+            "answer_pressure": {
+              "max_abs": 6.2849589939073525e-06,
+              "max_budget_ratio": 5.713595820850734e-05
+            },
+            "answer_density": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_dynamic_viscosity": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_traction": {
+              "max_abs": 4.133821049072178e-06,
+              "max_budget_ratio": 4.133137035020438e-05
+            },
+            "answer_mean_pressure": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_shear": {
+              "max_abs": 4.3731868506410865e-06,
+              "max_budget_ratio": 0.000412566499336293
+            },
+            "answer_force3": {
+              "max_abs": 4.2018996948556264e-08,
+              "max_budget_ratio": 9.18348398871937e-06
+            },
+            "answer_volume_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_mass_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_force4": {
+              "max_abs": 3.591083097553849e-09,
+              "max_budget_ratio": 1.626702603365945e-06
+            },
+            "answer_volume_flow4": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_mass_flow4": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            }
+          },
+          "max_budget_ratio": 0.00366047674853754,
+          "producer_analytic_budget_ratio": 0.003660610744345053
+        }
+      ],
+      "passed": true,
+      "n": 12
+    },
+    {
+      "case": "028-couette-10",
+      "configuration": {
+        "name": "028-couette-10",
+        "family": "couette",
+        "variant": 9,
+        "lengths": [
+          1.5,
+          1.0,
+          0.75
+        ],
+        "origin": [
+          -0.4,
+          0.3,
+          -0.2
+        ],
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "density": 10.0,
+        "viscosity": 0.09,
+        "speed": 0.06,
+        "reynolds_target": 5.0,
+        "geometry": "box",
+        "input_mesh": "mixed",
+        "pressure_kind": "gauge",
+        "pressure_value": 0.0,
+        "gauge_kind": "point",
+        "source_parts": 1
+      },
+      "code_id": "00354459b579",
+      "attempts": [
+        {
+          "n": 12,
+          "runs": [
+            {
+              "run": {
+                "solver": "elmer",
+                "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                "wall_seconds": 18.347844620991964,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "elmer",
+                  "--image-id",
+                  "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/028-couette-10/00354459b579/elmer-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": null,
+                "absolute_solution_change": 5.850905466237898e-10,
+                "solution_norm": 0.01983717414285611,
+                "raw_sha256": {
+                  "flow.sif": "1ab07b9161ac9e3e4bef88d05ac56cbfd3102b2c058713521ed60f933c6ec208",
+                  "native_values.dat": "019cd475fee2009d743cc0b34d4a1a890045fd943f0a888219118ecc24fe349f",
+                  "flow.log": "3fb2241899289a42219045910a579b2ec9e2f02ba8ff91f5798fe20bd1a58aaa",
+                  "mesh/solution_t0001.vtu": "69c4ff86de9e9dc39c13c1836ce54bb7d18f2bef604d5a6d075c5d6445e13fb5"
+                }
+              },
+              "output_sha256": "866dee51af15248861e4b325a654e9cac1bf3fbdd157728e70df7ab49fcd1e0c"
+            },
+            {
+              "run": {
+                "solver": "openfoam",
+                "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                "wall_seconds": 13.403949345985893,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "openfoam",
+                  "--image-id",
+                  "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/028-couette-10/00354459b579/openfoam-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": {
+                  "velocity_max_change": 2.9559688030644793e-15,
+                  "kinematic_pressure_max_change": 7.796789487210235e-17,
+                  "continuity": 4.002211852822217e-17,
+                  "iterations": [
+                    1900.0,
+                    2000.0
+                  ]
+                },
+                "absolute_solution_change": null,
+                "solution_norm": null,
+                "raw_sha256": {
+                  "flow.log": "7f668dde8c7426b276fb17dbf6a93988cc420334a7af46a7a2915139f9b70bd9",
+                  "system/fvSolution": "c2b779532fa0c7c3afc5be0205c9e9df354578b262608511f30b4450a7b866a6",
+                  "system/fvSchemes": "12572880a13d7cc1ede4601a0ee0471cabc92d7ae309bf4e3424475227d19fe7",
+                  "2000/U": "868c6cfd6d6eae25d3db95af8cbd4fcd0a209c24bf4fcd21f33e339662ddc356",
+                  "2000/p": "4a1476b271597133dd25faa92755fa3aa65f8338263d866f7137faaed24814ee",
+                  "1900/U": "015a1e9ba1ce38cb0abe8ff1f73732be319c9380ace0a9f95b4ac8ab3f142a85",
+                  "1900/p": "e4a983972d26e7d3e52d65a2c0e2a4836838bbaa347f53a1e093fd07417d4ad9",
+                  "0/U": "597b3143210ef0cbd847ca4d907d14aaf8fe5e96c62ca38a73cb3b7fd5b5c3c8",
+                  "0/p": "ae83366bdd0efdebecd91b0b6f50fb11438336b2c945108ad865013f6737dcb1",
+                  "constant/fvOptions": "05b825bf6f01d9d32c10a751a88b6c35e3574fd34722de2da0124b59e3af6397"
+                }
+              },
+              "output_sha256": "1e212146e54bdf23ba9cbb527c7f3bcce35fdbb6d8bdb9c751d560b09ca1927e"
+            }
+          ],
+          "cross_score": 1,
+          "errors": {
+            "answer_velocity": {
+              "max_abs": 2.395655843387385e-07,
+              "max_budget_ratio": 0.00023956501042342142
+            },
+            "answer_pressure": {
+              "max_abs": 1.0654020544090517e-06,
+              "max_budget_ratio": 1.06540194090091e-05
+            },
+            "answer_density": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_dynamic_viscosity": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_traction": {
+              "max_abs": 6.235325984704775e-06,
+              "max_budget_ratio": 6.23532209677818e-05
+            },
+            "answer_mean_pressure": {
+              "max_abs": 9.535644711452988e-07,
+              "max_budget_ratio": 9.535643802167874e-06
+            },
+            "answer_shear": {
+              "max_abs": 3.2034905201455688e-06,
+              "max_budget_ratio": 0.00030020942953764673
+            },
+            "answer_force3": {
+              "max_abs": 1.0736334981534124e-06,
+              "max_budget_ratio": 0.0010736219713882841
+            },
+            "answer_volume_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_mass_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_force4": {
+              "max_abs": 1.0727385138373083e-06,
+              "max_budget_ratio": 0.0010727270062815648
+            },
+            "answer_volume_flow4": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_mass_flow4": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            }
+          },
+          "max_budget_ratio": 0.0010736219713882841,
+          "producer_analytic_budget_ratio": 0.0010736334981380415
+        }
+      ],
+      "passed": true,
+      "n": 12
+    },
+    {
+      "case": "029-couette-11",
+      "configuration": {
+        "name": "029-couette-11",
+        "family": "couette",
+        "variant": 10,
+        "lengths": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "origin": [
+          -0.33,
+          0.3,
+          -0.2
+        ],
+        "rotation": [
+          [
+            0.0,
+            0.0,
+            1.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ]
+        ],
+        "density": 1000.0,
+        "viscosity": 24.0,
+        "speed": 0.12,
+        "reynolds_target": 5.0,
+        "geometry": "box",
+        "input_mesh": "tet",
+        "pressure_kind": "absolute",
+        "pressure_value": 101325.0,
+        "gauge_kind": "mean",
+        "source_parts": 1
+      },
+      "code_id": "00354459b579",
+      "attempts": [
+        {
+          "n": 12,
+          "runs": [
+            {
+              "run": {
+                "solver": "elmer",
+                "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                "wall_seconds": 21.62023678701371,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "elmer",
+                  "--image-id",
+                  "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/029-couette-11/00354459b579/elmer-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": null,
+                "absolute_solution_change": 4.1364312492556863e-10,
+                "solution_norm": 1.232442892296226,
+                "raw_sha256": {
+                  "flow.sif": "66477aadc57ec1eddd0565f157683b9d3511a9b881bb106e262277257e3afe36",
+                  "native_values.dat": "3cf080344ed0517f057300e7641756895618e3c2a769937bd278ae2bdea3d83e",
+                  "flow.log": "4871503a49e0ec784f58965e65d3535fd5d91086fe3e67e939a42ea0306c5e22",
+                  "mesh/solution_t0001.vtu": "76f79b847e3dd1f3badaf7dc4fa900605f0b6cc955398dd544a013518a59f786"
+                }
+              },
+              "output_sha256": "32000e4a05150401e17f182c43c3850bd6dd7b143e1454a24a696f83772fcb23"
+            },
+            {
+              "run": {
+                "solver": "openfoam",
+                "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                "wall_seconds": 12.815010965045076,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "openfoam",
+                  "--image-id",
+                  "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/029-couette-11/00354459b579/openfoam-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": {
+                  "velocity_max_change": 1.7208456881689926e-15,
+                  "kinematic_pressure_max_change": 2.189493986529561e-16,
+                  "continuity": 4.985127707770364e-17,
+                  "iterations": [
+                    1900.0,
+                    2000.0
+                  ]
+                },
+                "absolute_solution_change": null,
+                "solution_norm": null,
+                "raw_sha256": {
+                  "flow.log": "534e852cdeef8169bd8530219de9f91989098533f3bd55890e66f7eba6405e91",
+                  "system/fvSolution": "c2b779532fa0c7c3afc5be0205c9e9df354578b262608511f30b4450a7b866a6",
+                  "system/fvSchemes": "12572880a13d7cc1ede4601a0ee0471cabc92d7ae309bf4e3424475227d19fe7",
+                  "2000/U": "7fb42c855fd3e766c19798bda2b22a1b7c259c204144540ebe7d4e60d5717e20",
+                  "2000/p": "0d30d25b1a332bcbc7e031522b538d971ba8d26051a23d8a00ab330a54be4487",
+                  "1900/U": "4a6a12ac6900189353cd1ac7c3c927afc629c713404fc4f5ccd8afbd69a40649",
+                  "1900/p": "7c992d0b0a6d8323645ccd3893bf5276159c166b394bd8382fc2869c7bfb3e46",
+                  "0/U": "f63980660653a32d6efcbfe699afe0f9cd170ea7ab768df4204afd806d9e84eb",
+                  "0/p": "ae83366bdd0efdebecd91b0b6f50fb11438336b2c945108ad865013f6737dcb1",
+                  "constant/fvOptions": "05b825bf6f01d9d32c10a751a88b6c35e3574fd34722de2da0124b59e3af6397"
+                }
+              },
+              "output_sha256": "d6cd97a3bc678aec22017c150d6a792189d4404cc24e4a03ad9189828efb21af"
+            }
+          ],
+          "cross_score": 1,
+          "errors": {
+            "answer_velocity": {
+              "max_abs": 1.1319999997615182e-06,
+              "max_budget_ratio": 0.0010599887631255291
+            },
+            "answer_pressure": {
+              "max_abs": 2.463249202730367,
+              "max_budget_ratio": 0.0024307389624238953
+            },
+            "answer_density": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_dynamic_viscosity": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_traction": {
+              "max_abs": 0.00704076315741986,
+              "max_budget_ratio": 0.045422926195883194
+            },
+            "answer_mean_pressure": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_shear": {
+              "max_abs": 8.814561376163654e-06,
+              "max_budget_ratio": 0.0007529638136032358
+            },
+            "answer_force3": {
+              "max_abs": 0.0009262752864742652,
+              "max_budget_ratio": 0.0071719781204149955
+            },
+            "answer_volume_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_mass_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_force4": {
+              "max_abs": 8.997854550329976e-08,
+              "max_budget_ratio": 2.177602699422819e-06
+            },
+            "answer_volume_flow4": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_mass_flow4": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            }
+          },
+          "max_budget_ratio": 0.045422926195883194,
+          "producer_analytic_budget_ratio": 0.045402302066225926
+        }
+      ],
+      "passed": true,
+      "n": 12
     }
   ],
-  "benchmark_run": false
+  "benchmark_run": false,
+  "scope": "Frozen verified preview only; not the complete batch execution status.",
+  "validated_cases": 27
 }

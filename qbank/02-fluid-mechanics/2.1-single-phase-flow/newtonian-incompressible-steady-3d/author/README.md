@@ -43,4 +43,12 @@ python <task>/author/supplement.py run --output <solver-workspace> --solvers <so
 
 两套数值方法吻合并不证明连续真解精确；共享几何／转换错误仍需接口审计排查。障碍物附近的采样不能跨越固体插值。正式资源可行性与本批参考资格应分别审核，不能只凭原生程序成功退出就宣布题库就绪。
 
-制池及隔离装配复用[现有数据管理流程](../../../../maintenance/DATA-SYNC.md)。本批不修改正式测试或样例选择。HF 写权限恢复前，保留本地分支、候选载荷及维护证据；不得回退到写入 HF main。
+制池及隔离装配复用[现有数据管理流程](../../../../maintenance/DATA-SYNC.md)，通过 HF 原生 PR 引用发布。固定提交与核验状态见[发布记录](data-evidence/supplement/publication.json)；[暂存选样](data-evidence/supplement/selection.json)仅用于本批验证，不修改正式测试或样例选择。
+
+之后从暂存选样读取 case ID，按发布记录的固定提交生成新的运行选择：
+
+```sh
+python -m caeoj_tools.cli data select --task newtonian-incompressible-steady-3d --manifest <task>/author/data-evidence/supplement/selection.json --revision <HF固定提交> --case '001=<case-id>' --output runs/2-1-3-selection.json
+```
+
+该命令只选样，不运行模型；后续按评测流程审核选择、装配和冻结。

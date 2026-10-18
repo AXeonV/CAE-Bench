@@ -1,8 +1,8 @@
 # 2.1.3 算例出题报告
 
-已发布范围仍以[发布记录](data-evidence/supplement/publication.json)为准：30 例，固定提交 `3552f4badf7f286b516807cb86788b782236f37a`。以下是当前制作批次的数值记录，通过数量不等于已发布数量。
+已发布范围仍以[发布记录](data-evidence/supplement/publication.json)为准：72 例，固定提交 `d78adb9290bc3531223ce29b140b0fd633d0bcd4`。以下是当前制作批次的数值记录，通过数量不等于已发布数量。
 
-当前快照：完成 86/100，通过 66，未通过 20；未完成项不计为失败。
+当前快照：完成 100/100，通过 72，未通过 28；未完成项不计为失败。
 
 ## 参考生产预算与计量
 
@@ -13,6 +13,29 @@
 线性残差保留求解器原生口径，不能跨软件直接比较。Elmer 的非线性绝对更新量单列，不冒充方程残差；OpenFOAM 的 SIMPLE 外迭代编号、最后一轮各次线性求解残差及连续性指标分别保存。误差比为绝对差除以判分允许误差，超过 1 表示不通过；制作参考另有精度余量要求。
 
 机器可读明细与日志摘要绑定见 [production-report.json](data-evidence/supplement/production-report.json)，可逐例查看完整输出误差、OpenFOAM 线性求解初始／最终残差、线性迭代数和运行身份。快照时间与批次代码摘要也保存在该文件。
+
+## 结果汇总
+
+| 工况族 | 候选 | 通过 | 未通过 | 未完成 |
+|---|---:|---:|---:|---:|
+| hydrostatic | 18 | 18 | 0 | 0 |
+| couette | 20 | 20 | 0 | 0 |
+| periodic-duct | 20 | 12 | 8 | 0 |
+| cavity | 24 | 10 | 14 | 0 |
+| plug | 18 | 12 | 6 | 0 |
+
+通过集的几何覆盖：box 70 例、obstacle 2 例。候选设计覆盖不等于通过集覆盖。
+
+
+| 最后一次尝试的未通过原因 | 数量 | 算例 |
+|---|---:|---|
+| 原生求解超时 | 6 | 051-periodic-duct-13, 056-periodic-duct-18, 084-plug-02, 087-plug-05, 090-plug-08, 093-plug-11 |
+| 交叉判分未通过 | 11 | 052-periodic-duct-14, 053-periodic-duct-15, 054-periodic-duct-16, 057-periodic-duct-19, 058-periodic-duct-20, 061-cavity-03, 062-cavity-04, 066-cavity-08, 070-cavity-12, 081-cavity-23, 082-cavity-24 |
+| 参考精度余量不足 | 9 | 055-periodic-duct-17, 067-cavity-09, 069-cavity-11, 073-cavity-15, 074-cavity-16, 076-cavity-18, 077-cavity-19, 078-cavity-20, 080-cavity-22 |
+| 原生求解异常退出 | 2 | 096-plug-14, 099-plug-17 |
+
+原因按最后一次尝试归类，不将此前粗网格失败重复计数。交叉判分通过还须满足参考制作精度余量：最大误差比不超过 0.35，或适用的解析一致性误差比不超过 0.25。未通过者不得当作就绪参考；超差尚不能归因于某一套求解器，仍需检查离散、收敛和转换。
+
 
 ## 逐例记录
 
@@ -1079,7 +1102,7 @@
 | 24 | answer_density | 0 | kg/m3 | 0 |
 | 24 | answer_dynamic_viscosity | 0 | Pa.s | 0 |
 
-### 051-periodic-duct-13：计算／验证未完成
+### 051-periodic-duct-13：未通过
 
 | 网格每轴段数 | 求解器 | 实际 CPU／内存／时限秒 | 迭代上限：外／线性 | 墙钟秒 | 外迭代编号 | 最终线性残差 | Elmer 绝对更新量 | 退出码 |
 |---:|---|---|---|---:|---:|---|---:|---:|
@@ -1087,8 +1110,11 @@
 | 12 | openfoam（复用） | 2.0/4g/3600.0 | 12000/— | 15 | 1810 | Ux=4.376e-13; Uy=4.25e-13; Uz=6.337e-13; p[1]=7.727e-12; p[2]=7.727e-12 | — | 0 |
 | 24 | elmer | 2.0/4g/3600.0 | 100/3000 | 1320 | 15 | 7.116e-12 | 4.018e-10 | 0 |
 | 24 | openfoam | 2.0/4g/3600.0 | 12000/— | 485.8 | 5151 | Ux=3.718e-13; Uy=3.646e-13; Uz=3.582e-13; p[1]=8.962e-12; p[2]=8.962e-12 | — | 0 |
-| 32 | elmer | — | 100/3000 | — | 10 | — | 5.503e-07 | — |
+| 32 | elmer | 2.0/4g/3600.0 | 100/3000 | 3600 | 14 | 1.499e-05 | 4.449e-09 | 124 |
 | 32 | openfoam | — | —/— | — | — | — | — | — |
+
+n=32：elmer failed with 124: /home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/051-periodic-duct-13/31965860205a/elmer-n32/execution.log
+
 
 | 网格每轴段数 | 输出数组 | 最大绝对差 | 单位 | 最大误差比 |
 |---:|---|---:|---|---:|
@@ -1205,7 +1231,7 @@
 | 32 | answer_density | 0 | kg/m3 | 0 |
 | 32 | answer_dynamic_viscosity | 0 | Pa.s | 0 |
 
-### 056-periodic-duct-18：计算／验证未完成
+### 056-periodic-duct-18：未通过
 
 | 网格每轴段数 | 求解器 | 实际 CPU／内存／时限秒 | 迭代上限：外／线性 | 墙钟秒 | 外迭代编号 | 最终线性残差 | Elmer 绝对更新量 | 退出码 |
 |---:|---|---|---|---:|---:|---|---:|---:|
@@ -1213,8 +1239,11 @@
 | 16 | openfoam（复用） | 2.0/4g/3600.0 | 12000/— | 64.45 | 2123 | Ux=4.505e-13; Uy=5.033e-13; Uz=3.553e-13; p[1]=9.324e-12; p[2]=9.324e-12 | — | 0 |
 | 24 | elmer | 2.0/4g/3600.0 | 100/3000 | 1293 | 15 | 9.313e-12 | 8.605e-10 | 0 |
 | 24 | openfoam | 2.0/4g/3600.0 | 12000/— | 360.7 | 3809 | Ux=8.047e-13; Uy=9.597e-13; Uz=9.637e-13; p[1]=9.372e-12; p[2]=9.372e-12 | — | 0 |
-| 32 | elmer | — | 100/3000 | — | 7 | 1.371e-05 | 4.094e-05 | — |
+| 32 | elmer | 2.0/4g/3600.0 | 100/3000 | 3600 | 9 | 1.689e-11 | 3.696e-06 | 124 |
 | 32 | openfoam | — | —/— | — | — | — | — | — |
+
+n=32：elmer failed with 124: /home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/056-periodic-duct-18/31965860205a/elmer-n32/execution.log
+
 
 | 网格每轴段数 | 输出数组 | 最大绝对差 | 单位 | 最大误差比 |
 |---:|---|---:|---|---:|
@@ -1841,7 +1870,7 @@
 | 32 | answer_density | 0 | kg/m3 | 0 |
 | 32 | answer_dynamic_viscosity | 0 | Pa.s | 0 |
 
-### 082-cavity-24：计算／验证未完成
+### 082-cavity-24：未通过
 
 | 网格每轴段数 | 求解器 | 实际 CPU／内存／时限秒 | 迭代上限：外／线性 | 墙钟秒 | 外迭代编号 | 最终线性残差 | Elmer 绝对更新量 | 退出码 |
 |---:|---|---|---|---:|---:|---|---:|---:|
@@ -1849,8 +1878,8 @@
 | 12 | openfoam | 2.0/4g/3600.0 | 12000/— | 3.445 | 116 | Ux=3.839e-13; Uy=3.193e-13; Uz=4.854e-13; p[1]=9.175e-12; p[2]=9.175e-12 | — | 0 |
 | 24 | elmer | 2.0/4g/3600.0 | 100/3000 | 456.1 | 45 | 7.301e-13 | 6.89e-10 | 0 |
 | 24 | openfoam | 2.0/4g/3600.0 | 12000/— | 47.82 | 388 | Ux=5.97e-13; Uy=5.595e-13; Uz=8.463e-13; p[1]=9.707e-12; p[2]=9.707e-12 | — | 0 |
-| 32 | elmer | — | 100/3000 | — | 51 | — | 9.242e-09 | — |
-| 32 | openfoam | — | —/— | — | — | — | — | — |
+| 32 | elmer | 2.0/4g/3600.0 | 100/3000 | 1410 | 100 | 2.515e-12 | 2.856e-09 | 0 |
+| 32 | openfoam | 2.0/4g/3600.0 | 12000/— | 103.5 | 656 | Ux=6.614e-13; Uy=6.229e-13; Uz=9.681e-13; p[1]=9.262e-12; p[2]=9.263e-12 | — | 0 |
 
 | 网格每轴段数 | 输出数组 | 最大绝对差 | 单位 | 最大误差比 |
 |---:|---|---:|---|---:|
@@ -1862,6 +1891,10 @@
 | 24 | answer_pressure | 419.2 | Pa | 10.46 |
 | 24 | answer_density | 0 | kg/m3 | 0 |
 | 24 | answer_dynamic_viscosity | 0 | Pa.s | 0 |
+| 32 | answer_velocity | 0.002879 | m/s | 2.058 |
+| 32 | answer_pressure | 93.23 | Pa | 18.5 |
+| 32 | answer_density | 0 | kg/m3 | 0 |
+| 32 | answer_dynamic_viscosity | 0 | Pa.s | 0 |
 
 ### 083-plug-01：通过
 
@@ -1890,14 +1923,17 @@
 | 12 | answer_volume_flow2 | 6.939e-18 | m3/s | 2.305e-14 |
 | 12 | answer_mass_flow2 | 6.939e-18 | kg/s | 2.305e-14 |
 
-### 084-plug-02：计算／验证未完成
+### 084-plug-02：未通过
 
 | 网格每轴段数 | 求解器 | 实际 CPU／内存／时限秒 | 迭代上限：外／线性 | 墙钟秒 | 外迭代编号 | 最终线性残差 | Elmer 绝对更新量 | 退出码 |
 |---:|---|---|---|---:|---:|---|---:|---:|
 | 12 | elmer（复用） | 1.0/2g/600.0 | 100/3000 | 50.92 | 16 | 6.421e-12 | 4.272e-10 | 0 |
 | 12 | openfoam | 2.0/4g/3600.0 | 12000/— | 757.7 | 12000 | Ux=7.206e-13; Uy=0.003438; Uz=9.615e-13; p[1]=4.021e-12; p[2]=3.925e-12 | — | 0 |
 | 24 | elmer | — | 100/3000 | — | — | — | — | — |
-| 24 | openfoam | — | 12000/— | — | 1368 | Ux=4.011e-13 | — | — |
+| 24 | openfoam | 2.0/4g/3600.0 | 12000/— | 3600 | 7993 | Ux=3.536e-13 | — | 124 |
+
+n=24：openfoam failed with 124: /home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/084-plug-02/31965860205a/openfoam-n24/execution.log
+
 
 | 网格每轴段数 | 输出数组 | 最大绝对差 | 单位 | 最大误差比 |
 |---:|---|---:|---|---:|
@@ -1946,19 +1982,64 @@
 | 12 | answer_volume_flow2 | 2.776e-17 | m3/s | 1.156e-14 |
 | 12 | answer_mass_flow2 | 4.441e-16 | kg/s | 1.85e-14 |
 
-### 086-plug-04：计算／验证未完成
+### 086-plug-04：通过
 
 | 网格每轴段数 | 求解器 | 实际 CPU／内存／时限秒 | 迭代上限：外／线性 | 墙钟秒 | 外迭代编号 | 最终线性残差 | Elmer 绝对更新量 | 退出码 |
 |---:|---|---|---|---:|---:|---|---:|---:|
-| 12 | elmer | — | 100/3000 | — | — | — | — | — |
-| 12 | openfoam | — | 12000/— | — | 10024 | — | — | — |
+| 12 | elmer（复用） | 1.0/2g/600.0 | 100/3000 | 50.72 | 17 | 3.14e-12 | 3.541e-10 | 0 |
+| 12 | openfoam | 2.0/4g/3600.0 | 12000/— | 1289 | 12000 | Ux=0.00702; Uy=0.002705; Uz=2.694e-13; p[1]=4.665e-12; p[2]=4.675e-12 | — | 0 |
 
-### 087-plug-05：计算／验证未完成
+| 网格每轴段数 | 输出数组 | 最大绝对差 | 单位 | 最大误差比 |
+|---:|---|---:|---|---:|
+| 12 | answer_velocity | 4.801e-09 | m/s | 1.439e-06 |
+| 12 | answer_pressure | 2e-10 | Pa | 2e-09 |
+| 12 | answer_density | 0 | kg/m3 | 0 |
+| 12 | answer_dynamic_viscosity | 0 | Pa.s | 0 |
+| 12 | answer_traction | 5.16e-10 | Pa | 5.16e-09 |
+| 12 | answer_mean_pressure | 6.16e-12 | Pa | 6.16e-11 |
+| 12 | answer_shear | 1.301e-11 | 1/s | 1.301e-09 |
+| 12 | answer_force3 | 5.154e-11 | N | 5.154e-08 |
+| 12 | answer_volume_flow3 | 2.155e-09 | m3/s | 0.002155 |
+| 12 | answer_mass_flow3 | 2.155e-08 | kg/s | 0.02155 |
+| 12 | answer_force4 | 1.138e-10 | N | 1.138e-07 |
+| 12 | answer_volume_flow4 | 2.155e-09 | m3/s | 0.002155 |
+| 12 | answer_mass_flow4 | 2.155e-08 | kg/s | 0.02155 |
+| 12 | answer_volume_flow1 | 3.446e-09 | m3/s | 1.913e-06 |
+| 12 | answer_mass_flow1 | 3.446e-08 | kg/s | 1.914e-06 |
+| 12 | answer_volume_flow2 | 3.446e-09 | m3/s | 1.913e-06 |
+| 12 | answer_mass_flow2 | 3.446e-08 | kg/s | 1.914e-06 |
+
+### 087-plug-05：未通过
 
 | 网格每轴段数 | 求解器 | 实际 CPU／内存／时限秒 | 迭代上限：外／线性 | 墙钟秒 | 外迭代编号 | 最终线性残差 | Elmer 绝对更新量 | 退出码 |
 |---:|---|---|---|---:|---:|---|---:|---:|
-| 12 | elmer | — | 100/3000 | — | — | — | — | — |
-| 12 | openfoam | — | 12000/— | — | 9815 | — | — | — |
+| 12 | elmer（复用） | 1.0/2g/600.0 | 100/3000 | 48.91 | 21 | 2.027e-12 | 7.501e-10 | 0 |
+| 12 | openfoam | 2.0/4g/3600.0 | 12000/— | 1301 | 12000 | Ux=0.002597; Uy=0.006566; Uz=4.148e-13; p[1]=4.376e-12; p[2]=4.159e-12 | — | 0 |
+| 24 | elmer | — | 100/3000 | — | — | — | — | — |
+| 24 | openfoam | 2.0/4g/3600.0 | 12000/— | 3600 | 4826 | — | — | 124 |
+
+n=24：openfoam failed with 124: /home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/087-plug-05/31965860205a/openfoam-n24/execution.log
+
+
+| 网格每轴段数 | 输出数组 | 最大绝对差 | 单位 | 最大误差比 |
+|---:|---|---:|---|---:|
+| 12 | answer_velocity | 0.003735 | m/s | 3.178 |
+| 12 | answer_pressure | 1.591 | Pa | 0.9228 |
+| 12 | answer_density | 0 | kg/m3 | 0 |
+| 12 | answer_dynamic_viscosity | 0 | Pa.s | 0 |
+| 12 | answer_traction | 3.65 | Pa | 26.74 |
+| 12 | answer_mean_pressure | 0.1689 | Pa | 0.1567 |
+| 12 | answer_shear | 0.1318 | 1/s | 11.65 |
+| 12 | answer_force3 | 1.654 | N | 41.31 |
+| 12 | answer_volume_flow3 | 2.228e-18 | m3/s | 2.228e-12 |
+| 12 | answer_mass_flow3 | 2.228e-15 | kg/s | 2.228e-09 |
+| 12 | answer_force4 | 14.54 | N | 14.55 |
+| 12 | answer_volume_flow4 | 2.375e-18 | m3/s | 2.375e-12 |
+| 12 | answer_mass_flow4 | 2.375e-15 | kg/s | 2.375e-09 |
+| 12 | answer_volume_flow1 | 1.084e-10 | m3/s | 4.796e-07 |
+| 12 | answer_mass_flow1 | 1.084e-07 | kg/s | 4.817e-07 |
+| 12 | answer_volume_flow2 | 0.002226 | m3/s | 8.965 |
+| 12 | answer_mass_flow2 | 2.226 | kg/s | 9.001 |
 
 ### 088-plug-06：通过
 
@@ -1987,19 +2068,64 @@
 | 12 | answer_volume_flow2 | 1.388e-17 | m3/s | 2.309e-14 |
 | 12 | answer_mass_flow2 | 1.421e-14 | kg/s | 2.368e-14 |
 
-### 089-plug-07：计算／验证未完成
+### 089-plug-07：通过
 
 | 网格每轴段数 | 求解器 | 实际 CPU／内存／时限秒 | 迭代上限：外／线性 | 墙钟秒 | 外迭代编号 | 最终线性残差 | Elmer 绝对更新量 | 退出码 |
 |---:|---|---|---|---:|---:|---|---:|---:|
-| 12 | elmer | — | 100/3000 | — | — | — | — | — |
-| 12 | openfoam | — | 12000/— | — | 8462 | Ux=0.003428 | — | — |
+| 12 | elmer（复用） | 1.0/2g/600.0 | 100/3000 | 35.66 | 16 | 6.328e-12 | 5.791e-10 | 0 |
+| 12 | openfoam | 2.0/4g/3600.0 | 12000/— | 1276 | 12000 | Ux=0.003458; Uy=0.008952; Uz=7.026e-13; p[1]=6.408e-12; p[2]=6.888e-12 | — | 0 |
 
-### 090-plug-08：计算／验证未完成
+| 网格每轴段数 | 输出数组 | 最大绝对差 | 单位 | 最大误差比 |
+|---:|---|---:|---|---:|
+| 12 | answer_velocity | 1.262e-09 | m/s | 6.008e-07 |
+| 12 | answer_pressure | 1.371e-11 | Pa | 1.371e-10 |
+| 12 | answer_density | 0 | kg/m3 | 0 |
+| 12 | answer_dynamic_viscosity | 0 | Pa.s | 0 |
+| 12 | answer_traction | 1.653e-11 | Pa | 1.653e-10 |
+| 12 | answer_mean_pressure | 2.838e-12 | Pa | 2.838e-11 |
+| 12 | answer_shear | 1.351e-11 | 1/s | 1.351e-09 |
+| 12 | answer_force3 | 1.666e-12 | N | 1.666e-09 |
+| 12 | answer_volume_flow3 | 8.315e-10 | m3/s | 0.0008315 |
+| 12 | answer_mass_flow3 | 8.315e-10 | kg/s | 0.0008315 |
+| 12 | answer_force4 | 5.145e-12 | N | 5.145e-09 |
+| 12 | answer_volume_flow4 | 8.315e-10 | m3/s | 0.0008315 |
+| 12 | answer_mass_flow4 | 8.315e-10 | kg/s | 0.0008315 |
+| 12 | answer_volume_flow1 | 5.073e-10 | m3/s | 8.441e-07 |
+| 12 | answer_mass_flow1 | 5.073e-10 | kg/s | 8.441e-07 |
+| 12 | answer_volume_flow2 | 5.073e-10 | m3/s | 8.441e-07 |
+| 12 | answer_mass_flow2 | 5.073e-10 | kg/s | 8.441e-07 |
+
+### 090-plug-08：未通过
 
 | 网格每轴段数 | 求解器 | 实际 CPU／内存／时限秒 | 迭代上限：外／线性 | 墙钟秒 | 外迭代编号 | 最终线性残差 | Elmer 绝对更新量 | 退出码 |
 |---:|---|---|---|---:|---:|---|---:|---:|
-| 12 | elmer | — | 100/3000 | — | — | — | — | — |
-| 12 | openfoam | — | 12000/— | — | 8367 | — | — | — |
+| 12 | elmer（复用） | 1.0/2g/600.0 | 100/3000 | 41.26 | 17 | 9.949e-12 | 3.612e-10 | 0 |
+| 12 | openfoam | 2.0/4g/3600.0 | 12000/— | 1283 | 12000 | Ux=0.01598; Uy=0.004337; Uz=7.792e-13; p[1]=4.822e-12; p[2]=4.656e-12 | — | 0 |
+| 24 | elmer | — | 100/3000 | — | — | — | — | — |
+| 24 | openfoam | 2.0/4g/3600.0 | 12000/— | 3600 | 4687 | — | — | 124 |
+
+n=24：openfoam failed with 124: /home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/090-plug-08/31965860205a/openfoam-n24/execution.log
+
+
+| 网格每轴段数 | 输出数组 | 最大绝对差 | 单位 | 最大误差比 |
+|---:|---|---:|---|---:|
+| 12 | answer_velocity | 0.00199 | m/s | 1.552 |
+| 12 | answer_pressure | 0.01528 | Pa | 0.129 |
+| 12 | answer_density | 0 | kg/m3 | 0 |
+| 12 | answer_dynamic_viscosity | 0 | Pa.s | 0 |
+| 12 | answer_traction | 0.004602 | Pa | 0.04494 |
+| 12 | answer_mean_pressure | 0.0005319 | Pa | 0.004469 |
+| 12 | answer_shear | 0.06732 | 1/s | 6.307 |
+| 12 | answer_force3 | 0.001607 | N | 0.07647 |
+| 12 | answer_volume_flow3 | 2.056e-18 | m3/s | 2.056e-12 |
+| 12 | answer_mass_flow3 | 2.056e-18 | kg/s | 2.056e-12 |
+| 12 | answer_force4 | 0.01602 | N | 0.8503 |
+| 12 | answer_volume_flow4 | 2.274e-18 | m3/s | 2.274e-12 |
+| 12 | answer_mass_flow4 | 2.274e-18 | kg/s | 2.274e-12 |
+| 12 | answer_volume_flow1 | 4.856e-09 | m3/s | 1.011e-06 |
+| 12 | answer_mass_flow1 | 4.856e-09 | kg/s | 1.011e-06 |
+| 12 | answer_volume_flow2 | 0.0009983 | m3/s | 0.2075 |
+| 12 | answer_mass_flow2 | 0.0009983 | kg/s | 0.2075 |
 
 ### 091-plug-09：通过
 
@@ -2055,14 +2181,17 @@
 | 12 | answer_volume_flow2 | 7.5e-10 | m3/s | 1.663e-06 |
 | 12 | answer_mass_flow2 | 7.5e-09 | kg/s | 1.666e-06 |
 
-### 093-plug-11：计算／验证未完成
+### 093-plug-11：未通过
 
 | 网格每轴段数 | 求解器 | 实际 CPU／内存／时限秒 | 迭代上限：外／线性 | 墙钟秒 | 外迭代编号 | 最终线性残差 | Elmer 绝对更新量 | 退出码 |
 |---:|---|---|---|---:|---:|---|---:|---:|
 | 12 | elmer（复用） | 1.0/2g/600.0 | 100/3000 | 36.24 | 21 | 7.662e-13 | 7.626e-10 | 0 |
 | 12 | openfoam | 2.0/4g/3600.0 | 12000/— | 704.8 | 12000 | Ux=3.146e-13; Uy=0.004036; Uz=7.245e-13; p[1]=3.819e-12; p[2]=3.425e-12 | — | 0 |
 | 24 | elmer | — | 100/3000 | — | — | — | — | — |
-| 24 | openfoam | — | 12000/— | — | 445 | Ux=9.34e-13 | — | — |
+| 24 | openfoam | 2.0/4g/3600.0 | 12000/— | 3600 | 8068 | Ux=4.661e-13 | — | 124 |
+
+n=24：openfoam failed with 124: /home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/093-plug-11/31965860205a/openfoam-n24/execution.log
+
 
 | 网格每轴段数 | 输出数组 | 最大绝对差 | 单位 | 最大误差比 |
 |---:|---|---:|---|---:|
@@ -2111,33 +2240,121 @@
 | 12 | answer_volume_flow2 | 1.388e-17 | m3/s | 1.156e-14 |
 | 12 | answer_mass_flow2 | 1.421e-14 | kg/s | 1.184e-14 |
 
-### 095-plug-13：计算／验证未完成
+### 095-plug-13：通过
 
 | 网格每轴段数 | 求解器 | 实际 CPU／内存／时限秒 | 迭代上限：外／线性 | 墙钟秒 | 外迭代编号 | 最终线性残差 | Elmer 绝对更新量 | 退出码 |
 |---:|---|---|---|---:|---:|---|---:|---:|
-| 12 | elmer | — | 100/3000 | — | — | — | — | — |
-| 12 | openfoam | — | 12000/— | — | 7495 | Ux=0.008431 | — | — |
+| 12 | elmer（复用） | 1.0/2g/600.0 | 100/3000 | 27.11 | 15 | 5.058e-12 | 4.825e-10 | 0 |
+| 12 | openfoam | 2.0/4g/3600.0 | 12000/— | 1276 | 12000 | Ux=0.008559; Uy=0.003111; Uz=6.833e-13; p[1]=3.937e-12; p[2]=3.313e-12 | — | 0 |
 
-### 096-plug-14：计算／验证未完成
+| 网格每轴段数 | 输出数组 | 最大绝对差 | 单位 | 最大误差比 |
+|---:|---|---:|---|---:|
+| 12 | answer_velocity | 8.502e-10 | m/s | 6.58e-07 |
+| 12 | answer_pressure | 9.498e-14 | Pa | 9.498e-13 |
+| 12 | answer_density | 0 | kg/m3 | 0 |
+| 12 | answer_dynamic_viscosity | 0 | Pa.s | 0 |
+| 12 | answer_traction | 6.783e-14 | Pa | 6.783e-13 |
+| 12 | answer_mean_pressure | 2.992e-14 | Pa | 2.992e-13 |
+| 12 | answer_shear | 1.009e-11 | 1/s | 1.009e-09 |
+| 12 | answer_force3 | 4.478e-14 | N | 4.478e-11 |
+| 12 | answer_volume_flow3 | 9.055e-11 | m3/s | 9.055e-05 |
+| 12 | answer_mass_flow3 | 9.055e-11 | kg/s | 9.055e-05 |
+| 12 | answer_force4 | 8.271e-14 | N | 8.271e-11 |
+| 12 | answer_volume_flow4 | 9.055e-11 | m3/s | 9.055e-05 |
+| 12 | answer_mass_flow4 | 9.055e-11 | kg/s | 9.055e-05 |
+| 12 | answer_volume_flow1 | 2.89e-10 | m3/s | 4.809e-07 |
+| 12 | answer_mass_flow1 | 2.89e-10 | kg/s | 4.809e-07 |
+| 12 | answer_volume_flow2 | 1.704e-09 | m3/s | 2.835e-06 |
+| 12 | answer_mass_flow2 | 1.704e-09 | kg/s | 2.835e-06 |
+
+### 096-plug-14：未通过
 
 | 网格每轴段数 | 求解器 | 实际 CPU／内存／时限秒 | 迭代上限：外／线性 | 墙钟秒 | 外迭代编号 | 最终线性残差 | Elmer 绝对更新量 | 退出码 |
 |---:|---|---|---|---:|---:|---|---:|---:|
-| 12 | elmer | — | 100/3000 | — | — | — | — | — |
-| 12 | openfoam | — | 12000/— | — | 5937 | Ux=0.002989 | — | — |
+| 12 | elmer（复用） | 1.0/2g/600.0 | 100/3000 | 33.64 | 22 | 4.432e-12 | 8.141e-10 | 0 |
+| 12 | openfoam | 2.0/4g/3600.0 | 12000/— | 1250 | 12000 | Ux=0.002947; Uy=0.007634; Uz=2.369e-13; p[1]=5.942e-12; p[2]=5.45e-12 | — | 0 |
+| 24 | elmer | 2.0/4g/3600.0 | 100/3000 | 298.9 | 7 | 6.622e-05 | 0.01152 | 1 |
+| 24 | openfoam | — | —/— | — | — | — | — | — |
 
-### 097-plug-15：计算／验证未完成
+n=24：elmer failed with 1: /home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/096-plug-14/31965860205a/elmer-n24/execution.log
+
+
+n=24，elmer 原生日志：ERROR:: IterSolve: Numerical Error: Too many iterations were needed.
+
+
+| 网格每轴段数 | 输出数组 | 最大绝对差 | 单位 | 最大误差比 |
+|---:|---|---:|---|---:|
+| 12 | answer_velocity | 0.2123 | m/s | 71.1 |
+| 12 | answer_pressure | 0.005411 | Pa | 0.04527 |
+| 12 | answer_density | 0 | kg/m3 | 0 |
+| 12 | answer_dynamic_viscosity | 0 | Pa.s | 0 |
+| 12 | answer_traction | 0.02077 | Pa | 0.1755 |
+| 12 | answer_mean_pressure | 0.008476 | Pa | 0.07088 |
+| 12 | answer_shear | 2.457 | 1/s | 71.08 |
+| 12 | answer_force3 | 0.03515 | N | 1.121 |
+| 12 | answer_volume_flow3 | 8.918e-22 | m3/s | 8.918e-16 |
+| 12 | answer_mass_flow3 | 8.918e-22 | kg/s | 8.918e-16 |
+| 12 | answer_force4 | 0.00735 | N | 0.3946 |
+| 12 | answer_volume_flow4 | 8.817e-21 | m3/s | 8.817e-15 |
+| 12 | answer_mass_flow4 | 8.817e-21 | kg/s | 8.817e-15 |
+| 12 | answer_volume_flow1 | 1.484e-10 | m3/s | 3.29e-07 |
+| 12 | answer_mass_flow1 | 1.484e-10 | kg/s | 3.29e-07 |
+| 12 | answer_volume_flow2 | 0.01012 | m3/s | 18.33 |
+| 12 | answer_mass_flow2 | 0.01012 | kg/s | 18.33 |
+
+### 097-plug-15：通过
 
 | 网格每轴段数 | 求解器 | 实际 CPU／内存／时限秒 | 迭代上限：外／线性 | 墙钟秒 | 外迭代编号 | 最终线性残差 | Elmer 绝对更新量 | 退出码 |
 |---:|---|---|---|---:|---:|---|---:|---:|
-| 12 | elmer | — | 100/3000 | — | — | — | — | — |
-| 12 | openfoam | — | 12000/— | — | 9954 | Ux=3.426e-13; Uy=2.124e-13; Uz=0.003831 | — | — |
+| 12 | elmer（复用） | 1.0/2g/600.0 | 100/3000 | 24.66 | 16 | 2.582e-12 | 5.79e-10 | 0 |
+| 12 | openfoam | 2.0/4g/3600.0 | 12000/— | 698 | 12000 | Ux=7.547e-13; Uy=6.539e-13; Uz=0.003923; p[1]=4.94e-12; p[2]=4.533e-12 | — | 0 |
 
-### 098-plug-16：计算／验证未完成
+| 网格每轴段数 | 输出数组 | 最大绝对差 | 单位 | 最大误差比 |
+|---:|---|---:|---|---:|
+| 12 | answer_velocity | 4.939e-13 | m/s | 4.939e-10 |
+| 12 | answer_pressure | 8.571e-13 | Pa | 7.792e-12 |
+| 12 | answer_density | 0 | kg/m3 | 0 |
+| 12 | answer_dynamic_viscosity | 0 | Pa.s | 0 |
+| 12 | answer_traction | 7.319e-13 | Pa | 6.653e-12 |
+| 12 | answer_mean_pressure | 2.122e-13 | Pa | 1.929e-12 |
+| 12 | answer_shear | 5.533e-12 | 1/s | 5.533e-10 |
+| 12 | answer_force3 | 1.612e-13 | N | 5.05e-11 |
+| 12 | answer_volume_flow3 | 1.099e-19 | m3/s | 1.099e-13 |
+| 12 | answer_mass_flow3 | 1.099e-18 | kg/s | 1.099e-12 |
+| 12 | answer_force4 | 1.088e-12 | N | 9.104e-11 |
+| 12 | answer_volume_flow4 | 1.003e-19 | m3/s | 1.003e-13 |
+| 12 | answer_mass_flow4 | 1.003e-18 | kg/s | 1.003e-12 |
+| 12 | answer_volume_flow1 | 2.776e-17 | m3/s | 3.081e-14 |
+| 12 | answer_mass_flow1 | 2.22e-16 | kg/s | 2.467e-14 |
+| 12 | answer_volume_flow2 | 2.776e-17 | m3/s | 3.081e-14 |
+| 12 | answer_mass_flow2 | 2.22e-16 | kg/s | 2.467e-14 |
+
+### 098-plug-16：通过
 
 | 网格每轴段数 | 求解器 | 实际 CPU／内存／时限秒 | 迭代上限：外／线性 | 墙钟秒 | 外迭代编号 | 最终线性残差 | Elmer 绝对更新量 | 退出码 |
 |---:|---|---|---|---:|---:|---|---:|---:|
-| 12 | elmer | — | 100/3000 | — | — | — | — | — |
-| 12 | openfoam | — | 12000/— | — | 4020 | Ux=0.003733 | — | — |
+| 12 | elmer（复用） | 1.0/2g/600.0 | 100/3000 | 23.34 | 17 | 2.081e-12 | 3.474e-10 | 0 |
+| 12 | openfoam | 2.0/4g/3600.0 | 12000/— | 1211 | 12000 | Ux=0.003771; Uy=0.0107; Uz=5.9e-13; p[1]=4.44e-12; p[2]=3.999e-12 | — | 0 |
+
+| 网格每轴段数 | 输出数组 | 最大绝对差 | 单位 | 最大误差比 |
+|---:|---|---:|---|---:|
+| 12 | answer_velocity | 2.524e-09 | m/s | 7.885e-07 |
+| 12 | answer_pressure | 0 | Pa | 0 |
+| 12 | answer_density | 0 | kg/m3 | 0 |
+| 12 | answer_dynamic_viscosity | 0 | Pa.s | 0 |
+| 12 | answer_traction | 1.349e-12 | Pa | 1.349e-11 |
+| 12 | answer_mean_pressure | 0 | Pa | 0 |
+| 12 | answer_shear | 2.306e-12 | 1/s | 2.306e-10 |
+| 12 | answer_force3 | 6.981e-15 | N | 6.981e-12 |
+| 12 | answer_volume_flow3 | 7.459e-10 | m3/s | 0.0007459 |
+| 12 | answer_mass_flow3 | 7.459e-09 | kg/s | 0.007458 |
+| 12 | answer_force4 | 5.102e-14 | N | 5.102e-11 |
+| 12 | answer_volume_flow4 | 7.459e-10 | m3/s | 0.0007459 |
+| 12 | answer_mass_flow4 | 7.459e-09 | kg/s | 0.007458 |
+| 12 | answer_volume_flow1 | 2.428e-09 | m3/s | 1.011e-06 |
+| 12 | answer_mass_flow1 | 2.428e-08 | kg/s | 1.012e-06 |
+| 12 | answer_volume_flow2 | 2.428e-09 | m3/s | 1.011e-06 |
+| 12 | answer_mass_flow2 | 2.428e-08 | kg/s | 1.012e-06 |
 
 ### 099-plug-17：未通过
 
@@ -2149,9 +2366,32 @@
 n=12：elmer failed with 1: /home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/099-plug-17/31965860205a/elmer-n12/execution.log
 
 
-### 100-plug-18：计算／验证未完成
+n=12，elmer 原生日志：ERROR:: IterSolve: Numerical Error: System diverged over maximum tolerance.
+
+
+### 100-plug-18：通过
 
 | 网格每轴段数 | 求解器 | 实际 CPU／内存／时限秒 | 迭代上限：外／线性 | 墙钟秒 | 外迭代编号 | 最终线性残差 | Elmer 绝对更新量 | 退出码 |
 |---:|---|---|---|---:|---:|---|---:|---:|
-| 12 | elmer | — | 100/3000 | — | — | — | — | — |
-| 12 | openfoam | — | 12000/— | — | 6085 | Ux=2.58e-13; Uy=3.711e-13 | — | — |
+| 12 | elmer（复用） | 1.0/2g/600.0 | 100/3000 | 19.93 | 15 | 2.737e-12 | 9.999e-10 | 0 |
+| 12 | openfoam | 2.0/4g/3600.0 | 12000/— | 682.6 | 12000 | Ux=1.981e-13; Uy=1.645e-13; Uz=0.004515; p[1]=5.12e-12; p[2]=3.153e-12 | — | 0 |
+
+| 网格每轴段数 | 输出数组 | 最大绝对差 | 单位 | 最大误差比 |
+|---:|---|---:|---|---:|
+| 12 | answer_velocity | 1e-09 | m/s | 6.25e-07 |
+| 12 | answer_pressure | 7.666e-11 | Pa | 6.969e-10 |
+| 12 | answer_density | 0 | kg/m3 | 0 |
+| 12 | answer_dynamic_viscosity | 0 | Pa.s | 0 |
+| 12 | answer_traction | 6.922e-11 | Pa | 6.293e-10 |
+| 12 | answer_mean_pressure | 2.935e-11 | Pa | 2.668e-10 |
+| 12 | answer_shear | 1.63e-12 | 1/s | 1.63e-10 |
+| 12 | answer_force3 | 5.753e-11 | N | 5.656e-09 |
+| 12 | answer_volume_flow3 | 6.935e-22 | m3/s | 6.935e-16 |
+| 12 | answer_mass_flow3 | 6.935e-19 | kg/s | 6.935e-13 |
+| 12 | answer_force4 | 5.833e-11 | N | 5.735e-09 |
+| 12 | answer_volume_flow4 | 9.38e-22 | m3/s | 9.38e-16 |
+| 12 | answer_mass_flow4 | 9.38e-19 | kg/s | 9.38e-13 |
+| 12 | answer_volume_flow1 | 1.388e-17 | m3/s | 1.156e-14 |
+| 12 | answer_mass_flow1 | 1.421e-14 | kg/s | 1.184e-14 |
+| 12 | answer_volume_flow2 | 2e-09 | m3/s | 1.665e-06 |
+| 12 | answer_mass_flow2 | 2e-06 | kg/s | 1.667e-06 |

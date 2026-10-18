@@ -40,7 +40,7 @@ python <task>/author/test_native.py
 
 ## 出题报告
 
-[REPORT.md](REPORT.md) 列出每个算例各档网格的实际预算、两套求解器耗时、迭代编号、最终线性残差和逐输出误差；Elmer 非线性更新量单列。[机器可读记录](data-evidence/supplement/production-report.json)保留完整指标、运行身份和原始日志摘要，区分历史复用、未完成与失败。
+[REPORT.md](REPORT.md) 汇总各工况族的资格与未通过原因，并列出每个算例各档网格的实际预算、两套求解器耗时、迭代编号、最终线性残差和逐输出误差；Elmer 非线性更新量单列。[机器可读记录](data-evidence/supplement/production-report.json)保留完整指标、运行身份和原始日志摘要，区分历史复用、未完成与失败。
 
 ```sh
 python <task>/author/report.py --work <solver-workspace> --solvers <solver-images> --scheduler <scheduler.json> --output <task>/author/REPORT.md --json-output <task>/author/data-evidence/supplement/production-report.json

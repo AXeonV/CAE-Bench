@@ -47,6 +47,21 @@ SIMPLE solution converged in 925 iterations
             self.assertIsNone(report.parse_log(solver,'')['outer_iteration'])
         self.assertEqual(report.fmt(None),'—')
 
+    def test_failure_summary_uses_last_attempt_and_separates_margin(self):
+        case=dict(case='052-periodic-duct-14',status='failed',attempts=[
+            dict(solvers=[dict(exit_code=124)],cross_score=0),
+            dict(solvers=[dict(exit_code=0)],cross_score=1)])
+        self.assertEqual(report.failure_reason(case),'参考精度余量不足')
+        text='\n'.join(report.summary_lines(dict(cases=[case])))
+        self.assertIn('| periodic-duct | 1 | 0 | 1 | 0 |',text)
+        self.assertNotIn('| 原生求解超时 |',text)
+        case['attempts'][-1]=dict(solvers=[dict(exit_code=124,timed_out=True)])
+        self.assertEqual(report.failure_reason(case),'原生求解超时')
+        case['attempts'][-1]=dict(solvers=[dict(exit_code=1)])
+        self.assertEqual(report.failure_reason(case),'原生求解异常退出')
+        case['attempts'][-1]=dict(solvers=[dict(exit_code=0)],cross_score=0)
+        self.assertEqual(report.failure_reason(case),'交叉判分未通过')
+
     def test_reused_run_keeps_historical_budget_and_host_path(self):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp);work=root/'production';folder=work/'native/case/old/elmer-n12'

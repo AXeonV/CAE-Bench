@@ -135,6 +135,7 @@ def collect(work,solvers,scheduler):
             if match:levels.setdefault(int(match[2]),dict(n=int(match[2])))
         entry=dict(case=name,status='passed' if completed.get(name,{}).get('passed') else 'failed' if name in completed else 'incomplete',
                    input_sha256={p.name:digest(p) for p in sorted(problem.parent.iterdir()) if p.is_file()},attempts=[])
+        entry.update({key:record['configuration'][key] for key in ('family','geometry') if key in record.get('configuration',{})})
         units={s['array']:s['unit'] for s in read_json(problem)['outputs'].values()}
         for n,a in sorted(levels.items()):
             bindings={x['run']['solver']:x['run'] for x in a.get('runs',[])}
@@ -166,6 +167,40 @@ def residual_text(run):
     return '; '.join(parts) or '—'
 
 
+def failure_reason(case):
+    """Classify the final attempt, rather than an earlier failed refinement."""
+    if case['status']!='failed':return None
+    if not case['attempts']:return '缺少计算记录'
+    final=case['attempts'][-1]
+    runs=final.get('solvers',[])
+    if any(r.get('timed_out') or r.get('exit_code')==124 for r in runs):return '原生求解超时'
+    if any(r.get('exit_code') not in (None,0) for r in runs):return '原生求解异常退出'
+    if final.get('cross_score')==0:return '交叉判分未通过'
+    if final.get('cross_score')==1:return '参考精度余量不足'
+    return '配置、收敛或转换检查未通过'
+
+
+def summary_lines(report):
+    families={};reasons={};geometries={}
+    for case in report['cases']:
+        family=case.get('family') or case['case'].split('-',1)[1].rsplit('-',1)[0]
+        counts=families.setdefault(family,dict(passed=0,failed=0,incomplete=0))
+        counts[case['status']]+=1
+        reason=failure_reason(case)
+        if reason:reasons.setdefault(reason,[]).append(case['case'])
+        if case['status']=='passed' and case.get('geometry'):
+            geometry=case['geometry'];geometries[geometry]=geometries.get(geometry,0)+1
+    lines=['## 结果汇总','','| 工况族 | 候选 | 通过 | 未通过 | 未完成 |','|---|---:|---:|---:|---:|']
+    for family,c in families.items():
+        lines.append(f"| {family} | {sum(c.values())} | {c['passed']} | {c['failed']} | {c['incomplete']} |")
+    if geometries:lines.extend(['','通过集的几何覆盖：'+ '、'.join(f'{k} {n} 例' for k,n in geometries.items())+'。候选设计覆盖不等于通过集覆盖。',''])
+    if reasons:
+        lines.extend(['','| 最后一次尝试的未通过原因 | 数量 | 算例 |','|---|---:|---|'])
+        for reason,names in reasons.items():lines.append(f"| {reason} | {len(names)} | {', '.join(names)} |")
+        lines.extend(['','原因按最后一次尝试归类，不将此前粗网格失败重复计数。交叉判分通过还须满足参考制作精度余量：最大误差比不超过 0.35，或适用的解析一致性误差比不超过 0.25。未通过者不得当作就绪参考；超差尚不能归因于某一套求解器，仍需检查离散、收敛和转换。',''])
+    return lines+['']
+
+
 def markdown(report):
     b=report['requested_budget']
     lines=['# 2.1.3 算例出题报告','',
@@ -175,7 +210,7 @@ def markdown(report):
            '耗时统一取原生工具回执的 `seconds`，不混用适配器外围计时；复用项记录历史运行的实际配额和耗时。迭代上限来自各次原生配置，OpenFOAM 的稳态伪时间每次增加 1，因此 endTime 对应 SIMPLE 外迭代上限。每个网格级别分别列出两套求解器；“—”表示未记录或不适用，不代表零。运行中条目显示最后观测值，正常退出也不单独代表算例通过。', '',
            '线性残差保留求解器原生口径，不能跨软件直接比较。Elmer 的非线性绝对更新量单列，不冒充方程残差；OpenFOAM 的 SIMPLE 外迭代编号、最后一轮各次线性求解残差及连续性指标分别保存。误差比为绝对差除以判分允许误差，超过 1 表示不通过；制作参考另有精度余量要求。', '',
            '机器可读明细与日志摘要绑定见 [production-report.json](data-evidence/supplement/production-report.json)，可逐例查看完整输出误差、OpenFOAM 线性求解初始／最终残差、线性迭代数和运行身份。快照时间与批次代码摘要也保存在该文件。','',
-           '## 逐例记录','']
+           *summary_lines(report),'## 逐例记录','']
     if report.get('publication'):
         publication=report['publication']
         lines[2:2]=[f"已发布范围仍以[发布记录](data-evidence/supplement/publication.json)为准：{publication['validated_preview_cases']} 例，固定提交 `{publication['uploaded_commit']}`。以下是当前制作批次的数值记录，通过数量不等于已发布数量。",'']
@@ -194,6 +229,8 @@ def markdown(report):
                 limits=r['iteration_limits'];limit_text=f"{fmt(limits.get('outer'))}/{fmt(limits.get('linear'))}"
                 lines.append(f"| {a['n']} | {solver} | {budget_text} | {limit_text} | {fmt(r['wall_seconds'])} | {fmt(r.get('outer_iteration'))} | {residual_text(r)} | {fmt(r.get('absolute_nonlinear_update'))} | {fmt(r['exit_code'])} |")
             if a.get('error'):lines.extend(['',f"n={a['n']}：{fmt(a['error'])}",''])
+            for r in a['solvers']:
+                if r.get('errors'):lines.extend(['',f"n={a['n']}，{r['solver']} 原生日志：{fmt('; '.join(r['errors']))}",''])
         errors=[a for a in case['attempts'] if a.get('errors')]
         if errors:
             lines.extend(['','| 网格每轴段数 | 输出数组 | 最大绝对差 | 单位 | 最大误差比 |','|---:|---|---:|---|---:|'])

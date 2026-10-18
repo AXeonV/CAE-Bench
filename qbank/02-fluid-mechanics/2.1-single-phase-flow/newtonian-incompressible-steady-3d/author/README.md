@@ -38,6 +38,17 @@ python <task>/author/test_native.py
 
 `--only 4 5` 可重算指定候选编号，`--workers` 控制同时计算的算例数。`--native-*` 是每次原生求解的作者侧预算，与考生资源限制分开；并发数须适合宿主机的实际 CPU 和内存余量。两个求解器及调度进程的 BLAS／OpenMP 均保持单线程，可在启动前设置 `OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1`。原生计算目录必须可由求解器容器挂载。输入完全相同、镜像一致且通过当前收敛与压力约束检查的原生记录才可复用。
 
+## 出题报告
+
+[REPORT.md](REPORT.md) 列出每个算例各档网格的实际预算、两套求解器耗时、迭代编号、最终线性残差和逐输出误差；Elmer 非线性更新量单列。[机器可读记录](data-evidence/supplement/production-report.json)保留完整指标、运行身份和原始日志摘要，区分历史复用、未完成与失败。
+
+```sh
+python <task>/author/report.py --work <solver-workspace> --solvers <solver-images> --scheduler <scheduler.json> --output <task>/author/REPORT.md --json-output <task>/author/data-evidence/supplement/production-report.json
+python <task>/author/test_report.py
+```
+
+制作期间可加 `--watch 60`，在出现新完成记录时刷新报告，批次完成或调度退出后停止。报告快照不改变已发布数据及正式选样。
+
 ## 验证与适用边界
 
 生成目录包含 `cases/`、`reference/`，计算证据在工作目录 `evidence/`。参考由 Elmer 生成，OpenFOAM 生成完整独立输出并交实际逐 case 判分器；另检查错误速度输出会失分。只将通过独立比对及精度预留检查的候选计为通过；失败记录不得混作就绪数据。`audit.py` 对全部输入检查接口、原生 Gmsh Jacobian、体积、封闭边界与覆盖计数，结果结构与数值资格分别记录。

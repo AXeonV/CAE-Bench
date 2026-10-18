@@ -1,0 +1,30 @@
+{
+  "source_repository": "https://github.com/NLR-Theseus/cfdllmbench",
+  "upstream_commit": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_file": "FoamBench/Dataset/FoamBench_basic.json",
+  "source_key": "Cavity/2",
+  "source_ordinal": 95,
+  "original_prompt": "do an incompressible lid driven cavity flow using pisoFoam. The cavity is a square with dimensions normalized to 1 unit on both the x and y axes and very thin in the z-direction (0.1 units) and entire domain scaled down by a factor of 0.1 making it effectively 2D. Use a grid of 20X20 in x and y direction and 1 cell in z-direction(due to the expected 2D flow characteristics). The top wall ('movingWall') moves in the x-direction with a uniform velocity of 1.5m/s. The 'fixedWalls' have a no-slip boundary condition (velocity equal to zero at the wall). The front and back faces are designated as 'empty'. The simulation runs from time 0 to 10 with a time step of 0.005 units, and results are output every 100 time steps. The viscosity (`nu`) is set as constant with a value of 1e-05 m^2/s. Model turbulence with the standard k-epsilon RAS model (simulationType RAS, model kEpsilon), with uniform initial values k = 0.00375 m^2/s^2 and epsilon = 0.00754 m^2/s^3, nut initialised to 0, and standard wall functions on movingWall and fixedWalls (kqRWallFunction for k, epsilonWallFunction for epsilon, nutkWallFunction for nut).",
+  "prompt_sha256": "3be9b7fc6793c8b6469d9a197d8601dd4324a8f8578024068f77954a4f48daeb",
+  "consulted_keys": [
+    "usr_requirement",
+    "constant/momentumTransport",
+    "constant/physicalProperties",
+    "0/nuTilda",
+    "0/p",
+    "0/epsilon",
+    "0/k",
+    "0/U",
+    "0/nut",
+    "0/omega",
+    "system/fvSolution",
+    "system/controlDict",
+    "system/blockMeshDict"
+  ],
+  "adaptation": [
+    "保留prompt指定k-epsilon和壁函数，公开列出系数及OpenFOAM 10式分支近壁语义；不暴露无关omega/nuTilda输入。",
+    "整体缩放后边长.1m；源第0单元压力改为逐时全域面积均值零，消除网格编号基准依赖。",
+    "源nut=0只是派生字段存储初始化，不迁移成独立物理初态；原每100步输出转为物理.5s间隔；改用rho=1 kg/m3下机械静压Pa输出。"
+  ],
+  "status": "statements-only; no data, reference, runtime contract or grading calibration"
+}

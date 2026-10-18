@@ -1,0 +1,30 @@
+{
+  "source_repository": "https://github.com/NLR-Theseus/cfdllmbench",
+  "upstream_commit": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_file": "FoamBench/Dataset/FoamBench_basic.json",
+  "source_key": "shallowWaterWithSquareBump/2",
+  "source_ordinal": 85,
+  "original_prompt": "do a shallow water simulation over a square bump using the shallowWaterFoam solver. The domain spans 1 x 1 x 0.1, discretized into 20 x 20 x 1 grid points. The simulation initializes with a uniform water depth of 0.02 m and a uniform momentum field of (0.001,0,0). The simulation runs from 0 s to 100 s with a timestep of 0.1 s and writes results every 1 s. The square bump occupies the box (0.45, 0.45) to (0.55, 0.55) with bed elevation h0 = 0.001 m; initialise the free surface flat and the velocity uniform, i.e. over the bump h = 0.019 m and hU = (0.00095, 0, 0), applied with setFields.",
+  "prompt_sha256": "85b262830a16cfabb77d5736f4651e87f8813ae472f9c6cd50d7dbe4b45e0967",
+  "consulted_keys": [
+    "usr_requirement",
+    "constant/h0",
+    "constant/h0.orig",
+    "constant/gravitationalProperties",
+    "0/hTotal",
+    "0/hU",
+    "0/h.orig",
+    "0/h",
+    "0/hU.orig",
+    "system/fvSolution",
+    "system/controlDict",
+    "system/blockMeshDict",
+    "system/setFieldsDict"
+  ],
+  "adaptation": [
+    "原prompt优先：平自由面与均匀速度以精确关系定义，修正非variant1配置遗留的bump h=.009,q=.0009；hTotal为派生量不独立输入。",
+    "从配置补全旋转、重力、出入口与滑移；出口固定.01m，不随初态改动。",
+    "二维去除实现厚度，固定静水路径解释台阶；网格数量、求解器名、时间步不作为物理约束。"
+  ],
+  "status": "statements-only; no data, reference, runtime contract or grading calibration"
+}

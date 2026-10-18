@@ -1,0 +1,17 @@
+{
+  "source_repository": "https://github.com/NLR-Theseus/cfdllmbench",
+  "revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "split": "advanced",
+  "source_id": "Rectangular_Obstacle_SA",
+  "number": "2.12.121",
+  "task": "fb-advanced-rectangular-obstacle-sa",
+  "source_file_sha256": "2e97ce1bd1444909000c4c6337c187c2237b7cdd81c3e2ef9f0ab8c0ea10c22b",
+  "prompt": "Perform an incompressible turbulent flow simulation over a 2D rectangular obstacle using the SpalartAllmaras turbulence model and pimpleFoam solver. The computational domain spans 0 to 15 in x direction and 0 to 5 in y direction and -0.5 to 0.5 in z direction. The rectangular obstacle is of size  1 unit x 1 unit x 1 unit centered at 2.5 x 2.5 x 0.0. Use one cell in z direction making the geometry effectively 2D. Refine the mesh near to rectangle. Use sufficient grid points to discretize the domain and dont use more than 60000 cells in your mesh. The left boundary is the inlet which uses a uniform velocity of (1,0,0) m/s. The right boundary is the outlet, with fixed-value pressure equal to the internal field value of 101325 and a pressureInletOutletVelocity condition for velocity. Top and bottom boundaries are fixed walls with no-slip condition. The front and back faces are empty. The rectangular obstacle also has no-slip boundary condition on its surface. The kinematic viscosity is 2e-6 m2/s. Use a deltaT of 0.5 s and run till a final time of 5 s. Write the results at every 0.5 s. Use a maximum courant number of 1.0.",
+  "adaptation": [
+    "prompt 与 blockMeshDict1 存在几何不一致，本题采用 prompt 且可执行 blockMeshDict 的明确几何。",
+    "源压力维度为m2/s2却值101325；本移植取rho=1并明确保留数值为gauge Pa，不冒称大气绝对压。",
+    "源壁函数配置不一致，SA统一解析到壁q=0。",
+    "不可压原始均匀速度穿过障碍法向，公开定义Helmholtz投影；初始pressure仅猜测不当额外初值。"
+  ],
+  "status": "statements-only; no data, reference, runtime registration or calibration"
+}

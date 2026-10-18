@@ -1,0 +1,16 @@
+{
+  "source_repository": "https://github.com/NLR-Theseus/cfdllmbench",
+  "revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "split": "advanced",
+  "source_id": "nozzleFlow2D_SA",
+  "number": "2.12.122",
+  "task": "fb-advanced-nozzleflow2d-sa",
+  "source_file_sha256": "2e97ce1bd1444909000c4c6337c187c2237b7cdd81c3e2ef9f0ab8c0ea10c22b",
+  "prompt": "do a 2D nozzle flow simulation using interfoam solver and  Spalart-Allmaras turbulence model. Use a time step of 1e-8 seconds, output results every 1e-06s. The end time is 1e-5 s. Set nuTilda to 1.7856e-05 m^2/s in the domain and at the inlet, and nuTilda = 0 (fixedValue) on the walls. Do not use more than 7500 cells in your mesh.",
+  "adaptation": [
+    "源称2D但网格为角度楔形，解释为无旋流轴对称，保留子午面几何。",
+    "入口速度、密度、黏度、表面张力、初始空气来自源配置；q按prompt覆盖源0值；接触角明确补足90度。",
+    "输出均值采用2πr权重；不把压力转为运动学压力或假定可压缩。"
+  ],
+  "status": "statements-only; no data, reference, runtime registration or calibration"
+}

@@ -1,0 +1,19 @@
+{
+  "upstream_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_file": "FoamBench_basic.json",
+  "upstream_key": "obliqueShock/10",
+  "prompt": "do a 2D oblique shock wave simulation using OpenFOAM with the rhoCentralFoam solver. The computational domain spans 4.1 m x 1.0 m x 0.1 m. Mesh it uniformly with 60 x 30 x 1 cells (60 in x, 30 in y, 1 in z). Use inlet velocity of 4.0 m/s and top velocity of (4.0,-0.50632,0.0) m/s. Use an inlet temperature of 2.0 K and top boundary temperature of 2.0 K, and an inlet pressure of 1.0 Pa. Use normalized thermodynamic properties where molWeight is set to 11640.3, Cp is 2.5, Pr is 1.0, and dynamic viscosity mu is 0. This corresponds to a gas constant R of 0.7143 and a specific heat ratio of 1.4. Use a time step of 0.0025 seconds, output results every 1.0 seconds, and run the simulation until a final time of 10 seconds.",
+  "source_entry_sha256": "72689b17853ab8d0ae2d684ab075824f15f6b9b059c215a40dca4f81dad9f0f0",
+  "adopted_interpretations": [
+    "R采用5/7精确值，以Cp=2.5和gamma=1.4一致；原prompt R=0.7143以及molWeight=11640.3为舍入值。",
+    "初始U=(2.9,0)、T=1、p=1按0目录；并非各变体入口状态。",
+    "原60×30×1和dt=.0025是来源离散设置，不约束内部算法；矩形二维物理域保持。"
+  ],
+  "stage": "statements_only_no_data",
+  "original_numerical_controls": {
+    "startTime": "0",
+    "endTime": "10",
+    "deltaT": "0.0025",
+    "writeInterval": "1"
+  }
+}

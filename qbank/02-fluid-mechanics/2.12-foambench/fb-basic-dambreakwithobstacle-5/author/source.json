@@ -1,0 +1,22 @@
+{
+  "upstream_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_file": "FoamBench_basic.json",
+  "upstream_key": "damBreakWithObstacle/5",
+  "prompt": "do a laminar dam break with obstacle simulation. use interFoam solver. The domain extent is 1x1x1. Use 32 grid points in all directions. Use density of air to be 1 kg/m3 and density of water to be 1000 kg/m3. Take the viscosity of air to be 0.001 and viscosity of water to be 0.001. The simulation runs from t=0s to t=0.1s with a timestep of 0.001s and a write interval of 0.02.",
+  "source_entry_sha256": "b9b5d5525217f2f777dd2e04100517e8674846c6948164a00bf80330ec290972",
+  "adopted_interpretations": [
+    "粘度prompt未标类型，constant/physicalProperties.air与.water明确为nu，采用运动黏度m2/s。",
+    "障碍来自topoSet删除box及Allrun subsetMesh，不是blockMesh直接外形。",
+    "源重力-z而atmosphere=y1；保留该配置，不擅自旋转开口。",
+    "初始p_rgh=0是不可压压力求解初猜；公开只固定速度及水柱初态，压力输出恢复物理静压表压。",
+    "源动态网格refiner作为算法选项，不改变公共固定采样接口。",
+    "中性润湿90度是从alpha零法向梯度与表面张力给出的公开闭合解释。"
+  ],
+  "stage": "statements_only_no_data",
+  "original_numerical_controls": {
+    "startTime": "0",
+    "endTime": "0.1",
+    "deltaT": "0.001",
+    "writeInterval": "0.02"
+  }
+}

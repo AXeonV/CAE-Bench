@@ -1,0 +1,15 @@
+{
+  "source_repository": "https://github.com/NLR-Theseus/cfdllmbench",
+  "revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "split": "advanced",
+  "source_id": "Cylinder_SA",
+  "number": "2.12.126",
+  "task": "fb-advanced-cylinder-sa",
+  "source_file_sha256": "2e97ce1bd1444909000c4c6337c187c2237b7cdd81c3e2ef9f0ab8c0ea10c22b",
+  "prompt": "do a offsetcylinder simulation using SpalartAllmaras turbulence model. Use PIMPLE algorithm. Boundary conditions specify a fixed velocity of 1m/s at the inlet (left),fixed-value pressure of 0 at the outlet (right) with zero-gradient velocity there, and no-slip conditions for walls, including the cylinder surface. Use timestep of 0.0025 and output every 0.05. Finaltime is 2. use constant viscosity model with nu value of 0.01 in physical properties. Set nuTilda to 0.03 m^2/s in the domain and at the inlet (left), use inletOutlet with 0.03 at the outlet (right), and nuTilda = 0 (fixedValue) on the walls and the cylinder. Do not use more than 1800 cells in your mesh.",
+  "adaptation": [
+    "圆柱实际几何来自blockMeshDict；密度未给，公开补足rho=1。",
+    "保留prompt SA初态与入口q=0.03，源无关k文件不迁移。"
+  ],
+  "status": "statements-only; no data, reference, runtime registration or calibration"
+}

@@ -1,0 +1,16 @@
+{
+  "source_repository": "https://github.com/NLR-Theseus/cfdllmbench",
+  "revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "split": "advanced",
+  "source_id": "obliqueShock_LES",
+  "number": "2.12.117",
+  "task": "fb-advanced-obliqueshock-les",
+  "source_file_sha256": "2e97ce1bd1444909000c4c6337c187c2237b7cdd81c3e2ef9f0ab8c0ea10c22b",
+  "prompt": "do a 2D oblique shock wave LES simulation (Smagorinsky model) using OpenFOAM with the rhoCentralFoam solver. The computational domain spans 4.1 m x 1.0 m x 0.1 m. Mesh it uniformly with 60 x 30 x 1 cells (60 in x, 30 in y, 1 in z). Use inlet velocity of 2.9 m/s and top velocity of (2.61933,-0.50632,0.0) m/s. Use an inlet temperature of 1.0 K and top boundary temperature of 1.25853 K, and an inlet pressure of 1.0 Pa. Use normalized thermodynamic properties where molWeight is set to 11640.3, Cp is 2.5, Pr is 1.0, and dynamic viscosity mu is 1.6646e-4. This corresponds to a gas constant R of 0.7143 and a specific heat ratio of 1.4. Use a time step of 0.0025 seconds, output results every 1.0 seconds, and run the simulation until a final time of 10 seconds.",
+  "adaptation": [
+    "保留归一化气体，R明确取prompt近似值、gamma由cp/R一致导出。",
+    "不约束rhoCentralFoam、源网格数和内部时间步；本题具体湍流闭合、热力学及能量定义公开给出。",
+    "保留源Smagorinsky闭合，明确Cs=0.17与Delta=0.05m，舍弃源未消费的k初始文件；非原网格依赖滤波的逐格复现。"
+  ],
+  "status": "statements-only; no data, reference, runtime registration or calibration"
+}

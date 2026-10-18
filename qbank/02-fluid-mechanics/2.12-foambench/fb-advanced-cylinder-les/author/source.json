@@ -1,0 +1,16 @@
+{
+  "source_repository": "https://github.com/NLR-Theseus/cfdllmbench",
+  "revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "split": "advanced",
+  "source_id": "Cylinder_LES",
+  "number": "2.12.113",
+  "task": "fb-advanced-cylinder-les",
+  "source_file_sha256": "2e97ce1bd1444909000c4c6337c187c2237b7cdd81c3e2ef9f0ab8c0ea10c22b",
+  "prompt": "do a offsetcylinder simulation using Large eddy simulation with dynamic kinetic energy equation model. Use PIMPLE algorithm. Boundary conditions specify a fixed velocity of 1m/s at the inlet (left),fixed-value pressure of 0 at the outlet (right) with zero-gradient velocity there, and no-slip conditions for walls, including the cylinder surface. Use timestep of 0.0025 and output every 0.05. Finaltime is 2. use constant viscosity model with nu value of 0.01 in physical properties. Initialise k to 0 in the domain, with k = 2e-05 m^2/s^2 at the inlet (left), inletOutlet with 0 at the outlet (right), and k = 0 on the walls and the cylinder. Do not use more than 1800 cells in your mesh.",
+  "adaptation": [
+    "圆柱实际几何来自blockMeshDict；密度未给，公开补足rho=1。",
+    "源LES保留二维模型目标、不宣称三维LES；固定滤波模型不复现原网格逐格reference。",
+    "动态一方程模型采用软件无关固定Δ和完整高斯测试滤波定义，替换源随网格变化的体积滤波宽度及邻面离散滤波；不是原逐格reference复现。"
+  ],
+  "status": "statements-only; no data, reference, runtime registration or calibration"
+}

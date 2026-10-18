@@ -1,0 +1,10 @@
+{
+  "upstream_commit": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_file": "FoamBench_basic.json",
+  "source_key": "BernardCells/7",
+  "source_entry_sha256": "fb1e2435790383a5c899e1944b439198df582b10cfff03930649c387e2e1134e",
+  "original_prompt": "Perform a 2D Bernard Cell simulation using OpenFOAM buoyantFoam solver. The computational domain spans 9 m x 1 m in x and y, meshed with 90 x 10 cells, with a single cell of 2 m thickness in z and empty front and back patches. The simulation begins at t=0 seconds and runs until t = 1000 seconds with a time step of 1 second, and results are written at intervals of every 50 seconds. The bottom wall (floor) has a temperature of 310 K and the top wall (ceiling) has a temperature of 295 K; the side walls are adiabatic (zero-gradient temperature).",
+  "adaptation": "源heRhoThermo+Boussinesq明确限定成标准不可压缩Boussinesq，alpha=nu/Pr；将不相容均匀横流改为公开流函数生成的无散且无滑移相容扰动；修复wall组未在网格定义的问题，对全部四壁施加无滑移；压力改为明确定义的去静水压零均值规范，不宣称逐字复现源可压缩实现。",
+  "numerical_controls": "原deltaT/Co/软件与算法不约束考生；保留物理输出时刻。",
+  "stage": "statements-only; no data/reference/judge calibration"
+}

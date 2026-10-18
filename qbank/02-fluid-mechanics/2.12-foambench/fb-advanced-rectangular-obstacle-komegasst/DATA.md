@@ -1,0 +1,61 @@
+# 2.12.124 方形障碍物 k–ω SST 非定常绕流：数据说明
+
+## 文件、引用与采样
+
+通用规则见 [CONTRACT.md](../../../../docs/CONTRACT.md)，任务与评价见 [instruction.md](instruction.md)。本节定义本题全部物理语义；无需原始软件配置。
+
+`problem.json` 使用 `task: "fb-advanced-rectangular-obstacle-komegasst"`、`spatial_dimension: 2`、`physics: {"model":"fb-advanced-rectangular-obstacle-komegasst","parameters":{...}}`。不使用 `profile`、`contract_version`、`analysis`、`materials`。这里是基于通用 physics 声明的题内模型契约，不将新字段冒充 cfd-2.1 已支持的配置；本次只交付文档，模型尚未绑定领域校验器或 judge。
+
+`data_file` 为单个输入 HDF5；`meshes` 恰有一个 Gmsh MSH 4.1 ASCII 一阶三角形／四边形二维网格，`geometries` 可为空。几何物理边界以输入分片直线网格为准，曲线可细化近似。`locations` 中完整流体域与边界均为 mesh element，dimension 分别为 2、1，IDs 为按 tag 递增的 int64；边界按条件位置精确分区。不得以文件行号代替 tag。不存在未声明的壁、重力或旋转参考系。
+
+所有输入场均 float64；标量 `[T,N,1]`，矢量 `[T,N,2]`，分量 x、y（轴对称时见下文）。场通过 `fields` 对象名、`array` 数据集名引用，二者不必相同。全域初态及边界采用单元平均，`value_kind: "average"`；只允许显式 `sampling={"space":"piecewise_constant","time":"constant","extrapolation":"hold"}`：每个实体内、整个计算区间均保持给定值。T=1 的输入场时间为 0 s，无额外空间平滑。条件中的带单位标量常量表示整个作用位置恒定；矢量即便均匀也必须经 field 引用。初态需覆盖全部流体单元；边界需覆盖全部外边界边。
+
+输出只允许二维流体单元的面积平均；每个量可在非空单元子集上请求。输出元数据逐项给 `array,quantity,location,time_axis,dtype,kind,component_shape,components,unit,value_kind`；value_kind 为 average，标量 kind=scalar、components=["value"]、component_shape=[1]；速度 kind=vector、components=["x","y"]、component_shape=[2]。不输出模型专有湍流变量。每个输出时间轴为下面规定物理时刻的非空子集，float64 严格递增；求解器内部步长自选，必须在给定时刻求值。
+
+## 模型参数
+
+`physics.parameters` 恰包含下表参数，每项为 `{"value":有限数值,"unit":"单位"}`；这些是本题固定工况值，数值必须与表一致。表外数值在下面文字给定，不从名称推断。无隐含缺省。
+
+| 参数 | 固定值 | 单位 | 含义 |
+|---|---:|---|---|
+| density | 1 | kg/m3 | 补足恒定密度，使源运动学压力具有明确 Pa 换算 |
+| kinematic_viscosity | 2e-06 | m2/s | 常运动黏度 |
+
+## 几何、条件与初态
+
+二维 xy 平面域为 [0,15]×[0,5] m²，去掉 [2,3]×[2,3] m² 闭方形。左右分别为入口、出口，其余边界无滑移静止壁。入口 u=(1,0) m/s；出口静压 gauge=101325 Pa，回流仅切向速度给零，法向由压力和连续性确定。初始原始速度 v=(1,0) m/s，但真正不可压初态为 u0=v−∇φ：解 Δφ=0，入口 ∂nφ=0，全部固壁 ∂nφ=v·n，出口 φ=0。投影只约束入口法向初态，出口法向自由；入口切向条件在t>0施加；该Helmholtz投影使初态无散且固壁无穿透。随后入口启动与壁面无滑移由非定常动量方程满足，切向瞬时不相容按黏性启动解释。初始压力不是独立物理初值，由动量约束和出口压力确定，不把均匀101325 Pa猜测当成额外约束。无体力、无能量方程、不可压缩；σ=−pI+2ρνD 加模型应力。时间区间 [0,5] s，输出 0,0.5,…,5 s。
+
+采用非定常 Reynolds 平均、k–ω SST 两方程闭合，2003 SST 形式；不加入转捩、旋转曲率、浮力和额外压缩修正。νt=a1 k/max(a1ω,sqrt(2D:D)F2)，a1=0.31；k 耗散为 β* kω，β*=0.09，产生 Pk=min(2νt D:D,10β*kω)。
+
+k 方程 Dk/Dt=∇·[(ν+σkνt)∇k]+Pk−β*kω；ω 方程 Dω/Dt=∇·[(ν+σωνt)∇ω]+γ Pk/max(νt,10⁻³⁰ m²/s)−βω²+2(1−F1)σω2 ∇k·∇ω/ω。系数 φ=F1φ1+(1−F1)φ2，(σk1,σω1,β1,γ1)=(0.85,0.5,0.075,5/9)，(σk2,σω2,β2,γ2)=(1,0.856,0.0828,0.44)。
+
+CD=max(2σω2∇k·∇ω/ω,10⁻¹⁰ s⁻²)，A1=min(max(sqrt(k)/(β*ωd),500ν/(d²ω)),4σω2 k/(CD d²))，F1=tanh(A1⁴)；A2=max(2sqrt(k)/(β*ωd),500ν/(d²ω))，F2=tanh(A2²)。d 是到无滑移壁的距离。壁面采用解析到壁的极限 k→0、ω~6ν/(β1d²)，不指定某软件的壁函数或首层单元。输出压力为静压；Reynolds 应力含 −2ρkI/3。
+
+## 条件编码
+
+每条记录恰含 `role,variable,operator,location,data`。位置名称任意，以实际引用的实体集合识别，不能根据 inlet 等字符串猜条件。
+
+| role / operator | variable | data 完整键 | 含义 |
+|---|---|---|---|
+| initial / assign | velocity、pressure、气体题temperature 或下列额外状态 | value | 全域物理初态；标量常量或同位置场，矢量只用场 |
+| boundary / dirichlet | 同上 | value | 该变量边界迹等于 value |
+| boundary / normal_derivative | 同上 | value | 外法向导数等于 value；只允许本题指定的零值，单位为原量单位除以 m |
+| boundary / slip | velocity | normal_velocity | 法向速度为给定 0 m/s，切向速度外法向导数为零 |
+| boundary / pressure_open | flow | pressure, backflow_velocity | 边界静压为给定 Pa；流出速度外法向导数零；流入只取给定场的切向分量，法向由压力与连续性求解；压力不是总压，也不是总牵引 |
+| boundary / advective_open | 下列额外标量状态 | backflow_value | 流出为零外法向导数，流入取给定同位置标量场或带单位常量 |
+| source / pressure_mean | pressure | value | 全域平均静压 gauge 固定于 value；仅无压力开口的封闭腔体允许 |
+
+`value`、`pressure` 使用带单位标量或同位置 field，`backflow_velocity` 必须是同位置矢量 field；slip 的 normal_velocity 使用带单位零标量。flow 仅为联合边界变量名，不是输出。其他源项禁止。不同变量的边界可共址，同一变量不得重叠约束；角点不另赋覆盖优先级。下文指定的固定墙 velocity 使用 dirichlet 零矢量场。压力在速度入口／无滑移壁由法向动量约束确定，不额外强制零梯度；仅明确写出的零法向导数出口按该条件处理。所有压力为静压 Pa；gauge 以环境绝对压力 101325 Pa 为参考，且未另外说明时无压力重对齐。
+
+额外状态为 `turbulent_kinetic_energy` k（m2/s2）和 `specific_dissipation_rate` ω（1/s）。初态 k=0.00375、ω=0.0612。入口 k=0.00375、ω=sqrt(0.00375)/(0.09^0.25×1.2) s⁻¹；出口使用 advective_open，回流值为这两个入口值；壁面按上文到壁极限。边界 operator=`sst_wall`，variable=`turbulence`，data 恰有 `kinematic_viscosity`（m2/s 标量），表示上述到壁极限，不依赖首层网格。
+
+气体题中pressure与temperature的初态、边界必须成对提供以确定密度；density不作为独立初始约束。不可压题不提供initial/pressure，其压力由动量约束、指定开口或均值规范确定。初始速度为上文投影定义的题，initial/assign的value存原始v，不把其当未经投影的物理初态；除该特殊规则外assign直接给物理初态。初态额外变量均取非负值；输入与表列固定值不符即非法。
+
+## 允许输出
+
+| quantity | 分量 | 单位 |
+|---|---|---|
+| velocity | x,y | m/s |
+| pressure | value | Pa |
+
+输出为求得连续场在给定单元上的物理平均，不是单元中心点值；二维按单位出平面厚度，轴对称例外见本题定义。只写 `outputs` 请求的数组及其 IDs、时间轴，key、dtype、shape、值与顺序按 CONTRACT；不写额外网格、坐标、输入状态或日志到结果文件。所有量使用同一声明的压力基准，判分不做平移、缩放、网格包围盒对齐或重排。

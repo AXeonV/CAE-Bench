@@ -1,0 +1,10 @@
+{
+  "upstream_commit": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_file": "FoamBench_basic.json",
+  "source_key": "forwardStep/8",
+  "source_entry_sha256": "32b815f6e38b75dd5e4d8c4d467e93656bce6cc1bbfb6f13bda905273303cd0f",
+  "original_prompt": "do a laminar, compressible flow over a forward-facing step using the rhoCentralFoam solver. Boundary conditions include a fixed velocity of 2.3m/s and temperature of 1 K at the inlet and slip conditions on the obstacle. Use timestep of 0.002 and output every 0.1. Finaltime is 4. Do not use more than 17000 cells in your mesh.",
+  "adaptation": "原laminar配置mu=0，明确Euler；按配置补齐台阶几何、归一化气体、初态与倒流入口值。",
+  "numerical_controls": "原deltaT/Co/软件与算法不约束考生；保留物理输出时刻。",
+  "stage": "statements-only; no data/reference/judge calibration"
+}

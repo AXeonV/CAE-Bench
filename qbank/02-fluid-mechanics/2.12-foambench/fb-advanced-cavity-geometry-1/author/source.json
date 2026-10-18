@@ -1,0 +1,15 @@
+{
+  "source_repository": "https://github.com/NLR-Theseus/cfdllmbench",
+  "revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "split": "advanced",
+  "source_id": "Cavity_geometry_1",
+  "number": "2.12.118",
+  "task": "fb-advanced-cavity-geometry-1",
+  "source_file_sha256": "2e97ce1bd1444909000c4c6337c187c2237b7cdd81c3e2ef9f0ab8c0ea10c22b",
+  "prompt": "do an incompressible lid driven cavity flow using pisoFoam solver and SpalartAllmaras turbulence model. The cavity is a square with dimensions normalized to 2 unit on both the x and y axes and very thin in the z-direction (0.1 unit) and scale the domain down by a factor of 0.1. Use a grid of 40X40 in x and y direction and 1 cell in z-direction(due to the expected 2D flow characteristics). The top wall ('movingWall') moves in the x-direction with a uniform velocity of 1 m/s. The 'fixedWalls' have a no-slip boundary condition (velocity equal to zero at the wall). The front and back faces are designated as 'empty'. The simulation runs from time 0 to 10 with a time step of 0.005 units, and results are output every 100 time steps. The viscosity (`nu`) is set as constant with a value of 1e-05 m^2/s. Initialise nuTilda to 3e-05 m^2/s in the domain and set nuTilda = 0 (fixedValue) on movingWall and fixedWalls, with nutkWallFunction for nut on the walls.",
+  "adaptation": [
+    "按prompt缩放定义实际边长。",
+    "源prompt与q初态/墙条件冲突，采用prompt q=3e-5且墙q=0。"
+  ],
+  "status": "statements-only; no data, reference, runtime registration or calibration"
+}

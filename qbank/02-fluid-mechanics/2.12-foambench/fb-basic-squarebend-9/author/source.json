@@ -1,0 +1,21 @@
+{
+  "upstream_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_file": "FoamBench_basic.json",
+  "upstream_key": "squareBend/9",
+  "prompt": "Conduct a 3D squarebend flow simulation using OpenFOAM. The computational domain includes multiple regions, with vertices defined as inlet points at (-50, 25, 25) and (-50, 25, -25), outlet points at (-500, -75, 25) and (-500, -75, -25), and mid-bend points like (25, 0, 25) and (25, 0, -25). Follow the same geometry as the tutorial. Use a start time of 0 seconds, an end time of 500 seconds, a time step of 0.5 second, and write results every 100 seconds. Use a massflow rate inlet of 0.5 with turbulentBL profile. Outlet is pressureInletOutletVelocity. Temperature has an inlet value of 1000. Pressure is fixed at 110000 Pa at the outlet (zero-gradient at the inlet), and the domain is initialised to 110000 Pa. use kepsilon turbulence model. Use rhoSimpleFoam solver. Use Pr value of 0.71. Use mu value of 1e-4. Do not use more than 120000 cells in your mesh.",
+  "source_entry_sha256": "131e050efc8f7dbfb0aee33b5bff820667ba8fb5a7a8a08cb90624a535ad23d9",
+  "adopted_interpretations": [
+    "源rhoSimpleFoam为稳态；controlDict结束500和dt是迭代控制，不解释成500s瞬态。仅迭代步差异的变体物理范围重复，保留独立源标识。",
+    "原prompt省略完整管形，按blockMesh毫米尺度和圆弧补全。",
+    "turbulentBL源名称未给数学函数；移植采用明确1/7幂次最近壁距剖面，属于作者公开规范化，不能宣称与原插件剖面逐点完全相同。",
+    "R取通用气体常数除以源molWeight=28.9，Cp=1005；出口回流T/k/epsilon按0目录1000/1/200。",
+    "120000单元为源网格预算（源块数总112000），当前评测资源未校准；不将其当执行时间/内存限制。"
+  ],
+  "stage": "statements_only_no_data",
+  "original_numerical_controls": {
+    "startTime": "0",
+    "endTime": "500",
+    "deltaT": "0.5",
+    "writeInterval": "100"
+  }
+}

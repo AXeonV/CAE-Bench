@@ -1,0 +1,10 @@
+{
+  "upstream_commit": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_file": "FoamBench_basic.json",
+  "source_key": "counterFlowFlame2D/2",
+  "source_entry_sha256": "223c89e03513edefb517122abfc5bb06ce2e847262c1152160b1818808db43b4",
+  "original_prompt": "do a counterflow flame simulation using OpenFOAM reactingFoam solver, employing a compressible flow solver for detailed combustion modeling. Define the computational domain as a 2D rectangular region with a width of 0.02 meters and a height of 0.02 meters. Mesh it uniformly with 100 x 40 x 1 cells (100 across the width in x, 40 across the height in y, 1 in z). Use CH4, O2 and N2 as species. Include chemical kinetics using the reaction mechanism. velocity of fuel is 0.2 m/s and velocity of air is -0.1 m/s. Set the simulation runtime from 0 to 0.5 seconds with a write interval of 0.05 seconds and deltaT of 1e-6. Use adaptive time stepping with a maximum Courant number of 0.4, starting from deltaT = 1e-6 s",
+  "adaptation": "入口只列CH4/O2/N2但配置含CO2/H2O，展开为五组分；补齐单位Le扩散和出口总压、回流定义；热态氮气初始条件按配置。用一致原子量推导分子量，调整CH4/H2O/CO2末位以保持元素和质量守恒，N2源严格0；NASA系数保留，比气体常数用一致分子量，NASA端侧外推定义保证数学自包含。",
+  "numerical_controls": "原deltaT/Co/软件与算法不约束考生；保留物理输出时刻。",
+  "stage": "statements-only; no data/reference/judge calibration"
+}

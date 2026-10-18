@@ -1,0 +1,25 @@
+{
+  "source_repository": "https://github.com/NLR-Theseus/cfdllmbench",
+  "upstream_commit": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_file": "FoamBench/Dataset/FoamBench_basic.json",
+  "source_key": "Cylinder/2",
+  "source_ordinal": 105,
+  "original_prompt": "do a laminar offsetcylinder simulation. Use PIMPLE algorithm with a generalized Newtonian model and Cross-Power-Law viscosity for momentum transport, characterized by specific parameters nuInf=10, m=0.4, n=3. Boundary conditions specify a fixed velocity of 1.5m/s at the inlet (left),fixed-value pressure of 0 at the outlet (right) with zero-gradient velocity there, and no-slip conditions for walls, including the cylinder surface. Use timestep of 0.0025 and output every 0.05. Finaltime is 0.5. use constant viscosity model with nu value of 1e-03 in physical properties. Do not use more than 1800 cells in your mesh.",
+  "prompt_sha256": "2cf34c519569bcb2738ed0045c2e63d35a46b576f1218ea9a2ac0b19611f7d6e",
+  "consulted_keys": [
+    "usr_requirement",
+    "constant/momentumTransport",
+    "constant/physicalProperties",
+    "0/p",
+    "0/U",
+    "system/fvSolution",
+    "system/controlDict",
+    "system/blockMeshDict"
+  ],
+  "adaptation": [
+    "从blockMesh补全偏置矩形与半径1圆柱，二维化去除源z厚度2m。",
+    "Cross动量输运优先于基础constant标签；基础nu解释为nu0，公开完整Cross公式，保留nuInf大于nu0的增稠参数。",
+    "保留初态、压力出口及全部壁条件；rho=1 kg/m3下静压Pa替代来源运动学压力；不迁移PIMPLE、网格上限1800或数值时间步为物理要求。"
+  ],
+  "status": "statements-only; no data, reference, runtime contract or grading calibration"
+}

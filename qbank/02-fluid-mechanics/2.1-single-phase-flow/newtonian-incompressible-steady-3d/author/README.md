@@ -16,12 +16,14 @@
 
 材料及尺度系列用于比较黏性主导与惯性影响、动力／运动黏度、静压及载荷尺度；坐标旋转、单元类型与输出位置变化覆盖接口。坐标变化本身不算新增物理家族。实际目录由 `catalog` 导出，验证状态以逐例计算记录为准，候选数量不代表全部验证通过或覆盖题面任意组合。
 
-## 求解器依据
+## 求解器配置
 
 - **Elmer 26.2.1**：[固定源码](https://github.com/ElmerCSC/elmerfem/tree/a19504ac53ec222e3355e182b08f2ff280c2203a)、[FlowSolve](https://github.com/ElmerCSC/elmerfem/blob/a19504ac53ec222e3355e182b08f2ff280c2203a/fem/src/modules/FlowSolve.F90)、[模型手册](https://www.nic.funet.fi/pub/sci/physics/elmer/doc/ElmerModelsManual.pdf)。使用完整 Navier–Stokes 模型、稳定化有限元与原生非线性迭代。Fortran 回调只读取给定边界／源项表。
 - **OpenFOAM OpenCFD 2512**：[发行说明](https://www.openfoam.com/news/main-news/openfoam-v2512)、[simpleFoam 官方说明](https://doc.openfoam.com/2306/tools/processing/solvers/rtm/incompressible/simpleFoam/)。采用稳态不可压缩层流 SIMPLE；原生运动学压力转换为 Pa。具体镜像摘要固定在脚本中，实际执行记录保存输入与输出摘要。
 
 两者共享几何定义与格式转换代码，离散及迭代实现不同。对可用的经典平衡／平行流另做解析一致性检查；这些公式只用于附加验证，不替代原生求解器生产参考。三维腔流及障碍物没有借用未经实际取得的文献曲线。
+
+Elmer 使用 BiCGStab／ILU1，线性容差 `1e-11`、最多 3000 次；非线性绝对更新容差 `1e-9`、最多 100 次，松弛系数 0.7。OpenFOAM 使用 PCG／DIC 求压力、symGaussSeidel 平滑求速度，线性容差分别为 `1e-11`、`1e-12`；SIMPLE 压力／速度松弛系数为 0.3／0.7，最多 12000 次。内部计算网格按每轴 12、24、32 段加密，双障碍物从 16 段开始；各例实际采用的网格、收敛及误差记录保存在计算证据中。
 
 ## 复现
 

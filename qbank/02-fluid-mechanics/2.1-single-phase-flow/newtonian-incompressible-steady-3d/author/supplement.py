@@ -14,6 +14,7 @@ import re
 import subprocess
 import sys
 import time
+import traceback
 import xml.etree.ElementTree as ET
 
 import gmsh
@@ -77,8 +78,8 @@ def catalog():
     return cases
 
 
-def run_batch(work,solvers,indices=None,workers=2):
-    from native import elmer,foam,execute,NativeField,AnalyticField,outputs,reusable_run
+def run_batch(work,solvers,indices=None,workers=2,native_timeout=3600,native_cpus=2,native_memory='4g'):
+    from native import elmer,foam,execute,NativeField,AnalyticField,outputs,reusable_run,NativeRunError
     items=catalog()
     if indices:items=[c for i,c in enumerate(items,1) if i in indices]
     generated=work/'generated';evidence=work/'evidence';jobs=work/'native'
@@ -91,21 +92,27 @@ def run_batch(work,solvers,indices=None,workers=2):
     policy=author_policy(TASK_DIR)
     def one(c):
         case=c['name'];path=generated/'cases'/case/'problem.json';problem=load_problem(path)
-        record=dict(case=case,configuration=c,code_id=code_id,attempts=[],passed=False)
+        record=dict(case=case,configuration=c,code_id=code_id,attempts=[],passed=False,
+                    author_budget=dict(timeout=native_timeout,cpus=native_cpus,memory=native_memory))
         for n in ((16,24,32) if c['geometry']=='two-obstacles' else (12,24,32)):
+            stage='prepare'
             try:
                 current=[]
                 reference=generated/'reference'/case;reference.mkdir(parents=True,exist_ok=True)
                 for sid,prepare in [('elmer',elmer),('openfoam',foam)]:
+                    stage='prepare'
                     folder=jobs/case/code_id/f'{sid}-n{n}';prepare(c,problem,folder,n)
+                    stage='execute'
                     cached=reusable_run(folder,sid,jobs/case)
                     if cached:folder,run=cached
-                    else:run=execute(solvers,sid,folder)
+                    else:run=execute(solvers,sid,folder,timeout=native_timeout,cpus=native_cpus,memory=native_memory)
+                    stage='convert'
                     field=NativeField(c,folder,n,sid)
                     result=outputs(c,problem,field)
                     output=reference/'reference.h5' if sid=='elmer' else reference/'independent.h5'
                     write_result(output,problem,result)
                     current.append(dict(run=run,output_sha256=hashlib.sha256(output.read_bytes()).hexdigest()))
+                stage='compare'
                 write_direct_grading(reference,policy)
                 report=grade_case(path,reference/'independent.h5',reference/'grading.json')
                 from caeoj.sdk import load_result
@@ -135,9 +142,10 @@ def run_batch(work,solvers,indices=None,workers=2):
                     assert grade_case(path,reference/'reference.h5',reference/'grading.json')['score']==1
                     break
             except Exception as exc:
-                record['attempts'].append(dict(n=n,error=str(exc)))
-                # A native interface failure is not cured by a larger mesh.
-                if 'failed with' in str(exc):break
+                record['attempts'].append(dict(n=n,stage=stage,error=str(exc),exception=type(exc).__name__,traceback=traceback.format_exc()))
+                # Refinement can address accuracy/convergence, not a conversion
+                # bug, exhausted run budget, or failed native process.
+                if stage=='prepare' or isinstance(exc,NativeRunError) or not isinstance(exc,(RuntimeError,ValueError)):break
             finally:save(evidence/(case+'.json'),record)
         print(json.dumps(dict(case=case,passed=record['passed'],last=record['attempts'][-1].get('error',record['attempts'][-1].get('max_budget_ratio')))),flush=True)
         return record
@@ -394,12 +402,14 @@ def input_case(c,folder):
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('command',choices=['catalog','inputs','run']);parser.add_argument('--output',type=Path,required=True);parser.add_argument('--solvers',type=Path);parser.add_argument('--only',type=int,nargs='+');parser.add_argument('--workers',type=int,default=2);args=parser.parse_args()
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('command',choices=['catalog','inputs','run']);parser.add_argument('--output',type=Path,required=True);parser.add_argument('--solvers',type=Path);parser.add_argument('--only',type=int,nargs='+');parser.add_argument('--workers',type=int,default=2)
+    parser.add_argument('--native-timeout',type=int,default=3600);parser.add_argument('--native-cpus',type=float,default=2);parser.add_argument('--native-memory',default='4g');args=parser.parse_args()
+    if args.workers<1 or args.native_timeout<1 or args.native_cpus<=0:parser.error('Worker count and native execution budget must be positive')
     items=catalog()
     if args.command=='catalog':save(args.output,items)
     elif args.command=='run':
         if not args.solvers:parser.error('run requires --solvers')
-        run_batch(args.output,args.solvers,args.only,args.workers)
+        run_batch(args.output,args.solvers,args.only,args.workers,args.native_timeout,args.native_cpus,args.native_memory)
     else:
         for item in items:
             input_case(item,args.output/'cases'/item['name']);print(item['name'],flush=True)

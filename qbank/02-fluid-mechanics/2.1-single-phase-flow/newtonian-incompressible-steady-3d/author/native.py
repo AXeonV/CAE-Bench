@@ -59,7 +59,15 @@ def elmer(c,problem,folder,n):
     (mesh/'mesh.nodes').write_text(''.join(f'{i} -1 '+ ' '.join(f'{x:.17g}' for x in p)+'\n' for i,p in enumerate(points,1)))
     (mesh/'mesh.elements').write_text(''.join(f'{i} 1 808 '+' '.join(map(str,h+1))+'\n' for i,h in enumerate(cells,1)))
     boundaries=''.join(f'{i} {b} {o+1} 0 404 '+' '.join(str(v+1) for v in q)+'\n' for i,(b,o,q) in enumerate(rows,1))
-    if not natural:boundaries+=f'{len(rows)+1} 99 1 0 101 1\n'
+    if not natural:
+        # A corner on a periodic/slip intersection can lose its pressure pin
+        # when constraints are assembled. Pin an actual interior fluid node.
+        boundary_nodes=np.unique([i for _,_,q in rows for i in q])
+        interior=np.setdiff1d(np.arange(len(points)),boundary_nodes)
+        if not len(interior):raise ValueError('Native mesh has no interior pressure node')
+        node=int(interior[np.argmin(np.linalg.norm(logical[interior]-.5,axis=1))])
+        owner=next(i for i,h in enumerate(cells,1) if node in h)
+        boundaries+=f'{len(rows)+1} 99 {owner} 0 101 {node+1}\n'
     (mesh/'mesh.boundary').write_text(boundaries)
     functions='''MODULE PrescribedValues
  USE DefUtils
@@ -186,7 +194,7 @@ End
             sif+=' Flow Force BC = Logical True\n'
             for a in range(3):sif+=f' Pressure {a+1} = Variable Time\n   Real Procedure "NativeValues" "T{b}{a}"\n'
         sif+='End\n'
-    if not natural:sif+='Boundary Condition 8\n Target Boundaries(1) = 99\n Pressure = Real 0\nEnd\n'
+    if not natural:sif+=f'Boundary Condition {max(b for b,g in faces.items() if g)+1}\n Target Boundaries(1) = 99\n Pressure = Real 0\nEnd\n'
     (folder/'flow.sif').write_text(sif)
     (folder/'run.sh').write_text('set -eu\nelmerf90 NativeValues.f90 -o NativeValues.so > compile.log 2>&1\nElmerSolver flow.sif > flow.log 2>&1\n')
 
@@ -225,14 +233,18 @@ def foam(c,problem,folder,n):
             p+=f'neighbourPatch b{b+1 if b%2 else b-1};transform translational;separationVector {vector(shift)};'
         patches.append(p+'}\n')
         centers=np.array([points[list(q)].mean(axis=0) for _,q in group]);uv=np.array([logical[list(q)].mean(axis=0) for _,q in group])
-        normal=np.asarray(c['rotation'])[:,(b-1)//2]*(1 if b%2==0 else -1)
+        # One obstacle patch may contain several different normal directions.
+        # Derive every normal from the native oriented facets, not patch IDs.
+        vertices=np.array([points[list(q)] for _,q in group])
+        normal=np.cross(vertices[:,1]-vertices[:,0],vertices[:,2]-vertices[:,0])
+        normal/=np.linalg.norm(normal,axis=1)[:,None]
         def wall_pressure():
             if c['family'] in ('hydrostatic','couette','plug'):
                 # For these equilibrium/parallel-flow families the normal
                 # momentum equation reduces to dp/dn = rho*a.n. Supply the
                 # corresponding native kinematic-pressure Neumann data; the
                 # velocity/pressure fields are still solved by simpleFoam.
-                gradient=(acc+(centers-np.asarray(c['origin']))@H.T)@normal
+                gradient=np.sum((acc+(centers-np.asarray(c['origin']))@H.T)*normal,axis=1)
                 return 'type fixedGradient;gradient '+values(gradient)+';value '+values(initial_pressure(centers))+';'
             return 'type fixedFluxPressure;value '+values(initial_pressure(centers))+';'
         if op in ('no_slip','moving_wall','velocity','flow_rate'):
@@ -253,7 +265,7 @@ def foam(c,problem,folder,n):
     for name,v in [('owner',owners),('neighbour',[q for _,q,_ in internal])]:write('constant/polyMesh/'+name,'labelList',str(len(v))+'\n(\n'+'\n'.join(map(str,v))+'\n)\n')
     write('constant/polyMesh/boundary','polyBoundaryMesh',str(len(patches))+'\n(\n'+''.join(patches)+')\n')
     write('system/controlDict','dictionary','''application simpleFoam;
-startFrom startTime;startTime 0;stopAt endTime;endTime 2000;deltaT 1;
+startFrom startTime;startTime 0;stopAt endTime;endTime 12000;deltaT 1;
 writeControl timeStep;writeInterval 100;purgeWrite 2;writeFormat ascii;writePrecision 16;
 writeCompression off;timeFormat general;timePrecision 10;runTimeModifiable false;
 ''')
@@ -328,6 +340,8 @@ class NativeField:
             self.latest=latest
             data=np.column_stack([read_foam(latest/'U',len(cells)),read_foam(latest/'p',len(cells))*c['density']])
             xyz=points[cells].mean(axis=1);local=np.round((xyz-self.origin)@self.R,11);center_local=local
+        if data.shape!=(len(local),4) or not np.all(np.isfinite(data)):
+            raise ValueError('Native velocity/pressure field has invalid shape or nonfinite values')
         self.axes=[np.unique(local[:,a]) for a in range(3)]
         # Preserve obstacle gaps in the structured lattice; never interpolate
         # across the hole with a Delaunay triangulation.
@@ -340,7 +354,10 @@ class NativeField:
         bcs,_,_,_=settings(c)
         if any(v in ('traction','pressure_outlet') for v in bcs.values()):self.shift=c['pressure_value']
         elif c['gauge_kind']=='mean':
-            mean=float(self.interpolator(center_local)[:,3].mean())
+            # Cell-centered samples already are the native finite-volume field.
+            # Interpolating them through a NaN-masked obstacle lattice can turn
+            # an exact grid-point query into NaN via zero-weight hole entries.
+            mean=float(data[:,3].mean()) if solver=='openfoam' else float(self.interpolator(center_local)[:,3].mean())
             if self.potential_pressure:
                 _,_,acc,H=settings(c);center=self.R@(self.lengths/2);cov=self.R@np.diag(self.lengths**2/12)@self.R.T
                 mean+=c['density']*(center@acc+.5*(center@H@center+np.trace(H@cov)))
@@ -363,7 +380,13 @@ class NativeField:
                     match=re.search(r'value\s+nonuniform\s+List<vector>\s+\d+\s*\((.*?)\)\s*;',match[1],re.S)
                     if not match:raise ValueError('Native velocity boundary data missing')
                     v=np.fromstring(match[1].replace('(',' ').replace(')',' '),sep=' ').reshape(-1,3)
-                if np.max(abs(v-v[0]))<1e-14:self.boundary_trace[b]=v[0]
+                if np.max(abs(v-v[0]))<1e-14:
+                    indices=np.unique([i for _,q in faces[b] for i in q])
+                    local_patch=(points[indices]-self.origin)@self.R
+                    for axis in range(3):
+                        plane=float(local_patch[:,axis].mean())
+                        if np.ptp(local_patch[:,axis])<1e-9*max(self.lengths) and min(abs(plane),abs(plane-self.lengths[axis]))<1e-9*max(self.lengths):
+                            self.boundary_trace[axis,plane]=v[0]
         self.native_seconds=None
 
     def boundary_flow(self,location):
@@ -384,8 +407,7 @@ class NativeField:
         local=np.round((np.asarray(xyz)-self.origin)@self.R,11)
         result=self.interpolator(local);result[:,3]+=self.shift
         if self.potential_pressure:result[:,3]+=self.pressure_potential(xyz)
-        for b,trace in self.boundary_trace.items():
-            axis=(b-1)//2;plane=0 if b%2 else self.lengths[axis]
+        for (axis,plane),trace in self.boundary_trace.items():
             on_patch=abs(local[:,axis]-plane)<1e-9*max(self.lengths)
             result[on_patch,:3]=trace
         if not np.all(np.isfinite(result)):raise ValueError('Observation touches an unresolved obstacle stencil')
@@ -488,14 +510,20 @@ def outputs(c,problem,native):
     return result
 
 
-def execute(solvers,sid,folder,timeout=600):
+class NativeRunError(RuntimeError):
+    def __init__(self,sid,folder,code):
+        self.code=code
+        super().__init__(f'{sid} failed with {code}: {folder}/execution.log')
+
+
+def execute(solvers,sid,folder,timeout=3600,cpus=2,memory='4g'):
     image=ELMER_IMAGE if sid=='elmer' else FOAM_IMAGE
-    cmd=['python3',str(solvers/'solver.py'),'run',sid,'--image-id',image,'--workdir',str(folder.resolve()),'--cpus','1','--memory','2g','--timeout',str(timeout),'--','sh','run.sh']
+    cmd=['python3',str(solvers/'solver.py'),'run',sid,'--image-id',image,'--workdir',str(folder.resolve()),'--cpus',str(cpus),'--memory',memory,'--timeout',str(timeout),'--','sh','run.sh']
     start=__import__('time').monotonic()
     with (folder/'execution.log').open('w') as stream:
         process=subprocess.run(cmd,stdout=stream,stderr=subprocess.STDOUT)
     elapsed=__import__('time').monotonic()-start
-    if process.returncode:raise RuntimeError(f'{sid} failed with {process.returncode}: {folder}/execution.log')
+    if process.returncode:raise NativeRunError(sid,folder,process.returncode)
     proof=convergence(sid,folder)
     return dict(solver=sid,image_id=image,wall_seconds=elapsed,command=cmd,**proof,
                 raw_sha256={str(p.relative_to(folder)):__import__('hashlib').sha256(p.read_bytes()).hexdigest() for p in folder.rglob('*') if p.is_file() and (p.suffix=='.vtu' or p.name in ('U','p','flow.log','flow.sif','fvOptions','fvSchemes','fvSolution','native_values.dat')) and 'dynamicCode' not in p.parts})
@@ -516,6 +544,23 @@ def convergence(sid,folder):
         change=re.findall(r'Relative Change\s*:\s*([0-9.Ee+\-]+)',log)
         norms=re.findall(r'Result Norm\s*:\s*([0-9.Ee+\-]+)',log)
         if not change or float(change[-1])>1e-8:raise RuntimeError('Elmer nonlinear convergence not established')
+        if 'ERROR::' in log:raise RuntimeError('Elmer reported a numerical error')
+        # A small update norm must not hide a pressure nullspace left unpinned.
+        pins=[line.split() for line in (folder/'mesh/mesh.boundary').read_text().splitlines()
+              if line.split()[1]=='99']
+        if pins:
+            node=int(pins[0][-1])
+            xyz=next(np.array(list(map(float,line.split()[2:])))
+                     for line in (folder/'mesh/mesh.nodes').read_text().splitlines()
+                     if int(line.split()[0])==node)
+            tree=ET.parse(folder/'mesh/solution_t0001.vtu')
+            coords=np.fromstring(tree.find('.//Points/DataArray').text,sep=' ').reshape(-1,3)
+            field=next(a for a in tree.findall('.//PointData/DataArray') if a.get('Name').lower()=='pressure')
+            pressure=np.fromstring(field.text,sep=' ')
+            value=float(pressure[np.argmin(np.linalg.norm(coords-xyz,axis=1))])
+            if not np.isfinite(value) or abs(value)>1e-7:
+                raise RuntimeError(f'Elmer numerical pressure pin not satisfied: {value}')
+            stationarity=dict(numerical_pressure_pin=value)
     return dict(stationarity=stationarity,
                 absolute_solution_change=float(change[-1]) if sid=='elmer' else None,
                 solution_norm=float(norms[-1]) if sid=='elmer' else None)

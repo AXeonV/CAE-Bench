@@ -30,16 +30,19 @@
 ```sh
 python <task>/author/supplement.py catalog --output runs/2-1-3/catalog.json
 python <task>/author/supplement.py inputs --output runs/2-1-3/inputs
-python <task>/author/supplement.py run --output <solver-workspace> --solvers <solver-images> --workers 2
+python <task>/author/supplement.py run --output <solver-workspace> --solvers <solver-images> --workers 20 --native-timeout 3600 --native-cpus 2 --native-memory 4g
+python <task>/author/test_native.py
 ```
 
-`--only 4 5` 可重算指定候选编号，`--workers` 控制同时计算的算例数，可按可用资源增加。原生运行额度见 `native.execute`；两个求解器均按单线程运行。原生计算目录必须可由求解器容器挂载。输入完全相同、镜像一致且计算及收敛已确认的原生记录才可复用。
+`--only 4 5` 可重算指定候选编号，`--workers` 控制同时计算的算例数。`--native-*` 是每次原生求解的作者侧预算，与考生资源限制分开；并发数须适合宿主机的实际 CPU 和内存余量。两个求解器及调度进程的 BLAS／OpenMP 均保持单线程，可在启动前设置 `OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1`。原生计算目录必须可由求解器容器挂载。输入完全相同、镜像一致且通过当前收敛与压力约束检查的原生记录才可复用。
 
 ## 验证与适用边界
 
 生成目录包含 `cases/`、`reference/`，计算证据在工作目录 `evidence/`。参考由 Elmer 生成，OpenFOAM 生成完整独立输出并交实际逐 case 判分器；另检查错误速度输出会失分。只将通过独立比对及精度预留检查的候选计为通过；失败记录不得混作就绪数据。`audit.py` 对全部输入检查接口、原生 Gmsh Jacobian、体积、封闭边界与覆盖计数，结果结构与数值资格分别记录。
 
 原生计算网格可比契约输入细，输出按声明重建并恢复压力基准。自然牵引向 OpenFOAM 的压力／零法向速度梯度转换仅用于相容的平衡／平行流工况，不是任意牵引的通用适配器。对于保守体加速度，OpenFOAM 使用 `p/ρ=q+Φ`、`∇Φ=a` 的等价变量变换，原生求解 q 与速度，转换时恢复静压；原生配置保存 Φ 的定义。Elmer 仍求完整体力与压力，不使用该变换。非均匀腔壁速度按实际输入的 P1 场读取，不以另一光滑函数替换。
+
+封闭域的数值压力固定点选择实际流体内部节点，避开周期与壁面约束交点；除更新量外还核查原生压力固定值。OpenFOAM 的边界法向逐面按原生几何计算，障碍物集合不假定共用一个法向；边界迹恢复按实际平面定位，不把边界编号当坐标轴。有限体积均压直接使用有效流体单元值，避免孔洞插值掩码污染。配置与转换异常保存调用栈，不因加密网格盲目重试。`test_native.py` 覆盖全部 100 个候选的原生配置、压力固定点、旋转梯度及全部障碍物候选的字段转换，实际数值资格仍由双求解器计算确定。
 
 两套数值方法吻合并不证明连续真解精确；共享几何／转换错误仍需接口审计排查。障碍物附近的采样不能跨越固体插值。正式资源可行性与本批参考资格应分别审核，不能只凭原生程序成功退出就宣布题库就绪。
 

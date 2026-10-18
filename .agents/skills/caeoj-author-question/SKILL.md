@@ -7,7 +7,7 @@ description: 为 CAE-Bench-OJ 规划并编写单题、节或章，协调 DATA �
 
 读取 [题库哲学](../../../qbank/PHILOSOPHY.md)、目标章／节规划和[出题工作流](../../../qbank/design/AUTHORING.md)；具体设计疑问再查[经验清单](../../../qbank/design/AUTHORING-LESSONS.md)。本技能拥有任务目标、能力范围、建模／方法责任、资源及评价设计。
 
-1. 明确目标清单、交付阶段和数据是否在范围内。上级规划不足时，先按“章内各节 → 目标节逐题清单”补足必要范围，保存到 `qbank/design/` 并更新索引；不展开无关节。既有决定冲突或关键目标无法判断时提出具体选项，常规设计自主推进。
+1. 明确目标清单、交付阶段和数据是否在范围内。上级规划不足时，先按“章内各节 → 目标节逐题清单”补足必要范围，保存到 `qbank/design/` 并更新索引；不展开无关节。既有决定冲突或关键目标无法判断时提出具体选项，常规设计自主推进。评价按题目选择全场、观测点或二者结合，核对其与考察目标和可信参考覆盖相符；算例差异及参考来源要求由下述算例建设流程拥有，不以相似工况数量代表能力覆盖。
 2. 规划与能力清单形成后调用 [caeoj-design-review](../caeoj-design-review/SKILL.md)，处理设计意见，再编写 instruction.md。
 3. 调用 [caeoj-design-data](../caeoj-design-data/SKILL.md) 完成自包含 DATA.md，联合处理题面与接口问题。实现归属按[核心与扩展职责](../../../qbank/design/CORE-AND-EXTENSIONS.md)，公开边界按[公开接口](../../../qbank/design/PUBLIC-INTERFACE.md)。
 4. 核查题面、DATA 和工具支持一致，运行下述静态检查；调用 [caeoj-candidate-review](../caeoj-candidate-review/SKILL.md)，默认题面模式。可复用 DATA 流程对同一最终版本的审阅；修订后复核受影响内容。设计目标改变时也复核设计。

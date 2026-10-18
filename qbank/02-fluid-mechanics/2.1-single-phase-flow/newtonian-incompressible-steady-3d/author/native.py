@@ -195,6 +195,13 @@ def foam(c,problem,folder,n):
     folder.mkdir(parents=True,exist_ok=True)
     for d in ('0','constant/polyMesh','system'):(folder/d).mkdir(parents=True,exist_ok=True)
     points,cells,boundaries,internal,logical=box_grid(c,n);bcs,lids,acc,H=settings(c)
+    conservative=c['family'] in ('hydrostatic','couette','plug')
+    # Exact pressure variable substitution for conservative body acceleration:
+    # p/rho = q + Phi, grad(Phi)=a. This is the usual hydrostatic-pressure
+    # separation, not a prescribed solution for q or velocity.
+    if conservative:
+        save(folder/'constant/pressure_transform.json',dict(definition='p = rho*(q+Phi)',acceleration=acc.tolist(),hessian=H.tolist(),origin=c['origin']))
+        acc=np.zeros(3);H=np.zeros((3,3))
     def initial_pressure(xyz):
         if c['family'] not in ('hydrostatic','couette','plug'):return np.zeros(len(xyz))
         x=np.asarray(xyz)-np.asarray(c['origin'])
@@ -303,6 +310,7 @@ def read_foam(path,count):
 class NativeField:
     def __init__(self,c,folder,n,solver):
         self.c=c;self.R=np.asarray(c['rotation']);self.origin=np.asarray(c['origin']);self.lengths=np.asarray(c['lengths'])
+        self.potential_pressure=solver=='openfoam' and c['family'] in ('hydrostatic','couette','plug')
         points,cells,faces,_,logical=box_grid(c,n);self.points=points;self.cells=cells;self.solver=solver;self.faces=faces
         if solver=='elmer':
             tree=ET.parse(folder/'mesh/solution_t0001.vtu')
@@ -331,8 +339,17 @@ class NativeField:
         # explicit global pressure constraint; this is not grader alignment.
         bcs,_,_,_=settings(c)
         if any(v in ('traction','pressure_outlet') for v in bcs.values()):self.shift=c['pressure_value']
-        elif c['gauge_kind']=='mean':self.shift=c['pressure_value']-float(self.interpolator(center_local)[:,3].mean())
-        else:self.shift=c['pressure_value']-float(self.interpolator(self.lengths[None,:]*.125)[0,3])
+        elif c['gauge_kind']=='mean':
+            mean=float(self.interpolator(center_local)[:,3].mean())
+            if self.potential_pressure:
+                _,_,acc,H=settings(c);center=self.R@(self.lengths/2);cov=self.R@np.diag(self.lengths**2/12)@self.R.T
+                mean+=c['density']*(center@acc+.5*(center@H@center+np.trace(H@cov)))
+            self.shift=c['pressure_value']-mean
+        else:
+            point=self.lengths[None,:]*.125
+            mean=float(self.interpolator(point)[0,3])
+            if self.potential_pressure:mean+=self.pressure_potential(point@self.R.T+self.origin)[0]
+            self.shift=c['pressure_value']-mean
         self.boundary_trace={}
         if solver=='openfoam':
             text=(self.latest/'U').read_text();bcs,_,_,_=settings(c)
@@ -366,12 +383,17 @@ class NativeField:
     def values(self,xyz):
         local=np.round((np.asarray(xyz)-self.origin)@self.R,11)
         result=self.interpolator(local);result[:,3]+=self.shift
+        if self.potential_pressure:result[:,3]+=self.pressure_potential(xyz)
         for b,trace in self.boundary_trace.items():
             axis=(b-1)//2;plane=0 if b%2 else self.lengths[axis]
             on_patch=abs(local[:,axis]-plane)<1e-9*max(self.lengths)
             result[on_patch,:3]=trace
         if not np.all(np.isfinite(result)):raise ValueError('Observation touches an unresolved obstacle stencil')
         return result
+
+    def pressure_potential(self,xyz):
+        _,_,acc,H=settings(self.c);x=np.asarray(xyz)-self.origin
+        return self.c['density']*(x@acc+.5*np.einsum('ni,ij,nj->n',x,H,x))
 
     def gradient(self,xyz):
         xyz=np.asarray(xyz);local=(xyz-self.origin)@self.R

@@ -1,6 +1,8 @@
 {
   "status": "validated_subset",
   "target": 100,
+  "scope": "Frozen verified preview only; not the complete batch execution status.",
+  "validated_cases": 30,
   "cases": [
     {
       "case": "001-hydrostatic-01",
@@ -461,235 +463,6 @@
       "n": 12
     },
     {
-      "case": "004-hydrostatic-04",
-      "configuration": {
-        "name": "004-hydrostatic-04",
-        "family": "hydrostatic",
-        "variant": 3,
-        "lengths": [
-          1.0,
-          0.5,
-          1.5
-        ],
-        "origin": [
-          -0.4,
-          0.3,
-          -0.2
-        ],
-        "rotation": [
-          [
-            0.9736663950053749,
-            -0.2279775235351884,
-            0.0
-          ],
-          [
-            0.2279775235351884,
-            0.9736663950053749,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            1.0
-          ]
-        ],
-        "density": 10.0,
-        "viscosity": 11.999999999999998,
-        "speed": 0.24,
-        "reynolds_target": 0.1,
-        "geometry": "box",
-        "input_mesh": "tet",
-        "pressure_kind": "gauge",
-        "pressure_value": 0.0,
-        "gauge_kind": "point",
-        "source_parts": 1
-      },
-      "code_id": "00354459b579",
-      "attempts": [
-        {
-          "n": 12,
-          "runs": [
-            {
-              "run": {
-                "solver": "elmer",
-                "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
-                "wall_seconds": 12.64997215603944,
-                "command": [
-                  "docker",
-                  "--host",
-                  "unix:///home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/local/daemon/run/docker.sock",
-                  "run",
-                  "--rm",
-                  "--pull",
-                  "never",
-                  "--name",
-                  "caeoj-20261018t052914-5ad2ddc7ee",
-                  "--init",
-                  "--network",
-                  "none",
-                  "--user",
-                  "1019:1019",
-                  "--cpus",
-                  "4.0",
-                  "--memory",
-                  "4g",
-                  "--memory-swap",
-                  "4g",
-                  "--pids-limit",
-                  "1024",
-                  "--cap-drop",
-                  "ALL",
-                  "--security-opt",
-                  "no-new-privileges",
-                  "--mount",
-                  "type=bind,src=/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/004-hydrostatic-04/f9b4ae1a9d46/elmer-n12,dst=/work",
-                  "--workdir",
-                  "/work",
-                  "-e",
-                  "USER=caeoj-1019",
-                  "-e",
-                  "LOGNAME=caeoj-1019",
-                  "-e",
-                  "HOME=/work/.caeoj-run-3k0qndz3",
-                  "-e",
-                  "XDG_CACHE_HOME=/work/.caeoj-run-3k0qndz3/cache",
-                  "-e",
-                  "TMPDIR=/work/.caeoj-run-3k0qndz3",
-                  "-e",
-                  "OMP_NUM_THREADS=1",
-                  "-e",
-                  "OPENBLAS_NUM_THREADS=1",
-                  "-e",
-                  "MKL_NUM_THREADS=1",
-                  "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
-                  "sh",
-                  "run.sh"
-                ],
-                "reused_native_run": "20261018T052914-5ad2ddc7ee",
-                "native_input_sha256": {
-                  "NativeValues.f90": "b470d98601b1c52d46d41c8b720cd7bf59ee312f96f63ac73c09db464a892515",
-                  "flow.sif": "1faba3c3244f139c4deffd488d0a00782944cc84c3351f78d6af8ee202615801",
-                  "mesh/mesh.boundary": "e60b4d0e70c6cd96e764d46afed3b4ec3348365d61988ca94fc7a986db3500a9",
-                  "mesh/mesh.elements": "c3a23487eeb40ac091d63d62b360f07b70a047662ee13a3e6fc918dfac7232f7",
-                  "mesh/mesh.header": "9e41c9f559b95e1d180c128c3da51e8abfd5c7483ebbc66636ee23bcf9208cac",
-                  "mesh/mesh.nodes": "c0c761c3a13747636f749baa4142f392b515742d297253db7ff75d24b11b5c0f",
-                  "native_values.dat": "3d0db511808e81b7bd1228d89cc779d97790b6496b1d39b7deb8731f4401b6e9",
-                  "run.sh": "c6615711bed7a4dcb0ee3baf04557ff7ba4afe8473b22efed3cb407f4523d3c0"
-                },
-                "raw_sha256": {
-                  "flow.log": "8864e292319ee317f9cd8380658857dfb86d7e59ab508077fa0ed7463f29564d",
-                  "mesh/solution_t0001.vtu": "adcd20811570531f5649a5bb13ab7ea1bcf9e14f191feb7f171faf9e74a05b92"
-                },
-                "stationarity": null,
-                "absolute_solution_change": 7.056515251681967e-10,
-                "solution_norm": 1.47313912731369
-              },
-              "output_sha256": "382610c6c2f8d2cb114882a7a2262f520854ad51815d4c9bbdef04e527494037"
-            },
-            {
-              "run": {
-                "solver": "openfoam",
-                "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
-                "wall_seconds": 1.012926940980833,
-                "command": [
-                  "python3",
-                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
-                  "run",
-                  "openfoam",
-                  "--image-id",
-                  "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
-                  "--workdir",
-                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/004-hydrostatic-04/00354459b579/openfoam-n12",
-                  "--cpus",
-                  "4",
-                  "--memory",
-                  "4g",
-                  "--timeout",
-                  "600",
-                  "--",
-                  "sh",
-                  "run.sh"
-                ],
-                "stationarity": null,
-                "absolute_solution_change": null,
-                "solution_norm": null,
-                "raw_sha256": {
-                  "flow.log": "37a09c5afae7b84816851587086bc73a1706983a8cbac27d0c376a758022d60b",
-                  "system/fvSolution": "c2b779532fa0c7c3afc5be0205c9e9df354578b262608511f30b4450a7b866a6",
-                  "system/fvSchemes": "12572880a13d7cc1ede4601a0ee0471cabc92d7ae309bf4e3424475227d19fe7",
-                  "1/U": "c043be027e6b45354670525123f7318e2a39a973ebc68c93b7277f3038c262d7",
-                  "1/p": "e676901c92f15641f99398313b1a1bba9f6ff0c8994a7994f3f4f987cc375f9f",
-                  "0/U": "2b4dcfdf88d486dda6fb0c3e80d8a505acaa529a7526f695a846c0054b622c9a",
-                  "0/p": "db8b8a210d0b11e4b50b014bcffa6a3c007c31cc32f6a7451006d4d1e2459281",
-                  "constant/fvOptions": "05b825bf6f01d9d32c10a751a88b6c35e3574fd34722de2da0124b59e3af6397"
-                }
-              },
-              "output_sha256": "5b0e34c566288cb63edb14b2bc81c201c0a03cc5d8e069de53c286f6bb683c18"
-            }
-          ],
-          "cross_score": 1,
-          "errors": {
-            "answer_velocity": {
-              "max_abs": 1.6796122845654652e-14,
-              "max_budget_ratio": 1.679612284565183e-11
-            },
-            "answer_pressure": {
-              "max_abs": 3.196800069105166e-08,
-              "max_budget_ratio": 2.6419834984645764e-07
-            },
-            "answer_density": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_dynamic_viscosity": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_traction": {
-              "max_abs": 3.245834445664286e-08,
-              "max_budget_ratio": 2.7925212505372947e-07
-            },
-            "answer_mean_pressure": {
-              "max_abs": 4.036992962141994e-11,
-              "max_budget_ratio": 3.229594369703165e-10
-            },
-            "answer_shear": {
-              "max_abs": 2.5758322781694585e-13,
-              "max_budget_ratio": 2.5758322781687948e-11
-            },
-            "answer_force3": {
-              "max_abs": 1.4148040234524712e-09,
-              "max_budget_ratio": 1.4148040034357642e-06
-            },
-            "answer_volume_flow3": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_mass_flow3": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_force4": {
-              "max_abs": 1.1310952174881095e-12,
-              "max_budget_ratio": 5.548941636241557e-10
-            },
-            "answer_volume_flow4": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_mass_flow4": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            }
-          },
-          "max_budget_ratio": 1.4148040034357642e-06,
-          "producer_analytic_budget_ratio": 1.4148040234524683e-06
-        }
-      ],
-      "passed": true,
-      "n": 12
-    },
-    {
       "case": "003-hydrostatic-03",
       "configuration": {
         "name": "003-hydrostatic-03",
@@ -913,6 +686,235 @@
           },
           "max_budget_ratio": 8.33564144330423e-08,
           "producer_analytic_budget_ratio": 8.335641436355938e-08
+        }
+      ],
+      "passed": true,
+      "n": 12
+    },
+    {
+      "case": "004-hydrostatic-04",
+      "configuration": {
+        "name": "004-hydrostatic-04",
+        "family": "hydrostatic",
+        "variant": 3,
+        "lengths": [
+          1.0,
+          0.5,
+          1.5
+        ],
+        "origin": [
+          -0.4,
+          0.3,
+          -0.2
+        ],
+        "rotation": [
+          [
+            0.9736663950053749,
+            -0.2279775235351884,
+            0.0
+          ],
+          [
+            0.2279775235351884,
+            0.9736663950053749,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "density": 10.0,
+        "viscosity": 11.999999999999998,
+        "speed": 0.24,
+        "reynolds_target": 0.1,
+        "geometry": "box",
+        "input_mesh": "tet",
+        "pressure_kind": "gauge",
+        "pressure_value": 0.0,
+        "gauge_kind": "point",
+        "source_parts": 1
+      },
+      "code_id": "00354459b579",
+      "attempts": [
+        {
+          "n": 12,
+          "runs": [
+            {
+              "run": {
+                "solver": "elmer",
+                "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                "wall_seconds": 12.64997215603944,
+                "command": [
+                  "docker",
+                  "--host",
+                  "unix:///home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/local/daemon/run/docker.sock",
+                  "run",
+                  "--rm",
+                  "--pull",
+                  "never",
+                  "--name",
+                  "caeoj-20261018t052914-5ad2ddc7ee",
+                  "--init",
+                  "--network",
+                  "none",
+                  "--user",
+                  "1019:1019",
+                  "--cpus",
+                  "4.0",
+                  "--memory",
+                  "4g",
+                  "--memory-swap",
+                  "4g",
+                  "--pids-limit",
+                  "1024",
+                  "--cap-drop",
+                  "ALL",
+                  "--security-opt",
+                  "no-new-privileges",
+                  "--mount",
+                  "type=bind,src=/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/004-hydrostatic-04/f9b4ae1a9d46/elmer-n12,dst=/work",
+                  "--workdir",
+                  "/work",
+                  "-e",
+                  "USER=caeoj-1019",
+                  "-e",
+                  "LOGNAME=caeoj-1019",
+                  "-e",
+                  "HOME=/work/.caeoj-run-3k0qndz3",
+                  "-e",
+                  "XDG_CACHE_HOME=/work/.caeoj-run-3k0qndz3/cache",
+                  "-e",
+                  "TMPDIR=/work/.caeoj-run-3k0qndz3",
+                  "-e",
+                  "OMP_NUM_THREADS=1",
+                  "-e",
+                  "OPENBLAS_NUM_THREADS=1",
+                  "-e",
+                  "MKL_NUM_THREADS=1",
+                  "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                  "sh",
+                  "run.sh"
+                ],
+                "reused_native_run": "20261018T052914-5ad2ddc7ee",
+                "native_input_sha256": {
+                  "NativeValues.f90": "b470d98601b1c52d46d41c8b720cd7bf59ee312f96f63ac73c09db464a892515",
+                  "flow.sif": "1faba3c3244f139c4deffd488d0a00782944cc84c3351f78d6af8ee202615801",
+                  "mesh/mesh.boundary": "e60b4d0e70c6cd96e764d46afed3b4ec3348365d61988ca94fc7a986db3500a9",
+                  "mesh/mesh.elements": "c3a23487eeb40ac091d63d62b360f07b70a047662ee13a3e6fc918dfac7232f7",
+                  "mesh/mesh.header": "9e41c9f559b95e1d180c128c3da51e8abfd5c7483ebbc66636ee23bcf9208cac",
+                  "mesh/mesh.nodes": "c0c761c3a13747636f749baa4142f392b515742d297253db7ff75d24b11b5c0f",
+                  "native_values.dat": "3d0db511808e81b7bd1228d89cc779d97790b6496b1d39b7deb8731f4401b6e9",
+                  "run.sh": "c6615711bed7a4dcb0ee3baf04557ff7ba4afe8473b22efed3cb407f4523d3c0"
+                },
+                "raw_sha256": {
+                  "flow.log": "8864e292319ee317f9cd8380658857dfb86d7e59ab508077fa0ed7463f29564d",
+                  "mesh/solution_t0001.vtu": "adcd20811570531f5649a5bb13ab7ea1bcf9e14f191feb7f171faf9e74a05b92"
+                },
+                "stationarity": null,
+                "absolute_solution_change": 7.056515251681967e-10,
+                "solution_norm": 1.47313912731369
+              },
+              "output_sha256": "382610c6c2f8d2cb114882a7a2262f520854ad51815d4c9bbdef04e527494037"
+            },
+            {
+              "run": {
+                "solver": "openfoam",
+                "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                "wall_seconds": 1.012926940980833,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "openfoam",
+                  "--image-id",
+                  "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/004-hydrostatic-04/00354459b579/openfoam-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": null,
+                "absolute_solution_change": null,
+                "solution_norm": null,
+                "raw_sha256": {
+                  "flow.log": "37a09c5afae7b84816851587086bc73a1706983a8cbac27d0c376a758022d60b",
+                  "system/fvSolution": "c2b779532fa0c7c3afc5be0205c9e9df354578b262608511f30b4450a7b866a6",
+                  "system/fvSchemes": "12572880a13d7cc1ede4601a0ee0471cabc92d7ae309bf4e3424475227d19fe7",
+                  "1/U": "c043be027e6b45354670525123f7318e2a39a973ebc68c93b7277f3038c262d7",
+                  "1/p": "e676901c92f15641f99398313b1a1bba9f6ff0c8994a7994f3f4f987cc375f9f",
+                  "0/U": "2b4dcfdf88d486dda6fb0c3e80d8a505acaa529a7526f695a846c0054b622c9a",
+                  "0/p": "db8b8a210d0b11e4b50b014bcffa6a3c007c31cc32f6a7451006d4d1e2459281",
+                  "constant/fvOptions": "05b825bf6f01d9d32c10a751a88b6c35e3574fd34722de2da0124b59e3af6397"
+                }
+              },
+              "output_sha256": "5b0e34c566288cb63edb14b2bc81c201c0a03cc5d8e069de53c286f6bb683c18"
+            }
+          ],
+          "cross_score": 1,
+          "errors": {
+            "answer_velocity": {
+              "max_abs": 1.6796122845654652e-14,
+              "max_budget_ratio": 1.679612284565183e-11
+            },
+            "answer_pressure": {
+              "max_abs": 3.196800069105166e-08,
+              "max_budget_ratio": 2.6419834984645764e-07
+            },
+            "answer_density": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_dynamic_viscosity": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_traction": {
+              "max_abs": 3.245834445664286e-08,
+              "max_budget_ratio": 2.7925212505372947e-07
+            },
+            "answer_mean_pressure": {
+              "max_abs": 4.036992962141994e-11,
+              "max_budget_ratio": 3.229594369703165e-10
+            },
+            "answer_shear": {
+              "max_abs": 2.5758322781694585e-13,
+              "max_budget_ratio": 2.5758322781687948e-11
+            },
+            "answer_force3": {
+              "max_abs": 1.4148040234524712e-09,
+              "max_budget_ratio": 1.4148040034357642e-06
+            },
+            "answer_volume_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_mass_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_force4": {
+              "max_abs": 1.1310952174881095e-12,
+              "max_budget_ratio": 5.548941636241557e-10
+            },
+            "answer_volume_flow4": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_mass_flow4": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            }
+          },
+          "max_budget_ratio": 1.4148040034357642e-06,
+          "producer_analytic_budget_ratio": 1.4148040234524683e-06
         }
       ],
       "passed": true,
@@ -1148,235 +1150,6 @@
       "n": 12
     },
     {
-      "case": "007-hydrostatic-07",
-      "configuration": {
-        "name": "007-hydrostatic-07",
-        "family": "hydrostatic",
-        "variant": 6,
-        "lengths": [
-          2.0,
-          1.0,
-          0.5
-        ],
-        "origin": [
-          -0.4,
-          0.3,
-          -0.2
-        ],
-        "rotation": [
-          [
-            0.9171208228166051,
-            0.3986093279844229,
-            0.0
-          ],
-          [
-            -0.3986093279844229,
-            0.9171208228166051,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            1.0
-          ]
-        ],
-        "density": 1.0,
-        "viscosity": 0.06,
-        "speed": 0.12,
-        "reynolds_target": 1.0,
-        "geometry": "box",
-        "input_mesh": "tet",
-        "pressure_kind": "gauge",
-        "pressure_value": 0.0,
-        "gauge_kind": "mean",
-        "source_parts": 1
-      },
-      "code_id": "00354459b579",
-      "attempts": [
-        {
-          "n": 12,
-          "runs": [
-            {
-              "run": {
-                "solver": "elmer",
-                "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
-                "wall_seconds": 11.103190487017855,
-                "command": [
-                  "docker",
-                  "--host",
-                  "unix:///home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/local/daemon/run/docker.sock",
-                  "run",
-                  "--rm",
-                  "--pull",
-                  "never",
-                  "--name",
-                  "caeoj-20261018t054808-8f68d1187a",
-                  "--init",
-                  "--network",
-                  "none",
-                  "--user",
-                  "1019:1019",
-                  "--cpus",
-                  "4.0",
-                  "--memory",
-                  "4g",
-                  "--memory-swap",
-                  "4g",
-                  "--pids-limit",
-                  "1024",
-                  "--cap-drop",
-                  "ALL",
-                  "--security-opt",
-                  "no-new-privileges",
-                  "--mount",
-                  "type=bind,src=/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/007-hydrostatic-07/545da78ca998/elmer-n12,dst=/work",
-                  "--workdir",
-                  "/work",
-                  "-e",
-                  "USER=caeoj-1019",
-                  "-e",
-                  "LOGNAME=caeoj-1019",
-                  "-e",
-                  "HOME=/work/.caeoj-run-j4_5ly1c",
-                  "-e",
-                  "XDG_CACHE_HOME=/work/.caeoj-run-j4_5ly1c/cache",
-                  "-e",
-                  "TMPDIR=/work/.caeoj-run-j4_5ly1c",
-                  "-e",
-                  "OMP_NUM_THREADS=1",
-                  "-e",
-                  "OPENBLAS_NUM_THREADS=1",
-                  "-e",
-                  "MKL_NUM_THREADS=1",
-                  "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
-                  "sh",
-                  "run.sh"
-                ],
-                "reused_native_run": "20261018T054808-8f68d1187a",
-                "native_input_sha256": {
-                  "NativeValues.f90": "fb11ddbc5eace6b8052589316ca093fa59ee7c6cee139f4da1335a9df63369a2",
-                  "flow.sif": "87dd1e5196042024a8edefc43b89ec1b8614bd72be1e34a51e17c32f4bee325b",
-                  "mesh/mesh.boundary": "e60b4d0e70c6cd96e764d46afed3b4ec3348365d61988ca94fc7a986db3500a9",
-                  "mesh/mesh.elements": "c3a23487eeb40ac091d63d62b360f07b70a047662ee13a3e6fc918dfac7232f7",
-                  "mesh/mesh.header": "9e41c9f559b95e1d180c128c3da51e8abfd5c7483ebbc66636ee23bcf9208cac",
-                  "mesh/mesh.nodes": "a73a7c1fade8b46662acb6389973265d69c8edc370ccd97fd07f6ea4971577be",
-                  "native_values.dat": "6c85f78b71940f2d1c3caadddeb6e112c23caff8942ee9d34ff056567b25fbbd",
-                  "run.sh": "c6615711bed7a4dcb0ee3baf04557ff7ba4afe8473b22efed3cb407f4523d3c0"
-                },
-                "raw_sha256": {
-                  "flow.log": "ea8724b65a6edff2615d8f150fbfa1abb115d80b4459a4be2f5dbf74eca09232",
-                  "mesh/solution_t0001.vtu": "3a76bfec6ec6e9bea7a32652a600848e64f1f2b48627a9388ffb92bc3935bd05"
-                },
-                "stationarity": null,
-                "absolute_solution_change": 7.830355680469661e-10,
-                "solution_norm": 0.147313912569217
-              },
-              "output_sha256": "75ddd97ccf347a4f5eec0248a140e58b4e27d7eef8094718e65a033adda9f2a5"
-            },
-            {
-              "run": {
-                "solver": "openfoam",
-                "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
-                "wall_seconds": 0.9694498149910942,
-                "command": [
-                  "python3",
-                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
-                  "run",
-                  "openfoam",
-                  "--image-id",
-                  "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
-                  "--workdir",
-                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/007-hydrostatic-07/00354459b579/openfoam-n12",
-                  "--cpus",
-                  "4",
-                  "--memory",
-                  "4g",
-                  "--timeout",
-                  "600",
-                  "--",
-                  "sh",
-                  "run.sh"
-                ],
-                "stationarity": null,
-                "absolute_solution_change": null,
-                "solution_norm": null,
-                "raw_sha256": {
-                  "flow.log": "839ede2ddfa241995ad668d13d149200c2b2e5da4f2a49e9d90ba400da049a7a",
-                  "system/fvSolution": "c2b779532fa0c7c3afc5be0205c9e9df354578b262608511f30b4450a7b866a6",
-                  "system/fvSchemes": "12572880a13d7cc1ede4601a0ee0471cabc92d7ae309bf4e3424475227d19fe7",
-                  "1/U": "c043be027e6b45354670525123f7318e2a39a973ebc68c93b7277f3038c262d7",
-                  "1/p": "e676901c92f15641f99398313b1a1bba9f6ff0c8994a7994f3f4f987cc375f9f",
-                  "0/U": "2b4dcfdf88d486dda6fb0c3e80d8a505acaa529a7526f695a846c0054b622c9a",
-                  "0/p": "db8b8a210d0b11e4b50b014bcffa6a3c007c31cc32f6a7451006d4d1e2459281",
-                  "constant/fvOptions": "05b825bf6f01d9d32c10a751a88b6c35e3574fd34722de2da0124b59e3af6397"
-                }
-              },
-              "output_sha256": "99c87a2d5a45b22b58d8c6266cc20d13939fed959acac5539096cd4b68f05010"
-            }
-          ],
-          "cross_score": 1,
-          "errors": {
-            "answer_velocity": {
-              "max_abs": 2.9174701417278234e-13,
-              "max_budget_ratio": 2.917470141719312e-10
-            },
-            "answer_pressure": {
-              "max_abs": 2.7972000271603292e-09,
-              "max_budget_ratio": 2.741009336528216e-08
-            },
-            "answer_density": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_dynamic_viscosity": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_traction": {
-              "max_abs": 3.0571296605330645e-09,
-              "max_budget_ratio": 3.011039155939048e-08
-            },
-            "answer_mean_pressure": {
-              "max_abs": 2.1148949258531502e-10,
-              "max_budget_ratio": 2.0633121227409886e-09
-            },
-            "answer_shear": {
-              "max_abs": 3.657305815857843e-12,
-              "max_budget_ratio": 3.657305815844467e-10
-            },
-            "answer_force3": {
-              "max_abs": 2.2925847331656257e-10,
-              "max_budget_ratio": 6.962412838229501e-08
-            },
-            "answer_volume_flow3": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_mass_flow3": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_force4": {
-              "max_abs": 2.293336631709053e-10,
-              "max_budget_ratio": 6.964696299334526e-08
-            },
-            "answer_volume_flow4": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_mass_flow4": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            }
-          },
-          "max_budget_ratio": 6.964696299334526e-08,
-          "producer_analytic_budget_ratio": 6.964696304185224e-08
-        }
-      ],
-      "passed": true,
-      "n": 12
-    },
-    {
       "case": "006-hydrostatic-06",
       "configuration": {
         "name": "006-hydrostatic-06",
@@ -1600,6 +1373,235 @@
           },
           "max_budget_ratio": 9.979794051315734e-09,
           "producer_analytic_budget_ratio": 9.979794052311696e-09
+        }
+      ],
+      "passed": true,
+      "n": 12
+    },
+    {
+      "case": "007-hydrostatic-07",
+      "configuration": {
+        "name": "007-hydrostatic-07",
+        "family": "hydrostatic",
+        "variant": 6,
+        "lengths": [
+          2.0,
+          1.0,
+          0.5
+        ],
+        "origin": [
+          -0.4,
+          0.3,
+          -0.2
+        ],
+        "rotation": [
+          [
+            0.9171208228166051,
+            0.3986093279844229,
+            0.0
+          ],
+          [
+            -0.3986093279844229,
+            0.9171208228166051,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "density": 1.0,
+        "viscosity": 0.06,
+        "speed": 0.12,
+        "reynolds_target": 1.0,
+        "geometry": "box",
+        "input_mesh": "tet",
+        "pressure_kind": "gauge",
+        "pressure_value": 0.0,
+        "gauge_kind": "mean",
+        "source_parts": 1
+      },
+      "code_id": "00354459b579",
+      "attempts": [
+        {
+          "n": 12,
+          "runs": [
+            {
+              "run": {
+                "solver": "elmer",
+                "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                "wall_seconds": 11.103190487017855,
+                "command": [
+                  "docker",
+                  "--host",
+                  "unix:///home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/local/daemon/run/docker.sock",
+                  "run",
+                  "--rm",
+                  "--pull",
+                  "never",
+                  "--name",
+                  "caeoj-20261018t054808-8f68d1187a",
+                  "--init",
+                  "--network",
+                  "none",
+                  "--user",
+                  "1019:1019",
+                  "--cpus",
+                  "4.0",
+                  "--memory",
+                  "4g",
+                  "--memory-swap",
+                  "4g",
+                  "--pids-limit",
+                  "1024",
+                  "--cap-drop",
+                  "ALL",
+                  "--security-opt",
+                  "no-new-privileges",
+                  "--mount",
+                  "type=bind,src=/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/007-hydrostatic-07/545da78ca998/elmer-n12,dst=/work",
+                  "--workdir",
+                  "/work",
+                  "-e",
+                  "USER=caeoj-1019",
+                  "-e",
+                  "LOGNAME=caeoj-1019",
+                  "-e",
+                  "HOME=/work/.caeoj-run-j4_5ly1c",
+                  "-e",
+                  "XDG_CACHE_HOME=/work/.caeoj-run-j4_5ly1c/cache",
+                  "-e",
+                  "TMPDIR=/work/.caeoj-run-j4_5ly1c",
+                  "-e",
+                  "OMP_NUM_THREADS=1",
+                  "-e",
+                  "OPENBLAS_NUM_THREADS=1",
+                  "-e",
+                  "MKL_NUM_THREADS=1",
+                  "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                  "sh",
+                  "run.sh"
+                ],
+                "reused_native_run": "20261018T054808-8f68d1187a",
+                "native_input_sha256": {
+                  "NativeValues.f90": "fb11ddbc5eace6b8052589316ca093fa59ee7c6cee139f4da1335a9df63369a2",
+                  "flow.sif": "87dd1e5196042024a8edefc43b89ec1b8614bd72be1e34a51e17c32f4bee325b",
+                  "mesh/mesh.boundary": "e60b4d0e70c6cd96e764d46afed3b4ec3348365d61988ca94fc7a986db3500a9",
+                  "mesh/mesh.elements": "c3a23487eeb40ac091d63d62b360f07b70a047662ee13a3e6fc918dfac7232f7",
+                  "mesh/mesh.header": "9e41c9f559b95e1d180c128c3da51e8abfd5c7483ebbc66636ee23bcf9208cac",
+                  "mesh/mesh.nodes": "a73a7c1fade8b46662acb6389973265d69c8edc370ccd97fd07f6ea4971577be",
+                  "native_values.dat": "6c85f78b71940f2d1c3caadddeb6e112c23caff8942ee9d34ff056567b25fbbd",
+                  "run.sh": "c6615711bed7a4dcb0ee3baf04557ff7ba4afe8473b22efed3cb407f4523d3c0"
+                },
+                "raw_sha256": {
+                  "flow.log": "ea8724b65a6edff2615d8f150fbfa1abb115d80b4459a4be2f5dbf74eca09232",
+                  "mesh/solution_t0001.vtu": "3a76bfec6ec6e9bea7a32652a600848e64f1f2b48627a9388ffb92bc3935bd05"
+                },
+                "stationarity": null,
+                "absolute_solution_change": 7.830355680469661e-10,
+                "solution_norm": 0.147313912569217
+              },
+              "output_sha256": "75ddd97ccf347a4f5eec0248a140e58b4e27d7eef8094718e65a033adda9f2a5"
+            },
+            {
+              "run": {
+                "solver": "openfoam",
+                "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                "wall_seconds": 0.9694498149910942,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "openfoam",
+                  "--image-id",
+                  "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/007-hydrostatic-07/00354459b579/openfoam-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": null,
+                "absolute_solution_change": null,
+                "solution_norm": null,
+                "raw_sha256": {
+                  "flow.log": "839ede2ddfa241995ad668d13d149200c2b2e5da4f2a49e9d90ba400da049a7a",
+                  "system/fvSolution": "c2b779532fa0c7c3afc5be0205c9e9df354578b262608511f30b4450a7b866a6",
+                  "system/fvSchemes": "12572880a13d7cc1ede4601a0ee0471cabc92d7ae309bf4e3424475227d19fe7",
+                  "1/U": "c043be027e6b45354670525123f7318e2a39a973ebc68c93b7277f3038c262d7",
+                  "1/p": "e676901c92f15641f99398313b1a1bba9f6ff0c8994a7994f3f4f987cc375f9f",
+                  "0/U": "2b4dcfdf88d486dda6fb0c3e80d8a505acaa529a7526f695a846c0054b622c9a",
+                  "0/p": "db8b8a210d0b11e4b50b014bcffa6a3c007c31cc32f6a7451006d4d1e2459281",
+                  "constant/fvOptions": "05b825bf6f01d9d32c10a751a88b6c35e3574fd34722de2da0124b59e3af6397"
+                }
+              },
+              "output_sha256": "99c87a2d5a45b22b58d8c6266cc20d13939fed959acac5539096cd4b68f05010"
+            }
+          ],
+          "cross_score": 1,
+          "errors": {
+            "answer_velocity": {
+              "max_abs": 2.9174701417278234e-13,
+              "max_budget_ratio": 2.917470141719312e-10
+            },
+            "answer_pressure": {
+              "max_abs": 2.7972000271603292e-09,
+              "max_budget_ratio": 2.741009336528216e-08
+            },
+            "answer_density": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_dynamic_viscosity": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_traction": {
+              "max_abs": 3.0571296605330645e-09,
+              "max_budget_ratio": 3.011039155939048e-08
+            },
+            "answer_mean_pressure": {
+              "max_abs": 2.1148949258531502e-10,
+              "max_budget_ratio": 2.0633121227409886e-09
+            },
+            "answer_shear": {
+              "max_abs": 3.657305815857843e-12,
+              "max_budget_ratio": 3.657305815844467e-10
+            },
+            "answer_force3": {
+              "max_abs": 2.2925847331656257e-10,
+              "max_budget_ratio": 6.962412838229501e-08
+            },
+            "answer_volume_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_mass_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_force4": {
+              "max_abs": 2.293336631709053e-10,
+              "max_budget_ratio": 6.964696299334526e-08
+            },
+            "answer_volume_flow4": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_mass_flow4": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            }
+          },
+          "max_budget_ratio": 6.964696299334526e-08,
+          "producer_analytic_budget_ratio": 6.964696304185224e-08
         }
       ],
       "passed": true,
@@ -1835,194 +1837,6 @@
       "n": 12
     },
     {
-      "case": "010-hydrostatic-10",
-      "configuration": {
-        "name": "010-hydrostatic-10",
-        "family": "hydrostatic",
-        "variant": 9,
-        "lengths": [
-          1.5,
-          1.0,
-          0.75
-        ],
-        "origin": [
-          -0.4,
-          0.3,
-          -0.2
-        ],
-        "rotation": [
-          [
-            1.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            1.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            1.0
-          ]
-        ],
-        "density": 10.0,
-        "viscosity": 0.09,
-        "speed": 0.06,
-        "reynolds_target": 5.0,
-        "geometry": "box",
-        "input_mesh": "tet",
-        "pressure_kind": "gauge",
-        "pressure_value": 0.0,
-        "gauge_kind": "point",
-        "source_parts": 1
-      },
-      "code_id": "00354459b579",
-      "attempts": [
-        {
-          "n": 12,
-          "runs": [
-            {
-              "run": {
-                "solver": "elmer",
-                "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
-                "wall_seconds": 12.867478039988782,
-                "command": [
-                  "python3",
-                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
-                  "run",
-                  "elmer",
-                  "--image-id",
-                  "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
-                  "--workdir",
-                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/010-hydrostatic-10/00354459b579/elmer-n12",
-                  "--cpus",
-                  "4",
-                  "--memory",
-                  "4g",
-                  "--timeout",
-                  "600",
-                  "--",
-                  "sh",
-                  "run.sh"
-                ],
-                "stationarity": null,
-                "absolute_solution_change": 6.339066644823351e-10,
-                "solution_norm": 4.419417382282227,
-                "raw_sha256": {
-                  "flow.sif": "2d39031e418e3dcf5f211b8a32f819aa3d533b6b239dd21f2d9b3b69196b5897",
-                  "native_values.dat": "90621ecdf4244f89011fff57870dbb4d9b9d5fe9fad3225452ad251cb2a50c76",
-                  "flow.log": "bb18b964eda19ada9fcbae8fabbb47c86c79310a213400f650dec739a3d8de7f",
-                  "mesh/solution_t0001.vtu": "bcf26c7abee4548d008444bf476b0468c593383c546a39847097b7f09167aa54"
-                }
-              },
-              "output_sha256": "6bf0ea00b79dea7ae8bffd550eb485e68401c624bc67113fb0910bedceaf461a"
-            },
-            {
-              "run": {
-                "solver": "openfoam",
-                "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
-                "wall_seconds": 0.9389588490012102,
-                "command": [
-                  "python3",
-                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
-                  "run",
-                  "openfoam",
-                  "--image-id",
-                  "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
-                  "--workdir",
-                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/010-hydrostatic-10/00354459b579/openfoam-n12",
-                  "--cpus",
-                  "4",
-                  "--memory",
-                  "4g",
-                  "--timeout",
-                  "600",
-                  "--",
-                  "sh",
-                  "run.sh"
-                ],
-                "stationarity": null,
-                "absolute_solution_change": null,
-                "solution_norm": null,
-                "raw_sha256": {
-                  "flow.log": "6297cec28038398ccc726efff39b4a6a25546ba0101cc1dcfdc2aaf82ecc1c2a",
-                  "system/fvSolution": "c2b779532fa0c7c3afc5be0205c9e9df354578b262608511f30b4450a7b866a6",
-                  "system/fvSchemes": "12572880a13d7cc1ede4601a0ee0471cabc92d7ae309bf4e3424475227d19fe7",
-                  "1/U": "c043be027e6b45354670525123f7318e2a39a973ebc68c93b7277f3038c262d7",
-                  "1/p": "e676901c92f15641f99398313b1a1bba9f6ff0c8994a7994f3f4f987cc375f9f",
-                  "0/U": "2b4dcfdf88d486dda6fb0c3e80d8a505acaa529a7526f695a846c0054b622c9a",
-                  "0/p": "db8b8a210d0b11e4b50b014bcffa6a3c007c31cc32f6a7451006d4d1e2459281",
-                  "constant/fvOptions": "05b825bf6f01d9d32c10a751a88b6c35e3574fd34722de2da0124b59e3af6397"
-                }
-              },
-              "output_sha256": "e9d32685dd1c49f5defbbbd45d8efff9ec1ef8e35b85bd7f03c06454f8e9737a"
-            }
-          ],
-          "cross_score": 1,
-          "errors": {
-            "answer_velocity": {
-              "max_abs": 5.39980253652995e-12,
-              "max_budget_ratio": 5.399802536238371e-09
-            },
-            "answer_pressure": {
-              "max_abs": 4.440892098500626e-16,
-              "max_budget_ratio": 3.670158759091427e-15
-            },
-            "answer_density": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_dynamic_viscosity": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_traction": {
-              "max_abs": 7.229673648041117e-12,
-              "max_budget_ratio": 7.229673648035889e-11
-            },
-            "answer_mean_pressure": {
-              "max_abs": 3.9388048378441454e-11,
-              "max_budget_ratio": 2.2507456216201598e-10
-            },
-            "answer_shear": {
-              "max_abs": 4.664605856743109e-11,
-              "max_budget_ratio": 4.664605856525524e-09
-            },
-            "answer_force3": {
-              "max_abs": 5.508627731235969e-13,
-              "max_budget_ratio": 5.508627731205625e-10
-            },
-            "answer_volume_flow3": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_mass_flow3": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_force4": {
-              "max_abs": 6.252776074688882e-13,
-              "max_budget_ratio": 5.247412718884209e-10
-            },
-            "answer_volume_flow4": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_mass_flow4": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            }
-          },
-          "max_budget_ratio": 5.399802536238371e-09,
-          "producer_analytic_budget_ratio": 5.39980253652995e-09
-        }
-      ],
-      "passed": true,
-      "n": 12
-    },
-    {
       "case": "009-hydrostatic-09",
       "configuration": {
         "name": "009-hydrostatic-09",
@@ -2205,6 +2019,194 @@
           },
           "max_budget_ratio": 1.1084831217518763e-08,
           "producer_analytic_budget_ratio": 1.1084831218747498e-08
+        }
+      ],
+      "passed": true,
+      "n": 12
+    },
+    {
+      "case": "010-hydrostatic-10",
+      "configuration": {
+        "name": "010-hydrostatic-10",
+        "family": "hydrostatic",
+        "variant": 9,
+        "lengths": [
+          1.5,
+          1.0,
+          0.75
+        ],
+        "origin": [
+          -0.4,
+          0.3,
+          -0.2
+        ],
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "density": 10.0,
+        "viscosity": 0.09,
+        "speed": 0.06,
+        "reynolds_target": 5.0,
+        "geometry": "box",
+        "input_mesh": "tet",
+        "pressure_kind": "gauge",
+        "pressure_value": 0.0,
+        "gauge_kind": "point",
+        "source_parts": 1
+      },
+      "code_id": "00354459b579",
+      "attempts": [
+        {
+          "n": 12,
+          "runs": [
+            {
+              "run": {
+                "solver": "elmer",
+                "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                "wall_seconds": 12.867478039988782,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "elmer",
+                  "--image-id",
+                  "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/010-hydrostatic-10/00354459b579/elmer-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": null,
+                "absolute_solution_change": 6.339066644823351e-10,
+                "solution_norm": 4.419417382282227,
+                "raw_sha256": {
+                  "flow.sif": "2d39031e418e3dcf5f211b8a32f819aa3d533b6b239dd21f2d9b3b69196b5897",
+                  "native_values.dat": "90621ecdf4244f89011fff57870dbb4d9b9d5fe9fad3225452ad251cb2a50c76",
+                  "flow.log": "bb18b964eda19ada9fcbae8fabbb47c86c79310a213400f650dec739a3d8de7f",
+                  "mesh/solution_t0001.vtu": "bcf26c7abee4548d008444bf476b0468c593383c546a39847097b7f09167aa54"
+                }
+              },
+              "output_sha256": "6bf0ea00b79dea7ae8bffd550eb485e68401c624bc67113fb0910bedceaf461a"
+            },
+            {
+              "run": {
+                "solver": "openfoam",
+                "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                "wall_seconds": 0.9389588490012102,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "openfoam",
+                  "--image-id",
+                  "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/010-hydrostatic-10/00354459b579/openfoam-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": null,
+                "absolute_solution_change": null,
+                "solution_norm": null,
+                "raw_sha256": {
+                  "flow.log": "6297cec28038398ccc726efff39b4a6a25546ba0101cc1dcfdc2aaf82ecc1c2a",
+                  "system/fvSolution": "c2b779532fa0c7c3afc5be0205c9e9df354578b262608511f30b4450a7b866a6",
+                  "system/fvSchemes": "12572880a13d7cc1ede4601a0ee0471cabc92d7ae309bf4e3424475227d19fe7",
+                  "1/U": "c043be027e6b45354670525123f7318e2a39a973ebc68c93b7277f3038c262d7",
+                  "1/p": "e676901c92f15641f99398313b1a1bba9f6ff0c8994a7994f3f4f987cc375f9f",
+                  "0/U": "2b4dcfdf88d486dda6fb0c3e80d8a505acaa529a7526f695a846c0054b622c9a",
+                  "0/p": "db8b8a210d0b11e4b50b014bcffa6a3c007c31cc32f6a7451006d4d1e2459281",
+                  "constant/fvOptions": "05b825bf6f01d9d32c10a751a88b6c35e3574fd34722de2da0124b59e3af6397"
+                }
+              },
+              "output_sha256": "e9d32685dd1c49f5defbbbd45d8efff9ec1ef8e35b85bd7f03c06454f8e9737a"
+            }
+          ],
+          "cross_score": 1,
+          "errors": {
+            "answer_velocity": {
+              "max_abs": 5.39980253652995e-12,
+              "max_budget_ratio": 5.399802536238371e-09
+            },
+            "answer_pressure": {
+              "max_abs": 4.440892098500626e-16,
+              "max_budget_ratio": 3.670158759091427e-15
+            },
+            "answer_density": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_dynamic_viscosity": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_traction": {
+              "max_abs": 7.229673648041117e-12,
+              "max_budget_ratio": 7.229673648035889e-11
+            },
+            "answer_mean_pressure": {
+              "max_abs": 3.9388048378441454e-11,
+              "max_budget_ratio": 2.2507456216201598e-10
+            },
+            "answer_shear": {
+              "max_abs": 4.664605856743109e-11,
+              "max_budget_ratio": 4.664605856525524e-09
+            },
+            "answer_force3": {
+              "max_abs": 5.508627731235969e-13,
+              "max_budget_ratio": 5.508627731205625e-10
+            },
+            "answer_volume_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_mass_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_force4": {
+              "max_abs": 6.252776074688882e-13,
+              "max_budget_ratio": 5.247412718884209e-10
+            },
+            "answer_volume_flow4": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_mass_flow4": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            }
+          },
+          "max_budget_ratio": 5.399802536238371e-09,
+          "producer_analytic_budget_ratio": 5.39980253652995e-09
         }
       ],
       "passed": true,
@@ -3211,6 +3213,374 @@
       "n": 12
     },
     {
+      "case": "017-hydrostatic-17",
+      "configuration": {
+        "name": "017-hydrostatic-17",
+        "family": "hydrostatic",
+        "variant": 16,
+        "lengths": [
+          2.0,
+          1.0,
+          0.5
+        ],
+        "origin": [
+          -0.33,
+          0.3,
+          -0.2
+        ],
+        "rotation": [
+          [
+            0.3986093279844229,
+            0.0,
+            0.9171208228166051
+          ],
+          [
+            0.9171208228166051,
+            0.0,
+            -0.3986093279844229
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ]
+        ],
+        "density": 1000.0,
+        "viscosity": 4000.0,
+        "speed": 0.03,
+        "reynolds_target": 50.0,
+        "geometry": "box",
+        "input_mesh": "tet",
+        "pressure_kind": "gauge",
+        "pressure_value": 2.0,
+        "gauge_kind": "mean",
+        "source_parts": 2
+      },
+      "code_id": "00354459b579",
+      "attempts": [
+        {
+          "n": 12,
+          "runs": [
+            {
+              "run": {
+                "solver": "elmer",
+                "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                "wall_seconds": 15.100849150971044,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "elmer",
+                  "--image-id",
+                  "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/017-hydrostatic-17/00354459b579/elmer-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": null,
+                "absolute_solution_change": 2.2971077667271594e-10,
+                "solution_norm": 119.53182454408295,
+                "raw_sha256": {
+                  "flow.sif": "06ce2b00f443c53cb5c59deabbfca632880f05dbe86d6ea99d75115512476dda",
+                  "native_values.dat": "4f14adf08f99ad0cc45b9dae9ea94fa0503b201ba4917670133d9905b75ee5a5",
+                  "flow.log": "b69912c46511df75b0e454a7344c4c608580200a48278c50570b09a4d87085fc",
+                  "mesh/solution_t0001.vtu": "2ad3bf814706b7fdd6fea4ed38a389aa4b68b2fe3ed1b584024a63cd60210aba"
+                }
+              },
+              "output_sha256": "f45816974d8cc2de789214df4f46b372a22da267281719b06588da51ff21d9a5"
+            },
+            {
+              "run": {
+                "solver": "openfoam",
+                "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                "wall_seconds": 0.9621811920078471,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "openfoam",
+                  "--image-id",
+                  "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/017-hydrostatic-17/00354459b579/openfoam-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": null,
+                "absolute_solution_change": null,
+                "solution_norm": null,
+                "raw_sha256": {
+                  "flow.log": "96bbc992e0dca7113de785ee9e1cdc68dcf3629d0c37d733e322ad880ee98a38",
+                  "system/fvSolution": "c2b779532fa0c7c3afc5be0205c9e9df354578b262608511f30b4450a7b866a6",
+                  "system/fvSchemes": "12572880a13d7cc1ede4601a0ee0471cabc92d7ae309bf4e3424475227d19fe7",
+                  "1/U": "19f87676db3e434b04cec1243b3e9f4cc12d2eda6d39eb29b66b8577e1f4b5a5",
+                  "1/p": "943e5565fdf6b1b5d947c9efc90b78130d1d60a86d5c48ca70b5c7913f744843",
+                  "0/U": "eb92f7db6ebd5126b44e1ecab15b3d17b33403e6f29064698822bd96fc2f1c61",
+                  "0/p": "a4faa5b993f0e58a35e5888d547b2da5a5652497e209271f6c8a438fbefbcd99",
+                  "constant/fvOptions": "05b825bf6f01d9d32c10a751a88b6c35e3574fd34722de2da0124b59e3af6397"
+                }
+              },
+              "output_sha256": "9f893173019b653994f02ab70c964487bf4c9794bcb37249e7b63739c3316eb4"
+            }
+          ],
+          "cross_score": 0,
+          "errors": {
+            "answer_velocity": {
+              "max_abs": 5.1628478558056245e-15,
+              "max_budget_ratio": 5.162847855805358e-12
+            },
+            "answer_pressure": {
+              "max_abs": 0.35871826744552493,
+              "max_budget_ratio": 1.8276179030919169
+            },
+            "answer_density": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_dynamic_viscosity": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_shear": {
+              "max_abs": 9.39942350577247e-14,
+              "max_budget_ratio": 9.399423505771586e-12
+            }
+          },
+          "max_budget_ratio": 1.8276179030919169,
+          "producer_analytic_budget_ratio": null
+        },
+        {
+          "n": 24,
+          "runs": [
+            {
+              "run": {
+                "solver": "elmer",
+                "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                "wall_seconds": 119.76040849403944,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "elmer",
+                  "--image-id",
+                  "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/017-hydrostatic-17/00354459b579/elmer-n24",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": null,
+                "absolute_solution_change": 9.842308859026864e-10,
+                "solution_norm": 116.34396607499676,
+                "raw_sha256": {
+                  "flow.sif": "06ce2b00f443c53cb5c59deabbfca632880f05dbe86d6ea99d75115512476dda",
+                  "native_values.dat": "836a84f1d467d3e40057f577b9d24bbc9ed78b670098b42dc81b1f6eb5821052",
+                  "flow.log": "800bd21ea2b65c1639b7cc1d10b66c3e348a78b00cb2eab03f043ede0df55b25",
+                  "mesh/solution_t0001.vtu": "e0ad00cf4c0f3c7760a8b2c645c0d9c11e534a6c1ca5ab35c6f9b7631dc87b8b"
+                }
+              },
+              "output_sha256": "c1ca0369111679453c8df15606832388e94e51d475047e84d78b8cb8af57ac36"
+            },
+            {
+              "run": {
+                "solver": "openfoam",
+                "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                "wall_seconds": 1.2176796399871819,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "openfoam",
+                  "--image-id",
+                  "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/017-hydrostatic-17/00354459b579/openfoam-n24",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": null,
+                "absolute_solution_change": null,
+                "solution_norm": null,
+                "raw_sha256": {
+                  "flow.log": "35e860bf039d94350549c5af0670570441f04fdc1983eee3566c95214212cea2",
+                  "system/fvSolution": "c2b779532fa0c7c3afc5be0205c9e9df354578b262608511f30b4450a7b866a6",
+                  "system/fvSchemes": "12572880a13d7cc1ede4601a0ee0471cabc92d7ae309bf4e3424475227d19fe7",
+                  "1/U": "19f87676db3e434b04cec1243b3e9f4cc12d2eda6d39eb29b66b8577e1f4b5a5",
+                  "1/p": "943e5565fdf6b1b5d947c9efc90b78130d1d60a86d5c48ca70b5c7913f744843",
+                  "0/U": "545d06afd0980d78c4d3abbcffab97057141aa8de52a07c29cd3075b47926b5d",
+                  "0/p": "8df9b272795d173595d30e69a2f4a53bfb2064be59217021b596c37200f3b76d",
+                  "constant/fvOptions": "05b825bf6f01d9d32c10a751a88b6c35e3574fd34722de2da0124b59e3af6397"
+                }
+              },
+              "output_sha256": "9f893173019b653994f02ab70c964487bf4c9794bcb37249e7b63739c3316eb4"
+            }
+          ],
+          "cross_score": 1,
+          "errors": {
+            "answer_velocity": {
+              "max_abs": 4.311036426746589e-16,
+              "max_budget_ratio": 4.31103642674657e-13
+            },
+            "answer_pressure": {
+              "max_abs": 0.08196197024358298,
+              "max_budget_ratio": 0.46063497206910053
+            },
+            "answer_density": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_dynamic_viscosity": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_shear": {
+              "max_abs": 4.8637560273270244e-15,
+              "max_budget_ratio": 4.863756027327001e-13
+            }
+          },
+          "max_budget_ratio": 0.46063497206910053,
+          "producer_analytic_budget_ratio": null
+        },
+        {
+          "n": 32,
+          "runs": [
+            {
+              "run": {
+                "solver": "elmer",
+                "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                "wall_seconds": 344.8039903900353,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "elmer",
+                  "--image-id",
+                  "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/017-hydrostatic-17/00354459b579/elmer-n32",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": null,
+                "absolute_solution_change": 4.144564713207835e-10,
+                "solution_norm": 115.53673643717589,
+                "raw_sha256": {
+                  "flow.sif": "06ce2b00f443c53cb5c59deabbfca632880f05dbe86d6ea99d75115512476dda",
+                  "native_values.dat": "48847d0691f3036b082958511979ac5f49aff0a810fe8bdf381566d7f37a89f1",
+                  "flow.log": "e22504e00e2c6ac427e35fea725c95c8604241903dfbf1963d49428b498a735c",
+                  "mesh/solution_t0001.vtu": "ade3b541015974737a1b964ee4a11411f1dd509aa9a5b9179a7bb1bac08b7645"
+                }
+              },
+              "output_sha256": "4a4f60bde6ffeb6910e10e07c87586168a76f8117a7a7db9373a0fecc717e7be"
+            },
+            {
+              "run": {
+                "solver": "openfoam",
+                "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                "wall_seconds": 1.4591925789718516,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "openfoam",
+                  "--image-id",
+                  "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/017-hydrostatic-17/00354459b579/openfoam-n32",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": null,
+                "absolute_solution_change": null,
+                "solution_norm": null,
+                "raw_sha256": {
+                  "flow.log": "e5798f13b9b2ada04657db9cd9a1158b055a69d616691b125c001e689e2cfcd7",
+                  "system/fvSolution": "c2b779532fa0c7c3afc5be0205c9e9df354578b262608511f30b4450a7b866a6",
+                  "system/fvSchemes": "12572880a13d7cc1ede4601a0ee0471cabc92d7ae309bf4e3424475227d19fe7",
+                  "1/U": "19f87676db3e434b04cec1243b3e9f4cc12d2eda6d39eb29b66b8577e1f4b5a5",
+                  "1/p": "943e5565fdf6b1b5d947c9efc90b78130d1d60a86d5c48ca70b5c7913f744843",
+                  "0/U": "6e400402af502137546e75248811701652eef8670f3ebcea2c41737daf34ade8",
+                  "0/p": "99facabd40101d30c7b396825c20d8fc0f9673a5015a24c7b5323832264bcdd9",
+                  "constant/fvOptions": "05b825bf6f01d9d32c10a751a88b6c35e3574fd34722de2da0124b59e3af6397"
+                }
+              },
+              "output_sha256": "9f893173019b653994f02ab70c964487bf4c9794bcb37249e7b63739c3316eb4"
+            }
+          ],
+          "cross_score": 1,
+          "errors": {
+            "answer_velocity": {
+              "max_abs": 1.3299278101888e-15,
+              "max_budget_ratio": 1.3299278101887824e-12
+            },
+            "answer_pressure": {
+              "max_abs": 0.0687392304080987,
+              "max_budget_ratio": 0.2758977876084322
+            },
+            "answer_density": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_dynamic_viscosity": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_shear": {
+              "max_abs": 1.2288202454667959e-14,
+              "max_budget_ratio": 1.2288202454667808e-12
+            }
+          },
+          "max_budget_ratio": 0.2758977876084322,
+          "producer_analytic_budget_ratio": null
+        }
+      ],
+      "passed": true,
+      "n": 32
+    },
+    {
       "case": "018-hydrostatic-18",
       "configuration": {
         "name": "018-hydrostatic-18",
@@ -3669,374 +4039,6 @@
       ],
       "passed": true,
       "n": 12
-    },
-    {
-      "case": "017-hydrostatic-17",
-      "configuration": {
-        "name": "017-hydrostatic-17",
-        "family": "hydrostatic",
-        "variant": 16,
-        "lengths": [
-          2.0,
-          1.0,
-          0.5
-        ],
-        "origin": [
-          -0.33,
-          0.3,
-          -0.2
-        ],
-        "rotation": [
-          [
-            0.3986093279844229,
-            0.0,
-            0.9171208228166051
-          ],
-          [
-            0.9171208228166051,
-            0.0,
-            -0.3986093279844229
-          ],
-          [
-            0.0,
-            1.0,
-            0.0
-          ]
-        ],
-        "density": 1000.0,
-        "viscosity": 4000.0,
-        "speed": 0.03,
-        "reynolds_target": 50.0,
-        "geometry": "box",
-        "input_mesh": "tet",
-        "pressure_kind": "gauge",
-        "pressure_value": 2.0,
-        "gauge_kind": "mean",
-        "source_parts": 2
-      },
-      "code_id": "00354459b579",
-      "attempts": [
-        {
-          "n": 12,
-          "runs": [
-            {
-              "run": {
-                "solver": "elmer",
-                "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
-                "wall_seconds": 15.100849150971044,
-                "command": [
-                  "python3",
-                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
-                  "run",
-                  "elmer",
-                  "--image-id",
-                  "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
-                  "--workdir",
-                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/017-hydrostatic-17/00354459b579/elmer-n12",
-                  "--cpus",
-                  "4",
-                  "--memory",
-                  "4g",
-                  "--timeout",
-                  "600",
-                  "--",
-                  "sh",
-                  "run.sh"
-                ],
-                "stationarity": null,
-                "absolute_solution_change": 2.2971077667271594e-10,
-                "solution_norm": 119.53182454408295,
-                "raw_sha256": {
-                  "flow.sif": "06ce2b00f443c53cb5c59deabbfca632880f05dbe86d6ea99d75115512476dda",
-                  "native_values.dat": "4f14adf08f99ad0cc45b9dae9ea94fa0503b201ba4917670133d9905b75ee5a5",
-                  "flow.log": "b69912c46511df75b0e454a7344c4c608580200a48278c50570b09a4d87085fc",
-                  "mesh/solution_t0001.vtu": "2ad3bf814706b7fdd6fea4ed38a389aa4b68b2fe3ed1b584024a63cd60210aba"
-                }
-              },
-              "output_sha256": "f45816974d8cc2de789214df4f46b372a22da267281719b06588da51ff21d9a5"
-            },
-            {
-              "run": {
-                "solver": "openfoam",
-                "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
-                "wall_seconds": 0.9621811920078471,
-                "command": [
-                  "python3",
-                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
-                  "run",
-                  "openfoam",
-                  "--image-id",
-                  "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
-                  "--workdir",
-                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/017-hydrostatic-17/00354459b579/openfoam-n12",
-                  "--cpus",
-                  "4",
-                  "--memory",
-                  "4g",
-                  "--timeout",
-                  "600",
-                  "--",
-                  "sh",
-                  "run.sh"
-                ],
-                "stationarity": null,
-                "absolute_solution_change": null,
-                "solution_norm": null,
-                "raw_sha256": {
-                  "flow.log": "96bbc992e0dca7113de785ee9e1cdc68dcf3629d0c37d733e322ad880ee98a38",
-                  "system/fvSolution": "c2b779532fa0c7c3afc5be0205c9e9df354578b262608511f30b4450a7b866a6",
-                  "system/fvSchemes": "12572880a13d7cc1ede4601a0ee0471cabc92d7ae309bf4e3424475227d19fe7",
-                  "1/U": "19f87676db3e434b04cec1243b3e9f4cc12d2eda6d39eb29b66b8577e1f4b5a5",
-                  "1/p": "943e5565fdf6b1b5d947c9efc90b78130d1d60a86d5c48ca70b5c7913f744843",
-                  "0/U": "eb92f7db6ebd5126b44e1ecab15b3d17b33403e6f29064698822bd96fc2f1c61",
-                  "0/p": "a4faa5b993f0e58a35e5888d547b2da5a5652497e209271f6c8a438fbefbcd99",
-                  "constant/fvOptions": "05b825bf6f01d9d32c10a751a88b6c35e3574fd34722de2da0124b59e3af6397"
-                }
-              },
-              "output_sha256": "9f893173019b653994f02ab70c964487bf4c9794bcb37249e7b63739c3316eb4"
-            }
-          ],
-          "cross_score": 0,
-          "errors": {
-            "answer_velocity": {
-              "max_abs": 5.1628478558056245e-15,
-              "max_budget_ratio": 5.162847855805358e-12
-            },
-            "answer_pressure": {
-              "max_abs": 0.35871826744552493,
-              "max_budget_ratio": 1.8276179030919169
-            },
-            "answer_density": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_dynamic_viscosity": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_shear": {
-              "max_abs": 9.39942350577247e-14,
-              "max_budget_ratio": 9.399423505771586e-12
-            }
-          },
-          "max_budget_ratio": 1.8276179030919169,
-          "producer_analytic_budget_ratio": null
-        },
-        {
-          "n": 24,
-          "runs": [
-            {
-              "run": {
-                "solver": "elmer",
-                "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
-                "wall_seconds": 119.76040849403944,
-                "command": [
-                  "python3",
-                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
-                  "run",
-                  "elmer",
-                  "--image-id",
-                  "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
-                  "--workdir",
-                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/017-hydrostatic-17/00354459b579/elmer-n24",
-                  "--cpus",
-                  "4",
-                  "--memory",
-                  "4g",
-                  "--timeout",
-                  "600",
-                  "--",
-                  "sh",
-                  "run.sh"
-                ],
-                "stationarity": null,
-                "absolute_solution_change": 9.842308859026864e-10,
-                "solution_norm": 116.34396607499676,
-                "raw_sha256": {
-                  "flow.sif": "06ce2b00f443c53cb5c59deabbfca632880f05dbe86d6ea99d75115512476dda",
-                  "native_values.dat": "836a84f1d467d3e40057f577b9d24bbc9ed78b670098b42dc81b1f6eb5821052",
-                  "flow.log": "800bd21ea2b65c1639b7cc1d10b66c3e348a78b00cb2eab03f043ede0df55b25",
-                  "mesh/solution_t0001.vtu": "e0ad00cf4c0f3c7760a8b2c645c0d9c11e534a6c1ca5ab35c6f9b7631dc87b8b"
-                }
-              },
-              "output_sha256": "c1ca0369111679453c8df15606832388e94e51d475047e84d78b8cb8af57ac36"
-            },
-            {
-              "run": {
-                "solver": "openfoam",
-                "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
-                "wall_seconds": 1.2176796399871819,
-                "command": [
-                  "python3",
-                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
-                  "run",
-                  "openfoam",
-                  "--image-id",
-                  "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
-                  "--workdir",
-                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/017-hydrostatic-17/00354459b579/openfoam-n24",
-                  "--cpus",
-                  "4",
-                  "--memory",
-                  "4g",
-                  "--timeout",
-                  "600",
-                  "--",
-                  "sh",
-                  "run.sh"
-                ],
-                "stationarity": null,
-                "absolute_solution_change": null,
-                "solution_norm": null,
-                "raw_sha256": {
-                  "flow.log": "35e860bf039d94350549c5af0670570441f04fdc1983eee3566c95214212cea2",
-                  "system/fvSolution": "c2b779532fa0c7c3afc5be0205c9e9df354578b262608511f30b4450a7b866a6",
-                  "system/fvSchemes": "12572880a13d7cc1ede4601a0ee0471cabc92d7ae309bf4e3424475227d19fe7",
-                  "1/U": "19f87676db3e434b04cec1243b3e9f4cc12d2eda6d39eb29b66b8577e1f4b5a5",
-                  "1/p": "943e5565fdf6b1b5d947c9efc90b78130d1d60a86d5c48ca70b5c7913f744843",
-                  "0/U": "545d06afd0980d78c4d3abbcffab97057141aa8de52a07c29cd3075b47926b5d",
-                  "0/p": "8df9b272795d173595d30e69a2f4a53bfb2064be59217021b596c37200f3b76d",
-                  "constant/fvOptions": "05b825bf6f01d9d32c10a751a88b6c35e3574fd34722de2da0124b59e3af6397"
-                }
-              },
-              "output_sha256": "9f893173019b653994f02ab70c964487bf4c9794bcb37249e7b63739c3316eb4"
-            }
-          ],
-          "cross_score": 1,
-          "errors": {
-            "answer_velocity": {
-              "max_abs": 4.311036426746589e-16,
-              "max_budget_ratio": 4.31103642674657e-13
-            },
-            "answer_pressure": {
-              "max_abs": 0.08196197024358298,
-              "max_budget_ratio": 0.46063497206910053
-            },
-            "answer_density": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_dynamic_viscosity": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_shear": {
-              "max_abs": 4.8637560273270244e-15,
-              "max_budget_ratio": 4.863756027327001e-13
-            }
-          },
-          "max_budget_ratio": 0.46063497206910053,
-          "producer_analytic_budget_ratio": null
-        },
-        {
-          "n": 32,
-          "runs": [
-            {
-              "run": {
-                "solver": "elmer",
-                "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
-                "wall_seconds": 344.8039903900353,
-                "command": [
-                  "python3",
-                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
-                  "run",
-                  "elmer",
-                  "--image-id",
-                  "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
-                  "--workdir",
-                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/017-hydrostatic-17/00354459b579/elmer-n32",
-                  "--cpus",
-                  "4",
-                  "--memory",
-                  "4g",
-                  "--timeout",
-                  "600",
-                  "--",
-                  "sh",
-                  "run.sh"
-                ],
-                "stationarity": null,
-                "absolute_solution_change": 4.144564713207835e-10,
-                "solution_norm": 115.53673643717589,
-                "raw_sha256": {
-                  "flow.sif": "06ce2b00f443c53cb5c59deabbfca632880f05dbe86d6ea99d75115512476dda",
-                  "native_values.dat": "48847d0691f3036b082958511979ac5f49aff0a810fe8bdf381566d7f37a89f1",
-                  "flow.log": "e22504e00e2c6ac427e35fea725c95c8604241903dfbf1963d49428b498a735c",
-                  "mesh/solution_t0001.vtu": "ade3b541015974737a1b964ee4a11411f1dd509aa9a5b9179a7bb1bac08b7645"
-                }
-              },
-              "output_sha256": "4a4f60bde6ffeb6910e10e07c87586168a76f8117a7a7db9373a0fecc717e7be"
-            },
-            {
-              "run": {
-                "solver": "openfoam",
-                "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
-                "wall_seconds": 1.4591925789718516,
-                "command": [
-                  "python3",
-                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
-                  "run",
-                  "openfoam",
-                  "--image-id",
-                  "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
-                  "--workdir",
-                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/017-hydrostatic-17/00354459b579/openfoam-n32",
-                  "--cpus",
-                  "4",
-                  "--memory",
-                  "4g",
-                  "--timeout",
-                  "600",
-                  "--",
-                  "sh",
-                  "run.sh"
-                ],
-                "stationarity": null,
-                "absolute_solution_change": null,
-                "solution_norm": null,
-                "raw_sha256": {
-                  "flow.log": "e5798f13b9b2ada04657db9cd9a1158b055a69d616691b125c001e689e2cfcd7",
-                  "system/fvSolution": "c2b779532fa0c7c3afc5be0205c9e9df354578b262608511f30b4450a7b866a6",
-                  "system/fvSchemes": "12572880a13d7cc1ede4601a0ee0471cabc92d7ae309bf4e3424475227d19fe7",
-                  "1/U": "19f87676db3e434b04cec1243b3e9f4cc12d2eda6d39eb29b66b8577e1f4b5a5",
-                  "1/p": "943e5565fdf6b1b5d947c9efc90b78130d1d60a86d5c48ca70b5c7913f744843",
-                  "0/U": "6e400402af502137546e75248811701652eef8670f3ebcea2c41737daf34ade8",
-                  "0/p": "99facabd40101d30c7b396825c20d8fc0f9673a5015a24c7b5323832264bcdd9",
-                  "constant/fvOptions": "05b825bf6f01d9d32c10a751a88b6c35e3574fd34722de2da0124b59e3af6397"
-                }
-              },
-              "output_sha256": "9f893173019b653994f02ab70c964487bf4c9794bcb37249e7b63739c3316eb4"
-            }
-          ],
-          "cross_score": 1,
-          "errors": {
-            "answer_velocity": {
-              "max_abs": 1.3299278101888e-15,
-              "max_budget_ratio": 1.3299278101887824e-12
-            },
-            "answer_pressure": {
-              "max_abs": 0.0687392304080987,
-              "max_budget_ratio": 0.2758977876084322
-            },
-            "answer_density": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_dynamic_viscosity": {
-              "max_abs": 0.0,
-              "max_budget_ratio": 0.0
-            },
-            "answer_shear": {
-              "max_abs": 1.2288202454667959e-14,
-              "max_budget_ratio": 1.2288202454667808e-12
-            }
-          },
-          "max_budget_ratio": 0.2758977876084322,
-          "producer_analytic_budget_ratio": null
-        }
-      ],
-      "passed": true,
-      "n": 32
     },
     {
       "case": "021-couette-03",
@@ -5621,9 +5623,601 @@
       ],
       "passed": true,
       "n": 12
+    },
+    {
+      "case": "032-couette-14",
+      "configuration": {
+        "name": "032-couette-14",
+        "family": "couette",
+        "variant": 13,
+        "lengths": [
+          1.0,
+          0.5,
+          1.5
+        ],
+        "origin": [
+          -0.33,
+          0.3,
+          -0.2
+        ],
+        "rotation": [
+          [
+            -0.2279775235351884,
+            0.0,
+            0.9736663950053749
+          ],
+          [
+            0.9736663950053749,
+            0.0,
+            0.2279775235351884
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ]
+        ],
+        "density": 1.0,
+        "viscosity": 0.0015,
+        "speed": 0.06,
+        "reynolds_target": 20.0,
+        "geometry": "box",
+        "input_mesh": "pyramid",
+        "pressure_kind": "gauge",
+        "pressure_value": 2.0,
+        "gauge_kind": "point",
+        "source_parts": 1
+      },
+      "code_id": "00354459b579",
+      "attempts": [
+        {
+          "n": 12,
+          "runs": [
+            {
+              "run": {
+                "solver": "elmer",
+                "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                "wall_seconds": 17.211844166042283,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "elmer",
+                  "--image-id",
+                  "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/032-couette-14/00354459b579/elmer-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": null,
+                "absolute_solution_change": 4.587490941988978e-10,
+                "solution_norm": 0.016494525411647865,
+                "raw_sha256": {
+                  "flow.sif": "658dfab7fd57e9fd753d7ee7921f542b48cd0466423b3b915f55132bc116b36b",
+                  "native_values.dat": "6a781b30ad787ae26f61afc6585c9654468c516e7ad43edf7dd3731861ea0da3",
+                  "flow.log": "d08d1558f35fe77bdf4d6091ebfbddd2d2c4b3a317a4cd9367c957f70b603856",
+                  "mesh/solution_t0001.vtu": "891501f189eee7d89a4c6214876c7aaef0962237342e4739e4d28f51731aa96e"
+                }
+              },
+              "output_sha256": "f4539b61f76ea69c4277896de35bfb819c32aa6da13357f3d84ef3d773157d78"
+            },
+            {
+              "run": {
+                "solver": "openfoam",
+                "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                "wall_seconds": 12.099582854949404,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "openfoam",
+                  "--image-id",
+                  "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/032-couette-14/00354459b579/openfoam-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": {
+                  "velocity_max_change": 4.163336342344337e-17,
+                  "kinematic_pressure_max_change": 8.60516282785998e-18,
+                  "continuity": 2.495528469200562e-17,
+                  "iterations": [
+                    1900.0,
+                    2000.0
+                  ]
+                },
+                "absolute_solution_change": null,
+                "solution_norm": null,
+                "raw_sha256": {
+                  "flow.log": "f87f0c6f88668d3743891ea09af430876700d2839db38ffd9a28f52fbbdf00f8",
+                  "system/fvSolution": "c2b779532fa0c7c3afc5be0205c9e9df354578b262608511f30b4450a7b866a6",
+                  "system/fvSchemes": "12572880a13d7cc1ede4601a0ee0471cabc92d7ae309bf4e3424475227d19fe7",
+                  "2000/U": "7678567a2ec0862c56e1a5b0c1bb7ed0cf9a654f26136b0cc95172cafd512136",
+                  "2000/p": "c03b433a16b87adb7405b30ecf25884788f90b2a0e8a6937228ab80faadaafb2",
+                  "1900/U": "8b8d19ae44ea29a646299a40816e09c648e272e666532a92fd33d094532c073b",
+                  "1900/p": "adde67328b561c0bffbfacf79af56afaaf4c7822371b1ed1e3935110b73f4dc4",
+                  "0/U": "741e468383f497e16208769144ebfff07e506952d51e5dd8644e81f69b9b3442",
+                  "0/p": "ae83366bdd0efdebecd91b0b6f50fb11438336b2c945108ad865013f6737dcb1",
+                  "constant/fvOptions": "05b825bf6f01d9d32c10a751a88b6c35e3574fd34722de2da0124b59e3af6397"
+                }
+              },
+              "output_sha256": "088ed0facfbb62ebaf673c107d60ca8f00781837ef398474a395a7c279076cad"
+            }
+          ],
+          "cross_score": 1,
+          "errors": {
+            "answer_velocity": {
+              "max_abs": 2.135931000003702e-06,
+              "max_budget_ratio": 0.002135885378965768
+            },
+            "answer_pressure": {
+              "max_abs": 0.00038945169037418736,
+              "max_budget_ratio": 0.0032453254283287382
+            },
+            "answer_density": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_dynamic_viscosity": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_traction": {
+              "max_abs": 4.1020664109936433e-07,
+              "max_budget_ratio": 3.6261638298038593e-06
+            },
+            "answer_mean_pressure": {
+              "max_abs": 8.088722136534443e-09,
+              "max_budget_ratio": 6.740601775901798e-08
+            },
+            "answer_shear": {
+              "max_abs": 5.6167180943755834e-06,
+              "max_budget_ratio": 0.00047979402979892274
+            },
+            "answer_force3": {
+              "max_abs": 1.5841521427972793e-08,
+              "max_budget_ratio": 3.51406560348096e-06
+            },
+            "answer_volume_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_mass_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_force4": {
+              "max_abs": 1.1694846424603611e-08,
+              "max_budget_ratio": 3.910277099590824e-07
+            },
+            "answer_volume_flow4": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_mass_flow4": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            }
+          },
+          "max_budget_ratio": 0.0032453254283287382,
+          "producer_analytic_budget_ratio": 0.0032454307531182276
+        }
+      ],
+      "passed": true,
+      "n": 12
+    },
+    {
+      "case": "033-couette-15",
+      "configuration": {
+        "name": "033-couette-15",
+        "family": "couette",
+        "variant": 14,
+        "lengths": [
+          1.5,
+          1.0,
+          0.75
+        ],
+        "origin": [
+          -0.26,
+          0.3,
+          -0.2
+        ],
+        "rotation": [
+          [
+            0.0,
+            0.9736663950053749,
+            -0.2279775235351884
+          ],
+          [
+            0.0,
+            0.2279775235351884,
+            0.9736663950053749
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "density": 10.0,
+        "viscosity": 0.045,
+        "speed": 0.12,
+        "reynolds_target": 20.0,
+        "geometry": "box",
+        "input_mesh": "tet",
+        "pressure_kind": "gauge",
+        "pressure_value": -1.0,
+        "gauge_kind": "mean",
+        "source_parts": 1
+      },
+      "code_id": "00354459b579",
+      "attempts": [
+        {
+          "n": 12,
+          "runs": [
+            {
+              "run": {
+                "solver": "elmer",
+                "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                "wall_seconds": 15.75565688003553,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "elmer",
+                  "--image-id",
+                  "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/033-couette-15/00354459b579/elmer-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": null,
+                "absolute_solution_change": 4.790237980282435e-10,
+                "solution_norm": 0.29674156346938,
+                "raw_sha256": {
+                  "flow.sif": "e74ae294489efca9b19b01832a43446ad14669e361a98eef14f0495435f1a0ab",
+                  "native_values.dat": "4432ab4db62f9e164c518b46ad84fdacaece04fac8aea1c61f4ea1c7e7576d8e",
+                  "flow.log": "3650e3e797b52ceb9f0d80d544189ec5e52cb41ebc03d578cfd1180df5650c39",
+                  "mesh/solution_t0001.vtu": "471ab1c974954a59c6b404378b6ed2738f6fd980e90d224695d9716d13ebf87a"
+                }
+              },
+              "output_sha256": "b6d808ab11fc583461e2597539da117191fed435cce21c8d35dcde62ede3b274"
+            },
+            {
+              "run": {
+                "solver": "openfoam",
+                "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                "wall_seconds": 13.30816324299667,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "openfoam",
+                  "--image-id",
+                  "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/033-couette-15/00354459b579/openfoam-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": {
+                  "velocity_max_change": 2.20795604022328e-14,
+                  "kinematic_pressure_max_change": 1.0598205534607472e-17,
+                  "continuity": 3.499700329388822e-17,
+                  "iterations": [
+                    1900.0,
+                    2000.0
+                  ]
+                },
+                "absolute_solution_change": null,
+                "solution_norm": null,
+                "raw_sha256": {
+                  "flow.log": "b1465280acfe710130a2049be96ef1b651a9801912a1a36e1f9d2de79f6cb9e5",
+                  "system/fvSolution": "c2b779532fa0c7c3afc5be0205c9e9df354578b262608511f30b4450a7b866a6",
+                  "system/fvSchemes": "12572880a13d7cc1ede4601a0ee0471cabc92d7ae309bf4e3424475227d19fe7",
+                  "2000/U": "c4a152a3de5c0922e7fa87a6c246999ee54871f17985065ddb6c164dab8c99f9",
+                  "2000/p": "1f08e4a8395e7d0e65d228fc2f2238ebd77f8b4482bbe7e9a6bc7191ec80fca8",
+                  "1900/U": "150b909458e4fdd5ffd4ae5712bd01c79737efc3440efc3ab48b2139bb0fed9a",
+                  "1900/p": "502b20bea96d5f840e7dc25e36e9899d08280870dca10b411c12911a70a210df",
+                  "0/U": "6fa0f6ba4b55c7ddf031dee0e77f7691aaa32cc72e111986840cfa3560b253ba",
+                  "0/p": "b1cc8864890ae91cb5e84914e0cb151072ae793873af22c323a6f9dafd6b84e3",
+                  "constant/fvOptions": "05b825bf6f01d9d32c10a751a88b6c35e3574fd34722de2da0124b59e3af6397"
+                }
+              },
+              "output_sha256": "533b637756daea9ed6c09802e91844ccab48ddd7026eef53a91ce9d12bc467c3"
+            }
+          ],
+          "cross_score": 1,
+          "errors": {
+            "answer_velocity": {
+              "max_abs": 4.186826769941398e-12,
+              "max_budget_ratio": 4.186826769766102e-09
+            },
+            "answer_pressure": {
+              "max_abs": 2.4975004286886815e-09,
+              "max_budget_ratio": 2.4819877836163507e-08
+            },
+            "answer_density": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_dynamic_viscosity": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_traction": {
+              "max_abs": 3.3333752424979934e-09,
+              "max_budget_ratio": 3.305826247448667e-08
+            },
+            "answer_mean_pressure": {
+              "max_abs": 3.602411147163309e-10,
+              "max_budget_ratio": 3.4308677593208596e-09
+            },
+            "answer_shear": {
+              "max_abs": 1.4030124284580836e-11,
+              "max_budget_ratio": 1.252689668277979e-09
+            },
+            "answer_force3": {
+              "max_abs": 7.07510494635244e-10,
+              "max_budget_ratio": 5.918734087141964e-08
+            },
+            "answer_volume_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_mass_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_force4": {
+              "max_abs": 6.970653038013131e-13,
+              "max_budget_ratio": 6.970653037964539e-10
+            },
+            "answer_volume_flow4": {
+              "max_abs": 1.9515639104739078e-19,
+              "max_budget_ratio": 1.951563910473908e-13
+            },
+            "answer_mass_flow4": {
+              "max_abs": 1.951563910473908e-18,
+              "max_budget_ratio": 1.951563910473908e-12
+            }
+          },
+          "max_budget_ratio": 5.918734087141964e-08,
+          "producer_analytic_budget_ratio": 5.918734083638823e-08
+        }
+      ],
+      "passed": true,
+      "n": 12
+    },
+    {
+      "case": "034-couette-16",
+      "configuration": {
+        "name": "034-couette-16",
+        "family": "couette",
+        "variant": 15,
+        "lengths": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "origin": [
+          -0.4,
+          0.3,
+          -0.2
+        ],
+        "rotation": [
+          [
+            0.9171208228166051,
+            0.3986093279844229,
+            0.0
+          ],
+          [
+            -0.3986093279844229,
+            0.9171208228166051,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "density": 10.0,
+        "viscosity": 0.12,
+        "speed": 0.24,
+        "reynolds_target": 20.0,
+        "geometry": "box",
+        "input_mesh": "tet",
+        "pressure_kind": "absolute",
+        "pressure_value": 101325.0,
+        "gauge_kind": "point",
+        "source_parts": 1
+      },
+      "code_id": "00354459b579",
+      "attempts": [
+        {
+          "n": 12,
+          "runs": [
+            {
+              "run": {
+                "solver": "elmer",
+                "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                "wall_seconds": 15.24324618501123,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "elmer",
+                  "--image-id",
+                  "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/034-couette-16/00354459b579/elmer-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": null,
+                "absolute_solution_change": 5.144661666745978e-10,
+                "solution_norm": 0.3050500868383461,
+                "raw_sha256": {
+                  "flow.sif": "405e3e35fcfa5feb3d31bd0d0df5d54442d311020abccd97892cdc35b799e3fe",
+                  "native_values.dat": "9f534af9df48cbb4278594f8c7b5ee180824a4ca4ae8d147b33955d4de0ea8fd",
+                  "flow.log": "20109b93271f3ade05b9959c8eb20a841dc1e593791f84fd0722dce392b9f7b3",
+                  "mesh/solution_t0001.vtu": "c97d61933ded30d2150e4e24ced9c7aa7b3ba6f4391d33b8a097a5276276e183"
+                }
+              },
+              "output_sha256": "05750820b0478138eccb537a7b29d005e8f04243acc96fed4128a4243a9a67dc"
+            },
+            {
+              "run": {
+                "solver": "openfoam",
+                "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                "wall_seconds": 10.449830539990216,
+                "command": [
+                  "python3",
+                  "/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/solver.py",
+                  "run",
+                  "openfoam",
+                  "--image-id",
+                  "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+                  "--workdir",
+                  "/home/zhouzhiyu/code/docker/work/caeoj-2-1-3-supplement/production/native/034-couette-16/00354459b579/openfoam-n12",
+                  "--cpus",
+                  "4",
+                  "--memory",
+                  "4g",
+                  "--timeout",
+                  "600",
+                  "--",
+                  "sh",
+                  "run.sh"
+                ],
+                "stationarity": {
+                  "velocity_max_change": 1.1921019726912618e-13,
+                  "kinematic_pressure_max_change": 7.978705588578896e-17,
+                  "continuity": 1.506217026103733e-16,
+                  "iterations": [
+                    1900.0,
+                    2000.0
+                  ]
+                },
+                "absolute_solution_change": null,
+                "solution_norm": null,
+                "raw_sha256": {
+                  "flow.log": "181172bd1f7299487214444455fa445d4865fd69a2f5831b9bb9ada4973a362c",
+                  "system/fvSolution": "c2b779532fa0c7c3afc5be0205c9e9df354578b262608511f30b4450a7b866a6",
+                  "system/fvSchemes": "12572880a13d7cc1ede4601a0ee0471cabc92d7ae309bf4e3424475227d19fe7",
+                  "2000/U": "15f2eece354169fb9cb72eebdc730c1c5aae3bc65ad6c80826f2e379ca8acae3",
+                  "2000/p": "81e5b1fed047e3c26ab5165f936e41422909cd9b759d2cc92f6cd4c95258ca6a",
+                  "1900/U": "f96c0782e822b84899d0a626b4a245b27a9618b57a0123808c6d8e59d8b1e2e4",
+                  "1900/p": "2226964c50340aade3cb47b888394f29c8d64d903574298e1c4f544f68da30f3",
+                  "0/U": "6ff31ea29687e93d022435bb4286398a5ab8ba24443561812654257470032855",
+                  "0/p": "b1cc8864890ae91cb5e84914e0cb151072ae793873af22c323a6f9dafd6b84e3",
+                  "constant/fvOptions": "05b825bf6f01d9d32c10a751a88b6c35e3574fd34722de2da0124b59e3af6397"
+                }
+              },
+              "output_sha256": "717792601259028b94bc1ee0004b20bce92bef77c5e89138275335c44bb6f250"
+            }
+          ],
+          "cross_score": 1,
+          "errors": {
+            "answer_velocity": {
+              "max_abs": 4.303945366768147e-09,
+              "max_budget_ratio": 1.5224940070307426e-06
+            },
+            "answer_pressure": {
+              "max_abs": 3.2014213502407074e-09,
+              "max_budget_ratio": 3.159271300332954e-12
+            },
+            "answer_density": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_dynamic_viscosity": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_traction": {
+              "max_abs": 5.020410753786564e-09,
+              "max_budget_ratio": 7.88853452641264e-12
+            },
+            "answer_mean_pressure": {
+              "max_abs": 3.4924596548080444e-10,
+              "max_budget_ratio": 3.446466558583756e-13
+            },
+            "answer_shear": {
+              "max_abs": 6.598077018082904e-08,
+              "max_budget_ratio": 5.202184721120062e-06
+            },
+            "answer_force3": {
+              "max_abs": 4.94765117764473e-10,
+              "max_budget_ratio": 3.8136621871151244e-11
+            },
+            "answer_volume_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_mass_flow3": {
+              "max_abs": 0.0,
+              "max_budget_ratio": 0.0
+            },
+            "answer_force4": {
+              "max_abs": 5.660695023834705e-09,
+              "max_budget_ratio": 8.394757548346566e-11
+            },
+            "answer_volume_flow4": {
+              "max_abs": 7.458733440384931e-10,
+              "max_budget_ratio": 0.0007458677808098063
+            },
+            "answer_mass_flow4": {
+              "max_abs": 7.45873344038493e-09,
+              "max_budget_ratio": 0.007458177154858642
+            }
+          },
+          "max_budget_ratio": 0.007458177154858642,
+          "producer_analytic_budget_ratio": 0.007458733379169917
+        }
+      ],
+      "passed": true,
+      "n": 12
     }
   ],
-  "benchmark_run": false,
-  "scope": "Frozen verified preview only; not the complete batch execution status.",
-  "validated_cases": 27
+  "benchmark_run": false
 }

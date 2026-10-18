@@ -33,7 +33,7 @@ python <task>/author/supplement.py inputs --output runs/2-1-3/inputs
 python <task>/author/supplement.py run --output <solver-workspace> --solvers <solver-images> --workers 2
 ```
 
-`--only 4 5` 可重算指定候选编号。每路原生计算上限 4 CPU、4 GiB、600 秒；两个工作线程最多同时执行两路。原生计算目录必须可由求解器容器挂载。输入完全相同、镜像一致且计算及收敛已确认的原生记录才可复用。
+`--only 4 5` 可重算指定候选编号，`--workers` 控制同时计算的算例数，可按可用资源增加。原生运行额度见 `native.execute`；两个求解器均按单线程运行。原生计算目录必须可由求解器容器挂载。输入完全相同、镜像一致且计算及收敛已确认的原生记录才可复用。
 
 ## 验证与适用边界
 

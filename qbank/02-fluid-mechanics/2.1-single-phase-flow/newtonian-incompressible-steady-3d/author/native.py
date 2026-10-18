@@ -490,7 +490,7 @@ def outputs(c,problem,native):
 
 def execute(solvers,sid,folder,timeout=600):
     image=ELMER_IMAGE if sid=='elmer' else FOAM_IMAGE
-    cmd=['python3',str(solvers/'solver.py'),'run',sid,'--image-id',image,'--workdir',str(folder.resolve()),'--cpus','4','--memory','4g','--timeout',str(timeout),'--','sh','run.sh']
+    cmd=['python3',str(solvers/'solver.py'),'run',sid,'--image-id',image,'--workdir',str(folder.resolve()),'--cpus','1','--memory','2g','--timeout',str(timeout),'--','sh','run.sh']
     start=__import__('time').monotonic()
     with (folder/'execution.log').open('w') as stream:
         process=subprocess.run(cmd,stdout=stream,stderr=subprocess.STDOUT)

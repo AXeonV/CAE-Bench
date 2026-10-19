@@ -116,6 +116,6 @@ HF data-manifest 存在时现有入口会做 strict verify。DaRUS 临时工作�
 
 ## 依据
 
-- 当前实现：[PDEBench README](../../src/utils/PDEBench/README.md)、[source_audit.py](../../src/utils/PDEBench/source_audit.py)、[pipeline.py](../../src/utils/PDEBench/pipeline.py)。
-- 已有差异记录：[AUDIT.md](../../src/utils/PDEBench/AUDIT.md)、[STATEMENT_REVIEW.md](../../src/utils/PDEBench/STATEMENT_REVIEW.md)。这些记录是历史证据，不代表本分支已经重新取数验收。
+- 当前实现：[PDEBench README](../../src/utils/PDEBench/README.md)、[checks.py](../../src/utils/PDEBench/checks.py)、[pipeline.py](../../src/utils/PDEBench/pipeline.py)。
+- 已有差异记录：[AUDIT.md](reviews/pdebench-20261013/AUDIT.md)、[STATEMENT_REVIEW.md](reviews/pdebench-20261013/STATEMENT_REVIEW.md)。这些记录是历史证据，不代表本分支已经重新取数验收。
 - 职责与验收：[核心与扩展](CORE-AND-EXTENSIONS.md)、[算例制作](../maintenance/CASE-SOURCING.md)、[评测消费](../maintenance/EVALUATION.md)。

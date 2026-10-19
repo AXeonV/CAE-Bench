@@ -9,7 +9,10 @@ import tempfile
 import tomllib
 import zipfile
 
-from publish_dist import PROJECT_ROOT, read_public_file, collect_materials
+if __package__:
+    from .publish_dist import PROJECT_ROOT, read_public_file, collect_materials
+else:
+    from publish_dist import PROJECT_ROOT, read_public_file, collect_materials
 from caeoj.case_grading import prepare_case
 from caeoj.sdk import load_problem
 from caeoj_tools.task_paths import task_directory
@@ -202,5 +205,6 @@ def prepare(task, root=PROJECT_ROOT):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--task', required=True)
+    parser.add_argument('--root', type=Path, default=PROJECT_ROOT, help='Isolated workspace project root')
     args = parser.parse_args()
-    print(json.dumps(prepare(args.task), indent=2))
+    print(json.dumps(prepare(args.task, root=args.root), indent=2))

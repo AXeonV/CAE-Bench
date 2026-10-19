@@ -1,5 +1,7 @@
 """Bounded, resumable HTTP range access; no implicit whole-file download."""
 from collections import OrderedDict
+from contextlib import contextmanager
+from urllib.parse import urljoin, urlsplit
 import hashlib
 import io
 import json
@@ -63,11 +65,44 @@ class Budget:
             raise PreparationError("Insufficient free disk space")
 
 
+class NetworkBudget:
+    """Bound response bodies, including retry attempts with unknown partial reads.
+
+    Charge the admitted maximum before each request. Successful body bytes are
+    measured separately; failed/partial reads retain their conservative charge.
+    HTTP headers and TLS overhead are outside this application-byte budget.
+    """
+    def __init__(self, limit):
+        if type(limit) is not int or limit < 0:
+            raise ValueError("Network budget must be nonnegative integer bytes")
+        self.limit = limit
+        self.charged = self.received = self.requests = 0
+
+    def admit(self, maximum):
+        if self.charged + maximum > self.limit:
+            raise PreparationError("Network byte budget exceeded before request")
+        self.charged += maximum
+        self.requests += 1
+
+    def report(self):
+        return {"limit_bytes": self.limit, "charged_body_bytes_upper": self.charged,
+                "received_complete_body_bytes": self.received, "requests": self.requests,
+                "scope": "response bodies; partial failures charged at admitted maximum; excludes headers/TLS"}
+
+
+class RangeSession(requests.Session):
+    def resolve_redirects(self, *args, **kwargs):
+        # requests also consumes redirect bodies to populate response.next when
+        # allow_redirects=False. Disable that implicit body read as well.
+        return iter(())
+
+
 class RangeReader(io.RawIOBase):
     def __init__(self, source, cache, budget, block_size=1024 * 1024,
-                 memory_blocks=4, timeout=45, retries=5, cache_bytes=64 * 1024**2):
+                 memory_blocks=4, timeout=45, retries=5, cache_bytes=64 * 1024**2, network=None):
         super().__init__()
         self.source, self.budget = source, budget
+        self.network = network or NetworkBudget(256 * 1024**2)
         self.url = source["url"]
         self.size = int(source["bytes"])
         self.position, self.block_size = 0, block_size
@@ -76,7 +111,7 @@ class RangeReader(io.RawIOBase):
         self.cache = Path(cache) / str(source["id"])
         self.budget.check(4096)
         self.cache.mkdir(parents=True, exist_ok=True)
-        self.session = requests.Session()
+        self.session = RangeSession()
         self.memory = OrderedDict()
         self.transferred = 0
         self.hits = 0
@@ -102,13 +137,39 @@ class RangeReader(io.RawIOBase):
         self.position = position
         return position
 
+    @contextmanager
+    def _response(self, headers, maximum):
+        url = self.url
+        for _ in range(4):
+            self.network.admit(maximum)
+            response = self.session.get(url, headers=headers, timeout=self.timeout,
+                                        stream=True, allow_redirects=False)
+            if response.status_code not in (301, 302, 303, 307, 308):
+                try:
+                    yield response
+                finally:
+                    response.close()
+                return
+            # DaRUS uses an empty 303 to a temporary object URL. Never consume
+            # redirect bodies and never persist the signed destination URL.
+            location = response.headers.get('Location')
+            empty = response.headers.get('Content-Length') == '0'
+            response.close()
+            if not empty or not location:
+                raise PreparationError('Nonempty/unknown redirect body; refusing full download')
+            target = urljoin(url, location)
+            if urlsplit(target).scheme not in ('http', 'https') or (urlsplit(url).scheme == 'https' and urlsplit(target).scheme != 'https'):
+                raise PreparationError('Unsafe source redirect scheme')
+            url = target
+        raise PreparationError('Source redirect limit exceeded')
+
     def _fetch(self, start, end):
         last = None
         for attempt in range(self.retries):
             try:
                 headers = {"Range": f"bytes={start}-{end}", "Accept-Encoding": "identity"}
                 if self.etag: headers["If-Match"] = self.etag
-                with self.session.get(self.url, headers=headers, timeout=self.timeout, stream=True) as response:
+                with self._response(headers, end-start+2) as response:
                     response.raise_for_status()
                     wanted = f"bytes {start}-{end}/{self.size}"
                     if response.status_code != 206 or response.headers.get("Content-Range") != wanted:
@@ -116,7 +177,10 @@ class RangeReader(io.RawIOBase):
                     etag = response.headers.get("ETag")
                     if self.etag and etag != self.etag:
                         raise PreparationError("Remote source changed since cached ranges were obtained")
+                    if response.headers.get("Content-Encoding", "identity") != "identity":
+                        raise PreparationError("Compressed HTTP response cannot represent pinned byte ranges")
                     content = response.raw.read(end - start + 2)
+                    self.network.received += len(content)
                     if len(content) != end - start + 1:
                         raise PreparationError("Truncated or oversized range response")
                     if self.etag is None and etag:
@@ -126,10 +190,10 @@ class RangeReader(io.RawIOBase):
                     self.transferred += len(content)
                     return content
             except (requests.RequestException,TransportError,OSError) as exc:
-                last = exc
+                last = type(exc).__name__  # do not log temporary signed object URLs
                 # A DNS/proxy reconnect or interrupted TLS session must not
                 # reuse a stale connection pool on the next attempt.
-                self.session.close();self.session=requests.Session()
+                self.session.close();self.session=RangeSession()
                 if attempt + 1 < self.retries: time.sleep(min(2**attempt, 10))
         raise PreparationError(f"Cannot read source {self.source['id']}: {last}")
 

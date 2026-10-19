@@ -1,3 +1,5 @@
+> 历史记录（2026-10-13）；旧命令和参考重算路径已退役。当前操作见 [PDEBench 工具](../../../../src/utils/PDEBench/README.md)。
+
 # PDEBench 宽松试运行评测配置
 
 11 个方程族均已提供作者侧 author/grading-template.json、judge-config.json 和 harbor/task.toml。配置标记 stage=provisional，仅用于初步试运行；连续参考误差、评分阈值和性能预算尚未正式校准。

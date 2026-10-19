@@ -1,16 +1,14 @@
-"""Structured Gmsh/JSON/HDF5 conversion and an exact advection reference."""
+"""Structured Gmsh/JSON/HDF5 conversion without solving the source PDE."""
 from caeoj.storage import write_hdf5
-import hashlib
-import json
 from pathlib import Path
 
 import gmsh
 import numpy as np
 
-from caeoj.sdk import load_problem, load_result, write_result
+from caeoj.sdk import load_problem
 from caeoj.validation import GMSH_LOCK
 from .models import constant, parameters
-from .storage import PreparationError, atomic_json, digest
+from .storage import PreparationError, atomic_json
 
 
 def check_reference_initial(model, problem, values):
@@ -97,23 +95,6 @@ def field(name, quantity, unit, components, model, location='domain', axis='init
             'unit':unit,'value_kind':'point' if model.points or location!='domain' else 'average'}
 
 
-def advection_average(initial, times, speed, length=1.):
-    """Integrate a periodic piecewise-constant initial field over shifted cells."""
-    u = np.asarray(initial,dtype=np.float64).reshape(-1)
-    n = len(u)
-    dx = length/n
-    integral = np.concatenate(([0.], np.cumsum(u)*dx))
-    def primitive(x):
-        turns = np.floor(x/length)
-        r = x-turns*length
-        cell = np.minimum((r/dx).astype(np.int64),n-1)
-        return turns*integral[-1]+integral[cell]+u[cell]*(r-cell*dx)
-    edges = np.arange(n+1)*dx
-    result = np.stack([np.diff(primitive(edges-speed*t))/dx for t in times])
-    result[0] = u
-    return result[...,None]
-
-
 def build_input(model, source, coords, times, values, destination, variant=0, config=None):
     destination = Path(destination)
     destination.mkdir(parents=True, exist_ok=True)
@@ -123,7 +104,7 @@ def build_input(model, source, coords, times, values, destination, variant=0, co
             raise PreparationError(f"Source spatial shape mismatch for {name}: {value.shape}, {shape}")
     initial_values=values;initial_shape=shape;sample_axes=None
     if model.model=='reaction_diffusion_2d' and config is not None:
-        from .source_audit import fhn_initial
+        from .sources import fhn_initial
         initial_shape,sample_axes,initial_values=fhn_initial(coords,values,config)
     all_ids,sides = make_mesh(destination/'mesh.msh',initial_shape,model.bounds, sparse=bool(variant%2))
     ids=all_ids if sample_axes is None else all_ids.reshape(initial_shape)[np.ix_(*sample_axes)].ravel()
@@ -219,19 +200,3 @@ def build_input(model, source, coords, times, values, destination, variant=0, co
     atomic_json(destination/'problem.json',metadata)
     problem=load_problem(destination/'problem.json')
     return problem
-
-
-def write_analytic_reference(problem,path):
-    initial=problem.arrays['initial_state']
-    speed=problem.manifest['physics']['parameters']['velocity']['value']
-    values=advection_average(initial,problem.arrays['times'],speed)
-    write_result(path,problem,{'state':values})
-    load_result(problem,path)
-    return {'method':'exact_periodic_piecewise_constant_cell_integrals',
-            'model':'advection_1d','kind':'analytic','floating_point_roundoff_only':True}
-
-
-def input_identity(problem):
-    """Bind reference evidence to the actual input files and current contract."""
-    path=problem.path
-    return {name:digest(path.parent/name) for name in ('problem.json','input.h5','mesh.msh')}

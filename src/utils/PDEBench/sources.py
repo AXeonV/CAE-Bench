@@ -10,13 +10,8 @@ import yaml
 from .storage import PreparationError, RangeReader, atomic_json, digest
 
 
-def frame_indices(length, requested):
-    if length < 1: raise PreparationError("Empty source time axis")
-    return np.unique(np.linspace(0, length-1, min(length, requested)).astype(np.int64))
-
-
 @contextmanager
-def open_source(source, cache, budget, local=None, timeout=45):
+def open_source(source, cache, budget, local=None, timeout=45, network=None):
     if local is not None:
         root = Path(local)
         candidates = [root/source["filename"], root/source["directory"]/source["filename"]]
@@ -40,7 +35,7 @@ def open_source(source, cache, budget, local=None, timeout=45):
             atomic_json(ledger,identity)
         with h5py.File(path, "r") as handle: yield handle
     else:
-        with RangeReader(source, Path(cache)/"ranges", budget, timeout=timeout) as raw:
+        with RangeReader(source, Path(cache)/"ranges", budget, timeout=timeout, network=network) as raw:
             with h5py.File(raw, "r") as handle: yield handle
 
 
@@ -54,7 +49,7 @@ class Reader:
             # Legacy HDF5 symbol tables may enumerate every remote group for
             # len(handle). Published family counts bound the candidate prefix;
             # each selected group is still checked before use.
-            self.count = 10000 if model.model=='diffusion_sorption_1d' else 1000
+            self.count = None  # each explicit group is validated; no invented count
         elif model.points:
             self.count = handle['velocity'].shape[0]
         elif 'tensor' in handle:
@@ -65,6 +60,12 @@ class Reader:
             self.count = 1 if self.scalar_cfd else ds.shape[0]
         else:
             raise PreparationError("Unsupported source HDF5 layout")
+
+    def check_index(self, index):
+        if type(index) is not int or index < 0 or (self.count is not None and index >= self.count):
+            raise PreparationError("Source trajectory index outside actual layout")
+        if self.grouped:
+            self._group(index)
 
     def _group(self, index):
         key = f"{index:04d}"
@@ -201,14 +202,25 @@ def check_initial(model, values):
         raise PreparationError("Unsupported shallow-water initial heights")
 
 
-def feature(model, values):
-    fields = [v for k, v in values.items() if k != 'forcing']
-    magnitude = float(np.sqrt(sum(np.mean(v*v) for v in fields)))
-    gradient = float(sum(np.mean(np.diff(v, axis=a)**2)
-                         for v in fields for a in range(1, model.dimension+1)))
-    if model.model == 'diffusion_sorption_1d': magnitude = float(values['concentration'].flat[0])
-    if model.model == 'shallow_water_2d': magnitude = float(np.mean(values['depth'] == 2))
-    if model.points:
-        magnitude = float(np.sqrt(np.mean(values['velocity']**2)))
-        gradient = float(np.sqrt(np.mean((values['tracer']*values['forcing'])**2)))
-    return magnitude, gradient
+def fhn_initial(coords,values,config):
+    sim=config.get('sim',{})
+    nx=int(sim['xdim']);ny=int(sim['ydim']);seed=int(sim['seed'])
+    if nx<2 or ny<2:raise PreparationError('Invalid original FHN initial grid')
+    axes=[]
+    for c,n,lo,hi in zip(coords,(nx,ny),(-1.,-1.),(1.,1.)):
+        index=np.rint((c-lo)*n/(hi-lo)-.5).astype(int)
+        if np.any(index<0) or np.any(index>=n):raise PreparationError('FHN sample outside original grid')
+        centers=lo+(index+.5)*(hi-lo)/n
+        if not np.allclose(c,centers,rtol=0,atol=2e-7):raise PreparationError('FHN sample is not an original cell center')
+        axes.append(index)
+    # The released data uses legacy MT19937, unlike current default_rng source.
+    # Never guess: all released t=0 samples must match the reconstruction.
+    rng=np.random.RandomState(seed)
+    fields={}
+    for name in ('activator','inhibitor'):
+        original=rng.standard_normal(nx*ny).reshape(ny,nx).T.astype(np.float32).astype(np.float64)
+        sampled=original[np.ix_(*axes)]
+        if not np.array_equal(sampled,values[name][0,...,0]):
+            raise PreparationError('FHN legacy initial reconstruction does not reproduce every released t=0 value')
+        fields[name]=original[None,...,None]
+    return (nx,ny),axes,fields

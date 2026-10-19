@@ -1,0 +1,35 @@
+{
+  "verdict": "本批契约、接口和来源转换审核通过；不是全库或 Solver 资源认证",
+  "cases": 80,
+  "pool_revision": "182d3e1af1774632c29b5ad6e7a5457cc74e88a1",
+  "source_revision": "3583c7a567d2fe2811af0035efa7caddca08e106",
+  "mode": "Cloud-side complete input/output checks plus author semantic review; no local array downloads",
+  "documents": {
+    "qbank/01-prescribed-pdes/1.3-scalar-transport/linear-periodic-transport-1d/instruction.md": "6ba75678a58341bb39d95705e16fae6d1262bfc5b32aad2bac3faf08a2fa46ab",
+    "qbank/01-prescribed-pdes/1.3-scalar-transport/linear-periodic-transport-1d/DATA.md": "41c211f5d6d4ca45e2d7ddda0c04dcd567f101869eea7cb951128cf0748f0f16",
+    "docs/CONTRACT.md": "fb36df4a5196a9c96cd78ba738e03c35b5ad257a58d0186824a83648bf3e5418"
+  },
+  "coverage": {
+    "input_entry_and_relative_paths": "80/80 SDK load + pool assembly",
+    "mesh_and_location": "1024 line cells, exact source-center check, copied mesh SHA in all input records",
+    "initial_state": "all 80 full arrays finite and abs<=1000, source float32 exactly promoted to float64",
+    "parameters": "eight supported speeds explicitly checked",
+    "time": "all effective source frames; 0 included, strict increase, T<=201, final<=2",
+    "output": "80/80 exact cell averages, preserved axes and IDs, actual reference read/grade",
+    "grading": "80 reference positives accepted; 80 single-point perturbations rejected",
+    "remote": "all 80 cases downloaded at fixed pool commit, strict verify and actual grade repeated"
+  },
+  "numerical_reference": {
+    "formula": "https://arxiv.org/html/2210.07182v2#S4.SS1",
+    "implementation_comparison_max_abs": 9.094947017729282e-13,
+    "pointwise_target_atol": 1e-06,
+    "pointwise_target_rtol": 1e-06,
+    "scope": "two implementations of periodic translation integral; not independent physics"
+  },
+  "limitations": [
+    "Only this 80-case trial is audited; remaining 170 source subsets are not usable judge cases.",
+    "80 parameter-initial-state cases contain 10 distinct initial-state groups; do not split related initial states as independent evidence.",
+    "Declared solver CPU, memory and wall-time limits have not been exercised in a solver container.",
+    "New piecewise-constant initial problem differs from the unspecified archival continuous reconstruction; later archival frames are not its exact references."
+  ]
+}

@@ -71,6 +71,131 @@ class PoolTests(unittest.TestCase):
         self.assertTrue(pool.verify(self.task, strict=True)['valid'])
         self.assertTrue(pool.verify(self.task, strict=True, samples_only=True)['valid'])
 
+    def test_shards_preserve_case_identity_and_fetch_only_selected_shard(self):
+        transport = self.root/'transport'
+        catalog = pool.shard_bundle(self.bundle, transport, target_bytes=1024)
+        self.assertEqual(len(catalog['shards']), 2)
+        backing = pool.LocalStore(self.root)
+        store = pool.ShardStore(backing, 'transport', self.root/'extracted')
+        selected = {**self.selection, 'cases': {'a':self.selection['cases']['a']}, 'samples':{}}
+        pool.write_json(self.task/'data-manifest.json',selected)
+        pool.assemble(self.task,selected,store)
+        self.assertTrue(pool.verify(self.task,strict=True)['valid'])
+        self.assertEqual(len(store.loaded),1)
+        self.assertEqual((self.task/'cases/a/input.h5').read_bytes(),(self.source/'cases/a/input.h5').read_bytes())
+
+    def partitioned_fixture(self):
+        from caeoj_tools import data_pool_shards as shards
+        repo=self.root/'partitioned-repo';prefix=self.value['repository']['path']
+        partitions={};selections={};total=0
+        for name in ('a','b'):
+            source=self.root/('source-'+name)
+            shutil.copytree(self.source/'cases'/name,source/'cases'/name)
+            shutil.copytree(self.source/'reference'/name,source/'reference'/name)
+            raw=self.root/('raw-'+name);pool.pack(source,raw,self.value)
+            physical=self.root/('physical-'+name);catalog=pool.shard_bundle(raw,physical)
+            batch=pool.digest(physical/'transport.json')
+            rel='pool/batches/'+batch
+            shutil.copytree(physical,repo/prefix/rel)
+            index=pool.checked_json(physical/'index.json')
+            transport={'path':rel+'/transport.json',**pool.identity(physical/'transport.json')}
+            with tempfile.TemporaryDirectory() as tmp:
+                source_store=pool.ShardStore(pool.LocalStore(physical.parent),physical.name,Path(tmp))
+                indexed={cid:{**binding,'descriptor':pool.bound(source_store,prefix,binding)} for cid,binding in index['cases'].items()}
+            updated,added=shards.stage_plan({},indexed,transport,lambda k:partitions.get(k,{}))
+            partitions.update(updated);total+=added
+            selections.update(pool.manifest(raw/'selection.json')['cases'])
+        root={'schema_version':4,'kind':'partitioned-case-pool','case_count':total,'partitions':{}}
+        for key,cases in partitions.items():
+            path=repo/prefix/f'pool/partitions/{key}/part.json'
+            pool.write_json(path,{'schema_version':1,'cases':cases})
+            root['partitions'][key]={'path':path.relative_to(repo/prefix).as_posix(),**pool.identity(path),'case_count':len(cases)}
+        pool.write_json(repo/prefix/'pool/index.json',root)
+        return repo,{**self.selection,'cases':selections,'samples':{}},root
+
+    def test_partitioned_cross_batch_selection_and_assembly(self):
+        from caeoj_tools import data_pool_shards as shards
+        repo,value,index=self.partitioned_fixture()
+        backing=pool.LocalStore(repo)
+        a,b=(value['cases'][k]['case_id'] for k in ('a','b'))
+        choice=pool.select(value,backing,['a='+a,'b='+b],[])
+        self.assertEqual(pool.consumer_store(value,backing).transports,{})  # Selection reads no TAR payload.
+        pool.write_json(self.task/'data-manifest.json',choice)
+        pool.assemble(self.task,choice,backing)
+        self.assertTrue(pool.verify(self.task,strict=True)['valid'])
+        view=pool.consumer_store(value,backing)
+        self.assertIsInstance(view,shards.PartitionStore)
+        self.assertEqual(len(view.transports),2)
+        self.assertEqual(pool.assemble(self.task,choice,backing)['changed'],0)
+
+    def test_partitioned_digest_failure_does_not_change_local(self):
+        repo,value,index=self.partitioned_fixture()
+        entry=next(iter(index['partitions'].values()))
+        path=repo/value['repository']['path']/entry['path']
+        path.write_bytes(path.read_bytes()+b' ')
+        with self.assertRaisesRegex(pool.PoolError,'digest mismatch'):
+            pool.assemble(self.task,value,pool.LocalStore(repo))
+        self.assertFalse((self.task/'cases').exists())
+
+    def test_partition_merge_keeps_original_transport_and_rejects_changed_case(self):
+        from caeoj_tools import data_pool_shards as shards
+        cid=self.selection['cases']['a']['case_id'];binding=self.selection['cases']['a']['case']
+        binding={**binding,'input_complete':True,'reference_complete':True}
+        old={cid:{**binding,'transport':{'path':'old'}}}
+        merged,added=shards.stage_plan({}, {cid:binding},{'path':'new'},lambda _:old)
+        self.assertEqual(added,0)
+        self.assertEqual(merged[shards.bucket(cid)][cid]['transport'],{'path':'old'})
+        with self.assertRaisesRegex(pool.PoolError,'Remote case differs'):
+            shards.stage_plan({}, {cid:{**binding,'sha256':'0'*64}},{'path':'new'},lambda _:old)
+
+    def test_partition_publish_rejects_bad_selection_and_flags_before_network(self):
+        from caeoj_tools import data_pool_shards as shards
+        from unittest.mock import Mock
+        import sys
+        for flaw in ('selection','completeness'):
+            with self.subTest(flaw=flaw):
+                output=self.root/('invalid-'+flaw)
+                catalog=pool.shard_bundle(self.bundle,output)
+                if flaw=='selection':
+                    value=pool.checked_json(output/'selection.json')
+                    value['cases']['a']['case']['sha256']='0'*64
+                    pool.write_json(output/'selection.json',value)
+                else:
+                    index=pool.checked_json(output/'index.json')
+                    next(iter(index['cases'].values()))['reference_complete']=False
+                    pool.write_json(output/'index.json',index)
+                    catalog['index'].update(pool.identity(output/'index.json'))
+                    pool.write_json(output/'transport.json',catalog)
+                api=Mock(side_effect=AssertionError('Network reached before validation'))
+                fake=SimpleNamespace(HfApi=api,CommitOperationAdd=Mock())
+                with patch.dict(sys.modules,{'huggingface_hub':fake}),self.assertRaises(pool.PoolError):
+                    shards.publish(output)
+                api.assert_not_called()
+
+    def test_shards_reject_corrupt_archive_before_assembly(self):
+        transport = self.root/'transport'
+        catalog = pool.shard_bundle(self.bundle, transport)
+        archive = transport/catalog['shards'][0]['archive']['path']
+        with archive.open('ab') as stream: stream.write(b'corrupt')
+        store = pool.ShardStore(pool.LocalStore(self.root),'transport',self.root/'extracted')
+        with self.assertRaisesRegex(pool.PoolError,'Corrupt shard'):
+            pool.assemble(self.task,self.selection,store)
+        self.assertFalse((self.task/'cases').exists())
+
+    def test_shards_reject_symlink_even_with_updated_archive_digest(self):
+        import tarfile
+        transport = self.root/'transport'
+        catalog = pool.shard_bundle(self.bundle, transport)
+        archive = transport/catalog['shards'][0]['archive']['path']
+        with tarfile.open(archive,'a') as tar:
+            info=tarfile.TarInfo('escape'); info.type=tarfile.SYMTYPE; info.linkname='/etc/passwd'
+            tar.addfile(info)
+        catalog['shards'][0]['archive'].update(pool.identity(archive))
+        pool.write_json(transport/'transport.json',catalog)
+        store=pool.ShardStore(pool.LocalStore(self.root),'transport',self.root/'extracted')
+        with self.assertRaisesRegex(pool.PoolError,'linked or undeclared'):
+            pool.assemble(self.task,self.selection,store)
+
     def test_select_disjoint_bindings_and_descriptor_tampering(self):
         a, b = (self.selection['cases'][n]['case_id'] for n in ('a', 'b'))
         chosen = pool.select(self.selection, self.store, ['01=' + b], ['example=' + a])
@@ -129,6 +254,32 @@ class PoolTests(unittest.TestCase):
         result = pool.plan(value,self.store)
         self.assertIn(['cases/a','cases/b'],result['overlaps'])
         self.assertEqual(len(result['public_cases']),1)
+
+    def test_hf_trajectory_identity_survives_rename_and_revision_change(self):
+        value = deepcopy(self.selection)
+        value['samples'] = {}
+        for name, revision in (('a','rev-one'),('b','rev-two')):
+            binding = value['cases'][name]['case']
+            path = self.store.get(value['repository']['path']+'/'+binding['path'])
+            item = pool.checked_json(path)
+            item['origin']['certificate_identity'] = {
+                'source_repository':'owner/upstream','source_sha256':'a'*64,
+                'sample_index':2,'source_revision':revision,'source_file':name+'.h5'}
+            pool.write_json(path,item)
+            binding['sha256'] = pool.digest(path)
+        result = pool.plan(value,self.store)
+        self.assertIn(['cases/a','cases/b'],result['overlaps'])
+
+    def test_pack_preserves_hf_certificate_identity(self):
+        certificate = {'source_repository':'owner/upstream','source_sha256':'a'*64,
+                       'sample_index':2,'source_revision':'rev-one','source_file':'state.h5',
+                       'input_files':{p.name:pool.digest(p) for p in (self.source/'cases/a').iterdir() if p.is_file()}}
+        pool.write_json(self.source/'reference/a/certificate.json',certificate)
+        fresh = self.root/'hf-bundle'
+        pool.pack(self.source,fresh,self.value)
+        choice = pool.manifest(fresh/'selection.json')
+        item = pool.checked_json(fresh/'repository'/self.value['repository']['path']/choice['cases']['a']['case']['path'])
+        self.assertEqual(item['origin']['certificate_identity'],{k:v for k,v in certificate.items() if k!='input_files'})
 
     def test_reselection_removes_only_unchanged_managed_files(self):
         pool.assemble(self.task, self.selection, self.store)

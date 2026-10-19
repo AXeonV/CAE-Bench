@@ -10,6 +10,7 @@ from pathlib import Path, PurePosixPath
 import re
 import shutil
 import tempfile
+import tarfile
 import warnings
 from .files import atomic_replace
 
@@ -152,6 +153,226 @@ class HubStore:
         return self.paths[name]
 
 
+def consumer_store(value, store):
+    """Choose physical transport without changing logical selection bindings."""
+    if not isinstance(store,(LocalStore,HubStore)):
+        return store
+    prefix=value['repository']['path']
+    views=getattr(store,'_pool_views',{})
+    if prefix in views: return views[prefix]
+    index=checked_json(store.get(prefix+'/'+relative(value['pool']['index'])))
+    if index.get('schema_version')==4:
+        from .data_pool_shards import PartitionStore
+        cache=getattr(store,'cache_dir',None)
+        if cache is None:
+            cache=store.root/'.extracted' if isinstance(store,LocalStore) else Path(tempfile.gettempdir()).resolve()/'caeoj-shards'
+        view=PartitionStore(store,prefix,Path(cache)/'pool-members',index)
+    else:
+        view=store
+    store._pool_views=views;views[prefix]=view
+    return view
+
+
+def shard_bundle(bundle, output, *, target_bytes=128*1024*1024):
+    """Experimental immutable transport; logical case format stays unchanged.
+
+    Only a validated existing bundle is accepted. The root routes by case-ID
+    ranges; per-shard member inventories avoid a global payload-file map.
+    """
+    value, source, index = validate_bundle(bundle)
+    if type(target_bytes) is not int or target_bytes < 1024:
+        raise PoolError('Invalid shard byte target')
+    output = Path(output).absolute()
+    if output.exists() and any(output.iterdir()):
+        raise PoolError('Shard output must be empty')
+    if output.is_relative_to(Path(bundle).absolute()) or Path(bundle).absolute().is_relative_to(output):
+        raise PoolError('Shard output and bundle must be separate trees')
+    prefix = value['repository']['path']
+    output.mkdir(parents=True, exist_ok=True)
+    groups, group, size = [], [], 0
+    for cid in sorted(index['cases']):
+        paths = sorted((source.root/prefix/'pool/cases'/cid).rglob('*'))
+        paths = [p for p in paths if p.is_file()]
+        total = sum(p.stat().st_size + 2048 for p in paths)
+        if group and size + total > target_bytes:
+            groups.append(group); group, size = [], 0
+        group.append((cid, paths)); size += total
+    if group:
+        groups.append(group)
+    root = {'schema_version': 1, 'kind': 'experimental-case-tar-transport',
+            'task_path': prefix, 'case_count': len(index['cases']), 'shards': []}
+    for number, cases in enumerate(groups):
+        name = f'shards/{number:05d}.tar'
+        archive = output/name; archive.parent.mkdir(exist_ok=True)
+        members = {}
+        with tarfile.open(archive, 'w', format=tarfile.USTAR_FORMAT) as tar:
+            for cid, paths in cases:
+                for path in paths:
+                    logical = path.relative_to(source.root).as_posix()
+                    within(source.root, logical)
+                    info = tarfile.TarInfo(logical)
+                    info.size = path.stat().st_size; info.mode = 0o644
+                    with path.open('rb') as stream:
+                        tar.addfile(info, stream)
+                    members[logical] = identity(path)
+        locator = f'shards/{number:05d}.json'
+        write_json(output/locator, {'schema_version': 1, 'members': members})
+        root['shards'].append({'first_case': cases[0][0], 'last_case': cases[-1][0],
+                              'archive': {'path': name, **identity(archive)},
+                              'locator': {'path': locator, **identity(output/locator)}})
+    # Logical root index is a member-independent metadata file, not a payload.
+    logical_index = source.get(prefix+'/'+value['pool']['index'])
+    shutil.copyfile(logical_index, output/'index.json')
+    root['index'] = {'path': 'index.json', **identity(output/'index.json')}
+    write_json(output/'transport.json', root)
+    write_json(output/'selection.json', value)
+    return root
+
+
+class ShardStore:
+    """Read one immutable transport through a LocalStore/HubStore.
+
+    The current experiment downloads a whole selected shard, never the pool.
+    It does not yet implement HTTP range reads or production CLI discovery.
+    """
+    def __init__(self, backing, transport_prefix, cache):
+        self.backing = backing
+        self.prefix = relative(transport_prefix)
+        self.revision = backing.revision
+        self.root = Path(cache).absolute()
+        self.root.mkdir(parents=True, exist_ok=True)
+        self.catalog = checked_json(backing.get(self.prefix+'/transport.json'))
+        if (self.catalog.get('schema_version') != 1 or
+                self.catalog.get('kind') != 'experimental-case-tar-transport'):
+            raise PoolError('Unknown shard transport')
+        self.task = relative(self.catalog['task_path'])
+        self.loaded, self.paths, self.offsets = {}, {}, {}
+        previous = ''
+        for shard in self.catalog['shards']:
+            first, last = shard['first_case'], shard['last_case']
+            if not re.fullmatch('case-[0-9a-f]{24}', first) or not re.fullmatch('case-[0-9a-f]{24}', last) or not previous < first <= last:
+                raise PoolError('Invalid/overlapping shard range')
+            previous = last
+
+    def _bound(self, entry):
+        check_entry(entry)
+        path = self.backing.get(self.prefix+'/'+relative(entry['path']))
+        if not matches(path, entry):
+            raise PoolError('Corrupt shard transport asset')
+        return path
+
+    def get(self, name):
+        name = relative(name)
+        if name in self.paths:
+            return self.paths[name]
+        if name == self.task+'/pool/index.json':
+            return self._bound(self.catalog['index'])
+        base = self.task+'/pool/cases/'
+        if not name.startswith(base):
+            raise PoolError('Path is outside shard task')
+        cid = name[len(base):].split('/')[0]
+        shard = next((s for s in self.catalog['shards'] if s['first_case'] <= cid <= s['last_case']), None)
+        if shard is None:
+            raise PoolError('Case absent from shard transport')
+        key = shard['archive']['path']
+        if key not in self.loaded:
+            locator = checked_json(self._bound(shard['locator']))
+            if locator.get('schema_version') != 1:
+                raise PoolError('Unknown shard locator')
+            for member, entry in locator['members'].items():
+                relative(member); check_entry(entry)
+                if not member.startswith(base):
+                    raise PoolError('Shard member outside task')
+            archive = self._bound(shard['archive'])
+            with tarfile.open(archive, 'r:') as tar:
+                seen = set()
+                offsets = {}
+                for member in tar.getmembers():
+                    if member.name in seen or member.name not in locator['members'] or not member.isfile():
+                        raise PoolError('Duplicate, linked or undeclared TAR member')
+                    relative(member.name)
+                    if member.size != locator['members'][member.name]['size_bytes']:
+                        raise PoolError('TAR member size mismatch')
+                    seen.add(member.name)
+                    offsets[member.name] = member.offset_data
+                if seen != set(locator['members']):
+                    raise PoolError('Missing TAR member')
+            self.loaded[key] = archive, locator['members']
+            self.offsets[key] = offsets
+        archive, members = self.loaded[key]
+        if name not in members:
+            raise PoolError('Missing shard member')
+        target = within(self.root, name)
+        if not matches(target, members[name]):
+            target.parent.mkdir(parents=True, exist_ok=True)
+            fd, temporary = tempfile.mkstemp(dir=target.parent)
+            try:
+                with os.fdopen(fd, 'wb') as out, archive.open('rb') as stream:
+                    stream.seek(self.offsets[key][name])
+                    remaining = members[name]['size_bytes']
+                    while remaining:
+                        block = stream.read(min(remaining,1024*1024))
+                        if not block: raise PoolError('Truncated TAR member')
+                        out.write(block); remaining -= len(block)
+                if not matches(temporary, members[name]):
+                    raise PoolError('TAR member digest mismatch')
+                atomic_replace(temporary, target)
+            finally:
+                Path(temporary).unlink(missing_ok=True)
+        self.paths[name] = target
+        return target
+
+
+def upload_shards(directory, repo_id, revision, prefix, *, interrupt_after=None):
+    """Publish an experimental transport, immutable assets first, root last.
+
+    An intentional interruption hook supports preflight recovery experiments.
+    Existing differences stop; identical assets skip without payload downloads.
+    """
+    from huggingface_hub import HfApi, CommitOperationAdd
+    directory = Path(directory).absolute(); prefix = relative(prefix)
+    catalog = checked_json(directory/'transport.json')
+    if catalog.get('kind') != 'experimental-case-tar-transport':
+        raise PoolError('Not an experimental shard transport')
+    assets = [entry[key]['path'] for entry in catalog['shards'] for key in ('archive','locator')]
+    assets += ['index.json', 'selection.json', 'transport.json']
+    if {p.relative_to(directory).as_posix() for p in directory.rglob('*') if p.is_file()} != set(assets):
+        raise PoolError('Undeclared shard transport files')
+    for shard in catalog['shards']:
+        for key in ('archive','locator'):
+            entry = shard[key]
+            if not matches(within(directory, entry['path']), entry):
+                raise PoolError('Changed local shard asset')
+    if not matches(directory/'index.json',catalog['index']):
+        raise PoolError('Changed local shard index')
+    api = HfApi()
+    head = api.repo_info(repo_id, repo_type='dataset', revision=revision).sha
+    names = {x.rfilename:x for x in api.repo_info(repo_id,repo_type='dataset',revision=head,files_metadata=True).siblings}
+    skipped, uploaded = 0, 0
+    for logical in assets:
+        name = prefix+'/'+relative(logical); path = within(directory, logical)
+        previous = names.get(name)
+        if previous is not None:
+            if previous.lfs:
+                same = previous.lfs.sha256 == digest(path)
+            else:
+                git = hashlib.sha1(f'blob {path.stat().st_size}\0'.encode())
+                with path.open('rb') as stream:
+                    for block in iter(lambda:stream.read(1024*1024),b''): git.update(block)
+                same = previous.blob_id == git.hexdigest()
+            if not same:
+                raise PoolError('Remote experimental transport differs: '+name)
+            skipped += 1
+            continue
+        result = api.create_commit(repo_id=repo_id,repo_type='dataset',revision=revision,parent_commit=head,
+            operations=[CommitOperationAdd(path_in_repo=name,path_or_fileobj=path)],
+            commit_message='Stage immutable preflight transport: '+logical)
+        head = result.oid; uploaded += 1
+        if interrupt_after is not None and uploaded >= interrupt_after:
+            raise InterruptedError('Intentional interruption after committed immutable asset')
+    return {'revision': head, 'uploaded_files': uploaded, 'skipped_files': skipped}
+
+
 def bound(store, prefix, binding, descriptors=None):
     if not isinstance(binding, dict) or not re.fullmatch('[0-9a-f]{64}', str(binding.get('sha256', ''))):
         raise PoolError('Invalid descriptor binding')
@@ -194,6 +415,7 @@ def item_files(store, prefix, binding, item, descriptors):
 
 
 def plan(value, store, cases=None, samples=None):
+    store = consumer_store(value, store)
     prefix = value['repository']['path']
     result = {'files': {}, 'descriptors': {}, 'incomplete': [], 'overlaps': [], 'public_cases': [], 'scope': {}}
     fingerprints = {}
@@ -247,6 +469,10 @@ def plan(value, store, cases=None, samples=None):
             if all(key in origin for key in ('source_id', 'source_md5', 'sample_index')):
                 keys.append('trajectory:' + json.dumps({k: origin[k] for k in (
                     'source_id', 'source_md5', 'sample_index')}, sort_keys=True))
+            if all(key in origin for key in ('source_repository', 'source_sha256', 'sample_index')):
+                # Content identity survives a renamed file or a new Hub commit.
+                keys.append('trajectory-sha256:' + json.dumps({k: origin[k] for k in (
+                    'source_repository', 'source_sha256', 'sample_index')}, sort_keys=True))
             # The same explicitly selected pool item may be both a public sample
             # and a scored case. Keep every prior identity to catch duplicates
             # within a role, even when a public pair also exists.
@@ -271,6 +497,7 @@ def plan(value, store, cases=None, samples=None):
 
 
 def fetch(value, store, **options):
+    store = consumer_store(value, store)
     result = plan(value, store, **options)
     for entry in result['files'].values():
         path = store.get(value['repository']['path'] + '/' + entry['source'])
@@ -318,6 +545,7 @@ def task_lock(task):
 
 
 def assemble(task, value, store, *, update=False, **options):
+    store = consumer_store(value, store)
     task = Path(task).absolute()
     task.mkdir(parents=True, exist_ok=True)
     with task_lock(task):
@@ -452,9 +680,10 @@ def verify(task, *, strict=False, samples_only=False):
 
 
 def select(value, store, cases, samples, *, allow_incomplete=False):
+    store = consumer_store(value, store)
     prefix = value['repository']['path']
     index = checked_json(store.get(prefix + '/' + relative(value['pool']['index'])))
-    if index.get('schema_version') != 3 or not isinstance(index.get('cases'), dict):
+    if index.get('schema_version') not in (3,4):
         raise PoolError('Invalid pool index')
     selected = {**value, 'cases': {}, 'samples': {}}
     for role, choices in (('cases', cases), ('samples', samples)):
@@ -462,9 +691,10 @@ def select(value, store, cases, samples, *, allow_incomplete=False):
             name, case_id = choice.split('=', 1) if '=' in choice else (f'{number:03d}', choice)
             if '/' in relative(name) or name in selected[role]:
                 raise PoolError('Invalid or repeated local selection name')
-            if case_id not in index['cases']:
+            entry = store.lookup(case_id) if index['schema_version']==4 else index['cases'].get(case_id)
+            if entry is None:
                 raise PoolError(f'Unknown pool case ID: {case_id}')
-            binding = {k: index['cases'][case_id][k] for k in ('path', 'sha256')}
+            binding = {k: entry[k] for k in ('path', 'sha256')}
             selected[role][name] = {'case_id': case_id, 'case': binding}
     result = plan(selected, store)
     if result['overlaps']:
@@ -541,7 +771,8 @@ def pack(source, output, value):
                                     for key, checksum in declared.items()):
                     raise PoolError('Source certificate does not bind this input')
                 item['origin']['certificate_identity'] = {key: certificate[key] for key in (
-                    'source_id', 'source_md5', 'sample_index', 'contract_sha256', 'tool_sha256') if key in certificate}
+                    'source_id', 'source_md5', 'source_repository', 'source_revision', 'source_file',
+                    'source_sha256', 'sample_index', 'contract_sha256', 'tool_sha256') if key in certificate}
             base = f'pool/cases/{case_id}/'
             for logical, path in inputs.items():
                 key = 'input/' + logical
@@ -665,6 +896,9 @@ def validate_bundle(bundle):
 
 def upload(bundle, *, update=False, revision='main'):
     """Merge a validated bundle in one optimistic commit; preserve unrelated items."""
+    if (Path(bundle)/'transport.json').is_file():
+        from .data_pool_shards import publish
+        return publish(bundle, revision=revision, update=update)
     from huggingface_hub import HfApi, CommitOperationAdd
     value, local, index = validate_bundle(bundle)
     repo = value['repository']; prefix = repo['path']

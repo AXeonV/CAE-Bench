@@ -1,0 +1,2645 @@
+{
+  "version": 1,
+  "status": "preflight_completed",
+  "stages": {
+    "existing80": {
+      "cases": 80,
+      "remote_revision": "c9d55b73f3bb654db0a05885e2031396c88a4377",
+      "remote_prefix": "migration-trials/pdebench/2026-10-18/preflight-v1/existing80",
+      "physical_files": 7,
+      "logical_files": 481,
+      "shards": 2,
+      "physical_bytes": 138048562,
+      "single_case_downloaded_shards": 1,
+      "single_case_download_bytes": 132710400,
+      "single_case_range_read": false,
+      "repeat_assembly_changed": 0,
+      "recovery": {
+        "child_exit_code": 75,
+        "root_absent_before_resume": true
+      },
+      "upload_receipt": {
+        "revision": "c9d55b73f3bb654db0a05885e2031396c88a4377",
+        "uploaded_files": 6,
+        "skipped_files": 1
+      },
+      "seconds": {
+        "shard_pack": 7.548304482999981,
+        "upload_including_recovery": 6.171586381999987,
+        "remote_assembly_and_grade": 23.173084759000005,
+        "total": 36.89297671400004
+      },
+      "original_case_ids_preserved": true
+    },
+    "limited_solver": {
+      "cases": [
+        {
+          "case": "001",
+          "status": "accepted",
+          "elapsed_seconds": 0.6546416859999908,
+          "maximum_rss_kib": 261656,
+          "output_bytes": 1658440
+        },
+        {
+          "case": "041",
+          "status": "accepted",
+          "elapsed_seconds": 0.6642616139999973,
+          "maximum_rss_kib": 261656,
+          "output_bytes": 1658440
+        },
+        {
+          "case": "080",
+          "status": "accepted",
+          "elapsed_seconds": 0.6271609329999137,
+          "maximum_rss_kib": 261656,
+          "output_bytes": 1658440
+        }
+      ],
+      "cpu_affinity_count": 2,
+      "cpu_seconds_limit": 120,
+      "virtual_memory_bytes_limit": 2147483648,
+      "wall_seconds_limit": 120,
+      "method": "contract-permitted periodic translation formula",
+      "scope": "Limited process inside HF Job; not Harbor container or filesystem isolation certification"
+    },
+    "expanded_source": {
+      "records": 1000,
+      "file": "1D_Advection_Sols_beta0.1.hdf5",
+      "revision": "33d90a245d98b8a250884eab613c6f9c26a13b68",
+      "logical_field_bytes_read": 823296000,
+      "subset_bytes": 476703895,
+      "elapsed_seconds": 41.75590611200005,
+      "source_indices": [
+        0,
+        999
+      ],
+      "whole_source_checksum_verified": false,
+      "network_bytes_not_instrumented": true
+    },
+    "construction1000": {
+      "cases": 1000,
+      "construction_checks_seconds": 183.83677104399953,
+      "max_alternate_integral_error": 2.275957200481571e-13,
+      "contract": "All 1000 actual inputs loaded through SDK; all 201 times and 1024 cells checked; reference and wrong-output graded"
+    },
+    "expanded1000": {
+      "cases": 1000,
+      "remote_revision": "3962d1a5d5c70970e899568e936107afee1038b0",
+      "remote_prefix": "migration-trials/pdebench/2026-10-18/preflight-v1/expanded1000",
+      "physical_files": 29,
+      "logical_files": 6001,
+      "shards": 13,
+      "physical_bytes": 1725577174,
+      "single_case_downloaded_shards": 1,
+      "single_case_download_bytes": 132710400,
+      "single_case_range_read": false,
+      "repeat_assembly_changed": 0,
+      "recovery": null,
+      "upload_receipt": {
+        "revision": "3962d1a5d5c70970e899568e936107afee1038b0",
+        "uploaded_files": 29,
+        "skipped_files": 0
+      },
+      "seconds": {
+        "shard_pack": 107.56552185400005,
+        "upload_including_recovery": 37.24736150499996,
+        "remote_assembly_and_grade": 384.54723768300005,
+        "total": 529.360122422
+      }
+    },
+    "other_families": {
+      "scope": "All 120 Burgers and 50 CNS previously extracted trajectories; diagnostics only",
+      "records": [
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.001.hdf5",
+          "source_index": 0,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.71530681848526
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.9942020773887634e-07,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.001.hdf5",
+          "source_index": 1111,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.029927432537078857
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 5.2445102483034134e-08,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.001.hdf5",
+          "source_index": 2222,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.0012716352939605713
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.161017619073391e-06,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.001.hdf5",
+          "source_index": 3333,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.001723743975162506
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 7.843191269785166e-07,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.001.hdf5",
+          "source_index": 4444,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.113100528717041
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 3.387685865163803e-07,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.001.hdf5",
+          "source_index": 5555,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.8518884778022766
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 4.4121406972408295e-08,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.001.hdf5",
+          "source_index": 6666,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.29294806718826294
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 6.306590094595776e-08,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.001.hdf5",
+          "source_index": 7777,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.1014066934585571
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 4.679604899138212e-07,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.001.hdf5",
+          "source_index": 8888,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.09126974642276764
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.6268080920128075e-08,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.001.hdf5",
+          "source_index": 9999,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -3.1518938570229693e-09
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 3.2498263008440276e-07,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.002.hdf5",
+          "source_index": 0,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.71530681848526
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 5.603069439530373e-07,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.002.hdf5",
+          "source_index": 1111,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.029927432537078857
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.2636883184313774e-07,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.002.hdf5",
+          "source_index": 2222,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.0012716352939605713
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.7007190510630608e-06,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.002.hdf5",
+          "source_index": 3333,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.001723743975162506
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 3.1148665584623814e-06,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.002.hdf5",
+          "source_index": 4444,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.113100528717041
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.120748831657693e-06,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.002.hdf5",
+          "source_index": 5555,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.8518884778022766
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 6.920890882611275e-08,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.002.hdf5",
+          "source_index": 6666,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.29294806718826294
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 3.7624864468455144e-07,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.002.hdf5",
+          "source_index": 7777,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.1014066934585571
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.705280737951398e-06,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.002.hdf5",
+          "source_index": 8888,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.09126974642276764
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.280768121710539e-07,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.002.hdf5",
+          "source_index": 9999,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -3.1518938570229693e-09
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.5706757289790652e-06,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.004.hdf5",
+          "source_index": 0,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.71530681848526
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.8900685720145702e-06,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.004.hdf5",
+          "source_index": 1111,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.029927432537078857
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 3.570457920432091e-07,
+          "mean_square_increase_max": 2.6645698314453625e-08
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.004.hdf5",
+          "source_index": 2222,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.0012716352939605713
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 3.104729694314301e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.004.hdf5",
+          "source_index": 3333,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.001723743975162506
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.4570792447775602e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.004.hdf5",
+          "source_index": 4444,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.113100528717041
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.1046191502828151e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.004.hdf5",
+          "source_index": 5555,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.8518884778022766
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.3230677470564842e-07,
+          "mean_square_increase_max": 2.0438610071060737e-07
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.004.hdf5",
+          "source_index": 6666,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.29294806718826294
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.9290361687195343e-06,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.004.hdf5",
+          "source_index": 7777,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.1014066934585571
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.365821273997426e-06,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.004.hdf5",
+          "source_index": 8888,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.09126974642276764
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 3.953491999192371e-07,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.004.hdf5",
+          "source_index": 9999,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -3.1518938570229693e-09
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.1149561550516385e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.01.hdf5",
+          "source_index": 0,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.71530681848526
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 6.206450052559376e-06,
+          "mean_square_increase_max": 3.020828450717161e-07
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.01.hdf5",
+          "source_index": 1111,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.029927432537078857
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.0002860737731680274,
+          "mean_square_increase_max": 7.320155472223533e-06
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.01.hdf5",
+          "source_index": 2222,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.0012716352939605713
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.00016280802083201706,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.01.hdf5",
+          "source_index": 3333,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.001723743975162506
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.9208778869360685e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.01.hdf5",
+          "source_index": 4444,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.113100528717041
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 3.7745841837022454e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.01.hdf5",
+          "source_index": 5555,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.8518884778022766
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 5.5255950428545475e-06,
+          "mean_square_increase_max": 1.7637019289473699e-06
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.01.hdf5",
+          "source_index": 6666,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.29294806718826294
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 6.0266202126513235e-06,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.01.hdf5",
+          "source_index": 7777,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.1014066934585571
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 3.326861769892275e-05,
+          "mean_square_increase_max": 2.1230729601029452e-06
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.01.hdf5",
+          "source_index": 8888,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.09126974642276764
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 3.536294104905524e-07,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.01.hdf5",
+          "source_index": 9999,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -3.1518938570229693e-09
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 3.0070119982517074e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.02.hdf5",
+          "source_index": 0,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.71530681848526
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 7.272930815815926e-06,
+          "mean_square_increase_max": 1.2699751453792985e-06
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.02.hdf5",
+          "source_index": 1111,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.029927432537078857
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.00015653332229703665,
+          "mean_square_increase_max": 1.2245047197323444e-05
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.02.hdf5",
+          "source_index": 2222,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.0012716352939605713
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.0002745536621659994,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.02.hdf5",
+          "source_index": 3333,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.001723743975162506
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.5995261492207646e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.02.hdf5",
+          "source_index": 4444,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.113100528717041
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 3.642113006208092e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.02.hdf5",
+          "source_index": 5555,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.8518884778022766
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.4176551960408688e-06,
+          "mean_square_increase_max": 1.2212488804674848e-06
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.02.hdf5",
+          "source_index": 6666,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.29294806718826294
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 7.224136425065808e-06,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.02.hdf5",
+          "source_index": 7777,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.1014066934585571
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.00011356445611454546,
+          "mean_square_increase_max": 7.548267226820116e-06
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.02.hdf5",
+          "source_index": 8888,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.09126974642276764
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 4.6446398206667627e-07,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.02.hdf5",
+          "source_index": 9999,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -3.1518938570229693e-09
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.5042356873561378e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.04.hdf5",
+          "source_index": 0,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.71530681848526
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 4.4835032895207405e-06,
+          "mean_square_increase_max": 6.003427487355495e-07
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.04.hdf5",
+          "source_index": 1111,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.029927432537078857
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 4.5530672650784254e-05,
+          "mean_square_increase_max": 8.520593370753282e-06
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.04.hdf5",
+          "source_index": 2222,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.0012716352939605713
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.00032851763535290956,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.04.hdf5",
+          "source_index": 3333,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.001723743975162506
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.052346826530993e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.04.hdf5",
+          "source_index": 4444,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.113100528717041
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 8.709133544471115e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.04.hdf5",
+          "source_index": 5555,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.8518884778022766
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.0908115655183792e-06,
+          "mean_square_increase_max": 1.3675125614120986e-06
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.04.hdf5",
+          "source_index": 6666,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.29294806718826294
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 9.399464033776894e-06,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.04.hdf5",
+          "source_index": 7777,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.1014066934585571
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 3.789403126575053e-05,
+          "mean_square_increase_max": 6.000757106106036e-06
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.04.hdf5",
+          "source_index": 8888,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.09126974642276764
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.0021130415621693e-06,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.04.hdf5",
+          "source_index": 9999,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -3.1518938570229693e-09
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 3.673709813428738e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.1.hdf5",
+          "source_index": 0,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.71530681848526
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 7.972121238708496e-07,
+          "mean_square_increase_max": 4.033643019596411e-07
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.1.hdf5",
+          "source_index": 1111,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.029927432537078857
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.5543599147349596e-05,
+          "mean_square_increase_max": 2.9085576687126746e-06
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.1.hdf5",
+          "source_index": 2222,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.0012716352939605713
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.0003414599341340363,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.1.hdf5",
+          "source_index": 3333,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.001723743975162506
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 7.102501695044339e-05,
+          "mean_square_increase_max": 1.0770567686058108e-06
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.1.hdf5",
+          "source_index": 4444,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.113100528717041
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.00016884338401723653,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.1.hdf5",
+          "source_index": 5555,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.8518884778022766
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 6.21541403234005e-07,
+          "mean_square_increase_max": 5.994983098833728e-07
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.1.hdf5",
+          "source_index": 6666,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.29294806718826294
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 4.995791823603213e-05,
+          "mean_square_increase_max": 1.6824437977318828e-07
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.1.hdf5",
+          "source_index": 7777,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.1014066934585571
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.4800141798332334e-05,
+          "mean_square_increase_max": 2.250463751796161e-06
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.1.hdf5",
+          "source_index": 8888,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.09126974642276764
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.437171618060007e-06,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.1.hdf5",
+          "source_index": 9999,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -3.1518938570229693e-09
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 8.348019270615348e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.2.hdf5",
+          "source_index": 0,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.71530681848526
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 9.489012882113457e-07,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.2.hdf5",
+          "source_index": 1111,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.029927432537078857
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.032244810834527e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.2.hdf5",
+          "source_index": 2222,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.0012716352939605713
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.00030244822846725583,
+          "mean_square_increase_max": 2.2691378218475666e-05
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.2.hdf5",
+          "source_index": 3333,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.001723743975162506
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 7.972176535986364e-05,
+          "mean_square_increase_max": 3.056288302299981e-06
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.2.hdf5",
+          "source_index": 4444,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.113100528717041
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.0003412501682760194,
+          "mean_square_increase_max": 4.548600994136454e-06
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.2.hdf5",
+          "source_index": 5555,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.8518884778022766
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 4.1100429370999336e-07,
+          "mean_square_increase_max": 8.507627768938875e-08
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.2.hdf5",
+          "source_index": 6666,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.29294806718826294
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.411803143331781e-05,
+          "mean_square_increase_max": 2.0966095523079764e-07
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.2.hdf5",
+          "source_index": 7777,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.1014066934585571
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.082614810205996e-05,
+          "mean_square_increase_max": 4.0093635334526034e-06
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.2.hdf5",
+          "source_index": 8888,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.09126974642276764
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.5923671735362799e-06,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.2.hdf5",
+          "source_index": 9999,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -3.1518938570229693e-09
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 9.618862765764513e-05,
+          "mean_square_increase_max": 2.424388265559463e-07
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.4.hdf5",
+          "source_index": 0,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.71530681848526
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 7.045455276966095e-07,
+          "mean_square_increase_max": 2.474506375360619e-07
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.4.hdf5",
+          "source_index": 1111,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.029927432537078857
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.7182028386741877e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.4.hdf5",
+          "source_index": 2222,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.0012716352939605713
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.00014927779557183385,
+          "mean_square_increase_max": 1.1083335564043839e-05
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.4.hdf5",
+          "source_index": 3333,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.001723743975162506
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 6.530227256007493e-05,
+          "mean_square_increase_max": 1.0520030445937412e-05
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.4.hdf5",
+          "source_index": 4444,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.113100528717041
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.00037778740806970745,
+          "mean_square_increase_max": 9.14127524366537e-06
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.4.hdf5",
+          "source_index": 5555,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.8518884778022766
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.305605448782444e-07,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.4.hdf5",
+          "source_index": 6666,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.29294806718826294
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.8529441149439663e-05,
+          "mean_square_increase_max": 3.0964601069371003e-07
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.4.hdf5",
+          "source_index": 7777,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.1014066934585571
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.1045823814347386e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.4.hdf5",
+          "source_index": 8888,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.09126974642276764
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.7854368846853541e-06,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu0.4.hdf5",
+          "source_index": 9999,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -3.1518938570229693e-09
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.00010138334125203707,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu1.0.hdf5",
+          "source_index": 0,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.71530681848526
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.328888513147831e-07,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu1.0.hdf5",
+          "source_index": 1111,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.029927432537078857
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.5940458979457617e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu1.0.hdf5",
+          "source_index": 2222,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.0012716352939605713
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 6.8634282797575e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu1.0.hdf5",
+          "source_index": 3333,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.001723743975162506
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.00021734257461503148,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu1.0.hdf5",
+          "source_index": 4444,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.113100528717041
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.0004163250996498391,
+          "mean_square_increase_max": 2.171687760627039e-05
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu1.0.hdf5",
+          "source_index": 5555,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.8518884778022766
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.487787812948227e-07,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu1.0.hdf5",
+          "source_index": 6666,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.29294806718826294
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.6105113900266588e-05,
+          "mean_square_increase_max": 2.392821294415221e-07
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu1.0.hdf5",
+          "source_index": 7777,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.1014066934585571
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.404893166385591e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu1.0.hdf5",
+          "source_index": 8888,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.09126974642276764
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.8302837309219777e-06,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu1.0.hdf5",
+          "source_index": 9999,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -3.1518938570229693e-09
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.00010518756113869765,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu2.0.hdf5",
+          "source_index": 0,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.71530681848526
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 2.6746420189738274e-07,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu2.0.hdf5",
+          "source_index": 1111,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.029927432537078857
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.5796569641679525e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu2.0.hdf5",
+          "source_index": 2222,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.0012716352939605713
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 6.161065539345145e-05,
+          "mean_square_increase_max": 8.366365834566736e-07
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu2.0.hdf5",
+          "source_index": 3333,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.001723743975162506
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.000268216070253402,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu2.0.hdf5",
+          "source_index": 4444,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.113100528717041
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.0004346279165474698,
+          "mean_square_increase_max": 3.781860123663883e-05
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu2.0.hdf5",
+          "source_index": 5555,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.8518884778022766
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 3.820168785750866e-07,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu2.0.hdf5",
+          "source_index": 6666,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.29294806718826294
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.7060658137779683e-05,
+          "mean_square_increase_max": 1.5944778381004124e-07
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu2.0.hdf5",
+          "source_index": 7777,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.1014066934585571
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.7496553482487798e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu2.0.hdf5",
+          "source_index": 8888,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.09126974642276764
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.839088939928346e-06,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu2.0.hdf5",
+          "source_index": 9999,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -3.1518938570229693e-09
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.00011152441090361842,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu4.0.hdf5",
+          "source_index": 0,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.71530681848526
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 5.038455128669739e-07,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu4.0.hdf5",
+          "source_index": 1111,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.029927432537078857
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.5476718544960022e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu4.0.hdf5",
+          "source_index": 2222,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.0012716352939605713
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 5.9390615206211805e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu4.0.hdf5",
+          "source_index": 3333,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": 0.001723743975162506
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.0002811949816532433,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu4.0.hdf5",
+          "source_index": 4444,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.113100528717041
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.0004346422356320545,
+          "mean_square_increase_max": 4.5561439301747275e-05
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu4.0.hdf5",
+          "source_index": 5555,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.8518884778022766
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 6.062909960746765e-07,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu4.0.hdf5",
+          "source_index": 6666,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.29294806718826294
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.699493805062957e-05,
+          "mean_square_increase_max": 1.229787983296829e-07
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu4.0.hdf5",
+          "source_index": 7777,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -1.1014066934585571
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.4182034647092223e-05,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu4.0.hdf5",
+          "source_index": 8888,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -0.09126974642276764
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 1.780686870969661e-06,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "burgers",
+          "file": "1D_Burgers_Sols_Nu4.0.hdf5",
+          "source_index": 9999,
+          "finite": true,
+          "frames": 201,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "tensor": -3.1518938570229693e-09
+          },
+          "status": "diagnostic_only_not_certified",
+          "mean_drift_max_abs": 0.00011522771325817027,
+          "mean_square_increase_max": 0.0
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta0.01_Zeta0.01_periodic_Train.hdf5",
+          "source_index": 0,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 6.974536418914795,
+            "Vx": -1.0201656818389893,
+            "pressure": 61.49859619140625
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 8.577480912208557e-07,
+          "momentum_mean_drift_max_abs": 0.002664345423095682
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta0.01_Zeta0.01_periodic_Train.hdf5",
+          "source_index": 1111,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 1.80656898021698,
+            "Vx": -1.20926034450531,
+            "pressure": 12.197403907775879
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 6.633345037698746e-07,
+          "momentum_mean_drift_max_abs": 5.612373249611058e-05
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta0.01_Zeta0.01_periodic_Train.hdf5",
+          "source_index": 2222,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 3.214473009109497,
+            "Vx": -1.5998694896697998,
+            "pressure": 64.325927734375
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 1.1797528713941574e-06,
+          "momentum_mean_drift_max_abs": 0.0007628385028874973
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta0.01_Zeta0.01_periodic_Train.hdf5",
+          "source_index": 3333,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 5.145726203918457,
+            "Vx": -0.9495328068733215,
+            "pressure": 95.01966094970703
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 9.136274456977844e-07,
+          "momentum_mean_drift_max_abs": 5.2619303525958117e-05
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta0.01_Zeta0.01_periodic_Train.hdf5",
+          "source_index": 4444,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 1.2643070220947266,
+            "Vx": -1.1530158519744873,
+            "pressure": 18.932193756103516
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 6.854534149169922e-07,
+          "momentum_mean_drift_max_abs": 0.0005663488842293507
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta0.01_Zeta0.01_periodic_Train.hdf5",
+          "source_index": 5555,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 3.462584972381592,
+            "Vx": -1.936934471130371,
+            "pressure": 62.50551986694336
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 1.5748664736747742e-06,
+          "momentum_mean_drift_max_abs": 0.0007502302165363073
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta0.01_Zeta0.01_periodic_Train.hdf5",
+          "source_index": 6666,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 3.98589825630188,
+            "Vx": -1.3622888326644897,
+            "pressure": 11.000417709350586
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 5.639158189296722e-07,
+          "momentum_mean_drift_max_abs": 0.0009537311025962225
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta0.01_Zeta0.01_periodic_Train.hdf5",
+          "source_index": 7777,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 3.68794322013855,
+            "Vx": -0.8078868985176086,
+            "pressure": 22.338748931884766
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 4.991888999938965e-07,
+          "momentum_mean_drift_max_abs": 6.724063349461407e-05
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta0.01_Zeta0.01_periodic_Train.hdf5",
+          "source_index": 8888,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 8.145773887634277,
+            "Vx": -0.5871439576148987,
+            "pressure": 19.606367111206055
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 1.0617077350616455e-06,
+          "momentum_mean_drift_max_abs": 0.0003845532053468048
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta0.01_Zeta0.01_periodic_Train.hdf5",
+          "source_index": 9999,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 1.2994623184204102,
+            "Vx": -1.1785609722137451,
+            "pressure": 57.934383392333984
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 6.831251084804535e-07,
+          "momentum_mean_drift_max_abs": 0.00018809642929984438
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta0.1_Zeta0.1_periodic_Train.hdf5",
+          "source_index": 0,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 7.605742454528809,
+            "Vx": -1.0085608959197998,
+            "pressure": 64.34318542480469
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 6.780028343200684e-07,
+          "momentum_mean_drift_max_abs": 0.021229838034348525
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta0.1_Zeta0.1_periodic_Train.hdf5",
+          "source_index": 1111,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 1.949488639831543,
+            "Vx": -0.8915189504623413,
+            "pressure": 12.197403907775879
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 1.6763806343078613e-07,
+          "momentum_mean_drift_max_abs": 0.00041629192918646307
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta0.1_Zeta0.1_periodic_Train.hdf5",
+          "source_index": 2222,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 3.349454402923584,
+            "Vx": -1.5998694896697998,
+            "pressure": 67.28030395507812
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 2.405606210231781e-06,
+          "momentum_mean_drift_max_abs": 0.005073654696239105
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta0.1_Zeta0.1_periodic_Train.hdf5",
+          "source_index": 3333,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 5.145726203918457,
+            "Vx": -0.7331570386886597,
+            "pressure": 95.01966094970703
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 1.8081627786159515e-06,
+          "momentum_mean_drift_max_abs": 0.0010063022010299294
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta0.1_Zeta0.1_periodic_Train.hdf5",
+          "source_index": 4444,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 1.30418062210083,
+            "Vx": -1.1530158519744873,
+            "pressure": 18.932193756103516
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 2.0134029909968376e-06,
+          "momentum_mean_drift_max_abs": 0.0046227224144606005
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta0.1_Zeta0.1_periodic_Train.hdf5",
+          "source_index": 5555,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 3.5426790714263916,
+            "Vx": -1.6645448207855225,
+            "pressure": 62.50551986694336
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 6.640329957008362e-07,
+          "momentum_mean_drift_max_abs": 0.004211881282536689
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta0.1_Zeta0.1_periodic_Train.hdf5",
+          "source_index": 6666,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 5.557379722595215,
+            "Vx": -0.6602184176445007,
+            "pressure": 11.000417709350586
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 6.984919309616089e-07,
+          "momentum_mean_drift_max_abs": 0.008511630988178975
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta0.1_Zeta0.1_periodic_Train.hdf5",
+          "source_index": 7777,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 4.282651424407959,
+            "Vx": -0.4712260067462921,
+            "pressure": 22.338748931884766
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 2.9476359486579895e-07,
+          "momentum_mean_drift_max_abs": 0.0006405564655107832
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta0.1_Zeta0.1_periodic_Train.hdf5",
+          "source_index": 8888,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 8.439881324768066,
+            "Vx": -0.4167424738407135,
+            "pressure": 19.606367111206055
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 1.5534460544586182e-06,
+          "momentum_mean_drift_max_abs": 0.0017931432838960149
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta0.1_Zeta0.1_periodic_Train.hdf5",
+          "source_index": 9999,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 1.3386189937591553,
+            "Vx": -0.9049930572509766,
+            "pressure": 61.182899475097656
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 1.9115395843982697e-07,
+          "momentum_mean_drift_max_abs": 0.0013161073988319782
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta1.e-8_Zeta1.e-8_periodic_Train.hdf5",
+          "source_index": 0,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 6.776419639587402,
+            "Vx": -1.0635946989059448,
+            "pressure": 60.54059982299805
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 7.916241884231567e-07,
+          "momentum_mean_drift_max_abs": 0.09426228414619153
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta1.e-8_Zeta1.e-8_periodic_Train.hdf5",
+          "source_index": 1111,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 1.7871830463409424,
+            "Vx": -1.3210099935531616,
+            "pressure": 12.197403907775879
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 2.8032809495925903e-07,
+          "momentum_mean_drift_max_abs": 0.053413243185816056
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta1.e-8_Zeta1.e-8_periodic_Train.hdf5",
+          "source_index": 2222,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 3.1546385288238525,
+            "Vx": -1.5998694896697998,
+            "pressure": 62.79309844970703
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 3.278721123933792e-06,
+          "momentum_mean_drift_max_abs": 0.023610219204435845
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta1.e-8_Zeta1.e-8_periodic_Train.hdf5",
+          "source_index": 3333,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 5.145726203918457,
+            "Vx": -0.9769096970558167,
+            "pressure": 94.90280151367188
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 6.933696568012238e-07,
+          "momentum_mean_drift_max_abs": 0.007042507820278154
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta1.e-8_Zeta1.e-8_periodic_Train.hdf5",
+          "source_index": 4444,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 1.2209197282791138,
+            "Vx": -1.4076998233795166,
+            "pressure": 18.932193756103516
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 6.842892616987228e-07,
+          "momentum_mean_drift_max_abs": 0.04696181516100362
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta1.e-8_Zeta1.e-8_periodic_Train.hdf5",
+          "source_index": 5555,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 3.4554855823516846,
+            "Vx": -1.9731905460357666,
+            "pressure": 62.50551986694336
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 1.982087269425392e-06,
+          "momentum_mean_drift_max_abs": 0.16883490823403213
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta1.e-8_Zeta1.e-8_periodic_Train.hdf5",
+          "source_index": 6666,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 3.3394579887390137,
+            "Vx": -1.7196379899978638,
+            "pressure": 11.000417709350586
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 1.2088567018508911e-06,
+          "momentum_mean_drift_max_abs": 0.10527806002938611
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta1.e-8_Zeta1.e-8_periodic_Train.hdf5",
+          "source_index": 7777,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 3.512582778930664,
+            "Vx": -0.864478349685669,
+            "pressure": 22.338748931884766
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 4.852190613746643e-07,
+          "momentum_mean_drift_max_abs": 0.0011840913774368023
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta1.e-8_Zeta1.e-8_periodic_Train.hdf5",
+          "source_index": 8888,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 7.879676818847656,
+            "Vx": -0.6514343619346619,
+            "pressure": 19.606367111206055
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 6.09084963798523e-07,
+          "momentum_mean_drift_max_abs": 0.0044099305455183035
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta1.e-8_Zeta1.e-8_periodic_Train.hdf5",
+          "source_index": 9999,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": true,
+          "minimum": {
+            "density": 1.2669978141784668,
+            "Vx": -1.291396141052246,
+            "pressure": 57.178802490234375
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "density_mean_drift_max_abs": 5.909241735935211e-07,
+          "momentum_mean_drift_max_abs": 0.001547888056681268
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta1.e-8_Zeta1.e-8_trans_Train.hdf5",
+          "source_index": 0,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": false,
+          "minimum": {
+            "density": 7.599991798400879,
+            "Vx": -1.0604183673858643,
+            "pressure": 61.01592254638672
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "conservation_check": "Not inferred from domain totals; boundary fluxes unavailable"
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta1.e-8_Zeta1.e-8_trans_Train.hdf5",
+          "source_index": 1111,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": false,
+          "minimum": {
+            "density": 1.7850438356399536,
+            "Vx": -1.3364999294281006,
+            "pressure": 12.197403907775879
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "conservation_check": "Not inferred from domain totals; boundary fluxes unavailable"
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta1.e-8_Zeta1.e-8_trans_Train.hdf5",
+          "source_index": 2222,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": false,
+          "minimum": {
+            "density": 3.456132173538208,
+            "Vx": -1.5998694896697998,
+            "pressure": 63.877464294433594
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "conservation_check": "Not inferred from domain totals; boundary fluxes unavailable"
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta1.e-8_Zeta1.e-8_trans_Train.hdf5",
+          "source_index": 3333,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": false,
+          "minimum": {
+            "density": 5.145726203918457,
+            "Vx": -0.979803204536438,
+            "pressure": 95.01966094970703
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "conservation_check": "Not inferred from domain totals; boundary fluxes unavailable"
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta1.e-8_Zeta1.e-8_trans_Train.hdf5",
+          "source_index": 4444,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": false,
+          "minimum": {
+            "density": 1.2596914768218994,
+            "Vx": -1.1530158519744873,
+            "pressure": 17.511924743652344
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "conservation_check": "Not inferred from domain totals; boundary fluxes unavailable"
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta1.e-8_Zeta1.e-8_trans_Train.hdf5",
+          "source_index": 5555,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": false,
+          "minimum": {
+            "density": 3.4856507778167725,
+            "Vx": -1.9768431186676025,
+            "pressure": 62.50551986694336
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "conservation_check": "Not inferred from domain totals; boundary fluxes unavailable"
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta1.e-8_Zeta1.e-8_trans_Train.hdf5",
+          "source_index": 6666,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": false,
+          "minimum": {
+            "density": 3.2922277450561523,
+            "Vx": -1.7479968070983887,
+            "pressure": 11.000417709350586
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "conservation_check": "Not inferred from domain totals; boundary fluxes unavailable"
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta1.e-8_Zeta1.e-8_trans_Train.hdf5",
+          "source_index": 7777,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": false,
+          "minimum": {
+            "density": 3.4860851764678955,
+            "Vx": -0.8710617423057556,
+            "pressure": 22.27358055114746
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "conservation_check": "Not inferred from domain totals; boundary fluxes unavailable"
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta1.e-8_Zeta1.e-8_trans_Train.hdf5",
+          "source_index": 8888,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": false,
+          "minimum": {
+            "density": 7.8078508377075195,
+            "Vx": -0.6693710088729858,
+            "pressure": 19.606367111206055
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "conservation_check": "Not inferred from domain totals; boundary fluxes unavailable"
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Rand_Eta1.e-8_Zeta1.e-8_trans_Train.hdf5",
+          "source_index": 9999,
+          "finite": true,
+          "frames": 101,
+          "periodic_from_source_name": false,
+          "minimum": {
+            "density": 1.3806802034378052,
+            "Vx": -1.2876081466674805,
+            "pressure": 61.182899475097656
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "conservation_check": "Not inferred from domain totals; boundary fluxes unavailable"
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Shock_Eta1.e-8_Zeta1.e-8_trans_Train.hdf5",
+          "source_index": 0,
+          "finite": true,
+          "frames": 81,
+          "periodic_from_source_name": false,
+          "minimum": {
+            "density": 0.8810937404632568,
+            "Vx": 0.6486786007881165,
+            "pressure": 30.813261032104492
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "conservation_check": "Not inferred from domain totals; boundary fluxes unavailable"
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Shock_Eta1.e-8_Zeta1.e-8_trans_Train.hdf5",
+          "source_index": 1111,
+          "finite": true,
+          "frames": 81,
+          "periodic_from_source_name": false,
+          "minimum": {
+            "density": 1.3206864595413208,
+            "Vx": -0.7932183742523193,
+            "pressure": 10.941751480102539
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "conservation_check": "Not inferred from domain totals; boundary fluxes unavailable"
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Shock_Eta1.e-8_Zeta1.e-8_trans_Train.hdf5",
+          "source_index": 2222,
+          "finite": true,
+          "frames": 81,
+          "periodic_from_source_name": false,
+          "minimum": {
+            "density": 1.5702476501464844,
+            "Vx": 0.5977767109870911,
+            "pressure": 60.56892013549805
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "conservation_check": "Not inferred from domain totals; boundary fluxes unavailable"
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Shock_Eta1.e-8_Zeta1.e-8_trans_Train.hdf5",
+          "source_index": 3333,
+          "finite": true,
+          "frames": 81,
+          "periodic_from_source_name": false,
+          "minimum": {
+            "density": 0.7339336276054382,
+            "Vx": 0.8882203698158264,
+            "pressure": 26.59808349609375
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "conservation_check": "Not inferred from domain totals; boundary fluxes unavailable"
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Shock_Eta1.e-8_Zeta1.e-8_trans_Train.hdf5",
+          "source_index": 4444,
+          "finite": true,
+          "frames": 81,
+          "periodic_from_source_name": false,
+          "minimum": {
+            "density": 1.3911519050598145,
+            "Vx": 0.8341737389564514,
+            "pressure": 50.59076690673828
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "conservation_check": "Not inferred from domain totals; boundary fluxes unavailable"
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Shock_Eta1.e-8_Zeta1.e-8_trans_Train.hdf5",
+          "source_index": 5555,
+          "finite": true,
+          "frames": 81,
+          "periodic_from_source_name": false,
+          "minimum": {
+            "density": 1.0968073606491089,
+            "Vx": -1.5263619422912598,
+            "pressure": 10.378406524658203
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "conservation_check": "Not inferred from domain totals; boundary fluxes unavailable"
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Shock_Eta1.e-8_Zeta1.e-8_trans_Train.hdf5",
+          "source_index": 6666,
+          "finite": true,
+          "frames": 81,
+          "periodic_from_source_name": false,
+          "minimum": {
+            "density": 0.9504307508468628,
+            "Vx": 0.6469851732254028,
+            "pressure": 10.179399490356445
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "conservation_check": "Not inferred from domain totals; boundary fluxes unavailable"
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Shock_Eta1.e-8_Zeta1.e-8_trans_Train.hdf5",
+          "source_index": 7777,
+          "finite": true,
+          "frames": 81,
+          "periodic_from_source_name": false,
+          "minimum": {
+            "density": 3.273491859436035,
+            "Vx": 0.4444565176963806,
+            "pressure": 43.057708740234375
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "conservation_check": "Not inferred from domain totals; boundary fluxes unavailable"
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Shock_Eta1.e-8_Zeta1.e-8_trans_Train.hdf5",
+          "source_index": 8888,
+          "finite": true,
+          "frames": 81,
+          "periodic_from_source_name": false,
+          "minimum": {
+            "density": 4.979231357574463,
+            "Vx": 0.7885668277740479,
+            "pressure": 12.73232364654541
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "conservation_check": "Not inferred from domain totals; boundary fluxes unavailable"
+        },
+        {
+          "family": "compressible",
+          "file": "1D_CFD_Shock_Eta1.e-8_Zeta1.e-8_trans_Train.hdf5",
+          "source_index": 9999,
+          "finite": true,
+          "frames": 81,
+          "periodic_from_source_name": false,
+          "minimum": {
+            "density": 0.8860565423965454,
+            "Vx": 1.0757299661636353,
+            "pressure": 13.899452209472656
+          },
+          "status": "diagnostic_only_not_certified",
+          "positive_density_and_pressure": true,
+          "conservation_check": "Not inferred from domain totals; boundary fluxes unavailable"
+        }
+      ],
+      "reference_certification": "not_complete",
+      "blocking_gaps": [
+        "No approved Burgers/CNS public task contract yet.",
+        "Archived generator and HF publication are not a certified per-record precision bound.",
+        "Point/cell-average interpretation, exact generation settings and boundary closure need binding.",
+        "No independent reference solver run or calibrated grading tolerance in this preflight."
+      ],
+      "burgers_records": 120,
+      "cns_records": 50
+    }
+  },
+  "limitations": [
+    "Experimental transport, not production CLI format migration.",
+    "No full 250000-record migration, formal selection change, or LLM benchmark.",
+    "Burgers/CNS diagnostics do not certify numerical reference precision.",
+    "Limited child process checks are not a Harbor cgroup/container acceptance run."
+  ],
+  "job_id": "6ad46edac6628814522715de",
+  "elapsed_seconds": 949.436162581,
+  "disk_usage_bytes": 256994496512,
+  "disk_usage_scope": "End-of-run filesystem occupancy, not peak measurement"
+}

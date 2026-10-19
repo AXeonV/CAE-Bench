@@ -1,0 +1,35 @@
+{
+  "revision": "4ff3e3a4aa1561721b5571fa3a048a0a463e0568",
+  "review": "All nested numerical kernels compared before/after AST driver adaptation; random initialization and output driver replaced, numerical equations unchanged. utils deprecated .loc indexing changed to .at only; replay is diagnostic, not reference certification.",
+  "records": [
+    {
+      "family": "burgers",
+      "file_sha256": "905f01f0c60749665f9b55e0a58e4894df0c3fad62eea1b9a6ffbeae60ca6c50",
+      "kernel_functions": [
+        "evolve",
+        "simulation_fn",
+        "update",
+        "flux"
+      ],
+      "unchanged_kernel_ast": true,
+      "kernel_ast_sha256": "6839be7f97d34fce9fc9458e91351469db7c6a69c983233bbdbcb19bd82c34f4"
+    },
+    {
+      "family": "compressible",
+      "file_sha256": "5d3fc091cf901b7d1b8a51f985fc8e197e90a591cbccd1d8e687d80ac8e0d697",
+      "kernel_functions": [
+        "evolve",
+        "simulation_fn",
+        "update",
+        "update_vis",
+        "flux_x",
+        "flux_y",
+        "flux_z",
+        "HLL",
+        "HLLC"
+      ],
+      "unchanged_kernel_ast": true,
+      "kernel_ast_sha256": "268cecd8a241fad4e43f0204575d8a4154b6b1b424f0539da90c169375979694"
+    }
+  ]
+}

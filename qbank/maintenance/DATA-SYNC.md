@@ -12,11 +12,13 @@ python -m caeoj_tools.cli data --help
 python -m caeoj_tools.cli data pack --task heat-conduction-steady-2d --output work/heat-pool
 ```
 
-`--task` 是唯一题目目录名。已有版本 4 清单时沿用身份和仓库定位；新题必须显式 `--task-id caeoj-000123`，工具检查编号不重复。可用 `--source` 读取独立生成目录，用 `--repo-id` 为新题指定仓库。输出必须为空。
+`--task` 是唯一题目目录名。已有版本 4 清单时沿用身份和仓库定位；新题必须显式 `--task-id caeoj-000123`，工具检查编号不重复。可用 `--source` 读取独立生成目录，用 `--repo-id` 为新题指定仓库。输出必须为空。非 editable 安装或云端隔离工作区在每个子命令加 `--root <作者工作区>`，该目录需有本题契约与 data-manifest.json。
 
-bundle 的 `repository/` 包含索引、case 描述、输入及reference/grading.json绑定的全部判题资产。相同输入的样例复用 case；不同 case 的网格不共享。`evidence/` 单独收集非消费参考记录和样例验证材料，不会上传。已有来源证书核对输入绑定并在描述中保留必要身份，完整记录仍是作者材料。
+默认 bundle 的 `repository/` 包含索引、case 描述、输入及reference/grading.json绑定的全部判题资产。相同输入的样例复用 case；不同 case 的网格不共享。`evidence/` 单独收集非消费参考记录和样例验证材料，不会上传。已有来源证书核对输入绑定并在描述中保留必要身份，完整记录仍是作者材料。
 
 生成器应把解析、catalog、验证报告直接写到 `author/data-evidence/`。审核 bundle/evidence 后将应维护的 JSON 证据归到该目录；数字中间件留忽略的工作空间，不为追求原目录还原而再次引入附件机制。制池不修改正式选样，不自动重新求参考，也不将材料齐备宣称为数值通过。
+
+大池加 `pack --shard-mib 128` 输出 TAR/locator 批次，传输不改变逻辑 case。后续命令自动发现分区池，选择仍绑定描述摘要。分片粒度、原子发布与索引字段见存储设计；单例获取会下载所在整片。原直接目录池转分区池需明确迁移，不能向旧根隐式混写。
 
 ## 上传
 

@@ -1,6 +1,8 @@
 """CLI for author-side data pools; also registered under caeoj-maint data."""
 import argparse
 import json
+import tempfile
+import shutil
 from pathlib import Path
 
 from . import data_pool as pool
@@ -16,6 +18,7 @@ def configure(parser):
     pack.add_argument('--output', type=Path, required=True, help='Empty staging bundle directory')
     pack.add_argument('--task-id', help='Required for tasks without a data manifest')
     pack.add_argument('--repo-id', default='jimzhouzzy2006/CAE-Bench-OJ')
+    pack.add_argument('--shard-mib',type=int,help='Pack immutable TAR transport, target MiB per shard')
     upload = commands.add_parser('upload', help='Validate and atomically merge a bundle into HF')
     upload.add_argument('--bundle', type=Path, required=True)
     upload.add_argument('--update', action='store_true')
@@ -41,12 +44,15 @@ def configure(parser):
         else:
             p.add_argument('--strict', action='store_true')
             p.add_argument('--samples-only', action='store_true')
+    for command in commands.choices.values():
+        command.add_argument('--root',type=Path,default=PROJECT_ROOT,help='Author workspace root (also supports non-editable installations)')
 
 
 def _run(args):
     if args.data_command == 'upload':
         return pool.upload(args.bundle, update=args.update, revision=args.revision)
-    task = task_directory(args.task, PROJECT_ROOT)
+    root=args.root.resolve()
+    task = task_directory(args.task, root)
     selection = getattr(args, 'manifest', None) or task/'data-manifest.json'
     if args.data_command == 'pack':
         if selection.exists():
@@ -56,12 +62,20 @@ def _run(args):
         else:
             if not args.task_id:
                 raise pool.PoolError('New tasks require an explicitly assigned --task-id')
-            for path in (PROJECT_ROOT/'qbank').glob('**/data-manifest.json'):
+            for path in (root/'qbank').glob('**/data-manifest.json'):
                 if pool.checked_json(path).get('task_id') == args.task_id:
                     raise pool.PoolError('Task ID already assigned: ' + args.task_id)
             value = {'schema_version': 4, 'task_id': args.task_id,
                      'repository': {'repo_id': args.repo_id, 'repo_type': 'dataset',
-                                    'path': task.relative_to(PROJECT_ROOT).as_posix()}}
+                                    'path': task.relative_to(root).as_posix()}}
+        if args.shard_mib is not None:
+            if not 1<=args.shard_mib<=512:raise pool.PoolError('--shard-mib must be 1..512')
+            with tempfile.TemporaryDirectory(prefix='caeoj-pack-') as tmp:
+                raw=Path(tmp)/'raw'
+                pool.pack(args.source or task,raw,value)
+                catalog=pool.shard_bundle(raw,args.output,target_bytes=args.shard_mib*1024**2)
+                if (raw/'evidence').exists():shutil.copytree(raw/'evidence',args.output/'evidence')
+                return {'bundle':str(args.output),'cases':catalog['case_count'],'shards':len(catalog['shards'])}
         return pool.pack(args.source or task, args.output, value)
     if args.data_command == 'verify':
         if selection != task/'data-manifest.json':

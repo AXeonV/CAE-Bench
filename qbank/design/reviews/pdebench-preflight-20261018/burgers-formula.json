@@ -1,0 +1,991 @@
+{
+  "status": "formula_diagnostic_completed",
+  "job_id": "6ad46faac662881452271631",
+  "formula_source": "https://math.nyu.edu/~tabak/PDEs/The_Burgers-Equation.pdf",
+  "periodic_specialization": "Mean removal, periodic heat Fourier series, exact exponential initial-segment integrals, cell-average log ratios",
+  "interpretation": "Published initial values define a NEW piecewise-constant periodic initial field.",
+  "scope": "Six higher-viscosity parameter files; three source trajectories each; three archived times.",
+  "limitations": [
+    "Neither interpretation of the Nu label is assumed proven by this comparison.",
+    "Archived point/cell-average semantics and original smooth initial field remain unresolved.",
+    "Mode refinement and truncation estimates exclude certified floating-point error.",
+    "No claim for lower-viscosity files, no new official case, no PDE time-stepping reference solver."
+  ],
+  "records": [
+    {
+      "file": "1D_Burgers_Sols_Nu0.1.hdf5",
+      "source_index": 0,
+      "Nu_attribute": 0.1,
+      "times": [
+        0.009999999776482582,
+        0.09999999403953552,
+        1.0
+      ],
+      "hypotheses": {
+        "Nu": {
+          "diffusivity": 0.1,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.016722492478379203,
+            0.007874456459234125,
+            0.0004307783211036087
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            3.019102773911008e-70,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9937254222271859,
+            0.9999264059813889,
+            0.9999981359920759
+          ],
+          "floating_point_error_certified": false
+        },
+        "Nu_over_pi": {
+          "diffusivity": 0.03183098861837907,
+          "mode_refinement_max_abs": 3.5459413183502875e-12,
+          "archive_difference_max_abs_by_time": [
+            1.4078607199929927e-05,
+            5.586600649554185e-05,
+            0.0004590971591396098
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            2.9142188691999756e-21,
+            6.900521750950503e-229,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9699900526936607,
+            0.9948740819064518,
+            0.999913592880211
+          ],
+          "floating_point_error_certified": false
+        }
+      }
+    },
+    {
+      "file": "1D_Burgers_Sols_Nu0.1.hdf5",
+      "source_index": 4444,
+      "Nu_attribute": 0.1,
+      "times": [
+        0.009999999776482582,
+        0.09999999403953552,
+        1.0
+      ],
+      "hypotheses": {
+        "Nu": {
+          "diffusivity": 0.1,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.11108686799077527,
+            0.2221251451990497,
+            0.08000388070697681
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            3.9727129065960424e-70,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.7551915402119064,
+            0.8275961810703852,
+            0.9949565211219188
+          ],
+          "floating_point_error_certified": false
+        },
+        "Nu_over_pi": {
+          "diffusivity": 0.03183098861837907,
+          "mode_refinement_max_abs": 3.575338913819337e-10,
+          "archive_difference_max_abs_by_time": [
+            2.1524313858600763e-05,
+            0.00012056158394707639,
+            0.0005171972138726111
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            8.568921857907103e-21,
+            1.5754438361787096e-228,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.3298855283512366,
+            0.4357597575997396,
+            0.7900860375851706
+          ],
+          "floating_point_error_certified": false
+        }
+      }
+    },
+    {
+      "file": "1D_Burgers_Sols_Nu0.1.hdf5",
+      "source_index": 9999,
+      "Nu_attribute": 0.1,
+      "times": [
+        0.009999999776482582,
+        0.09999999403953552,
+        1.0
+      ],
+      "hypotheses": {
+        "Nu": {
+          "diffusivity": 0.1,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.12572158628968788,
+            0.09330506679376127,
+            0.07681952547890833
+          ],
+          "mean_error_max_abs": 2.7755575615628914e-17,
+          "fourier_truncation_cell_average_bound": [
+            3.9513305141243647e-70,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.7592782147754185,
+            0.8430087078584713,
+            0.9954321346654981
+          ],
+          "floating_point_error_certified": false
+        },
+        "Nu_over_pi": {
+          "diffusivity": 0.03183098861837907,
+          "mode_refinement_max_abs": 3.4514762159432166e-09,
+          "archive_difference_max_abs_by_time": [
+            3.6404437365300524e-05,
+            8.093260271646585e-05,
+            0.00048067257691886134
+          ],
+          "mean_error_max_abs": 2.7755575615628914e-17,
+          "fourier_truncation_cell_average_bound": [
+            7.846044347596327e-21,
+            1.5604937800743082e-228,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.3602787837112005,
+            0.43993448287409875,
+            0.80022912976309
+          ],
+          "floating_point_error_certified": false
+        }
+      }
+    },
+    {
+      "file": "1D_Burgers_Sols_Nu0.2.hdf5",
+      "source_index": 0,
+      "Nu_attribute": 0.2,
+      "times": [
+        0.009999999776482582,
+        0.09999999403953552,
+        1.0
+      ],
+      "hypotheses": {
+        "Nu": {
+          "diffusivity": 0.2,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.022579367121733585,
+            0.0012107661869393826,
+            0.0005045067933441283
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            2.176370379528788e-142,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9983124463131328,
+            0.9999779572882794,
+            0.9999999820158251
+          ],
+          "floating_point_error_certified": false
+        },
+        "Nu_over_pi": {
+          "diffusivity": 0.06366197723675814,
+          "mode_refinement_max_abs": 1.4988010832439613e-14,
+          "archive_difference_max_abs_by_time": [
+            2.6624444301015515e-05,
+            7.18633229633836e-05,
+            0.0005089354576630623
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            4.1994729524085386e-44,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9876513459774011,
+            0.9995908226600044,
+            0.9999877088108032
+          ],
+          "floating_point_error_certified": false
+        }
+      }
+    },
+    {
+      "file": "1D_Burgers_Sols_Nu0.2.hdf5",
+      "source_index": 4444,
+      "Nu_attribute": 0.2,
+      "times": [
+        0.009999999776482582,
+        0.09999999403953552,
+        1.0
+      ],
+      "hypotheses": {
+        "Nu": {
+          "diffusivity": 0.2,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.1791279529285248,
+            0.16259414843074182,
+            0.025983566960917415
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            2.4508133901894382e-142,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.8865210408789566,
+            0.9401189608570476,
+            0.9999508550371714
+          ],
+          "floating_point_error_certified": false
+        },
+        "Nu_over_pi": {
+          "diffusivity": 0.06366197723675814,
+          "mode_refinement_max_abs": 2.8976820942716586e-14,
+          "archive_difference_max_abs_by_time": [
+            4.180251828411752e-05,
+            5.538501219937153e-05,
+            0.0003649196975158975
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            6.718748910764157e-44,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.6173195588835085,
+            0.7072025121449994,
+            0.9673687653178256
+          ],
+          "floating_point_error_certified": false
+        }
+      }
+    },
+    {
+      "file": "1D_Burgers_Sols_Nu0.2.hdf5",
+      "source_index": 9999,
+      "Nu_attribute": 0.2,
+      "times": [
+        0.009999999776482582,
+        0.09999999403953552,
+        1.0
+      ],
+      "hypotheses": {
+        "Nu": {
+          "diffusivity": 0.2,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.12765237635977145,
+            0.10241763225871581,
+            0.023683611849396047
+          ],
+          "mean_error_max_abs": 5.551115123125783e-17,
+          "fourier_truncation_cell_average_bound": [
+            2.4595757658489108e-142,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.8833627602933098,
+            0.9461622057909646,
+            0.9999557133998137
+          ],
+          "floating_point_error_certified": false
+        },
+        "Nu_over_pi": {
+          "diffusivity": 0.06366197723675814,
+          "mode_refinement_max_abs": 8.681944052568724e-14,
+          "archive_difference_max_abs_by_time": [
+            4.091292609653685e-05,
+            3.869712041126849e-05,
+            0.00029207575001677366
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            6.571762596760572e-44,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.6311267415360491,
+            0.7231971480354819,
+            0.9701555935440149
+          ],
+          "floating_point_error_certified": false
+        }
+      }
+    },
+    {
+      "file": "1D_Burgers_Sols_Nu0.4.hdf5",
+      "source_index": 0,
+      "Nu_attribute": 0.4,
+      "times": [
+        0.009999999776482582,
+        0.09999999403953552,
+        1.0
+      ],
+      "hypotheses": {
+        "Nu": {
+          "diffusivity": 0.4,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.02157166756764073,
+            0.0005086590674053815,
+            0.0005335733321849556
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            5.763536093481944e-287,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9997505445012316,
+            0.9999950211708972,
+            0.9999999999966519
+          ],
+          "floating_point_error_certified": false
+        },
+        "Nu_over_pi": {
+          "diffusivity": 0.12732395447351627,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            4.3455545130965945e-05,
+            0.00042594667570061695,
+            0.0005337034195294077
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            6.149938348703259e-90,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9958412663171806,
+            0.9999546590152386,
+            0.9999995021932226
+          ],
+          "floating_point_error_certified": false
+        }
+      }
+    },
+    {
+      "file": "1D_Burgers_Sols_Nu0.4.hdf5",
+      "source_index": 4444,
+      "Nu_attribute": 0.4,
+      "times": [
+        0.009999999776482582,
+        0.09999999403953552,
+        1.0
+      ],
+      "hypotheses": {
+        "Nu": {
+          "diffusivity": 0.4,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.24031393632744763,
+            0.13892404343602038,
+            0.0035800500594291296
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            6.067354334422121e-287,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9496887819820856,
+            0.9863609780961351,
+            0.9999999908275448
+          ],
+          "floating_point_error_certified": false
+        },
+        "Nu_over_pi": {
+          "diffusivity": 0.12732395447351627,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            6.685748647161649e-05,
+            0.0002146623686682947,
+            0.0014738453770302695
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            7.5527074263981806e-90,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.8108830446072101,
+            0.8762885300525909,
+            0.9986462627340841
+          ],
+          "floating_point_error_certified": false
+        }
+      }
+    },
+    {
+      "file": "1D_Burgers_Sols_Nu0.4.hdf5",
+      "source_index": 9999,
+      "Nu_attribute": 0.4,
+      "times": [
+        0.009999999776482582,
+        0.09999999403953552,
+        1.0
+      ],
+      "hypotheses": {
+        "Nu": {
+          "diffusivity": 0.4,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.13069190526582075,
+            0.12624780842645067,
+            0.0023314502580041307
+          ],
+          "mean_error_max_abs": 2.7755575615628914e-17,
+          "fourier_truncation_cell_average_bound": [
+            6.082381766989402e-287,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9473424340088966,
+            0.987725967992575,
+            0.9999999917441968
+          ],
+          "floating_point_error_certified": false
+        },
+        "Nu_over_pi": {
+          "diffusivity": 0.12732395447351627,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            6.087661131060074e-05,
+            0.00018042371053617057,
+            0.0004223565419752551
+          ],
+          "mean_error_max_abs": 5.551115123125783e-17,
+          "fourier_truncation_cell_average_bound": [
+            7.54798043958214e-90,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.8113908669965089,
+            0.8883603190067924,
+            0.9987770992175569
+          ],
+          "floating_point_error_certified": false
+        }
+      }
+    },
+    {
+      "file": "1D_Burgers_Sols_Nu1.0.hdf5",
+      "source_index": 0,
+      "Nu_attribute": 1.0,
+      "times": [
+        0.009999999776482582,
+        0.09999999403953552,
+        1.0
+      ],
+      "hypotheses": {
+        "Nu": {
+          "diffusivity": 1.0,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.007922986789040909,
+            0.000534829599899922,
+            0.0005370303988456726
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9999926476860058,
+            0.9999998136001413,
+            1.0
+          ],
+          "floating_point_error_certified": false
+        },
+        "Nu_over_pi": {
+          "diffusivity": 0.3183098861837907,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            6.210593380684415e-05,
+            0.0005038129572980665,
+            0.0005370303960126055
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            6.868538289429246e-228,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9994869607322704,
+            0.9999913594954258,
+            0.9999999998941682
+          ],
+          "floating_point_error_certified": false
+        }
+      }
+    },
+    {
+      "file": "1D_Burgers_Sols_Nu1.0.hdf5",
+      "source_index": 4444,
+      "Nu_attribute": 1.0,
+      "times": [
+        0.009999999776482582,
+        0.09999999403953552,
+        1.0
+      ],
+      "hypotheses": {
+        "Nu": {
+          "diffusivity": 1.0,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.22459584015936684,
+            0.08839591616082743,
+            0.0037128653639229015
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9825456915301093,
+            0.9994889874415904,
+            1.0
+          ],
+          "floating_point_error_certified": false
+        },
+        "Nu_over_pi": {
+          "diffusivity": 0.3183098861837907,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            7.003916189840531e-05,
+            0.0002014003362840744,
+            0.003712192366233158
+          ],
+          "mean_error_max_abs": 1.1102230246251565e-16,
+          "fourier_truncation_cell_average_bound": [
+            7.347183662823365e-228,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.93437360145381,
+            0.9763494314635838,
+            0.9999997102103476
+          ],
+          "floating_point_error_certified": false
+        }
+      }
+    },
+    {
+      "file": "1D_Burgers_Sols_Nu1.0.hdf5",
+      "source_index": 9999,
+      "Nu_attribute": 1.0,
+      "times": [
+        0.009999999776482582,
+        0.09999999403953552,
+        1.0
+      ],
+      "hypotheses": {
+        "Nu": {
+          "diffusivity": 1.0,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.090398646601968,
+            0.07999002852873988,
+            0.001777809261120089
+          ],
+          "mean_error_max_abs": 2.7755575615628914e-17,
+          "fourier_truncation_cell_average_bound": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9838552983906479,
+            0.99954018517052,
+            1.0
+          ],
+          "floating_point_error_certified": false
+        },
+        "Nu_over_pi": {
+          "diffusivity": 0.3183098861837907,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            4.613467126096671e-05,
+            0.00019918382729255946,
+            0.001777002731664895
+          ],
+          "mean_error_max_abs": 5.551115123125783e-17,
+          "fourier_truncation_cell_average_bound": [
+            7.373553327981947e-228,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9310320484864162,
+            0.9787191915078375,
+            0.9999997391133822
+          ],
+          "floating_point_error_certified": false
+        }
+      }
+    },
+    {
+      "file": "1D_Burgers_Sols_Nu2.0.hdf5",
+      "source_index": 0,
+      "Nu_attribute": 2.0,
+      "times": [
+        0.009999999776482582,
+        0.09999999403953552,
+        1.0
+      ],
+      "hypotheses": {
+        "Nu": {
+          "diffusivity": 2.0,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.0012459312304837766,
+            0.0005373463683704394,
+            0.000537388026714325
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9999977957438121,
+            0.999999998201585,
+            1.0
+          ],
+          "floating_point_error_certified": false
+        },
+        "Nu_over_pi": {
+          "diffusivity": 0.6366197723675814,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            9.58318337308528e-05,
+            0.000528321776775531,
+            0.000537388026714325
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9999590265117241,
+            0.9999987708895429,
+            0.9999999999999998
+          ],
+          "floating_point_error_certified": false
+        }
+      }
+    },
+    {
+      "file": "1D_Burgers_Sols_Nu2.0.hdf5",
+      "source_index": 4444,
+      "Nu_attribute": 2.0,
+      "times": [
+        0.009999999776482582,
+        0.09999999403953552,
+        1.0
+      ],
+      "hypotheses": {
+        "Nu": {
+          "diffusivity": 2.0,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.16260222342626918,
+            0.027190293303924307,
+            0.0037412073725135997
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9939927177256892,
+            0.9999950691666979,
+            1.0
+          ],
+          "floating_point_error_certified": false
+        },
+        "Nu_over_pi": {
+          "diffusivity": 0.6366197723675814,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.0001117158400059104,
+            0.00036425311007803884,
+            0.0037412073711475258
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9698441294891448,
+            0.9966310839446136,
+            0.9999999999994942
+          ],
+          "floating_point_error_certified": false
+        }
+      }
+    },
+    {
+      "file": "1D_Burgers_Sols_Nu2.0.hdf5",
+      "source_index": 9999,
+      "Nu_attribute": 2.0,
+      "times": [
+        0.009999999776482582,
+        0.09999999403953552,
+        1.0
+      ],
+      "hypotheses": {
+        "Nu": {
+          "diffusivity": 2.0,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.10207219458489108,
+            0.02430423640537699,
+            0.0017843061674006067
+          ],
+          "mean_error_max_abs": 2.7755575615628914e-17,
+          "fourier_truncation_cell_average_bound": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9945887262393753,
+            0.9999955632745146,
+            1.0
+          ],
+          "floating_point_error_certified": false
+        },
+        "Nu_over_pi": {
+          "diffusivity": 0.6366197723675814,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            5.041301223041028e-05,
+            0.00016181564270661974,
+            0.0017843061652836334
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9703941666861249,
+            0.9969684228382623,
+            0.9999999999995448
+          ],
+          "floating_point_error_certified": false
+        }
+      }
+    },
+    {
+      "file": "1D_Burgers_Sols_Nu4.0.hdf5",
+      "source_index": 0,
+      "Nu_attribute": 4.0,
+      "times": [
+        0.009999999776482582,
+        0.09999999403953552,
+        1.0
+      ],
+      "hypotheses": {
+        "Nu": {
+          "diffusivity": 4.0,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.0005135847130821602,
+            0.0005388781273678589,
+            0.0005388781428337097
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9999995021176529,
+            0.9999999999996652,
+            1.0
+          ],
+          "floating_point_error_certified": false
+        },
+        "Nu_over_pi": {
+          "diffusivity": 1.2732395447351628,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.0004236527369628762,
+            0.0005381498811850571,
+            0.0005388781428337097
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9999954678229053,
+            0.9999999502194996,
+            1.0
+          ],
+          "floating_point_error_certified": false
+        }
+      }
+    },
+    {
+      "file": "1D_Burgers_Sols_Nu4.0.hdf5",
+      "source_index": 4444,
+      "Nu_attribute": 4.0,
+      "times": [
+        0.009999999776482582,
+        0.09999999403953552,
+        1.0
+      ],
+      "hypotheses": {
+        "Nu": {
+          "diffusivity": 4.0,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.13878457456031867,
+            0.0037562117913978454,
+            0.003756257545319386
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.998634964296422,
+            0.9999999990819842,
+            1.0
+          ],
+          "floating_point_error_certified": false
+        },
+        "Nu_over_pi": {
+          "diffusivity": 1.2732395447351628,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.0002526957777230221,
+            0.0016283456108119876,
+            0.003756257545319386
+          ],
+          "mean_error_max_abs": 0.0,
+          "fourier_truncation_cell_average_bound": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9875331893261398,
+            0.9998635203604119,
+            1.0
+          ],
+          "floating_point_error_certified": false
+        }
+      }
+    },
+    {
+      "file": "1D_Burgers_Sols_Nu4.0.hdf5",
+      "source_index": 9999,
+      "Nu_attribute": 4.0,
+      "times": [
+        0.009999999776482582,
+        0.09999999403953552,
+        1.0
+      ],
+      "hypotheses": {
+        "Nu": {
+          "diffusivity": 4.0,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.12628623370937847,
+            0.0024405415938835717,
+            0.0017873162019617639
+          ],
+          "mean_error_max_abs": 2.7755575615628914e-17,
+          "fourier_truncation_cell_average_bound": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9987717533288122,
+            0.9999999991739741,
+            1.0
+          ],
+          "floating_point_error_certified": false
+        },
+        "Nu_over_pi": {
+          "diffusivity": 1.2732395447351628,
+          "mode_refinement_max_abs": 0.0,
+          "archive_difference_max_abs_by_time": [
+            0.00019101057898118778,
+            0.00048462562372997287,
+            0.0017873162019617639
+          ],
+          "mean_error_max_abs": 2.7755575615628914e-17,
+          "fourier_truncation_cell_average_bound": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "minimum_phi_over_mean": [
+            0.9886519893927347,
+            0.9998771957396706,
+            1.0
+          ],
+          "floating_point_error_certified": false
+        }
+      }
+    }
+  ],
+  "source_trajectories": 18,
+  "elapsed_seconds": 34.70713178699998,
+  "reference_certification": "not_complete"
+}

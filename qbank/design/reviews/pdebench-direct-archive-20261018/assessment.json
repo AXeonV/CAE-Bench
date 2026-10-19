@@ -1,0 +1,63 @@
+{
+  "method": "Each family measured full conversion+pack+upload+fixed-commit consume scaled by 10000/16; sequential all-file pilot, small contiguous first-16 cohort; not a full-batch guarantee",
+  "families": [
+    {
+      "family": "advection",
+      "cases": 128,
+      "source_files": 8,
+      "full_source_rows": 80000,
+      "measured_seconds": 66.75248020491563,
+      "linear_proxy_seconds": 41720.30012807227,
+      "linear_proxy_cost_usd": 0.11612150202313448,
+      "linear_proxy_batch_bytes": 70004363125
+    },
+    {
+      "family": "burgers",
+      "cases": 192,
+      "source_files": 12,
+      "full_source_rows": 120000,
+      "measured_seconds": 82.80708247679286,
+      "linear_proxy_seconds": 51754.426547995536,
+      "linear_proxy_cost_usd": 0.14404982055858756,
+      "linear_proxy_batch_bytes": 65795097500
+    },
+    {
+      "family": "compressible",
+      "cases": 80,
+      "source_files": 5,
+      "full_source_rows": 50000,
+      "measured_seconds": 58.93833498493768,
+      "linear_proxy_seconds": 36836.45936558605,
+      "linear_proxy_cost_usd": 0.1025281452342145,
+      "linear_proxy_batch_bytes": 51692403750
+    }
+  ],
+  "linear_proxy_compute_usd": 0.36269946781593654,
+  "linear_proxy_seconds": 130311.18604165385,
+  "linear_proxy_compressed_bytes": 187491864375,
+  "job_bootstrap_seconds_including_report_commits_approx": 17.502102333353832,
+  "limitations": [
+    "Only first 16 rows per source; no random or hard-cohort claim",
+    "1000-row production batch and fresh large-scale uploads not yet measured",
+    "Startup, root-index growth, network variation and retries can change total",
+    "Per-family times include fixed source/commit overhead that will not scale linearly",
+    "No solver or replacement reference compute included"
+  ],
+  "budget_occupation_before_full_run_usd": 0.107185,
+  "cumulative_budget_hard_limit_usd": 1.0,
+  "remaining_usd": 0.892815,
+  "formal_selection_changed": false,
+  "thousand_row_job_scenario": {
+    "jobs": 250,
+    "bootstrap_per_job_seconds_proxy": 17.502102333353832,
+    "bootstrap_compute_usd_proxy": 0.012178546206958707,
+    "up_to_one_rounding_minute_per_job_usd": 0.041749999999999995,
+    "additional_lifecycle_bound_minute_per_job_usd": 0.041749999999999995,
+    "compute_plus_bootstrap_and_rounding_proxy_usd": 0.41662801402289523,
+    "with_extra_lifecycle_bound_minutes_proxy_usd": 0.45837801402289524
+  },
+  "suggested_remaining_migration_allowance_usd": [
+    0.6,
+    0.8
+  ]
+}

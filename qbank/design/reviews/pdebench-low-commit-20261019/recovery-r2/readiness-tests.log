@@ -1,0 +1,70 @@
+usage: python -m unittest [-h] --repo-id REPO_ID --revision REVISION
+                          --prefix PREFIX --source-revision SOURCE_REVISION
+                          --source-prefix SOURCE_PREFIX [--per-file PER_FILE]
+                          [--batch-start BATCH_START] [--full]
+                          [--hard-timeout-seconds HARD_TIMEOUT_SECONDS]
+                          [--baseline-revision BASELINE_REVISION]
+python -m unittest: error: Only the budgeted HF launcher may run this array worker
+usage: python -m unittest [-h] [--child-config CHILD_CONFIG]
+                          [--repo-id REPO_ID] [--revision REVISION]
+                          [--prefix PREFIX]
+                          [--source-revision SOURCE_REVISION]
+                          [--source-prefix SOURCE_PREFIX]
+                          [--calibration-mode {mechanical,references,auxiliary,cns-focus}]
+python -m unittest: error: All numeric reads require HF Jobs
+usage: python -m unittest [-h] --repo-id REPO_ID --revision REVISION
+                          --prefix PREFIX [--per-file PER_FILE]
+python -m unittest: error: Remote array reads are restricted to HF Jobs (JOB_ID missing)
+{"phase": "commit_post", "worker": 1, "slot": 2175, "server_time": 100053.0, "own_commit_posts_last_hour": 1}
+{"phase": "rate_limited_wait", "worker": 1, "until_server_time": 100173.0}
+{"phase": "commit_post", "worker": 1, "slot": 2180, "server_time": 100283.0, "own_commit_posts_last_hour": 2}
+{"phase": "commit_post", "worker": 1, "slot": 2175, "server_time": 100053.0, "own_commit_posts_last_hour": 1}
+{"phase": "commit_post", "worker": 2, "slot": 2176, "server_time": 100099.0, "own_commit_posts_last_hour": 1}
+{"phase": "rate_limited_wait", "worker": 2, "until_server_time": 100219.0}
+{"phase": "commit_post", "worker": 2, "slot": 2181, "server_time": 100329.0, "own_commit_posts_last_hour": 2}
+  inspect ReacDiff_Nu0.5_Rho1.0.hdf5
+  inspect ReacDiff_Nu0.5_Rho10.0.hdf5
+  prepare sample 01
+  prepare sample 02
+  prepare case 001
+  prepare sample 01
+  prepare sample 02
+  prepare case 001
+    failed: External reference evidence does not bind to this exact input/contract
+  prepare sample 01
+  prepare sample 02
+  prepare case 001
+  inspect 1D_Advection_Sols_beta0.1.hdf5
+  inspect 1D_Advection_Sols_beta0.4.hdf5
+  inspect 1D_Advection_Sols_beta2.0.hdf5
+  prepare sample 01
+  prepare sample 02
+  prepare case 001
+  prepare sample 01
+  prepare sample 02
+  prepare case 001
+  prepare sample 01
+    failed: Existing problem definition differs from the frozen source conversion; preserving /Users/jimzhou/code/CAE-Bench-OJ/runs/test-tmp/tmp95vtttmm/clone/qbank/01-prescribed-pdes/1.3-scalar-transport/advection-1d/samples/01/input/problem.json
+  prepare sample 02
+  prepare case 001
+  inspect 1D_Advection_Sols_beta0.1.hdf5
+  inspect 1D_Advection_Sols_beta0.4.hdf5
+  inspect 1D_Advection_Sols_beta2.0.hdf5
+  prepare sample 01
+  prepare sample 02
+  prepare case 001
+  prepare sample 01
+  prepare sample 02
+  prepare case 001
+  prepare sample 01
+  prepare sample 02
+  prepare case 001
+  inspect ReacDiff_Nu0.5_Rho1.0.hdf5
+  inspect ReacDiff_Nu0.5_Rho10.0.hdf5
+  prepare sample 01
+  prepare sample 02
+  prepare case 001
+----------------------------------------------------------------------
+Ran 59 tests in 6.585s
+
+OK

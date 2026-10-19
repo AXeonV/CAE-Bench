@@ -1,0 +1,92 @@
+{
+  "revision": "4ff3e3a4aa1561721b5571fa3a048a0a463e0568",
+  "files": [
+    {
+      "path": "pdebench/data_gen/data_gen_NLE/BurgersEq/config/multi/1e-3.yaml",
+      "sha256": "81d189a6510a0ede5532ba1832f80eddc4c286e807f82d44a8fc92ac5ed194f3",
+      "bytes": 202
+    },
+    {
+      "path": "pdebench/data_gen/data_gen_NLE/CompressibleFluid/config/args/1D_Multi.yaml",
+      "sha256": "a5cec61e2be6427bd61ca95f12d7cb6b2d104d010a50704f508304a56ab66720",
+      "bytes": 348
+    },
+    {
+      "path": "pdebench/data_gen/data_gen_NLE/CompressibleFluid/config/args/1D_Multi_trans.yaml",
+      "sha256": "cb8abc02c2b2d9efccc82d87186a72972007ad8e91bf04d13e0cddd9c7dae9c4",
+      "bytes": 344
+    },
+    {
+      "path": "pdebench/data_gen/data_gen_NLE/CompressibleFluid/config/args/1D_Multi_shock.yaml",
+      "sha256": "60b8695f7837e23f8e5a351b78574d294ab58f92dca6442cd73001ce3d4b700e",
+      "bytes": 348
+    },
+    {
+      "path": "pdebench/data_gen/data_gen_NLE/utils.py",
+      "sha256": "fc3a848a12e79e89bb53898944fe96ccbc44236b22ce4b6a705eda00a8018d71",
+      "bytes": 57001
+    },
+    {
+      "path": "pdebench/data_gen/data_gen_NLE/BurgersEq/burgers_multi_solution_Hydra.py",
+      "sha256": "905f01f0c60749665f9b55e0a58e4894df0c3fad62eea1b9a6ffbeae60ca6c50"
+    },
+    {
+      "path": "pdebench/data_gen/data_gen_NLE/CompressibleFluid/CFD_multi_Hydra.py",
+      "sha256": "5d3fc091cf901b7d1b8a51f985fc8e197e90a591cbccd1d8e687d80ac8e0d697"
+    }
+  ],
+  "publication_binding": "Reviewed pinned upstream implementation/configuration; exact linkage to every HF trajectory not established",
+  "findings": [
+    {
+      "family": "burgers",
+      "finding": "The reviewed numerical diffusion flux uses epsilon/pi; HF attribute is named Nu. Both interpretations require explicit publication binding.",
+      "code_lines": [
+        239,
+        282,
+        285
+      ]
+    },
+    {
+      "family": "burgers",
+      "finding": "The reviewed generator computes one more time coordinate than stored solution frames, consistent with the observed metadata pattern; this alone does not prove historical generation identity.",
+      "code_lines": [
+        205,
+        206,
+        207,
+        216
+      ]
+    },
+    {
+      "family": "compressible",
+      "finding": "Longitudinal viscous momentum flux includes face density times zeta+4*eta/3, not a density-independent constant dynamic viscosity.",
+      "code_lines": [
+        244,
+        429,
+        432,
+        435,
+        437
+      ]
+    },
+    {
+      "family": "compressible",
+      "finding": "Reviewed configuration uses gamma=5/3 and pressure floor 1e-4; archived data lack full per-trajectory configuration provenance.",
+      "code_lines": [
+        198,
+        414
+      ]
+    },
+    {
+      "family": "compressible",
+      "finding": "Reviewed example configurations specify 1000 samples while HF files contain 10000: these configs cannot be declared exact generation manifests."
+    },
+    {
+      "family": "compressible",
+      "finding": "The trans closure fills ghost layers by copying nearby interior primitive states; its exact stencil and boundary fluxes matter for a continuous boundary interpretation.",
+      "utility_lines": [
+        1438,
+        1455
+      ]
+    }
+  ],
+  "pinned_contents_retrieved_and_hash_checked": true
+}

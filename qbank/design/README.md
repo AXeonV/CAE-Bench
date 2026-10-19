@@ -12,6 +12,10 @@
 
 HF 题内数据池、稳定身份、选样清单及目录装配见[题库数据存储设计](DATA-STORAGE.md)。`caeoj-maint data` 制池、上传、选样、下载装配与核验操作见[数据池操作](../maintenance/DATA-SYNC.md)，实际迁移证据见[迁移记录](reviews/data-storage-migration.md)。
 
+仅使用 HF 已有一维来源的当前直接迁移见[执行规划](pdebench-hf-migration.md)、[归档 case 池](../01-prescribed-pdes/pdebench-archive/README.md)、[先导记录](reviews/pdebench-direct-archive-20261018/README.md)及[全量运行记录](reviews/pdebench-full-20261018/README.md)。此前从零设计题目、重新生成参考的试验见[PDEBench 云端迁移试验](pdebench-hf-trial.md)。
+
+分片、中断恢复、千例扩容与两族参考适用性的实际结果见[长跑前预检验收](reviews/pdebench-preflight-20261018/README.md)；正式分区池、整 Job 恢复和容器验证见[迁移准备验收](reviews/pdebench-readiness-20261018/README.md)，全来源成本、数值重跑和两核硬件对照见[实测评估](reviews/pdebench-calibration-20261018/README.md)。
+
 Case 级判题的实施、HF 迁移和验证证据见[实施记录](reviews/case-grading.md)及[后续修复](reviews/case-grading-followup.md)，当前协议以[判题说明](../../docs/GRADING.md)为准。
 
 通用工具的历史实施见[数据池工具实施与验证](reviews/data-pool-tools.md)；当前自包含目录的迁移及验证见[case 布局收束](reviews/case-pool-simplification.md)。
@@ -70,3 +74,5 @@ Case 级判题的实施、HF 迁移和验证证据见[实施记录](reviews/case
 | 第 14 章 | [题目](../14-plasma/README.md) | [清单](chapter-14-task-plan.md) | [进度](reviews/chapter-14-progress.md) |
 | 第 17 章 | [题目](../17-multiphysics/README.md) | [清单](chapter-17-task-plan.md) | [进度](reviews/chapter-17-progress.md) · [实施与审阅](reviews/chapter-17-implementation.md) |
 | 第 18 章 | [题目](../18-system-multidomain/README.md) | [清单](chapter-18-task-plan.md) | [进度](reviews/chapter-18-progress.md) · [实施与审阅](reviews/chapter-18-implementation.md) |
+
+- [PDEBench 停止后合并与低提交频率恢复计划](reviews/pdebench-low-commit-20261019/README.md)

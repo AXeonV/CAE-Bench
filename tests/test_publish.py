@@ -53,6 +53,7 @@ class PublishTests(unittest.TestCase):
             self.assertFalse(any(name.endswith(("baseline.py", "TEST-CASES.md")) for name in names))
             self.assertNotIn("src/caeoj/examples.py", names)
             self.assertNotIn("src/caeoj/smoke.py", names)
+            self.assertFalse(any(name.endswith('data-lock.json') or name.startswith('src/caeoj_tools/') for name in names))
             self.assertFalse(any(name.endswith("verification.json") for name in names))
             manifest = json.loads(bundle.read("MANIFEST.json"))
             self.assertEqual(manifest["public_samples"], ["01", "02"])

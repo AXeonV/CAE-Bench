@@ -38,7 +38,7 @@ flowchart LR
     Src --> Tools["caeoj_tools/<br/>维护工具，不进入考生包"]
     Tools --> AuthorTools["task_paths.py · author.py<br/>题目定位与作者工具加载"]
     Tools --> Policy["grading_policy.py<br/>从作者模板生成评分配置"]
-    Tools --> DataPool["data_pool.py · data_pool_cli.py<br/>HF 制池、上传、选样、装配与核验"]
+    Tools --> DataPool["data_pool.py · data_cli.py · data_sources.py<br/>制池、选样、本地／SCP／HF 获取与核验"]
     Tools --> Assembly["assembly.py · dependencies.py<br/>公开运行装配与依赖锁定"]
 
     Src --> Utils["utils/"]
@@ -49,7 +49,7 @@ flowchart LR
 
     Qbank --> Task["#lt;章#gt;/#lt;节#gt;/#lt;题目#gt;/<br/>题面、DATA、数据选择与执行配置"]
     Task --> Author["author/<br/>制数工具、评分模板、来源证据及基线"]
-    Task --> Selection["data-manifest.json<br/>按需提供 HF 池与测试／样例选择"]
+    Task --> Selection["data-manifest.json · data-lock.json<br/>测试／样例选择与固定版本文件清单"]
     Task --> Private["cases/ · reference/<br/>按需装配的测试输入、参考与评分配置"]
     Task --> Samples["samples/<br/>按需装配的公开输入、评分材料与提交示例"]
     Task --> TaskHarbor["harbor/<br/>本题环境与依赖补充"]
@@ -132,7 +132,16 @@ python -m pip install -e '.[maint,heat,pdebench]' -e qbank/extensions harbor
 
 **数据缺失或重新制作时准备数据。** 选择本题适用的一种方式；数据完整且与本次题目版本一致时可直接进入评测主线。
 
-已有 `data-manifest.json` 的题目先执行 `python -m caeoj_tools.cli data assemble --task '<task>'`，按选样从 HF 获取并装配，再用 `data verify --task '<task>' --strict` 核验。制池、上传、选样及覆盖规则见 [数据池操作](qbank/maintenance/DATA-SYNC.md)。发布和 Harbor 准备已接入离线前置检查。本地数据和回执由 Git 忽略；只有需要制作或修订数据时才使用下面的生成流程。
+已有 `data-manifest.json` 和 `data-lock.json` 的题目，使用统一命令查询、获取并装配，再离线核验：
+
+```sh
+caeoj data list --chapter 00
+caeoj data fetch --task '<task>' --dry-run
+caeoj data fetch --task '<task>'
+caeoj data verify --task '<task>' --strict
+```
+
+`--chapter` 按章选择，`--kind samples` 只准备公开样例；`--source` 选择本地目录、SSH/SCP 或 HF 来源。未安装命令时可用 `python -m caeoj data`。本机来源配置和操作说明见[数据池操作](qbank/maintenance/DATA-SYNC.md)；未登记／未锁定数据不会被当作可下载发布。发布和 Harbor 准备已接入离线前置检查。本地数据、缓存和回执由 Git 忽略；只有制作或修订数据时才使用下面的生成流程。
 
 有独立生成器的题目生成输入、参考与公开样例：
 

@@ -1,0 +1,20 @@
+# Copy outside Git to ~/.config/caeoj/data.toml, or use --config <file>.
+# Credentials belong in your SSH config/agent or HF login, never this file.
+default_source = "hf"
+# cache_dir = "D:/CAE-data/cache"
+
+[sources.hf]
+type = "hf"
+
+[sources.local]
+type = "local"
+root = "D:/CAE-data/releases/2026-10-18"
+
+[sources.scp]
+type = "scp"
+host = "cae-data" # SSH host alias; supports user@hostname too
+root = "/srv/cae-data/releases/2026-10-18"
+port = 22
+transport = "sftp" # Recommended. "scp" uses legacy SCP + ssh/dd to resume.
+timeout = 300
+# ssh_config = "C:/Users/your-name/.ssh/config"

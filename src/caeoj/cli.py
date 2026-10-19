@@ -2,9 +2,8 @@
 import argparse
 from importlib.metadata import PackageNotFoundError, version
 import json
+import sys
 
-from .case_grading import grade_case
-from .validation import ContractError, validate_input, validate_output
 
 
 class UsageError(ValueError):
@@ -24,7 +23,21 @@ def _version():
 
 
 def main(argv=None):
-    parser = Parser(prog='caeoj')
+    argv = list(sys.argv[1:] if argv is None else argv)
+    # Repository operations are optional. Public bundles contain no maintainer
+    # package and retain a standalone validation CLI.
+    if argv and argv[0] == 'data':
+        try:
+            from caeoj_tools.data_cli import main as data_main
+        except ModuleNotFoundError as exc:
+            if exc.name not in ('caeoj_tools', 'caeoj_tools.data_cli'):
+                raise
+            print(json.dumps({'status': 'tool_error', 'message':
+                              'Data management requires the full repository installation.'}))
+            return 2
+        return data_main(argv[1:])
+    from .validation import ContractError
+    parser = Parser(prog='caeoj', epilog='Repository installation: caeoj data --help')
     parser.add_argument('--version', action='version', version=_version())
     commands = parser.add_subparsers(dest='command', required=True)
     input_parser = commands.add_parser('validate-input', help='Check input contract and assembled declarations')
@@ -40,6 +53,8 @@ def main(argv=None):
     info_parser.add_argument('--input', help='Input problem.json whose support should be inspected')
     try:
         args = parser.parse_args(argv)
+        from .case_grading import grade_case
+        from .validation import validate_input, validate_output
         if args.command == 'validate-input':
             result = validate_input(args.input)
         elif args.command == 'validate-output':

@@ -193,7 +193,9 @@ def item_files(store, prefix, binding, item, descriptors):
     return files
 
 
-def plan(value, store, cases=None, samples=None):
+def plan(value, store, cases=None, samples=None, kinds=None):
+    from .data_lock import selected_kinds, category
+    wanted = selected_kinds(kinds)
     prefix = value['repository']['path']
     result = {'files': {}, 'descriptors': {}, 'incomplete': [], 'overlaps': [], 'public_cases': [], 'scope': {}}
     fingerprints = {}
@@ -209,6 +211,8 @@ def plan(value, store, cases=None, samples=None):
         result['files'][target] = entry
     for role, chosen in (('cases', cases), ('samples', samples)):
         names = list(value[role]) if chosen is None else list(chosen)
+        if (role == 'samples' and 'samples' not in wanted) or (role == 'cases' and not wanted & {'cases', 'references'}):
+            names = []
         if len(names) != len(set(names)) or set(names) - set(value[role]):
             raise PoolError(f'Unknown or repeated {role} selection')
         result['scope'][role] = names
@@ -267,10 +271,15 @@ def plan(value, store, cases=None, samples=None):
         for parent in PurePosixPath(target).parents:
             if str(parent).casefold() in destinations:
                 raise PoolError('Assembly file/directory collision')
+    result['files'] = {name: entry for name, entry in result['files'].items() if category(name) in wanted}
+    result['incomplete'] = [name for name in result['incomplete'] if (
+        'samples' if name.startswith('samples/') else 'references' if name.endswith('/reference') else 'cases') in wanted]
     return result
 
 
 def fetch(value, store, **options):
+    from .data_lock import selected_kinds
+    wanted = selected_kinds(options.get('kinds'))
     result = plan(value, store, **options)
     for entry in result['files'].values():
         path = store.get(value['repository']['path'] + '/' + entry['source'])
@@ -280,6 +289,8 @@ def fetch(value, store, **options):
     from caeoj.sdk import load_problem
     with tempfile.TemporaryDirectory(prefix='caeoj-pool-preflight-') as temporary:
         for role, names in result['scope'].items():
+            if role == 'cases' and not {'cases', 'references'} <= wanted:
+                continue  # Partial input/reference requests have only integrity checks.
             for name in names:
                 if any(v.startswith(f'{role}/{name}/') for v in result['incomplete']): continue
                 task = Path(temporary)/role/name
@@ -295,7 +306,8 @@ def fetch(value, store, **options):
                 example_key = f'samples/{name}/output/result.h5'
                 if role == 'samples' and example_key in result['files']:
                     from caeoj.sdk import load_result
-                    example = store.get(value['repository']['path']+'/'+result['files'][example_key]['source'])
+                    example = task/'example.h5'
+                    shutil.copyfile(store.get(value['repository']['path']+'/'+result['files'][example_key]['source']), example)
                     arrays = load_result(prepared.problem, example)
                     if prepared.evaluate(arrays)['score'] != 1: raise PoolError('Declared example fails case evaluation')
     result['revision'] = store.revision
@@ -332,6 +344,18 @@ def _assemble(task, value, store, *, update=False, **options):
         relative(name); check_entry(entry)
         if not name.startswith(('cases/', 'reference/', 'samples/')):
             raise PoolError('Receipt cannot manage files outside data directories')
+    if options.get('kinds') is not None:
+        from .data_lock import selected_kinds, category
+        wanted = selected_kinds(options['kinds'])
+        all_planned = plan(value, store)
+        all_files = all_planned['files']
+        desired['descriptors'] = all_planned['descriptors']
+        for name, entry in previous['files'].items():
+            expected = all_files.get(name)
+            if category(name) not in wanted and expected and all(entry[k] == expected[k] for k in ('size_bytes', 'sha256')):
+                if not matches(within(task, name), expected):
+                    raise PoolError('Previously assembled file changed; review before fetching: ' + name)
+                desired['files'][name] = expected
     stale = set(previous['files']) - set(desired['files'])
     # Check every change before mutating anything. --update authorizes replacement,
     # but never silently removes user-modified files from an old selection.
@@ -349,6 +373,12 @@ def _assemble(task, value, store, *, update=False, **options):
                'revision': store.revision, 'scope': desired['scope'],
                'descriptors': desired['descriptors'],
                'files': {name: {k: e[k] for k in ('size_bytes', 'sha256')} for name, e in desired['files'].items()}}
+    from .data_lock import LOCK, read as read_lock, selection_digest
+    if within(task, LOCK).is_file():
+        locked = read_lock(task, value)
+        if locked.get('hf_revision') and store.revision not in ('local', locked['hf_revision']):
+            raise PoolError('Source revision differs from data-lock.json')
+        receipt['data_lock_sha256'] = selection_digest(locked)
     with tempfile.TemporaryDirectory(prefix='.pool-stage-', dir=task) as temporary:
         stage = Path(temporary)
         changes = []
@@ -392,16 +422,24 @@ def _assemble(task, value, store, *, update=False, **options):
             'public_cases': desired['public_cases']}
 
 
-def verify(task, *, strict=False, samples_only=False):
+def verify(task, *, strict=False, samples_only=False, kinds=None, require_lock=False):
     """Offline verification derives expectations from SHA-bound receipt descriptors."""
     task = Path(task)
     value = manifest(task/'data-manifest.json')
     errors = []
     public_cases = []
     try:
+        from .data_lock import LOCK, read as read_lock, selected_kinds, selection_digest
+        wanted = selected_kinds(['samples'] if samples_only else kinds)
+        if require_lock and not within(task, LOCK).is_file():
+            raise PoolError(f'Missing data-lock.json; review and run caeoj data lock --task {task.name}')
         receipt = checked_json(within(task, RECEIPT))
         if receipt.get('selection_sha256') != hashlib.sha256(encoded(value)).hexdigest():
             raise PoolError('Selection changed; reassemble before consuming data')
+        if within(task, LOCK).is_file():
+            locked = read_lock(task, value)
+            if receipt.get('data_lock_sha256') != selection_digest(locked):
+                raise PoolError('Data lock changed; run caeoj data fetch before consuming data')
         class ReceiptStore:
             revision = receipt.get('revision')
             def get(self, name):
@@ -414,7 +452,7 @@ def verify(task, *, strict=False, samples_only=False):
                 return target
         with tempfile.TemporaryDirectory() as temporary:
             current = plan(value, ReceiptStore(), cases=[] if samples_only else None,
-                           samples=None)
+                           samples=None, kinds=list(wanted))
         public_cases = current['public_cases']
         for name, entry in current['files'].items():
             if not matches(within(task, name), entry):
@@ -422,6 +460,8 @@ def verify(task, *, strict=False, samples_only=False):
         from caeoj.case_grading import prepare_case
         from caeoj.sdk import load_problem
         for role in (('samples',) if samples_only else ('cases', 'samples')):
+            if (role == 'samples' and 'samples' not in wanted) or (role == 'cases' and not {'cases', 'references'} <= wanted):
+                continue
             for name in value[role]:
                 if errors or any(v.startswith(f'{role}/{name}/') for v in current['incomplete']): continue
                 input_path = task/'cases'/name/'problem.json' if role == 'cases' else task/'samples'/name/'input/problem.json'
@@ -437,6 +477,8 @@ def verify(task, *, strict=False, samples_only=False):
             if not samples_only:
                 errors += ['Overlapping inputs: ' + ', '.join(pair) for pair in current['overlaps']]
             for role in (('samples',) if samples_only else ('cases', 'samples')):
+                if (role == 'samples' and 'samples' not in wanted) or (role == 'cases' and 'cases' not in wanted):
+                    continue
                 pattern = '*/input/problem.json' if role == 'samples' else '*/problem.json'
                 actual = {p.parent.parent.name if role == 'samples' else p.parent.name
                           for p in (task/role).glob(pattern)}
@@ -445,7 +487,8 @@ def verify(task, *, strict=False, samples_only=False):
     except (ValueError, RuntimeError, OSError, KeyError, TypeError) as exc:
         errors.append(str(exc))
     if errors and strict:
-        raise PoolError('; '.join(errors))
+        raise PoolError('; '.join(errors) + f'; prepare with caeoj data fetch --task {task.name}' +
+                        (' --kind samples' if samples_only else ''))
     for error in errors:
         warnings.warn(error, stacklevel=2)
     return {'valid': not errors, 'errors': errors, 'public_cases': public_cases}

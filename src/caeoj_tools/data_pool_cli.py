@@ -26,7 +26,7 @@ def configure(parser):
         p.add_argument('--manifest', type=Path, help='Selection path; defaults to the task data-manifest.json')
         if command != 'verify':
             p.add_argument('--source-dir', type=Path, help='Offline repository-shaped pool tree')
-            p.add_argument('--revision', default='main')
+            p.add_argument('--revision', help='Selection source revision; reads prefer the reviewed data lock')
             p.add_argument('--cache-dir', type=Path)
         if command == 'select':
             p.add_argument('--case', action='append', default=[], help='[local-name=]case-id; repeatable')
@@ -68,8 +68,12 @@ def _run(args):
             raise pool.PoolError('Verify consumes the canonical manifest bound by the assembly receipt')
         return pool.verify(task, strict=args.strict, samples_only=args.samples_only)
     value = pool.manifest(selection)
+    revision = args.revision
+    if not revision and args.data_command != 'select' and (task/'data-lock.json').is_file():
+        from .data_lock import read as read_lock
+        revision = read_lock(task, value).get('hf_revision')
     store = pool.LocalStore(args.source_dir) if args.source_dir else pool.HubStore(
-        value['repository']['repo_id'], args.revision, args.cache_dir)
+        value['repository']['repo_id'], revision or 'main', args.cache_dir)
     if args.data_command == 'select':
         if not args.case and not args.sample:
             raise pool.PoolError('Select at least one --case or --sample')

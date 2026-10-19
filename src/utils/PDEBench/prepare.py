@@ -31,10 +31,13 @@ def parser():
         else:
             cmd.add_argument('--selection', type=Path, required=True)
             cmd.add_argument('--workspace', type=Path, required=True)
-    for name in ('verify', 'assemble'):
+    for name in ('verify', 'assemble', 'install', 'verify-installed'):
         cmd = commands.add_parser(name)
         cmd.add_argument('--selection', type=Path, required=True)
-        cmd.add_argument('--workspace', type=Path, required=True)
+        if name != 'verify-installed': cmd.add_argument('--workspace', type=Path, required=True)
+        if name in ('install', 'verify-installed'):
+            cmd.add_argument('--target-root', type=Path, default=ROOT)
+        if name == 'install': cmd.add_argument('--replace', action='store_true', help='Back up and replace existing task data')
     return p
 
 

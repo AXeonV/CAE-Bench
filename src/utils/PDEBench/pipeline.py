@@ -354,6 +354,13 @@ def verify(workspace, selection):
 
 
 def execute(args):
+    if args.command in ('install', 'verify-installed'):
+        from .installation import install, verify_installed
+        selection = validate_selection(json.loads(args.selection.read_text()))
+        if args.command == 'verify-installed':
+            return verify_installed(selection, args.target_root)
+        with cache_lock(args.workspace.resolve()):
+            return install(args.workspace, selection, args.target_root, replace=args.replace)
     if args.command in ('verify', 'assemble'):
         selection = validate_selection(json.loads(args.selection.read_text()))
         workspace = args.workspace.resolve()

@@ -16,7 +16,7 @@ verifier_budget按实际case数计算总时限，包含求解、评价及装载�
 
 prepare_harbor预检全部case配置，核对公开包内容，隐藏参考仅装入独立verifier。每例配置及输入／参考／代码闭包摘要进入报告，不再维护虚假的全题单policy摘要。样例本地判分与verifier调用同一case评价入口。
 
-直接来源工作区的 case→example 引用由工作区冻结授权与题内 author/public-examples.json 共同核验，发布和 Harbor 装配共用 caeoj_tools.public_examples。校验完整 case/sample 覆盖、公开身份及输入／参考／完整输出摘要；缺失或错配即停止，不回退为空的公开身份。该作者绑定不进入公开包，也不与 HF 清单混用。制作入口见 [PDEBench 工具](../../src/utils/PDEBench/README.md)。
+直接来源工作区的 case→example 引用由工作区冻结授权与题内 author/public-examples.json 共同核验；安装回题目目录后改由 author/direct-source.json 提供冻结授权与完整载荷摘要，不能与工作区授权并用。发布和 Harbor 装配共用 caeoj_tools.public_examples，校验完整 case/sample 覆盖、公开身份及输入／参考／完整输出摘要；缺失或错配即停止，不回退为空的公开身份。安装未完成时阻断消费。作者绑定不进入公开包，也不与 HF 清单混用。制作与安装入口见 [PDEBench 工具](../../src/utils/PDEBench/README.md)。
 
 制数模板保存在author/grading-template.json，由作者工具显式生成每例配置；它不是运行时来源。无数据题可维护模板及题面，不能据此宣称case绑定、数值参考或预算已校准。实际判题不提供题目级策略兼容或缺省评分。
 

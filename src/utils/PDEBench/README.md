@@ -55,6 +55,15 @@ python src/utils/PDEBench/prepare.py verify --selection runs/my-trial/selection.
 python src/utils/PDEBench/prepare.py assemble --selection runs/my-trial/selection.json --workspace runs/my-trial/workspace
 ```
 
+需要把数据放回当前仓库的题目目录时，先完成独立工作区，再安装并核验：
+
+```sh
+python src/utils/PDEBench/prepare.py install --selection runs/my-trial/selection.json --workspace runs/my-trial/workspace --replace
+python src/utils/PDEBench/prepare.py verify-installed --selection runs/my-trial/selection.json
+```
+
+默认目标为当前仓库，也可用 `--target-root` 指定具有相同题面与配置的项目。目标已有 cases/reference/samples 时必须显式 `--replace`；旧数据保存在目标的 runs/pdebench-install/，不静默删除。安装前核验整个工作区、目标定义、磁盘空间和 HF 冲突；复制中断保留阻断标记，异常回滚旧数据。安装回执 author/direct-source.json 记录冻结选择、完整载荷摘要及公开身份，安装后的发布／Harbor 装配继续核验，不伪造 HF 回执。生成数据、公开绑定和安装回执均不进入 Git；题面、DATA 和评分配置不随数据覆盖。正常安装只复制本地已核验数据，不重新下载来源。
+
 每个工作根必须为空或属于同一 selection。代码目录和原题库不写入数据；本地得到：
 
 ```text
@@ -105,6 +114,7 @@ workspace/runs/harbor/tasks/<task>/
 | conversion | 现有 JSON/Gmsh/HDF5 字段转换 |
 | checks | 只读来源适用性/一致性检查 |
 | pipeline | 原子制作、回执、恢复、验证与既有装配入口 |
+| installation | 已核验工作区安装到题目目录、备份、回滚与安装核验 |
 
 历史数值重算实现与旧 CLI 已删除，不保留兼容执行路径。2026-10-13 的结果和局限保存在[历史审核](../../../qbank/design/reviews/pdebench-20261013/AUDIT.md)，不是当前数据就绪证明。设计背景见[按需取数方案](../../../qbank/design/pdebench-direct-cases.md)。
 

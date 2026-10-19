@@ -13,6 +13,46 @@ from caeoj.case_grading import prepare_case
 from .assembly import read_public_file
 
 BINDING = Path('author/public-examples.json')
+INSTALLATION = Path('author/direct-source.json')
+
+
+def verify_source_installation(task):
+    """Verify a local installation receipt and its complete payload, when present."""
+    task = Path(task).resolve()
+    path = task/INSTALLATION
+    if not path.exists():
+        return None
+    receipt = json.loads(read_public_file(task, path))
+    if (set(receipt) != {'schema_version', 'task', 'selection_sha256', 'contract_sha256', 'authorization', 'files'}
+            or type(receipt['schema_version']) is not int or receipt['schema_version'] != 1
+            or receipt['task'] != task.name or not isinstance(receipt['files'], dict)):
+        raise ValueError('Incomplete or invalid direct-source installation')
+    if (task/'data-manifest.json').exists():
+        raise ValueError('HF selection and direct-source installation cannot coexist')
+    for key in ('selection_sha256', 'contract_sha256'):
+        if not isinstance(receipt[key], str) or not re.fullmatch(r'[0-9a-f]{64}', receipt[key]):
+            raise ValueError('Invalid installed source identity')
+    h = hashlib.sha256()
+    for name in ('instruction.md', 'DATA.md'):
+        h.update(name.encode()); h.update(read_public_file(task, task/name).replace(b'\r\n', b'\n'))
+    if receipt['contract_sha256'] != h.hexdigest():
+        raise ValueError('Installed source contract has changed')
+    auth = receipt['authorization']
+    if not isinstance(auth, dict) or set(auth) != {'cases', 'samples', 'public_cases'}:
+        raise ValueError('Invalid installed source authorization')
+    cases = sorted(p.parent.name for p in (task/'cases').glob('*/problem.json'))
+    samples = sorted(p.parent.parent.name for p in (task/'samples').glob('*/input/problem.json'))
+    if cases != auth['cases'] or samples != auth['samples']:
+        raise ValueError('Installed source case/sample coverage has changed')
+    files = {p.relative_to(task).as_posix() for folder in ('cases', 'reference', 'samples')
+             for p in (task/folder).rglob('*') if p.is_file()}
+    if (task/BINDING).exists(): files.add(BINDING.as_posix())
+    if files != set(receipt['files']):
+        raise ValueError('Installed payload coverage has changed')
+    for name, sha in receipt['files'].items():
+        if _hash(task, task/name) != sha:
+            raise ValueError('Installed source payload is missing or modified')
+    return receipt
 
 
 def _name(value):
@@ -60,8 +100,13 @@ def verify_public_examples(task):
     if workspace.exists():
         state = json.loads(read_public_file(root, workspace))
         authorization = state.get('public_examples', {}).get(task.name)
-    if not path.exists():
+    installed = verify_source_installation(task)
+    if installed is not None:
         if authorization is not None:
+            raise ValueError('Workspace and installed source authorization cannot coexist')
+        authorization = installed['authorization']
+    if not path.exists():
+        if authorization is not None and authorization['public_cases']:
             raise ValueError('Required local public-example binding is missing')
         return []
     if authorization is None:

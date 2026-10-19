@@ -46,7 +46,7 @@ def execution_hash(root, tasks):
                      for p in sorted(set(paths))})
 
 
-def make_selection(entries, *, root=ROOT, catalog=None):
+def make_selection(entries, *, examples=None, root=ROOT, catalog=None):
     catalog = catalog or json.loads(CATALOG.read_text())
     if not isinstance(entries, list) or not entries:
         raise ValueError('Selection needs a nonempty entries list')
@@ -80,9 +80,29 @@ def make_selection(entries, *, root=ROOT, catalog=None):
         e.update(source=source, contract_sha256=contract_hash(task),
                  grading_template_sha256=hashlib.sha256((task/'author/grading-template.json').read_bytes()).hexdigest())
         result.append(e)
-    body = {'schema_version': 1, 'dataset': catalog['dataset'], 'dataset_version': catalog['version'],
+    examples = {} if examples is None else examples
+    if not isinstance(examples, dict):
+        raise ValueError('Examples must map task names to sample IDs and case references')
+    normalized = {}
+    for slug, aliases in sorted(examples.items()):
+        if slug not in {e['task'] for e in result} or not isinstance(aliases, dict) or not aliases:
+            raise ValueError('Example task must be selected and have a nonempty mapping')
+        used_cases = set()
+        normalized[slug] = {}
+        for sample, link in sorted(aliases.items()):
+            if (not isinstance(sample, str) or not re.fullmatch(r'[0-9]{1,6}', sample)
+                    or not isinstance(link, dict) or set(link) != {'case'}
+                    or not isinstance(link['case'], str)):
+                raise ValueError('Example needs a numeric sample ID and exactly one string case reference')
+            case = link['case']
+            if ((slug, 'case', case) not in ids or (slug, 'sample', sample) in ids
+                    or case in used_cases):
+                raise ValueError('Example refers to missing/non-case entry, occupied sample ID or duplicate public case')
+            used_cases.add(case)
+            normalized[slug][sample] = {'case': case}
+    body = {'schema_version': 2, 'dataset': catalog['dataset'], 'dataset_version': catalog['version'],
             'catalog_sha256': identity(catalog), 'tool_sha256': tool_hash(),
-            'execution_sha256': execution_hash(root, {e['task'] for e in result}), 'entries': result,
+            'execution_sha256': execution_hash(root, {e['task'] for e in result}), 'entries': result, 'examples': normalized,
             'network_bytes_estimate': None, 'scope': 'explicit subset; not the formal full selection'}
     return {**body, 'sha256': identity(body)}
 
@@ -90,7 +110,7 @@ def make_selection(entries, *, root=ROOT, catalog=None):
 def validate_selection(selection, *, root=ROOT, catalog=None):
     entries = [{k: e[k] for k in ('task', 'source_id', 'index', 'frames', 'role', 'id')}
                for e in selection['entries']]
-    expected = make_selection(entries, root=root, catalog=catalog)
+    expected = make_selection(entries, examples=selection['examples'], root=root, catalog=catalog)
     if selection != expected:
         raise ValueError('Frozen selection differs from pinned catalog, contracts, policy or converter; make a new plan')
     return expected

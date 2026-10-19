@@ -14,6 +14,7 @@ from caeoj.case_grading import prepare_case, grade_case
 from caeoj_tools.assembly import runtime_materials, read_public_file
 from caeoj_tools.grading_policy import author_policy, write_direct_grading
 from caeoj_tools.task_paths import task_directory
+from caeoj_tools.public_examples import BINDING, example_snapshot, verify_public_examples
 from .selection import ROOT, CATALOG, identity, validate_selection
 from .models import BY_TASK, source_files
 from .sources import Reader, open_source, check_initial
@@ -85,7 +86,15 @@ def workspace_init(workspace, selection, disk):
         target = workspace/name
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(data)
-    atomic_json(marker, {'selection_sha256': selection['sha256'],
+    public_examples = {}
+    for slug, aliases in selection['examples'].items():
+        public_examples[slug] = {
+            'public_cases': [{'case': link['case'], 'sample': sample,
+                              'case_id': identity(_case_entry(selection, slug, link['case']))}
+                             for sample, link in aliases.items()],
+            'samples': sorted([e['id'] for e in selection['entries'] if e['task'] == slug and e['role'] == 'sample'] + list(aliases)),
+            'cases': sorted(e['id'] for e in selection['entries'] if e['task'] == slug and e['role'] == 'case')}
+    atomic_json(marker, {'selection_sha256': selection['sha256'], 'public_examples': public_examples,
                          'materials': {name: hashlib.sha256(data).hexdigest() for name, data in materials.items()}})
     init.unlink(missing_ok=True)
 
@@ -189,6 +198,86 @@ def prepare_entry(workspace, entry, cache, disk, local, timeout, network):
     return record
 
 
+def _case_entry(selection, task, case):
+    return next(e for e in selection['entries'] if e['task'] == task and e['role'] == 'case' and e['id'] == case)
+
+
+def prepare_examples(workspace, selection, disk):
+    """Copy explicit aliases from prepared cases without opening a source again."""
+    for slug, aliases in selection['examples'].items():
+        task = task_directory(slug, workspace)
+        bindings = []
+        for sample, link in aliases.items():
+            case = link['case']; entry = _case_entry(selection, slug, case)
+            case_id = identity(entry)
+            original = json.loads((workspace/'evidence'/f'{slug}-case-{case}.json').read_text())
+            if original['entry_sha256'] != case_id:
+                raise PreparationError('Referenced case receipt identity mismatch')
+            check_files(workspace, original['files'])
+            if not original['reference_ready']:
+                continue
+            receipt_path = workspace/'evidence'/f'{slug}-example-{sample}.json'
+            target = task/'samples'/sample
+            journal = workspace/'transactions'/f'{slug}-example-{sample}.json'
+            if journal.exists():
+                pending = json.loads(journal.read_text())
+                if {k: pending[k] for k in ('case', 'sample', 'case_id')} != {'case': case, 'sample': sample, 'case_id': case_id}:
+                    raise PreparationError('Interrupted example identity mismatch')
+                if target.exists():
+                    check_files(workspace, pending['files'])
+                    if not receipt_path.exists(): atomic_json(receipt_path, pending)
+                journal.unlink()
+            if receipt_path.exists():
+                receipt = json.loads(receipt_path.read_text())
+                if {k: receipt[k] for k in ('case', 'sample', 'case_id')} != {'case': case, 'sample': sample, 'case_id': case_id}:
+                    raise PreparationError('Example receipt belongs to a different case')
+                check_files(workspace, receipt['files'])
+            else:
+                if target.exists():
+                    raise PreparationError('Unreceipted example destination exists; inspect before replacing')
+                source = task/'cases'/case; ref = task/'reference'/case
+                problem = load_problem(source/'problem.json')
+                files = prepare_case(problem, ref/'grading.json').evidence['assets']
+                inputs = {'problem.json', problem.manifest['data_file']}
+                inputs.update(v['file'] for table in ('meshes', 'geometries') for v in problem.manifest[table].values())
+                size = sum((source/n).stat().st_size for n in inputs)
+                size += sum((ref/n).stat().st_size for n in files)+(ref/'reference.h5').stat().st_size
+                disk.check(size+65536)
+                with tempfile.TemporaryDirectory(dir=workspace, prefix='.example-') as temporary:
+                    stage = Path(temporary)/'sample'
+                    for name in inputs:
+                        path = stage/'input'/name
+                        path.parent.mkdir(parents=True, exist_ok=True)
+                        path.write_bytes(read_public_file(task, source/name))
+                    for name in files:
+                        path = stage/'reference'/name
+                        path.parent.mkdir(parents=True, exist_ok=True)
+                        shutil.copyfile(ref/name, path)
+                    (stage/'output').mkdir()
+                    shutil.copyfile(ref/'reference.h5', stage/'output/result.h5')
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    # Commit the whole sample at once; interruptions before this leave no public partial tree.
+                    receipt = {'case': case, 'sample': sample, 'case_id': case_id,
+                               'files': {(target/p.relative_to(stage)).relative_to(workspace).as_posix(): digest(p)
+                                         for p in stage.rglob('*') if p.is_file()}}
+                    atomic_json(journal, receipt)
+                    stage.rename(target)
+                atomic_json(receipt_path, receipt)
+                journal.unlink()
+            bindings.append({'case': case, 'sample': sample, 'case_id': case_id,
+                             'snapshot': example_snapshot(task, case, sample)})
+        if len(bindings) != len(aliases):
+            continue  # source applicability is still blocked; never produce a partial public binding
+        document = {'schema_version': 1, 'public_cases': bindings}
+        marker = task/BINDING
+        if marker.exists():
+            if json.loads(marker.read_text()) != document:
+                raise PreparationError('Local example binding differs; refusing to overwrite')
+        else:
+            atomic_json(marker, document)
+        verify_public_examples(task)
+
+
 def verify(workspace, selection):
     state = json.loads((workspace/'workspace.json').read_text())
     if state['selection_sha256'] != selection['sha256']:
@@ -226,6 +315,30 @@ def verify(workspace, selection):
                 raise PreparationError('Wrong-value control unexpectedly passes')
         records.append({'task': entry['task'], 'id': entry['id'], 'role': entry['role'],
                         'positive_score': positive['score'], 'negative_score': negative['score'], 'status': 'verified'})
+    public_by_task = {}
+    example_records = []
+    for slug in {e['task'] for e in selection['entries']}:
+        task = task_directory(slug, workspace)
+        expected_public = []
+        for sample, link in selection['examples'].get(slug, {}).items():
+            case = link['case']; entry = _case_entry(selection, slug, case)
+            source = json.loads((workspace/'evidence'/f'{slug}-case-{case}.json').read_text())
+            if not source['reference_ready']:
+                blocked = True
+                example_records.append({'task': slug, 'sample': sample, 'case': case, 'status': 'blocked'})
+                continue
+            expected_public.append({'case': case, 'sample': sample, 'case_id': identity(entry)})
+            receipt = json.loads((workspace/'evidence'/f'{slug}-example-{sample}.json').read_text())
+            if {k: receipt[k] for k in ('case', 'sample', 'case_id')} != expected_public[-1]:
+                raise PreparationError('Example receipt/selection mismatch')
+            check_files(workspace, receipt['files'])
+            expected_paths.add(task/'samples'/sample/'input/problem.json')
+            example_records.append({'task': slug, 'sample': sample, 'case': case, 'status': 'verified'})
+        pending_examples = len(expected_public) != len(selection['examples'].get(slug, {}))
+        actual_public = expected_public if pending_examples else verify_public_examples(task)
+        if actual_public != expected_public:
+            raise PreparationError('Public example mapping differs from frozen selection')
+        public_by_task[slug] = actual_public
     actual = {p for task_name in {e['task'] for e in selection['entries']}
               for pattern in ('cases/*/problem.json', 'samples/*/input/problem.json')
               for p in task_directory(task_name, workspace).glob(pattern)}
@@ -233,6 +346,8 @@ def verify(workspace, selection):
         raise PreparationError('Workspace contains unselected or missing inputs')
     report = {'status': 'blocked' if blocked else 'verified', 'records': records,
               'selection_sha256': selection['sha256'], 'assembly_ready': not blocked,
+              'public_cases': public_by_task, 'examples': example_records,
+              'case_count': sum(e['role'] == 'case' for e in selection['entries']),
               'scope': 'source conversion and judge checks; not independent PDE accuracy certification'}
     atomic_json(workspace/'verification.json', report)
     return report
@@ -286,6 +401,7 @@ def execute(args):
                         records.append(prepare_entry(workspace, entry, cache, disk, args.source_dir, args.timeout, network))
                         atomic_json(workspace/'preparation.json', {'status': 'preparing', 'records': records,
                                                                   'network': network.report()})
+                    prepare_examples(workspace, selection, disk)
                     result = verify(workspace, selection)
                     result['prepared'] = len(records)
             result['network'] = network.report(); result['disk_accounted_peak_bytes'] = disk.peak

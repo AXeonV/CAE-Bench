@@ -41,7 +41,7 @@
 
 ## 实施前必须补齐的工具能力
 
-当前直接来源 selection 拒绝 sample/case 同源，且无 HF 清单的 prepare_harbor 默认 public_cases 为空，因此**现有命令不能直接正确表达本方案**。
+原先直接来源 selection 拒绝 sample/case 同源、非 HF 装配丢失公开身份；目前已补齐 schema_version=2 的显式 examples 引用与公开身份传递，当前操作见 [工具 README](../../src/utils/PDEBench/README.md)。本节保留所需验收目标；七题 140 条制数尚未启动。
 
 1. selection 仍只登记每题 20 个唯一 case，另设公开映射，例如 `examples: {"01": {"case": "001"}, "02": {"case": "011"}}`。此为结构示例，最终映射随来源选择冻结，不预定这两个编号的来源配置。
 2. example 引用同一 case 身份、来源、输入与参考摘要；生成样例副本不再重复读取源数据。已有独立 sample 入口是否保留按真实调用方决定，避免长期维护两套来源制作逻辑。

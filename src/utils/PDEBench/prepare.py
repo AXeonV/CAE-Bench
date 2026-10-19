@@ -50,7 +50,10 @@ def main(argv=None):
                       'tasks': [{'task': m.task, 'sources': source_files(m, catalog)} for m in models]}
         elif args.command == 'plan':
             spec = json.loads(args.spec.read_text())
-            result = make_selection(spec['entries'] if isinstance(spec, dict) else spec)
+            if isinstance(spec, dict) and set(spec) - {'entries', 'examples'}:
+                raise ValueError('Spec keys must be entries and optional examples')
+            result = make_selection(spec['entries'] if isinstance(spec, dict) else spec,
+                                    examples=spec.get('examples') if isinstance(spec, dict) else None)
             args.output.parent.mkdir(parents=True, exist_ok=True)
             args.output.write_text(json.dumps(result, indent=2, ensure_ascii=False)+'\n')
         else:

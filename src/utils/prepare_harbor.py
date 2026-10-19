@@ -100,6 +100,10 @@ def prepare(task, root=PROJECT_ROOT):
     if (source / 'data-manifest.json').is_file():
         from caeoj_tools.data_pool import verify
         public_cases = verify(source, strict=True)['public_cases']
+    from caeoj_tools.public_examples import verify_public_examples
+    local_public = verify_public_examples(source)
+    if local_public:
+        public_cases = local_public
     task_path = source.relative_to(root).as_posix()
     template = root / 'src/utils/harbor'
     cases = sorted((source / 'cases').glob('*/problem.json'))

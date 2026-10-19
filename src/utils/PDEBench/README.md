@@ -23,24 +23,29 @@ python src/utils/PDEBench/prepare.py inspect --task advection-1d --source-id 255
 
 ## 显式选样
 
-在忽略的运行目录创建 `spec.json`，内容为列表。例如同一源文件的不同轨迹分别作公开样例、隐藏测试：
+在忽略的运行目录创建 `spec.json`，内容为条目列表或含 `entries`、`examples` 的对象。例如先选两条独立计分 case，再将它们引用为公开 example（本例两条均已公开）：
 
 ```json
-[
-  {"task":"advection-1d","source_id":255674,"index":0,"frames":[0,1,7,61,200],"role":"sample","id":"01"},
-  {"task":"advection-1d","source_id":255674,"index":1,"frames":[0,1,7,61,200],"role":"case","id":"001"}
-]
+{
+  "entries": [
+    {"task":"advection-1d","source_id":255674,"index":0,"frames":[0,1,3,7,15,31,61,101,200],"role":"case","id":"001"},
+    {"task":"advection-1d","source_id":255674,"index":1,"frames":[0,1,3,7,15,31,61,101,200],"role":"case","id":"002"}
+  ],
+  "examples": {
+    "advection-1d": {"01":{"case":"001"}, "02":{"case":"002"}}
+  }
+}
 ```
 
 ```sh
 python src/utils/PDEBench/prepare.py plan --spec runs/my-trial/spec.json --output runs/my-trial/selection.json
 ```
 
-- 每条明确 task、来源文件 ID、零基轨迹索引、原始帧索引、sample/case 角色、本地数字 ID。
-- 帧索引严格递增且含 0，样例最多 5 帧、隐藏最多 9 帧；索引是否越界及实际时间在读取源元数据后检查，不重新生成时间值。
+- 每条明确 task、来源文件 ID、零基轨迹索引、原始帧索引、角色及本地数字 ID。计分 case 只登记一次；`examples` 按题目和样例 ID 引用已有 case，不能另填来源或帧。
+- 帧索引严格递增且含 0，case 最多 9 帧；引用式 example 完整继承 case 的输入、时间轴、参考和评分，支持全部 9 帧，不裁剪。独立 `role=sample` 条目仍最多 5 帧。索引是否越界及实际时间在读取源元数据后检查，不重新生成时间值。
 - 可选任意合法轨迹，工具不先扫描候选池；随机选择应先在真实已知索引范围生成 spec，保存种子及选择依据。当前 CLI 不自动随机选样。
-- 同一来源轨迹不能重复使用；制作时再以初态指纹排除本次同题重复，不把时间裁剪或重编号当成独立 case。
-- selection 绑定 catalog、题面/DATA、评分模板和转换器摘要；任一变更需新计划、新工作目录。少量选择仅表示本次子集，不替换正式选样或改变题面总例数。
+- 同一来源轨迹不能登记两次；制作时再以初态指纹排除本次同题重复。允许且只允许 `examples` 显式引用计分 case 来公开，不把时间裁剪、重编号或样例副本当成额外独立 case。一个 case 只对应一个公开样例，样例 ID 不能与独立 sample 冲突。
+- selection（schema_version=2）绑定 examples 引用、catalog、题面/DATA、评分模板和转换器摘要；任一变更需新计划、新工作目录。少量选择仅表示本次子集，不替换正式选样或改变题面总例数。
 
 ## 制作、核验、装配
 
@@ -67,6 +72,10 @@ workspace/runs/harbor/tasks/<task>/
 ```
 
 `prepare` 最后执行相同的 `verify`。验证覆盖实际输入和参考加载、公开 example、自判分正例及明显错误数值反例、选择覆盖、文件摘要。自比较通过证明格式与判题链相容，不证明连续 PDE 精度。example 是源参考转换得到的完整输出，不是可复用求解器。
+
+引用式 example 不再读取源数据；从已核验的 case 复制全部必要输入与参考，并以完整 reference 生成 output/result.h5。工作区冻结公开引用和全部 case/sample 身份，样例文件摘要与原 case 完全一致才可发布。缺失绑定、额外样例、修改帧/参考或身份错配均拒绝；中断恢复不重新下载轨迹。
+
+每题 20 个 case + 2 个引用式 example，仍只计分 20 例，其中 2 例已公开、18 例未公开。`verify` 报告包含 `case_count`、逐题 `public_cases` 和 example 状态；Harbor 的 tests/selection.json 与判题报告保留相同公开身份，逐例标为 `public_sample`。公开样例仍参与总分，不作为未见输入解释。HF 清单与本地公开绑定不允许混用，不伪造下载回执。
 
 `assemble` 使用现有 `publish_dist.publish` 与 `prepare_harbor.prepare`，不启动考生。两者 CLI 也支持 `--root <workspace>`；运行方式见[评测维护说明](../../../qbank/maintenance/EVALUATION.md)和[运行技能](../../../.agents/skills/caeoj-run-benchmark/SKILL.md)。首次真实模型运行需明确模型、推理档、次数与预算；本工具不默认调用模型或重用历史提交。
 

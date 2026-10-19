@@ -64,7 +64,7 @@ python src/utils/PDEBench/prepare.py verify-installed --selection runs/my-trial/
 
 默认目标为当前仓库，也可用 `--target-root` 指定具有相同题面与配置的项目。目标已有 cases/reference/samples 时必须显式 `--replace`；旧数据保存在目标的 runs/pdebench-install/，不静默删除。安装前核验整个工作区、目标定义、磁盘空间和 HF 冲突；复制中断保留阻断标记，异常回滚旧数据。安装回执 author/direct-source.json 记录冻结选择、完整载荷摘要及公开身份，安装后的发布／Harbor 装配继续核验，不伪造 HF 回执。生成数据、公开绑定和安装回执均不进入 Git；题面、DATA 和评分配置不随数据覆盖。正常安装只复制本地已核验数据，不重新下载来源。
 
-每个工作根必须为空或属于同一 selection。代码目录和原题库不写入数据；本地得到：
+每个工作根必须为空或属于同一 selection。`prepare` 不向代码目录和原题库写入数据；本地得到：
 
 ```text
 workspace/qbank/<chapter>/<section>/<task>/

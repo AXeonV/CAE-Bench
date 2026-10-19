@@ -17,4 +17,4 @@ description: 为指定 CAE-Bench-OJ 题目搜集有出处且具有有效差异�
 
 交付 HF 提交、case ID／描述摘要、来源与制作记录、数值与契约验证结果及局限，以及之后按 ID 选样的命令。区分参考验证、入池、正式选样和模型评测；本技能默认止于已验证入池。
 
-PDEBench 来源优先按[按需工具](../../../src/utils/PDEBench/README.md)使用显式来源选择与网络预算，直接生成现有题目格式及 example。临时 DaRUS 本地消费无需先迁移 HF；没有发布需求时止于本地验证/装配。工具不补算参考，不把 candidate.h5 当成可判分参考；状态为 blocked 时报告具体来源缺口。
+PDEBench 来源优先按[按需工具](../../../src/utils/PDEBench/README.md)使用显式来源选择与网络预算，直接生成现有题目格式及 example。临时 DaRUS 本地消费无需先迁移 HF；没有发布需求时止于本地验证/装配。用户要求落到题目目录时，使用 install／verify-installed 保留冻结来源与公开身份；替换已有数据显式 --replace 并保留备份，不手工复制载荷或伪造 HF 回执。工具不补算参考，不把 candidate.h5 当成可判分参考；状态为 blocked 时报告具体来源缺口。

@@ -28,7 +28,7 @@ def task_fixture(task):
                          '.data-assembly.json','.data-pool.lock'}:
             continue
         if path.is_dir():
-            shutil.copytree(path,target/path.name,ignore=shutil.ignore_patterns('__pycache__','*.pyc','prepared','preparation.json','data-evidence'))
+            shutil.copytree(path,target/path.name,ignore=shutil.ignore_patterns('__pycache__','*.pyc','prepared','preparation.json','data-evidence','direct-source.json','public-examples.json'))
         else:
             shutil.copyfile(path,target/path.name)
     data = BASE/'generated'/task

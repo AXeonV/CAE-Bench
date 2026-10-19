@@ -1,27 +1,36 @@
-# 七题本地制数与安装验收记录
+# 七题 DaRUS 本地制数、安装与消费验收
 
-当前状态：用户已授权将累计保守扣额上限提高至 **2.60 GB**，正在复用原工作区和缓存续作。前次全部尝试累计扣额 2,399,379,302 字节，本次单次剩余额度 **200,620,698 字节**；仅在完整制作后安装及消费验收。每 10 分钟监测，完成或异常通知。以下为续作前的停止记录，不能作为最终验收结果。
+**已完成：七题各 20 条独立轨迹、20 个计分 case，其中 2 个引用为公开 example；合计 140 case、14 example。** 已安装到本仓库对应题目目录，未修改题面、DATA、评分和运行限额。不是模型评测，也不是独立的连续 PDE 精度或收敛认证。
 
-状态：已制作 **138/140 条**，尚未完成全量 verify、example 制作、安装和消费验收。此前题目目录没有旧数据；本轮未将不完整批次安装回题目目录。工具实现提交 aa3646b，操作说明／fixture 隔离提交 f0637a7；不修改题面、DATA、评分或运行限额，没有模型调用、PDE 求解、HF Jobs 或远端上传。
+冻结选择 SHA256 为 `267cdac230cc4680ba3b9ed5affdfab89b0c22283afaf71a3560c48e55590e5d`。来源、轨迹、原始帧及公开身份见 [selection.json](selection.json)，输入配方见 [spec.json](spec.json)，排重依据见 [selection-design.json](selection-design.json)。140 个来源文件与轨迹索引组合唯一，各题初态摘要不重复；14 个公开 example 与所属 case 共用身份并保留计分资格，不增加独立轨迹数。
 
-冻结选择见 [selection.json](selection.json)，输入配方见 [spec.json](spec.json)，选样依据与排重见 [selection-design.json](selection-design.json)。七题各 20 条，2 条引用为公开 example 的规划不变；初始目录与契约摘要见 [before-install.json](before-install.json)。
+## 安装结果
 
-| 题目 | 已制作／目标 |
-|---|---:|
-| 平流 | 20/20 |
-| Burgers | 20/20 |
-| 一维可压缩流 | 20/20 |
-| 一维吸附扩散 | 20/20 |
-| 二维 FHN | 20/20 |
-| 二维浅水 | 20/20 |
-| 二维可压缩流 | 18/20 |
+| 题目 | case / example | 题目目录 |
+|---|---:|---|
+| advection-1d | 20 / 2 | [advection-1d](../../../../qbank/01-prescribed-pdes/1.3-scalar-transport/advection-1d) |
+| burgers-1d | 20 / 2 | [burgers-1d](../../../../qbank/01-prescribed-pdes/1.5-advection-diffusion/burgers-1d) |
+| compressible-navier-stokes-1d | 20 / 2 | [compressible-navier-stokes-1d](../../../../qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-1d) |
+| compressible-navier-stokes-2d | 20 / 2 | [compressible-navier-stokes-2d](../../../../qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-2d) |
+| diffusion-sorption-1d | 20 / 2 | [diffusion-sorption-1d](../../../../qbank/01-prescribed-pdes/1.2-diffusion-reaction/diffusion-sorption-1d) |
+| reaction-diffusion-2d | 20 / 2 | [reaction-diffusion-2d](../../../../qbank/01-prescribed-pdes/1.2-diffusion-reaction/reaction-diffusion-2d) |
+| shallow-water-2d | 20 / 2 | [shallow-water-2d](../../../../qbank/01-prescribed-pdes/1.4-hyperbolic/shallow-water-2d) |
 
-最后完成二维可压缩流 case 018（源文件 164685、轨迹 262）。待完成 case 019、020 均来自文件 164686，原始轨迹分别为 305、591。case 019 已取得部分范围缓存，但没有完整 case 回执，不计为完成。制作完成仅代表逐例转换、源适用性及结构预检阶段，不冒充尚未执行的全批正反例或模型成绩。
+输入位于各题 `cases/001` 至 `020`，参考位于 `reference/001` 至 `020`，公开样例位于 `samples/01`、`02`。生成载荷与作者身份回执由 Git 忽略。上述三类已安装载荷合计 **1,760,678,530 字节（约 1.76 GB）**，不含缓存、工作区副本、公开包及 Harbor 副本；原目录已备份到本地运行记录中。
 
-本轮设置的累计响应体保守扣额上限为 2,400,000,000 字节，实际扣额 **2,399,379,302 字节**，剩余 620,698 字节不足下一个范围请求。实收完整响应体累计 **1,198,640,000 字节（约 1.20 GB）**。保守扣额包含空重定向的预扣，不能当成实际流量，也不能与实收相加；均不含头、TLS 和链路重传开销。详情见 [budget-stop.json](budget-stop.json)。
+## 已执行的验收
 
-prepare 因 `Network byte budget exceeded before request` 安全停止，producer 和 finisher 均已退出；没有因限额停止而重算、裁帧、替换来源或重复下载。已有工作根约 1.2 GiB，范围缓存、逐例来源回执及失败请求账目全部保留在 runs/pdebench-seven-install-20261020/。本次没有新增 HF Jobs 或模型调用费用。
+- [完整制作与正反例校验](prepare-002.json)：140 条均 verified，参考回填控制逐例得分 1，错误值控制逐例得分 0；这是判题链自洽检查，不是独立参考精度验证。
+- [安装核验](verify-installed.json)及[逐字节审计](installed-audit.json)：140 条安装输入与参考、14 份样例均与 stage 相同；实际加载输入与参考，核对时刻、有限值、输出形状及公开身份。22 份原题面/DATA 摘要不变。
+- 七题均通过常规公开包发布和 Harbor 装配。[隔离消费结果](isolated-summary.json)：公开包离线安装为普通 site-packages wheel，无源码挂载；7 题共 140 条故意全零输出经真实 trusted judge 完成，均为 wrong_answer，没有 runtime_error，逐题保留 20 例分母和 2 个公开身份。
+- 消费时使用已有 Linux AMD64 Docker 镜像、禁网及题目 CPU/内存配置，考生 UID 1000 无权读取 `/tests/reference`，并断言临时 `/tmp/new-tests` 副本不存在。早先四题临时验收 helper 曾复制后留下该临时副本，因此旧报告的隐藏参考隔离结论只覆盖 `/tests`；本轮改用移动并补充断言，完整隔离结论以本轮证据为准。这不是生产 judge 代码修改。
 
-定时监视停止，等待调整流量限额后再继续；不得重跑初始 run_prepare.py，因为它只扣除探测／选样预算。续作必须先纳入 attempts/prepare-001-network.json 的实际扣额，使用相同 selection 和 workspace 计算新的单次上限，复用完整回执与已有缓存；完整制作后再 install、verify-installed、装配及消费验收。旧数据保持备份，最终数据留在忽略目录，不将二进制载荷提交 Git。
+安装工具实现提交 aa3646b、相关说明及 fixture 隔离提交 f0637a7；此前 60 项相关回归和安装独立审阅已通过，本轮未无故重复实现测试。三道暂缓题及三维可压缩流未生成数据。
 
-安装实现的两项独立审阅及 60 项相关回归已通过；这不是本批数据全量验收通过的声明。后续完成记录应更新本页状态并补充真实安装／消费结果。
+## 流量和费用
+
+累计响应体保守扣额 **2,541,985,750 字节（2.542 GB）**，低于用户授权的 2,600,000,000 字节，剩余 58,014,250 字节。实收完整响应体 **1,269,943,168 字节（1.270 GB）**，不含头、TLS 和链路重传。两者不可相加；保守扣额包含重定向的预扣。详见[累计账目](network-total.json)和[尝试一](prepare-001-network.json)、[尝试二](prepare-002-network.json)。
+
+首次在 138 条时安全停止，历史见 [BUDGET-STOP.md](BUDGET-STOP.md)。用户提高累计上限后，复用 138 条完整回执及范围缓存补齐剩余两条，没有重新下载完整数据集。无新增 HF Jobs、模型调用、求解器调用或远端上传费用；本地计算与流量费用不按美元另行计价。
+
+本批本地数据与消费验收完成，定时监视关闭；未 push、未发 PR、未合并 Git 分支。[机器汇总](acceptance-summary.json)保留逐题路径与数据量。

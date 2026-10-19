@@ -56,3 +56,7 @@ PYTHONPATH=src .venv/bin/python qbank/design/reviews/pdebench-four-task-20261019
 ```
 
 缓存或源条件不完整时审计停止，不自动下载或补算参考。七题 140 条的后续制作按[既有规划](../../pdebench-seven-task-trial.md)另行启动。
+
+## 后续隔离边界更正
+
+本批临时消费 helper 复制 trusted tests 后留下 `/tmp/new-tests` 副本，只检查了 `/tests` 的读取权限，因此不能据此认定所有隐藏参考副本均不可读。后续[七题 140 条完整验收](../pdebench-seven-install-20261020/REPORT.md)改为移动且断言临时副本不存在；隐藏参考隔离结论以该次完整证据为准。原数据转换与逐例判题结果不因此替代独立数值验证。

@@ -1,6 +1,6 @@
 # 七题各 20 条轨迹的 DaRUS 试评测规划
 
-状态：七题制数已启动，目前因本轮流量保护上限停在 **138/140 条**，未安装或进行模型评测；详见[停止记录](reviews/pdebench-seven-install-20261020/REPORT.md)。已完成引用工具及[另四题的小批真实验收](reviews/pdebench-four-task-20261019/REPORT.md)。排除三维可压缩流；另三题继续按[暂缓记录](reviews/pdebench-direct-20261019/DEFERRED-QUESTIONS.md)处理。工具现状与早先三题验收见 [README](../../src/utils/PDEBench/README.md)及[报告](reviews/pdebench-direct-20261019/REPORT.md)。
+状态：七题各 20 case / 2 引用 example 已完成制作、安装、正反例校验与离线真实判题消费验收，共 140/14；尚未进行模型评测。详见[完整验收记录](reviews/pdebench-seven-install-20261020/REPORT.md)。三道暂缓题及三维可压缩流未生成数据。
 
 ## 数量与公开身份
 
@@ -15,7 +15,7 @@
 
 ## 来源分工
 
-下表为来源配置配额，轨迹索引尚未探测/冻结。以已固定的 DaRUS V8 catalog 文件身份为准，不能从文件名推断实际轨迹总数。
+下表为来源配置配额；轨迹索引已探测并冻结于[selection.json](reviews/pdebench-seven-install-20261020/selection.json)。以已固定的 DaRUS V8 catalog 文件身份为准，不能从文件名推断实际轨迹总数。
 
 | 题目 | 20 条来源配置规划 | 公开 example 选取原则 |
 |---|---|---|

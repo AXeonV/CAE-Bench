@@ -1,0 +1,36 @@
+# 暂缓处理的三道题
+
+2026-10-19，按用户决定记录以下问题，暂不修题、补算、重跑或解除工具门禁。后续工作聚焦其余八道 PDEBench 来源题目。本记录不把局部来源疑点解释为整个数据族已证不适用。
+
+## 一维反应扩散：reaction-diffusion-1d
+
+- 当前 logistic 方程、周期边界和时间范围与官方补充材料 D.2 的基本定义一致。
+- 既往作者记录发现选定的部分发布轨迹后期停止变化，曾用独立计算替换参考；当前直接来源工具已删除这条自动补算路径。
+- 尚缺：重新定位具体源文件/轨迹与差异证据，区分数据问题、版本差异及初态/采样解释问题；尚不能据此断言全族参考不可用。
+- 暂不因为轨迹停滞修改方程，也不把旧重算值标成 DaRUS 原始参考。
+- 依据：[题面](../../../01-prescribed-pdes/1.2-diffusion-reaction/reaction-diffusion-1d/instruction.md)、[既往来源记录](../../../01-prescribed-pdes/1.2-diffusion-reaction/reaction-diffusion-1d/author/data-evidence/reference/DESIGN.md)。
+
+## Darcy：darcy-flow-2d
+
+- 官方补充材料 D.4 描述稳态问题和零 Dirichlet 边界；当前题面包含“边界值等于相邻原单元平均值一半”及系数双线性重建，属于额外的数学/采样解释。
+- 既往作者记录还指出部分发布快照可能未达到稳态；当前工具不再独立求稳态修正参考。
+- 尚缺：区分论文数学定义、对应发布数据的离散边界实现、我们新增的连续解释，以及具体轨迹的稳态适用性。不能认定直接恢复零边界即可解决全部来源问题。
+- 暂不改变题面、自动修正参考或以离散残差替代连续精度证明。
+- 依据：[题面](../../../01-prescribed-pdes/1.1-elliptic/darcy-flow-2d/instruction.md)、[既往来源记录](../../../01-prescribed-pdes/1.1-elliptic/darcy-flow-2d/author/data-evidence/reference/DESIGN.md)。
+
+## 二维不可压缩流：incompressible-navier-stokes-2d
+
+- 官方补充材料 D.6 规定单位方域、运动黏度 0.01 和零壁速；所审生成器包含标量耦合驱动、离散投影与速度再采样步骤。
+- 当前题面进一步规定连续 Helmholtz 初始投影、预投影首帧和点值重建。连续定义与发布离散流程不能仅凭名称认定等价。
+- 既往作者记录有实际分片单位域尺度检查；该证据应按来源身份复核，不能把已审过的尺度仍一概当作未知，也不能把尺度核对当成全部投影/采样误差已解决。
+- 尚缺：对应生成版本与实际分片、连续初态/投影及输出采样的逐项对应。
+- 暂不改题、重算投影或新增输运求解。
+- 依据：[题面](../../../01-prescribed-pdes/1.6-constrained-systems/incompressible-navier-stokes-2d/instruction.md)、[既往来源记录](../../../01-prescribed-pdes/1.6-constrained-systems/incompressible-navier-stokes-2d/author/data-evidence/reference/DESIGN.md)。
+
+## 当前工具状态与后续边界
+
+三题当前仍使用保守的全题门禁：可以取得 input 和私有 candidate.h5，不生成可判分 reference、example 或评测包。这个实现状态不等于三族全部数据已被逐例否决；解除门禁需要后续独立处理本记录，不属于此次剩余八题工作。
+
+其余八题为：平流、Burgers、一维/二维/三维可压缩流、吸附扩散、二维反应扩散、浅水。当前真实 DaRUS 制数及容器判题验收只覆盖前三者中的平流、Burgers、一维可压缩流的固定小批周期配置；另五题仅有离线格式覆盖，见[验收记录](REPORT.md)。
+
+官方对照：[PDEBench 补充材料 D.2/D.4/D.6](https://proceedings.neurips.cc/paper_files/paper/2022/file/0a9747136d411fb83f0cf81820d44afb-Supplemental-Datasets_and_Benchmarks.pdf)、[固定版本不可压缩流生成器](https://github.com/pdebench/PDEBench/blob/4ff3e3a4aa1561721b5571fa3a048a0a463e0568/pdebench/data_gen/src/sim_ns_incomp_2d.py)。当前操作见[工具 README](../../../../src/utils/PDEBench/README.md)。

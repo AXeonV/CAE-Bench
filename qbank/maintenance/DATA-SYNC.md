@@ -1,6 +1,6 @@
 # 数据池操作
 
-布局与字段的唯一说明见[存储设计](../design/DATA-STORAGE.md)。维护 CLI 为 `python -m caeoj_tools.cli data`（安装后等价 `caeoj-maint data`），支持 `pack/upload/select/fetch/assemble/verify`，不进行物理求解、判据修订或精度认证。
+布局与字段的唯一说明见[存储设计](../design/DATA-STORAGE.md)。维护 CLI 为 `python -m caeoj_tools.cli data`（安装后等价 `caeoj-maint data`），支持 `pack/upload/list/select/fetch/assemble/verify`，不进行物理求解、判据修订或精度认证。
 
 寻找来源、实际求解器计算及参考验证由 [caeoj-source-cases](../../.agents/skills/caeoj-source-cases/SKILL.md) 按[算例制作与溯源](CASE-SOURCING.md)协调；本页只拥有通用数据管理操作。入池不自动改变正式选样。
 
@@ -34,7 +34,13 @@ python -m caeoj_tools.cli data upload --bundle work/heat-pool
 
 ## 选样
 
-浏览 `pool/index.json` 找到 ID 后：
+先分页查找 case ID，再显式选样：
+
+```sh
+python -m caeoj_tools.cli data list --task heat-conduction-steady-2d --limit 20 --offset 0
+```
+
+列表返回总数、固定提交、完整性标记及下一页 `next_offset`。分区池只读取本页涉及的 JSON 分区，不读取 TAR、场或参考；翻页时用首轮返回的 `revision` 固定 `--revision`，使顺序和选样可复现。列表完整性标记不表示数值精度已认证。
 
 ```sh
 python -m caeoj_tools.cli data select --task heat-conduction-steady-2d --case '001=<测试case-id>' --sample '01=<样例case-id>' --output work/heat-selection.json
@@ -78,7 +84,7 @@ python -m caeoj_tools.cli data verify --task heat-conduction-steady-2d --strict
 
 发布器离线严格核验样例，Harbor 准备离线严格核验全套选样，不自动下载或重选。同一池条目同时选为测试与样例时允许“送分样例”，装配及核验报告的 public_cases 列出对应关系；Harbor 的 selection.json 和成绩报告保留该身份，仍参与原总数和计分。此例外要求 case ID 与描述绑定完全一致，不放行角色内部重复或不同条目的输入／轨迹重叠。通过后按题目 README 做 SDK、数值与公开包独立运行核验；文件一致性不证明参考精度或资源校准。
 
-代码提交保存工具、题意、选择和应维护的作者证据；不提交缓存、bundle、装配数据或凭据。HF 只维护最新数据，历史来源和阶段证据另见维护记录。
+代码提交保存工具、题意、选择和应维护的作者证据；不提交缓存、bundle、装配数据或凭据。HF 使用提交和标签保存数据版本，消费时固定提交；历史来源和阶段证据另见维护记录。
 
 ## 无本地数据的代码树
 

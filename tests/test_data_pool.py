@@ -128,6 +128,26 @@ class PoolTests(unittest.TestCase):
         self.assertEqual(len(view.transports),2)
         self.assertEqual(pool.assemble(self.task,choice,backing)['changed'],0)
 
+    def test_listing_partitioned_pool_paginates_without_transport_payloads(self):
+        repo, value, index = self.partitioned_fixture()
+        backing = pool.LocalStore(repo)
+        first = pool.list_cases(value, backing, limit=1)
+        second = pool.list_cases(value, backing, offset=first['next_offset'], limit=1)
+        self.assertEqual(first['total'], 2)
+        self.assertIsNone(second['next_offset'])
+        self.assertEqual({first['cases'][0]['case_id'], second['cases'][0]['case_id']},
+                         {c['case_id'] for c in value['cases'].values()})
+        self.assertEqual(pool.consumer_store(value, backing).transports, {})
+        self.assertEqual(pool.list_cases(value, backing, offset=2)['cases'], [])
+
+    def test_listing_direct_pool_and_invalid_page(self):
+        page = pool.list_cases(self.selection, self.store, limit=1)
+        self.assertEqual(page['total'], 2)
+        self.assertEqual(len(page['cases']), 1)
+        for kwargs in ({'limit': 0}, {'limit': 1001}, {'offset': -1}):
+            with self.assertRaises(pool.PoolError):
+                pool.list_cases(self.selection, self.store, **kwargs)
+
     def test_partitioned_digest_failure_does_not_change_local(self):
         repo,value,index=self.partitioned_fixture()
         entry=next(iter(index['partitions'].values()))

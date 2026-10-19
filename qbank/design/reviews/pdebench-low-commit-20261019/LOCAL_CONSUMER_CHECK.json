@@ -1,0 +1,79 @@
+{
+  "hf_revision": "efe3e36b55e7ba2265edfa0ddace34ef38f1e5be",
+  "metadata_only": true,
+  "numerical_payload_downloaded": false,
+  "checks": [
+    {
+      "task": "pdebench-advection-1d",
+      "total": 80000,
+      "listed_cases": [
+        {
+          "case_id": "case-0000f8d50ef788547fbbc61c",
+          "sha256": "83a3c5a37400cd52a83bd194973ba0995cdb6e89be53dedd3cba2c3c3d85cf8e",
+          "input_complete": true,
+          "reference_complete": true
+        },
+        {
+          "case_id": "case-00019b18f5a854b4ad0604c2",
+          "sha256": "2a9c3cdb86b16e4a7212ab586b3b613ed002c678790a1bd46049b14d19e44359",
+          "input_complete": true,
+          "reference_complete": true
+        }
+      ],
+      "selected_cases": 1
+    },
+    {
+      "task": "pdebench-burgers-1d",
+      "total": 120000,
+      "listed_cases": [
+        {
+          "case_id": "case-0000b7f0f8415df311974f2b",
+          "sha256": "831cdf90bd73981653d2f844e1c0f485e5d4c16f52e836d443db7fe0d3ea6e92",
+          "input_complete": true,
+          "reference_complete": true
+        },
+        {
+          "case_id": "case-0001485d46e1f82cb7e4c8ad",
+          "sha256": "ee74ce792d08bc04bf17060f01df5a3f5af1264521b55abe636514d8aab70c78",
+          "input_complete": true,
+          "reference_complete": true
+        }
+      ],
+      "selected_cases": 1
+    },
+    {
+      "task": "pdebench-compressible-1d",
+      "total": 50000,
+      "listed_cases": [
+        {
+          "case_id": "case-0001e0cd916a7b2dc4bea0a1",
+          "sha256": "eef3c01452a76f422863918e2db79061619c89e06d8156277c538db72c07c1bf",
+          "input_complete": true,
+          "reference_complete": true
+        },
+        {
+          "case_id": "case-00020139546c634e42bf333c",
+          "sha256": "60edeae5e294d64ed768a6763651d8c690cbff8e76f1b51e4c6f2ce0b0369d83",
+          "input_complete": true,
+          "reference_complete": true
+        }
+      ],
+      "selected_cases": 1
+    }
+  ],
+  "local_tests": [
+    {
+      "pattern": "test_data_pool.py",
+      "passed": 32
+    },
+    {
+      "pattern": "test_pdebench_*.py",
+      "passed": 59
+    }
+  ],
+  "limitations": [
+    "HF network validation covered metadata listing and explicit selection only; no production TAR downloaded locally.",
+    "Synthetic local fixtures cover sharded assembly and strict verification; numerical PDE accuracy is not certified.",
+    "On macOS these tests use a canonical workspace TMPDIR because /var is a system symlink rejected by the data path guard."
+  ]
+}

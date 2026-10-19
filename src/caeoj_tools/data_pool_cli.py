@@ -23,7 +23,7 @@ def configure(parser):
     upload.add_argument('--bundle', type=Path, required=True)
     upload.add_argument('--update', action='store_true')
     upload.add_argument('--revision', default='main')
-    for command in ('select', 'fetch', 'assemble', 'verify'):
+    for command in ('list', 'select', 'fetch', 'assemble', 'verify'):
         p = commands.add_parser(command)
         p.add_argument('--task', required=True)
         p.add_argument('--manifest', type=Path, help='Selection path; defaults to the task data-manifest.json')
@@ -31,7 +31,10 @@ def configure(parser):
             p.add_argument('--source-dir', type=Path, help='Offline repository-shaped pool tree')
             p.add_argument('--revision', default='main')
             p.add_argument('--cache-dir', type=Path)
-        if command == 'select':
+        if command == 'list':
+            p.add_argument('--offset', type=int, default=0)
+            p.add_argument('--limit', type=int, default=20, help='Metadata entries per page, 1..1000')
+        elif command == 'select':
             p.add_argument('--case', action='append', default=[], help='[local-name=]case-id; repeatable')
             p.add_argument('--sample', action='append', default=[], help='[local-name=]case-id; repeatable')
             p.add_argument('--output', type=Path, help='Write a separate selection instead of replacing the manifest')
@@ -84,6 +87,8 @@ def _run(args):
     value = pool.manifest(selection)
     store = pool.LocalStore(args.source_dir) if args.source_dir else pool.HubStore(
         value['repository']['repo_id'], args.revision, args.cache_dir)
+    if args.data_command == 'list':
+        return pool.list_cases(value, store, offset=args.offset, limit=args.limit)
     if args.data_command == 'select':
         if not args.case and not args.sample:
             raise pool.PoolError('Select at least one --case or --sample')

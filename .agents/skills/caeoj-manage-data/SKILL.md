@@ -7,7 +7,7 @@ description: 制作和维护 CAE-Bench-OJ 的 HF 题内数据池，上传、选�
 
 读取本题 data-manifest.json、[存储设计](../../../qbank/design/DATA-STORAGE.md)与[操作指南](../../../qbank/maintenance/DATA-SYNC.md)，使用现有 `caeoj-maint data` 命令，不另写同步实现。HF的每个case自包含输入、reference/grading.json及其声明的参考／观测资产，本地 cases、reference、samples 是明确选样后的装配结果；作者证据归 `author/data-evidence/`。
 
-按本次需求选择步骤：制池 `pack` → 验证 bundle → 上传 `upload` → 明确 `select` → 获取／装配 `fetch/assemble` → `verify` 与真实消费检查。纯获取无需制池或上传；新题显式分配稳定 ID 并检查唯一。
+按本次需求选择步骤：制池 `pack` → 验证 bundle → 上传 `upload` → 元数据分页 `list` → 明确 `select` → 获取／装配 `fetch/assemble` → `verify` 与真实消费检查。分页和后续选样使用首轮返回的固定 revision；纯获取无需制池或上传，新题显式分配稳定 ID 并检查唯一。开发取用在独立工作区选样，不自动改动正式清单。
 
 - 选样固定 case ID、描述摘要、角色和本地编号；独立测试不重复输入或来源轨迹；同一池条目可显式同时选为样例与计分测试，按存储设计作为 public_cases 报告，不放宽其他重复检查。参考完整按评价计划覆盖判断；完整提交示例单独声明，不能把稀疏参考当result.h5。参考不齐只能用于开发。
 - HF 来源证书使用 source_repository、source_sha256、sample_index 绑定内容轨迹，source_file 和固定 source_revision 用于定位；不把 SHA256 填进 source_md5，也不把版本或文件名变化当作独立轨迹。实际核验范围单列。

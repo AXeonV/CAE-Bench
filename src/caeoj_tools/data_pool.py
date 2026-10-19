@@ -679,6 +679,39 @@ def verify(task, *, strict=False, samples_only=False):
     return {'valid': not errors, 'errors': errors, 'public_cases': public_cases}
 
 
+def list_cases(value, store, *, offset=0, limit=20):
+    """List a bounded page of case bindings without reading numerical payloads."""
+    if type(offset) is not int or offset < 0 or type(limit) is not int or not 1 <= limit <= 1000:
+        raise PoolError('List requires offset >= 0 and limit in 1..1000')
+    store = consumer_store(value, store)
+    prefix = value['repository']['path']
+    index = checked_json(store.get(prefix + '/' + relative(value['pool']['index'])))
+    if index.get('schema_version') == 4:
+        total = index['case_count']
+        def pages():
+            skip = offset
+            for key, binding in sorted(index['partitions'].items()):
+                if skip >= binding['case_count']:
+                    skip -= binding['case_count']
+                    continue
+                entries = sorted(store.partition(key).items())
+                yield from entries[skip:]
+                skip = 0
+    elif index.get('schema_version') == 3:
+        total = len(index['cases'])
+        def pages():
+            yield from sorted(index['cases'].items())[offset:]
+    else:
+        raise PoolError('Invalid pool index')
+    from itertools import islice
+    cases = [{'case_id': cid, **{k: entry[k] for k in
+             ('sha256', 'input_complete', 'reference_complete')}}
+             for cid, entry in islice(pages(), limit)]
+    next_offset = offset + len(cases)
+    return {'revision': store.revision, 'total': total, 'offset': offset,
+            'next_offset': next_offset if next_offset < total else None, 'cases': cases}
+
+
 def select(value, store, cases, samples, *, allow_incomplete=False):
     store = consumer_store(value, store)
     prefix = value['repository']['path']

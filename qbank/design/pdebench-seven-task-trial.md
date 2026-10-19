@@ -1,6 +1,6 @@
 # 七题各 20 条轨迹的 DaRUS 试评测规划
 
-状态：七题各 20 条的试验仍未启动；已完成引用工具及[另四题的小批真实验收](reviews/pdebench-four-task-20261019/REPORT.md)，没有模型评测。排除三维可压缩流；另三题继续按[暂缓记录](reviews/pdebench-direct-20261019/DEFERRED-QUESTIONS.md)处理。工具现状与早先三题验收见 [README](../../src/utils/PDEBench/README.md)及[报告](reviews/pdebench-direct-20261019/REPORT.md)。
+状态：七题制数已启动，目前因本轮流量保护上限停在 **138/140 条**，未安装或进行模型评测；详见[停止记录](reviews/pdebench-seven-install-20261020/REPORT.md)。已完成引用工具及[另四题的小批真实验收](reviews/pdebench-four-task-20261019/REPORT.md)。排除三维可压缩流；另三题继续按[暂缓记录](reviews/pdebench-direct-20261019/DEFERRED-QUESTIONS.md)处理。工具现状与早先三题验收见 [README](../../src/utils/PDEBench/README.md)及[报告](reviews/pdebench-direct-20261019/REPORT.md)。
 
 ## 数量与公开身份
 
@@ -41,7 +41,7 @@
 
 ## 实施前必须补齐的工具能力
 
-原先直接来源 selection 拒绝 sample/case 同源、非 HF 装配丢失公开身份；目前已补齐 schema_version=2 的显式 examples 引用与公开身份传递，当前操作见 [工具 README](../../src/utils/PDEBench/README.md)。本节保留所需验收目标；七题 140 条制数尚未启动。
+原先直接来源 selection 拒绝 sample/case 同源、非 HF 装配丢失公开身份；目前已补齐 schema_version=2 的显式 examples 引用与公开身份传递，当前操作见 [工具 README](../../src/utils/PDEBench/README.md)。本节保留所需验收目标；本批执行状态以页首记录为准。
 
 1. selection 仍只登记每题 20 个唯一 case，另设公开映射，例如 `examples: {"01": {"case": "001"}, "02": {"case": "011"}}`。此为结构示例，最终映射随来源选择冻结，不预定这两个编号的来源配置。
 2. example 引用同一 case 身份、来源、输入与参考摘要；生成样例副本不再重复读取源数据。已有独立 sample 入口是否保留按真实调用方决定，避免长期维护两套来源制作逻辑。

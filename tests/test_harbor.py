@@ -120,7 +120,10 @@ class HarborTests(unittest.TestCase):
         pool.pack(task,self.root/'bundle',value)
         selection = pool.manifest(self.root/'bundle/selection.json')
         pool.write_json(task/'data-manifest.json',selection)
-        pool.assemble(task,selection,pool.LocalStore(self.root/'bundle/repository'))
+        from caeoj_tools import data_lock
+        store = pool.LocalStore(self.root/'bundle/repository')
+        pool.write_json(task/data_lock.LOCK,data_lock.create(selection,store))
+        pool.assemble(task,selection,store)
         self.assertEqual(len(pool.verify(task,strict=True)['public_cases']),1)
         directory = self.prepared()
         private, logs = directory/'tests', self.root/'public-case-logs'

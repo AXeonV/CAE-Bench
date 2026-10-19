@@ -61,7 +61,7 @@ def collect_materials(task, root=PROJECT_ROOT):
     task_path = task_dir.relative_to(root).as_posix()
     if (task_dir / 'data-manifest.json').is_file():
         from caeoj_tools.data_pool import verify
-        verify(task_dir, strict=True, samples_only=True)
+        verify(task_dir, strict=True, samples_only=True, require_lock=True)
     files, runtime = runtime_materials({task: task_dir}, root)
 
     def add(path):

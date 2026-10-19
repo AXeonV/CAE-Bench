@@ -24,7 +24,7 @@ def task_fixture(task):
     # Keep author evidence; only task-root data directories are excluded.
     target.mkdir(parents=True)
     for path in canonical.iterdir():
-        if path.name in {'cases','reference','samples','data-manifest.json',
+        if path.name in {'cases','reference','samples','data-manifest.json','data-lock.json',
                          '.data-assembly.json','.data-pool.lock'}:
             continue
         if path.is_dir():

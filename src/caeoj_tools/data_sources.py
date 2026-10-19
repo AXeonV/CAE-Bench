@@ -104,6 +104,15 @@ class ScpTransport:
             raise pool.PoolError('SFTP paths cannot contain control characters')
         return '"' + str(value).replace('\\', '\\\\').replace('"', '\\"') + '"'
 
+    @staticmethod
+    def executable(name):
+        # Native libraries may change Windows PATH behind os.environ's back.
+        # Resolve via Python's PATH and bypass CreateProcess's native search.
+        path = shutil.which(name)
+        if path is None:
+            raise pool.PoolError(f'OpenSSH client {name} not found; install OpenSSH and add it to PATH')
+        return str(Path(path).resolve())
+
     def retrieve(self, name, destination):
         remote = self.root.rstrip('/') + '/' + pool.relative(name)
         options = ['-oBatchMode=yes', '-oStrictHostKeyChecking=yes', '-oConnectTimeout=30']
@@ -115,7 +124,7 @@ class ScpTransport:
                 command = ('reget' if Path(destination).exists() else 'get')
                 batch = f'{command} {self.quoted(remote)} {self.quoted(local)}\n'
                 port = ['-P', str(self.port)] if self.port is not None else []
-                result = subprocess.run(['sftp', *port, *options, '-b', '-', self.host],
+                result = subprocess.run([self.executable('sftp'), *port, *options, '-b', '-', self.host],
                                         input=batch, capture_output=True, text=True, timeout=self.timeout)
             elif not Path(destination).exists() and re.fullmatch('[A-Za-z0-9_.-]+', PurePosixPath(remote).name):
                 port = ['-P', str(self.port)] if self.port is not None else []
@@ -123,7 +132,7 @@ class ScpTransport:
                 # Keep shell quotes out of the basename: legacy scp also uses
                 # it as a filename-matching pattern on the receiving client.
                 remote_argument = shlex.quote(parent) + '/' + leaf
-                result = subprocess.run(['scp', '-O', *port, *options,
+                result = subprocess.run([self.executable('scp'), '-O', *port, *options,
                                          self.host + ':' + remote_argument, str(destination)],
                                         capture_output=True, timeout=self.timeout)
             else:
@@ -132,12 +141,13 @@ class ScpTransport:
                 # Windows scp rewrites backslashes in remote names. SSH block
                 # reads also handle special basenames without weakening scp's
                 # strict filename checks or interpolating unquoted paths.
+                executable = self.executable('ssh')
                 with Path(destination).open('r+b' if exists else 'w+b') as stream:
                     stream.truncate(offset)
                     stream.seek(offset)
                     command = f'dd if={shlex.quote(remote)} bs={self.BLOCK} skip={offset // self.BLOCK}'
                     port = ['-p', str(self.port)] if self.port is not None else []
-                    result = subprocess.run(['ssh', *port, *options, self.host, command],
+                    result = subprocess.run([executable, *port, *options, self.host, command],
                                             stdout=stream, stderr=subprocess.PIPE, timeout=self.timeout)
             if result.returncode:
                 raise pool.PoolError(f'SSH transfer failed (exit {result.returncode}); check access, known_hosts and server support')

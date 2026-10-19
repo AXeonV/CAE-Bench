@@ -23,6 +23,29 @@ from caeoj_tools import data_pool as pool, data_sources
                      importlib.util.find_spec('paramiko'), 'opt-in local SSH integration')
 class SshIntegrationTests(unittest.TestCase):
     def test_real_sftp_and_legacy_scp_with_resume(self):
+        self.check_transfers()
+
+    @unittest.skipUnless(os.name == 'nt', 'Windows process PATH regression')
+    def test_windows_native_path_change_does_not_hide_openssh(self):
+        import ctypes
+        kernel = ctypes.WinDLL('kernel32', use_last_error=True)
+        get_path = kernel.GetEnvironmentVariableW
+        get_path.argtypes = [ctypes.c_wchar_p, ctypes.c_wchar_p, ctypes.c_uint]
+        get_path.restype = ctypes.c_uint
+        set_path = kernel.SetEnvironmentVariableW
+        set_path.argtypes = [ctypes.c_wchar_p, ctypes.c_wchar_p]
+        set_path.restype = ctypes.c_int
+        buffer = ctypes.create_unicode_buffer(32768)
+        size = get_path('PATH', buffer, len(buffer))
+        self.assertLess(size, len(buffer))
+        original = buffer.value if size else None
+        self.addCleanup(set_path, 'PATH', original)
+        # Native libraries can change Windows PATH without updating os.environ.
+        # Exercise real clients with only Python's original search path intact.
+        self.assertTrue(set_path('PATH', ''))
+        self.check_transfers()
+
+    def check_transfers(self):
         import paramiko
         with tempfile.TemporaryDirectory(prefix='caeoj ssh ') as directory:
             root = Path(directory)

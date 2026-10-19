@@ -16,4 +16,4 @@ description: 制作和维护 CAE-Bench-OJ 的 HF 题内数据池，上传、选�
 
 数据变更后检查受影响契约、样例、参考及评分消费链，报告上传提交、选择、完整性和验证范围。文件一致不等于数值正确；来源寻找及实际参考制作交 [caeoj-source-cases](../caeoj-source-cases/SKILL.md)，题意修订或模型评测交对应流程，不由本技能默认启动。
 
-需要验证存储来源时，按[传输测试指南](../../../docs/DATA-TRANSPORT-TESTING.md)在独立目标和缓存中测试；可用 `src/utils/data_transport_lab.py` 准备本机只读 SSH 服务，分别验证本地目录、SFTP与旧SCP。HF访问申请或身份失败应保留失败证据，不将复用已有文件报告为远端下载通过。
+需要验证存储来源时，按[传输测试指南](../../../docs/DATA-TRANSPORT-TESTING.md)在独立目标和缓存中测试；可用 `src/utils/data_transport_lab.py` 准备本机只读 SSH 服务，分别验证本地目录、SFTP与旧SCP。Windows 下同时验证原生库改变进程 PATH 后的客户端定位与续传；缺少 OpenSSH 时保留部分下载并报告安装要求。HF访问申请或身份失败应保留失败证据，不将复用已有文件报告为远端下载通过。

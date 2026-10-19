@@ -20,6 +20,8 @@ Get-Command ssh, scp, sftp
 & $caeoj data verify --task smoke-test --strict
 ```
 
+SSH 传输会从 Python 的 `PATH` 解析 `ssh`、`scp` 和 `sftp` 的绝对路径，避免 Windows 原生库修改进程搜索路径后无法启动客户端。未安装客户端时会提示安装 OpenSSH 并加入 `PATH`；此时保留已有的部分下载文件。
+
 准备工具使用项目中已经严格校验的原始字节，按现有锁文件重建镜像。若缺少数据，先按[来源配置与获取](../qbank/maintenance/DATA-SYNC.md#配置本地与云端来源)准备该题。HF 是否需要申请权限以仓库当时的访问设置为准。
 
 ```powershell

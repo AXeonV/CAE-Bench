@@ -175,25 +175,47 @@ raise SystemExit(main(sys.argv[1:]))
         destination.write_bytes(b'partial')
         source = {'type': 'scp', 'host': 'user@cluster', 'root': '/data/release one'}
         backend = data_sources.ScpTransport(source)
-        with patch('caeoj_tools.data_sources.subprocess.run', return_value=SimpleNamespace(returncode=0)) as execute:
+        clients = {name: str((self.fixture.root/'OpenSSH clients'/(name+'.exe')).resolve())
+                   for name in ('sftp', 'scp', 'ssh')}
+        with patch('caeoj_tools.data_sources.shutil.which', side_effect=clients.get), \
+                patch('caeoj_tools.data_sources.subprocess.run', return_value=SimpleNamespace(returncode=0)) as execute:
             backend.retrieve('qbank/file.h5', destination)
         args, kwargs = execute.call_args
-        self.assertEqual(args[0][0], 'sftp')
+        self.assertEqual(args[0][0], clients['sftp'])
         self.assertIn('reget "/data/release one/qbank/file.h5"', kwargs['input'])
         self.assertIn('-oStrictHostKeyChecking=yes', args[0])
         backend = data_sources.ScpTransport({**source, 'transport': 'scp'})
         destination.write_bytes(b'a'*(backend.BLOCK+19))
 
         def resumed(command, **kwargs):
-            self.assertEqual(command[0], 'ssh')
+            self.assertEqual(command[0], clients['ssh'])
             self.assertIn('skip=1', command[-1])
             self.assertEqual(kwargs['stdout'].tell(), backend.BLOCK)
             kwargs['stdout'].write(b'end')
             return SimpleNamespace(returncode=0)
 
-        with patch('caeoj_tools.data_sources.subprocess.run', side_effect=resumed):
+        with patch('caeoj_tools.data_sources.shutil.which', side_effect=clients.get), \
+                patch('caeoj_tools.data_sources.subprocess.run', side_effect=resumed):
             backend.retrieve('qbank/file.h5', destination)
         self.assertEqual(destination.stat().st_size, backend.BLOCK+3)
+
+    def test_missing_openssh_preserves_partial_file(self):
+        destination = self.fixture.root/'partial.bin'
+        original = b'a'*(data_sources.ScpTransport.BLOCK+19)
+        for protocol, partial in (('sftp', True), ('scp', False), ('scp', True)):
+            with self.subTest(protocol=protocol, partial=partial):
+                if partial:
+                    destination.write_bytes(original)
+                elif destination.exists():
+                    destination.unlink()
+                backend = data_sources.ScpTransport({'host': 'cluster', 'root': '/data', 'transport': protocol})
+                with patch('caeoj_tools.data_sources.shutil.which', return_value=None):
+                    with self.assertRaisesRegex(pool.PoolError, 'install OpenSSH'):
+                        backend.retrieve('file.h5', destination)
+                if partial:
+                    self.assertEqual(destination.read_bytes(), original)
+                else:
+                    self.assertFalse(destination.exists())
 
     def test_retries_preserve_partial_and_never_expose_unverified_objects(self):
         planned = data_lock.plan(self.task, self.value, self.lock)

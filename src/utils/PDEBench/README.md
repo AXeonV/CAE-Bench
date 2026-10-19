@@ -108,6 +108,8 @@ workspace/runs/harbor/tasks/<task>/
 
 历史数值重算实现与旧 CLI 已删除，不保留兼容执行路径。2026-10-13 的结果和局限保存在[历史审核](../../../qbank/design/reviews/pdebench-20261013/AUDIT.md)，不是当前数据就绪证明。设计背景见[按需取数方案](../../../qbank/design/pdebench-direct-cases.md)。
 
+当前真实消费范围与证据见[平流、Burgers、一维可压缩流验收](../../../qbank/design/reviews/pdebench-direct-20261019/REPORT.md)、[引用式 example 验收](../../../qbank/design/reviews/pdebench-public-examples-20261019/REPORT.md)及[其余四题验收](../../../qbank/design/reviews/pdebench-four-task-20261019/REPORT.md)。来源转换、隔离执行与连续数值精度分别说明。
+
 开发检查：
 
 ```sh

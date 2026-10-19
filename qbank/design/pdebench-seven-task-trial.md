@@ -1,6 +1,6 @@
 # 七题各 20 条轨迹的 DaRUS 试评测规划
 
-状态：规划，未启动新下载或评测。排除三维可压缩流；另三题继续按[暂缓记录](reviews/pdebench-direct-20261019/DEFERRED-QUESTIONS.md)处理。工具现状与已有验收见 [README](../../src/utils/PDEBench/README.md)及[报告](reviews/pdebench-direct-20261019/REPORT.md)。
+状态：七题各 20 条的试验仍未启动；已完成引用工具及[另四题的小批真实验收](reviews/pdebench-four-task-20261019/REPORT.md)，没有模型评测。排除三维可压缩流；另三题继续按[暂缓记录](reviews/pdebench-direct-20261019/DEFERRED-QUESTIONS.md)处理。工具现状与早先三题验收见 [README](../../src/utils/PDEBench/README.md)及[报告](reviews/pdebench-direct-20261019/REPORT.md)。
 
 ## 数量与公开身份
 

@@ -1,0 +1,1880 @@
+{
+  "records": [
+    {
+      "task": "diffusion-sorption-1d",
+      "case": "001",
+      "source_id": 133020,
+      "index": 2,
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        15,
+        31,
+        51,
+        75,
+        100
+      ],
+      "times": [
+        0.0,
+        5.0,
+        10.0,
+        15.0,
+        75.0,
+        155.0,
+        255.0,
+        375.0,
+        500.0
+      ],
+      "grid_shape": [
+        1024
+      ],
+      "source_configuration": {
+        "work_dir": "${hydra:runtime.cwd}",
+        "data_dir": "${work_dir}/data/",
+        "output_path": "/pfs/work7/workspace/scratch/st_ac131224-pde_test/data//diff-sorp/train_0002.h5",
+        "name": null,
+        "sim": {
+          "D": 0.0005,
+          "por": 0.29,
+          "rho_s": 2880,
+          "k_f": 0.00035,
+          "n_f": 0.874,
+          "sol": 1.0,
+          "t": 500,
+          "tdim": 501,
+          "x_left": 0.0,
+          "x_right": 1.0,
+          "xdim": 1024,
+          "n": 1,
+          "seed": 2
+        },
+        "default_mode": true
+      },
+      "fields": {
+        "concentration": {
+          "shape": [
+            9,
+            1024,
+            1
+          ],
+          "minimum": 0.0003797304234467447,
+          "maximum": 0.9994036555290222,
+          "all_reference_values_equal_source": true
+        }
+      },
+      "parameters": {
+        "diffusivity": {
+          "value": 0.0005,
+          "unit": "m2/s"
+        },
+        "porosity": {
+          "value": 0.29,
+          "unit": "1"
+        },
+        "solid_density": {
+          "value": 2880,
+          "unit": "kg/m3"
+        },
+        "freundlich_coefficient": {
+          "value": 0.00035,
+          "unit": "m3/kg"
+        },
+        "freundlich_exponent": {
+          "value": 0.874,
+          "unit": "1"
+        },
+        "concentration_shift": {
+          "value": 1e-06,
+          "unit": "1"
+        },
+        "inlet_concentration": {
+          "value": 1,
+          "unit": "1"
+        },
+        "outlet_length": {
+          "value": 0.0005,
+          "unit": "m"
+        }
+      },
+      "conditions": [
+        {
+          "role": "initial",
+          "variable": "concentration",
+          "location": "domain",
+          "operator": "assign",
+          "data": {
+            "value": {
+              "field": "initial_concentration"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "concentration",
+          "location": "left",
+          "operator": "cell_coupled_dirichlet",
+          "data": {
+            "external_value": {
+              "value": 1,
+              "unit": "1"
+            },
+            "cell_weight": {
+              "value": 0.5,
+              "unit": "1"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "concentration",
+          "location": "right",
+          "operator": "outlet_cell_coupling",
+          "data": {
+            "length": {
+              "value": 0.0005,
+              "unit": "m"
+            }
+          }
+        }
+      ],
+      "input_arrays": {
+        "cell_ids": {
+          "shape": [
+            1024
+          ],
+          "dtype": "int64"
+        },
+        "initial_concentration": {
+          "shape": [
+            1,
+            1024,
+            1
+          ],
+          "dtype": "float64"
+        },
+        "initial_times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64"
+        },
+        "left_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64"
+        },
+        "right_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64"
+        },
+        "times": {
+          "shape": [
+            9
+          ],
+          "dtype": "float64"
+        }
+      },
+      "source_coordinate_order_matches_mesh": true,
+      "initial_matches_source": true,
+      "initial_coverage": "full published initial fields"
+    },
+    {
+      "task": "diffusion-sorption-1d",
+      "case": "002",
+      "source_id": 133020,
+      "index": 3,
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        15,
+        31,
+        51,
+        75,
+        100
+      ],
+      "times": [
+        0.0,
+        5.0,
+        10.0,
+        15.0,
+        75.0,
+        155.0,
+        255.0,
+        375.0,
+        500.0
+      ],
+      "grid_shape": [
+        1024
+      ],
+      "source_configuration": {
+        "work_dir": "${hydra:runtime.cwd}",
+        "data_dir": "${work_dir}/data/",
+        "output_path": "/pfs/work7/workspace/scratch/st_ac131224-pde_test/data//diff-sorp/train_0003.h5",
+        "name": null,
+        "sim": {
+          "D": 0.0005,
+          "por": 0.29,
+          "rho_s": 2880,
+          "k_f": 0.00035,
+          "n_f": 0.874,
+          "sol": 1.0,
+          "t": 500,
+          "tdim": 501,
+          "x_left": 0.0,
+          "x_right": 1.0,
+          "xdim": 1024,
+          "n": 1,
+          "seed": 3
+        },
+        "default_mode": true
+      },
+      "fields": {
+        "concentration": {
+          "shape": [
+            9,
+            1024,
+            1
+          ],
+          "minimum": 0.0004669411573559046,
+          "maximum": 0.9990273118019104,
+          "all_reference_values_equal_source": true
+        }
+      },
+      "parameters": {
+        "diffusivity": {
+          "value": 0.0005,
+          "unit": "m2/s"
+        },
+        "porosity": {
+          "value": 0.29,
+          "unit": "1"
+        },
+        "solid_density": {
+          "value": 2880,
+          "unit": "kg/m3"
+        },
+        "freundlich_coefficient": {
+          "value": 0.00035,
+          "unit": "m3/kg"
+        },
+        "freundlich_exponent": {
+          "value": 0.874,
+          "unit": "1"
+        },
+        "concentration_shift": {
+          "value": 1e-06,
+          "unit": "1"
+        },
+        "inlet_concentration": {
+          "value": 1,
+          "unit": "1"
+        },
+        "outlet_length": {
+          "value": 0.0005,
+          "unit": "m"
+        }
+      },
+      "conditions": [
+        {
+          "role": "initial",
+          "variable": "concentration",
+          "location": "domain",
+          "operator": "assign",
+          "data": {
+            "value": {
+              "field": "initial_concentration"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "concentration",
+          "location": "left",
+          "operator": "cell_coupled_dirichlet",
+          "data": {
+            "external_value": {
+              "value": 1,
+              "unit": "1"
+            },
+            "cell_weight": {
+              "value": 0.5,
+              "unit": "1"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "concentration",
+          "location": "right",
+          "operator": "outlet_cell_coupling",
+          "data": {
+            "length": {
+              "value": 0.0005,
+              "unit": "m"
+            }
+          }
+        }
+      ],
+      "input_arrays": {
+        "cell_ids": {
+          "shape": [
+            1024
+          ],
+          "dtype": "int64"
+        },
+        "initial_concentration": {
+          "shape": [
+            1,
+            1024,
+            1
+          ],
+          "dtype": "float64"
+        },
+        "initial_times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64"
+        },
+        "left_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64"
+        },
+        "right_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64"
+        },
+        "times": {
+          "shape": [
+            9
+          ],
+          "dtype": "float64"
+        }
+      },
+      "source_coordinate_order_matches_mesh": true,
+      "initial_matches_source": true,
+      "initial_coverage": "full published initial fields"
+    },
+    {
+      "task": "reaction-diffusion-2d",
+      "case": "001",
+      "source_id": 133017,
+      "index": 2,
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        15,
+        31,
+        51,
+        75,
+        100
+      ],
+      "times": [
+        0.0,
+        0.05000000074505806,
+        0.10000000149011612,
+        0.15000000596046448,
+        0.75,
+        1.5499999523162842,
+        2.549999952316284,
+        3.75,
+        5.0
+      ],
+      "grid_shape": [
+        128,
+        128
+      ],
+      "source_configuration": {
+        "work_dir": "${hydra:runtime.cwd}",
+        "data_dir": "${work_dir}/data/",
+        "output_path": "/pfs/work7/workspace/scratch/st_ac131224-pde_test/data//diff-react/train_0002.h5",
+        "name": null,
+        "sim": {
+          "Du": 0.001,
+          "Dv": 0.005,
+          "k": 0.005,
+          "t": 5,
+          "tdim": 501,
+          "x_left": -1.0,
+          "x_right": 1.0,
+          "xdim": 512,
+          "y_bottom": -1.0,
+          "y_top": 1.0,
+          "ydim": 512,
+          "n": 1,
+          "seed": 2
+        },
+        "default_mode": true
+      },
+      "fields": {
+        "activator": {
+          "shape": [
+            9,
+            128,
+            128,
+            1
+          ],
+          "minimum": -3.6225461959838867,
+          "maximum": 4.730113983154297,
+          "all_reference_values_equal_source": true
+        },
+        "inhibitor": {
+          "shape": [
+            9,
+            128,
+            128,
+            1
+          ],
+          "minimum": -3.83107328414917,
+          "maximum": 3.7819719314575195,
+          "all_reference_values_equal_source": true
+        }
+      },
+      "parameters": {
+        "activator_diffusivity": {
+          "value": 0.001,
+          "unit": "m2/s"
+        },
+        "inhibitor_diffusivity": {
+          "value": 0.005,
+          "unit": "m2/s"
+        },
+        "reaction_offset": {
+          "value": 0.005,
+          "unit": "1"
+        },
+        "activator_rate": {
+          "value": 1,
+          "unit": "1/s"
+        },
+        "inhibitor_rate": {
+          "value": 1,
+          "unit": "1/s"
+        }
+      },
+      "conditions": [
+        {
+          "role": "initial",
+          "variable": "activator",
+          "location": "initial_domain",
+          "operator": "assign",
+          "data": {
+            "value": {
+              "field": "initial_activator"
+            }
+          }
+        },
+        {
+          "role": "initial",
+          "variable": "inhibitor",
+          "location": "initial_domain",
+          "operator": "assign",
+          "data": {
+            "value": {
+              "field": "initial_inhibitor"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "activator",
+          "location": "left",
+          "operator": "normal_flux",
+          "data": {
+            "value": {
+              "value": 0,
+              "unit": "m/s"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "inhibitor",
+          "location": "left",
+          "operator": "normal_flux",
+          "data": {
+            "value": {
+              "value": 0,
+              "unit": "m/s"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "activator",
+          "location": "right",
+          "operator": "normal_flux",
+          "data": {
+            "value": {
+              "value": 0,
+              "unit": "m/s"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "inhibitor",
+          "location": "right",
+          "operator": "normal_flux",
+          "data": {
+            "value": {
+              "value": 0,
+              "unit": "m/s"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "activator",
+          "location": "bottom",
+          "operator": "normal_flux",
+          "data": {
+            "value": {
+              "value": 0,
+              "unit": "m/s"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "inhibitor",
+          "location": "bottom",
+          "operator": "normal_flux",
+          "data": {
+            "value": {
+              "value": 0,
+              "unit": "m/s"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "activator",
+          "location": "top",
+          "operator": "normal_flux",
+          "data": {
+            "value": {
+              "value": 0,
+              "unit": "m/s"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "inhibitor",
+          "location": "top",
+          "operator": "normal_flux",
+          "data": {
+            "value": {
+              "value": 0,
+              "unit": "m/s"
+            }
+          }
+        }
+      ],
+      "input_arrays": {
+        "bottom_ids": {
+          "shape": [
+            513
+          ],
+          "dtype": "int64"
+        },
+        "cell_ids": {
+          "shape": [
+            16384
+          ],
+          "dtype": "int64"
+        },
+        "initial_activator": {
+          "shape": [
+            1,
+            262144,
+            1
+          ],
+          "dtype": "float64"
+        },
+        "initial_cell_ids": {
+          "shape": [
+            262144
+          ],
+          "dtype": "int64"
+        },
+        "initial_inhibitor": {
+          "shape": [
+            1,
+            262144,
+            1
+          ],
+          "dtype": "float64"
+        },
+        "initial_times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64"
+        },
+        "left_ids": {
+          "shape": [
+            513
+          ],
+          "dtype": "int64"
+        },
+        "right_ids": {
+          "shape": [
+            513
+          ],
+          "dtype": "int64"
+        },
+        "times": {
+          "shape": [
+            9
+          ],
+          "dtype": "float64"
+        },
+        "top_ids": {
+          "shape": [
+            513
+          ],
+          "dtype": "int64"
+        }
+      },
+      "source_coordinate_order_matches_mesh": true,
+      "initial_matches_source": true,
+      "initial_coverage": "all published initial samples within reconstructed full 512x512 fields; other fine-cell values are reconstruction"
+    },
+    {
+      "task": "reaction-diffusion-2d",
+      "case": "002",
+      "source_id": 133017,
+      "index": 3,
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        15,
+        31,
+        51,
+        75,
+        100
+      ],
+      "times": [
+        0.0,
+        0.05000000074505806,
+        0.10000000149011612,
+        0.15000000596046448,
+        0.75,
+        1.5499999523162842,
+        2.549999952316284,
+        3.75,
+        5.0
+      ],
+      "grid_shape": [
+        128,
+        128
+      ],
+      "source_configuration": {
+        "work_dir": "${hydra:runtime.cwd}",
+        "data_dir": "${work_dir}/data/",
+        "output_path": "/pfs/work7/workspace/scratch/st_ac131224-pde_test/data//diff-react/train_0003.h5",
+        "name": null,
+        "sim": {
+          "Du": 0.001,
+          "Dv": 0.005,
+          "k": 0.005,
+          "t": 5,
+          "tdim": 501,
+          "x_left": -1.0,
+          "x_right": 1.0,
+          "xdim": 512,
+          "y_bottom": -1.0,
+          "y_top": 1.0,
+          "ydim": 512,
+          "n": 1,
+          "seed": 3
+        },
+        "default_mode": true
+      },
+      "fields": {
+        "activator": {
+          "shape": [
+            9,
+            128,
+            128,
+            1
+          ],
+          "minimum": -4.003673076629639,
+          "maximum": 3.8422112464904785,
+          "all_reference_values_equal_source": true
+        },
+        "inhibitor": {
+          "shape": [
+            9,
+            128,
+            128,
+            1
+          ],
+          "minimum": -4.112939834594727,
+          "maximum": 3.8849756717681885,
+          "all_reference_values_equal_source": true
+        }
+      },
+      "parameters": {
+        "activator_diffusivity": {
+          "value": 0.001,
+          "unit": "m2/s"
+        },
+        "inhibitor_diffusivity": {
+          "value": 0.005,
+          "unit": "m2/s"
+        },
+        "reaction_offset": {
+          "value": 0.005,
+          "unit": "1"
+        },
+        "activator_rate": {
+          "value": 1,
+          "unit": "1/s"
+        },
+        "inhibitor_rate": {
+          "value": 1,
+          "unit": "1/s"
+        }
+      },
+      "conditions": [
+        {
+          "role": "initial",
+          "variable": "activator",
+          "location": "initial_domain",
+          "operator": "assign",
+          "data": {
+            "value": {
+              "field": "initial_activator"
+            }
+          }
+        },
+        {
+          "role": "initial",
+          "variable": "inhibitor",
+          "location": "initial_domain",
+          "operator": "assign",
+          "data": {
+            "value": {
+              "field": "initial_inhibitor"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "activator",
+          "location": "left",
+          "operator": "normal_flux",
+          "data": {
+            "value": {
+              "value": 0,
+              "unit": "m/s"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "inhibitor",
+          "location": "left",
+          "operator": "normal_flux",
+          "data": {
+            "value": {
+              "value": 0,
+              "unit": "m/s"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "activator",
+          "location": "right",
+          "operator": "normal_flux",
+          "data": {
+            "value": {
+              "value": 0,
+              "unit": "m/s"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "inhibitor",
+          "location": "right",
+          "operator": "normal_flux",
+          "data": {
+            "value": {
+              "value": 0,
+              "unit": "m/s"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "activator",
+          "location": "bottom",
+          "operator": "normal_flux",
+          "data": {
+            "value": {
+              "value": 0,
+              "unit": "m/s"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "inhibitor",
+          "location": "bottom",
+          "operator": "normal_flux",
+          "data": {
+            "value": {
+              "value": 0,
+              "unit": "m/s"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "activator",
+          "location": "top",
+          "operator": "normal_flux",
+          "data": {
+            "value": {
+              "value": 0,
+              "unit": "m/s"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "inhibitor",
+          "location": "top",
+          "operator": "normal_flux",
+          "data": {
+            "value": {
+              "value": 0,
+              "unit": "m/s"
+            }
+          }
+        }
+      ],
+      "input_arrays": {
+        "bottom_ids": {
+          "shape": [
+            513
+          ],
+          "dtype": "int64"
+        },
+        "cell_ids": {
+          "shape": [
+            16384
+          ],
+          "dtype": "int64"
+        },
+        "initial_activator": {
+          "shape": [
+            1,
+            262144,
+            1
+          ],
+          "dtype": "float64"
+        },
+        "initial_cell_ids": {
+          "shape": [
+            262144
+          ],
+          "dtype": "int64"
+        },
+        "initial_inhibitor": {
+          "shape": [
+            1,
+            262144,
+            1
+          ],
+          "dtype": "float64"
+        },
+        "initial_times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64"
+        },
+        "left_ids": {
+          "shape": [
+            513
+          ],
+          "dtype": "int64"
+        },
+        "right_ids": {
+          "shape": [
+            513
+          ],
+          "dtype": "int64"
+        },
+        "times": {
+          "shape": [
+            9
+          ],
+          "dtype": "float64"
+        },
+        "top_ids": {
+          "shape": [
+            513
+          ],
+          "dtype": "int64"
+        }
+      },
+      "source_coordinate_order_matches_mesh": true,
+      "initial_matches_source": true,
+      "initial_coverage": "all published initial samples within reconstructed full 512x512 fields; other fine-cell values are reconstruction"
+    },
+    {
+      "task": "shallow-water-2d",
+      "case": "001",
+      "source_id": 133021,
+      "index": 2,
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        15,
+        31,
+        51,
+        75,
+        100
+      ],
+      "times": [
+        0.0,
+        0.009999999776482582,
+        0.019999999552965164,
+        0.029999999329447746,
+        0.15000000596046448,
+        0.3100000023841858,
+        0.5099999904632568,
+        0.75,
+        1.0
+      ],
+      "grid_shape": [
+        128,
+        128
+      ],
+      "source_configuration": {
+        "work_dir": "/scratch/sc/",
+        "data_dir": "leiterrl/",
+        "output_path": "/scratch/sc/leiterrl/2D_rdb_NA_NA/2D_rdb_NA_NA_0002.h5",
+        "name": "radial_dam_break",
+        "upload": false,
+        "sim": {
+          "T_end": 1.0,
+          "n_time_steps": 100,
+          "xdim": 128,
+          "ydim": 128,
+          "gravity": 1.0,
+          "dam_radius": 0.47439796085680147,
+          "inner_height": 2.0,
+          "x_left": -2.5,
+          "x_right": 2.5,
+          "y_bottom": -2.5,
+          "y_top": 2.5,
+          "seed": 2
+        },
+        "plot": {
+          "t_idx": 1.0,
+          "dim": 2,
+          "channel_idx": 0
+        },
+        "dataverse": {
+          "lib_name": "pyDaRUS",
+          "dataset_id": "doi:10.18419/darus-2922",
+          "metadatablocks": {
+            "citation": {
+              "author": [
+                {
+                  "name": "Raphael Leiteritz",
+                  "affiliation": "Universit\u00e4t Stuttgart",
+                  "identifier_scheme": "ORCID",
+                  "identifier": "0000-0001-8070-2384"
+                }
+              ],
+              "description": [
+                {
+                  "text": "2D shallow-water equation dataset generated for the PDE benchmark paper",
+                  "date": "2022"
+                }
+              ],
+              "contact": [
+                {
+                  "name": "Raphael Leiteritz",
+                  "affiliation": "Universit\u00e4t Stuttgart",
+                  "email": "raphael.leiteritz@iws.uni-stuttgart.de"
+                }
+              ],
+              "title": "2D shallow-water equation dataset",
+              "subject": [
+                "computer_and__information__science",
+                "physics"
+              ]
+            },
+            "process": {
+              "processing_methods": [
+                {
+                  "name": "FVM",
+                  "description": "Finite Volume Method is a spatial discretization method to calculate spatial derivative in a Partial Differential Equation. It integrates the fluxes at all discrete cell boundaries so that it ensures conservation.",
+                  "parameters": "cell length, cell width"
+                }
+              ],
+              "method_parameters": [
+                {
+                  "name": "cell length",
+                  "symbol": "dx",
+                  "unit": "m",
+                  "value": 0.0390625
+                },
+                {
+                  "name": "cell width",
+                  "symbol": "dy",
+                  "unit": "m",
+                  "value": 0.0390625
+                },
+                {
+                  "name": "time step size",
+                  "symbol": "dt",
+                  "unit": "s",
+                  "value": 0.01
+                },
+                {
+                  "name": "total time",
+                  "symbol": "t",
+                  "unit": "s",
+                  "value": 1
+                }
+              ]
+            },
+            "engMeta": {},
+            "codeMeta": {}
+          }
+        },
+        "default_mode": true
+      },
+      "fields": {
+        "depth": {
+          "shape": [
+            9,
+            128,
+            128,
+            1
+          ],
+          "minimum": 0.29413241147994995,
+          "maximum": 2.0,
+          "all_reference_values_equal_source": true
+        }
+      },
+      "parameters": {
+        "gravity": {
+          "value": 1,
+          "unit": "m/s2"
+        }
+      },
+      "conditions": [
+        {
+          "role": "initial",
+          "variable": "depth",
+          "location": "domain",
+          "operator": "assign",
+          "data": {
+            "value": {
+              "field": "initial_depth"
+            }
+          }
+        },
+        {
+          "role": "initial",
+          "variable": "momentum",
+          "location": "domain",
+          "operator": "assign",
+          "data": {
+            "value": {
+              "field": "initial_momentum"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "depth_momentum",
+          "location": "left",
+          "operator": "extrapolate",
+          "data": {
+            "order": {
+              "value": 0,
+              "unit": "1"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "depth_momentum",
+          "location": "right",
+          "operator": "extrapolate",
+          "data": {
+            "order": {
+              "value": 0,
+              "unit": "1"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "depth_momentum",
+          "location": "bottom",
+          "operator": "extrapolate",
+          "data": {
+            "order": {
+              "value": 0,
+              "unit": "1"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "depth_momentum",
+          "location": "top",
+          "operator": "extrapolate",
+          "data": {
+            "order": {
+              "value": 0,
+              "unit": "1"
+            }
+          }
+        }
+      ],
+      "input_arrays": {
+        "bottom_ids": {
+          "shape": [
+            129
+          ],
+          "dtype": "int64"
+        },
+        "cell_ids": {
+          "shape": [
+            16384
+          ],
+          "dtype": "int64"
+        },
+        "initial_depth": {
+          "shape": [
+            1,
+            16384,
+            1
+          ],
+          "dtype": "float64"
+        },
+        "initial_momentum": {
+          "shape": [
+            1,
+            16384,
+            2
+          ],
+          "dtype": "float64"
+        },
+        "initial_times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64"
+        },
+        "left_ids": {
+          "shape": [
+            129
+          ],
+          "dtype": "int64"
+        },
+        "right_ids": {
+          "shape": [
+            129
+          ],
+          "dtype": "int64"
+        },
+        "times": {
+          "shape": [
+            9
+          ],
+          "dtype": "float64"
+        },
+        "top_ids": {
+          "shape": [
+            129
+          ],
+          "dtype": "int64"
+        }
+      },
+      "source_coordinate_order_matches_mesh": true,
+      "initial_matches_source": true,
+      "initial_coverage": "full published initial fields"
+    },
+    {
+      "task": "shallow-water-2d",
+      "case": "002",
+      "source_id": 133021,
+      "index": 3,
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        15,
+        31,
+        51,
+        75,
+        100
+      ],
+      "times": [
+        0.0,
+        0.009999999776482582,
+        0.019999999552965164,
+        0.029999999329447746,
+        0.15000000596046448,
+        0.3100000023841858,
+        0.5099999904632568,
+        0.75,
+        1.0
+      ],
+      "grid_shape": [
+        128,
+        128
+      ],
+      "source_configuration": {
+        "work_dir": "/scratch/sc/",
+        "data_dir": "leiterrl/",
+        "output_path": "/scratch/sc/leiterrl/2D_rdb_NA_NA/2D_rdb_NA_NA_0003.h5",
+        "name": "radial_dam_break",
+        "upload": false,
+        "sim": {
+          "T_end": 1.0,
+          "n_time_steps": 100,
+          "xdim": 128,
+          "ydim": 128,
+          "gravity": 1.0,
+          "dam_radius": 0.5203191610298301,
+          "inner_height": 2.0,
+          "x_left": -2.5,
+          "x_right": 2.5,
+          "y_bottom": -2.5,
+          "y_top": 2.5,
+          "seed": 3
+        },
+        "plot": {
+          "t_idx": 1.0,
+          "dim": 2,
+          "channel_idx": 0
+        },
+        "dataverse": {
+          "lib_name": "pyDaRUS",
+          "dataset_id": "doi:10.18419/darus-2922",
+          "metadatablocks": {
+            "citation": {
+              "author": [
+                {
+                  "name": "Raphael Leiteritz",
+                  "affiliation": "Universit\u00e4t Stuttgart",
+                  "identifier_scheme": "ORCID",
+                  "identifier": "0000-0001-8070-2384"
+                }
+              ],
+              "description": [
+                {
+                  "text": "2D shallow-water equation dataset generated for the PDE benchmark paper",
+                  "date": "2022"
+                }
+              ],
+              "contact": [
+                {
+                  "name": "Raphael Leiteritz",
+                  "affiliation": "Universit\u00e4t Stuttgart",
+                  "email": "raphael.leiteritz@iws.uni-stuttgart.de"
+                }
+              ],
+              "title": "2D shallow-water equation dataset",
+              "subject": [
+                "computer_and__information__science",
+                "physics"
+              ]
+            },
+            "process": {
+              "processing_methods": [
+                {
+                  "name": "FVM",
+                  "description": "Finite Volume Method is a spatial discretization method to calculate spatial derivative in a Partial Differential Equation. It integrates the fluxes at all discrete cell boundaries so that it ensures conservation.",
+                  "parameters": "cell length, cell width"
+                }
+              ],
+              "method_parameters": [
+                {
+                  "name": "cell length",
+                  "symbol": "dx",
+                  "unit": "m",
+                  "value": 0.0390625
+                },
+                {
+                  "name": "cell width",
+                  "symbol": "dy",
+                  "unit": "m",
+                  "value": 0.0390625
+                },
+                {
+                  "name": "time step size",
+                  "symbol": "dt",
+                  "unit": "s",
+                  "value": 0.01
+                },
+                {
+                  "name": "total time",
+                  "symbol": "t",
+                  "unit": "s",
+                  "value": 1
+                }
+              ]
+            },
+            "engMeta": {},
+            "codeMeta": {}
+          }
+        },
+        "default_mode": true
+      },
+      "fields": {
+        "depth": {
+          "shape": [
+            9,
+            128,
+            128,
+            1
+          ],
+          "minimum": 0.31197139620780945,
+          "maximum": 2.0,
+          "all_reference_values_equal_source": true
+        }
+      },
+      "parameters": {
+        "gravity": {
+          "value": 1,
+          "unit": "m/s2"
+        }
+      },
+      "conditions": [
+        {
+          "role": "initial",
+          "variable": "depth",
+          "location": "domain",
+          "operator": "assign",
+          "data": {
+            "value": {
+              "field": "initial_depth"
+            }
+          }
+        },
+        {
+          "role": "initial",
+          "variable": "momentum",
+          "location": "domain",
+          "operator": "assign",
+          "data": {
+            "value": {
+              "field": "initial_momentum"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "depth_momentum",
+          "location": "left",
+          "operator": "extrapolate",
+          "data": {
+            "order": {
+              "value": 0,
+              "unit": "1"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "depth_momentum",
+          "location": "right",
+          "operator": "extrapolate",
+          "data": {
+            "order": {
+              "value": 0,
+              "unit": "1"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "depth_momentum",
+          "location": "bottom",
+          "operator": "extrapolate",
+          "data": {
+            "order": {
+              "value": 0,
+              "unit": "1"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "depth_momentum",
+          "location": "top",
+          "operator": "extrapolate",
+          "data": {
+            "order": {
+              "value": 0,
+              "unit": "1"
+            }
+          }
+        }
+      ],
+      "input_arrays": {
+        "bottom_ids": {
+          "shape": [
+            129
+          ],
+          "dtype": "int64"
+        },
+        "cell_ids": {
+          "shape": [
+            16384
+          ],
+          "dtype": "int64"
+        },
+        "initial_depth": {
+          "shape": [
+            1,
+            16384,
+            1
+          ],
+          "dtype": "float64"
+        },
+        "initial_momentum": {
+          "shape": [
+            1,
+            16384,
+            2
+          ],
+          "dtype": "float64"
+        },
+        "initial_times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64"
+        },
+        "left_ids": {
+          "shape": [
+            129
+          ],
+          "dtype": "int64"
+        },
+        "right_ids": {
+          "shape": [
+            129
+          ],
+          "dtype": "int64"
+        },
+        "times": {
+          "shape": [
+            9
+          ],
+          "dtype": "float64"
+        },
+        "top_ids": {
+          "shape": [
+            129
+          ],
+          "dtype": "int64"
+        }
+      },
+      "source_coordinate_order_matches_mesh": true,
+      "initial_matches_source": true,
+      "initial_coverage": "full published initial fields"
+    },
+    {
+      "task": "compressible-navier-stokes-2d",
+      "case": "001",
+      "source_id": 164687,
+      "index": 2,
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        10,
+        15,
+        20
+      ],
+      "times": [
+        0.0,
+        0.05000000074505806,
+        0.10000000149011612,
+        0.15000000596046448,
+        0.30000001192092896,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "grid_shape": [
+        128,
+        128
+      ],
+      "source_configuration": {},
+      "fields": {
+        "density": {
+          "shape": [
+            8,
+            128,
+            128,
+            1
+          ],
+          "minimum": 1.2229771614074707,
+          "maximum": 4.963253021240234,
+          "all_reference_values_equal_source": true
+        },
+        "pressure": {
+          "shape": [
+            8,
+            128,
+            128,
+            1
+          ],
+          "minimum": 10.52457046508789,
+          "maximum": 28.793895721435547,
+          "all_reference_values_equal_source": true
+        },
+        "velocity": {
+          "shape": [
+            8,
+            128,
+            128,
+            2
+          ],
+          "minimum": -0.8973665833473206,
+          "maximum": 0.7695465087890625,
+          "all_reference_values_equal_source": true
+        }
+      },
+      "parameters": {
+        "gamma": {
+          "value": 1.6666666666666667,
+          "unit": "1"
+        },
+        "shear_viscosity": {
+          "value": 0.01,
+          "unit": "m2/s"
+        },
+        "bulk_viscosity": {
+          "value": 0.01,
+          "unit": "m2/s"
+        }
+      },
+      "conditions": [
+        {
+          "role": "initial",
+          "variable": "density",
+          "location": "domain",
+          "operator": "assign",
+          "data": {
+            "value": {
+              "field": "initial_density"
+            }
+          }
+        },
+        {
+          "role": "initial",
+          "variable": "velocity",
+          "location": "domain",
+          "operator": "assign",
+          "data": {
+            "value": {
+              "field": "initial_velocity"
+            }
+          }
+        },
+        {
+          "role": "initial",
+          "variable": "pressure",
+          "location": "domain",
+          "operator": "assign",
+          "data": {
+            "value": {
+              "field": "initial_pressure"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "fluid_state",
+          "location": "domain",
+          "operator": "periodic",
+          "data": {
+            "period_x": {
+              "value": 1,
+              "unit": "m"
+            },
+            "period_y": {
+              "value": 1,
+              "unit": "m"
+            }
+          }
+        }
+      ],
+      "input_arrays": {
+        "cell_ids": {
+          "shape": [
+            16384
+          ],
+          "dtype": "int64"
+        },
+        "initial_density": {
+          "shape": [
+            1,
+            16384,
+            1
+          ],
+          "dtype": "float64"
+        },
+        "initial_pressure": {
+          "shape": [
+            1,
+            16384,
+            1
+          ],
+          "dtype": "float64"
+        },
+        "initial_times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64"
+        },
+        "initial_velocity": {
+          "shape": [
+            1,
+            16384,
+            2
+          ],
+          "dtype": "float64"
+        },
+        "times": {
+          "shape": [
+            8
+          ],
+          "dtype": "float64"
+        }
+      },
+      "source_coordinate_order_matches_mesh": true,
+      "initial_matches_source": true,
+      "initial_coverage": "full published initial fields"
+    },
+    {
+      "task": "compressible-navier-stokes-2d",
+      "case": "002",
+      "source_id": 164685,
+      "index": 2,
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        10,
+        15,
+        20
+      ],
+      "times": [
+        0.0,
+        0.05000000074505806,
+        0.10000000149011612,
+        0.15000000596046448,
+        0.30000001192092896,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "grid_shape": [
+        512,
+        512
+      ],
+      "source_configuration": {},
+      "fields": {
+        "density": {
+          "shape": [
+            8,
+            512,
+            512,
+            1
+          ],
+          "minimum": 0.9388866424560547,
+          "maximum": 1.081780195236206,
+          "all_reference_values_equal_source": true
+        },
+        "pressure": {
+          "shape": [
+            8,
+            512,
+            512,
+            1
+          ],
+          "minimum": 54.01910400390625,
+          "maximum": 68.42485046386719,
+          "all_reference_values_equal_source": true
+        },
+        "velocity": {
+          "shape": [
+            8,
+            512,
+            512,
+            2
+          ],
+          "minimum": -2.756925106048584,
+          "maximum": 2.376962900161743,
+          "all_reference_values_equal_source": true
+        }
+      },
+      "parameters": {
+        "gamma": {
+          "value": 1.6666666666666667,
+          "unit": "1"
+        },
+        "shear_viscosity": {
+          "value": 1e-08,
+          "unit": "m2/s"
+        },
+        "bulk_viscosity": {
+          "value": 1e-08,
+          "unit": "m2/s"
+        }
+      },
+      "conditions": [
+        {
+          "role": "initial",
+          "variable": "density",
+          "location": "domain",
+          "operator": "assign",
+          "data": {
+            "value": {
+              "field": "initial_density"
+            }
+          }
+        },
+        {
+          "role": "initial",
+          "variable": "velocity",
+          "location": "domain",
+          "operator": "assign",
+          "data": {
+            "value": {
+              "field": "initial_velocity"
+            }
+          }
+        },
+        {
+          "role": "initial",
+          "variable": "pressure",
+          "location": "domain",
+          "operator": "assign",
+          "data": {
+            "value": {
+              "field": "initial_pressure"
+            }
+          }
+        },
+        {
+          "role": "boundary",
+          "variable": "fluid_state",
+          "location": "domain",
+          "operator": "periodic",
+          "data": {
+            "period_x": {
+              "value": 1,
+              "unit": "m"
+            },
+            "period_y": {
+              "value": 1,
+              "unit": "m"
+            }
+          }
+        }
+      ],
+      "input_arrays": {
+        "cell_ids": {
+          "shape": [
+            262144
+          ],
+          "dtype": "int64"
+        },
+        "initial_density": {
+          "shape": [
+            1,
+            262144,
+            1
+          ],
+          "dtype": "float64"
+        },
+        "initial_pressure": {
+          "shape": [
+            1,
+            262144,
+            1
+          ],
+          "dtype": "float64"
+        },
+        "initial_times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64"
+        },
+        "initial_velocity": {
+          "shape": [
+            1,
+            262144,
+            2
+          ],
+          "dtype": "float64"
+        },
+        "times": {
+          "shape": [
+            8
+          ],
+          "dtype": "float64"
+        }
+      },
+      "source_coordinate_order_matches_mesh": true,
+      "initial_matches_source": true,
+      "initial_coverage": "full published initial fields"
+    }
+  ],
+  "network": {
+    "limit_bytes": 0,
+    "charged_body_bytes_upper": 0,
+    "received_complete_body_bytes": 0,
+    "requests": 0,
+    "scope": "response bodies; partial failures charged at admitted maximum; excludes headers/TLS"
+  },
+  "scope": "all selected values and initial subset; inherited source discretization; no independent PDE solve"
+}

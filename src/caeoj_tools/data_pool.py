@@ -408,7 +408,9 @@ def verify(task, *, strict=False, samples_only=False):
                 key = name.removeprefix(value['repository']['path'] + '/')
                 if key not in receipt['descriptors']:
                     raise PoolError(f'Missing bound descriptor in receipt: {key}')
-                target = within(temporary, key)
+                # The directory is owned by TemporaryDirectory; canonicalize OS aliases
+                # such as macOS /var without permitting linked data paths.
+                target = within(Path(temporary).resolve(), key)
                 target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_bytes(receipt['descriptors'][key].encode('utf-8'))
                 return target

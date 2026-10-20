@@ -1,5 +1,6 @@
 """Pool integrity/transaction tests; fixtures do not certify numerical correctness."""
 from copy import deepcopy
+from contextlib import contextmanager
 import json
 from pathlib import Path
 import shutil
@@ -14,10 +15,31 @@ from caeoj_tools import data_pool as pool
 
 
 class PoolTests(unittest.TestCase):
+
+    def test_verify_canonicalizes_only_owned_temporary_root(self):
+        task = self.root/'consumer-alias-check'
+        task.mkdir()
+        value = pool.manifest(self.bundle/'selection.json')
+        pool.write_json(task/'data-manifest.json', value)
+        pool.assemble(task, value, pool.LocalStore(self.bundle/'repository'))
+        with tempfile.TemporaryDirectory(dir=self.root) as physical:
+            alias = self.root/'os-temporary-alias'
+            try:
+                alias.symlink_to(physical, target_is_directory=True)
+            except OSError:
+                self.skipTest('Directory symlinks unavailable')
+            @contextmanager
+            def alias_directory(*args, **kwargs):
+                yield str(alias)
+            with patch.object(pool.tempfile, 'TemporaryDirectory', alias_directory):
+                self.assertTrue(pool.verify(task, strict=True)['valid'])
+            with self.assertRaisesRegex(pool.PoolError, 'Linked'):
+                pool.within(alias, 'data.json')
+
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
-        self.root = Path(self.temporary.name)
+        self.root = Path(self.temporary.name).resolve()
         self.source = self.root/'generated'
         self.value = {'schema_version': 4, 'task_id': 'caeoj-000123',
                       'repository': {'repo_id': 'owner/test', 'repo_type': 'dataset', 'path': 'qbank/ch/sec/task'}}

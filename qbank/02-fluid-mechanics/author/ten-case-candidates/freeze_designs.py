@@ -22,6 +22,8 @@ def main():
         for e in r['proposed_cases']:
             key=e['design_id'];assert key not in ids;ids.add(key)
             s=e['detailed_spec'];assert set(s['parameters'])==set(expected),key
+            if r['question'].startswith('2.3.'):
+                assert 'heat_source' not in s['sources'],(key,'isothermal DATA forbids heat sources')
             physical_keys=('geometry','parameters','materials','analysis','initial','domain_conditions','sources','boundaries','thermal_partition','time_interval_s','output_times_s','initial_phase_geometry','native_closed_cavity_prescription')
             physical={k:s[k] for k in physical_keys if k in s}
             physical['special_field_definitions']={k:v for k,v in s['definitions'].items() if k in ('Phi_nodes','carrier_C')}

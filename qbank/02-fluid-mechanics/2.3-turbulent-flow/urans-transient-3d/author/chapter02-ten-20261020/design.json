@@ -1429,9 +1429,13 @@
           }
         },
         "sources": {
-          "heat_source": {
-            "expression": "1*R*bump(centre=.5*L,radius=.2*L)",
-            "unit": "W/m3",
+          "acceleration": {
+            "expression": [
+              ".1*R*bump(centre=.5*L,radius=.2*L)",
+              0,
+              0
+            ],
+            "unit": "m/s2",
             "space_reconstruction": "piecewise_constant",
             "time_history": "R"
           }

@@ -287,7 +287,11 @@ def energy(spec,rec,i):
         if i in (3,4):wall(spec,"x=Lx","moving_wall",velocity=field([0,f"{1 if i==3 else -1}*{R}"]+([0] if d==3 else []),"m/s",history=R))
         if i==2 and d==3:wall(spec,"x=Lx","moving_wall",velocity=field([0,0,f".5*{R}"],"m/s",history=R))
     if i in (1,3,4):spec["sources"]["acceleration"]=field([0,f"-9.81*{R}"]+([0] if d==3 else []),"m/s2",history=R)
-    if i==5:spec["sources"]["heat_source"]=field(f"1*{R}*bump(centre=.5*L,radius=.2*L)","W/m3","piecewise_constant",R)
+    if i==5:
+        if thermal:spec["sources"]["heat_source"]=field(f"1*{R}*bump(centre=.5*L,radius=.2*L)","W/m3","piecewise_constant",R)
+        else:
+            # User-approved correction: isothermal 2.3 forbids a heat source.
+            spec["sources"]["acceleration"]=field([f".1*{R}*bump(centre=.5*L,radius=.2*L)"]+[0]*(d-1),"m/s2","piecewise_constant",R)
     if thermal:
         spec["thermal_partition"]=[]
         def temp(selection,expr):spec["thermal_partition"].append({"selection":selection,"operator":"temperature","value":field(expr,"K","piecewise_constant",R)})
@@ -631,8 +635,9 @@ def observation_requests(rec,entry,grading):
     requests=[]
     for q in keys:
         aggregate=q in ('force','volume_flow','mass_flow','water_volume','load','heat_flow')
-        boundary=q in ('traction','force','volume_flow','mass_flow','heat_flow')
+        boundary=q in ('traction','force','volume_flow','mass_flow','heat_flow') or (f=='kinetic_gas' and q=='heat_flux')
         support=('sum over actual outlet port, or a central wall subset excluding both corner quarters' if boundary else 'sum over all top-dimensional domain cells') if aggregate else 'real external boundary entities excluding corner-adjacent faces' if boundary else 'all fluid cells' if rec['question_path'].split('/')[2].startswith(('2.1-','2.2-','2.3-','2.4-','2.5-','2.6-','2.7-')) else 'real interior node subset selected by the stated rule'
+        if f=='kinetic_gas' and q in ('traction','heat_flux'):support='real gas_wall boundary entities excluding corner-adjacent faces; wall-frame exchange as defined by DATA'
         requests.append({'quantity':q,'unit':allq[q]['unit'],'support':support,'value_kind':'integral' if aggregate else 'average' if boundary or support=='all fluid cells' else 'point','time_axis':'output_times_s','grading_rule':deepcopy(allq[q]['rule'])})
     if 'prescription' in entry:requests=[r for r in requests if r['quantity'] in ('velocity','pressure')]
     return requests

@@ -1166,9 +1166,13 @@
         "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
         "initial": {},
         "sources": {
-          "heat_source": {
-            "expression": "1*1*bump(centre=.5*L,radius=.2*L)",
-            "unit": "W/m3",
+          "acceleration": {
+            "expression": [
+              ".1*1*bump(centre=.5*L,radius=.2*L)",
+              0,
+              0
+            ],
+            "unit": "m/s2",
             "space_reconstruction": "piecewise_constant",
             "time_history": "1"
           }

@@ -43,7 +43,7 @@ def pending_reason(r,e):
     if f=='immiscible':return 'Basilisk原生两流体为候选；零表面张力、初始相网格、真单元平均与固定输入/输出映射尚未接通。'
     if f=='viscoelastic':return 'OpenCFD原生Maxwell已定位（sigma=-tau_p/rho）；P1节点输入/输出、构象恢复和入出口/预应变尚未完成适配。'
     if f.startswith('shallow') or f=='wetdry':return 'Clawpack/Basilisk原生浅水为候选；指定线性摩擦、特征储槽、床面P1重建及真实节点输出映射尚未完成。'
-    if f=='kinetic_gas':return 'PICLas 4.3原生DSMC/无碰撞分支为候选；硬球参数、Maxwell半空间储槽/混合壁、统计平均与网格场映射尚未接通。'
+    if f=='kinetic_gas':return 'SPARTA原生硬球/无碰撞、半空间储槽和混合壁已接通20项原生计算配置；公共四面体/壁面交换量转换仍待完成，原生统计不计作公共参考。'
     return '候选求解器仍需方程/边界匹配、输入转换与实际执行；不声称找不到现成实现。'
 
 def main():

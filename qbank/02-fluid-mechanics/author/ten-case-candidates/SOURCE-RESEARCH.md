@@ -32,3 +32,23 @@ Titan固定镜像的完整部署记录保存在独立工作目录的maintenance�
 - **Elmer ReynoldsSolver，release-26.2.1**：固定源码提交`a19504ac53ec222e3355e182b08f2ff280c2203a`，镜像ID见index。已下载该固定提交的原始源码并保留摘要。`isothermal ideal gas`分支的密度因子为绝对p；质量矩阵系数为−h、压力扩散系数为−p h³/(12μ)，`Surface Velocity=U0+U1`、`Normal Velocity=∂t h`；整体1/(R Tref)相消，匹配本题气膜质量方程。使用原生MATC输入函数在节点求值，随后由原生P1形函数重建；没有新增求解器模块。输出压力/密度为真实节点近似，通量采用面积加权恢复梯度，载荷为P1场面积积分；恢复梯度和8位原生VTU输出均无精度认证。
 
 完整输入/参考包实际存在与数值正确分开记录，本轮没有网格加密、独立比对或判分验证。
+
+## 2026-10-20续作：新增原生适配
+
+- **Elmer FlowSolver**：固定提交`a19504ac53ec222e3355e182b08f2ff280c2203a`。读取[FlowSolve.F90](https://github.com/ElmerCSC/elmerfem/blob/a19504ac53ec222e3355e182b08f2ff280c2203a/fem/src/modules/FlowSolve.F90)、[MaterialModels.F90](https://github.com/ElmerCSC/elmerfem/blob/a19504ac53ec222e3355e182b08f2ff280c2203a/fem/src/MaterialModels.F90)和[NavierStokes.F90](https://github.com/ElmerCSC/elmerfem/blob/a19504ac53ec222e3355e182b08f2ff280c2203a/fem/src/NavierStokes.F90)。`Laplace Discretization=False`保留完整对称黏性应力；`External Pressure`是完整自然牵引，不能用固定域内静压替代。滑移采用原生法向/切向坐标。
+- **Cross和Carreau族**：原生剪切不变量与`g=sqrt(2 D:D)`对应；Cross的`Viscosity Transition=lambda^m`，Carreau为lambda，Yasuda另填a。Elmer幂律只有下剪切截断，不能冒充双截断响应。非牛顿采用原生Picard迭代，没有修改零剪切物理。
+- **OpenCFD powerLaw**：[v2512源码](https://api.openfoam.com/2512/powerLaw_8C_source.html)原生对运动黏度作上下截断。`k=(mu_ref/rho)*g_ref^(1-n)`，两个剪切端点对应黏度的最小/最大值作为nuMin/nuMax，与本题双端剪切截断等价；n大于/小于1均处理。周期为原生cyclic，体力为原生vectorSemiImplicitSource。周期定常工况的近零横向速度和压力会使归一化残差受舍入影响；实际停止配置保留在SIF/fvSolution中，不将停止容差称为精度认证。
+- **Oldroyd-B**：原生Maxwell的sigma是`-tau_p/rho`；恢复`A=I+lambda*tau_p/mu_p`。只计算2.11.1/2.11.2闭壁分支，不加应力扩散，预应变实际传入sigma。入口构象和完整牵引出口仍未接通。原生FV场用体积加权恢复到内部节点；边界牵引用原生gradU及相邻单元应力，映射误差未评估。
+- **低马赫耦合**：[固定HeatSolve.F90](https://github.com/ElmerCSC/elmerfem/blob/a19504ac53ec222e3355e182b08f2ff280c2203a/fem/src/modules/HeatSolve.F90)的`Friction Heat=True`保留黏性耗散，`Volumetric Heat Source`使用W/m3。体力为`[1-beta(T-Tref)]*a_body`，保留基底加速度。mu(T)、k(T)由原生MATC和有限元求解；没有加自编热方程。原生`Heat Flux`向内为正，输入outward_heat_flux取相反号。原生P1物性插值的离散误差未评估。
+- **流率和初态映射**：按实际外边界实体平均shape和测度归一化流率，再交原生FE边界处理；连续FE对面常值Dirichlet在相交节点有离散近似，记录为局限。P1势的逐单元curl只负责制造输入；原生FV初始化取同一输入的体积平均，不以自编时间推进制造参考，不作Leray投影。
+
+实际是否完成以执行索引为准。以上配置不能证明全部条目已算完；全部结果只作未验证候选，没有网格加密、交叉验证、判分或资源认证。
+
+- **2.3.1–2.3.4**：固定OpenCFD v2512镜像内原生kOmegaSST、LRR和WALE。稳态LRR局部源试算达到迭代上限，记录保留，改用题面允许的SST生产者；URANS仍用LRR以保留各向同性初始R=2k/3 I，epsilon=Cmu^.75 k^1.5/l。WALE统计由规定的21个实际采样帧作等权总体协方差。LRR动量显式含完整R，p为静压；SST/WALE使用偏应力，转换为静压时减去2rho*k/3后施加题定零均值规范。原生FV均值赋给其共形子单纯形，局部P0体力先按体积映射到原生单元；这些空间近似尚未验证。源码定位为镜像`src/TurbulenceModels/turbulenceModels/RAS/{LRR,kOmegaSST}`、`LES/WALE`、`ReynoldsStress`和`linearViscousStress`。
+
+- **2.5.3/2.5.4**：原生interFoam v2512，零表面张力，两相密度和黏度均严格正。`g=0`，实际共同加速度以原生vectorSemiImplicitSource的`rho*a`进入守恒动量；没有把一流体自由表面题混入。初始纯相单元并集由实际原生网格中心掩膜选择，公共共形子单纯形继承同一0/1指示量。原生FV均值赋子单纯形是未评估的离散近似；p_rgh因g=0即静压，再按题定全域均值规范。20项已实际算完和装配，不代表数值验证。
+- **稳态RANS的后续尝试**：SST强松弛和上风生产配置后仍触及迭代上限的7项，以原生kEpsilon再做一次有界计算，改变的是题面允许的闭合选择；保留原尝试，实际闭合、系数和停止原因见逐例记录。没有用最后一个未收敛迭代冒充稳态完成。
+- **SPARTA**：[官方项目](https://github.com/sparta/sparta)，镜像版本27Aug2026、固定镜像`sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6`。原生VSS取omega=.5、alpha=1对应硬球极限；free-molecular不启用碰撞。emit/face使用给定储槽Maxwell分布的入射半空间通量，diffuse以给定概率混合镜面/漫反射，保留壁速。compute grid/thermal/grid/pflux/grid/eflux/grid与ave/grid产生原生统计；固定种子、粒子权重、预运行和采样步数保存。当前12个盒形分支在运行，尚未完成公共四面体及壁面参考系交换量装配，不能将原生网格中心矩直接冒充题目节点或壁面输出。非盒形8项仍待适配，未改工况为盒形。
+- **继续匹配的能量细节**：固定Elmer FlowSolve支持Reference Temperature理想气体且不必解温度方程，但独立体黏度和封闭质量约束仍需匹配；不能据此笼统宣布全部等温可压缩工况接通。固定DiffuseConvectiveAnisotropic源码需核对可压缩耗散的偏应力项。OpenCFD rhoPimpleFoam原生EEqn含动能和压力功，而完整黏性应力功及源项仍需逐项匹配；只加名为viscousDissipation的源不能未经等价推导就称完整总能量实现。上述源码证据保留Titan，本轮未据这些尚未完成的匹配生成参考。
+
+- **SPARTA曲面续作**：进一步使用现成read_surf的三角形曲面、截切网格、域内/固体分类，接通原8项孔板、弯道、障碍和十字通道。Gmsh仅制造冻结几何的四面体及边界三角形；内部固壁法向反转为指向气体，位于全局盒面的壁面由原生box boundary处理。储槽发射region取实际端口边界顶点包围矩形，未把弯道/十字改成盒形。20项原生计算均已安排；最终公共输出装配仍待完成。

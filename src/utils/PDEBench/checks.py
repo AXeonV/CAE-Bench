@@ -13,8 +13,10 @@ def source_reference(model, problem, values, config):
     blocked = []
     metrics = {}
     if model.model == 'darcy_flow_2d':
-        # Do not silently replace published finite-time snapshots with a new steady solve.
-        blocked.append('Published Darcy steady-state suitability unresolved; no automatic equilibrium correction')
+        expected = problem.manifest['physics']['parameters']['source_strength']['value']
+        if config.get('beta') != expected:
+            raise PreparationError('Darcy beta attribute differs from declared source strength')
+        metrics['source_strength'] = config['beta']
     if model.points:
         metrics.update(kinematic_viscosity=config['NU'], domain_size=config['domain_size'],
                        grid_size=config['grid_size'], velocity_extrapolation=config['velocity_extrapolation'])
@@ -38,9 +40,12 @@ def source_reference(model, problem, values, config):
             metrics['relative_mass_drift'] = drift
             if drift > .005:
                 raise PreparationError('Source periodic mass drift exceeds existing plausibility bound')
+    limitations = ['Published precision and source discretization retained; numerical accuracy and provisional grading thresholds are not certified']
+    if model.model == 'darcy_flow_2d':
+        limitations.append('Published single snapshot retained as supplied steady target; convergence and exact historical generator are not certified; zero-ghost boundary differs from continuum zero Dirichlet discretizations')
     return arrays, {'producer': 'DaRUS published numerical trajectory', 'metrics': metrics,
                     'blocked': blocked, 'continuum_error_certified': False,
-                    'limitations': ['Published precision and source discretization retained; numerical accuracy and provisional grading thresholds are not certified']}
+                    'limitations': limitations}
 
 
 def source_geometry(model, source, coords, times, config):
@@ -65,6 +70,8 @@ def source_geometry(model, source, coords, times, config):
         raise PreparationError(f'Source grid {shape} outside existing question size {(size,)*model.dimension}')
     if not np.isfinite(times).all() or times[0] != 0 or np.any(np.diff(times) <= 0) or times[-1] > end:
         raise PreparationError('Selected actual source times outside existing question')
+    if model.model == 'darcy_flow_2d' and config.get('beta') != parameters(model,source)['source_strength']['value']:
+        raise PreparationError('Darcy beta attribute differs from source label')
     if model.model == 'reaction_diffusion_2d':
         sim = config.get('sim', {})
         if (sim.get('xdim'), sim.get('ydim')) != (512, 512):

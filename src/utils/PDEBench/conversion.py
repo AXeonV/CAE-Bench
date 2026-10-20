@@ -168,8 +168,8 @@ def build_input(model, source, coords, times, values, destination, variant=0, co
             add('diffusivity','diffusivity','m2/s',1,values['diffusivity'].reshape(1,-1,1),loc='coefficient_samples',axis='output')
             condition('material','state','assign',{'value':{'field':'diffusivity'}},'coefficient_samples')
             condition('source','state','assign',{'value':metadata['physics']['parameters']['source_strength']})
-            for side in sides:condition('boundary','state','cell_coupled_dirichlet',
-                                       {'external_value':constant(0,'1'),'cell_weight':constant(.5,'1')},side)
+            for side in sides:condition('boundary','state','dirichlet',
+                                       {'value':constant(0,'1')},side)
         elif model.model=='diffusion_sorption_1d':
             condition('boundary','concentration','cell_coupled_dirichlet',
                       {'external_value':constant(1,'1'),'cell_weight':constant(.5,'1')},'left')

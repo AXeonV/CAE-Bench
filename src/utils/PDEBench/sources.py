@@ -121,6 +121,12 @@ class Reader:
                       for axis in 'xyz'[:model.dimension]]
             config = {}
             if model.model == 'darcy_flow_2d':
+                if 'beta' not in self.h.attrs:
+                    raise PreparationError('Darcy source beta attribute missing')
+                beta = np.asarray(self.h.attrs['beta'])
+                if beta.ndim != 0 or not np.isfinite(beta) or float(beta) not in (.01,.1,1.,10.,100.):
+                    raise PreparationError('Darcy source beta outside declared values')
+                config = {'beta': float(beta)}
                 times, length = np.array([0.]), 1
             else:
                 times = np.asarray(self.h['t-coordinate'], dtype=np.float64)

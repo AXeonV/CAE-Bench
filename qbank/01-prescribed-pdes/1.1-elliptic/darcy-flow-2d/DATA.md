@@ -8,7 +8,7 @@
 
 空间系数 a 使用下述 coefficient_samples 的分片双线性重建；最外中心点到边界沿法向常值延拓。输出为每个原始单元上对应量的面积平均值。
 
-编号只表示身份。单元及边界节点 IDs 为严格递增正 int64。各字段的第 i 行对应 IDs 的第 i 项；几何位置由网格确定。`left/right` 为 x 最小/最大边界，`bottom/top` 为 y 最小/最大边界。各边界 location 引用相应维度 1 的 Physical Group，节点 IDs 标识边界几何；cell_coupled_dirichlet 作用于这些边界上的原单元外侧面内部，不要求给边界节点另设状态数组。组 tag 由清单提供。条件中的字段引用必须与条件 location 一致。
+编号只表示身份。单元及边界节点 IDs 为严格递增正 int64。各字段的第 i 行对应 IDs 的第 i 项；几何位置由网格确定。`left/right` 为 x 最小/最大边界，`bottom/top` 为 y 最小/最大边界。各边界 location 引用相应维度 1 的 Physical Group，节点 IDs 标识边界几何；dirichlet 作用于相应整条边，不要求给边界节点另设状态数组。组 tag 由清单提供。条件中的字段引用必须与条件 location 一致。
 
 长度使用 m，时间使用 s，字段采用下表给出的单位；不进行隐式单位换算。
 
@@ -30,7 +30,7 @@
 
 稳态采用 `time_axes.output="times"`，`times=float64([0.0])`，没有初始场时间轴。 输出原样复制该稳态时间轴。未列出的字段不得加入输入 HDF5；几何/网格记录可引用包内文件，`data_file` 指向输入 HDF5。
 
-边界常量在条件 `data` 中显式给出，稳态边界始终生效；各边条件对原单元外侧面的内部点成立，面与面相交的单点不额外约束。
+边界常量在条件 `data` 中显式给出，稳态边界始终生效；四条边（包括角点）均满足 u=0。
 
 ## 条件记录
 
@@ -40,7 +40,7 @@
 |---|---|---|
 | material / state / assign | coefficient_samples | `value={field:"diffusivity"}`，指定 a。 |
 | source / state / assign | domain | `value={value:f,unit:"1/s"}`，方程右侧为 +f。 |
-| boundary / state / cell_coupled_dirichlet | 每条边 | external_value={value:0,unit:"1"}、cell_weight={value:0.5,unit:"1"}；边界面值为相邻原单元平均的 1/2。 |
+| boundary / state / dirichlet | 每条边 | `value={value:0,unit:"1"}`，指定边界上 u=0。 |
 
 边界条件作用于条件表指定的位置。输入不允许重复冲突约束。
 
@@ -56,6 +56,6 @@ T=1 表示稳态解，不表示在 t=0 求瞬态初值。
 
 可用 `load_problem`、`read_constant`、`read_field`、`write_result` 读写。结构校验器检查引用和数组关联，不验证数学条件或数值解的正确性。
 
-## 系数与非局部边界的源对齐
+## 系数采样关联
 
-diffusivity 使用 location=coefficient_samples、value_kind=point；该 location 为 points，引用 coefficient_ids(int64[N]) 与 coefficient_coordinates(float64[N,2])，坐标为原单元中心；coefficient_ids 严格递增且非负，不能根据其数值推断与 cell_ids 的空间对应，实际关联由坐标和网格确定。系数按相邻中心点双线性插值，外侧到边界作法向常值延拓，角部两个方向均常值延拓。四边使用 cell_coupled_dirichlet：u_boundary=0.5×相邻原单元的解平均；原单元外侧面之间的交点不另约束。输出仍为 domain 原单元平均值。
+diffusivity 使用 location=coefficient_samples、value_kind=point；该 location 为 points，引用 coefficient_ids(int64[N]) 与 coefficient_coordinates(float64[N,2])，坐标为原单元中心；coefficient_ids 严格递增且非负，不能根据其数值推断与 cell_ids 的空间对应，实际关联由坐标和网格确定。系数按相邻中心点双线性插值，外侧到边界作法向常值延拓，角部两个方向均常值延拓。四边使用上述零 Dirichlet 条件。输出仍为 domain 原单元平均值。

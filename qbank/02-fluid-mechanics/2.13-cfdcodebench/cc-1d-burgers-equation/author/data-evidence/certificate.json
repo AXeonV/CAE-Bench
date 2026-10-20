@@ -1,0 +1,97 @@
+{
+  "source_id": "CFDCodeBench:e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2:1D_Burgers_Equation",
+  "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_problem": "1D_Burgers_Equation",
+  "development_case_id": "C01-base",
+  "input_files": {
+    "input.h5": "ff5f8ee7abd15f7f5e2ee3b5b81f05ba8515fa56031b4d15ed074639160f6e1d",
+    "problem.json": "7a80b17b638b1444f8f49aaf8158f5887a73efc1a82586b244a70ab3ca971015"
+  },
+  "reference_files": {
+    "grading.json": "ac9c323ab597699ebee1b0865f66d38bf379cb37e54fdcee0c693e51a8d8b932",
+    "reference.h5": "a01ed6747409ac95ec9e601d595d5ec0a7b13f14f1968ddaa39d0e0b20e74564"
+  },
+  "contract_sha256": "130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063",
+  "numerical_validation_sha256": "c861bc17f6b7a465abc81bed0c3188879747b1715dd084e0ab6486ecd6170276",
+  "numerical_validation": {
+    "index": 1,
+    "task": "cc-1d-burgers-equation",
+    "case_id": "C01-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [],
+    "checks": {
+      "truncation_64_128": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 4.182264741324426,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "truncation_128_256": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 4.182264741324426,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "independent_representation": {
+        "u": {
+          "rmse": 2.4017796254920324e-16,
+          "reference_rms": 4.182264741324426,
+          "nrmse": 5.742772813400246e-17,
+          "nmse": 3.297943958632898e-33,
+          "max_abs": 8.881784197001252e-16
+        }
+      }
+    },
+    "reference_sha256": "a01ed6747409ac95ec9e601d595d5ec0a7b13f14f1968ddaa39d0e0b20e74564",
+    "resource_status": "provisional"
+  },
+  "reference_production": {
+    "index": 1,
+    "task": "cc-1d-burgers-equation",
+    "case_id": "C01-base",
+    "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+    "input_contract": "passed",
+    "reference_status": "formula-evaluated-needs-independent-audit",
+    "comparisons": {
+      "truncation_64_128": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 4.182264741324426,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "truncation_128_256": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 4.182264741324426,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      }
+    },
+    "producer": "published representation; see formula audit",
+    "reference_self_grade": "passed",
+    "reference_sha256": "a01ed6747409ac95ec9e601d595d5ec0a7b13f14f1968ddaa39d0e0b20e74564",
+    "production_sources": [
+      {
+        "file": "qbank\\02-fluid-mechanics\\2.13-cfdcodebench\\author\\analytic.py",
+        "sha256": "b86207a33d547f35ad53aaa4307a61b769a2527ca32b8392f8ca60cd396dd692",
+        "base": "repository"
+      }
+    ]
+  },
+  "conversion_tool_sha256": "30675f2817ab349d9c769bea4f8ca60829513342e9b82e03cb65c8196e724926",
+  "resource_status": "provisional",
+  "hf_uploaded": false
+}

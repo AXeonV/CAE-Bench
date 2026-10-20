@@ -1,0 +1,105 @@
+{
+  "index": 10,
+  "task": "cc-2d-laplace-equation",
+  "task_id": "caeoj-000015",
+  "pool_case_id": "case-1b37c21a82fc6c79b15c2b97",
+  "bundle": "D:\\Code\\CAE-Bench-OJ\\runs\\benchmarks\\cfdcodebench-24-20261020\\release\\bundles\\cc-2d-laplace-equation",
+  "reference_sha256": "2affb109b13c626ccff41251fbeb4cb6f48b8b3e00e45c033bda9ad9bd5f2eb6",
+  "hf_branch": "cases/cfdcodebench-24-20261020",
+  "hf_commit": "dc2be55e268aa078897da29de693491d3abf1e03",
+  "manifest_sha256": "dd05b73f2aa449f9f0734f37a61037280cc81e543a1c4b83764c586f5a7f2547",
+  "descriptor_sha256": "b9d4a528c481b95f527f0553c87282d7d435fcd58a21f18a61350255fe598672",
+  "samples": 1,
+  "sample_kind": "format",
+  "sample_seed": 2026102010,
+  "sample_output_sha256": "32df32d3fef6b38a07c240820f046899627bafe98a50a6c37cd0f5de415f7768",
+  "strict_integrity": {
+    "valid": true,
+    "errors": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-1b37c21a82fc6c79b15c2b97",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "assembly_report": {
+    "revision": "dc2be55e268aa078897da29de693491d3abf1e03",
+    "files": 8,
+    "changed": 2,
+    "removed": 0,
+    "complete": true,
+    "incomplete": [],
+    "overlaps": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-1b37c21a82fc6c79b15c2b97",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "numerical_validation": {
+    "index": 10,
+    "task": "cc-2d-laplace-equation",
+    "case_id": "C10-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [],
+    "checks": {
+      "truncation_64_128": {
+        "p": {
+          "rmse": 1.351837695966433e-07,
+          "reference_rms": 0.29976448300816194,
+          "nrmse": 4.509665996453707e-07,
+          "nmse": 2.033708739957081e-13,
+          "max_abs": 3.110867157152253e-06
+        }
+      },
+      "truncation_128_256": {
+        "p": {
+          "rmse": 2.4987975499151526e-10,
+          "reference_rms": 0.2997644830100628,
+          "nrmse": 8.335869295867417e-10,
+          "nmse": 6.948671691778514e-19,
+          "max_abs": 4.5970257600558284e-09
+        }
+      },
+      "independent_FEM_L0": {
+        "p": {
+          "rmse": 3.6448652468500805e-05,
+          "reference_rms": 0.2997644830100628,
+          "nrmse": 0.00012159096402116878,
+          "nmse": 1.4784362531597161e-08,
+          "max_abs": 0.0006969359368361738
+        }
+      },
+      "independent_FEM_L1": {
+        "p": {
+          "rmse": 1.2855367708486482e-05,
+          "reference_rms": 0.2997644830100628,
+          "nrmse": 4.2884892764480504e-05,
+          "nmse": 1.8391140274209923e-09,
+          "max_abs": 0.0004564684911431832
+        }
+      },
+      "independent_FEM_L2": {
+        "p": {
+          "rmse": 3.5523908393367384e-07,
+          "reference_rms": 0.2997644830100628,
+          "nrmse": 1.1850606194788888e-06,
+          "nmse": 1.4043686718396877e-12,
+          "max_abs": 1.4052840365222363e-05
+        }
+      }
+    },
+    "reference_sha256": "2affb109b13c626ccff41251fbeb4cb6f48b8b3e00e45c033bda9ad9bd5f2eb6",
+    "resource_status": "provisional"
+  },
+  "resource_status": "awaiting_calibration",
+  "installed_consumption": "passed"
+}

@@ -94,6 +94,8 @@ python src/utils/publish_dist.py --task heat-conduction-steady-2d --task heat-co
 python qbank/maintenance/authoring/verify_install.py --domain semiconductor --domain granular --output runs/install-check
 ```
 
+安装 fixture 的模型目录键可以通过模型声明的 `task` 指向实际题目 ID。完整 case 评价计划放在 `author/case-grading-template.json`，安装检查优先装配该文件；缺省时沿用 `author/grading-template.json` 的 quantity 策略。纯 quantity 模板仍用于共享策略检查，实际判题始终消费该 case 的 `reference/grading.json`。这允许扩展评价器与固定字段转换进入同一普通安装验证链。
+
 实施证据见[重构记录](../design/reviews/runtime-refactor.md)。
 
 离散对象使用通用 entities 身份表，不能用伪 points 坐标代替。各领域的检查和辅助函数归共享扩展；新增题目只需修改可信绑定，不逐题扩充发布器的文件清单。

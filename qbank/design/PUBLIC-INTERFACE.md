@@ -4,7 +4,7 @@
 
 ## 材料与安装
 
-考生的题意与数据规则只来自本题 `instruction.md`、`DATA.md` 和通用 `CONTRACT.md`。包根 README 提供安装、真实样例路径和命令，不增加题意；公开样例包含完整输入与可复现判分的参考；完整提交示例单独保存，不能用稀疏参考冒充。公开样例的 `reference/grading.json` 仅用于本地复现评分；隐藏case配置不进入公开包，题意仍完整由三文件定义。
+考生的题意与数据规则只来自本题 `instruction.md`、`DATA.md` 和通用 `CONTRACT.md`。包根 README 提供安装、真实样例路径和命令，不增加题意；公开样例包含完整输入；数值样例提供可复现判分的参考，格式样例只提供随机场值的完整输出结构并明确标识，不包含真实参考或判分配置。完整提交示例单独保存，不能用稀疏参考冒充。公开样例的 `reference/grading.json` 仅用于本地复现评分；隐藏case配置不进入公开包，题意仍完整由三文件定义。
 
 公开包包含装配后的核心、必要领域扩展及资源，统一执行一次普通安装：
 
@@ -32,6 +32,8 @@ python -m caeoj validate-output --input <sample>/input/problem.json --output res
 python -m caeoj grade --input <sample>/input/problem.json --output result.h5 --grading <sample>/reference/grading.json
 python -m caeoj info --input <sample>/input/problem.json
 ```
+
+grade 命令只适用于明确提供 reference/grading.json 的数值样例；格式样例只提供 validate-input／validate-output 命令，不能用于检查数值正确性。样例种类由公开 MANIFEST.json 的 sample_kinds 记录；多题包按题目嵌套。
 
 CLI 与 SDK 使用同一装配契约。校验只检查结构、引用及声明约束；grade 比较明确给出的参考与策略，不查找隐藏参考、不执行求解器。结果为机器可读 JSON；`--version` 和 `info` 提供工具版本、装配及支持范围。
 

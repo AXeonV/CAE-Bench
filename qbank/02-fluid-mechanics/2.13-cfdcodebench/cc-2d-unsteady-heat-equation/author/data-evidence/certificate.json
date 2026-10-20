@@ -1,0 +1,120 @@
+{
+  "source_id": "CFDCodeBench:e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2:2D_Unsteady_Heat_Equation",
+  "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_problem": "2D_Unsteady_Heat_Equation",
+  "development_case_id": "C16-base",
+  "input_files": {
+    "input.h5": "732717c32860b8349f414bfa8b88f888318d6d0af7b9c147922455307c2964ba",
+    "problem.json": "33cf7653d2774967c61d30e11dcaf4905b89c93f75d22810352b2936b521744d"
+  },
+  "reference_files": {
+    "grading.json": "37164e2675ebe0dfed48ec4024e19a37cbb232f143d4421dd683a9f5bfe9fe7c",
+    "reference.h5": "b86b4477d11364dde565a89bc9c9e18eb210af331aa8e1382192a2634742eff4"
+  },
+  "contract_sha256": "130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063",
+  "numerical_validation_sha256": "6d59210925a8e21f5e37e7c3190cdf06839e708dad36e8f3251845b0cf236056",
+  "numerical_validation": {
+    "index": 16,
+    "task": "cc-2d-unsteady-heat-equation",
+    "case_id": "C16-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [
+      {
+        "steady_comparison_uniform_transient_bound": 3.636429214230108e-06,
+        "method": "sum of absolute heat-mode coefficients; higher modes exponentially suppressed"
+      }
+    ],
+    "checks": {
+      "truncation_64_128": {
+        "T": {
+          "rmse": 7.143828053921834e-17,
+          "reference_rms": 1.294797982811117,
+          "nrmse": 5.517330231247328e-17,
+          "nmse": 3.0440932880635697e-33,
+          "max_abs": 8.881784197001252e-16
+        }
+      },
+      "truncation_128_256": {
+        "T": {
+          "rmse": 8.407461554190792e-17,
+          "reference_rms": 1.294797982811117,
+          "nrmse": 6.493261239052501e-17,
+          "nmse": 4.216244151858163e-33,
+          "max_abs": 8.881784197001252e-16
+        }
+      },
+      "independent_FEM_L0": {
+        "T": {
+          "rmse": 5.9813036626929074e-05,
+          "reference_rms": 1.294797982811117,
+          "nrmse": 4.619487937189234e-05,
+          "nmse": 2.1339668801836845e-09,
+          "max_abs": 0.001094220657495093
+        }
+      },
+      "independent_FEM_L1": {
+        "T": {
+          "rmse": 3.148477437227098e-06,
+          "reference_rms": 1.294797982811117,
+          "nrmse": 2.4316360382269707e-06,
+          "nmse": 5.912853822404158e-12,
+          "max_abs": 4.3879964448656494e-05
+        }
+      },
+      "independent_FEM_L2": {
+        "T": {
+          "rmse": 1.828727121031592e-06,
+          "reference_rms": 1.294797982811117,
+          "nrmse": 1.412364820851257e-06,
+          "nmse": 1.9947743871782034e-12,
+          "max_abs": 5.477922324637063e-06
+        }
+      }
+    },
+    "reference_sha256": "b86b4477d11364dde565a89bc9c9e18eb210af331aa8e1382192a2634742eff4",
+    "resource_status": "provisional"
+  },
+  "reference_production": {
+    "index": 16,
+    "task": "cc-2d-unsteady-heat-equation",
+    "case_id": "C16-base",
+    "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+    "input_contract": "passed",
+    "reference_status": "formula-evaluated-needs-independent-audit",
+    "comparisons": {
+      "truncation_64_128": {
+        "T": {
+          "rmse": 7.143828053921834e-17,
+          "reference_rms": 1.294797982811117,
+          "nrmse": 5.517330231247328e-17,
+          "nmse": 3.0440932880635697e-33,
+          "max_abs": 8.881784197001252e-16
+        }
+      },
+      "truncation_128_256": {
+        "T": {
+          "rmse": 8.407461554190792e-17,
+          "reference_rms": 1.294797982811117,
+          "nrmse": 6.493261239052501e-17,
+          "nmse": 4.216244151858163e-33,
+          "max_abs": 8.881784197001252e-16
+        }
+      }
+    },
+    "producer": "published representation; see formula audit",
+    "reference_self_grade": "passed",
+    "reference_sha256": "b86b4477d11364dde565a89bc9c9e18eb210af331aa8e1382192a2634742eff4",
+    "production_sources": [
+      {
+        "file": "qbank\\02-fluid-mechanics\\2.13-cfdcodebench\\author\\analytic.py",
+        "sha256": "b86207a33d547f35ad53aaa4307a61b769a2527ca32b8392f8ca60cd396dd692",
+        "base": "repository"
+      }
+    ]
+  },
+  "conversion_tool_sha256": "30675f2817ab349d9c769bea4f8ca60829513342e9b82e03cb65c8196e724926",
+  "resource_status": "provisional",
+  "hf_uploaded": false
+}

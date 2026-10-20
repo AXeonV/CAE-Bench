@@ -1,0 +1,88 @@
+{
+  "index": 23,
+  "task": "cc-pipe-flow-disk-evp",
+  "task_id": "caeoj-000028",
+  "pool_case_id": "case-0cd3ba14ec4c3394600134b2",
+  "bundle": "D:\\Code\\CAE-Bench-OJ\\runs\\benchmarks\\cfdcodebench-24-20261020\\release\\bundles\\cc-pipe-flow-disk-evp",
+  "reference_sha256": "875741e3117f9f50d304a7c8acb468d040e2e5827fbedc68ff410bcc94661458",
+  "hf_branch": "cases/cfdcodebench-24-20261020",
+  "hf_commit": "dc2be55e268aa078897da29de693491d3abf1e03",
+  "manifest_sha256": "447abc942a5e9b42e2c21347bc6d269601c362071b9200d8339386c923c59875",
+  "descriptor_sha256": "27e3ef4e6b9b9ed21fe71c2b73913665e4300ec4630dcc0e87e3da48bb7f2907",
+  "samples": 1,
+  "sample_kind": "format",
+  "sample_seed": 2026102023,
+  "sample_output_sha256": "dff58e9ac5b09db06bbf7963d3922b0ff4cac33cfa32e47511bac6569c67abe1",
+  "strict_integrity": {
+    "valid": true,
+    "errors": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-0cd3ba14ec4c3394600134b2",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "assembly_report": {
+    "revision": "dc2be55e268aa078897da29de693491d3abf1e03",
+    "files": 8,
+    "changed": 2,
+    "removed": 0,
+    "complete": true,
+    "incomplete": [],
+    "overlaps": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-0cd3ba14ec4c3394600134b2",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "numerical_validation": {
+    "index": 23,
+    "task": "cc-pipe-flow-disk-evp",
+    "case_id": "C23-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [
+      {
+        "independent_Galerkin_mass_condition": 55200661980102.74,
+        "note": "Ill-conditioning recorded; convergence at order32/48 is required along with residuals"
+      }
+    ],
+    "checks": {
+      "space_L0_L1": {
+        "s": {
+          "rmse": 1.9333192866066717e-08,
+          "reference_rms": 0.07252741579453673,
+          "nrmse": 2.6656392833347066e-07,
+          "nmse": 7.105632788857169e-14,
+          "max_abs": 1.9333192866066717e-08
+        }
+      },
+      "space_L1_L2": {
+        "s": {
+          "rmse": 1.0504097591734762e-13,
+          "reference_rms": 0.07252741579443168,
+          "nrmse": 1.4482933766049358e-12,
+          "nmse": 2.0975537047177262e-24,
+          "max_abs": 1.0504097591734762e-13
+        }
+      },
+      "independent_Galerkin": {
+        "s": {
+          "max_abs": 1.2536311433386516e-09
+        }
+      }
+    },
+    "reference_sha256": "875741e3117f9f50d304a7c8acb468d040e2e5827fbedc68ff410bcc94661458",
+    "resource_status": "provisional"
+  },
+  "resource_status": "awaiting_calibration",
+  "installed_consumption": "passed"
+}

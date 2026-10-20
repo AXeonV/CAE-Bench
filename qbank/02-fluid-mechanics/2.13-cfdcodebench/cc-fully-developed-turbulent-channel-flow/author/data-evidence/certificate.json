@@ -1,0 +1,97 @@
+{
+  "source_id": "CFDCodeBench:e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2:Fully_Developed_Turbulent_Channel_Flow",
+  "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_problem": "Fully_Developed_Turbulent_Channel_Flow",
+  "development_case_id": "C17-base",
+  "input_files": {
+    "input.h5": "3eb63739d45744a147b58ee91567013e5d14643be78f8a051f1b5826eea36894",
+    "problem.json": "3b0401212523d017859f9ef4026ac0683dae175c8f725602fff18128d3c8f2f1"
+  },
+  "reference_files": {
+    "grading.json": "ac9c323ab597699ebee1b0865f66d38bf379cb37e54fdcee0c693e51a8d8b932",
+    "reference.h5": "fc1231b9b7540e9b45a973ea0cbf86271f6861926c6ff38db9d33cb1b5cf01e5"
+  },
+  "contract_sha256": "130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063",
+  "numerical_validation_sha256": "99dd9ef2f4f4285866ca961fab33b890dc53b92b8470e46027414cb371dfdaaf",
+  "numerical_validation": {
+    "index": 17,
+    "task": "cc-fully-developed-turbulent-channel-flow",
+    "case_id": "C17-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [],
+    "checks": {
+      "truncation_64_128": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 17.79113420419274,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "truncation_128_256": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 17.79113420419274,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "independent_flux_BVP": {
+        "u": {
+          "rmse": 2.085361809962491e-12,
+          "reference_rms": 17.79113420419274,
+          "nrmse": 1.1721353939711416e-13,
+          "nmse": 1.3739013817998832e-26,
+          "max_abs": 4.066080805387173e-12
+        }
+      }
+    },
+    "reference_sha256": "fc1231b9b7540e9b45a973ea0cbf86271f6861926c6ff38db9d33cb1b5cf01e5",
+    "resource_status": "provisional"
+  },
+  "reference_production": {
+    "index": 17,
+    "task": "cc-fully-developed-turbulent-channel-flow",
+    "case_id": "C17-base",
+    "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+    "input_contract": "passed",
+    "reference_status": "formula-evaluated-needs-independent-audit",
+    "comparisons": {
+      "truncation_64_128": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 17.79113420419274,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "truncation_128_256": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 17.79113420419274,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      }
+    },
+    "producer": "published representation; see formula audit",
+    "reference_self_grade": "passed",
+    "reference_sha256": "fc1231b9b7540e9b45a973ea0cbf86271f6861926c6ff38db9d33cb1b5cf01e5",
+    "production_sources": [
+      {
+        "file": "qbank\\02-fluid-mechanics\\2.13-cfdcodebench\\author\\analytic.py",
+        "sha256": "b86207a33d547f35ad53aaa4307a61b769a2527ca32b8392f8ca60cd396dd692",
+        "base": "repository"
+      }
+    ]
+  },
+  "conversion_tool_sha256": "30675f2817ab349d9c769bea4f8ca60829513342e9b82e03cb65c8196e724926",
+  "resource_status": "provisional",
+  "hf_uploaded": false
+}

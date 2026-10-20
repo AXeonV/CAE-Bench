@@ -1,0 +1,97 @@
+{
+  "source_id": "CFDCodeBench:e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2:2D_Linear_Convection",
+  "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_problem": "2D_Linear_Convection",
+  "development_case_id": "C11-base",
+  "input_files": {
+    "input.h5": "f2e9196ce48ba76d03e860a0e9b81f4cfb2c5d39c47ca5aa172c40943d382adb",
+    "problem.json": "b9f7e83c6217c5fccb188776af2c3415a727e46411146d21b4ab72a613fe40c0"
+  },
+  "reference_files": {
+    "grading.json": "ac9c323ab597699ebee1b0865f66d38bf379cb37e54fdcee0c693e51a8d8b932",
+    "reference.h5": "99bdaffe1cacddffcf8bb5cf065cad2e4b89eb034f985cb47639462537976f7d"
+  },
+  "contract_sha256": "130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063",
+  "numerical_validation_sha256": "0ff0a54d49d29a68bcad5e12f3d107c95d1035718a454d62ca972a6af10e41c9",
+  "numerical_validation": {
+    "index": 11,
+    "task": "cc-2d-linear-convection",
+    "case_id": "C11-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [],
+    "checks": {
+      "truncation_64_128": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 1.0925529376077445,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "truncation_128_256": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 1.0925529376077445,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "independent_representation": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 1.0925529376077445,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      }
+    },
+    "reference_sha256": "99bdaffe1cacddffcf8bb5cf065cad2e4b89eb034f985cb47639462537976f7d",
+    "resource_status": "provisional"
+  },
+  "reference_production": {
+    "index": 11,
+    "task": "cc-2d-linear-convection",
+    "case_id": "C11-base",
+    "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+    "input_contract": "passed",
+    "reference_status": "formula-evaluated-needs-independent-audit",
+    "comparisons": {
+      "truncation_64_128": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 1.0925529376077445,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "truncation_128_256": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 1.0925529376077445,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      }
+    },
+    "producer": "published representation; see formula audit",
+    "reference_self_grade": "passed",
+    "reference_sha256": "99bdaffe1cacddffcf8bb5cf065cad2e4b89eb034f985cb47639462537976f7d",
+    "production_sources": [
+      {
+        "file": "qbank\\02-fluid-mechanics\\2.13-cfdcodebench\\author\\analytic.py",
+        "sha256": "b86207a33d547f35ad53aaa4307a61b769a2527ca32b8392f8ca60cd396dd692",
+        "base": "repository"
+      }
+    ]
+  },
+  "conversion_tool_sha256": "30675f2817ab349d9c769bea4f8ca60829513342e9b82e03cb65c8196e724926",
+  "resource_status": "provisional",
+  "hf_uploaded": false
+}

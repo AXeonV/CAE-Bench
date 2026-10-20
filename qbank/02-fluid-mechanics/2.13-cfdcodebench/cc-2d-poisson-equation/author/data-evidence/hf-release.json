@@ -1,0 +1,105 @@
+{
+  "index": 14,
+  "task": "cc-2d-poisson-equation",
+  "task_id": "caeoj-000019",
+  "pool_case_id": "case-3cba5b83636f310810de3bfe",
+  "bundle": "D:\\Code\\CAE-Bench-OJ\\runs\\benchmarks\\cfdcodebench-24-20261020\\release\\bundles\\cc-2d-poisson-equation",
+  "reference_sha256": "240d296e54f26ea3de965ceffa34069fa0a7586952d2b9ff564cd9a077aac9f6",
+  "hf_branch": "cases/cfdcodebench-24-20261020",
+  "hf_commit": "dc2be55e268aa078897da29de693491d3abf1e03",
+  "manifest_sha256": "260668d4c8529a9a5cdb5e71c2fda9304640e8b9c4c5f545fb896fd0e075bc18",
+  "descriptor_sha256": "9a584ec6f3e1bd6db79099b17fedb1a4d9f6851d7a9d379453d04b9622cfd712",
+  "samples": 1,
+  "sample_kind": "format",
+  "sample_seed": 2026102014,
+  "sample_output_sha256": "08c03c15e426e564f232ac912e88814ef66a6c610ce2f89d44c75d21f0f3b75c",
+  "strict_integrity": {
+    "valid": true,
+    "errors": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-3cba5b83636f310810de3bfe",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "assembly_report": {
+    "revision": "dc2be55e268aa078897da29de693491d3abf1e03",
+    "files": 8,
+    "changed": 2,
+    "removed": 0,
+    "complete": true,
+    "incomplete": [],
+    "overlaps": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-3cba5b83636f310810de3bfe",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "numerical_validation": {
+    "index": 14,
+    "task": "cc-2d-poisson-equation",
+    "case_id": "C14-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [],
+    "checks": {
+      "truncation_64_128": {
+        "p": {
+          "rmse": 7.846172144797552e-10,
+          "reference_rms": 0.13180639986366868,
+          "nrmse": 5.952800587007219e-09,
+          "nmse": 3.5435834828673494e-17,
+          "max_abs": 4.097121975021878e-09
+        }
+      },
+      "truncation_128_256": {
+        "p": {
+          "rmse": 4.133632571768779e-12,
+          "reference_rms": 0.13180639986362983,
+          "nrmse": 3.136139501606552e-11,
+          "nmse": 9.835370973536994e-22,
+          "max_abs": 4.264597008862836e-11
+        }
+      },
+      "independent_FEM_L0": {
+        "p": {
+          "rmse": 9.542257630599092e-05,
+          "reference_rms": 0.13180639986362983,
+          "nrmse": 0.0007239601142639317,
+          "nmse": 5.24118247045045e-07,
+          "max_abs": 0.001026631414162038
+        }
+      },
+      "independent_FEM_L1": {
+        "p": {
+          "rmse": 4.8856848367532166e-06,
+          "reference_rms": 0.13180639986362983,
+          "nrmse": 3.7067129075735834e-05,
+          "nmse": 1.3739720579172608e-09,
+          "max_abs": 5.684042893533414e-05
+        }
+      },
+      "independent_FEM_L2": {
+        "p": {
+          "rmse": 2.8519031067672383e-07,
+          "reference_rms": 0.13180639986362983,
+          "nrmse": 2.163706094482429e-06,
+          "nmse": 4.681624063300406e-12,
+          "max_abs": 3.4659820664084684e-06
+        }
+      }
+    },
+    "reference_sha256": "240d296e54f26ea3de965ceffa34069fa0a7586952d2b9ff564cd9a077aac9f6",
+    "resource_status": "provisional"
+  },
+  "resource_status": "awaiting_calibration",
+  "installed_consumption": "passed"
+}

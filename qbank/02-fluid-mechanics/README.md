@@ -17,7 +17,8 @@
 | 2.9 | [浅水与深度平均流动](2.9-shallow-water/README.md) | 4 |
 | 2.10 | [稀薄气体](2.10-rarefied-gas/README.md) | 4 |
 | 2.11 | [记忆与结构演化非牛顿流动](2.11-memory-fluids/README.md) | 5 |
+| 2.13 | [CFDCodeBench 兼容题集](2.13-cfdcodebench/README.md) | 24 |
 
-共计 **65 题**。规划与维护状态见[逐题实施清单](../design/chapter-02-task-plan.md)及[章级进度与审阅证据](../design/reviews/chapter-02-progress.md)。本页是题库维护索引；正式提供考生材料时仅选择相应题目的完整公开依赖。
+共计 **89 题**：65 道通用能力题与 24 道 CFDCodeBench 兼容题。2.13 的数据和验证状态见其[维护记录](2.13-cfdcodebench/author/README.md)。规划与维护状态见[逐题实施清单](../design/chapter-02-task-plan.md)及[章级进度与审阅证据](../design/reviews/chapter-02-progress.md)。本页是题库维护索引；正式提供考生材料时仅选择相应题目的完整公开依赖。
 
-数据与评测未发布：examples、references、cases 仅保留目录占位。公开协议的最小测试 fixture 置于临时目录，不属于正式算例或参考答案。所有新增题目的资源和精度均为待真实数据校准的设计目标。
+各题数据装配与发布状态由本题维护记录拥有，操作见[数据池操作](../maintenance/DATA-SYNC.md)。公开协议的最小测试 fixture 置于临时目录，不属于正式算例或参考答案；工具校验、数值验证与资源校准分别记录。

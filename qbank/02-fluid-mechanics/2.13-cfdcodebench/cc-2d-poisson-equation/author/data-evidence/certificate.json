@@ -1,0 +1,115 @@
+{
+  "source_id": "CFDCodeBench:e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2:2D_Poisson_Equation",
+  "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_problem": "2D_Poisson_Equation",
+  "development_case_id": "C14-base",
+  "input_files": {
+    "input.h5": "580ec9fb425ced18d9d90523de8bcccf5ef8cb50632af3abfa00358a8740c141",
+    "problem.json": "51d2a94f9e025ca47d83cad16c125504b7ffa9aabd3052d46115164c4d603366"
+  },
+  "reference_files": {
+    "grading.json": "521a8834d0645b3eb8ab6b918f76bb6eebf9ff3bbebf3108539ae56ef18ae1e2",
+    "reference.h5": "240d296e54f26ea3de965ceffa34069fa0a7586952d2b9ff564cd9a077aac9f6"
+  },
+  "contract_sha256": "130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063",
+  "numerical_validation_sha256": "193b42223d9d6c3a29c163046d008f073eabb4511b02818e24b79e8fc6c55b04",
+  "numerical_validation": {
+    "index": 14,
+    "task": "cc-2d-poisson-equation",
+    "case_id": "C14-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [],
+    "checks": {
+      "truncation_64_128": {
+        "p": {
+          "rmse": 7.846172144797552e-10,
+          "reference_rms": 0.13180639986366868,
+          "nrmse": 5.952800587007219e-09,
+          "nmse": 3.5435834828673494e-17,
+          "max_abs": 4.097121975021878e-09
+        }
+      },
+      "truncation_128_256": {
+        "p": {
+          "rmse": 4.133632571768779e-12,
+          "reference_rms": 0.13180639986362983,
+          "nrmse": 3.136139501606552e-11,
+          "nmse": 9.835370973536994e-22,
+          "max_abs": 4.264597008862836e-11
+        }
+      },
+      "independent_FEM_L0": {
+        "p": {
+          "rmse": 9.542257630599092e-05,
+          "reference_rms": 0.13180639986362983,
+          "nrmse": 0.0007239601142639317,
+          "nmse": 5.24118247045045e-07,
+          "max_abs": 0.001026631414162038
+        }
+      },
+      "independent_FEM_L1": {
+        "p": {
+          "rmse": 4.8856848367532166e-06,
+          "reference_rms": 0.13180639986362983,
+          "nrmse": 3.7067129075735834e-05,
+          "nmse": 1.3739720579172608e-09,
+          "max_abs": 5.684042893533414e-05
+        }
+      },
+      "independent_FEM_L2": {
+        "p": {
+          "rmse": 2.8519031067672383e-07,
+          "reference_rms": 0.13180639986362983,
+          "nrmse": 2.163706094482429e-06,
+          "nmse": 4.681624063300406e-12,
+          "max_abs": 3.4659820664084684e-06
+        }
+      }
+    },
+    "reference_sha256": "240d296e54f26ea3de965ceffa34069fa0a7586952d2b9ff564cd9a077aac9f6",
+    "resource_status": "provisional"
+  },
+  "reference_production": {
+    "index": 14,
+    "task": "cc-2d-poisson-equation",
+    "case_id": "C14-base",
+    "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+    "input_contract": "passed",
+    "reference_status": "formula-evaluated-needs-independent-audit",
+    "comparisons": {
+      "truncation_64_128": {
+        "p": {
+          "rmse": 7.846172144797552e-10,
+          "reference_rms": 0.13180639986366868,
+          "nrmse": 5.952800587007219e-09,
+          "nmse": 3.5435834828673494e-17,
+          "max_abs": 4.097121975021878e-09
+        }
+      },
+      "truncation_128_256": {
+        "p": {
+          "rmse": 4.133632571768779e-12,
+          "reference_rms": 0.13180639986362983,
+          "nrmse": 3.136139501606552e-11,
+          "nmse": 9.835370973536994e-22,
+          "max_abs": 4.264597008862836e-11
+        }
+      }
+    },
+    "producer": "published representation; see formula audit",
+    "reference_self_grade": "passed",
+    "reference_sha256": "240d296e54f26ea3de965ceffa34069fa0a7586952d2b9ff564cd9a077aac9f6",
+    "production_sources": [
+      {
+        "file": "qbank\\02-fluid-mechanics\\2.13-cfdcodebench\\author\\analytic.py",
+        "sha256": "b86207a33d547f35ad53aaa4307a61b769a2527ca32b8392f8ca60cd396dd692",
+        "base": "repository"
+      }
+    ]
+  },
+  "conversion_tool_sha256": "30675f2817ab349d9c769bea4f8ca60829513342e9b82e03cb65c8196e724926",
+  "resource_status": "provisional",
+  "hf_uploaded": false
+}

@@ -97,6 +97,21 @@ def dispatch(root, snapshot):
             p = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT, start_new_session=True, env={**os.environ, 'OMP_NUM_THREADS': '1', 'OPENBLAS_NUM_THREADS': '1'})
         save(marker, {'pid': p.pid, 'starttime': identity(p.pid), 'command': command, 'launched_unix': time.time(), 'approved_case_ids': q['case_ids']})
         actions.append({'queue': q['name'], 'action': 'launched', 'pid': p.pid, 'unstarted': len(missing)})
+    # Only a reviewed conversion defect can be repaired automatically. Native
+    # failures/iteration caps are excluded; the converter rechecks exit=0/mounts.
+    for q in read(plan_path).get('conversion_repairs', []):
+        status=root/'cases'/q['case_id']/'status.json'
+        if not status.exists() or read(status).get('error') != "AssertionError('native node order')": continue
+        marker=root/'maintenance'/q['marker']
+        if marker.exists(): continue
+        script=root/'scripts'/q['script']
+        assert hashlib.sha256(script.read_bytes()).hexdigest()==q['script_sha256']
+        capacity(root)
+        command=[sys.executable,str(script),'--root',str(root),'--snapshot',str(snapshot),'--case-id',q['case_id']]
+        with (root/'maintenance'/(q['marker']+'.log')).open('a') as log:
+            child=subprocess.Popen(command,stdout=log,stderr=subprocess.STDOUT,start_new_session=True,env={**os.environ,'OMP_NUM_THREADS':'1','OPENBLAS_NUM_THREADS':'1'})
+        save(marker,{'pid':child.pid,'starttime':identity(child.pid),'command':command,'launched_unix':time.time()})
+        actions.append({'case_id':q['case_id'],'action':'one_conversion_only_repair_launched','pid':child.pid})
     return actions
 
 

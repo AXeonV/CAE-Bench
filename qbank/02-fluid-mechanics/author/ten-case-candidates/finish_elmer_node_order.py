@@ -16,14 +16,18 @@ from titan_resources import reservation
 
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--root',type=Path,required=True);ap.add_argument('--snapshot',type=Path,required=True);ap.add_argument('--workers',type=int,default=1);args=ap.parse_args()
-    proof=json.loads((args.root/'maintenance/elmer-node-order-conversion-handoff.json').read_text());job=args.root/'cases'/proof['design_id']
+    ap=argparse.ArgumentParser();ap.add_argument('--root',type=Path,required=True);ap.add_argument('--snapshot',type=Path,required=True);ap.add_argument('--workers',type=int,default=1);ap.add_argument('--case-id');args=ap.parse_args()
+    if args.case_id:
+        assert Path(args.case_id).name==args.case_id and args.case_id.startswith('ch02-2-1-')
+        proof={'design_id':args.case_id}
+    else:proof=json.loads((args.root/'maintenance/elmer-node-order-conversion-handoff.json').read_text())
+    job=args.root/'cases'/proof['design_id']
     with (job/'conversion.lock').open('a') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX)
         state=json.loads((job/'status.json').read_text())
         if state['status']=='unvalidated_candidate':return
         assert state.get('error')=="AssertionError('native node order')"
-        native=json.loads(subprocess.check_output(['docker','--host',SOCKET,'inspect',proof['native_container']]))[0]
+        native=json.loads(subprocess.check_output(['docker','--host',SOCKET,'inspect',proof.get('native_container',state['container'])]))[0]
         assert not native['State']['Running'] and native['State']['ExitCode']==0
         assert any(m['Source']==str(job) for m in native['Mounts'])
         e=json.loads((job/'design.json').read_text())
@@ -41,7 +45,7 @@ def main():
             conversion={'at_unix':time.time(),'previous_payload':str(archive),'script_sha256':digest(Path(__file__)),'conversion_script_sha256':digest(Path(__file__).with_name('native_elmer_incompressible.py')),'native_container':native['Id'],'native_exit_code':0,'native_solver_rerun':False,'numerical_validation':False,**result}
             save(job/'conversion-repair.json',conversion)
             state.update(result,status='unvalidated_candidate',conversion_script_sha256=conversion['conversion_script_sha256'],ended_unix=time.time());state.pop('error',None)
-            save(job/'status.json',state);save(args.root/'maintenance/elmer-node-order-conversion-summary.json',conversion)
+            save(job/'status.json',state);save(args.root/'maintenance'/('elmer-node-order-'+job.name+'-summary.json' if args.case_id else 'elmer-node-order-conversion-summary.json'),conversion)
 
 
 if __name__=='__main__':main()

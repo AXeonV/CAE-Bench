@@ -56,7 +56,7 @@ class DirectTests(unittest.TestCase):
             with self.subTest(target=target), patch.object(Path, 'read_bytes', changed):
                 with self.assertRaisesRegex(ValueError, 'Frozen'): validate_selection(selection)
 
-    def test_blocked_source_never_produces_reference_or_example(self):
+    def test_logistic_retains_source_plateau_and_produces_reference_example(self):
         from utils.PDEBench.models import source_files
         catalog = json.loads(CATALOG.read_text())
         src = source_files(BY_TASK['reaction-diffusion-1d'], catalog)[0]
@@ -76,13 +76,15 @@ class DirectTests(unittest.TestCase):
                 with h5py.File(path, 'r') as h: yield h
             with patch('utils.PDEBench.pipeline.open_source', source):
                 record = prepare_entry(workspace, selection['entries'][0], base/'cache', disk, None, 1, NetworkBudget(0))
-            self.assertTrue(record['input_ready']); self.assertFalse(record['reference_ready'])
+            self.assertTrue(record['input_ready']); self.assertTrue(record['reference_ready'])
             report = verify(workspace, selection)
-            self.assertFalse(report['assembly_ready'])
+            self.assertTrue(report['assembly_ready'])
             task = next(workspace.glob('qbank/*/*/reaction-diffusion-1d'))
-            self.assertTrue((task/'samples/01/reference/candidate.h5').is_file())
-            self.assertFalse((task/'samples/01/reference/grading.json').exists())
-            self.assertFalse((task/'samples/01/output/result.h5').exists())
+            self.assertFalse((task/'samples/01/reference/candidate.h5').exists())
+            with h5py.File(task/'samples/01/reference/reference.h5') as h:
+                np.testing.assert_array_equal(h['state'][:], np.full((2,1024,1), .25))
+            self.assertTrue((task/'samples/01/reference/grading.json').exists())
+            self.assertTrue((task/'samples/01/output/result.h5').exists())
 
     def test_network_retry_charge_cannot_exceed_limit(self):
         budget = NetworkBudget(8)

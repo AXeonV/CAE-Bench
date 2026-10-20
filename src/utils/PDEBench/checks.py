@@ -12,8 +12,6 @@ def source_reference(model, problem, values, config):
     check_reference_initial(model, problem, arrays)
     blocked = []
     metrics = {}
-    if model.model == 'reaction_diffusion_1d':
-        blocked.append('Published logistic plateau issue: source candidate retained; per-trajectory numerical suitability unresolved')
     if model.model == 'darcy_flow_2d':
         # Do not silently replace published finite-time snapshots with a new steady solve.
         blocked.append('Published Darcy steady-state suitability unresolved; no automatic equilibrium correction')

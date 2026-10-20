@@ -99,10 +99,10 @@ def workspace_init(workspace, selection, disk):
     init.unlink(missing_ok=True)
 
 
-def read_entry(entry, cache, disk, local, timeout, network):
+def read_entry(entry, cache, disk, local, timeout, network, block_size=1024*1024):
     model, source = BY_TASK[entry['task']], entry['source']
     frames = np.asarray(entry['frames'], dtype=np.int64)
-    with open_source(source, cache, disk, local, timeout, network) as h:
+    with open_source(source, cache, disk, local, timeout, network, block_size=block_size) as h:
         reader = Reader(h, model); reader.check_index(entry['index'])
         coords, times, config = reader.metadata(entry['index'], frames=frames if model.points else None)
         if not model.points:
@@ -124,7 +124,7 @@ def read_entry(entry, cache, disk, local, timeout, network):
     return coords, times, config, values
 
 
-def prepare_entry(workspace, entry, cache, disk, local, timeout, network):
+def prepare_entry(workspace, entry, cache, disk, local, timeout, network, block_size=1024*1024):
     tag = f"{entry['task']}-{entry['role']}-{entry['id']}"
     receipt_path = workspace/'evidence'/f'{tag}.json'
     if receipt_path.is_file():
@@ -143,7 +143,7 @@ def prepare_entry(workspace, entry, cache, disk, local, timeout, network):
         for target in destinations:
             if target.exists(): shutil.rmtree(target)
         journal.unlink()
-    coords, times, config, values = read_entry(entry, cache, disk, local, timeout, network)
+    coords, times, config, values = read_entry(entry, cache, disk, local, timeout, network, block_size)
     model = BY_TASK[entry['task']]
     task = task_directory(entry['task'], workspace)
     initial_hash = hashlib.sha256()
@@ -380,6 +380,8 @@ def execute(args):
             return report
     if not all(np.isfinite(v) and v >= 0 for v in (args.network_mb, args.disk_mb)) or args.disk_mb == 0 or not np.isfinite(args.timeout) or args.timeout <= 0:
         raise ValueError('Budgets must be finite nonnegative, disk and timeout positive')
+    block_kb = getattr(args, "range_block_kb", 1024)
+    if block_kb <= 0: raise ValueError("Range block size must be positive")
     cache = args.cache_root.resolve()
     network = NetworkBudget(int(args.network_mb*1e6))
     roots = [cache] + ([args.workspace.resolve()] if args.command == 'prepare' else [])
@@ -390,7 +392,7 @@ def execute(args):
                 catalog = json.loads(CATALOG.read_text()); model = BY_TASK[args.task]
                 source = next((s for s in source_files(model, catalog) if s['id'] == args.source_id), None)
                 if source is None: raise ValueError('Source does not belong to task')
-                with open_source(source, cache, disk, args.source_dir, args.timeout, network) as h:
+                with open_source(source, cache, disk, args.source_dir, args.timeout, network, block_size=block_kb*1024) as h:
                     reader = Reader(h, model); reader.check_index(args.index)
                     frames = np.array([0], dtype=np.int64) if model.points else None
                     coords, times, config = reader.metadata(args.index, frames=frames)
@@ -405,7 +407,7 @@ def execute(args):
                     workspace_init(workspace, selection, disk)
                     records = []
                     for entry in selection['entries']:
-                        records.append(prepare_entry(workspace, entry, cache, disk, args.source_dir, args.timeout, network))
+                        records.append(prepare_entry(workspace, entry, cache, disk, args.source_dir, args.timeout, network, block_kb*1024))
                         atomic_json(workspace/'preparation.json', {'status': 'preparing', 'records': records,
                                                                   'network': network.report()})
                     prepare_examples(workspace, selection, disk)

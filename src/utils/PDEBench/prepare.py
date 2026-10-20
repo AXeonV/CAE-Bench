@@ -22,6 +22,7 @@ def parser():
         cmd.add_argument('--cache-root', type=Path, default=ROOT/'runs/pdebench-direct/cache')
         cmd.add_argument('--network-mb', type=float, default=64, help='Response body upper budget, decimal MB; headers/TLS excluded')
         cmd.add_argument('--disk-mb', type=float, default=2048)
+        cmd.add_argument('--range-block-kb', type=int, default=1024, help='HTTP range block size in KiB; use smaller blocks for sparse 1D reads')
         cmd.add_argument('--timeout', type=float, default=30)
         cmd.add_argument('--source-dir', type=Path, help='Optional full local source, size/MD5 verified')
         if name == 'inspect':

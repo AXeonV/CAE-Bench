@@ -11,7 +11,7 @@ from .storage import PreparationError, RangeReader, atomic_json, digest
 
 
 @contextmanager
-def open_source(source, cache, budget, local=None, timeout=45, network=None):
+def open_source(source, cache, budget, local=None, timeout=45, network=None, block_size=1024*1024):
     if local is not None:
         root = Path(local)
         candidates = [root/source["filename"], root/source["directory"]/source["filename"]]
@@ -35,7 +35,7 @@ def open_source(source, cache, budget, local=None, timeout=45, network=None):
             atomic_json(ledger,identity)
         with h5py.File(path, "r") as handle: yield handle
     else:
-        with RangeReader(source, Path(cache)/"ranges", budget, timeout=timeout, network=network) as raw:
+        with RangeReader(source, Path(cache)/"ranges", budget, timeout=timeout, network=network, block_size=block_size) as raw:
             with h5py.File(raw, "r") as handle: yield handle
 
 

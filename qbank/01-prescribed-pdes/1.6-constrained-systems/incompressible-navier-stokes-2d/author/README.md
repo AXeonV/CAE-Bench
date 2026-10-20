@@ -6,4 +6,4 @@
 python src/utils/PDEBench/prepare.py list --task incompressible-navier-stokes-2d
 ```
 
-随后按工具说明建立 spec，执行 plan、prepare、verify、assemble。默认不修改本题正式来源选择、不重新求解参考；来源适用性未通过时不进入评测。既往制作配方与证据保留在 [reference](data-evidence/reference/)，不作为当前工具或本地数据就绪状态。
+随后按工具说明建立 spec，执行 plan、prepare、verify、assemble。默认不修改本题正式来源选择、不重新求解参考；来源适用性未通过时不进入评测。本批配方、选择和安装验收见[direct-20261020/REPORT.md](data-evidence/direct-20261020/REPORT.md)。既往制作配方与证据保留在 [reference](data-evidence/reference/)，不作为当前工具或本地数据就绪状态。

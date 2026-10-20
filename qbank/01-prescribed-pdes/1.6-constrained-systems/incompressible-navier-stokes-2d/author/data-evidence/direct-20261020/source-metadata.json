@@ -1,0 +1,99 @@
+{
+  "config": {
+    "artefact_dir": "${oc.env:ARTEFACT_DIR,artefacts}",
+    "dataverse": {
+      "dataset_id": "doi:10.18419/darus-2984"
+    },
+    "sim_name": "ns_2d_incom_inhom_2d_512",
+    "label": "ns_incomp_inhom_2d",
+    "domain_size": [
+      1,
+      1
+    ],
+    "grid_size": [
+      512,
+      512
+    ],
+    "particle_extrapolation": "BOUNDARY",
+    "velocity_extrapolation": "ZERO",
+    "NU": 0.01,
+    "force_extrapolation": "ZERO",
+    "seed": 0,
+    "smoothness": 1.0,
+    "scale": 0.4,
+    "force_smoothness": 3.0,
+    "force_scale": 0.15,
+    "n_steps": 100000,
+    "DT": 5e-05,
+    "frame_int": 100,
+    "n_batch": 4,
+    "save_h5": true,
+    "profile": false,
+    "upload": true,
+    "backend": "jax",
+    "device": "GPU",
+    "jit": true
+  },
+  "layout": {
+    "velocity": {
+      "shape": [
+        4,
+        1000,
+        512,
+        512,
+        2
+      ],
+      "dtype": "float32",
+      "chunks": [
+        1,
+        1,
+        512,
+        512,
+        2
+      ]
+    },
+    "force": {
+      "shape": [
+        4,
+        512,
+        512,
+        2
+      ],
+      "dtype": "float32",
+      "chunks": [
+        1,
+        1,
+        512,
+        2
+      ]
+    },
+    "particles": {
+      "shape": [
+        4,
+        1000,
+        512,
+        512,
+        1
+      ],
+      "dtype": "float32",
+      "chunks": [
+        1,
+        1,
+        512,
+        512,
+        1
+      ]
+    },
+    "t": {
+      "shape": [
+        4,
+        1000
+      ],
+      "dtype": "float32",
+      "chunks": [
+        1,
+        1
+      ]
+    }
+  }
+}

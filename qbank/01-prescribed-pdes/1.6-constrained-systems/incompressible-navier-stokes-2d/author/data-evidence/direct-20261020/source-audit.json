@@ -1,0 +1,177 @@
+{
+  "source": {
+    "id": 133280,
+    "filename": "ns_incom_inhom_2d_512-0.h5",
+    "directory": "2D/NS_incom",
+    "bytes": 9906401437,
+    "md5": "54109d46f9c957317bd670ddb2068ac0",
+    "url": "https://darus.uni-stuttgart.de/api/access/datafile/133280"
+  },
+  "config": {
+    "artefact_dir": "${oc.env:ARTEFACT_DIR,artefacts}",
+    "dataverse": {
+      "dataset_id": "doi:10.18419/darus-2984"
+    },
+    "sim_name": "ns_2d_incom_inhom_2d_512",
+    "label": "ns_incomp_inhom_2d",
+    "domain_size": [
+      1,
+      1
+    ],
+    "grid_size": [
+      512,
+      512
+    ],
+    "particle_extrapolation": "BOUNDARY",
+    "velocity_extrapolation": "ZERO",
+    "NU": 0.01,
+    "force_extrapolation": "ZERO",
+    "seed": 0,
+    "smoothness": 1.0,
+    "scale": 0.4,
+    "force_smoothness": 3.0,
+    "force_scale": 0.15,
+    "n_steps": 100000,
+    "DT": 5e-05,
+    "frame_int": 100,
+    "n_batch": 4,
+    "save_h5": true,
+    "profile": false,
+    "upload": true,
+    "backend": "jax",
+    "device": "GPU",
+    "jit": true
+  },
+  "layout": {
+    "velocity": {
+      "shape": [
+        4,
+        1000,
+        512,
+        512,
+        2
+      ],
+      "dtype": "float32",
+      "chunks": [
+        1,
+        1,
+        512,
+        512,
+        2
+      ],
+      "compression": "lzf",
+      "dimension_labels": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "particles": {
+      "shape": [
+        4,
+        1000,
+        512,
+        512,
+        1
+      ],
+      "dtype": "float32",
+      "chunks": [
+        1,
+        1,
+        512,
+        512,
+        1
+      ],
+      "compression": "lzf",
+      "dimension_labels": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "force": {
+      "shape": [
+        4,
+        512,
+        512,
+        2
+      ],
+      "dtype": "float32",
+      "chunks": [
+        1,
+        1,
+        512,
+        2
+      ],
+      "compression": "lzf",
+      "dimension_labels": [
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "t": {
+      "shape": [
+        4,
+        1000
+      ],
+      "dtype": "float32",
+      "chunks": [
+        1,
+        1
+      ],
+      "compression": "lzf",
+      "dimension_labels": [
+        "",
+        ""
+      ]
+    }
+  },
+  "initial_times": [
+    0.0,
+    0.004999999888241291,
+    0.009999999776482582
+  ],
+  "coordinate_first_last": [
+    [
+      0.0009765625,
+      0.9990234375
+    ],
+    [
+      0.0009765625,
+      0.9990234375
+    ]
+  ],
+  "initial_ranges": {
+    "velocity": [
+      -2.602937936782837,
+      2.134554147720337
+    ],
+    "tracer": [
+      -2.243701696395874,
+      2.1052000522613525
+    ],
+    "forcing": [
+      -2.5894317626953125,
+      2.6092472076416016
+    ]
+  },
+  "initial_sha256": {
+    "velocity": "6cee482ad3732175e0411ee4ea2293dae0071d9eecae348ea8b962f9df987655",
+    "tracer": "b64db53d31294882afa640e1ea12b4ab5462d1037dee9155b36dd15326c6776a",
+    "forcing": "125119ff620e83a706fd9d047ef34114b133c9c917cb5ec93ea924b11bc28fa7"
+  },
+  "reader_first_velocity_equals_raw": true,
+  "network": {
+    "limit_bytes": 24000000,
+    "charged_body_bytes_upper": 4718608,
+    "received_complete_body_bytes": 2359296,
+    "requests": 16,
+    "scope": "response bodies; partial failures charged at admitted maximum; excludes headers/TLS"
+  }
+}

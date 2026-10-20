@@ -93,3 +93,5 @@ python qbank/02-fluid-mechanics/author/ten-case-candidates/freeze_designs.py
 [retry_thermal_statistics_linear.py](retry_thermal_statistics_linear.py)只执行已归档的四项原生BiCGStabL线性迭代失败的一次UMFPACK修复。先核实容器已停止及明确错误，保留旧场和日志；物理、网格、1000步时间网格、样本时刻及收敛阈值不变，不自动无限重试。
 
 [native_pyclaw_closed_flat.py](native_pyclaw_closed_flat.py)与[pyclaw_closed_flat_runtime.py](pyclaw_closed_flat_runtime.py)只装配2.9.2首例平床、零摩擦、反射壁工况。原生PyClaw Classic二维HLLE负责全部演化；实际公共P1水深通过三角形/矩形精确裁剪积分映射到原生有限体积均值，节点点值使用连续双线性重建，水体积使用原生面积积分。非平床、摩擦、储槽、孔洞、干湿条件不由该入口替代；精度未验证。
+
+[native_pyclaw_bathymetry.py](native_pyclaw_bathymetry.py)与[pyclaw_bathymetry_runtime.py](pyclaw_bathymetry_runtime.py)扩展至另外五例封闭、全湿、零摩擦的地形工况。原生二维bathymetry f-wave处理底坡项；P1地形和水深均作精确单元积分映射，干容差只记录为原生数值配置，不能据此声称干湿题已适配。

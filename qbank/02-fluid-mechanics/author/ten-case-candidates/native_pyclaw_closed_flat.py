@@ -57,14 +57,14 @@ def descriptor(q,loc,axis,unit,dim=1,input=False,integral=False):
     return z
 
 
-def prepare(job,e):
-    s=e['detailed_spec'];assert e['design_id']==CASE and s['parameters']['drag_rate']['value']==0
+def prepare(job,e,allow_bed=False):
+    s=e['detailed_spec'];assert (allow_bed or e['design_id']==CASE) and s['parameters']['drag_rate']['value']==0
     assert not s['geometry']['holes'] and all(b['operator']=='water_wall' for b in s['boundaries'])
     m=generate(s);x,c,b=m['x'],m['c'],m['b'];L=s['geometry']['bounding_lengths']
     bed=sample(s['domain_conditions']['bed']['expression'],x,0,s);h=sample(s['initial']['depth']['expression'],x,0,s);u=sample(s['initial']['velocity']['expression'],x,0,s)
-    assert np.all(bed==0) and np.min(h)>0 and np.all(u==0)
+    assert (allow_bed or np.all(bed==0)) and np.min(h)>0 and np.all(u==0)
     hn=transfer(x,c,h,L);q=np.zeros((3,*hn.shape));q[0]=hn
-    np.savez(job/'native-input.npz',q=q,lengths=L,gravity=s['parameters']['gravity']['value'],times=s['output_times_s'])
+    np.savez(job/'native-input.npz',q=q,bed=transfer(x,c,bed,L) if allow_bed else np.zeros_like(hn),lengths=L,gravity=s['parameters']['gravity']['value'],times=s['output_times_s'])
     keep=np.ones(len(x),bool);keep[np.unique(b)]=False
     for _ in range(2):keep[np.unique(c[np.any(~keep[c],axis=1)])]=False
     ids=np.flatnonzero(keep);assert len(ids)>0
@@ -79,7 +79,7 @@ def prepare(job,e):
     with h5py.File(inp/'input.h5','w') as f:
         for key,a in {'nodes':np.arange(1,len(x)+1,dtype=np.int64),'observed':ids.astype(np.int64)+1,'cells':np.arange(1,len(c)+1,dtype=np.int64),'wall':np.arange(1,len(b)+1,dtype=np.int64)+len(c),'integral':np.array([1],dtype=np.int64),'initial':np.array([0.]),'constant':np.array([0.]),'requested':np.array(s['output_times_s']),'bed':bed[None,:,None],'depth0':h[None,:,None],'velocity0':u[None]}.items():f[key]=a
     np.savez(job/'adapter-data.npz',**m,observed=ids)
-    save(job/'input-transfer.json',{'method':'Exact clipping of each public input triangle to native rectangles, exact affine depth integral on clipped subtriangles; initial velocity is exactly zero. Supplied nodal P1 input is the sole initial field.','native_shape':list(hn.shape),'native_input_sha256':digest(job/'native-input.npz'),'numerical_validation':False})
+    save(job/'input-transfer.json',{'method':'Exact clipping of each public input triangle to native rectangles, exact affine depth/bed integrals on clipped subtriangles; initial velocity is exactly zero. Supplied nodal P1 input is the sole initial field.','native_shape':list(hn.shape),'native_input_sha256':digest(job/'native-input.npz'),'numerical_validation':False})
     return m,ids
 
 

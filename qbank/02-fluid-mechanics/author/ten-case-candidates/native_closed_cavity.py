@@ -81,7 +81,7 @@ def prepare_native(path, p):
     end=p["time_interval_s"][1]; dt=p["native_dt_s"]
     put(path/"system/controlDict",header("dictionary","controlDict")+f"application icoFoam; startFrom startTime; startTime 0; stopAt endTime; endTime {end}; deltaT {dt}; writeControl runTime; writeInterval {end/4:.15g}; purgeWrite 0; writeFormat ascii; writePrecision 16; writeCompression off; timeFormat general; timePrecision 12; runTimeModifiable false;\n")
     put(path/"system/fvSchemes",header("dictionary","fvSchemes")+"ddtSchemes { default Euler; } gradSchemes { default Gauss linear; } divSchemes { default none; div(phi,U) Gauss linear; } laplacianSchemes { default Gauss linear corrected; } interpolationSchemes { default linear; } snGradSchemes { default corrected; } fluxRequired { default no; p; }\n")
-    put(path/"system/fvSolution",header("dictionary","fvSolution")+"solvers { p { solver PCG; preconditioner DIC; tolerance 1e-9; relTol 0; } U { solver smoothSolver; smoother symGaussSeidel; tolerance 1e-9; relTol 0; } } PISO { nCorrectors 2; nNonOrthogonalCorrectors 0; pRefCell 0; pRefValue 0; }\n")
+    put(path/"system/fvSolution",header("dictionary","fvSolution")+"solvers { p { solver PCG; preconditioner DIC; tolerance 1e-9; relTol 0; } pFinal { $p; relTol 0; } U { solver smoothSolver; smoother symGaussSeidel; tolerance 1e-9; relTol 0; } } PISO { nCorrectors 2; nNonOrthogonalCorrectors 0; pRefCell 0; pRefValue 0; }\n")
 
 
 def foam_list(path):
@@ -106,7 +106,9 @@ def native_mesh(path, d):
     # Preserve native cell order. Geometry is Cartesian hexes; no averaging between cells.
     coords=[];lut={}
     def node(x):
-        x=tuple(float(a) for a in x[:d])
+        # Native Cartesian block coordinates differ by roundoff between z planes.
+        # Canonicalize at 1e-14 m before removing the empty extrusion.
+        x=tuple(round(float(a),14) for a in x[:d])
         if x not in lut: lut[x]=len(coords)+1;coords.append(x+(0.,) if d==2 else x)
         return lut[x]
     conn=[];vol=[]
@@ -205,7 +207,7 @@ def run_one(root, record, entry):
     p=entry["prescription"];job.mkdir(parents=True,exist_ok=False);save(job/"design.json",entry)
     prepare_native(job/"native",p)
     name="ch02ten-"+hashlib.sha256(entry["design_id"].encode()).hexdigest()[:12]
-    cmd=["docker","--host",SOCKET,"run","--name",name,"--network","none","--cpus","1","--memory","1g","--user",f"{__import__('os').getuid()}:{__import__('os').getgid()}","-e","HOME=/tmp","-v",f"{job.resolve()}:/work","-w","/work/native",IMAGE,"bash","-c","source /usr/lib/openfoam/openfoam2512/etc/bashrc && blockMesh > ../blockMesh.log 2>&1 && icoFoam > ../icoFoam.log 2>&1"]
+    cmd=["docker","--host",SOCKET,"run","--name",name,"--network","none","--cpus","1","--memory","1g","--user",f"{__import__('os').getuid()}:{__import__('os').getgid()}","-e","HOME=/tmp","-v",f"{job.resolve()}:/work","-w","/work/native",IMAGE,"bash","-c","source /usr/lib/openfoam/openfoam2512/etc/bashrc && cd /work/native && blockMesh > ../blockMesh.log 2>&1 && icoFoam > ../icoFoam.log 2>&1"]
     save(job/"execution.json",{"command":cmd,"image":IMAGE,"start_unix":time.time(),"producer":"unmodified OpenCFD icoFoam","numerical_validation":False})
     state={"design_id":entry["design_id"],"status":"running","container":name};save(status,state)
     try:
@@ -229,8 +231,18 @@ def main():
         r["grading_template"]=json.loads(g.read_text());records.append(r)
     assert len(records)==63 and sum(len(r["proposed_cases"]) for r in records)==630
     ready=[(r,e) for r in records for e in r["proposed_cases"] if "prescription" in e]
-    if not args.execute:print(json.dumps({"numerically_specified":len(ready),"remaining_design_work":630-len(ready),"executed":0}));return
-    raise SystemExit("Batch execution is intentionally locked until the complete design phase is resolved. No solver launched.")
+    if not args.execute:print(json.dumps({"native_ready":len(ready),"other_producer_work":630-len(ready),"executed":0}));return
+    freeze=args.snapshot/'qbank/02-fluid-mechanics/author/ten-case-candidates/design-freeze.json'
+    frozen=json.loads(freeze.read_text())
+    assert frozen['design_complete'] and len(frozen['designs'])==63
+    for rel,want in frozen['designs'].items():
+        assert hashlib.sha256((args.snapshot/rel).read_text().encode()).hexdigest()==want,rel
+    # Fixed six-job queue; 6 CPUs and <=6 GiB, no automatic restart/continuation.
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor(max_workers=6) as pool:
+        states=list(pool.map(lambda x:run_one(args.root,*x),ready))
+    save(args.root/'maintenance/native-closed-cavity-summary.json',states)
+    print(json.dumps({'completed':sum(s['status']=='unvalidated_candidate' for s in states),'needs_attention':sum(s['status']=='needs_attention' for s in states)}))
 
 
 if __name__=="__main__":main()

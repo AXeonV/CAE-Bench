@@ -13,6 +13,7 @@ from pathlib import Path
 
 from scenarios import FAMILIES, family_for
 from coverage import matrix, representation_targets
+from detailed_design import make_detailed, observation_requests
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
@@ -142,7 +143,7 @@ def analysis_kind(section,slug):
     if "statistics" in slug:return "discrete_statistics"
     if "steady" in slug or section.startswith("2.10-") or slug in ("liquid-lubrication","nonnewtonian-film"):
         return "steady"
-    if "rans" in slug and "urans" not in slug:return "steady"
+    if "rans" in slug.split('-') and "urans" not in slug.split('-'):return "steady"
     return "transient"
 
 
@@ -183,6 +184,7 @@ def main():
         model = re.findall(r"fluid-[a-z0-9-]+-v1", data)
         dim = 3 if slug.endswith("3d") or slug in ("thermal-generalized-newtonian","transition-gas","free-molecular") else 2
         entries = []
+        grading=__import__('json').loads((task_dir/'author/grading-template.json').read_text(encoding='utf-8'))
         for i,(key,title,drive,coverage) in enumerate(FAMILIES[family]):
             drive,coverage=resolve_scenario(family,i,slug,kind,drive,coverage)
             entry = {
@@ -197,10 +199,9 @@ def main():
             if slug == "thermal-viscoelastic":
                 entry["thermal_design"] = "初始T和全部壁温均300K；从起点以后按分段线性历史将两片相对壁分别升/降至305K/295K，其余壁300K。入口例同步给定入口温度；所有热边界按DATA完整分区。避开多迹角点的点观测。温度移位同时作用于两黏度及松弛时间。"
             if "statistics" in slug:
-                entry["statistics_design"] = "按本题DATA明确统计起止与等步长样本；同一单元先空间平均，再做等权样本统计；数值窗口尚待工况冻结，不能报告为已有统计参考。"
+                entry["statistics_design"] = "统计窗口[0.5,1]s、步长0.025s、21个等权样本；同一单元先空间平均，再做时间统计。无已有统计参考。"
             if family == "capillary":
-                entry["contact_angle_proposal_rad"] = [1.5707963267948966,1.0471975511965976,2.0943951023931953,0.7853981633974483,1.0471975511965976,1.5707963267948966,1.5707963267948966,2.0943951023931953,1.0471975511965976,1.5707963267948966][i]
-                if i in (5,6): entry["material_design"] = "分别选择高黏度对比的毛细阻尼及有明显密度对比的重力/毛细竞争；数值比例随物理滑移长度、毛细时间和Bond数共同冻结，不能仅改变数值凑例。"
+                if i in (5,6): entry["material_design"] = "物性、物理滑移长度和重力历史见detailed_spec；分别考察黏性毛细松弛及密度对比下的重力/毛细竞争，实际状态尚未计算。"
             if family == "nonnewtonian_film" and i in (1,2):
                 entry["rheology_coverage_design"] = "选定间隙、压差、壁速与Carreau时间常数，使跨隙局部lambda*gamma覆盖低剪切、过渡及高剪切区；完整BVP生产后才能确认实际覆盖，不以名义剪切率代替。"
             if family == "euler_equilibrium" and i in (3,9):
@@ -213,6 +214,16 @@ def main():
                 entry["provenance"]["producer_compatibility"] = "icoFoam constant-density laminar incompressible transient; closed fixed no-slip walls"
                 entry["provenance"]["candidate_solver_sources"] = ["openfoam"]
                 entry["remaining_before_execution"] = ["生成自包含输入和原生配置；完成映射代码后实际执行"]
+            entry['detailed_spec']=make_detailed({'family':family,'task':slug,'analysis_kind':kind},entry,i,data)
+            if family=='capillary':entry['contact_angle_rad']=entry['detailed_spec']['parameters']['contact_angle']['value']
+            if family=='closed_flow' and i==1:entry['title']='带偏心方柱直通道'
+            if family=='closed_flow' and i==7:entry.update(title='直通道',driving_and_state='严格正流量和后续非均匀shape；滑移侧壁；相容穿流初速度')
+            if family=='generalized_flow' and i==2 and kind!='steady':entry.update(title='Cross直通道',driving_and_state='严格正流量和后续非均匀shape；滑移侧壁；相容穿流初速度')
+            if family=='generalized_flow' and i==3:entry['title']='带偏心方柱的Carreau双壁腔'
+            entry['detailed_spec']['observation_requests']=observation_requests({'family':family,'question_path':task_dir.relative_to(ROOT).as_posix()},entry,grading)
+            entry['status']='numerical_experiment_specified_pending_producer_and_input_assembly'
+            if 'prescription' in entry:entry['status']='numerically_specified_pending_native_adapter'
+            entry['remaining_before_execution']=['确认现成生产者与本题闭合及边界等价','按detailed_spec生成实际自包含输入、原生配置并执行']
             entries.append(entry)
         record = {
             "batch":BATCH, "question":number, "task":slug,
@@ -231,7 +242,7 @@ def main():
         }
         dest=task_dir/"author"/BATCH/"design.json"
         write(dest,record)
-        records.append({"question":number,"path":dest.relative_to(ROOT).as_posix(),"family":family,"cases":len(entries), "numerically_specified":sum("prescription" in e for e in entries),"coverage_targets":len(record["coverage_matrix"]),"unassigned_targets":sum(not x["assigned_design_ids"] for x in record["coverage_matrix"]),"sha256":sha(dest)})
+        records.append({"question":number,"path":dest.relative_to(ROOT).as_posix(),"family":family,"cases":len(entries), "detailed_specified":sum('detailed_spec' in e for e in entries),"native_prescribed":sum("prescription" in e for e in entries),"numerically_specified":sum('detailed_spec' in e for e in entries),"coverage_targets":len(record["coverage_matrix"]),"unassigned_targets":sum(not x["assigned_design_ids"] for x in record["coverage_matrix"]),"sha256":sha(dest)})
     records.sort(key=lambda r:tuple(map(int,r["question"].split('.'))))
     assert len(records)==63 and sum(r["cases"] for r in records)==630
     index = {
@@ -239,12 +250,13 @@ def main():
         "branch":"cases/chapter-02-ten-reference-candidates",
         "text_hash_format":"sha256_of_utf8_text_with_lf_newlines",
         "excluded_questions":["2.1.1","2.1.3"], "hf_read_revision":HF_REVISION,
-        "scope":{"questions":63,"scenario_proposals":630,"numerically_specified":sum(r["numerically_specified"] for r in records),"computed":0,"validated":0},
+        "scope":{"questions":63,"scenario_proposals":630,"numerically_specified":sum(r["numerically_specified"] for r in records)},
+        "execution_status":"Design inventory only. Actual computation status is maintained separately in execution-summary.json and EXECUTION.md; do not infer it from design entry status.",
         "policy":{"all_designs_before_batch_execution":True,"numerical_validation":False,"hf_writes":False,"formal_selection_changes":False,"benchmark":False,"custom_physics_extensions":False,"unmatched_producers":"hold_and_search_existing_implementation"},
         "sources":SOURCES,"questions":records,
     }
     write(HERE/"index.json",index)
-    lines=["# 第二章每题十例：设计草案清单", "", "排除2.1.1、2.1.3。以下是630项工况提案，不是630个已制作输入，更不是已计算参考。", "", "数值参数、现成生产者匹配和转换尚未完成的条目明确暂缓。全部工况完成设计前不启动批量计算；不恢复旧FOAMBench任务。", "", "| 题号 | 工况族 | 草案 | 数值参数已固定 | 逐例设计 |", "|---|---|---:|---:|---|"]
+    lines=["# 第二章每题十例：详细设计清单", "", "排除2.1.1、2.1.3。630项均已记录数值实验定义，尚不是630个实际输入包或630份参考。", "", "生产者匹配和输入装配状态单独记录；未匹配条目暂缓，不恢复旧FOAMBench任务。", "", "| 题号 | 工况族 | 工况数 | 详细数值设计 | 逐例设计 |", "|---|---|---:|---:|---|"]
     for r in records:
         rel=Path(r["path"]).relative_to("qbank/02-fluid-mechanics").as_posix()
         lines.append(f"| {r['question']} | {r['family']} | {r['cases']} | {r['numerically_specified']} | [design.json](../../{rel}) |")
@@ -254,7 +266,7 @@ def main():
         rel=Path(r["path"]).relative_to("qbank/02-fluid-mechanics").as_posix()
         coverage_lines.append(f"| {r['question']} | {r['family']} | {r['coverage_targets']} | {r['unassigned_targets']} | [矩阵](../../{rel}) |")
     coverage_lines += ["", "## 逐题设计分配", "", "所有条目仍是planned状态；特别是剪切率区间、马赫数、无回流、全湿、双曲稳定等条件，后续必须由具体输入与生产者记录支撑，不能由本表直接宣称满足。", ""]
-    all_cases=["# 第二章630项工况草案", "", "这是设计草案，尚未全部固定数值或生成输入，不是已计算case清单。", ""]
+    all_cases=["# 第二章630项工况设计", "", "全部SI参数、几何、初边值、源、时间与观测定义见逐题design.json的detailed_spec。本表是可读意图索引；实际几何和数值以detailed_spec为准。设计不等于实际输入包或已计算参考。", ""]
     for r in records:
         rec=__import__('json').loads((ROOT/r["path"]).read_text(encoding="utf-8"))
         coverage_lines += [f"### {r['question']} {rec['task']}", "", "| 考察内容 | 分配至草案序号 | 状态 |", "|---|---|---|"]

@@ -5,7 +5,7 @@
   "question_path": "qbank/02-fluid-mechanics/2.11-memory-fluids/viscoelastic-transient",
   "model": "fluid-reduced-viscoelastic-transient-v1",
   "family": "viscoelastic",
-  "analysis_kind": "steady",
+  "analysis_kind": "transient",
   "document_sha256": {
     "instruction.md": "0eaff17ef1c587e4f1c6def748dd13e3f2952f2c079be82c5cd6a5990c50dac9",
     "DATA.md": "a24cd7a52c3bdb744afb0710d0275a8398afd0e6f9833816c1f5dfd152b529a8",
@@ -34,12 +34,257 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
-      ]
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
+      ],
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            1.0,
+            1.0
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "transient",
+        "parameters": {
+          "density": {
+            "value": 1.0,
+            "unit": "kg/m3"
+          },
+          "solvent_viscosity": {
+            "value": 0.05,
+            "unit": "Pa.s"
+          },
+          "polymer_viscosity": {
+            "value": 0.05,
+            "unit": "Pa.s"
+          },
+          "relaxation_time": {
+            "value": 0.1,
+            "unit": "s"
+          },
+          "reference_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "start_time": {
+            "value": 0.0,
+            "unit": "s"
+          },
+          "end_time": {
+            "value": 1.0,
+            "unit": "s"
+          }
+        },
+        "time_interval_s": [
+          0.0,
+          1.0
+        ],
+        "output_times_s": [
+          0.173,
+          0.397,
+          0.719,
+          1.0
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": false,
+          "corner_refinement_size_m": 0.025,
+          "bulk_size_m": 0.08333333333333333
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {
+          "velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          },
+          "conformation": {
+            "expression": [
+              [
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0
+              ]
+            ],
+            "unit": "1",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          }
+        },
+        "sources": {},
+        "boundaries": [
+          {
+            "selection": "complement_of_explicit_mechanical_parts",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  0.0,
+                  0.0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          },
+          {
+            "selection": "y=Ly",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  "R",
+                  0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "R"
+              }
+            }
+          }
+        ],
+        "pressure_convention": "absolute Pa; closed case volume mean=100000 Pa; open case fixed by full outlet traction, no extra mean constraint",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "memory_closure_constraints": [
+          "Do not add conformation/stress/structure diffusion.",
+          "Supply true inflow memory; natural transport outflow; no backflow branch is included.",
+          "Conformation is SPD, 2D block with Azz=1; polymer stress is reconstructed with the DATA constitutive law."
+        ],
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "velocity",
+            "unit": "m/s",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "polymer_stress",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "conformation",
+            "unit": "1",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "traction",
+            "unit": "Pa",
+            "support": "real external boundary entities excluding corner-adjacent faces",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          }
+        ]
+      }
     },
     {
       "design_id": "ch02-2-11-2-02-deep",
@@ -56,12 +301,257 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
-      ]
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
+      ],
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            1.0,
+            4.0
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "transient",
+        "parameters": {
+          "density": {
+            "value": 1.0,
+            "unit": "kg/m3"
+          },
+          "solvent_viscosity": {
+            "value": 0.05,
+            "unit": "Pa.s"
+          },
+          "polymer_viscosity": {
+            "value": 0.05,
+            "unit": "Pa.s"
+          },
+          "relaxation_time": {
+            "value": 0.1,
+            "unit": "s"
+          },
+          "reference_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "start_time": {
+            "value": 0.0,
+            "unit": "s"
+          },
+          "end_time": {
+            "value": 1.0,
+            "unit": "s"
+          }
+        },
+        "time_interval_s": [
+          0.0,
+          1.0
+        ],
+        "output_times_s": [
+          0.173,
+          0.397,
+          0.719,
+          1.0
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": false,
+          "corner_refinement_size_m": 0.025,
+          "bulk_size_m": 0.08333333333333333
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {
+          "velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          },
+          "conformation": {
+            "expression": [
+              [
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0
+              ]
+            ],
+            "unit": "1",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          }
+        },
+        "sources": {},
+        "boundaries": [
+          {
+            "selection": "complement_of_explicit_mechanical_parts",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  0.0,
+                  0.0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          },
+          {
+            "selection": "y=Ly",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  "R",
+                  0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "R"
+              }
+            }
+          }
+        ],
+        "pressure_convention": "absolute Pa; closed case volume mean=100000 Pa; open case fixed by full outlet traction, no extra mean constraint",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "memory_closure_constraints": [
+          "Do not add conformation/stress/structure diffusion.",
+          "Supply true inflow memory; natural transport outflow; no backflow branch is included.",
+          "Conformation is SPD, 2D block with Azz=1; polymer stress is reconstructed with the DATA constitutive law."
+        ],
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "velocity",
+            "unit": "m/s",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "polymer_stress",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "conformation",
+            "unit": "1",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "traction",
+            "unit": "Pa",
+            "support": "real external boundary entities excluding corner-adjacent faces",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          }
+        ]
+      }
     },
     {
       "design_id": "ch02-2-11-2-03-opposed",
@@ -78,12 +568,272 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
-      ]
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
+      ],
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            3.0,
+            1.0
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "transient",
+        "parameters": {
+          "density": {
+            "value": 1.0,
+            "unit": "kg/m3"
+          },
+          "solvent_viscosity": {
+            "value": 0.05,
+            "unit": "Pa.s"
+          },
+          "polymer_viscosity": {
+            "value": 0.05,
+            "unit": "Pa.s"
+          },
+          "relaxation_time": {
+            "value": 0.1,
+            "unit": "s"
+          },
+          "reference_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "start_time": {
+            "value": 0.0,
+            "unit": "s"
+          },
+          "end_time": {
+            "value": 1.0,
+            "unit": "s"
+          }
+        },
+        "time_interval_s": [
+          0.0,
+          1.0
+        ],
+        "output_times_s": [
+          0.173,
+          0.397,
+          0.719,
+          1.0
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": false,
+          "corner_refinement_size_m": 0.025,
+          "bulk_size_m": 0.08333333333333333
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {
+          "velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          },
+          "conformation": {
+            "expression": [
+              [
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0
+              ]
+            ],
+            "unit": "1",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          }
+        },
+        "sources": {},
+        "boundaries": [
+          {
+            "selection": "complement_of_explicit_mechanical_parts",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  0.0,
+                  0.0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          },
+          {
+            "selection": "y=Ly",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  "R",
+                  0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "R"
+              }
+            }
+          },
+          {
+            "selection": "y=0",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  "-.5*R",
+                  0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "R"
+              }
+            }
+          }
+        ],
+        "pressure_convention": "absolute Pa; closed case volume mean=100000 Pa; open case fixed by full outlet traction, no extra mean constraint",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "memory_closure_constraints": [
+          "Do not add conformation/stress/structure diffusion.",
+          "Supply true inflow memory; natural transport outflow; no backflow branch is included.",
+          "Conformation is SPD, 2D block with Azz=1; polymer stress is reconstructed with the DATA constitutive law."
+        ],
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "velocity",
+            "unit": "m/s",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "polymer_stress",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "conformation",
+            "unit": "1",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "traction",
+            "unit": "Pa",
+            "support": "real external boundary entities excluding corner-adjacent faces",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          }
+        ]
+      }
     },
     {
       "design_id": "ch02-2-11-2-04-split",
@@ -100,12 +850,272 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
-      ]
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
+      ],
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            2.0,
+            1.0
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "transient",
+        "parameters": {
+          "density": {
+            "value": 1.0,
+            "unit": "kg/m3"
+          },
+          "solvent_viscosity": {
+            "value": 0.05,
+            "unit": "Pa.s"
+          },
+          "polymer_viscosity": {
+            "value": 0.05,
+            "unit": "Pa.s"
+          },
+          "relaxation_time": {
+            "value": 0.1,
+            "unit": "s"
+          },
+          "reference_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "start_time": {
+            "value": 0.0,
+            "unit": "s"
+          },
+          "end_time": {
+            "value": 1.0,
+            "unit": "s"
+          }
+        },
+        "time_interval_s": [
+          0.0,
+          1.0
+        ],
+        "output_times_s": [
+          0.173,
+          0.397,
+          0.719,
+          1.0
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": false,
+          "corner_refinement_size_m": 0.025,
+          "bulk_size_m": 0.08333333333333333
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {
+          "velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          },
+          "conformation": {
+            "expression": [
+              [
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0
+              ]
+            ],
+            "unit": "1",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          }
+        },
+        "sources": {},
+        "boundaries": [
+          {
+            "selection": "complement_of_explicit_mechanical_parts",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  0.0,
+                  0.0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          },
+          {
+            "selection": "y=Ly,x<Lx/2",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  "R",
+                  0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "R"
+              }
+            }
+          },
+          {
+            "selection": "y=Ly,x>Lx/2",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  "-R",
+                  0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "R"
+              }
+            }
+          }
+        ],
+        "pressure_convention": "absolute Pa; closed case volume mean=100000 Pa; open case fixed by full outlet traction, no extra mean constraint",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "memory_closure_constraints": [
+          "Do not add conformation/stress/structure diffusion.",
+          "Supply true inflow memory; natural transport outflow; no backflow branch is included.",
+          "Conformation is SPD, 2D block with Azz=1; polymer stress is reconstructed with the DATA constitutive law."
+        ],
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "velocity",
+            "unit": "m/s",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "polymer_stress",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "conformation",
+            "unit": "1",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "traction",
+            "unit": "Pa",
+            "support": "real external boundary entities excluding corner-adjacent faces",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          }
+        ]
+      }
     },
     {
       "design_id": "ch02-2-11-2-05-obstacle",
@@ -122,12 +1132,272 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
-      ]
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
+      ],
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            1.0,
+            1.0
+          ],
+          "operation": "box",
+          "holes": [
+            {
+              "operation": "box",
+              "xy_corners": [
+                [
+                  0.4,
+                  0.3
+                ],
+                [
+                  0.6,
+                  0.5
+                ]
+              ],
+              "span_z": null
+            }
+          ],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "transient",
+        "parameters": {
+          "density": {
+            "value": 1.0,
+            "unit": "kg/m3"
+          },
+          "solvent_viscosity": {
+            "value": 0.05,
+            "unit": "Pa.s"
+          },
+          "polymer_viscosity": {
+            "value": 0.05,
+            "unit": "Pa.s"
+          },
+          "relaxation_time": {
+            "value": 0.1,
+            "unit": "s"
+          },
+          "reference_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "start_time": {
+            "value": 0.0,
+            "unit": "s"
+          },
+          "end_time": {
+            "value": 1.0,
+            "unit": "s"
+          }
+        },
+        "time_interval_s": [
+          0.0,
+          1.0
+        ],
+        "output_times_s": [
+          0.173,
+          0.397,
+          0.719,
+          1.0
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": false,
+          "corner_refinement_size_m": 0.025,
+          "bulk_size_m": 0.08333333333333333
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {
+          "velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          },
+          "conformation": {
+            "expression": [
+              [
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0
+              ]
+            ],
+            "unit": "1",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          }
+        },
+        "sources": {},
+        "boundaries": [
+          {
+            "selection": "complement_of_explicit_mechanical_parts",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  0.0,
+                  0.0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          },
+          {
+            "selection": "y=Ly",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  "R",
+                  0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "R"
+              }
+            }
+          }
+        ],
+        "pressure_convention": "absolute Pa; closed case volume mean=100000 Pa; open case fixed by full outlet traction, no extra mean constraint",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "memory_closure_constraints": [
+          "Do not add conformation/stress/structure diffusion.",
+          "Supply true inflow memory; natural transport outflow; no backflow branch is included.",
+          "Conformation is SPD, 2D block with Azz=1; polymer stress is reconstructed with the DATA constitutive law."
+        ],
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "velocity",
+            "unit": "m/s",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "polymer_stress",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "conformation",
+            "unit": "1",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "traction",
+            "unit": "Pa",
+            "support": "real external boundary entities excluding corner-adjacent faces",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          }
+        ]
+      }
     },
     {
       "design_id": "ch02-2-11-2-06-side_drive",
@@ -144,12 +1414,272 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
-      ]
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
+      ],
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            1.0,
+            1.0
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "transient",
+        "parameters": {
+          "density": {
+            "value": 1.0,
+            "unit": "kg/m3"
+          },
+          "solvent_viscosity": {
+            "value": 0.05,
+            "unit": "Pa.s"
+          },
+          "polymer_viscosity": {
+            "value": 0.05,
+            "unit": "Pa.s"
+          },
+          "relaxation_time": {
+            "value": 0.1,
+            "unit": "s"
+          },
+          "reference_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "start_time": {
+            "value": 0.0,
+            "unit": "s"
+          },
+          "end_time": {
+            "value": 1.0,
+            "unit": "s"
+          }
+        },
+        "time_interval_s": [
+          0.0,
+          1.0
+        ],
+        "output_times_s": [
+          0.173,
+          0.397,
+          0.719,
+          1.0
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": false,
+          "corner_refinement_size_m": 0.025,
+          "bulk_size_m": 0.08333333333333333
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {
+          "velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          },
+          "conformation": {
+            "expression": [
+              [
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0
+              ]
+            ],
+            "unit": "1",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          }
+        },
+        "sources": {},
+        "boundaries": [
+          {
+            "selection": "complement_of_explicit_mechanical_parts",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  0.0,
+                  0.0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          },
+          {
+            "selection": "y=Ly",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  "R",
+                  0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "R"
+              }
+            }
+          },
+          {
+            "selection": "x=Lx",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  0,
+                  ".5*R"
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "R"
+              }
+            }
+          }
+        ],
+        "pressure_convention": "absolute Pa; closed case volume mean=100000 Pa; open case fixed by full outlet traction, no extra mean constraint",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "memory_closure_constraints": [
+          "Do not add conformation/stress/structure diffusion.",
+          "Supply true inflow memory; natural transport outflow; no backflow branch is included.",
+          "Conformation is SPD, 2D block with Azz=1; polymer stress is reconstructed with the DATA constitutive law."
+        ],
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "velocity",
+            "unit": "m/s",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "polymer_stress",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "conformation",
+            "unit": "1",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "traction",
+            "unit": "Pa",
+            "support": "real external boundary entities excluding corner-adjacent faces",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          }
+        ]
+      }
     },
     {
       "design_id": "ch02-2-11-2-07-inlet_memory",
@@ -166,17 +1696,280 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
-      ]
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
+      ],
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            1.0,
+            1.0
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "transient",
+        "parameters": {
+          "density": {
+            "value": 1.0,
+            "unit": "kg/m3"
+          },
+          "solvent_viscosity": {
+            "value": 0.05,
+            "unit": "Pa.s"
+          },
+          "polymer_viscosity": {
+            "value": 0.05,
+            "unit": "Pa.s"
+          },
+          "relaxation_time": {
+            "value": 0.1,
+            "unit": "s"
+          },
+          "reference_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "start_time": {
+            "value": 0.0,
+            "unit": "s"
+          },
+          "end_time": {
+            "value": 1.0,
+            "unit": "s"
+          }
+        },
+        "time_interval_s": [
+          0.0,
+          1.0
+        ],
+        "output_times_s": [
+          0.173,
+          0.397,
+          0.719,
+          1.0
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": false,
+          "corner_refinement_size_m": 0.025,
+          "bulk_size_m": 0.08333333333333333
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {
+          "velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          },
+          "conformation": {
+            "expression": [
+              [
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0
+              ]
+            ],
+            "unit": "1",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          }
+        },
+        "sources": {},
+        "boundaries": [
+          {
+            "selection": "complement_of_explicit_mechanical_parts",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  0.0,
+                  0.0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          },
+          {
+            "selection": "x=0",
+            "operator": "velocity_inlet",
+            "data": {
+              "value": {
+                "expression": [
+                  ".1*R*4*Y*(1-Y)",
+                  0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "R"
+              },
+              "conformation": {
+                "expression": "identity_2",
+                "unit": "1",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          },
+          {
+            "selection": "x=Lx",
+            "operator": "traction_outlet",
+            "data": {
+              "value": {
+                "expression": "-100000*n",
+                "unit": "Pa",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          }
+        ],
+        "pressure_convention": "absolute Pa; closed case volume mean=100000 Pa; open case fixed by full outlet traction, no extra mean constraint",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "memory_closure_constraints": [
+          "Do not add conformation/stress/structure diffusion.",
+          "Supply true inflow memory; natural transport outflow; no backflow branch is included.",
+          "Conformation is SPD, 2D block with Azz=1; polymer stress is reconstructed with the DATA constitutive law."
+        ],
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "velocity",
+            "unit": "m/s",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "polymer_stress",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "conformation",
+            "unit": "1",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "traction",
+            "unit": "Pa",
+            "support": "real external boundary entities excluding corner-adjacent faces",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          }
+        ]
+      }
     },
     {
       "design_id": "ch02-2-11-2-08-prestrained_or_unequal",
       "title": "深腔",
-      "driving_and_state": "不等速反向壁、无物理初态",
+      "driving_and_state": "非单位SPD构象初态与不等速反向壁；二维Azz恒为1",
       "difference_and_coverage": "真实聚合物预应变或构象各向异性",
       "spatial_dimension": 2,
       "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
@@ -188,17 +1981,277 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
-      ]
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
+      ],
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            1.0,
+            2.0
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "transient",
+        "parameters": {
+          "density": {
+            "value": 1.0,
+            "unit": "kg/m3"
+          },
+          "solvent_viscosity": {
+            "value": 0.05,
+            "unit": "Pa.s"
+          },
+          "polymer_viscosity": {
+            "value": 0.05,
+            "unit": "Pa.s"
+          },
+          "relaxation_time": {
+            "value": 0.1,
+            "unit": "s"
+          },
+          "reference_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "start_time": {
+            "value": 0.0,
+            "unit": "s"
+          },
+          "end_time": {
+            "value": 1.0,
+            "unit": "s"
+          }
+        },
+        "time_interval_s": [
+          0.0,
+          1.0
+        ],
+        "output_times_s": [
+          0.173,
+          0.397,
+          0.719,
+          1.0
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": false,
+          "corner_refinement_size_m": 0.025,
+          "bulk_size_m": 0.08333333333333333
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {
+          "velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          },
+          "conformation": {
+            "expression": [
+              [
+                1.1,
+                0.02
+              ],
+              [
+                0.02,
+                0.95
+              ]
+            ],
+            "unit": "1",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          }
+        },
+        "sources": {},
+        "boundaries": [
+          {
+            "selection": "complement_of_explicit_mechanical_parts",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  0.0,
+                  0.0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          },
+          {
+            "selection": "y=Ly",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  "R",
+                  0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "R"
+              }
+            }
+          },
+          {
+            "selection": "y=0",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  "-.5*R",
+                  0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "R"
+              }
+            }
+          }
+        ],
+        "pressure_convention": "absolute Pa; closed case volume mean=100000 Pa; open case fixed by full outlet traction, no extra mean constraint",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "memory_closure_constraints": [
+          "Do not add conformation/stress/structure diffusion.",
+          "Supply true inflow memory; natural transport outflow; no backflow branch is included.",
+          "Conformation is SPD, 2D block with Azz=1; polymer stress is reconstructed with the DATA constitutive law."
+        ],
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "velocity",
+            "unit": "m/s",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "polymer_stress",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "conformation",
+            "unit": "1",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "traction",
+            "unit": "Pa",
+            "support": "real external boundary entities excluding corner-adjacent faces",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          }
+        ]
+      }
     },
     {
       "design_id": "ch02-2-11-2-09-relaxation_or_segments",
       "title": "方腔",
-      "driving_and_state": "三段顶壁的定常驱动",
+      "driving_and_state": "壁速撤去后的弹性松弛，保留物理构象初态",
       "difference_and_coverage": "松弛或多剪切层",
       "spatial_dimension": 2,
       "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
@@ -210,17 +2263,262 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
-      ]
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
+      ],
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            1.0,
+            1.0
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "transient",
+        "parameters": {
+          "density": {
+            "value": 1.0,
+            "unit": "kg/m3"
+          },
+          "solvent_viscosity": {
+            "value": 0.05,
+            "unit": "Pa.s"
+          },
+          "polymer_viscosity": {
+            "value": 0.05,
+            "unit": "Pa.s"
+          },
+          "relaxation_time": {
+            "value": 0.1,
+            "unit": "s"
+          },
+          "reference_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "start_time": {
+            "value": 0.0,
+            "unit": "s"
+          },
+          "end_time": {
+            "value": 1.0,
+            "unit": "s"
+          }
+        },
+        "time_interval_s": [
+          0.0,
+          1.0
+        ],
+        "output_times_s": [
+          0.173,
+          0.397,
+          0.719,
+          1.0
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": false,
+          "corner_refinement_size_m": 0.025,
+          "bulk_size_m": 0.08333333333333333
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {
+          "velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          },
+          "conformation": {
+            "expression": [
+              [
+                1.1,
+                0.02
+              ],
+              [
+                0.02,
+                0.95
+              ]
+            ],
+            "unit": "1",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          }
+        },
+        "sources": {},
+        "boundaries": [
+          {
+            "selection": "complement_of_explicit_mechanical_parts",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  0.0,
+                  0.0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          },
+          {
+            "selection": "y=Ly",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  "P",
+                  0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "R"
+              }
+            }
+          }
+        ],
+        "pressure_convention": "absolute Pa; closed case volume mean=100000 Pa; open case fixed by full outlet traction, no extra mean constraint",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "memory_closure_constraints": [
+          "Do not add conformation/stress/structure diffusion.",
+          "Supply true inflow memory; natural transport outflow; no backflow branch is included.",
+          "Conformation is SPD, 2D block with Azz=1; polymer stress is reconstructed with the DATA constitutive law."
+        ],
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "velocity",
+            "unit": "m/s",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "polymer_stress",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "conformation",
+            "unit": "1",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "traction",
+            "unit": "Pa",
+            "support": "real external boundary entities excluding corner-adjacent faces",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          }
+        ]
+      }
     },
     {
       "design_id": "ch02-2-11-2-10-reversal_or_offcentre",
       "title": "非对称腔",
-      "driving_and_state": "偏心内孔附近的不等速定常壁驱动",
+      "driving_and_state": "分段线性壁速反转，保留物理构象与速度初态",
       "difference_and_coverage": "弹性记忆或非对称拉伸",
       "spatial_dimension": 2,
       "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
@@ -232,12 +2530,257 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
-      ]
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
+      ],
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            1.0,
+            1.0
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "transient",
+        "parameters": {
+          "density": {
+            "value": 1.0,
+            "unit": "kg/m3"
+          },
+          "solvent_viscosity": {
+            "value": 0.05,
+            "unit": "Pa.s"
+          },
+          "polymer_viscosity": {
+            "value": 0.05,
+            "unit": "Pa.s"
+          },
+          "relaxation_time": {
+            "value": 0.1,
+            "unit": "s"
+          },
+          "reference_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "start_time": {
+            "value": 0.0,
+            "unit": "s"
+          },
+          "end_time": {
+            "value": 1.0,
+            "unit": "s"
+          }
+        },
+        "time_interval_s": [
+          0.0,
+          1.0
+        ],
+        "output_times_s": [
+          0.173,
+          0.397,
+          0.719,
+          1.0
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": false,
+          "corner_refinement_size_m": 0.025,
+          "bulk_size_m": 0.08333333333333333
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {
+          "velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          },
+          "conformation": {
+            "expression": [
+              [
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0
+              ]
+            ],
+            "unit": "1",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          }
+        },
+        "sources": {},
+        "boundaries": [
+          {
+            "selection": "complement_of_explicit_mechanical_parts",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  0.0,
+                  0.0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          },
+          {
+            "selection": "y=Ly",
+            "operator": "velocity_wall",
+            "data": {
+              "value": {
+                "expression": [
+                  "V",
+                  0
+                ],
+                "unit": "m/s",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "R"
+              }
+            }
+          }
+        ],
+        "pressure_convention": "absolute Pa; closed case volume mean=100000 Pa; open case fixed by full outlet traction, no extra mean constraint",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "memory_closure_constraints": [
+          "Do not add conformation/stress/structure diffusion.",
+          "Supply true inflow memory; natural transport outflow; no backflow branch is included.",
+          "Conformation is SPD, 2D block with Azz=1; polymer stress is reconstructed with the DATA constitutive law."
+        ],
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "velocity",
+            "unit": "m/s",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "polymer_stress",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "conformation",
+            "unit": "1",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "traction",
+            "unit": "Pa",
+            "support": "real external boundary entities excluding corner-adjacent faces",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          }
+        ]
+      }
     }
   ],
   "limitations_and_model_checks": [

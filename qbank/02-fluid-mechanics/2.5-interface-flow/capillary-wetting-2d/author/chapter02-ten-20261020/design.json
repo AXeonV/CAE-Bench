@@ -22,8 +22,8 @@
     {
       "design_id": "ch02-2-5-5-01-sessile_equilibrium",
       "title": "方盒底壁",
-      "driving_and_state": "与指定接触角相容的静态液滴",
-      "difference_and_coverage": "Laplace压差及压力规范",
+      "driving_and_state": "水平平界面与90度接触角",
+      "difference_and_coverage": "零曲率静止基线及压力规范",
       "spatial_dimension": 2,
       "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
       "provenance": {
@@ -34,19 +34,231 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
       ],
-      "contact_angle_proposal_rad": 1.5707963267948966
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            0.01,
+            0.01
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "transient",
+        "parameters": {
+          "time_start": {
+            "value": 0.0,
+            "unit": "s"
+          },
+          "time_end": {
+            "value": 0.003,
+            "unit": "s"
+          },
+          "density_a": {
+            "value": 1000.0,
+            "unit": "kg/m3"
+          },
+          "viscosity_a": {
+            "value": 0.01,
+            "unit": "Pa.s"
+          },
+          "pressure_reference": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "density_b": {
+            "value": 10.0,
+            "unit": "kg/m3"
+          },
+          "viscosity_b": {
+            "value": 0.001,
+            "unit": "Pa.s"
+          },
+          "surface_tension": {
+            "value": 0.05,
+            "unit": "N/m"
+          },
+          "contact_angle": {
+            "value": 1.5707963267948966,
+            "unit": "rad"
+          },
+          "slip_length": {
+            "value": 2e-05,
+            "unit": "m"
+          }
+        },
+        "time_interval_s": [
+          0.0,
+          0.003
+        ],
+        "output_times_s": [
+          0.000519,
+          0.001191,
+          0.002157,
+          0.003
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": true,
+          "corner_refinement_size_m": 0.00025,
+          "bulk_size_m": 0.0008333333333333334
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {
+          "velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          },
+          "alpha": {
+            "expression": "mesh-conforming initial_phase_geometry; a-cell=1, b-cell=0",
+            "unit": "1",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          }
+        },
+        "sources": {
+          "acceleration": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s2",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          }
+        },
+        "boundaries": [
+          {
+            "selection": "all",
+            "operator": "wall",
+            "data": {
+              "mechanical": "navier_wetting"
+            }
+          }
+        ],
+        "pressure_convention": "exactly the task DATA; no output re-zeroing unless the declared gauge requires it",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "initial_phase_geometry": {
+          "kind": "flat_layer",
+          "interface_y_m": 0.004,
+          "phase_a": "y<interface_y",
+          "contact_angle_rad": 1.5707963267948966
+        },
+        "initial_alpha_semantics": "Pure 0/1 per supplied initial phase cell; actual interface is the union of these cell faces. An analytic mask is a geometry-construction recipe, not an extra subcell interface. Phase-cell conforming meshing must retain the listed contact/interface construction.",
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "alpha",
+            "unit": "1",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.005,
+              "rtol": 0.03
+            }
+          },
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 1.0,
+              "rtol": 0.03,
+              "reference_offset": {
+                "parameter": "pressure_reference"
+              }
+            }
+          },
+          {
+            "quantity": "velocity",
+            "unit": "m/s",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.001,
+              "rtol": 0.03
+            }
+          }
+        ]
+      },
+      "contact_angle_rad": 1.5707963267948966
     },
     {
       "design_id": "ch02-2-5-5-02-spreading",
       "title": "宽盒底壁",
-      "driving_and_state": "初滴角大于静态接触角",
-      "difference_and_coverage": "润湿铺展与物理滑移",
+      "driving_and_state": "60度相容接触角的增高液体团",
+      "difference_and_coverage": "形状松弛、接触线及物理滑移",
       "spatial_dimension": 2,
       "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
       "provenance": {
@@ -57,19 +269,238 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
       ],
-      "contact_angle_proposal_rad": 1.0471975511965976
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            0.02,
+            0.01
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "transient",
+        "parameters": {
+          "time_start": {
+            "value": 0.0,
+            "unit": "s"
+          },
+          "time_end": {
+            "value": 0.003,
+            "unit": "s"
+          },
+          "density_a": {
+            "value": 1000.0,
+            "unit": "kg/m3"
+          },
+          "viscosity_a": {
+            "value": 0.01,
+            "unit": "Pa.s"
+          },
+          "pressure_reference": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "density_b": {
+            "value": 10.0,
+            "unit": "kg/m3"
+          },
+          "viscosity_b": {
+            "value": 0.001,
+            "unit": "Pa.s"
+          },
+          "surface_tension": {
+            "value": 0.05,
+            "unit": "N/m"
+          },
+          "contact_angle": {
+            "value": 1.0471975511965976,
+            "unit": "rad"
+          },
+          "slip_length": {
+            "value": 2e-05,
+            "unit": "m"
+          }
+        },
+        "time_interval_s": [
+          0.0,
+          0.003
+        ],
+        "output_times_s": [
+          0.000519,
+          0.001191,
+          0.002157,
+          0.003
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": true,
+          "corner_refinement_size_m": 0.00025,
+          "bulk_size_m": 0.0008333333333333334
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {
+          "velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          },
+          "alpha": {
+            "expression": "mesh-conforming initial_phase_geometry; a-cell=1, b-cell=0",
+            "unit": "1",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          }
+        },
+        "sources": {
+          "acceleration": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s2",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          }
+        },
+        "boundaries": [
+          {
+            "selection": "all",
+            "operator": "wall",
+            "data": {
+              "mechanical": "navier_wetting"
+            }
+          }
+        ],
+        "pressure_convention": "exactly the task DATA; no output re-zeroing unless the declared gauge requires it",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "initial_phase_geometry": {
+          "kind": "contact_conforming_polyhedral_cap",
+          "centre_m": [
+            0.01,
+            0
+          ],
+          "base_apothem_m": 0.001,
+          "height_m": 0.00039,
+          "contact_angle_rad": 1.0471975511965976,
+          "azimuth_sides": 2,
+          "side_apothem_at_height": "base_apothem-y*cot(contact_angle)",
+          "definition": "a is inside the frustum, 0<=y<=height; side facets meet the wall at exactly the specified contact angle; the complete a/b interface must be mesh-conforming. No artificial mixed initial alpha."
+        },
+        "initial_alpha_semantics": "Pure 0/1 per supplied initial phase cell; actual interface is the union of these cell faces. An analytic mask is a geometry-construction recipe, not an extra subcell interface. Phase-cell conforming meshing must retain the listed contact/interface construction.",
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "alpha",
+            "unit": "1",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.005,
+              "rtol": 0.03
+            }
+          },
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 1.0,
+              "rtol": 0.03,
+              "reference_offset": {
+                "parameter": "pressure_reference"
+              }
+            }
+          },
+          {
+            "quantity": "velocity",
+            "unit": "m/s",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.001,
+              "rtol": 0.03
+            }
+          }
+        ]
+      },
+      "contact_angle_rad": 1.0471975511965976
     },
     {
       "design_id": "ch02-2-5-5-03-receding",
       "title": "宽盒底壁",
-      "driving_and_state": "初滴角小于静态接触角",
-      "difference_and_coverage": "去润湿回缩",
+      "driving_and_state": "120度相容接触角的低矮液体团",
+      "difference_and_coverage": "非润湿形状松弛；不引入初始角冲突",
       "spatial_dimension": 2,
       "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
       "provenance": {
@@ -80,13 +511,232 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
       ],
-      "contact_angle_proposal_rad": 2.0943951023931953
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            0.02,
+            0.01
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "transient",
+        "parameters": {
+          "time_start": {
+            "value": 0.0,
+            "unit": "s"
+          },
+          "time_end": {
+            "value": 0.003,
+            "unit": "s"
+          },
+          "density_a": {
+            "value": 1000.0,
+            "unit": "kg/m3"
+          },
+          "viscosity_a": {
+            "value": 0.01,
+            "unit": "Pa.s"
+          },
+          "pressure_reference": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "density_b": {
+            "value": 10.0,
+            "unit": "kg/m3"
+          },
+          "viscosity_b": {
+            "value": 0.001,
+            "unit": "Pa.s"
+          },
+          "surface_tension": {
+            "value": 0.05,
+            "unit": "N/m"
+          },
+          "contact_angle": {
+            "value": 2.0943951023931953,
+            "unit": "rad"
+          },
+          "slip_length": {
+            "value": 2e-05,
+            "unit": "m"
+          }
+        },
+        "time_interval_s": [
+          0.0,
+          0.003
+        ],
+        "output_times_s": [
+          0.000519,
+          0.001191,
+          0.002157,
+          0.003
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": true,
+          "corner_refinement_size_m": 0.00025,
+          "bulk_size_m": 0.0008333333333333334
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {
+          "velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          },
+          "alpha": {
+            "expression": "mesh-conforming initial_phase_geometry; a-cell=1, b-cell=0",
+            "unit": "1",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          }
+        },
+        "sources": {
+          "acceleration": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s2",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          }
+        },
+        "boundaries": [
+          {
+            "selection": "all",
+            "operator": "wall",
+            "data": {
+              "mechanical": "navier_wetting"
+            }
+          }
+        ],
+        "pressure_convention": "exactly the task DATA; no output re-zeroing unless the declared gauge requires it",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "initial_phase_geometry": {
+          "kind": "contact_conforming_polyhedral_cap",
+          "centre_m": [
+            0.01,
+            0
+          ],
+          "base_apothem_m": 0.001,
+          "height_m": 0.00020999999999999998,
+          "contact_angle_rad": 2.0943951023931953,
+          "azimuth_sides": 2,
+          "side_apothem_at_height": "base_apothem-y*cot(contact_angle)",
+          "definition": "a is inside the frustum, 0<=y<=height; side facets meet the wall at exactly the specified contact angle; the complete a/b interface must be mesh-conforming. No artificial mixed initial alpha."
+        },
+        "initial_alpha_semantics": "Pure 0/1 per supplied initial phase cell; actual interface is the union of these cell faces. An analytic mask is a geometry-construction recipe, not an extra subcell interface. Phase-cell conforming meshing must retain the listed contact/interface construction.",
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "alpha",
+            "unit": "1",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.005,
+              "rtol": 0.03
+            }
+          },
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 1.0,
+              "rtol": 0.03,
+              "reference_offset": {
+                "parameter": "pressure_reference"
+              }
+            }
+          },
+          {
+            "quantity": "velocity",
+            "unit": "m/s",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.001,
+              "rtol": 0.03
+            }
+          }
+        ]
+      },
+      "contact_angle_rad": 2.0943951023931953
     },
     {
       "design_id": "ch02-2-5-5-04-corner_wetting",
@@ -103,13 +753,230 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
       ],
-      "contact_angle_proposal_rad": 0.7853981633974483
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            0.01,
+            0.01
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "transient",
+        "parameters": {
+          "time_start": {
+            "value": 0.0,
+            "unit": "s"
+          },
+          "time_end": {
+            "value": 0.003,
+            "unit": "s"
+          },
+          "density_a": {
+            "value": 1000.0,
+            "unit": "kg/m3"
+          },
+          "viscosity_a": {
+            "value": 0.01,
+            "unit": "Pa.s"
+          },
+          "pressure_reference": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "density_b": {
+            "value": 10.0,
+            "unit": "kg/m3"
+          },
+          "viscosity_b": {
+            "value": 0.001,
+            "unit": "Pa.s"
+          },
+          "surface_tension": {
+            "value": 0.05,
+            "unit": "N/m"
+          },
+          "contact_angle": {
+            "value": 0.5235987755982988,
+            "unit": "rad"
+          },
+          "slip_length": {
+            "value": 2e-05,
+            "unit": "m"
+          }
+        },
+        "time_interval_s": [
+          0.0,
+          0.003
+        ],
+        "output_times_s": [
+          0.000519,
+          0.001191,
+          0.002157,
+          0.003
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": true,
+          "corner_refinement_size_m": 0.00025,
+          "bulk_size_m": 0.0008333333333333334
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {
+          "velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          },
+          "alpha": {
+            "expression": "mesh-conforming initial_phase_geometry; a-cell=1, b-cell=0",
+            "unit": "1",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          }
+        },
+        "sources": {
+          "acceleration": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s2",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          }
+        },
+        "boundaries": [
+          {
+            "selection": "all",
+            "operator": "wall",
+            "data": {
+              "mechanical": "navier_wetting"
+            }
+          }
+        ],
+        "pressure_convention": "exactly the task DATA; no output re-zeroing unless the declared gauge requires it",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "initial_phase_geometry": {
+          "kind": "corner_component_outside_ball",
+          "corner_m": [
+            0.0,
+            0.0
+          ],
+          "radius_m": 0.0015,
+          "ball_centre_each_axis_m": 0.0012990381056766582,
+          "component": "connected component containing the origin; other outside-ball components are phase b",
+          "first_interface_band": "mesh facets match the static contact angle exactly; contact vertices with nonunique traces are never point observations"
+        },
+        "initial_alpha_semantics": "Pure 0/1 per supplied initial phase cell; actual interface is the union of these cell faces. An analytic mask is a geometry-construction recipe, not an extra subcell interface. Phase-cell conforming meshing must retain the listed contact/interface construction.",
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "alpha",
+            "unit": "1",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.005,
+              "rtol": 0.03
+            }
+          },
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 1.0,
+              "rtol": 0.03,
+              "reference_offset": {
+                "parameter": "pressure_reference"
+              }
+            }
+          },
+          {
+            "quantity": "velocity",
+            "unit": "m/s",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.001,
+              "rtol": 0.03
+            }
+          }
+        ]
+      },
+      "contact_angle_rad": 0.5235987755982988
     },
     {
       "design_id": "ch02-2-5-5-05-bridge",
@@ -126,13 +993,227 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
       ],
-      "contact_angle_proposal_rad": 1.0471975511965976
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            0.01,
+            0.01
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "transient",
+        "parameters": {
+          "time_start": {
+            "value": 0.0,
+            "unit": "s"
+          },
+          "time_end": {
+            "value": 0.003,
+            "unit": "s"
+          },
+          "density_a": {
+            "value": 1000.0,
+            "unit": "kg/m3"
+          },
+          "viscosity_a": {
+            "value": 0.01,
+            "unit": "Pa.s"
+          },
+          "pressure_reference": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "density_b": {
+            "value": 10.0,
+            "unit": "kg/m3"
+          },
+          "viscosity_b": {
+            "value": 0.001,
+            "unit": "Pa.s"
+          },
+          "surface_tension": {
+            "value": 0.05,
+            "unit": "N/m"
+          },
+          "contact_angle": {
+            "value": 1.5707963267948966,
+            "unit": "rad"
+          },
+          "slip_length": {
+            "value": 2e-05,
+            "unit": "m"
+          }
+        },
+        "time_interval_s": [
+          0.0,
+          0.003
+        ],
+        "output_times_s": [
+          0.000519,
+          0.001191,
+          0.002157,
+          0.003
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": true,
+          "corner_refinement_size_m": 0.00025,
+          "bulk_size_m": 0.0008333333333333334
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {
+          "velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          },
+          "alpha": {
+            "expression": "mesh-conforming initial_phase_geometry; a-cell=1, b-cell=0",
+            "unit": "1",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          }
+        },
+        "sources": {
+          "acceleration": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s2",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          }
+        },
+        "boundaries": [
+          {
+            "selection": "all",
+            "operator": "wall",
+            "data": {
+              "mechanical": "navier_wetting"
+            }
+          }
+        ],
+        "pressure_convention": "exactly the task DATA; no output re-zeroing unless the declared gauge requires it",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "initial_phase_geometry": {
+          "kind": "liquid_bridge",
+          "axis": "y",
+          "radius_m": 0.0012,
+          "radial_profile": "r(y)=radius*(1+.1*sin(pi*Y)^2)",
+          "wall_contact_angle_rad": 1.5707963267948966,
+          "mesh_rule": "first and last interface bands normal to the horizontal walls"
+        },
+        "initial_alpha_semantics": "Pure 0/1 per supplied initial phase cell; actual interface is the union of these cell faces. An analytic mask is a geometry-construction recipe, not an extra subcell interface. Phase-cell conforming meshing must retain the listed contact/interface construction.",
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "alpha",
+            "unit": "1",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.005,
+              "rtol": 0.03
+            }
+          },
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 1.0,
+              "rtol": 0.03,
+              "reference_offset": {
+                "parameter": "pressure_reference"
+              }
+            }
+          },
+          {
+            "quantity": "velocity",
+            "unit": "m/s",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.001,
+              "rtol": 0.03
+            }
+          }
+        ]
+      },
+      "contact_angle_rad": 1.5707963267948966
     },
     {
       "design_id": "ch02-2-5-5-06-oscillating_drop",
@@ -149,14 +1230,233 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
       ],
-      "contact_angle_proposal_rad": 1.5707963267948966,
-      "material_design": "分别选择高黏度对比的毛细阻尼及有明显密度对比的重力/毛细竞争；数值比例随物理滑移长度、毛细时间和Bond数共同冻结，不能仅改变数值凑例。"
+      "material_design": "物性、物理滑移长度和重力历史见detailed_spec；分别考察黏性毛细松弛及密度对比下的重力/毛细竞争，实际状态尚未计算。",
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            0.01,
+            0.01
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "transient",
+        "parameters": {
+          "time_start": {
+            "value": 0.0,
+            "unit": "s"
+          },
+          "time_end": {
+            "value": 0.003,
+            "unit": "s"
+          },
+          "density_a": {
+            "value": 1000.0,
+            "unit": "kg/m3"
+          },
+          "viscosity_a": {
+            "value": 0.1,
+            "unit": "Pa.s"
+          },
+          "pressure_reference": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "density_b": {
+            "value": 10.0,
+            "unit": "kg/m3"
+          },
+          "viscosity_b": {
+            "value": 0.001,
+            "unit": "Pa.s"
+          },
+          "surface_tension": {
+            "value": 0.05,
+            "unit": "N/m"
+          },
+          "contact_angle": {
+            "value": 1.5707963267948966,
+            "unit": "rad"
+          },
+          "slip_length": {
+            "value": 2e-05,
+            "unit": "m"
+          }
+        },
+        "time_interval_s": [
+          0.0,
+          0.003
+        ],
+        "output_times_s": [
+          0.000519,
+          0.001191,
+          0.002157,
+          0.003
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": true,
+          "corner_refinement_size_m": 0.00025,
+          "bulk_size_m": 0.0008333333333333334
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {
+          "velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          },
+          "alpha": {
+            "expression": "mesh-conforming initial_phase_geometry; a-cell=1, b-cell=0",
+            "unit": "1",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          }
+        },
+        "sources": {
+          "acceleration": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s2",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          }
+        },
+        "boundaries": [
+          {
+            "selection": "all",
+            "operator": "wall",
+            "data": {
+              "mechanical": "navier_wetting"
+            }
+          }
+        ],
+        "pressure_convention": "exactly the task DATA; no output re-zeroing unless the declared gauge requires it",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "initial_phase_geometry": {
+          "kind": "detached_polyhedral_ellipsoid",
+          "centre_m": [
+            0.005,
+            0.005
+          ],
+          "radii_m": [
+            0.0015,
+            0.001
+          ],
+          "phase_a": "inside",
+          "wall_contacts": false
+        },
+        "initial_alpha_semantics": "Pure 0/1 per supplied initial phase cell; actual interface is the union of these cell faces. An analytic mask is a geometry-construction recipe, not an extra subcell interface. Phase-cell conforming meshing must retain the listed contact/interface construction.",
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "alpha",
+            "unit": "1",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.005,
+              "rtol": 0.03
+            }
+          },
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 1.0,
+              "rtol": 0.03,
+              "reference_offset": {
+                "parameter": "pressure_reference"
+              }
+            }
+          },
+          {
+            "quantity": "velocity",
+            "unit": "m/s",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.001,
+              "rtol": 0.03
+            }
+          }
+        ]
+      },
+      "contact_angle_rad": 1.5707963267948966
     },
     {
       "design_id": "ch02-2-5-5-07-gravity_spreading",
@@ -173,14 +1473,233 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
       ],
-      "contact_angle_proposal_rad": 1.5707963267948966,
-      "material_design": "分别选择高黏度对比的毛细阻尼及有明显密度对比的重力/毛细竞争；数值比例随物理滑移长度、毛细时间和Bond数共同冻结，不能仅改变数值凑例。"
+      "material_design": "物性、物理滑移长度和重力历史见detailed_spec；分别考察黏性毛细松弛及密度对比下的重力/毛细竞争，实际状态尚未计算。",
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            0.02,
+            0.01
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "transient",
+        "parameters": {
+          "time_start": {
+            "value": 0.0,
+            "unit": "s"
+          },
+          "time_end": {
+            "value": 0.003,
+            "unit": "s"
+          },
+          "density_a": {
+            "value": 1000.0,
+            "unit": "kg/m3"
+          },
+          "viscosity_a": {
+            "value": 0.01,
+            "unit": "Pa.s"
+          },
+          "pressure_reference": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "density_b": {
+            "value": 100.0,
+            "unit": "kg/m3"
+          },
+          "viscosity_b": {
+            "value": 0.001,
+            "unit": "Pa.s"
+          },
+          "surface_tension": {
+            "value": 0.05,
+            "unit": "N/m"
+          },
+          "contact_angle": {
+            "value": 1.5707963267948966,
+            "unit": "rad"
+          },
+          "slip_length": {
+            "value": 2e-05,
+            "unit": "m"
+          }
+        },
+        "time_interval_s": [
+          0.0,
+          0.003
+        ],
+        "output_times_s": [
+          0.000519,
+          0.001191,
+          0.002157,
+          0.003
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": true,
+          "corner_refinement_size_m": 0.00025,
+          "bulk_size_m": 0.0008333333333333334
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {
+          "velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          },
+          "alpha": {
+            "expression": "mesh-conforming initial_phase_geometry; a-cell=1, b-cell=0",
+            "unit": "1",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          }
+        },
+        "sources": {
+          "acceleration": {
+            "expression": [
+              0,
+              "-9.81*R"
+            ],
+            "unit": "m/s2",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "linear"
+          }
+        },
+        "boundaries": [
+          {
+            "selection": "all",
+            "operator": "wall",
+            "data": {
+              "mechanical": "navier_wetting"
+            }
+          }
+        ],
+        "pressure_convention": "exactly the task DATA; no output re-zeroing unless the declared gauge requires it",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "initial_phase_geometry": {
+          "kind": "contact_conforming_polyhedral_cap",
+          "centre_m": [
+            0.01,
+            0
+          ],
+          "base_apothem_m": 0.001,
+          "height_m": 0.0003,
+          "contact_angle_rad": 1.5707963267948966,
+          "azimuth_sides": 2,
+          "side_apothem_at_height": "base_apothem-y*cot(contact_angle)",
+          "definition": "a is inside the frustum, 0<=y<=height; side facets meet the wall at exactly the specified contact angle; the complete a/b interface must be mesh-conforming. No artificial mixed initial alpha."
+        },
+        "initial_alpha_semantics": "Pure 0/1 per supplied initial phase cell; actual interface is the union of these cell faces. An analytic mask is a geometry-construction recipe, not an extra subcell interface. Phase-cell conforming meshing must retain the listed contact/interface construction.",
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "alpha",
+            "unit": "1",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.005,
+              "rtol": 0.03
+            }
+          },
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 1.0,
+              "rtol": 0.03,
+              "reference_offset": {
+                "parameter": "pressure_reference"
+              }
+            }
+          },
+          {
+            "quantity": "velocity",
+            "unit": "m/s",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.001,
+              "rtol": 0.03
+            }
+          }
+        ]
+      },
+      "contact_angle_rad": 1.5707963267948966
     },
     {
       "design_id": "ch02-2-5-5-08-obstacle_wetting",
@@ -197,13 +1716,248 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
       ],
-      "contact_angle_proposal_rad": 2.0943951023931953
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            0.01,
+            0.01
+          ],
+          "operation": "box",
+          "holes": [
+            {
+              "operation": "box",
+              "xy_corners": [
+                [
+                  0.004,
+                  0.003
+                ],
+                [
+                  0.006,
+                  0.005
+                ]
+              ],
+              "span_z": null
+            }
+          ],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "transient",
+        "parameters": {
+          "time_start": {
+            "value": 0.0,
+            "unit": "s"
+          },
+          "time_end": {
+            "value": 0.003,
+            "unit": "s"
+          },
+          "density_a": {
+            "value": 1000.0,
+            "unit": "kg/m3"
+          },
+          "viscosity_a": {
+            "value": 0.01,
+            "unit": "Pa.s"
+          },
+          "pressure_reference": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "density_b": {
+            "value": 10.0,
+            "unit": "kg/m3"
+          },
+          "viscosity_b": {
+            "value": 0.001,
+            "unit": "Pa.s"
+          },
+          "surface_tension": {
+            "value": 0.05,
+            "unit": "N/m"
+          },
+          "contact_angle": {
+            "value": 2.0943951023931953,
+            "unit": "rad"
+          },
+          "slip_length": {
+            "value": 2e-05,
+            "unit": "m"
+          }
+        },
+        "time_interval_s": [
+          0.0,
+          0.003
+        ],
+        "output_times_s": [
+          0.000519,
+          0.001191,
+          0.002157,
+          0.003
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": true,
+          "corner_refinement_size_m": 0.00025,
+          "bulk_size_m": 0.0008333333333333334
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {
+          "velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          },
+          "alpha": {
+            "expression": "mesh-conforming initial_phase_geometry; a-cell=1, b-cell=0",
+            "unit": "1",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          }
+        },
+        "sources": {
+          "acceleration": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s2",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          }
+        },
+        "boundaries": [
+          {
+            "selection": "all",
+            "operator": "wall",
+            "data": {
+              "mechanical": "navier_wetting"
+            }
+          }
+        ],
+        "pressure_convention": "exactly the task DATA; no output re-zeroing unless the declared gauge requires it",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "initial_phase_geometry": {
+          "kind": "contact_conforming_polyhedral_cap",
+          "centre_m": [
+            0.005,
+            0
+          ],
+          "base_apothem_m": 0.001,
+          "height_m": 0.0003,
+          "contact_angle_rad": 2.0943951023931953,
+          "azimuth_sides": 2,
+          "side_apothem_at_height": "base_apothem-y*cot(contact_angle)",
+          "definition": "a is inside the frustum, 0<=y<=height; side facets meet the wall at exactly the specified contact angle; the complete a/b interface must be mesh-conforming. No artificial mixed initial alpha.",
+          "wall": "left planar face of internal obstacle; cap axis is that face outward normal; centre is its midpoint and cap avoids all obstacle edges"
+        },
+        "initial_alpha_semantics": "Pure 0/1 per supplied initial phase cell; actual interface is the union of these cell faces. An analytic mask is a geometry-construction recipe, not an extra subcell interface. Phase-cell conforming meshing must retain the listed contact/interface construction.",
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "alpha",
+            "unit": "1",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.005,
+              "rtol": 0.03
+            }
+          },
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 1.0,
+              "rtol": 0.03,
+              "reference_offset": {
+                "parameter": "pressure_reference"
+              }
+            }
+          },
+          {
+            "quantity": "velocity",
+            "unit": "m/s",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.001,
+              "rtol": 0.03
+            }
+          }
+        ]
+      },
+      "contact_angle_rad": 2.0943951023931953
     },
     {
       "design_id": "ch02-2-5-5-09-two_drops",
@@ -220,13 +1974,242 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
       ],
-      "contact_angle_proposal_rad": 1.0471975511965976
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            0.02,
+            0.01
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "transient",
+        "parameters": {
+          "time_start": {
+            "value": 0.0,
+            "unit": "s"
+          },
+          "time_end": {
+            "value": 0.003,
+            "unit": "s"
+          },
+          "density_a": {
+            "value": 1000.0,
+            "unit": "kg/m3"
+          },
+          "viscosity_a": {
+            "value": 0.01,
+            "unit": "Pa.s"
+          },
+          "pressure_reference": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "density_b": {
+            "value": 10.0,
+            "unit": "kg/m3"
+          },
+          "viscosity_b": {
+            "value": 0.001,
+            "unit": "Pa.s"
+          },
+          "surface_tension": {
+            "value": 0.05,
+            "unit": "N/m"
+          },
+          "contact_angle": {
+            "value": 1.0471975511965976,
+            "unit": "rad"
+          },
+          "slip_length": {
+            "value": 2e-05,
+            "unit": "m"
+          }
+        },
+        "time_interval_s": [
+          0.0,
+          0.003
+        ],
+        "output_times_s": [
+          0.000519,
+          0.001191,
+          0.002157,
+          0.003
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": true,
+          "corner_refinement_size_m": 0.00025,
+          "bulk_size_m": 0.0008333333333333334
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {
+          "velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          },
+          "alpha": {
+            "expression": "mesh-conforming initial_phase_geometry; a-cell=1, b-cell=0",
+            "unit": "1",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          }
+        },
+        "sources": {
+          "acceleration": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s2",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          }
+        },
+        "boundaries": [
+          {
+            "selection": "all",
+            "operator": "wall",
+            "data": {
+              "mechanical": "navier_wetting"
+            }
+          }
+        ],
+        "pressure_convention": "exactly the task DATA; no output re-zeroing unless the declared gauge requires it",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "initial_phase_geometry": {
+          "kind": "contact_conforming_polyhedral_cap",
+          "centre_m": [
+            0.01,
+            0
+          ],
+          "base_apothem_m": 0.001,
+          "height_m": 0.0003,
+          "contact_angle_rad": 1.0471975511965976,
+          "azimuth_sides": 2,
+          "side_apothem_at_height": "base_apothem-y*cot(contact_angle)",
+          "definition": "a is inside the frustum, 0<=y<=height; side facets meet the wall at exactly the specified contact angle; the complete a/b interface must be mesh-conforming. No artificial mixed initial alpha.",
+          "copies_centres_m": [
+            [
+              0.006,
+              0
+            ],
+            [
+              0.013999999999999999,
+              0
+            ]
+          ]
+        },
+        "initial_alpha_semantics": "Pure 0/1 per supplied initial phase cell; actual interface is the union of these cell faces. An analytic mask is a geometry-construction recipe, not an extra subcell interface. Phase-cell conforming meshing must retain the listed contact/interface construction.",
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "alpha",
+            "unit": "1",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.005,
+              "rtol": 0.03
+            }
+          },
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 1.0,
+              "rtol": 0.03,
+              "reference_offset": {
+                "parameter": "pressure_reference"
+              }
+            }
+          },
+          {
+            "quantity": "velocity",
+            "unit": "m/s",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.001,
+              "rtol": 0.03
+            }
+          }
+        ]
+      },
+      "contact_angle_rad": 1.0471975511965976
     },
     {
       "design_id": "ch02-2-5-5-10-anisotropic_patch",
@@ -243,13 +2226,235 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
       ],
-      "contact_angle_proposal_rad": 1.5707963267948966
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            0.01,
+            0.01
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "transient",
+        "parameters": {
+          "time_start": {
+            "value": 0.0,
+            "unit": "s"
+          },
+          "time_end": {
+            "value": 0.003,
+            "unit": "s"
+          },
+          "density_a": {
+            "value": 1000.0,
+            "unit": "kg/m3"
+          },
+          "viscosity_a": {
+            "value": 0.01,
+            "unit": "Pa.s"
+          },
+          "pressure_reference": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "density_b": {
+            "value": 10.0,
+            "unit": "kg/m3"
+          },
+          "viscosity_b": {
+            "value": 0.001,
+            "unit": "Pa.s"
+          },
+          "surface_tension": {
+            "value": 0.05,
+            "unit": "N/m"
+          },
+          "contact_angle": {
+            "value": 1.5707963267948966,
+            "unit": "rad"
+          },
+          "slip_length": {
+            "value": 2e-05,
+            "unit": "m"
+          }
+        },
+        "time_interval_s": [
+          0.0,
+          0.003
+        ],
+        "output_times_s": [
+          0.000519,
+          0.001191,
+          0.002157,
+          0.003
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": true,
+          "corner_refinement_size_m": 0.00025,
+          "bulk_size_m": 0.0008333333333333334
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {
+          "velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          },
+          "alpha": {
+            "expression": "mesh-conforming initial_phase_geometry; a-cell=1, b-cell=0",
+            "unit": "1",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          }
+        },
+        "sources": {
+          "acceleration": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s2",
+            "space_reconstruction": "piecewise_constant",
+            "time_history": "constant"
+          }
+        },
+        "boundaries": [
+          {
+            "selection": "all",
+            "operator": "wall",
+            "data": {
+              "mechanical": "navier_wetting"
+            }
+          }
+        ],
+        "pressure_convention": "exactly the task DATA; no output re-zeroing unless the declared gauge requires it",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "initial_phase_geometry": {
+          "kind": "contact_conforming_polyhedral_cap",
+          "centre_m": [
+            0.005,
+            0
+          ],
+          "base_apothem_m": 0.001,
+          "height_m": 0.0003,
+          "contact_angle_rad": 1.5707963267948966,
+          "azimuth_sides": 2,
+          "side_apothem_at_height": "base_apothem-y*cot(contact_angle)",
+          "definition": "a is inside the frustum, 0<=y<=height; side facets meet the wall at exactly the specified contact angle; the complete a/b interface must be mesh-conforming. No artificial mixed initial alpha.",
+          "base_apothems_m": [
+            0.0015
+          ]
+        },
+        "initial_alpha_semantics": "Pure 0/1 per supplied initial phase cell; actual interface is the union of these cell faces. An analytic mask is a geometry-construction recipe, not an extra subcell interface. Phase-cell conforming meshing must retain the listed contact/interface construction.",
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "alpha",
+            "unit": "1",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.005,
+              "rtol": 0.03
+            }
+          },
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 1.0,
+              "rtol": 0.03,
+              "reference_offset": {
+                "parameter": "pressure_reference"
+              }
+            }
+          },
+          {
+            "quantity": "velocity",
+            "unit": "m/s",
+            "support": "all fluid cells",
+            "value_kind": "average",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.001,
+              "rtol": 0.03
+            }
+          }
+        ]
+      },
+      "contact_angle_rad": 1.5707963267948966
     }
   ],
   "limitations_and_model_checks": [
@@ -260,7 +2465,8 @@
     {
       "requirement": "laplace_pressure_and_gauge",
       "assigned_design_ids": [
-        "ch02-2-5-5-01-sessile_equilibrium"
+        "ch02-2-5-5-01-sessile_equilibrium",
+        "ch02-2-5-5-06-oscillating_drop"
       ],
       "status": "planned_not_implemented",
       "implementation_evidence": []

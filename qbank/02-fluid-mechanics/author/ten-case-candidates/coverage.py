@@ -99,7 +99,7 @@ FEATURES = {
         ("velocity_continuity_and_traction_continuity", list(range(1,11))),
     ],
     "capillary": [
-        ("laplace_pressure_and_gauge", [1]), ("advancing_and_receding_contact_lines", [2,3]),
+        ("laplace_pressure_and_gauge", [1,6]), ("advancing_and_receding_contact_lines", [2,3]),
         ("corner_and_internal_wall_wetting", [4,8]), ("liquid_bridge", [5]),
         ("capillary_viscous_relaxation", [6]), ("gravity_capillary_competition", [7]),
         ("multiple_interfaces", [9]), ("anisotropic_shape", [10]),

@@ -33,12 +33,213 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
-      ]
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
+      ],
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            0.01,
+            0.005
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "steady",
+        "parameters": {
+          "density": {
+            "value": 1000.0,
+            "unit": "kg/m3"
+          },
+          "viscosity": {
+            "value": 0.01,
+            "unit": "Pa.s"
+          },
+          "reference_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "cavitation_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          }
+        },
+        "time_interval_s": null,
+        "output_times_s": [
+          0.0
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": false,
+          "corner_refinement_size_m": 0.000125,
+          "bulk_size_m": 0.0004166666666666667
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {},
+        "sources": {},
+        "boundaries": [
+          {
+            "selection": "all side boundaries except inner supply",
+            "operator": "film_pressure",
+            "data": {
+              "value": {
+                "expression": "100000",
+                "unit": "Pa",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              },
+              "inlet_fraction": {
+                "expression": 1.0,
+                "unit": "1",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          }
+        ],
+        "pressure_convention": "exactly the task DATA; no output re-zeroing unless the declared gauge requires it",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false,
+          "extra": [
+            "interior-node pressure/film flux and fraction or temperature when permitted",
+            "load=sum((p-reference_pressure)*actual horizontal area), N"
+          ]
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "domain_conditions": {
+          "gap": {
+            "expression": "5e-05*(2-X)",
+            "unit": "m",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          },
+          "lower_velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          },
+          "upper_velocity": {
+            "expression": [
+              0.1,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          }
+        },
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "film_fraction",
+            "unit": "1",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "film_flux",
+            "unit": "m2/s",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 1e-07,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "load",
+            "unit": "N",
+            "support": "sum over all top-dimensional domain cells",
+            "value_kind": "integral",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          }
+        ]
+      }
     },
     {
       "design_id": "ch02-2-8-1-02-diverging_wedge",
@@ -54,12 +255,213 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
-      ]
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
+      ],
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            0.01,
+            0.005
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "steady",
+        "parameters": {
+          "density": {
+            "value": 1000.0,
+            "unit": "kg/m3"
+          },
+          "viscosity": {
+            "value": 0.01,
+            "unit": "Pa.s"
+          },
+          "reference_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "cavitation_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          }
+        },
+        "time_interval_s": null,
+        "output_times_s": [
+          0.0
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": false,
+          "corner_refinement_size_m": 0.000125,
+          "bulk_size_m": 0.0004166666666666667
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {},
+        "sources": {},
+        "boundaries": [
+          {
+            "selection": "all side boundaries except inner supply",
+            "operator": "film_pressure",
+            "data": {
+              "value": {
+                "expression": "100000",
+                "unit": "Pa",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              },
+              "inlet_fraction": {
+                "expression": 1.0,
+                "unit": "1",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          }
+        ],
+        "pressure_convention": "exactly the task DATA; no output re-zeroing unless the declared gauge requires it",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false,
+          "extra": [
+            "interior-node pressure/film flux and fraction or temperature when permitted",
+            "load=sum((p-reference_pressure)*actual horizontal area), N"
+          ]
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "domain_conditions": {
+          "gap": {
+            "expression": "5e-05*(1+X)",
+            "unit": "m",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          },
+          "lower_velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          },
+          "upper_velocity": {
+            "expression": [
+              0.1,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          }
+        },
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "film_fraction",
+            "unit": "1",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "film_flux",
+            "unit": "m2/s",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 1e-07,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "load",
+            "unit": "N",
+            "support": "sum over all top-dimensional domain cells",
+            "value_kind": "integral",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          }
+        ]
+      }
     },
     {
       "design_id": "ch02-2-8-1-03-double_wedge",
@@ -75,12 +477,213 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
-      ]
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
+      ],
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            0.01,
+            0.005
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "steady",
+        "parameters": {
+          "density": {
+            "value": 1000.0,
+            "unit": "kg/m3"
+          },
+          "viscosity": {
+            "value": 0.01,
+            "unit": "Pa.s"
+          },
+          "reference_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "cavitation_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          }
+        },
+        "time_interval_s": null,
+        "output_times_s": [
+          0.0
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": false,
+          "corner_refinement_size_m": 0.000125,
+          "bulk_size_m": 0.0004166666666666667
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {},
+        "sources": {},
+        "boundaries": [
+          {
+            "selection": "all side boundaries except inner supply",
+            "operator": "film_pressure",
+            "data": {
+              "value": {
+                "expression": "100000",
+                "unit": "Pa",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              },
+              "inlet_fraction": {
+                "expression": 1.0,
+                "unit": "1",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          }
+        ],
+        "pressure_convention": "exactly the task DATA; no output re-zeroing unless the declared gauge requires it",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false,
+          "extra": [
+            "interior-node pressure/film flux and fraction or temperature when permitted",
+            "load=sum((p-reference_pressure)*actual horizontal area), N"
+          ]
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "domain_conditions": {
+          "gap": {
+            "expression": "5e-05*(1.5+.5*abs(2*X-1))",
+            "unit": "m",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          },
+          "lower_velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          },
+          "upper_velocity": {
+            "expression": [
+              0.1,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          }
+        },
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "film_fraction",
+            "unit": "1",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "film_flux",
+            "unit": "m2/s",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 1e-07,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "load",
+            "unit": "N",
+            "support": "sum over all top-dimensional domain cells",
+            "value_kind": "integral",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          }
+        ]
+      }
     },
     {
       "design_id": "ch02-2-8-1-04-side_leakage",
@@ -96,12 +699,213 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
-      ]
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
+      ],
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            0.02,
+            0.04
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "steady",
+        "parameters": {
+          "density": {
+            "value": 1000.0,
+            "unit": "kg/m3"
+          },
+          "viscosity": {
+            "value": 0.01,
+            "unit": "Pa.s"
+          },
+          "reference_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "cavitation_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          }
+        },
+        "time_interval_s": null,
+        "output_times_s": [
+          0.0
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": false,
+          "corner_refinement_size_m": 0.0005,
+          "bulk_size_m": 0.0016666666666666668
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {},
+        "sources": {},
+        "boundaries": [
+          {
+            "selection": "all side boundaries except inner supply",
+            "operator": "film_pressure",
+            "data": {
+              "value": {
+                "expression": "100000",
+                "unit": "Pa",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              },
+              "inlet_fraction": {
+                "expression": 1.0,
+                "unit": "1",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          }
+        ],
+        "pressure_convention": "exactly the task DATA; no output re-zeroing unless the declared gauge requires it",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false,
+          "extra": [
+            "interior-node pressure/film flux and fraction or temperature when permitted",
+            "load=sum((p-reference_pressure)*actual horizontal area), N"
+          ]
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "domain_conditions": {
+          "gap": {
+            "expression": "5e-05*(2-X)",
+            "unit": "m",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          },
+          "lower_velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          },
+          "upper_velocity": {
+            "expression": [
+              0.1,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          }
+        },
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "film_fraction",
+            "unit": "1",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "film_flux",
+            "unit": "m2/s",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 1e-07,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "load",
+            "unit": "N",
+            "support": "sum over all top-dimensional domain cells",
+            "value_kind": "integral",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          }
+        ]
+      }
     },
     {
       "design_id": "ch02-2-8-1-05-oblique_slide",
@@ -117,12 +921,213 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
-      ]
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
+      ],
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            0.01,
+            0.005
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "steady",
+        "parameters": {
+          "density": {
+            "value": 1000.0,
+            "unit": "kg/m3"
+          },
+          "viscosity": {
+            "value": 0.01,
+            "unit": "Pa.s"
+          },
+          "reference_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "cavitation_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          }
+        },
+        "time_interval_s": null,
+        "output_times_s": [
+          0.0
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": false,
+          "corner_refinement_size_m": 0.000125,
+          "bulk_size_m": 0.0004166666666666667
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {},
+        "sources": {},
+        "boundaries": [
+          {
+            "selection": "all side boundaries except inner supply",
+            "operator": "film_pressure",
+            "data": {
+              "value": {
+                "expression": "100000",
+                "unit": "Pa",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              },
+              "inlet_fraction": {
+                "expression": 1.0,
+                "unit": "1",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          }
+        ],
+        "pressure_convention": "exactly the task DATA; no output re-zeroing unless the declared gauge requires it",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false,
+          "extra": [
+            "interior-node pressure/film flux and fraction or temperature when permitted",
+            "load=sum((p-reference_pressure)*actual horizontal area), N"
+          ]
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "domain_conditions": {
+          "gap": {
+            "expression": "5e-05*(2-.5*X-.5*Y)",
+            "unit": "m",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          },
+          "lower_velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          },
+          "upper_velocity": {
+            "expression": [
+              0.05,
+              0.05
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          }
+        },
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "film_fraction",
+            "unit": "1",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "film_flux",
+            "unit": "m2/s",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 1e-07,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "load",
+            "unit": "N",
+            "support": "sum over all top-dimensional domain cells",
+            "value_kind": "integral",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          }
+        ]
+      }
     },
     {
       "design_id": "ch02-2-8-1-06-counter_slide",
@@ -138,12 +1143,213 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
-      ]
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
+      ],
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            0.01,
+            0.005
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "steady",
+        "parameters": {
+          "density": {
+            "value": 1000.0,
+            "unit": "kg/m3"
+          },
+          "viscosity": {
+            "value": 0.01,
+            "unit": "Pa.s"
+          },
+          "reference_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "cavitation_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          }
+        },
+        "time_interval_s": null,
+        "output_times_s": [
+          0.0
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": false,
+          "corner_refinement_size_m": 0.000125,
+          "bulk_size_m": 0.0004166666666666667
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {},
+        "sources": {},
+        "boundaries": [
+          {
+            "selection": "all side boundaries except inner supply",
+            "operator": "film_pressure",
+            "data": {
+              "value": {
+                "expression": "100000",
+                "unit": "Pa",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              },
+              "inlet_fraction": {
+                "expression": 1.0,
+                "unit": "1",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          }
+        ],
+        "pressure_convention": "exactly the task DATA; no output re-zeroing unless the declared gauge requires it",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false,
+          "extra": [
+            "interior-node pressure/film flux and fraction or temperature when permitted",
+            "load=sum((p-reference_pressure)*actual horizontal area), N"
+          ]
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "domain_conditions": {
+          "gap": {
+            "expression": "5e-05*(2-X)",
+            "unit": "m",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          },
+          "lower_velocity": {
+            "expression": [
+              -0.05,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          },
+          "upper_velocity": {
+            "expression": [
+              0.1,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          }
+        },
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "film_fraction",
+            "unit": "1",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "film_flux",
+            "unit": "m2/s",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 1e-07,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "load",
+            "unit": "N",
+            "support": "sum over all top-dimensional domain cells",
+            "value_kind": "integral",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          }
+        ]
+      }
     },
     {
       "design_id": "ch02-2-8-1-07-textured_patch",
@@ -159,12 +1365,213 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
-      ]
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
+      ],
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            0.01,
+            0.005
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "steady",
+        "parameters": {
+          "density": {
+            "value": 1000.0,
+            "unit": "kg/m3"
+          },
+          "viscosity": {
+            "value": 0.01,
+            "unit": "Pa.s"
+          },
+          "reference_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "cavitation_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          }
+        },
+        "time_interval_s": null,
+        "output_times_s": [
+          0.0
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": false,
+          "corner_refinement_size_m": 0.000125,
+          "bulk_size_m": 0.0004166666666666667
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {},
+        "sources": {},
+        "boundaries": [
+          {
+            "selection": "all side boundaries except inner supply",
+            "operator": "film_pressure",
+            "data": {
+              "value": {
+                "expression": "100000",
+                "unit": "Pa",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              },
+              "inlet_fraction": {
+                "expression": 1.0,
+                "unit": "1",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          }
+        ],
+        "pressure_convention": "exactly the task DATA; no output re-zeroing unless the declared gauge requires it",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false,
+          "extra": [
+            "interior-node pressure/film flux and fraction or temperature when permitted",
+            "load=sum((p-reference_pressure)*actual horizontal area), N"
+          ]
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "domain_conditions": {
+          "gap": {
+            "expression": "5e-05*(1+.3*bump(centre=.5*L,radius=.2*L))",
+            "unit": "m",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          },
+          "lower_velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          },
+          "upper_velocity": {
+            "expression": [
+              0.05,
+              0.05
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          }
+        },
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "film_fraction",
+            "unit": "1",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "film_flux",
+            "unit": "m2/s",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 1e-07,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "load",
+            "unit": "N",
+            "support": "sum over all top-dimensional domain cells",
+            "value_kind": "integral",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          }
+        ]
+      }
     },
     {
       "design_id": "ch02-2-8-1-08-pressure_feed",
@@ -180,12 +1587,213 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
-      ]
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
+      ],
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            0.01,
+            0.005
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "steady",
+        "parameters": {
+          "density": {
+            "value": 1000.0,
+            "unit": "kg/m3"
+          },
+          "viscosity": {
+            "value": 0.01,
+            "unit": "Pa.s"
+          },
+          "reference_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "cavitation_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          }
+        },
+        "time_interval_s": null,
+        "output_times_s": [
+          0.0
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": false,
+          "corner_refinement_size_m": 0.000125,
+          "bulk_size_m": 0.0004166666666666667
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {},
+        "sources": {},
+        "boundaries": [
+          {
+            "selection": "all side boundaries except inner supply",
+            "operator": "film_pressure",
+            "data": {
+              "value": {
+                "expression": "100000+5000*(1-X)",
+                "unit": "Pa",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              },
+              "inlet_fraction": {
+                "expression": 1.0,
+                "unit": "1",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          }
+        ],
+        "pressure_convention": "exactly the task DATA; no output re-zeroing unless the declared gauge requires it",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false,
+          "extra": [
+            "interior-node pressure/film flux and fraction or temperature when permitted",
+            "load=sum((p-reference_pressure)*actual horizontal area), N"
+          ]
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "domain_conditions": {
+          "gap": {
+            "expression": "5e-05",
+            "unit": "m",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          },
+          "lower_velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          },
+          "upper_velocity": {
+            "expression": [
+              0.1,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          }
+        },
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "film_fraction",
+            "unit": "1",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "film_flux",
+            "unit": "m2/s",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 1e-07,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "load",
+            "unit": "N",
+            "support": "sum over all top-dimensional domain cells",
+            "value_kind": "integral",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          }
+        ]
+      }
     },
     {
       "design_id": "ch02-2-8-1-09-starved_inlet",
@@ -201,12 +1809,213 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
-      ]
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
+      ],
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            0.01,
+            0.005
+          ],
+          "operation": "box",
+          "holes": [],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "steady",
+        "parameters": {
+          "density": {
+            "value": 1000.0,
+            "unit": "kg/m3"
+          },
+          "viscosity": {
+            "value": 0.01,
+            "unit": "Pa.s"
+          },
+          "reference_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "cavitation_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          }
+        },
+        "time_interval_s": null,
+        "output_times_s": [
+          0.0
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": false,
+          "corner_refinement_size_m": 0.000125,
+          "bulk_size_m": 0.0004166666666666667
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {},
+        "sources": {},
+        "boundaries": [
+          {
+            "selection": "all side boundaries except inner supply",
+            "operator": "film_pressure",
+            "data": {
+              "value": {
+                "expression": "100000",
+                "unit": "Pa",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              },
+              "inlet_fraction": {
+                "expression": 0.4,
+                "unit": "1",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          }
+        ],
+        "pressure_convention": "exactly the task DATA; no output re-zeroing unless the declared gauge requires it",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false,
+          "extra": [
+            "interior-node pressure/film flux and fraction or temperature when permitted",
+            "load=sum((p-reference_pressure)*actual horizontal area), N"
+          ]
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "domain_conditions": {
+          "gap": {
+            "expression": "5e-05*(2-X)",
+            "unit": "m",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          },
+          "lower_velocity": {
+            "expression": [
+              -0.05,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          },
+          "upper_velocity": {
+            "expression": [
+              0.1,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          }
+        },
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "film_fraction",
+            "unit": "1",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "film_flux",
+            "unit": "m2/s",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 1e-07,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "load",
+            "unit": "N",
+            "support": "sum over all top-dimensional domain cells",
+            "value_kind": "integral",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          }
+        ]
+      }
     },
     {
       "design_id": "ch02-2-8-1-10-obstacle_area",
@@ -222,12 +2031,246 @@
         ],
         "producer_compatibility": "not_yet_established"
       },
-      "status": "scenario_proposal_not_numerically_frozen",
+      "status": "numerical_experiment_specified_pending_producer_and_input_assembly",
       "remaining_before_execution": [
-        "确定数值几何、全部SI物性和初边值",
         "确认现成生产者与本题闭合及边界等价",
-        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
-      ]
+        "按detailed_spec生成实际自包含输入、原生配置并执行"
+      ],
+      "detailed_spec": {
+        "version": 1,
+        "status": "numerical_experiment_specified_not_input_package_not_reference",
+        "geometry": {
+          "length_unit": "m",
+          "dimension": 2,
+          "origin": [
+            0.0,
+            0.0
+          ],
+          "bounding_lengths": [
+            0.01,
+            0.005
+          ],
+          "operation": "box",
+          "holes": [
+            {
+              "operation": "box",
+              "xy_corners": [
+                [
+                  0.004,
+                  0.0015
+                ],
+                [
+                  0.006,
+                  0.0025
+                ]
+              ],
+              "span_z": null
+            }
+          ],
+          "ports": {
+            "inlet": "x=0",
+            "outlet": "x=Lx"
+          },
+          "boundary_partition": "coordinate faces; split moving/thermal faces at their midpoint when specified"
+        },
+        "analysis_kind": "steady",
+        "parameters": {
+          "density": {
+            "value": 1000.0,
+            "unit": "kg/m3"
+          },
+          "viscosity": {
+            "value": 0.01,
+            "unit": "Pa.s"
+          },
+          "reference_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          },
+          "cavitation_pressure": {
+            "value": 100000.0,
+            "unit": "Pa"
+          }
+        },
+        "time_interval_s": null,
+        "output_times_s": [
+          0.0
+        ],
+        "mesh_recipe": {
+          "generator": "Gmsh",
+          "format": "4.1 ASCII",
+          "order": 1,
+          "coordinate_unit": "m",
+          "algorithm_2d": 6,
+          "algorithm_3d": 1,
+          "random_seed": 112358,
+          "base_divisions": [
+            24,
+            24
+          ],
+          "top_dimensional_element_cap": 25000,
+          "phase_boundary_conforming": false,
+          "corner_refinement_size_m": 0.000125,
+          "bulk_size_m": 0.0004166666666666667
+        },
+        "definitions": {
+          "X": "x/Lx",
+          "Y": "y/Ly",
+          "Z": "z/Lz (3D only)",
+          "n": "true outward unit normal of each supplied boundary entity",
+          "R": "linear table (0,0),(0.1*end,1),(end,1); in steady analysis R=1",
+          "P": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,0),(end,0)",
+          "V": "linear table (0,0),(.1*end,1),(.4*end,1),(.6*end,-1),(end,-1)",
+          "bump": "max(1-r2,0)^4; r2=sum(((x_j-centre_j)/radius_j)^2)",
+          "C": "cellwise curl of the continuous nodal P1 potential; zero potential on all boundary-adjacent elements; scale the resulting field to specified max speed. In 2D use rotated gradient of scalar potential; in 3D curl of vector potential (0,0,psi). No projection of an inconsistent initial velocity is permitted."
+        },
+        "field_time_semantics": "R/P/V in an expression are evaluated once at each history node; a string time_history names interpolation only, not an extra multiplier. A dictionary of samples is an explicit scalar multiplier on the spatial expression. A constant expression with linear history has equal endpoints. Initial fields only have the start frame.",
+        "field_evaluation": "Expressions construct INPUT samples only. Nodal expressions are evaluated on actual nodes then interpreted as P1, entity data are actual averages of the indicated input reconstruction. Actual phase is the specified phase-cell union. Do not reinterpret sampling as an unprovided analytic field.",
+        "initial": {},
+        "sources": {},
+        "boundaries": [
+          {
+            "selection": "all side boundaries except inner supply",
+            "operator": "film_pressure",
+            "data": {
+              "value": {
+                "expression": "100000",
+                "unit": "Pa",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              },
+              "inlet_fraction": {
+                "expression": 1.0,
+                "unit": "1",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          },
+          {
+            "selection": "all inner hole sides",
+            "operator": "film_pressure",
+            "data": {
+              "value": {
+                "expression": 105000.0,
+                "unit": "Pa",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              },
+              "inlet_fraction": {
+                "expression": 1.0,
+                "unit": "1",
+                "space_reconstruction": "piecewise_constant",
+                "time_history": "constant"
+              }
+            }
+          }
+        ],
+        "pressure_convention": "exactly the task DATA; no output re-zeroing unless the declared gauge requires it",
+        "observations": {
+          "primary": "all quantities required by DATA; stored on the required support",
+          "optional_quantities_from_grading_template": "add only applicable quantities at unique finite traces",
+          "interior_node_rule": "for reduced node outputs select all nodes at least two local edge layers from boundary intersections and phase/bed derivative singularities; retain the full domain-node input location separately",
+          "derivative_at_initial_time": false,
+          "extra": [
+            "interior-node pressure/film flux and fraction or temperature when permitted",
+            "load=sum((p-reference_pressure)*actual horizontal area), N"
+          ]
+        },
+        "numerical_validation_requested": false,
+        "acceptance_claim": "none; no accuracy/resource certification",
+        "manufacturing_rules": [
+          "All boundary entities belong to exactly one mechanical partition; independent thermal partition only when permitted by DATA.",
+          "Every numeric parameter and field uses the stated SI unit; no hidden Earth gravity or solver-specific physical input.",
+          "Output physical times are independent of native integration steps. Do not substitute a final frame for a steady state or for discrete statistics."
+        ],
+        "domain_conditions": {
+          "gap": {
+            "expression": "5e-05",
+            "unit": "m",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          },
+          "lower_velocity": {
+            "expression": [
+              0.0,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          },
+          "upper_velocity": {
+            "expression": [
+              0.1,
+              0.0
+            ],
+            "unit": "m/s",
+            "space_reconstruction": "piecewise_linear",
+            "time_history": "constant"
+          }
+        },
+        "producer_status": "matching_required_before_execution",
+        "physical_scope_status": "specified; not numerically checked; no claim of solved-state admissibility",
+        "observation_requests": [
+          {
+            "quantity": "pressure",
+            "unit": "Pa",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.2,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "film_fraction",
+            "unit": "1",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "film_flux",
+            "unit": "m2/s",
+            "support": "real interior node subset selected by the stated rule",
+            "value_kind": "point",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 1e-07,
+              "rtol": 0.02
+            }
+          },
+          {
+            "quantity": "load",
+            "unit": "N",
+            "support": "sum over all top-dimensional domain cells",
+            "value_kind": "integral",
+            "time_axis": "output_times_s",
+            "grading_rule": {
+              "metric": "pointwise",
+              "time": "per_time",
+              "components": "per_component",
+              "atol": 0.002,
+              "rtol": 0.02
+            }
+          }
+        ]
+      }
     }
   ],
   "limitations_and_model_checks": [

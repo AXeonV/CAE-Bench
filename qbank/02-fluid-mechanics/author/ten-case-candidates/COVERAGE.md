@@ -661,7 +661,7 @@
 
 | 考察内容 | 分配至草案序号 | 状态 |
 |---|---|---|
-| laplace_pressure_and_gauge | 1 | planned_not_implemented |
+| laplace_pressure_and_gauge | 1, 6 | planned_not_implemented |
 | advancing_and_receding_contact_lines | 2, 3 | planned_not_implemented |
 | corner_and_internal_wall_wetting | 4, 8 | planned_not_implemented |
 | liquid_bridge | 5 | planned_not_implemented |
@@ -677,7 +677,7 @@
 
 | 考察内容 | 分配至草案序号 | 状态 |
 |---|---|---|
-| laplace_pressure_and_gauge | 1 | planned_not_implemented |
+| laplace_pressure_and_gauge | 1, 6 | planned_not_implemented |
 | advancing_and_receding_contact_lines | 2, 3 | planned_not_implemented |
 | corner_and_internal_wall_wetting | 4, 8 | planned_not_implemented |
 | liquid_bridge | 5 | planned_not_implemented |

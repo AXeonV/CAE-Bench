@@ -95,3 +95,7 @@ python qbank/02-fluid-mechanics/author/ten-case-candidates/freeze_designs.py
 [native_pyclaw_closed_flat.py](native_pyclaw_closed_flat.py)与[pyclaw_closed_flat_runtime.py](pyclaw_closed_flat_runtime.py)只装配2.9.2首例平床、零摩擦、反射壁工况。原生PyClaw Classic二维HLLE负责全部演化；实际公共P1水深通过三角形/矩形精确裁剪积分映射到原生有限体积均值，节点点值使用连续双线性重建，水体积使用原生面积积分。非平床、摩擦、储槽、孔洞、干湿条件不由该入口替代；精度未验证。
 
 [native_pyclaw_bathymetry.py](native_pyclaw_bathymetry.py)与[pyclaw_bathymetry_runtime.py](pyclaw_bathymetry_runtime.py)扩展至另外五例封闭、全湿、零摩擦的地形工况。原生二维bathymetry f-wave处理底坡项；P1地形和水深均作精确单元积分映射，干容差只记录为原生数值配置，不能据此声称干湿题已适配。
+
+### 浅水储槽的有限适配
+
+`native_pyclaw_reservoir.py`仅处理 2.9.2 第07例：实际公开边界实体保存储槽水深的线性时间表，原生 PyClaw 的外部幽灵单元读取该表；内部单元由原生三波 f-wave Riemann 核的正负波传播更新。其他边界保持水墙，零摩擦。配置脚本见 `pyclaw_reservoir_runtime.py`。该入口不覆盖摩擦、孔洞或干湿界面；不作数值正确性声明。逐次源文件摘要、配置、原始场和执行状态保存在计算目录的维护证据中。

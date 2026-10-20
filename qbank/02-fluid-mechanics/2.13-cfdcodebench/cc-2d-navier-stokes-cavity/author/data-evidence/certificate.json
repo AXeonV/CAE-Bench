@@ -1,0 +1,262 @@
+{
+  "source_id": "CFDCodeBench:e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2:2D_Navier_Stokes_Cavity",
+  "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_problem": "2D_Navier_Stokes_Cavity",
+  "development_case_id": "C12-base",
+  "input_files": {
+    "input.h5": "80f07949fca8b048837c8ed7a3d2ecb1d11bc47673296ef5342fe39dcb90646a",
+    "problem.json": "8cdc2f417da6eb1ab808149e48ec45fd4ecc1500427f870919b6a04d7b7397d2"
+  },
+  "reference_files": {
+    "grading.json": "66bccea81bbe1b49905ddd5182f9687dbbed5d7092b8b4efd2adbe9ad24ccc01",
+    "reference.h5": "cc4288b02e29d48e4437487e5e0fda0f7246425a6ba6911039dc28d50a0615ae"
+  },
+  "contract_sha256": "130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063",
+  "numerical_validation_sha256": "4ac88786ec9d4a80a45a08ca5b77e77c37e2ef1169bbc2f70006816a84093a2d",
+  "numerical_validation": {
+    "index": 12,
+    "task": "cc-2d-navier-stokes-cavity",
+    "case_id": "C12-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [],
+    "checks": {
+      "space_L0_L1": {
+        "u": {
+          "rmse": 0.001584310746611051,
+          "reference_rms": 0.21191695780668743,
+          "nrmse": 0.00747609234772176,
+          "nmse": 5.5891956791663866e-05,
+          "max_abs": 0.03097724918942264
+        },
+        "v": {
+          "rmse": 0.001768260095665553,
+          "reference_rms": 0.15082413163517744,
+          "nrmse": 0.011723986582881363,
+          "nmse": 0.00013745186139558222,
+          "max_abs": 0.03309832703855653
+        },
+        "p": {
+          "rmse": 0.0017173979795368109,
+          "reference_rms": 0.08640252868865617,
+          "nrmse": 0.0198767096935936,
+          "nmse": 0.00039508358824339774,
+          "max_abs": 0.051223344748113186
+        }
+      },
+      "space_L1_L2": {
+        "u": {
+          "rmse": 0.00038637477498585325,
+          "reference_rms": 0.21194632751311937,
+          "nrmse": 0.0018229840522333979,
+          "nmse": 3.3232708546973e-06,
+          "max_abs": 0.007881141357840583
+        },
+        "v": {
+          "rmse": 0.0004132870509575857,
+          "reference_rms": 0.1511444261639742,
+          "nrmse": 0.0027343849948473593,
+          "nmse": 7.476861300046393e-06,
+          "max_abs": 0.007048215847854145
+        },
+        "p": {
+          "rmse": 0.0006489654676614082,
+          "reference_rms": 0.08684790256972587,
+          "nrmse": 0.007472436851775276,
+          "nmse": 5.58373125037692e-05,
+          "max_abs": 0.018446511459791815
+        }
+      },
+      "half_dt": {
+        "u": {
+          "rmse": 4.953842757036747e-07,
+          "reference_rms": 0.2119464738115078,
+          "nrmse": 2.3373084099726005e-06,
+          "nmse": 5.463010603328646e-12,
+          "max_abs": 1.0840402152670348e-06
+        },
+        "v": {
+          "rmse": 4.544039063335359e-07,
+          "reference_rms": 0.1511447469336756,
+          "nrmse": 3.006415476238381e-06,
+          "nmse": 9.038534015765651e-12,
+          "max_abs": 1.1281476187952055e-06
+        },
+        "p": {
+          "rmse": 1.75484985375748e-07,
+          "reference_rms": 0.08684797092103547,
+          "nrmse": 2.0205997159715304e-06,
+          "nmse": 4.082823212184229e-12,
+          "max_abs": 4.3737744052918526e-07
+        }
+      },
+      "independent_OpenFOAM_N64": {
+        "u": {
+          "rmse": 0.0008506587834738065,
+          "reference_rms": 0.2119464738115078,
+          "nrmse": 0.004013554781903709,
+          "nmse": 1.610862198734213e-05,
+          "max_abs": 0.005879302883174509
+        },
+        "v": {
+          "rmse": 0.0007163551174146653,
+          "reference_rms": 0.1511447469336756,
+          "nrmse": 0.00473953036375794,
+          "nmse": 2.246314806898347e-05,
+          "max_abs": 0.006604399443247422
+        },
+        "p": {
+          "rmse": 0.000601161186392899,
+          "reference_rms": 0.08684797092103547,
+          "nrmse": 0.006921994607559583,
+          "nmse": 4.791400934708395e-05,
+          "max_abs": 0.013841064627220234
+        }
+      },
+      "independent_OpenFOAM_N128": {
+        "u": {
+          "rmse": 0.0005560630261889427,
+          "reference_rms": 0.2119464738115078,
+          "nrmse": 0.002623601214915569,
+          "nmse": 6.8832833349064495e-06,
+          "max_abs": 0.009733597733714176
+        },
+        "v": {
+          "rmse": 0.0006355496644617913,
+          "reference_rms": 0.1511447469336756,
+          "nrmse": 0.004204907397414739,
+          "nmse": 1.7681246220833194e-05,
+          "max_abs": 0.011425576950010397
+        },
+        "p": {
+          "rmse": 0.0004575315108919068,
+          "reference_rms": 0.08684797092103547,
+          "nrmse": 0.005268188836650045,
+          "nmse": 2.7753813618604157e-05,
+          "max_abs": 0.01100716059971063
+        }
+      }
+    },
+    "reference_sha256": "cc4288b02e29d48e4437487e5e0fda0f7246425a6ba6911039dc28d50a0615ae",
+    "resource_status": "provisional"
+  },
+  "reference_production": {
+    "index": 12,
+    "task": "cc-2d-navier-stokes-cavity",
+    "case_id": "C12-base",
+    "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+    "input_contract": "passed",
+    "reference_status": "computed-needs-independent-audit",
+    "comparisons": {
+      "space_L0_L1": {
+        "u": {
+          "rmse": 0.001584310746611051,
+          "reference_rms": 0.21191695780668743,
+          "nrmse": 0.00747609234772176,
+          "nmse": 5.5891956791663866e-05,
+          "max_abs": 0.03097724918942264
+        },
+        "v": {
+          "rmse": 0.001768260095665553,
+          "reference_rms": 0.15082413163517744,
+          "nrmse": 0.011723986582881363,
+          "nmse": 0.00013745186139558222,
+          "max_abs": 0.03309832703855653
+        },
+        "p": {
+          "rmse": 0.0017173979795368109,
+          "reference_rms": 0.08640252868865617,
+          "nrmse": 0.0198767096935936,
+          "nmse": 0.00039508358824339774,
+          "max_abs": 0.051223344748113186
+        }
+      },
+      "space_L1_L2": {
+        "u": {
+          "rmse": 0.00038637477498585325,
+          "reference_rms": 0.21194632751311937,
+          "nrmse": 0.0018229840522333979,
+          "nmse": 3.3232708546973e-06,
+          "max_abs": 0.007881141357840583
+        },
+        "v": {
+          "rmse": 0.0004132870509575857,
+          "reference_rms": 0.1511444261639742,
+          "nrmse": 0.0027343849948473593,
+          "nmse": 7.476861300046393e-06,
+          "max_abs": 0.007048215847854145
+        },
+        "p": {
+          "rmse": 0.0006489654676614082,
+          "reference_rms": 0.08684790256972587,
+          "nrmse": 0.007472436851775276,
+          "nmse": 5.58373125037692e-05,
+          "max_abs": 0.018446511459791815
+        }
+      },
+      "half_dt": {
+        "u": {
+          "rmse": 4.953842757036747e-07,
+          "reference_rms": 0.2119464738115078,
+          "nrmse": 2.3373084099726005e-06,
+          "nmse": 5.463010603328646e-12,
+          "max_abs": 1.0840402152670348e-06
+        },
+        "v": {
+          "rmse": 4.544039063335359e-07,
+          "reference_rms": 0.1511447469336756,
+          "nrmse": 3.006415476238381e-06,
+          "nmse": 9.038534015765651e-12,
+          "max_abs": 1.1281476187952055e-06
+        },
+        "p": {
+          "rmse": 1.75484985375748e-07,
+          "reference_rms": 0.08684797092103547,
+          "nrmse": 2.0205997159715304e-06,
+          "nmse": 4.082823212184229e-12,
+          "max_abs": 4.3737744052918526e-07
+        }
+      }
+    },
+    "reference_self_grade": "passed",
+    "production_sources": [
+      {
+        "file": "cavity-p3/C12/L0-dt1/process.json",
+        "sha256": "e9e137f1d335d011dee1ec6a59537bb514f45fa5f6f32e46172f66fff5202bff"
+      },
+      {
+        "file": "cavity-p3/C12/L0-dt1/native.npz",
+        "sha256": "196dbb2fe91639e9f6c9581ef416284cad95fc0589cab46c1ed40f663b2f5b87"
+      },
+      {
+        "file": "cavity-p3/C12/L1-dt1/process.json",
+        "sha256": "26250381f523c5bd9ae0bb4756740cba3fc5d4ef905c2dca9a34088f6640eb6a"
+      },
+      {
+        "file": "cavity-p3/C12/L1-dt1/native.npz",
+        "sha256": "af35e7ce83a67dbb87154e5a245eabf56c538f90221b6279c918a9a963d34340"
+      },
+      {
+        "file": "cavity-p3/C12/L2-dt1/process.json",
+        "sha256": "73a030d5bd8bac60ff923b2a937be2c6595d461a5a86b098afe217d24202e2fd"
+      },
+      {
+        "file": "cavity-p3/C12/L2-dt1/native.npz",
+        "sha256": "ac4e14a97a6c6204a5d86aea71cbdf96ea411b7b2666ebd132efc5522269ae03"
+      },
+      {
+        "file": "cavity-p3/C12/L2-dt2/process.json",
+        "sha256": "46c74abc274211862967591356deca1eb802fb1109f55a740a59c11b359d03cb"
+      },
+      {
+        "file": "cavity-p3/C12/L2-dt2/native.npz",
+        "sha256": "7e64908e85e5113a5c73b3f48966ff6aa1fe77ea642456d03de4b53908a53c0a"
+      }
+    ],
+    "reference_sha256": "cc4288b02e29d48e4437487e5e0fda0f7246425a6ba6911039dc28d50a0615ae"
+  },
+  "conversion_tool_sha256": "30675f2817ab349d9c769bea4f8ca60829513342e9b82e03cb65c8196e724926",
+  "resource_status": "provisional",
+  "hf_uploaded": false
+}

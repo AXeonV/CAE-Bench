@@ -31,6 +31,7 @@ def configure(parser):
         if command == 'select':
             p.add_argument('--case', action='append', default=[], help='[local-name=]case-id; repeatable')
             p.add_argument('--sample', action='append', default=[], help='[local-name=]case-id; repeatable')
+            p.add_argument('--format-sample', action='append', default=[], help='Format-only input/random-output example; [local-name=]case-id')
             p.add_argument('--output', type=Path, help='Write a separate selection instead of replacing the manifest')
             p.add_argument('--allow-incomplete', action='store_true', help='Development selection only; strict consumption still refuses incomplete data')
         elif command in ('fetch', 'assemble'):
@@ -71,9 +72,9 @@ def _run(args):
     store = pool.LocalStore(args.source_dir) if args.source_dir else pool.HubStore(
         value['repository']['repo_id'], args.revision, args.cache_dir)
     if args.data_command == 'select':
-        if not args.case and not args.sample:
+        if not args.case and not args.sample and not args.format_sample:
             raise pool.PoolError('Select at least one --case or --sample')
-        result = pool.select(value, store, args.case, args.sample, allow_incomplete=args.allow_incomplete)
+        result = pool.select(value, store, args.case, args.sample, allow_incomplete=args.allow_incomplete, format_samples=args.format_sample)
         destination = args.output or selection
         pool.write_json(destination, result)
         return {'selection': str(destination), 'revision': store.revision,

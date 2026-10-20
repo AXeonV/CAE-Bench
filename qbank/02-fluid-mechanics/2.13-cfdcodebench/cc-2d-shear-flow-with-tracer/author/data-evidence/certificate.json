@@ -1,0 +1,260 @@
+{
+  "source_id": "CFDCodeBench:e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2:2D_Shear_Flow_With_Tracer",
+  "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_problem": "2D_Shear_Flow_With_Tracer",
+  "development_case_id": "C22-base",
+  "input_files": {
+    "input.h5": "719cceadc3d3bf25d77172754ae8dd98f524cdba1ec1ac61dfca028d8ee1479d",
+    "problem.json": "fd6b9756def7bd0e7dcd9973b8183d5e5f8aeba7569f3166b9341c55a3349320"
+  },
+  "reference_files": {
+    "grading.json": "0852e3a461540dcf7240233c95b50f03b12578063dee9f0cbc42eefa5df0fdf6",
+    "reference.h5": "f98db963d005e95216a76f6a73676bc9a733d3851d8333680cc8e39008872d3a"
+  },
+  "contract_sha256": "130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063",
+  "numerical_validation_sha256": "9999b615adc6db8bd5a91845d51d44aab626065e96ae501c18f30f096499e07a",
+  "numerical_validation": {
+    "index": 22,
+    "task": "cc-2d-shear-flow-with-tracer",
+    "case_id": "C22-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [
+      "Space/time checks use the same Dedalus engine and equation configuration; not an independent solver cross-validation"
+    ],
+    "checks": {
+      "space_L0_L1": {
+        "u": {
+          "rmse": 0.0006263831249206998,
+          "reference_rms": 0.4379484492864326,
+          "nrmse": 0.001430266794964776,
+          "nmse": 2.0456631047788126e-06,
+          "max_abs": 0.0023588997809186607
+        },
+        "w": {
+          "rmse": 0.0005620552935634056,
+          "reference_rms": 0.07723873314980104,
+          "nrmse": 0.007276858004303679,
+          "nmse": 5.295266241479852e-05,
+          "max_abs": 0.0017686117008610391
+        },
+        "s": {
+          "rmse": 0.008865789468679114,
+          "reference_rms": 0.3987273478419459,
+          "nrmse": 0.022235217916864534,
+          "nmse": 0.0004944049158104536,
+          "max_abs": 0.0437428040658855
+        },
+        "p": {
+          "rmse": 0.00011456312050583665,
+          "reference_rms": 0.041171713337552325,
+          "nrmse": 0.0027825686914356496,
+          "nmse": 7.742688522557903e-06,
+          "max_abs": 0.0003663445880378244
+        }
+      },
+      "space_L1_L2": {
+        "u": {
+          "rmse": 1.5162656180900307e-05,
+          "reference_rms": 0.4379483454360245,
+          "nrmse": 3.4622019557590195e-05,
+          "nmse": 1.198684238246158e-09,
+          "max_abs": 6.15355452590477e-05
+        },
+        "w": {
+          "rmse": 1.1894781271940488e-05,
+          "reference_rms": 0.0772393169298653,
+          "nrmse": 0.00015399904795560486,
+          "nmse": 2.3715706771232684e-08,
+          "max_abs": 3.649600051670518e-05
+        },
+        "s": {
+          "rmse": 0.0002997115500051294,
+          "reference_rms": 0.39872423827518216,
+          "nrmse": 0.0007516762745641802,
+          "nmse": 5.650172217426847e-07,
+          "max_abs": 0.001981273833017525
+        },
+        "p": {
+          "rmse": 2.2613562775443302e-06,
+          "reference_rms": 0.041172562559389864,
+          "nrmse": 5.492386523871108e-05,
+          "nmse": 3.016630972760095e-09,
+          "max_abs": 6.5497501722106e-06
+        }
+      },
+      "half_dt": {
+        "u": {
+          "rmse": 2.53430306134044e-08,
+          "reference_rms": 0.43794834616308415,
+          "nrmse": 5.786762488187844e-08,
+          "nmse": 3.3486620094697966e-15,
+          "max_abs": 1.1179130679495053e-07
+        },
+        "w": {
+          "rmse": 1.8844965307161036e-08,
+          "reference_rms": 0.07723931098506745,
+          "nrmse": 2.439815304774573e-07,
+          "nmse": 5.952698721412243e-14,
+          "max_abs": 7.02074881564485e-08
+        },
+        "s": {
+          "rmse": 8.571585048982768e-07,
+          "reference_rms": 0.398724242741874,
+          "nrmse": 2.149752668671275e-06,
+          "nmse": 4.621436536459268e-12,
+          "max_abs": 4.2706801965941565e-06
+        },
+        "p": {
+          "rmse": 5.807731437932489e-07,
+          "reference_rms": 0.041172022374359823,
+          "nrmse": 1.4106014480234267e-05,
+          "nmse": 1.9897964451657884e-10,
+          "max_abs": 1.3426768657037735e-06
+        }
+      }
+    },
+    "reference_sha256": "f98db963d005e95216a76f6a73676bc9a733d3851d8333680cc8e39008872d3a",
+    "resource_status": "provisional"
+  },
+  "reference_production": {
+    "index": 22,
+    "task": "cc-2d-shear-flow-with-tracer",
+    "case_id": "C22-base",
+    "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+    "input_contract": "passed",
+    "reference_status": "computed-needs-independent-audit",
+    "comparisons": {
+      "space_L0_L1": {
+        "u": {
+          "rmse": 0.0006263831249206998,
+          "reference_rms": 0.4379484492864326,
+          "nrmse": 0.001430266794964776,
+          "nmse": 2.0456631047788126e-06,
+          "max_abs": 0.0023588997809186607
+        },
+        "w": {
+          "rmse": 0.0005620552935634056,
+          "reference_rms": 0.07723873314980104,
+          "nrmse": 0.007276858004303679,
+          "nmse": 5.295266241479852e-05,
+          "max_abs": 0.0017686117008610391
+        },
+        "s": {
+          "rmse": 0.008865789468679114,
+          "reference_rms": 0.3987273478419459,
+          "nrmse": 0.022235217916864534,
+          "nmse": 0.0004944049158104536,
+          "max_abs": 0.0437428040658855
+        },
+        "p": {
+          "rmse": 0.00011456312050583665,
+          "reference_rms": 0.041171713337552325,
+          "nrmse": 0.0027825686914356496,
+          "nmse": 7.742688522557903e-06,
+          "max_abs": 0.0003663445880378244
+        }
+      },
+      "space_L1_L2": {
+        "u": {
+          "rmse": 1.5162656180900307e-05,
+          "reference_rms": 0.4379483454360245,
+          "nrmse": 3.4622019557590195e-05,
+          "nmse": 1.198684238246158e-09,
+          "max_abs": 6.15355452590477e-05
+        },
+        "w": {
+          "rmse": 1.1894781271940488e-05,
+          "reference_rms": 0.0772393169298653,
+          "nrmse": 0.00015399904795560486,
+          "nmse": 2.3715706771232684e-08,
+          "max_abs": 3.649600051670518e-05
+        },
+        "s": {
+          "rmse": 0.0002997115500051294,
+          "reference_rms": 0.39872423827518216,
+          "nrmse": 0.0007516762745641802,
+          "nmse": 5.650172217426847e-07,
+          "max_abs": 0.001981273833017525
+        },
+        "p": {
+          "rmse": 2.2613562775443302e-06,
+          "reference_rms": 0.041172562559389864,
+          "nrmse": 5.492386523871108e-05,
+          "nmse": 3.016630972760095e-09,
+          "max_abs": 6.5497501722106e-06
+        }
+      },
+      "half_dt": {
+        "u": {
+          "rmse": 2.53430306134044e-08,
+          "reference_rms": 0.43794834616308415,
+          "nrmse": 5.786762488187844e-08,
+          "nmse": 3.3486620094697966e-15,
+          "max_abs": 1.1179130679495053e-07
+        },
+        "w": {
+          "rmse": 1.8844965307161036e-08,
+          "reference_rms": 0.07723931098506745,
+          "nrmse": 2.439815304774573e-07,
+          "nmse": 5.952698721412243e-14,
+          "max_abs": 7.02074881564485e-08
+        },
+        "s": {
+          "rmse": 8.571585048982768e-07,
+          "reference_rms": 0.398724242741874,
+          "nrmse": 2.149752668671275e-06,
+          "nmse": 4.621436536459268e-12,
+          "max_abs": 4.2706801965941565e-06
+        },
+        "p": {
+          "rmse": 5.807731437932489e-07,
+          "reference_rms": 0.041172022374359823,
+          "nrmse": 1.4106014480234267e-05,
+          "nmse": 1.9897964451657884e-10,
+          "max_abs": 1.3426768657037735e-06
+        }
+      }
+    },
+    "reference_self_grade": "passed",
+    "production_sources": [
+      {
+        "file": "spectral/2D_Shear_Flow_With_Tracer/L0-dt1/process.json",
+        "sha256": "d90ff675ada6aeea0bc2e620f6c17a9e4bfc31f2d256a9187fc845d90aa9245f"
+      },
+      {
+        "file": "spectral/2D_Shear_Flow_With_Tracer/L0-dt1/native.npz",
+        "sha256": "6e28dbb8cc3df1bf19f46a6d8213bb2ec7cad439a6802d59653319222c311190"
+      },
+      {
+        "file": "spectral/2D_Shear_Flow_With_Tracer/L1-dt1/process.json",
+        "sha256": "988e56cefb54adc511c048447be8a398b538e9aee4af5c07f4060329848b6aad"
+      },
+      {
+        "file": "spectral/2D_Shear_Flow_With_Tracer/L1-dt1/native.npz",
+        "sha256": "d581d48521de6908ab2f9c5ee2ad68446e23501f6ca05fad4d1d64839621d398"
+      },
+      {
+        "file": "spectral/2D_Shear_Flow_With_Tracer/L2-dt1/process.json",
+        "sha256": "10e0e6bed22467412a9bd49c15244841c8f2d9d9aec22a1cc954a1c2059fe653"
+      },
+      {
+        "file": "spectral/2D_Shear_Flow_With_Tracer/L2-dt1/native.npz",
+        "sha256": "6394496fe43297089dce98fc5b3d723db570e9463a859df98b5241a8d167ec86"
+      },
+      {
+        "file": "spectral/2D_Shear_Flow_With_Tracer/L2-dt2/process.json",
+        "sha256": "8fc0663d3ff95c7b0876001f2d7d8537fa2532a1c61ea3c8475427bc81db74e4"
+      },
+      {
+        "file": "spectral/2D_Shear_Flow_With_Tracer/L2-dt2/native.npz",
+        "sha256": "006140177fb39f61f5810a48b6a5a0ff71b724433e09d544e1d64c705b0e0525"
+      }
+    ],
+    "reference_sha256": "f98db963d005e95216a76f6a73676bc9a733d3851d8333680cc8e39008872d3a"
+  },
+  "conversion_tool_sha256": "30675f2817ab349d9c769bea4f8ca60829513342e9b82e03cb65c8196e724926",
+  "resource_status": "provisional",
+  "hf_uploaded": false
+}

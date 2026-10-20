@@ -1,0 +1,105 @@
+{
+  "index": 5,
+  "task": "cc-1d-nonlinear-convection",
+  "task_id": "caeoj-000010",
+  "pool_case_id": "case-3d51485d43e942d046f0ffa1",
+  "bundle": "D:\\Code\\CAE-Bench-OJ\\runs\\benchmarks\\cfdcodebench-24-20261020\\release\\bundles\\cc-1d-nonlinear-convection",
+  "reference_sha256": "95fbeda2b8120d8e7be669188c0db82b6cffdf9ebcc2d4211fa9edcdeaffc675",
+  "hf_branch": "cases/cfdcodebench-24-20261020",
+  "hf_commit": "dc2be55e268aa078897da29de693491d3abf1e03",
+  "manifest_sha256": "4c8506b691218864cc7ef8bbf9a7734e612a9db5888b92088cfdf4c7b89f9ae4",
+  "descriptor_sha256": "d6dcb36348f6c9a6f42fc83c83662305aac37a1c0144dd3d7a5f634e598f2287",
+  "samples": 1,
+  "sample_kind": "format",
+  "sample_seed": 2026102005,
+  "sample_output_sha256": "02594894302724588a77a32f1274840a3a94d2148bd96bb774855082a7f39342",
+  "strict_integrity": {
+    "valid": true,
+    "errors": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-3d51485d43e942d046f0ffa1",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "assembly_report": {
+    "revision": "dc2be55e268aa078897da29de693491d3abf1e03",
+    "files": 8,
+    "changed": 0,
+    "removed": 0,
+    "complete": true,
+    "incomplete": [],
+    "overlaps": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-3d51485d43e942d046f0ffa1",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "numerical_validation": {
+    "index": 5,
+    "task": "cc-1d-nonlinear-convection",
+    "case_id": "C05-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [],
+    "checks": {
+      "truncation_64_128": {
+        "u": {
+          "rmse": 2.1028398722849265e-16,
+          "reference_rms": 0.44181891952188457,
+          "nrmse": 4.759506167278939e-16,
+          "nmse": 2.2652898956366253e-31,
+          "max_abs": 6.661338147750939e-16
+        }
+      },
+      "truncation_128_256": {
+        "u": {
+          "rmse": 1.3902995653644572e-16,
+          "reference_rms": 0.44181891952188457,
+          "nrmse": 3.1467633094322293e-16,
+          "nmse": 9.902119325588876e-32,
+          "max_abs": 5.551115123125783e-16
+        }
+      },
+      "source_C05-N2049": {
+        "u": {
+          "rmse": 0.017202935281714186,
+          "reference_rms": 0.44181891952188457,
+          "nrmse": 0.03893661978153942,
+          "nmse": 0.001516060360012167,
+          "max_abs": 0.2393267751387123
+        }
+      },
+      "source_C05-N4097": {
+        "u": {
+          "rmse": 0.006139094956738076,
+          "reference_rms": 0.44181891952188457,
+          "nrmse": 0.01389504768917889,
+          "nmse": 0.00019307235028455562,
+          "max_abs": 0.0866058425009172
+        }
+      },
+      "source_C05-N8193": {
+        "u": {
+          "rmse": 0.0006564335269620704,
+          "reference_rms": 0.44181891952188457,
+          "nrmse": 0.0014857524156557886,
+          "nmse": 2.2074602406270113e-06,
+          "max_abs": 0.008654357995744544
+        }
+      }
+    },
+    "reference_sha256": "95fbeda2b8120d8e7be669188c0db82b6cffdf9ebcc2d4211fa9edcdeaffc675",
+    "resource_status": "provisional"
+  },
+  "resource_status": "awaiting_calibration",
+  "installed_consumption": "passed"
+}

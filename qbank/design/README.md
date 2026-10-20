@@ -14,6 +14,8 @@ HF 题内数据池、稳定身份、选样清单及目录装配见[题库数据�
 
 Case 级判题的实施、HF 迁移和验证证据见[实施记录](reviews/case-grading.md)及[后续修复](reviews/case-grading-followup.md)，当前协议以[判题说明](../../docs/GRADING.md)为准。
 
+来源兼容专题的后续规划见 [CFDCodeBench 24 题迁移方案](cfdcodebench-migration-plan.md)；该记录不代表题面、参考或正式评测已完成。
+
 通用工具的历史实施见[数据池工具实施与验证](reviews/data-pool-tools.md)；当前自包含目录的迁移及验证见[case 布局收束](reviews/case-pool-simplification.md)。
 
 ## 章级目录

@@ -1,0 +1,124 @@
+{
+  "source_id": "CFDCodeBench:e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2:2D_Diffusion",
+  "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_problem": "2D_Diffusion",
+  "development_case_id": "C08-base",
+  "input_files": {
+    "input.h5": "cf7054eea5d3a976282b9f6ecd0ccb7071d46b0b1e1258b3d158f2cef9e68649",
+    "problem.json": "9ac32030ddb69c44684e922d80c630a724e05a1242a166f76b1c296fe8445923"
+  },
+  "reference_files": {
+    "grading.json": "ac9c323ab597699ebee1b0865f66d38bf379cb37e54fdcee0c693e51a8d8b932",
+    "reference.h5": "7bd0eee2d8d57c580c27864ea765d04224668f0f803e567834d4ed53ff6a77b9"
+  },
+  "contract_sha256": "130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063",
+  "numerical_validation_sha256": "0a2cbe65182147edb0a18a2862cb19807b1bfcd0ddf19f7b3aeafa6b9b3a9787",
+  "numerical_validation": {
+    "index": 8,
+    "task": "cc-2d-diffusion",
+    "case_id": "C08-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [],
+    "checks": {
+      "truncation_64_128": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 1.0702607522540424,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "truncation_128_256": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 1.0702607522540424,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "independent_representation": {
+        "u": {
+          "rmse": 8.931837655653145e-17,
+          "reference_rms": 1.0702607522540424,
+          "nrmse": 8.345478087318519e-17,
+          "nmse": 6.964700450591356e-33,
+          "max_abs": 4.440892098500626e-16
+        }
+      },
+      "source_C08-N61": {
+        "u": {
+          "rmse": 0.016345368348253255,
+          "reference_rms": 1.0702607522540424,
+          "nrmse": 0.01527232341635325,
+          "nmse": 0.0002332438625336918,
+          "max_abs": 0.046617763083874664
+        }
+      },
+      "source_C08-N121": {
+        "u": {
+          "rmse": 0.008108002282131195,
+          "reference_rms": 1.0702607522540424,
+          "nrmse": 0.007575726069609847,
+          "nmse": 5.739162548176626e-05,
+          "max_abs": 0.023643086461411444
+        }
+      },
+      "source_C08-N241": {
+        "u": {
+          "rmse": 0.004037591417964892,
+          "reference_rms": 1.0702607522540424,
+          "nrmse": 0.003772530581413406,
+          "nmse": 1.4231986987699372e-05,
+          "max_abs": 0.011915575851376703
+        }
+      }
+    },
+    "reference_sha256": "7bd0eee2d8d57c580c27864ea765d04224668f0f803e567834d4ed53ff6a77b9",
+    "resource_status": "provisional"
+  },
+  "reference_production": {
+    "index": 8,
+    "task": "cc-2d-diffusion",
+    "case_id": "C08-base",
+    "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+    "input_contract": "passed",
+    "reference_status": "formula-evaluated-needs-independent-audit",
+    "comparisons": {
+      "truncation_64_128": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 1.0702607522540424,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "truncation_128_256": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 1.0702607522540424,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      }
+    },
+    "producer": "published representation; see formula audit",
+    "reference_self_grade": "passed",
+    "reference_sha256": "7bd0eee2d8d57c580c27864ea765d04224668f0f803e567834d4ed53ff6a77b9",
+    "production_sources": [
+      {
+        "file": "qbank\\02-fluid-mechanics\\2.13-cfdcodebench\\author\\analytic.py",
+        "sha256": "b86207a33d547f35ad53aaa4307a61b769a2527ca32b8392f8ca60cd396dd692",
+        "base": "repository"
+      }
+    ]
+  },
+  "conversion_tool_sha256": "30675f2817ab349d9c769bea4f8ca60829513342e9b82e03cb65c8196e724926",
+  "resource_status": "provisional",
+  "hf_uploaded": false
+}

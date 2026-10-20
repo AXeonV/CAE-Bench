@@ -118,7 +118,10 @@ class QuantityPolicyTests(unittest.TestCase):
 
     def test_all_chapter_two_configs_grade_requested_quantities_and_exact_boundaries(self):
         from caeoj.grading_policy import load_policy
-        policies = sorted((ROOT / 'qbank/02-fluid-mechanics').glob('*/*/author/grading-template.json'))
+        # The original65 general fluid tasks use pointwise quantity rules;
+        # compatibility collections have separate per-case evaluator tests.
+        policies = sorted(p for p in (ROOT / 'qbank/02-fluid-mechanics').glob('*/*/author/grading-template.json')
+                          if p.parents[2].name.split('-')[0] not in ('2.12','2.13'))
         self.assertEqual(len(policies), 65)
         for path in policies:
             with self.subTest(task=path.parent.name):

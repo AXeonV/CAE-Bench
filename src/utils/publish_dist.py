@@ -30,29 +30,35 @@ h5py、NumPy、Gmsh、jsonschema 是协议依赖；额外求解依赖由程序�
 """
 
 
-def agent_readme(task_path, sample, *, include_install=True):
+def agent_readme(task_path, sample, *, include_install=True, kind='graded'):
     installation = INSTALLATION if include_install else ""
-    return f"""# 解题材料
+    prefix = f'{task_path}/samples/{sample}'
+    description = ('公开格式示例仅提供输入与数值随机的 output/result.h5；随机输出不代表正确解，不能用作数值参考。'
+                   if kind == 'format' else '以下命令所用数值样例的 reference/grading.json 供本地判分使用，不是额外题意。')
+    commands = [f'python -m caeoj validate-input {prefix}/input/problem.json',
+                f'python solve.py --input {prefix}/input/problem.json --output result.h5',
+                f'python -m caeoj validate-output --input {prefix}/input/problem.json --output result.h5']
+    if kind != 'format':
+        commands.append(f'python -m caeoj grade --input {prefix}/input/problem.json --output result.h5 --grading {prefix}/reference/grading.json')
+    return (f'# 解题材料\n\n阅读 `{task_path}/instruction.md`、同题 DATA.md 和 `docs/CONTRACT.md` 即可确定完整任务与数据规则。'
+            f'公开示例在 `{task_path}/samples/`。{description}\n\n{installation}\n'
+            '在理解输入、编写和调试程序时可随时使用：\n\n```text\n'+'\n'.join(commands)+'\n```\n\n'
+            '校验器检查结构、引用及声明约束，不验证或纠正物理结果。\n'
+            '可用 `caeoj.sdk` 的 `load_problem`、`read_constant`、`read_field`、`write_result` 读写数据；'
+            '用法见 CONTRACT.md 和本题 DATA.md。\n\n'
+            '本包只含公开解题材料。MANIFEST.json 记录所含文件的 SHA-256。\n').encode('utf-8')
 
-阅读 `{task_path}/instruction.md`、同题 DATA.md 和 `docs/CONTRACT.md` 即可确定完整任务与数据规则。公开示例在 `{task_path}/samples/`；每个样例的 reference/grading.json 供本地判分使用，不是额外题意。
 
-{installation}
-
-在理解输入、编写和调试程序时可随时使用：
-
-```text
-python -m caeoj validate-input {task_path}/samples/{sample}/input/problem.json
-python solve.py --input {task_path}/samples/{sample}/input/problem.json --output result.h5
-python -m caeoj validate-output --input {task_path}/samples/{sample}/input/problem.json --output result.h5
-python -m caeoj grade --input {task_path}/samples/{sample}/input/problem.json --output result.h5 --grading {task_path}/samples/{sample}/reference/grading.json
-```
-
-校验器检查结构、引用及声明约束，不验证或纠正物理结果。
-可用 `caeoj.sdk` 的 `load_problem`、`read_constant`、`read_field`、`write_result` 读写数据，
-示例见 CONTRACT.md 和题目 DATA.md。提交程序接口及支持范围以题面为准。
-
-本包只含公开解题材料。MANIFEST.json 记录所含文件的 SHA-256。
-""".encode("utf-8")
+def sample_kind(task_dir, name, root):
+    manifest = task_dir/'data-manifest.json'
+    if manifest.exists():
+        return json.loads(read_public_file(root, manifest))['samples'][name].get('kind', 'graded')
+    marker = task_dir/'samples'/name/'example.json'
+    if marker.exists():
+        if json.loads(read_public_file(root, marker)) != {'kind': 'format'}:
+            raise ValueError('Invalid format example declaration')
+        return 'format'
+    return 'graded'
 
 
 def collect_materials(task, root=PROJECT_ROOT):
@@ -92,6 +98,14 @@ def collect_materials(task, root=PROJECT_ROOT):
         if not diagnostics["valid"]:
             raise ContractError(diagnostics)
         sample = path.parent.parent
+        kind = sample_kind(task_dir, sample.name, root)
+        if kind == 'format':
+            result = sample/'output/result.h5'
+            add(result)
+            diagnostics = validate_output(path, result)
+            if not diagnostics['valid']: raise ContractError(diagnostics)
+            samples.append(sample.name)
+            continue
         prepared = prepare_case(load_problem(path), sample/'reference/grading.json')
         for name in prepared.evidence['assets']:
             add(sample/'reference'/name)
@@ -104,8 +118,9 @@ def collect_materials(task, root=PROJECT_ROOT):
             grade = grade_case(path, result, sample/'reference/grading.json')
             if grade['score'] != 1: raise ValueError('Public submission example fails its case evaluation')
         samples.append(sample.name)
-    files["README.md"] = agent_readme(task_path, samples[0])
-    manifest = {"task": task, "public_samples": samples, "assembly": runtime["id"],
+    kinds = {name: sample_kind(task_dir, name, root) for name in samples}
+    files["README.md"] = agent_readme(task_path, samples[0], kind=kinds[samples[0]])
+    manifest = {"task": task, "public_samples": samples, "sample_kinds": kinds, "assembly": runtime["id"],
                 "files": {name: hashlib.sha256(data).hexdigest() for name, data in sorted(files.items())}}
     files["MANIFEST.json"] = (json.dumps(manifest, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
     return files, samples
@@ -122,8 +137,10 @@ def collect_bundle(tasks, root=PROJECT_ROOT):
     directories = {task: task_directory(task, root) for task in tasks}
     files, runtime = runtime_materials(directories, root)
     samples = {}
+    kinds = {}
     for task in tasks:
         single, samples[task] = collect_materials(task, root)
+        kinds[task] = json.loads(single['MANIFEST.json'])['sample_kinds']
         for name, data in single.items():
             if name.startswith('src/') or name in ('README.md', 'MANIFEST.json', 'pyproject.toml'):
                 continue
@@ -133,9 +150,9 @@ def collect_bundle(tasks, root=PROJECT_ROOT):
     readme = ['# 解题材料', '', INSTALLATION,
               '以下每题分别阅读 instruction.md、DATA.md 与通用 docs/CONTRACT.md；使用同一套 caeoj 命令与 SDK。', '']
     for task, directory in directories.items():
-        readme.append(agent_readme(directory.relative_to(root).as_posix(), samples[task][0], include_install=False).decode())
+        readme.append(agent_readme(directory.relative_to(root).as_posix(), samples[task][0], include_install=False, kind=kinds[task][samples[task][0]]).decode())
     files['README.md'] = ('\n'.join(readme)).encode()
-    manifest = {'tasks': tasks, 'public_samples': samples, 'assembly': runtime['id'],
+    manifest = {'tasks': tasks, 'public_samples': samples, 'sample_kinds': kinds, 'assembly': runtime['id'],
                 'files': {name: hashlib.sha256(data).hexdigest() for name, data in sorted(files.items())}}
     files['MANIFEST.json'] = (json.dumps(manifest, ensure_ascii=False, indent=2)+'\n').encode()
     return files, samples

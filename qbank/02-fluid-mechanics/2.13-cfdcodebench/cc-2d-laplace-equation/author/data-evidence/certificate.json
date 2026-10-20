@@ -1,0 +1,115 @@
+{
+  "source_id": "CFDCodeBench:e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2:2D_Laplace_Equation",
+  "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_problem": "2D_Laplace_Equation",
+  "development_case_id": "C10-base",
+  "input_files": {
+    "input.h5": "580ec9fb425ced18d9d90523de8bcccf5ef8cb50632af3abfa00358a8740c141",
+    "problem.json": "0bf3f0d1a83a11e3d018476d96ee8563728b511e8082209f3f68c6d569d8b82e"
+  },
+  "reference_files": {
+    "grading.json": "521a8834d0645b3eb8ab6b918f76bb6eebf9ff3bbebf3108539ae56ef18ae1e2",
+    "reference.h5": "2affb109b13c626ccff41251fbeb4cb6f48b8b3e00e45c033bda9ad9bd5f2eb6"
+  },
+  "contract_sha256": "130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063",
+  "numerical_validation_sha256": "6e4add6f8cb8f15d26a4695ea9d612ff79778d6e8302a46031a5cc43d8a5ccd0",
+  "numerical_validation": {
+    "index": 10,
+    "task": "cc-2d-laplace-equation",
+    "case_id": "C10-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [],
+    "checks": {
+      "truncation_64_128": {
+        "p": {
+          "rmse": 1.351837695966433e-07,
+          "reference_rms": 0.29976448300816194,
+          "nrmse": 4.509665996453707e-07,
+          "nmse": 2.033708739957081e-13,
+          "max_abs": 3.110867157152253e-06
+        }
+      },
+      "truncation_128_256": {
+        "p": {
+          "rmse": 2.4987975499151526e-10,
+          "reference_rms": 0.2997644830100628,
+          "nrmse": 8.335869295867417e-10,
+          "nmse": 6.948671691778514e-19,
+          "max_abs": 4.5970257600558284e-09
+        }
+      },
+      "independent_FEM_L0": {
+        "p": {
+          "rmse": 3.6448652468500805e-05,
+          "reference_rms": 0.2997644830100628,
+          "nrmse": 0.00012159096402116878,
+          "nmse": 1.4784362531597161e-08,
+          "max_abs": 0.0006969359368361738
+        }
+      },
+      "independent_FEM_L1": {
+        "p": {
+          "rmse": 1.2855367708486482e-05,
+          "reference_rms": 0.2997644830100628,
+          "nrmse": 4.2884892764480504e-05,
+          "nmse": 1.8391140274209923e-09,
+          "max_abs": 0.0004564684911431832
+        }
+      },
+      "independent_FEM_L2": {
+        "p": {
+          "rmse": 3.5523908393367384e-07,
+          "reference_rms": 0.2997644830100628,
+          "nrmse": 1.1850606194788888e-06,
+          "nmse": 1.4043686718396877e-12,
+          "max_abs": 1.4052840365222363e-05
+        }
+      }
+    },
+    "reference_sha256": "2affb109b13c626ccff41251fbeb4cb6f48b8b3e00e45c033bda9ad9bd5f2eb6",
+    "resource_status": "provisional"
+  },
+  "reference_production": {
+    "index": 10,
+    "task": "cc-2d-laplace-equation",
+    "case_id": "C10-base",
+    "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+    "input_contract": "passed",
+    "reference_status": "formula-evaluated-needs-independent-audit",
+    "comparisons": {
+      "truncation_64_128": {
+        "p": {
+          "rmse": 1.351837695966433e-07,
+          "reference_rms": 0.29976448300816194,
+          "nrmse": 4.509665996453707e-07,
+          "nmse": 2.033708739957081e-13,
+          "max_abs": 3.110867157152253e-06
+        }
+      },
+      "truncation_128_256": {
+        "p": {
+          "rmse": 2.4987975499151526e-10,
+          "reference_rms": 0.2997644830100628,
+          "nrmse": 8.335869295867417e-10,
+          "nmse": 6.948671691778514e-19,
+          "max_abs": 4.5970257600558284e-09
+        }
+      }
+    },
+    "producer": "published representation; see formula audit",
+    "reference_self_grade": "passed",
+    "reference_sha256": "2affb109b13c626ccff41251fbeb4cb6f48b8b3e00e45c033bda9ad9bd5f2eb6",
+    "production_sources": [
+      {
+        "file": "qbank\\02-fluid-mechanics\\2.13-cfdcodebench\\author\\analytic.py",
+        "sha256": "b86207a33d547f35ad53aaa4307a61b769a2527ca32b8392f8ca60cd396dd692",
+        "base": "repository"
+      }
+    ]
+  },
+  "conversion_tool_sha256": "30675f2817ab349d9c769bea4f8ca60829513342e9b82e03cb65c8196e724926",
+  "resource_status": "provisional",
+  "hf_uploaded": false
+}

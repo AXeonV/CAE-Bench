@@ -18,6 +18,8 @@ bundle 的 `repository/` 包含索引、case 描述、输入及reference/grading
 
 生成器应把解析、catalog、验证报告直接写到 `author/data-evidence/`。审核 bundle/evidence 后将应维护的 JSON 证据归到该目录；数字中间件留忽略的工作空间，不为追求原目录还原而再次引入附件机制。制池不修改正式选样，不自动重新求参考，也不将材料齐备宣称为数值通过。
 
+格式示例的生成目录含 `samples/<编号>/input/`、`output/result.h5`，另以作者侧 `example.json` 精确声明 `{"kind":"format"}`。输出的场值可随机，ID、时间轴、shape、dtype 必须遵守输入契约。该标记不进入公开包；不提供样例 reference 也可制池，但测试仍必须有完整参考。
+
 ## 上传
 
 ```sh
@@ -38,7 +40,7 @@ python -m caeoj_tools.cli data upload --bundle work/heat-pool
 python -m caeoj_tools.cli data select --task heat-conduction-steady-2d --case '001=<测试case-id>' --sample '01=<样例case-id>' --output work/heat-selection.json
 ```
 
-参数可重复，格式为 `[本地编号=]case-id`；省略编号则依次为 001、002 等。命令生成完整选择集合，未列的角色/条目不保留。默认写回本题清单，建议先用 `--output` 审核，再保存为题目 `data-manifest.json`。
+随机格式样例改用 `--format-sample '01=<case-id>'`，不能用 `--sample` 声称它是正确答案。参数可重复，格式为 `[本地编号=]case-id`；省略编号则依次为 001、002 等。命令生成完整选择集合，未列的角色/条目不保留。默认写回本题清单，建议先用 `--output` 审核，再保存为题目 `data-manifest.json`。
 
 选择绑定 case 描述摘要，检查输入/参考完整性及输入/来源轨迹重复。仅开发用途可加 `--allow-incomplete`，正式消费仍阻断缺失参考。选样不下载数值载荷，不支持附件或跨case依赖声明。
 
@@ -59,7 +61,7 @@ python -m caeoj_tools.cli data assemble --task heat-conduction-steady-2d --cases
 
 `--cases`/`--samples` 不传表示该角色全部选择；出现但不带名字表示不取该角色。每个 case 默认取得输入和对应参考，不下载作者证据。参考待补时结果 `complete: false` 并列出缺失，不能报告完整成功。
 
-case 输入原字节复制到本地 `cases/<编号>/` 或样例 `input/`；参考组装配到测试 reference/<编号>/ 或样例 samples/<编号>/reference/。仅声明了完整提交示例的case另装配样例output/result.h5；稀疏参考不作此映射。所有资产已经在输入目录内，不需要路径改写或跨目录读取。
+case 输入原字节复制到本地 `cases/<编号>/` 或样例 `input/`；参考组装配到测试 reference/<编号>/ 或样例 samples/<编号>/reference/。声明了example的case另装配样例output/result.h5；格式样例只装配input与output，不带reference或grading.json。稀疏参考不作此映射。所有资产已经在输入目录内，不需要路径改写或跨目录读取。
 
 相同文件跳过，差异先停止，显式 `--update` 才覆盖。装配先暂存、预检后写入，失败回滚，回执最后更新。改变范围/选样需清理旧已管理文件时也要 `--update`；被用户改过的旧文件和未知文件不静默删除。不要并发装配同题；异常进程留下锁时先检查 PID，再处理自己的遗留锁。
 
@@ -74,7 +76,7 @@ python -m caeoj_tools.cli data verify --task heat-conduction-steady-2d --strict
 
 开发不一致 warning、报告 `valid: false`、退出码 1；严格失败退出码 2。`--strict` 检查缺失、摘要、残留入口、不完整参考和重复输入/来源轨迹。`--samples-only` 只核验样例，无需测试材料。
 
-发布器离线严格核验样例，Harbor 准备离线严格核验全套选样，不自动下载或重选。同一池条目同时选为测试与样例时允许“送分样例”，装配及核验报告的 public_cases 列出对应关系；Harbor 的 selection.json 和成绩报告保留该身份，仍参与原总数和计分。此例外要求 case ID 与描述绑定完全一致，不放行角色内部重复或不同条目的输入／轨迹重叠。通过后按题目 README 做 SDK、数值与公开包独立运行核验；文件一致性不证明参考精度或资源校准。
+发布器离线严格核验样例，Harbor 准备离线严格核验全套选样，不自动下载或重选。同一池条目同时选为测试与样例时允许公开样例（格式样例仅公开输入与随机输出），装配及核验报告的 public_cases 列出对应关系；Harbor 的 selection.json 和成绩报告保留该身份，仍参与原总数和计分。此例外要求 case ID 与描述绑定完全一致，不放行角色内部重复或不同条目的输入／轨迹重叠。格式样例的严格校验和发布预检检查输入／输出契约，不将随机场作正确解判分；生成的说明标明其用途且不提供缺失参考的grade命令。通过后按题目 README 做 SDK、数值与公开包独立运行核验；文件一致性不证明参考精度或资源校准。
 
 代码提交保存工具、题意、选择和应维护的作者证据；不提交缓存、bundle、装配数据或凭据。HF 只维护最新数据，历史来源和阶段证据另见维护记录。
 

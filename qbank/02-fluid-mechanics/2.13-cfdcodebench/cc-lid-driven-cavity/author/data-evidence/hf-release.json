@@ -1,0 +1,175 @@
+{
+  "index": 18,
+  "task": "cc-lid-driven-cavity",
+  "task_id": "caeoj-000023",
+  "pool_case_id": "case-2e84a351917193882c861a23",
+  "bundle": "D:\\Code\\CAE-Bench-OJ\\runs\\benchmarks\\cfdcodebench-24-20261020\\release\\bundles\\cc-lid-driven-cavity",
+  "reference_sha256": "d5e9e2085276cf7e95b0d06659a597ffae3007ac090979f6f5428e084821260f",
+  "hf_branch": "cases/cfdcodebench-24-20261020",
+  "hf_commit": "dc2be55e268aa078897da29de693491d3abf1e03",
+  "manifest_sha256": "fe2bf8a7f99461e10c713f7632fec31340ab54d073fefd40a9fcd50d3965ffa0",
+  "descriptor_sha256": "83011830ad5cd8ae17168888934b61eccf04a423c92b5e5d6bd997e795ad4a84",
+  "samples": 1,
+  "sample_kind": "format",
+  "sample_seed": 2026102018,
+  "sample_output_sha256": "16fe6cfb0d02bc50f13f56f4a7829163660134a90fc43662f6f12654c48ead34",
+  "strict_integrity": {
+    "valid": true,
+    "errors": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-2e84a351917193882c861a23",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "assembly_report": {
+    "revision": "dc2be55e268aa078897da29de693491d3abf1e03",
+    "files": 8,
+    "changed": 2,
+    "removed": 0,
+    "complete": true,
+    "incomplete": [],
+    "overlaps": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-2e84a351917193882c861a23",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "numerical_validation": {
+    "index": 18,
+    "task": "cc-lid-driven-cavity",
+    "case_id": "C18-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [],
+    "checks": {
+      "space_L0_L1": {
+        "u": {
+          "rmse": 0.0016553560589993473,
+          "reference_rms": 0.214449357526454,
+          "nrmse": 0.007719100108729149,
+          "nmse": 5.958450648858237e-05,
+          "max_abs": 0.030854106602247078
+        },
+        "v": {
+          "rmse": 0.0015111957211817735,
+          "reference_rms": 0.1361491294900743,
+          "nrmse": 0.011099562126043152,
+          "nmse": 0.00012320027938989158,
+          "max_abs": 0.03208930260106996
+        },
+        "p": {
+          "rmse": 0.015989177106850605,
+          "reference_rms": 0.7055672197698121,
+          "nrmse": 0.022661451182591785,
+          "nmse": 0.0005135413697009906,
+          "max_abs": 0.4873559582338842
+        }
+      },
+      "space_L1_L2": {
+        "u": {
+          "rmse": 0.0003986312708036552,
+          "reference_rms": 0.21442565266596048,
+          "nrmse": 0.0018590652090711202,
+          "nmse": 3.456123451578648e-06,
+          "max_abs": 0.008034352643474461
+        },
+        "v": {
+          "rmse": 0.0003540651352558204,
+          "reference_rms": 0.13636912919358948,
+          "nrmse": 0.002596373074680193,
+          "nmse": 6.7411531429242785e-06,
+          "max_abs": 0.007264194852545036
+        },
+        "p": {
+          "rmse": 0.006169240989014244,
+          "reference_rms": 0.7100963572714676,
+          "nrmse": 0.008687892742781334,
+          "nmse": 7.547948031007257e-05,
+          "max_abs": 0.1779275003357128
+        }
+      },
+      "half_dt": {
+        "u": {
+          "rmse": 2.1114088686945315e-05,
+          "reference_rms": 0.2144333567004048,
+          "nrmse": 9.846457198562081e-05,
+          "nmse": 9.695271936311503e-09,
+          "max_abs": 5.730659586222764e-05
+        },
+        "v": {
+          "rmse": 1.9554218056577683e-05,
+          "reference_rms": 0.13638490307194975,
+          "nrmse": 0.00014337523887275025,
+          "nmse": 2.0556459121818194e-08,
+          "max_abs": 4.777526250857034e-05
+        },
+        "p": {
+          "rmse": 1.4368968448620426e-05,
+          "reference_rms": 0.7100937321199979,
+          "nrmse": 2.023531232379929e-05,
+          "nmse": 4.0946786484170346e-10,
+          "max_abs": 4.741564707261281e-05
+        }
+      },
+      "independent_OpenFOAM_N64": {
+        "u": {
+          "rmse": 0.0004772701783528552,
+          "reference_rms": 0.2144333567004048,
+          "nrmse": 0.0022257273107918205,
+          "nmse": 4.953862062004589e-06,
+          "max_abs": 0.005955212530408649
+        },
+        "v": {
+          "rmse": 0.0005168511352058767,
+          "reference_rms": 0.13638490307194975,
+          "nrmse": 0.00378965063994812,
+          "nmse": 1.4361451972859196e-05,
+          "max_abs": 0.006702217187738946
+        },
+        "p": {
+          "rmse": 0.005215851908274923,
+          "reference_rms": 0.7100937321199979,
+          "nrmse": 0.0073453005882799455,
+          "nmse": 5.3953440732185715e-05,
+          "max_abs": 0.11467298832998196
+        }
+      },
+      "independent_OpenFOAM_N128": {
+        "u": {
+          "rmse": 0.0005764287073097158,
+          "reference_rms": 0.2144333567004048,
+          "nrmse": 0.002688148505342255,
+          "nmse": 7.2261423867738e-06,
+          "max_abs": 0.009679520467583205
+        },
+        "v": {
+          "rmse": 0.0005819190477667657,
+          "reference_rms": 0.13638490307194975,
+          "nrmse": 0.004266740927034825,
+          "nmse": 1.8205078138434002e-05,
+          "max_abs": 0.0111842013483201
+        },
+        "p": {
+          "rmse": 0.004256213806891872,
+          "reference_rms": 0.7100937321199979,
+          "nrmse": 0.005993876039695305,
+          "nmse": 3.592654997923347e-05,
+          "max_abs": 0.1118041651702999
+        }
+      }
+    },
+    "reference_sha256": "d5e9e2085276cf7e95b0d06659a597ffae3007ac090979f6f5428e084821260f",
+    "resource_status": "provisional"
+  },
+  "resource_status": "awaiting_calibration",
+  "installed_consumption": "passed"
+}

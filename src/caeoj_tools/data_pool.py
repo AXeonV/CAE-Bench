@@ -665,6 +665,44 @@ def validate_bundle(bundle):
     return value, store, index
 
 
+def verify_uploaded_files(api, repo_id, revision, files):
+    """Bind validated local bytes to a fixed Hub commit without payload downloads.
+
+    The Hub supplies LFS SHA256 or Git blob identity and size for every path.
+    Local format/reference checks are already performed by validate_bundle.
+    """
+    names = sorted(files)
+    checked = 0
+    for start in range(0, len(names), 100):
+        batch = names[start:start+100]
+        remote = {f.path: f for f in api.get_paths_info(
+            repo_id, batch, repo_type='dataset', revision=revision)}
+        for name in batch:
+            info = remote.get(name)
+            if info is None:
+                raise PoolError('Uploaded path missing at fixed commit: ' + name)
+            source = files[name]
+            if isinstance(source, bytes):
+                size = len(source)
+                sha256 = hashlib.sha256(source).hexdigest()
+                git = hashlib.sha1(f'blob {size}\0'.encode()+source).hexdigest()
+            else:
+                source = Path(source)
+                size = source.stat().st_size
+                sha256 = digest(source)
+                blob = hashlib.sha1(f'blob {size}\0'.encode())
+                with source.open('rb') as stream:
+                    for block in iter(lambda: stream.read(1024*1024), b''):
+                        blob.update(block)
+                git = blob.hexdigest()
+            same = (info.lfs.sha256 == sha256 if info.lfs else info.blob_id == git)
+            if info.size != size or not same:
+                raise PoolError('Uploaded size/hash differs at fixed commit: ' + name)
+            checked += 1
+    return {'verified_files': checked, 'verification': 'fixed-commit remote size and LFS SHA256/Git blob identity; locally validated payload',
+            'payload_download_bytes': 0}
+
+
 def upload(bundle, *, update=False, revision='main'):
     """Merge a validated bundle in one optimistic commit; preserve unrelated items."""
     from huggingface_hub import HfApi, CommitOperationAdd
@@ -722,10 +760,7 @@ def upload(bundle, *, update=False, revision='main'):
     commit = api.create_commit(repo_id=repo['repo_id'], repo_type='dataset', revision=revision,
                               parent_commit=remote.revision, operations=operations,
                               commit_message='Publish validated task pool: ' + value['task_id'])
-    verified = HubStore(repo['repo_id'], commit.oid)
-    fetch(value, verified)
-    # Validate every index item in the bundle, not just the default selection.
-    all_items = {**value, 'cases': {str(n): {'case_id': cid, 'case': b}
-                 for n, (cid, b) in enumerate(index['cases'].items())}, 'samples': {}}
-    fetch(all_items, verified)
-    return {'revision': commit.oid, 'uploaded_files': len(operations)}
+    expected = {p.relative_to(local.root).as_posix(): p for p in paths}
+    expected[index_name] = encoded(merged)
+    verification = verify_uploaded_files(api, repo['repo_id'], commit.oid, expected)
+    return {'revision': commit.oid, 'uploaded_files': len(operations), **verification}

@@ -1,5 +1,6 @@
 """Bounded reservations for one-core producers on Titan, not a daemon."""
 import contextlib
+import hashlib
 import fcntl
 import json
 import os
@@ -25,7 +26,22 @@ def capacity(root):
     p=root/'maintenance/elmer-flow-queue.json';legacy=0
     if p.exists():
         j=json.loads(p.read_text())
-        if identity(j['pid'])==j['starttime']:legacy=max(0,12-sum(c['HostConfig']['NanoCpus']/1e9 for c in running if c['Name'].lstrip('/').startswith('ch02elmer-')))
+        if identity(j['pid'])==j['starttime']:
+            legacy=max(0,12-sum(c['HostConfig']['NanoCpus']/1e9 for c in running if c['Name'].lstrip('/').startswith('ch02elmer-')))
+            # A reviewed, identity-bound certificate proves every original map
+            # target already entered run(), whose first operation skips existing
+            # status files. Recheck that none reverted to missing/preparing/queued.
+            certificate=root/'maintenance/legacy-dispatch-settled.json'
+            if certificate.exists():
+                proof=json.loads(certificate.read_text());source=Path(proof['archived_source'])
+                if proof['pid']==j['pid'] and str(proof['starttime'])==str(j['starttime']) and hashlib.sha256(source.read_bytes()).hexdigest()==proof['source_sha256']:
+                    states=[json.loads((root/'cases'/i/'status.json').read_text()) for i in proof['original_target_ids']]
+                    allowed={'unvalidated_candidate','native_iteration_limit','needs_attention','running'}
+                    if all(v['status'] in allowed for v in states):
+                        # Native tasks are counted above. Keep one CPU for each
+                        # still-running original task outside an active container.
+                        legacy=sum(v['status']=='running' and v.get('container') not in names for v in states)
+
     host=int(next(l.split()[1] for l in Path('/proc/meminfo').read_text().splitlines() if l.startswith('MemAvailable:')))*1024
     outer=json.loads(subprocess.check_output(['docker','inspect','caeoj-solver-library-daemon']))[0]
     assert outer['HostConfig']['NanoCpus']==40*10**9 and outer['HostConfig']['Memory']==52*1024**3

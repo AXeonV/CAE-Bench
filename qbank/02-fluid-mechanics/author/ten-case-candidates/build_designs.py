@@ -36,12 +36,14 @@ SOURCES = {
 
 
 def sha(p):
-    return hashlib.sha256(p.read_bytes()).hexdigest()
+    # Authoring files are UTF-8 text. Fingerprints must survive Windows checkout
+    # CRLF conversion and match the LF blobs retained in Git/Titan snapshots.
+    return hashlib.sha256(p.read_text(encoding="utf-8").encode("utf-8")).hexdigest()
 
 
 def write(p, obj):
     p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(json.dumps(obj, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    p.write_text(json.dumps(obj, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
 
 
 def native_prescription(i, dimension):
@@ -219,6 +221,7 @@ def main():
             "family":family,
             "analysis_kind":kind,
             "document_sha256": {f:sha(task_dir/f) for f in ("instruction.md","DATA.md","author/grading-template.json")},
+            "document_hash_format":"sha256_of_utf8_text_with_lf_newlines",
             "hf_baseline":{"repo":"jimzhouzzy2006/CAE-Bench-OJ","revision":HF_REVISION,"pool_cases":0},
             "target_pool_size":10, "proposed_cases":entries,
             "limitations_and_model_checks":risks(family,slug),
@@ -234,6 +237,7 @@ def main():
     index = {
         "batch":BATCH, "base_git_commit":"1740d71a86bcb9260b3b3fdde7feb6ab28ed2735",
         "branch":"cases/chapter-02-ten-reference-candidates",
+        "text_hash_format":"sha256_of_utf8_text_with_lf_newlines",
         "excluded_questions":["2.1.1","2.1.3"], "hf_read_revision":HF_REVISION,
         "scope":{"questions":63,"scenario_proposals":630,"numerically_specified":sum(r["numerically_specified"] for r in records),"computed":0,"validated":0},
         "policy":{"all_designs_before_batch_execution":True,"numerical_validation":False,"hf_writes":False,"formal_selection_changes":False,"benchmark":False,"custom_physics_extensions":False,"unmatched_producers":"hold_and_search_existing_implementation"},
@@ -244,7 +248,7 @@ def main():
     for r in records:
         rel=Path(r["path"]).relative_to("qbank/02-fluid-mechanics").as_posix()
         lines.append(f"| {r['question']} | {r['family']} | {r['cases']} | {r['numerically_specified']} | [design.json](../../{rel}) |")
-    (HERE/"CATALOG.md").write_text("\n".join(lines)+"\n",encoding="utf-8")
+    (HERE/"CATALOG.md").write_text("\n".join(lines)+"\n",encoding="utf-8",newline="\n")
     coverage_lines=["# 考察内容与工况覆盖矩阵", "", "以下均为设计目标，尚无实现或数值覆盖证据。每项对应的具体design ID在各题design.json中；空列表就是设计缺口，不能算已覆盖。", "", "| 题号 | 工况族 | 目标项 | 尚未分配 | 设计 |", "|---|---|---:|---:|---|"]
     for r in records:
         rel=Path(r["path"]).relative_to("qbank/02-fluid-mechanics").as_posix()
@@ -262,8 +266,8 @@ def main():
         for i,e in enumerate(entries):
             all_cases.append(f"| {i+1} | {e['design_id']} | {e['title']} | {e['driving_and_state']} | {e['difference_and_coverage']} |")
         all_cases.append("")
-    (HERE/"COVERAGE.md").write_text("\n".join(coverage_lines).rstrip()+"\n",encoding="utf-8")
-    (HERE/"ALL-CASES.md").write_text("\n".join(all_cases).rstrip()+"\n",encoding="utf-8")
+    (HERE/"COVERAGE.md").write_text("\n".join(coverage_lines).rstrip()+"\n",encoding="utf-8",newline="\n")
+    (HERE/"ALL-CASES.md").write_text("\n".join(all_cases).rstrip()+"\n",encoding="utf-8",newline="\n")
     print(json.dumps(index["scope"]))
 
 

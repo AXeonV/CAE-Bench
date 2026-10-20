@@ -56,7 +56,7 @@ def main():
             if state['status']=='unvalidated_candidate':
                 job=p.parent;payload=job/'reference/reference.h5';assert payload.is_file() and (job/'input/problem.json').is_file() and (job/'reference/grading.json').is_file(),e['design_id'];assert hashlib.sha256(payload.read_bytes()).hexdigest()==state['reference_sha256'],e['design_id']
                 provenance=job/('producer.json' if (job/'producer.json').exists() else 'execution.json');meta=json.loads(provenance.read_text())
-                state['producer_record']={k:meta[k] for k in ('producer','image','source','source_url','source_commit','script_sha256','normalization_constant_C') if k in meta}
+                state['producer_record']={k:meta[k] for k in ('producer','image','source','source_url','source_commit','script_sha256','normalization_constant_C','binary_sha256','patch_sha256','checkpoint_sha256','conversion_script_sha256','native_type_registration_sha256') if k in meta}
                 state['input_sha256']={f.name:hashlib.sha256(f.read_bytes()).hexdigest() for f in (job/'input').iterdir() if f.is_file()}
             counts[state['status']]+=1;ids.append(e['design_id']);cases.append({'question':r['question'],**state})
         reason='十项均已有未验证候选参考，出处与转换局限见生产记录。' if counts.get('unvalidated_candidate')==10 else pending_reason(r,next(e for e in r['proposed_cases'] if not (args.root/'cases'/e['design_id']/'reference/reference.h5').exists()))

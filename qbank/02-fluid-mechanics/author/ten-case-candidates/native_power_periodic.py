@@ -103,7 +103,7 @@ def input_mesh(job,e):
 
 
 def convert(job,e,m):
-    s=e['detailed_spec'];d=e['spatial_dimension'];x=m['x'];c=m['c'];b=m['b'];nc=len(c);mid=x[b].mean(axis=1);L=np.array(s['geometry']['bounding_lengths']);transient=s['analysis_kind']=='transient';end=(s['time_interval_s'] or [0,1])[1];hist=np.array([0,.1*end,.4*end,.6*end,end] if transient else [0.]);rho=s['materials']['density']['parameters']['density']['value'];parent=m['parent'];nparent=len(m['native_volume'])
+    s=e['detailed_spec'];d=e['spatial_dimension'];x=m['x'];c=m['c'];b=m['b'];nc=len(c);mid=x[b].mean(axis=1);L=np.array(s['geometry']['bounding_lengths']);transient=s['analysis_kind']=='transient';end=(s['time_interval_s'] or [0,1])[1];hist=np.array([0,.1*end,.4*end,.6*end,end] if transient else [0.]);density_model=s['materials']['density'];compressible=density_model['kind']!='constant';rho=density_model['parameters']['density']['value'] if not compressible else 1.;parent=m['parent'];nparent=len(m['native_volume'])
     groups=np.zeros(len(b),dtype=int);periodic=any(bc['operator']=='periodic' for bc in s['boundaries'])
     for i,bc in enumerate(s['boundaries'][1:],1):
         if bc['operator']=='periodic':groups[np.isclose(mid[:,0],0)]=i;groups[np.isclose(mid[:,0],L[0])]=i+1
@@ -120,6 +120,8 @@ def convert(job,e,m):
         return z
     if transient:
         arrays['initial_velocity']=m['initial'][None];fields['initial_velocity']=desc('velocity','domain','m/s',d,'initial',input=True);fields['initial_velocity']['array']='initial_velocity';conditions.append({'role':'initial','variable':'velocity','operator':'assign','location':'domain','data':{'value':{'field':'initial_velocity'}}})
+    if transient and compressible:
+        arrays['initial_density']=evaluate(s['initial']['density']['expression'],x[c].mean(axis=1),0,s)[None,:,None];fields['initial_density']=desc('density','domain','kg/m3',1,'initial',input=True);fields['initial_density']['array']='initial_density';conditions.append({'role':'initial','variable':'density','operator':'assign','location':'domain','data':{'value':{'field':'initial_density'}}})
     if s['sources']:
         arrays['acceleration']=np.array([evaluate(s['sources']['acceleration']['expression'],x[c].mean(axis=1),t,s) for t in hist]);fields['acceleration']=desc('acceleration','domain','m/s2',d,'history',input=True);conditions.append({'role':'source','variable':'velocity','operator':'acceleration','location':'domain','data':{'value':{'field':'acceleration'}}})
     boundary_records=[(i,bc) for i,bc in enumerate(s['boundaries']) if bc['operator']!='periodic']
@@ -135,6 +137,10 @@ def convert(job,e,m):
             data={'partner':{'location':f'boundary{i+1 if bc["side"]==1 else i-1}'},**{f'translation_{axis}':{'value':float(L[0]*bc['side']) if j==0 else 0.,'unit':'m'} for j,axis in enumerate('xyz'[:d])}}
         conditions.append({'role':'boundary','variable':'flow','operator':bc['operator'],'location':key,'data':data})
     a=s['analysis'];analysis={'type':s['analysis_kind'],'compressibility':'incompressible','flow_regime':'laminar','temperature':{'value':a['temperature_K'],'unit':'K'},'pressure':{'representation':'gauge','reference_pressure':{'value':a['reference_pressure_Pa'],'unit':'Pa'}},'pressure_gauge':{'kind':'mean','location':'domain','value':{'value':0.,'unit':'Pa'}}}
+    if compressible:
+        assert a['pressure_representation']=='absolute'
+        analysis['compressibility']='isothermal_compressible';analysis['pressure']={'representation':'absolute'};analysis.pop('pressure_gauge')
+        if not transient:analysis['mean_density']={'value':a['mean_density_kg_m3'],'unit':'kg/m3'}
     if transient:analysis['time_interval']={'start':0.,'end':end}
     outputs={}
     for r in s['observation_requests']:
@@ -144,12 +150,25 @@ def convert(job,e,m):
         for key,v in arrays.items():f[key]=v
     tdirs={round(float(p.name),12):p for p in (job/'native').iterdir() if p.is_dir() and re.fullmatch(r'[\d.eE+-]+',p.name)};result={key:[] for key in outputs}
     for t in s['output_times_s']:
-        folder=tdirs[round(t,12)] if transient else tdirs[max(tdirs)];assert folder.name!='0';u=field(folder/'U',3,nparent)[:,:d][parent];p=field(folder/'p',1,nparent)[parent]*rho;p-=np.dot(m['volume'],p[:,0])/sum(m['volume']);grad=field(folder/'gradU',9,nparent).reshape(nparent,3,3)[:,:d,:d][parent];twod=grad+np.swapaxes(grad,1,2);g=np.sqrt(.5*np.sum(twod**2,axis=(1,2)));v=s['materials']['viscosity'];vp={k:q['value'] for k,q in v['parameters'].items()};mu=np.full(nc,vp['dynamic_viscosity']) if v['kind']=='newtonian' else vp['reference_viscosity']*(np.clip(g,vp['minimum_shear_rate'],vp['maximum_shear_rate'])/vp['reference_shear_rate'])**(vp['power_index']-1);bp=m['bp'];traction=np.einsum('bij,bj->bi',mu[bp,None,None]*twod[bp]-p[bp,:,None]*np.eye(d),m['normal']);flux=np.einsum('ij,ij->i',u[bp],m['normal']);vals={'velocity':u,'pressure':p,'density':np.full((nc,1),rho),'dynamic_viscosity':mu[:,None],'shear_rate':g[:,None],'traction':traction[traces],'force':-np.sum(traction[integral]*m['measure'][integral,None],axis=0)[None],'volume_flow':np.array([[np.dot(m['measure'][integral],flux[integral])]]),'mass_flow':np.array([[rho*np.dot(m['measure'][integral],flux[integral])]])}
+        folder=tdirs[round(t,12)] if transient else tdirs[max(tdirs)];assert folder.name!='0';u=field(folder/'U',3,nparent)[:,:d][parent];p=field(folder/'p',1,nparent)[parent]
+        if not compressible:p*=rho;p-=np.dot(m['volume'],p[:,0])/sum(m['volume'])
+        if compressible:
+            dp={k:q['value'] for k,q in density_model['parameters'].items()}
+            if density_model['kind']=='isothermal_ideal_gas':rho_values=p/(dp['specific_gas_constant']*s['analysis']['temperature_K'])
+            else:
+                assert density_model['kind']=='linear_barotropic';rho_values=dp['reference_density']+(p-dp['reference_pressure'])/dp['sound_speed']**2
+        else:rho_values=np.full((nc,1),rho)
+        grad=field(folder/'gradU',9,nparent).reshape(nparent,3,3)[:,:d,:d][parent];twod=grad+np.swapaxes(grad,1,2);g=np.sqrt(.5*np.sum(twod**2,axis=(1,2)));v=s['materials']['viscosity'];vp={k:q['value'] for k,q in v['parameters'].items()};mu=np.full(nc,vp['dynamic_viscosity']) if v['kind']=='newtonian' else vp['reference_viscosity']*(np.clip(g,vp['minimum_shear_rate'],vp['maximum_shear_rate'])/vp['reference_shear_rate'])**(vp['power_index']-1);bp=m['bp'];stress=mu[:,None,None]*twod-p[:,:,None]*np.eye(d)
+        if compressible:stress+=(vp['bulk_viscosity']-2*mu/3)[:,None,None]*np.trace(grad,axis1=1,axis2=2)[:,None,None]*np.eye(d)
+        traction=np.einsum('bij,bj->bi',stress[bp],m['normal']);flux=np.einsum('ij,ij->i',u[bp],m['normal'])
+        for i,bc in enumerate(s['boundaries']):
+            if bc['operator'] in ('no_slip','moving_wall','slip','symmetry'):flux[groups==i]=0.
+        vals={'velocity':u,'pressure':p,'density':rho_values,'dynamic_viscosity':mu[:,None],'shear_rate':g[:,None],'traction':traction[traces],'force':-np.sum(traction[integral]*m['measure'][integral,None],axis=0)[None],'volume_flow':np.array([[np.dot(m['measure'][integral],flux[integral])]]),'mass_flow':np.array([[np.dot(m['measure'][integral],rho_values[bp[integral],0]*flux[integral])]])}
         for key in outputs:assert np.isfinite(vals[key]).all();result[key].append(vals[key])
     with h5py.File(ref/'reference.h5','w') as f:
         for key in {locations[o['location']]['ids'] for o in outputs.values()}|{'requested'}:f[key]=arrays[key]
         for key,v in result.items():f[key]=np.array(v)
-    return {'reference_sha256':digest(ref/'reference.h5'),'cells':nc,'native_cells':nparent,'frames':len(s['output_times_s']),'mapping':'Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. No numerical validation.'}
+    return {'reference_sha256':digest(ref/'reference.h5'),'cells':nc,'native_cells':nparent,'frames':len(s['output_times_s']),'mapping':'Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.'}
 
 
 def run(root,e,g):

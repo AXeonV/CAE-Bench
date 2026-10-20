@@ -53,7 +53,7 @@ HF上传、正式选样或模型评测。旧FOAMBench任务保持停止。
 - [native_maxwell.py](native_maxwell.py)：原生OpenCFD Maxwell的闭壁Oldroyd-B候选，保留预应变；节点场由原生FV场恢复。
 - [native_lowmach.py](native_lowmach.py)：原生Elmer FlowSolver/HeatSolver耦合，保留基底加速度、Boussinesq修正、黏性耗散及温度物性。
 - [native_immiscible.py](native_immiscible.py)：原生interFoam两惯性黏性相、零表面张力及相同体加速度，20项候选已实际装配。
-- [native_sparta.py](native_sparta.py)：原生SPARTA的硬球/无碰撞工况，已接通盒形及矩形切孔/弯道/十字通道的原生曲面配置；目前只生产原生统计，四面体公共包与壁面交换量转换尚未完成，不计作已有参考。
+- [native_sparta.py](native_sparta.py)：原生SPARTA的硬球/无碰撞工况，已接通盒形及矩形切孔/弯道/十字通道的原生曲面配置；原生统计经[sample_sparta_references.py](sample_sparta_references.py)及[sparta_reference.py](sparta_reference.py)装配四面体公共包。壁面事件观测补丁只读记录既有碰撞，不改变动力学；其源码、二进制和检查点摘要留在生产记录。
 - [native_turbulence.py](native_turbulence.py)：原生SST/k–ε稳态RANS、LRR URANS、WALE尺度解析离散统计；局部体力按实际P0输入装配。
 - [native_power_periodic.py](native_power_periodic.py)：原生OpenCFD幂律双端截断、周期源项及P1势旋涡初态的配置和转换。
 
@@ -76,3 +76,6 @@ python qbank/02-fluid-mechanics/author/ten-case-candidates/freeze_designs.py
 
 [finalize_queues.py](finalize_queues.py)只等待显式给定控制器的PID/starttime身份，最多24小时后生成一次存储索引；不续算、不验证。
 [finish_sparta_trial.py](finish_sparta_trial.py)仅在原试算自然结束且日志匹配已知averaging语法错误后保留旧目录、重做这一项；其他错误停止。
+
+持久脚本调度、半小时短摘要巡检和有界维护见[AUTOMATION.md](AUTOMATION.md)。
+[native_isothermal.py](native_isothermal.py)使用原生温度约束及精确状态关系；[native_compressible_thermal.py](native_compressible_thermal.py)使用原生完整总能量方程，幂律物性只注册已有原生类型组合。两者只运行明确匹配的子集。

@@ -1,0 +1,38 @@
+--- stock/compute_boundary.cpp
++++ observer/compute_boundary.cpp
+@@ -12,6 +12,8 @@
+    See the README file in the top-level SPARTA directory.
+ ------------------------------------------------------------------------- */
+ 
++#include <cstdio>
++#include <cstdlib>
+ #include "string.h"
+ #include "compute_boundary.h"
+ #include "particle.h"
+@@ -184,6 +186,26 @@
+   int igroup = particle->mixture[imix]->species2group[origspecies];
+   if (igroup < 0) return;
+ 
++
++  // CAEOJ diagnostic-only boundary event export. No state or RNG mutation.
++  if (istyle == SURFACE && ip && !jp) {
++    const char *event_path = std::getenv("CAEOJ_BOUNDARY_EVENTS");
++    if (event_path && event_path[0]) {
++      static FILE *event_file = nullptr;
++      if (!event_file) {
++        event_file = std::fopen(event_path,"w");
++        if (!event_file) error->one(FLERR,"Cannot open diagnostic event file");
++        std::setvbuf(event_file,nullptr,_IOFBF,1024*1024);
++      }
++      std::fprintf(event_file,
++        "%lld %d %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g\n",
++        static_cast<long long>(update->ntimestep),iface,
++        iorig->x[0],iorig->x[1],iorig->x[2],
++        iorig->v[0],iorig->v[1],iorig->v[2],ip->v[0],ip->v[1],ip->v[2],
++        weightflag ? iorig->weight : 1.0);
++    }
++  }
++
+   // tally all values associated with group into array
+   // set nflag and tflag if normal and tangent computation already done once
+   // particle weight used for all keywords except NUM

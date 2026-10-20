@@ -1,15 +1,14 @@
 {
-  "generated_utc": "2026-10-20T15:33:24.662760+00:00",
+  "generated_utc": "2026-10-20T16:44:11.988208+00:00",
   "scope": {
     "questions": 63,
     "detailed_designs": 630,
     "actual_status": {
-      "unvalidated_candidate": 190,
-      "running": 39,
-      "pending_producer_adapter": 172,
-      "native_iteration_limit": 6,
-      "held_unmatched_physics": 220,
-      "queued": 3
+      "unvalidated_candidate": 231,
+      "running": 27,
+      "pending_producer_adapter": 142,
+      "native_iteration_limit": 10,
+      "held_unmatched_physics": 220
     }
   },
   "completion_claim": "partial; not all 630 references computed",
@@ -162,7 +161,9 @@
       "family": "isothermal_compressible",
       "designed": 10,
       "counts": {
-        "pending_producer_adapter": 10
+        "unvalidated_candidate": 3,
+        "pending_producer_adapter": 5,
+        "native_iteration_limit": 2
       },
       "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。",
       "design_ids": [
@@ -184,7 +185,8 @@
       "family": "isothermal_compressible",
       "designed": 10,
       "counts": {
-        "pending_producer_adapter": 10
+        "unvalidated_candidate": 5,
+        "pending_producer_adapter": 5
       },
       "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。",
       "design_ids": [
@@ -206,7 +208,9 @@
       "family": "isothermal_compressible",
       "designed": 10,
       "counts": {
-        "pending_producer_adapter": 10
+        "unvalidated_candidate": 3,
+        "pending_producer_adapter": 5,
+        "native_iteration_limit": 2
       },
       "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。",
       "design_ids": [
@@ -228,7 +232,8 @@
       "family": "isothermal_compressible",
       "designed": 10,
       "counts": {
-        "pending_producer_adapter": 10
+        "unvalidated_candidate": 5,
+        "pending_producer_adapter": 5
       },
       "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。",
       "design_ids": [
@@ -272,10 +277,9 @@
       "family": "lowmach_energy",
       "designed": 10,
       "counts": {
-        "unvalidated_candidate": 9,
-        "running": 1
+        "unvalidated_candidate": 10
       },
-      "reason": "已定位OpenFOAM/Elmer候选；温度幂律mu/k、体黏度/耗散、热胀、湍流公开状态或统计采样语义仍需逐项匹配和适配。",
+      "reason": "十项均已有未验证候选参考，出处与转换局限见生产记录。",
       "design_ids": [
         "ch02-2-2-2-01-horizontal_conduction",
         "ch02-2-2-2-02-natural_convection",
@@ -451,7 +455,9 @@
       "family": "compressible_energy",
       "designed": 10,
       "counts": {
-        "pending_producer_adapter": 10
+        "unvalidated_candidate": 4,
+        "pending_producer_adapter": 5,
+        "running": 1
       },
       "reason": "已定位OpenFOAM/Elmer候选；温度幂律mu/k、体黏度/耗散、热胀、湍流公开状态或统计采样语义仍需逐项匹配和适配。",
       "design_ids": [
@@ -495,7 +501,8 @@
       "family": "compressible_energy",
       "designed": 10,
       "counts": {
-        "pending_producer_adapter": 10
+        "running": 5,
+        "pending_producer_adapter": 5
       },
       "reason": "已定位OpenFOAM/Elmer候选；温度幂律mu/k、体黏度/耗散、热胀、湍流公开状态或统计采样语义仍需逐项匹配和适配。",
       "design_ids": [
@@ -1267,10 +1274,9 @@
       "family": "kinetic_gas",
       "designed": 10,
       "counts": {
-        "running": 8,
-        "queued": 2
+        "unvalidated_candidate": 10
       },
-      "reason": "SPARTA原生硬球/无碰撞、半空间储槽和混合壁已接通20项原生计算配置；公共四面体/壁面交换量转换仍待完成，原生统计不计作公共参考。",
+      "reason": "十项均已有未验证候选参考，出处与转换局限见生产记录。",
       "design_ids": [
         "ch02-2-10-3-01-pressure_duct",
         "ch02-2-10-3-02-thermal_duct",
@@ -1290,10 +1296,9 @@
       "family": "kinetic_gas",
       "designed": 10,
       "counts": {
-        "running": 9,
-        "queued": 1
+        "unvalidated_candidate": 10
       },
-      "reason": "SPARTA原生硬球/无碰撞、半空间储槽和混合壁已接通20项原生计算配置；公共四面体/壁面交换量转换仍待完成，原生统计不计作公共参考。",
+      "reason": "十项均已有未验证候选参考，出处与转换局限见生产记录。",
       "design_ids": [
         "ch02-2-10-4-01-pressure_duct",
         "ch02-2-10-4-02-thermal_duct",
@@ -1498,17 +1503,18 @@
       "design_id": "ch02-2-1-2-04-periodic_acceleration",
       "status": "unvalidated_candidate",
       "container": "ch02power-69fe6c2e3431-097900457",
-      "reference_sha256": "5b9bd300eef18e10d715f1a8095f8bdab508f13eb114a5049e402d484c7b5bae",
+      "reference_sha256": "d29a877bac39cf6a2a5d76486f3636cc2316736ef523c59ce72a3c84bfcceb93",
       "cells": 1152,
       "native_cells": 576,
       "frames": 4,
-      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. No numerical validation.",
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
       "ended_unix": 1792507198.3642,
       "producer_record": {
         "producer": "unmodified OpenCFD pimpleFoam, stock bounded powerLaw/fvOptions",
         "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
         "source": "image:/usr/lib/openfoam/openfoam2512/src/transportModels/incompressible/viscosityModels/powerLaw/powerLaw.C",
-        "script_sha256": "ed916c2dff9f7ef77a685417093bd2df168162c6ecdab7a8367b00442376184a"
+        "script_sha256": "ed916c2dff9f7ef77a685417093bd2df168162c6ecdab7a8367b00442376184a",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
       },
       "input_sha256": {
         "input.h5": "730c0809595d50022c8296f967d48c81a2152b52865ece3e508979f7a8e3c927",
@@ -1548,13 +1554,14 @@
       "cells": 1152,
       "native_cells": 576,
       "frames": 4,
-      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. No numerical validation.",
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
       "ended_unix": 1792507406.5125065,
       "producer_record": {
         "producer": "unmodified OpenCFD pimpleFoam, stock bounded powerLaw/fvOptions",
         "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
         "source": "image:/usr/lib/openfoam/openfoam2512/src/transportModels/incompressible/viscosityModels/powerLaw/powerLaw.C",
-        "script_sha256": "8da9570af61d46eac70cc4f3f30226dbc6b9f7f607fb97bbafcf67f9f4914aad"
+        "script_sha256": "8da9570af61d46eac70cc4f3f30226dbc6b9f7f607fb97bbafcf67f9f4914aad",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
       },
       "input_sha256": {
         "input.h5": "ff7f75b69cda8aa711e22ee050952aacd542c721bd42740004ad41e837e82a17",
@@ -1702,17 +1709,18 @@
       "design_id": "ch02-2-1-4-04-periodic_acceleration",
       "status": "unvalidated_candidate",
       "container": "ch02power-1cdd89d437e9-092311268",
-      "reference_sha256": "aa5bb0f73443edc153d52969247c6d715ad7ac6925ebfa03bf3f5bc3578bfab0",
+      "reference_sha256": "661eeedfbb0e7c8c2928d05e52dd684dd850695e8706c53d4c933ad61fe3ebc3",
       "cells": 8640,
       "native_cells": 1440,
       "frames": 4,
-      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. No numerical validation.",
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
       "ended_unix": 1792507234.6474667,
       "producer_record": {
         "producer": "unmodified OpenCFD pimpleFoam, stock bounded powerLaw/fvOptions",
         "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
         "source": "image:/usr/lib/openfoam/openfoam2512/src/transportModels/incompressible/viscosityModels/powerLaw/powerLaw.C",
-        "script_sha256": "ed916c2dff9f7ef77a685417093bd2df168162c6ecdab7a8367b00442376184a"
+        "script_sha256": "ed916c2dff9f7ef77a685417093bd2df168162c6ecdab7a8367b00442376184a",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
       },
       "input_sha256": {
         "input.h5": "d2c3839e7acd69b749c1ae8588e2e1de162f8a3335739cc188128c218bbc7f4f",
@@ -1735,13 +1743,14 @@
       "cells": 8640,
       "native_cells": 1440,
       "frames": 4,
-      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. No numerical validation.",
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
       "ended_unix": 1792507431.010106,
       "producer_record": {
         "producer": "unmodified OpenCFD pimpleFoam, stock bounded powerLaw/fvOptions",
         "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
         "source": "image:/usr/lib/openfoam/openfoam2512/src/transportModels/incompressible/viscosityModels/powerLaw/powerLaw.C",
-        "script_sha256": "8da9570af61d46eac70cc4f3f30226dbc6b9f7f607fb97bbafcf67f9f4914aad"
+        "script_sha256": "8da9570af61d46eac70cc4f3f30226dbc6b9f7f607fb97bbafcf67f9f4914aad",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
       },
       "input_sha256": {
         "input.h5": "64270abac4644de6a314c302874955fc6696228fc30d73f4dc5653146e03c85d",
@@ -1822,17 +1831,18 @@
       "design_id": "ch02-2-1-5-02-power_law_thickening",
       "status": "unvalidated_candidate",
       "container": "ch02power-fdb704db27d1-011370560",
-      "reference_sha256": "445096dcd1e11a9e34593dd844cdafc18a71342080e42e6c15619c74d37337bf",
+      "reference_sha256": "ba213fa0239107c94da610e83332f4029af9c537babdd79c46114aaca7faf12c",
       "cells": 1152,
       "native_cells": 576,
       "frames": 1,
-      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. No numerical validation.",
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
       "ended_unix": 1792507101.6803956,
       "producer_record": {
         "producer": "unmodified OpenCFD simpleFoam, stock bounded powerLaw/fvOptions",
         "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
         "source": "image:/usr/lib/openfoam/openfoam2512/src/transportModels/incompressible/viscosityModels/powerLaw/powerLaw.C",
-        "script_sha256": "ed916c2dff9f7ef77a685417093bd2df168162c6ecdab7a8367b00442376184a"
+        "script_sha256": "ed916c2dff9f7ef77a685417093bd2df168162c6ecdab7a8367b00442376184a",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
       },
       "input_sha256": {
         "input.h5": "e482ad9fd24eca49130b44d9672f0cdfefa826c1693c12322abe65a51f47425a",
@@ -1989,17 +1999,18 @@
       "design_id": "ch02-2-1-5-10-mixed_initial_or_drive",
       "status": "unvalidated_candidate",
       "container": "ch02power-3e723dda640a-097577753",
-      "reference_sha256": "7944915728f3383214a973b0daa1fb477867bb7ce2c18d2eb353f2c331bb0d89",
+      "reference_sha256": "d1ca94926bc1b62902127fe99f46e1b2e93716ce43785a43fcd07c918dc41ab6",
       "cells": 1152,
       "native_cells": 576,
       "frames": 1,
-      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. No numerical validation.",
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
       "ended_unix": 1792507172.644953,
       "producer_record": {
         "producer": "unmodified OpenCFD simpleFoam, stock bounded powerLaw/fvOptions",
         "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
         "source": "image:/usr/lib/openfoam/openfoam2512/src/transportModels/incompressible/viscosityModels/powerLaw/powerLaw.C",
-        "script_sha256": "ed916c2dff9f7ef77a685417093bd2df168162c6ecdab7a8367b00442376184a"
+        "script_sha256": "ed916c2dff9f7ef77a685417093bd2df168162c6ecdab7a8367b00442376184a",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
       },
       "input_sha256": {
         "input.h5": "fe24d422f5e7143bf01e98c80f2b9c48e4c025bcefefb96f1f273088715c1f36",
@@ -2018,17 +2029,18 @@
       "design_id": "ch02-2-1-6-02-power_law_thickening",
       "status": "unvalidated_candidate",
       "container": "ch02power-786b88e4001a-092185147",
-      "reference_sha256": "050f7f524a936f97cf27e1909b4c29794ae8de6af01b8038ca83145ead014b65",
+      "reference_sha256": "25527597e9ccc56a92049ff6bcd740b5654ea499534a30cb9295505dd8c7cdc7",
       "cells": 1152,
       "native_cells": 576,
       "frames": 4,
-      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. No numerical validation.",
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
       "ended_unix": 1792507198.5290847,
       "producer_record": {
         "producer": "unmodified OpenCFD pimpleFoam, stock bounded powerLaw/fvOptions",
         "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
         "source": "image:/usr/lib/openfoam/openfoam2512/src/transportModels/incompressible/viscosityModels/powerLaw/powerLaw.C",
-        "script_sha256": "ed916c2dff9f7ef77a685417093bd2df168162c6ecdab7a8367b00442376184a"
+        "script_sha256": "ed916c2dff9f7ef77a685417093bd2df168162c6ecdab7a8367b00442376184a",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
       },
       "input_sha256": {
         "input.h5": "730c0809595d50022c8296f967d48c81a2152b52865ece3e508979f7a8e3c927",
@@ -2185,17 +2197,18 @@
       "design_id": "ch02-2-1-6-10-mixed_initial_or_drive",
       "status": "unvalidated_candidate",
       "container": "ch02power-3f67b96a9d7f-092189793",
-      "reference_sha256": "1908e94e8e555957f80a1259a478096d90ec4cf029cbebfa7a9d3dcc9198cb2b",
+      "reference_sha256": "7c06cabc15dba9ec5f67f927008d1e5f411768946e483fc08f65d9a4416478b6",
       "cells": 1152,
       "native_cells": 576,
       "frames": 4,
-      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. No numerical validation.",
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
       "ended_unix": 1792507198.3436208,
       "producer_record": {
         "producer": "unmodified OpenCFD pimpleFoam, stock bounded powerLaw/fvOptions",
         "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
         "source": "image:/usr/lib/openfoam/openfoam2512/src/transportModels/incompressible/viscosityModels/powerLaw/powerLaw.C",
-        "script_sha256": "ed916c2dff9f7ef77a685417093bd2df168162c6ecdab7a8367b00442376184a"
+        "script_sha256": "ed916c2dff9f7ef77a685417093bd2df168162c6ecdab7a8367b00442376184a",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
       },
       "input_sha256": {
         "input.h5": "891eba452fa1c873a014612f118343a253366d41f6f0f70db1c81df1c7cbaa7c",
@@ -2365,17 +2378,18 @@
       "design_id": "ch02-2-1-7-10-mixed_initial_or_drive",
       "status": "unvalidated_candidate",
       "container": "ch02power-e5bfb8e85668-098681827",
-      "reference_sha256": "6f3ac6bdc6e860e1c63bda57676e7955ddb72cf3d6930a619a9c9c71925d032e",
+      "reference_sha256": "ce8d1e30afde7c98959a2e6792ed97220de44baeffc5769b9e7ca65d8ec1ac08",
       "cells": 8640,
       "native_cells": 1440,
       "frames": 1,
-      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. No numerical validation.",
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
       "ended_unix": 1792507173.3556166,
       "producer_record": {
         "producer": "unmodified OpenCFD simpleFoam, stock bounded powerLaw/fvOptions",
         "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
         "source": "image:/usr/lib/openfoam/openfoam2512/src/transportModels/incompressible/viscosityModels/powerLaw/powerLaw.C",
-        "script_sha256": "ed916c2dff9f7ef77a685417093bd2df168162c6ecdab7a8367b00442376184a"
+        "script_sha256": "ed916c2dff9f7ef77a685417093bd2df168162c6ecdab7a8367b00442376184a",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
       },
       "input_sha256": {
         "input.h5": "c8fab42cc80956e406404171c1a58c6c1bcbe9915d3cd90fe18c3973ba26826e",
@@ -2394,17 +2408,18 @@
       "design_id": "ch02-2-1-8-02-power_law_thickening",
       "status": "unvalidated_candidate",
       "container": "ch02power-ed20f70364be-094163062",
-      "reference_sha256": "51a398d805480c193ed861ea472a81406628db366495dd0034def2f577ef2e5d",
+      "reference_sha256": "74a19c825b2e4c867e86b9d7e03f39da495e6eabc0d652c982227443e5a16374",
       "cells": 8640,
       "native_cells": 1440,
       "frames": 4,
-      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. No numerical validation.",
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
       "ended_unix": 1792507235.0690966,
       "producer_record": {
         "producer": "unmodified OpenCFD pimpleFoam, stock bounded powerLaw/fvOptions",
         "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
         "source": "image:/usr/lib/openfoam/openfoam2512/src/transportModels/incompressible/viscosityModels/powerLaw/powerLaw.C",
-        "script_sha256": "ed916c2dff9f7ef77a685417093bd2df168162c6ecdab7a8367b00442376184a"
+        "script_sha256": "ed916c2dff9f7ef77a685417093bd2df168162c6ecdab7a8367b00442376184a",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
       },
       "input_sha256": {
         "input.h5": "d2c3839e7acd69b749c1ae8588e2e1de162f8a3335739cc188128c218bbc7f4f",
@@ -2459,17 +2474,18 @@
       "design_id": "ch02-2-1-8-10-mixed_initial_or_drive",
       "status": "unvalidated_candidate",
       "container": "ch02power-f060e9318c76-094258858",
-      "reference_sha256": "fdad96fae650f90a23e36d90842b434dd90d14aa0b8c4f4ebe58c7dcf264a8ed",
+      "reference_sha256": "cbf815d82bdc622d020c9b01b3fe62fc820f187856c6c693436403f622372157",
       "cells": 8640,
       "native_cells": 1440,
       "frames": 4,
-      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. No numerical validation.",
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
       "ended_unix": 1792507235.00543,
       "producer_record": {
         "producer": "unmodified OpenCFD pimpleFoam, stock bounded powerLaw/fvOptions",
         "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
         "source": "image:/usr/lib/openfoam/openfoam2512/src/transportModels/incompressible/viscosityModels/powerLaw/powerLaw.C",
-        "script_sha256": "ed916c2dff9f7ef77a685417093bd2df168162c6ecdab7a8367b00442376184a"
+        "script_sha256": "ed916c2dff9f7ef77a685417093bd2df168162c6ecdab7a8367b00442376184a",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
       },
       "input_sha256": {
         "input.h5": "e6bfabdd4fafeeac9a56eaf4915d0ad7bf4f9a67f14880ae292fc3830c9ecbf4",
@@ -2480,20 +2496,77 @@
     {
       "question": "2.1.9",
       "design_id": "ch02-2-1-9-01-ideal_lid",
-      "status": "pending_producer_adapter",
-      "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。"
+      "status": "unvalidated_candidate",
+      "container": "ch02iso-5b3917ed0be7-148323195",
+      "reference_sha256": "9bce856cb62001e26b3c4e87e7a5b6c4aa15ccac9321c8c5dc55bd8424c165b9",
+      "cells": 1152,
+      "native_cells": 576,
+      "frames": 1,
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
+      "fixed_temperature_max_deviation_K": 0.0,
+      "ended_unix": 1792512726.867047,
+      "producer_record": {
+        "producer": "unmodified OpenCFD rhoSimpleFoam with native fixedTemperatureConstraint",
+        "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+        "source": "image:fvOptions/constraints/derived/fixedTemperatureConstraint and specie/equationOfState/{perfectGas,perfectFluid}",
+        "script_sha256": "9400973e1c901278bff1759e0ffe8874484ef530beaafc763f2f20de8b911516",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
+      },
+      "input_sha256": {
+        "input.h5": "78287bd9ce6ce4ede76af517a0afa8608198932318d5fedc92902b51cd5c7849",
+        "problem.json": "2e1005fcd28491d0902a7e255bb4c6477873159ce24b11208b01f3854a4969b2",
+        "mesh.msh": "f3ce4e9f916ab47abe0fa25afcf936dcbd6db5514f30f0648eb25aabeee45f39"
+      }
     },
     {
       "question": "2.1.9",
       "design_id": "ch02-2-1-9-02-barotropic_lid",
-      "status": "pending_producer_adapter",
-      "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。"
+      "status": "unvalidated_candidate",
+      "container": "ch02iso-57ca8e8232a3-145648532",
+      "reference_sha256": "2142e4a2732017f82a9aa245898ab39a21a47b9675c93b5a2658bebe14719842",
+      "cells": 1152,
+      "native_cells": 576,
+      "frames": 1,
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
+      "fixed_temperature_max_deviation_K": 0.0,
+      "ended_unix": 1792512726.3788962,
+      "producer_record": {
+        "producer": "unmodified OpenCFD rhoSimpleFoam with native fixedTemperatureConstraint",
+        "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+        "source": "image:fvOptions/constraints/derived/fixedTemperatureConstraint and specie/equationOfState/{perfectGas,perfectFluid}",
+        "script_sha256": "9400973e1c901278bff1759e0ffe8874484ef530beaafc763f2f20de8b911516",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
+      },
+      "input_sha256": {
+        "input.h5": "78287bd9ce6ce4ede76af517a0afa8608198932318d5fedc92902b51cd5c7849",
+        "problem.json": "9e282b134610a6da9e8e06ad33225870694e95617c08752239fb104fb9dbfee6",
+        "mesh.msh": "42034545ebfaf494d253e0cd1e54bd5af7f909ccc20e2b8bc24ff6ffe4143a09"
+      }
     },
     {
       "question": "2.1.9",
       "design_id": "ch02-2-1-9-03-ideal_deep",
-      "status": "pending_producer_adapter",
-      "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。"
+      "status": "unvalidated_candidate",
+      "container": "ch02iso-39061d6e64c2-627316861",
+      "reference_sha256": "69e19a337e80ba5cfc52007b302545036afe43c8a36fea0f40a54490ce3a1def",
+      "cells": 1152,
+      "native_cells": 576,
+      "frames": 1,
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
+      "fixed_temperature_max_deviation_K": 0.0,
+      "ended_unix": 1792513314.9361222,
+      "producer_record": {
+        "producer": "unmodified OpenCFD rhoSimpleFoam with native fixedTemperatureConstraint",
+        "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+        "source": "image:fvOptions/constraints/derived/fixedTemperatureConstraint and specie/equationOfState/{perfectGas,perfectFluid}",
+        "script_sha256": "9400973e1c901278bff1759e0ffe8874484ef530beaafc763f2f20de8b911516",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
+      },
+      "input_sha256": {
+        "input.h5": "78287bd9ce6ce4ede76af517a0afa8608198932318d5fedc92902b51cd5c7849",
+        "problem.json": "73d3bfa6c0323d555792612294ae8bb04f23f1a1aa8a4ec4f0e7b3f44585c71a",
+        "mesh.msh": "cd2344922af75f41e28920cdd4a03e7f5674033c29670c1a7582facc38c37aa5"
+      }
     },
     {
       "question": "2.1.9",
@@ -2510,14 +2583,16 @@
     {
       "question": "2.1.9",
       "design_id": "ch02-2-1-9-06-ideal_stratified_slip",
-      "status": "pending_producer_adapter",
-      "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。"
+      "status": "native_iteration_limit",
+      "container": "ch02iso-4dd51f41f64c-627269997",
+      "ended_unix": 1792513343.7950091
     },
     {
       "question": "2.1.9",
       "design_id": "ch02-2-1-9-07-barotropic_stratified",
-      "status": "pending_producer_adapter",
-      "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。"
+      "status": "native_iteration_limit",
+      "container": "ch02iso-802ef402cfdb-627394693",
+      "ended_unix": 1792513334.039733
     },
     {
       "question": "2.1.9",
@@ -2540,20 +2615,77 @@
     {
       "question": "2.1.10",
       "design_id": "ch02-2-1-10-01-ideal_lid",
-      "status": "pending_producer_adapter",
-      "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。"
+      "status": "unvalidated_candidate",
+      "container": "ch02iso-a0d7303f5066-624270420",
+      "reference_sha256": "7998a1429fd29c99b0f93109a2f55123721ccacce8744554afb5bff4b829ee1c",
+      "cells": 1152,
+      "native_cells": 576,
+      "frames": 4,
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
+      "fixed_temperature_max_deviation_K": 0.0,
+      "ended_unix": 1792513333.694355,
+      "producer_record": {
+        "producer": "unmodified OpenCFD rhoPimpleFoam with native fixedTemperatureConstraint",
+        "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+        "source": "image:fvOptions/constraints/derived/fixedTemperatureConstraint and specie/equationOfState/{perfectGas,perfectFluid}",
+        "script_sha256": "9400973e1c901278bff1759e0ffe8874484ef530beaafc763f2f20de8b911516",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
+      },
+      "input_sha256": {
+        "input.h5": "0eacdec135c64ead0f6bbce5f55fced560b405e72c949de7574054228187506b",
+        "problem.json": "cf31820362b3e307d06a1ea24b9fe196e248da47d99db10aa9395b4138256544",
+        "mesh.msh": "f3ce4e9f916ab47abe0fa25afcf936dcbd6db5514f30f0648eb25aabeee45f39"
+      }
     },
     {
       "question": "2.1.10",
       "design_id": "ch02-2-1-10-02-barotropic_lid",
-      "status": "pending_producer_adapter",
-      "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。"
+      "status": "unvalidated_candidate",
+      "container": "ch02iso-c60c8e9bfdd1-625837610",
+      "reference_sha256": "88870c0722c5db826ae7ea3ad4a015d8be48fd51849af1587dc656b7289ed986",
+      "cells": 1152,
+      "native_cells": 576,
+      "frames": 4,
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
+      "fixed_temperature_max_deviation_K": 0.0,
+      "ended_unix": 1792513342.7204142,
+      "producer_record": {
+        "producer": "unmodified OpenCFD rhoPimpleFoam with native fixedTemperatureConstraint",
+        "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+        "source": "image:fvOptions/constraints/derived/fixedTemperatureConstraint and specie/equationOfState/{perfectGas,perfectFluid}",
+        "script_sha256": "9400973e1c901278bff1759e0ffe8874484ef530beaafc763f2f20de8b911516",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
+      },
+      "input_sha256": {
+        "input.h5": "0eacdec135c64ead0f6bbce5f55fced560b405e72c949de7574054228187506b",
+        "problem.json": "f36d19539e6c67c4a0c4d701dce975170ea74b4902de96eebd5af9abae20eedb",
+        "mesh.msh": "42034545ebfaf494d253e0cd1e54bd5af7f909ccc20e2b8bc24ff6ffe4143a09"
+      }
     },
     {
       "question": "2.1.10",
       "design_id": "ch02-2-1-10-03-ideal_deep",
-      "status": "pending_producer_adapter",
-      "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。"
+      "status": "unvalidated_candidate",
+      "container": "ch02iso-67c345aba391-625780271",
+      "reference_sha256": "089f7072efaa910781fd46407c35dc884a30fd6e558629bfbfcb2d6bf6b41ebf",
+      "cells": 1152,
+      "native_cells": 576,
+      "frames": 4,
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
+      "fixed_temperature_max_deviation_K": 0.0,
+      "ended_unix": 1792513337.7660425,
+      "producer_record": {
+        "producer": "unmodified OpenCFD rhoPimpleFoam with native fixedTemperatureConstraint",
+        "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+        "source": "image:fvOptions/constraints/derived/fixedTemperatureConstraint and specie/equationOfState/{perfectGas,perfectFluid}",
+        "script_sha256": "9400973e1c901278bff1759e0ffe8874484ef530beaafc763f2f20de8b911516",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
+      },
+      "input_sha256": {
+        "input.h5": "0eacdec135c64ead0f6bbce5f55fced560b405e72c949de7574054228187506b",
+        "problem.json": "70eeeb20ab9f117172d78f537ea34d60f7dc1f8b7744c50b54faceb505170fc2",
+        "mesh.msh": "cd2344922af75f41e28920cdd4a03e7f5674033c29670c1a7582facc38c37aa5"
+      }
     },
     {
       "question": "2.1.10",
@@ -2570,14 +2702,52 @@
     {
       "question": "2.1.10",
       "design_id": "ch02-2-1-10-06-ideal_stratified_slip",
-      "status": "pending_producer_adapter",
-      "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。"
+      "status": "unvalidated_candidate",
+      "container": "ch02iso-5da91ff26992-625771592",
+      "reference_sha256": "7c72d0ec28da860bf0b1f94cbf8a5f463dd0eca4070e7c7b1f0ccd7dec7a8794",
+      "cells": 1152,
+      "native_cells": 576,
+      "frames": 4,
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
+      "fixed_temperature_max_deviation_K": 0.0,
+      "ended_unix": 1792513335.352279,
+      "producer_record": {
+        "producer": "unmodified OpenCFD rhoPimpleFoam with native fixedTemperatureConstraint",
+        "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+        "source": "image:fvOptions/constraints/derived/fixedTemperatureConstraint and specie/equationOfState/{perfectGas,perfectFluid}",
+        "script_sha256": "9400973e1c901278bff1759e0ffe8874484ef530beaafc763f2f20de8b911516",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
+      },
+      "input_sha256": {
+        "input.h5": "3fa52c7574043bf41b2f7aba9c516ecfdabd1917cedaf6c69f94419374c11c92",
+        "problem.json": "722fe645fb657eeafaa837e60b7533e03d0ef98b07a317dc483f3042c1ff8d61",
+        "mesh.msh": "42034545ebfaf494d253e0cd1e54bd5af7f909ccc20e2b8bc24ff6ffe4143a09"
+      }
     },
     {
       "question": "2.1.10",
       "design_id": "ch02-2-1-10-07-barotropic_stratified",
-      "status": "pending_producer_adapter",
-      "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。"
+      "status": "unvalidated_candidate",
+      "container": "ch02iso-8e418015d0e7-196905780",
+      "reference_sha256": "f07bb84c7943408ef7acee20079e173d143a17982a233f150afd73c1e37626e6",
+      "cells": 1152,
+      "native_cells": 576,
+      "frames": 4,
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
+      "fixed_temperature_max_deviation_K": 0.0,
+      "ended_unix": 1792512754.8120708,
+      "producer_record": {
+        "producer": "unmodified OpenCFD rhoPimpleFoam with native fixedTemperatureConstraint",
+        "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+        "source": "image:fvOptions/constraints/derived/fixedTemperatureConstraint and specie/equationOfState/{perfectGas,perfectFluid}",
+        "script_sha256": "9400973e1c901278bff1759e0ffe8874484ef530beaafc763f2f20de8b911516",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
+      },
+      "input_sha256": {
+        "input.h5": "d9afd906498630bb90e2a12706ac880de52a4f26812559137bd1e7ac9b40ca7e",
+        "problem.json": "f9eedea2d491ae8eb05214ed910e7a9ef9c21aa3555f14e4c68f9c13308c9b5b",
+        "mesh.msh": "f3ce4e9f916ab47abe0fa25afcf936dcbd6db5514f30f0648eb25aabeee45f39"
+      }
     },
     {
       "question": "2.1.10",
@@ -2600,20 +2770,77 @@
     {
       "question": "2.1.11",
       "design_id": "ch02-2-1-11-01-ideal_lid",
-      "status": "pending_producer_adapter",
-      "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。"
+      "status": "unvalidated_candidate",
+      "container": "ch02iso-8235c0ab1f95-566577223",
+      "reference_sha256": "78801da6769dca26f5658632bec3a61701c3570f37d38d7ebd086db838a18d9e",
+      "cells": 8640,
+      "native_cells": 1440,
+      "frames": 1,
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
+      "fixed_temperature_max_deviation_K": 0.0,
+      "ended_unix": 1792513307.2395053,
+      "producer_record": {
+        "producer": "unmodified OpenCFD rhoSimpleFoam with native fixedTemperatureConstraint",
+        "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+        "source": "image:fvOptions/constraints/derived/fixedTemperatureConstraint and specie/equationOfState/{perfectGas,perfectFluid}",
+        "script_sha256": "9400973e1c901278bff1759e0ffe8874484ef530beaafc763f2f20de8b911516",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
+      },
+      "input_sha256": {
+        "input.h5": "675f47f96f99c501414d945298037cedbe82162b9f1caa625b8341a8e8dde8d0",
+        "problem.json": "4d52229288406781d3b4408f6413b4dd580cb0bcf128885c9a7393c617c435b7",
+        "mesh.msh": "6c92038c35c4af8709e6cca4d8bd20754c59d8828c1ca735592dc8d30c4eb01e"
+      }
     },
     {
       "question": "2.1.11",
       "design_id": "ch02-2-1-11-02-barotropic_lid",
-      "status": "pending_producer_adapter",
-      "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。"
+      "status": "unvalidated_candidate",
+      "container": "ch02iso-683667e1b809-567374218",
+      "reference_sha256": "9e836cb68be49ae927d1968dc5cbf9c70f0df3b78487bb137aa532306c65e83b",
+      "cells": 8640,
+      "native_cells": 1440,
+      "frames": 1,
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
+      "fixed_temperature_max_deviation_K": 0.0,
+      "ended_unix": 1792513307.2397,
+      "producer_record": {
+        "producer": "unmodified OpenCFD rhoSimpleFoam with native fixedTemperatureConstraint",
+        "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+        "source": "image:fvOptions/constraints/derived/fixedTemperatureConstraint and specie/equationOfState/{perfectGas,perfectFluid}",
+        "script_sha256": "9400973e1c901278bff1759e0ffe8874484ef530beaafc763f2f20de8b911516",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
+      },
+      "input_sha256": {
+        "input.h5": "675f47f96f99c501414d945298037cedbe82162b9f1caa625b8341a8e8dde8d0",
+        "problem.json": "ade577c8f9ae0cd2fd8c904564e1cb3d39d6106c429f35be8af40b3843e949ef",
+        "mesh.msh": "42e37d86f578edd07c5d841162c323b93b5a00d0f7d0769537e654741f6ec573"
+      }
     },
     {
       "question": "2.1.11",
       "design_id": "ch02-2-1-11-03-ideal_deep",
-      "status": "pending_producer_adapter",
-      "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。"
+      "status": "unvalidated_candidate",
+      "container": "ch02iso-7cb05f11032d-624011937",
+      "reference_sha256": "fda36f93dccd21a51e9e130a9aaba3f7de342fba5e436e0dbcf427c93d13e9eb",
+      "cells": 8640,
+      "native_cells": 1440,
+      "frames": 1,
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
+      "fixed_temperature_max_deviation_K": 0.0,
+      "ended_unix": 1792513308.0286057,
+      "producer_record": {
+        "producer": "unmodified OpenCFD rhoSimpleFoam with native fixedTemperatureConstraint",
+        "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+        "source": "image:fvOptions/constraints/derived/fixedTemperatureConstraint and specie/equationOfState/{perfectGas,perfectFluid}",
+        "script_sha256": "9400973e1c901278bff1759e0ffe8874484ef530beaafc763f2f20de8b911516",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
+      },
+      "input_sha256": {
+        "input.h5": "675f47f96f99c501414d945298037cedbe82162b9f1caa625b8341a8e8dde8d0",
+        "problem.json": "5cb49e0db6c8748741c365cf9f61360068d7f57d2f05ca46bf86207cd51a446b",
+        "mesh.msh": "aa6ed67f5711f75c1164c200a1c9c9fad3856b1fb1e8385dc743a16ebe2e6331"
+      }
     },
     {
       "question": "2.1.11",
@@ -2630,14 +2857,16 @@
     {
       "question": "2.1.11",
       "design_id": "ch02-2-1-11-06-ideal_stratified_slip",
-      "status": "pending_producer_adapter",
-      "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。"
+      "status": "native_iteration_limit",
+      "container": "ch02iso-f3fb43fb5b9d-624272889",
+      "ended_unix": 1792513384.1658719
     },
     {
       "question": "2.1.11",
       "design_id": "ch02-2-1-11-07-barotropic_stratified",
-      "status": "pending_producer_adapter",
-      "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。"
+      "status": "native_iteration_limit",
+      "container": "ch02iso-75a13dc8bf85-624270339",
+      "ended_unix": 1792513380.9715233
     },
     {
       "question": "2.1.11",
@@ -2660,20 +2889,77 @@
     {
       "question": "2.1.12",
       "design_id": "ch02-2-1-12-01-ideal_lid",
-      "status": "pending_producer_adapter",
-      "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。"
+      "status": "unvalidated_candidate",
+      "container": "ch02iso-a97699a4204b-596505175",
+      "reference_sha256": "2c1628393cca016dede087210e7041c09c1a7d2527462325b61415b8d2eb42b7",
+      "cells": 8640,
+      "native_cells": 1440,
+      "frames": 4,
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
+      "fixed_temperature_max_deviation_K": 0.0,
+      "ended_unix": 1792513379.1790817,
+      "producer_record": {
+        "producer": "unmodified OpenCFD rhoPimpleFoam with native fixedTemperatureConstraint",
+        "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+        "source": "image:fvOptions/constraints/derived/fixedTemperatureConstraint and specie/equationOfState/{perfectGas,perfectFluid}",
+        "script_sha256": "9400973e1c901278bff1759e0ffe8874484ef530beaafc763f2f20de8b911516",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
+      },
+      "input_sha256": {
+        "input.h5": "cba9f0165cb1a2c62e9827fb7527e813cb6d57be9f04cb68c53ab2f6cdcaba46",
+        "problem.json": "30bc375ae14ddcffe411b91af645dc9bf2da390994320cc9be574cea3ab68f00",
+        "mesh.msh": "6c92038c35c4af8709e6cca4d8bd20754c59d8828c1ca735592dc8d30c4eb01e"
+      }
     },
     {
       "question": "2.1.12",
       "design_id": "ch02-2-1-12-02-barotropic_lid",
-      "status": "pending_producer_adapter",
-      "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。"
+      "status": "unvalidated_candidate",
+      "container": "ch02iso-e5c9749d0a5f-624270266",
+      "reference_sha256": "5cdb727bca39b4852e9404d341fc1840fa8206059dd2c4922986b76a46ed3665",
+      "cells": 8640,
+      "native_cells": 1440,
+      "frames": 4,
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
+      "fixed_temperature_max_deviation_K": 0.0,
+      "ended_unix": 1792513373.307599,
+      "producer_record": {
+        "producer": "unmodified OpenCFD rhoPimpleFoam with native fixedTemperatureConstraint",
+        "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+        "source": "image:fvOptions/constraints/derived/fixedTemperatureConstraint and specie/equationOfState/{perfectGas,perfectFluid}",
+        "script_sha256": "9400973e1c901278bff1759e0ffe8874484ef530beaafc763f2f20de8b911516",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
+      },
+      "input_sha256": {
+        "input.h5": "cba9f0165cb1a2c62e9827fb7527e813cb6d57be9f04cb68c53ab2f6cdcaba46",
+        "problem.json": "5769ab9c788e2a067670f4a0a08c21551fed2e5a74da10abfdfcc0cfc192853e",
+        "mesh.msh": "42e37d86f578edd07c5d841162c323b93b5a00d0f7d0769537e654741f6ec573"
+      }
     },
     {
       "question": "2.1.12",
       "design_id": "ch02-2-1-12-03-ideal_deep",
-      "status": "pending_producer_adapter",
-      "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。"
+      "status": "unvalidated_candidate",
+      "container": "ch02iso-7bd593614523-624410940",
+      "reference_sha256": "588767ee681d11e0ccea1c0d31f56cba32820e7bb52a53252721c64b0e8b0698",
+      "cells": 8640,
+      "native_cells": 1440,
+      "frames": 4,
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
+      "fixed_temperature_max_deviation_K": 0.0,
+      "ended_unix": 1792513375.427301,
+      "producer_record": {
+        "producer": "unmodified OpenCFD rhoPimpleFoam with native fixedTemperatureConstraint",
+        "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+        "source": "image:fvOptions/constraints/derived/fixedTemperatureConstraint and specie/equationOfState/{perfectGas,perfectFluid}",
+        "script_sha256": "9400973e1c901278bff1759e0ffe8874484ef530beaafc763f2f20de8b911516",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
+      },
+      "input_sha256": {
+        "input.h5": "cba9f0165cb1a2c62e9827fb7527e813cb6d57be9f04cb68c53ab2f6cdcaba46",
+        "problem.json": "494ad2a1d661ca1e79b5036c66ee16fa5011b9510c20239b2258bf53708fed91",
+        "mesh.msh": "aa6ed67f5711f75c1164c200a1c9c9fad3856b1fb1e8385dc743a16ebe2e6331"
+      }
     },
     {
       "question": "2.1.12",
@@ -2690,14 +2976,52 @@
     {
       "question": "2.1.12",
       "design_id": "ch02-2-1-12-06-ideal_stratified_slip",
-      "status": "pending_producer_adapter",
-      "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。"
+      "status": "unvalidated_candidate",
+      "container": "ch02iso-c10412e56d70-624288070",
+      "reference_sha256": "1dc55f777d35ede86aa0fd659ac737d696da58b53b2d39423acb2706e5ecb70e",
+      "cells": 8640,
+      "native_cells": 1440,
+      "frames": 4,
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
+      "fixed_temperature_max_deviation_K": 0.0,
+      "ended_unix": 1792513388.80976,
+      "producer_record": {
+        "producer": "unmodified OpenCFD rhoPimpleFoam with native fixedTemperatureConstraint",
+        "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+        "source": "image:fvOptions/constraints/derived/fixedTemperatureConstraint and specie/equationOfState/{perfectGas,perfectFluid}",
+        "script_sha256": "9400973e1c901278bff1759e0ffe8874484ef530beaafc763f2f20de8b911516",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
+      },
+      "input_sha256": {
+        "input.h5": "6b6fec7aaa524758fd8048e427f70ae7d8ef643615b96661f003917e897f600b",
+        "problem.json": "9f4b2ef103bcac628cb4ff93bd08823362938e4d3b50d27e44a263a869b7ca59",
+        "mesh.msh": "42e37d86f578edd07c5d841162c323b93b5a00d0f7d0769537e654741f6ec573"
+      }
     },
     {
       "question": "2.1.12",
       "design_id": "ch02-2-1-12-07-barotropic_stratified",
-      "status": "pending_producer_adapter",
-      "reason": "仍需匹配真正等温状态关系、独立体黏度、质量库存及完整牵引；不能运行能量方程后覆盖温度。"
+      "status": "unvalidated_candidate",
+      "container": "ch02iso-a8d6f150ef73-624286808",
+      "reference_sha256": "a1b027c13212bfe70b061467744552a30230015e0b04d77e5f4d85022a1c24b7",
+      "cells": 8640,
+      "native_cells": 1440,
+      "frames": 4,
+      "mapping": "Native FV cells split into conforming simplices; native piecewise constant cell reconstructions retain their averages. Gradients use native gradU. Compact P1-potential curl initial data are volume-averaged into native FV cells, with no Leray projection. Native viscosity bounds are exact transformed shear-rate cutoffs. Compressible pressure is absolute, density follows the supplied isothermal EOS and stress retains the bulk/deviatoric term; prescribed impermeable-wall normal flux is used instead of an interior-cell surrogate. No numerical validation.",
+      "fixed_temperature_max_deviation_K": 0.0,
+      "ended_unix": 1792513374.7195258,
+      "producer_record": {
+        "producer": "unmodified OpenCFD rhoPimpleFoam with native fixedTemperatureConstraint",
+        "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+        "source": "image:fvOptions/constraints/derived/fixedTemperatureConstraint and specie/equationOfState/{perfectGas,perfectFluid}",
+        "script_sha256": "9400973e1c901278bff1759e0ffe8874484ef530beaafc763f2f20de8b911516",
+        "conversion_script_sha256": "96f2eb37e9d32191352080aa59da981497143f05168ebe95eb36f64c16bea40c"
+      },
+      "input_sha256": {
+        "input.h5": "8772d7e5e9261db0837787e9d2d6a64510b29137f9aa6ef9cb2cdf929a5dc99f",
+        "problem.json": "46bd9439b98b8ba21fcab5293aef4d6dfbe2ae8fcca79e0c0fd15879a7b5f3ef",
+        "mesh.msh": "6c92038c35c4af8709e6cca4d8bd20754c59d8828c1ca735592dc8d30c4eb01e"
+      }
     },
     {
       "question": "2.1.12",
@@ -2984,8 +3308,26 @@
     {
       "question": "2.2.2",
       "design_id": "ch02-2-2-2-02-natural_convection",
-      "status": "running",
-      "container": "ch02lowmach-c871fa600c9a-840498139"
+      "status": "unvalidated_candidate",
+      "container": "ch02lowmach-c871fa600c9a-840498139",
+      "reference_sha256": "548f086d5dfa704829fe568d939baef3f8d8c9355f474da9a7d2416c80f8f1b9",
+      "nodes": 378,
+      "cells": 682,
+      "frames": 4,
+      "mapping": "Native stabilized P1 FlowSolver + HeatSolver, full symmetric stress, native Friction Heat, nodal constitutive coefficients; exact simplex means of native P1 outputs. Boussinesq retains base acceleration. Source P0 samples constructed once by fixed barycentric quadrature; no accuracy validation.",
+      "ended_unix": 1792512026.7374768,
+      "producer_record": {
+        "producer": "unmodified Elmer FlowSolver + HeatSolver",
+        "image": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059",
+        "source_url": "https://github.com/ElmerCSC/elmerfem/tree/a19504ac53ec222e3355e182b08f2ff280c2203a/fem/src/modules",
+        "source_commit": "a19504ac53ec222e3355e182b08f2ff280c2203a",
+        "script_sha256": "4c5223dc041cbf56dea16157126f416a3e3db48ca4d775dbb6221aac24571964"
+      },
+      "input_sha256": {
+        "input.h5": "f31744e3de3011719af019f86b409ddaadc2b2b9444d67e26c1b71c521d61fa5",
+        "problem.json": "b92335465cb65687a391a615beae180f291f4a29fbeb62a938cbff687e0882fa",
+        "mesh.msh": "58e01dd2d16b55ca86829ecfa01112cc7f13d6b3413bb04072e6d4f771d2dc76"
+      }
     },
     {
       "question": "2.2.2",
@@ -4784,8 +5126,24 @@
     {
       "question": "2.2.10",
       "design_id": "ch02-2-2-10-01-thermal_cavity",
-      "status": "pending_producer_adapter",
-      "reason": "已定位OpenFOAM/Elmer候选；温度幂律mu/k、体黏度/耗散、热胀、湍流公开状态或统计采样语义仍需逐项匹配和适配。"
+      "status": "unvalidated_candidate",
+      "container": "ch02thermal-481e49da60c3-651451164",
+      "reference_sha256": "55a8dba222dd70a0463231952bfdf5841b51fab0b1381807d1e4aa2ec7b9815c",
+      "cells": 1152,
+      "frames": 4,
+      "mapping": "Native rhoCentralFoam perfect-gas full total energy, sigmaDotU stress work and conductive diffusion; zero bulk viscosity and no external sources. Adaptive acoustic time step with uniform physical write schedule. Native FV cell means assigned to conforming child simplices; absolute pressure retained. Power laws, if present, use 901-point native transport tables. No numerical validation.",
+      "ended_unix": 1792511746.1227238,
+      "producer_record": {
+        "producer": "unmodified OpenCFD rhoCentralFoam v2512 full-energy viscous branch",
+        "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+        "source": "image:applications/solvers/compressible/rhoCentralFoam/rhoCentralFoam.C",
+        "script_sha256": "5cf48194fef84b7466c34692448787ae41a6730256d2d69e60116f9c16b440bf"
+      },
+      "input_sha256": {
+        "input.h5": "bdab909e7a5f7f38e8b4bd57e539adc6291ccd36357e2871fbe0aa02e1e58e49",
+        "problem.json": "031759cbdb5960c8be25714989e521db828df436c05145539a3fcfa4128fcf67",
+        "mesh.msh": "f3ce4e9f916ab47abe0fa25afcf936dcbd6db5514f30f0648eb25aabeee45f39"
+      }
     },
     {
       "question": "2.2.10",
@@ -4796,8 +5154,25 @@
     {
       "question": "2.2.10",
       "design_id": "ch02-2-2-10-03-deep_thermal",
-      "status": "pending_producer_adapter",
-      "reason": "已定位OpenFOAM/Elmer候选；温度幂律mu/k、体黏度/耗散、热胀、湍流公开状态或统计采样语义仍需逐项匹配和适配。"
+      "status": "unvalidated_candidate",
+      "container": "ch02thermal-cf5e9aebbbf6-977947138",
+      "reference_sha256": "5e967e7c05be7e0902812c931a22e8f22eb50536b4dc65ae226e75c38f5ab7bf",
+      "cells": 1152,
+      "frames": 4,
+      "mapping": "Native rhoCentralFoam perfect-gas full total energy, sigmaDotU stress work and conductive diffusion; zero bulk viscosity and no external sources. Adaptive acoustic time step with uniform physical write schedule. Native FV cell means assigned to conforming child simplices; absolute pressure retained. Power laws, if present, use stock logPolynomialTransport with coefficients exactly representing the given powers; only native type registration is added. No numerical validation.",
+      "ended_unix": 1792514566.1258612,
+      "producer_record": {
+        "producer": "unmodified OpenCFD rhoCentralFoam v2512 full-energy viscous branch",
+        "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+        "source": "image:applications/solvers/compressible/rhoCentralFoam/rhoCentralFoam.C",
+        "script_sha256": "dbae7a0825f2efff69bb075eeee8ceae74388c92e37f3565a8c7cda2e4842806",
+        "native_type_registration_sha256": null
+      },
+      "input_sha256": {
+        "input.h5": "44021b80e7b72cdccc76b2bd4caa0460e68825cfef91a133dfb44280f6a9a035",
+        "problem.json": "f7a39edade7fe3ddd7eea91efbdbf439b4df2b0d2bff278fa874ce9f0d6308d5",
+        "mesh.msh": "cd2344922af75f41e28920cdd4a03e7f5674033c29670c1a7582facc38c37aa5"
+      }
     },
     {
       "question": "2.2.10",
@@ -4820,14 +5195,30 @@
     {
       "question": "2.2.10",
       "design_id": "ch02-2-2-10-07-nonuniform_source",
-      "status": "pending_producer_adapter",
-      "reason": "已定位OpenFOAM/Elmer候选；温度幂律mu/k、体黏度/耗散、热胀、湍流公开状态或统计采样语义仍需逐项匹配和适配。"
+      "status": "unvalidated_candidate",
+      "container": "ch02thermal-b7eff0a0b16d-691203266",
+      "reference_sha256": "a53f30f95de3807098bdb224c67ee7569d6f298b1dc603ea2e3fc40994851727",
+      "cells": 1152,
+      "frames": 4,
+      "mapping": "Native rhoCentralFoam perfect-gas full total energy, sigmaDotU stress work and conductive diffusion; zero bulk viscosity and no external sources. Adaptive acoustic time step with uniform physical write schedule. Native FV cell means assigned to conforming child simplices; absolute pressure retained. Power laws, if present, use 901-point native transport tables. No numerical validation.",
+      "ended_unix": 1792511818.1666503,
+      "producer_record": {
+        "producer": "unmodified OpenCFD rhoCentralFoam v2512 full-energy viscous branch",
+        "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+        "source": "image:applications/solvers/compressible/rhoCentralFoam/rhoCentralFoam.C",
+        "script_sha256": "5cf48194fef84b7466c34692448787ae41a6730256d2d69e60116f9c16b440bf"
+      },
+      "input_sha256": {
+        "input.h5": "6f8e2fcba0ad605c332f9c1ad3ebe1aa68dcbab65ede5d1e26d752a87561042b",
+        "problem.json": "64090790891aa89a633bc8aff094b796a43d1c54a3ff43beb7aa2d1e5495205a",
+        "mesh.msh": "f3ce4e9f916ab47abe0fa25afcf936dcbd6db5514f30f0648eb25aabeee45f39"
+      }
     },
     {
       "question": "2.2.10",
       "design_id": "ch02-2-2-10-08-power_transport",
-      "status": "pending_producer_adapter",
-      "reason": "已定位OpenFOAM/Elmer候选；温度幂律mu/k、体黏度/耗散、热胀、湍流公开状态或统计采样语义仍需逐项匹配和适配。"
+      "status": "running",
+      "container": "ch02thermal-e0b5f7c9f826-775820039"
     },
     {
       "question": "2.2.10",
@@ -4838,8 +5229,25 @@
     {
       "question": "2.2.10",
       "design_id": "ch02-2-2-10-10-wall_pulse_or_partition",
-      "status": "pending_producer_adapter",
-      "reason": "已定位OpenFOAM/Elmer候选；温度幂律mu/k、体黏度/耗散、热胀、湍流公开状态或统计采样语义仍需逐项匹配和适配。"
+      "status": "unvalidated_candidate",
+      "container": "ch02thermal-200de84a9243-978891938",
+      "reference_sha256": "b91c19455d093d29b170389d9777bed1bebc227e1b3d629490d380a7d0dddbce",
+      "cells": 1152,
+      "frames": 4,
+      "mapping": "Native rhoCentralFoam perfect-gas full total energy, sigmaDotU stress work and conductive diffusion; zero bulk viscosity and no external sources. Adaptive acoustic time step with uniform physical write schedule. Native FV cell means assigned to conforming child simplices; absolute pressure retained. Power laws, if present, use stock logPolynomialTransport with coefficients exactly representing the given powers; only native type registration is added. No numerical validation.",
+      "ended_unix": 1792514641.5576324,
+      "producer_record": {
+        "producer": "unmodified OpenCFD rhoCentralFoam v2512 full-energy viscous branch",
+        "image": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+        "source": "image:applications/solvers/compressible/rhoCentralFoam/rhoCentralFoam.C",
+        "script_sha256": "dbae7a0825f2efff69bb075eeee8ceae74388c92e37f3565a8c7cda2e4842806",
+        "native_type_registration_sha256": null
+      },
+      "input_sha256": {
+        "input.h5": "2fe1163afcbd223e460600f2d94094ec971c614ceb69dea66b9fb1f7df5c36ec",
+        "problem.json": "f7a39edade7fe3ddd7eea91efbdbf439b4df2b0d2bff278fa874ce9f0d6308d5",
+        "mesh.msh": "f3ce4e9f916ab47abe0fa25afcf936dcbd6db5514f30f0648eb25aabeee45f39"
+      }
     },
     {
       "question": "2.2.11",
@@ -4904,8 +5312,8 @@
     {
       "question": "2.2.12",
       "design_id": "ch02-2-2-12-01-thermal_cavity",
-      "status": "pending_producer_adapter",
-      "reason": "已定位OpenFOAM/Elmer候选；温度幂律mu/k、体黏度/耗散、热胀、湍流公开状态或统计采样语义仍需逐项匹配和适配。"
+      "status": "running",
+      "container": "ch02thermal-12f4748c4bfc-976100305"
     },
     {
       "question": "2.2.12",
@@ -4916,8 +5324,8 @@
     {
       "question": "2.2.12",
       "design_id": "ch02-2-2-12-03-deep_thermal",
-      "status": "pending_producer_adapter",
-      "reason": "已定位OpenFOAM/Elmer候选；温度幂律mu/k、体黏度/耗散、热胀、湍流公开状态或统计采样语义仍需逐项匹配和适配。"
+      "status": "running",
+      "container": "ch02thermal-d3724c176087-976395985"
     },
     {
       "question": "2.2.12",
@@ -4940,14 +5348,14 @@
     {
       "question": "2.2.12",
       "design_id": "ch02-2-2-12-07-nonuniform_source",
-      "status": "pending_producer_adapter",
-      "reason": "已定位OpenFOAM/Elmer候选；温度幂律mu/k、体黏度/耗散、热胀、湍流公开状态或统计采样语义仍需逐项匹配和适配。"
+      "status": "running",
+      "container": "ch02thermal-ff02f3e3e964-976606710"
     },
     {
       "question": "2.2.12",
       "design_id": "ch02-2-2-12-08-power_transport",
-      "status": "pending_producer_adapter",
-      "reason": "已定位OpenFOAM/Elmer候选；温度幂律mu/k、体黏度/耗散、热胀、湍流公开状态或统计采样语义仍需逐项匹配和适配。"
+      "status": "running",
+      "container": "ch02thermal-ebe329186da3-772449169"
     },
     {
       "question": "2.2.12",
@@ -4958,8 +5366,8 @@
     {
       "question": "2.2.12",
       "design_id": "ch02-2-2-12-10-wall_pulse_or_partition",
-      "status": "pending_producer_adapter",
-      "reason": "已定位OpenFOAM/Elmer候选；温度幂律mu/k、体黏度/耗散、热胀、湍流公开状态或统计采样语义仍需逐项匹配和适配。"
+      "status": "running",
+      "container": "ch02thermal-4d0a2b73a7a3-977272254"
     },
     {
       "question": "2.3.1",
@@ -8120,119 +8528,602 @@
     {
       "question": "2.10.3",
       "design_id": "ch02-2-10-3-01-pressure_duct",
-      "status": "running",
-      "container": "ch02sparta-e045fd4e3dfb-013359347"
+      "status": "unvalidated_candidate",
+      "stage": "assembled",
+      "container": "ch02sparta-sample-e045fd4e3dfb-313009184",
+      "reference_sha256": "81b273238412443d2bb722e5a5541aa2472d191e6b8af5a29d75846499f619e9",
+      "nodes": 4324,
+      "cells": 18986,
+      "observed_nodes": 1556,
+      "observed_wall_triangles": 3398,
+      "frames": 1,
+      "mapping": "Native DSMC pooled cell moments recovered to actual interior nodes by inverse-distance interpolation. Wall traction is recorded post-minus-pre particle momentum / actual triangle area / sampled event time. Wall-frame energy loss uses the prescribed wall velocity; vector heat flux is outward normal times this scalar. Internal walls use existing native per-triangle surface force/energy tallies. No stationarity, statistical, discretization or accuracy assessment. Original burn-in is resumed with a newly declared native RNG seed, not claimed bitwise identical to the earlier sample.",
+      "ended_unix": 1792511801.6473215,
+      "producer_record": {
+        "producer": "SPARTA 27Aug2026 + read-only boundary event observer",
+        "image": "sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6",
+        "source": "https://github.com/sparta/sparta",
+        "script_sha256": "5ea32c75d755ef8d4e1eb8f8f2553495a7f6fda8fba16b67eb9107436693e282",
+        "binary_sha256": "67936c94e9cd57a323672e2d3ab3aa2c7903eb0f2d8f95cde9d3d0651f320d4f",
+        "patch_sha256": "4f7e06a20e71976019d0366cddb8c1b1afd15b64b1728244914b6e4cbd3c0697",
+        "checkpoint_sha256": "ceccd9ef3670b47b140fc3e803e2ae3c4cae1d890b3cb4fa450aaf94547f9222",
+        "conversion_script_sha256": "94935eb761b1692dee989520f4684d015284619ebe091cf27b23b06fa1377fbe"
+      },
+      "input_sha256": {
+        "input.h5": "9d2c8274652c1e3b2d6e8dfeeeed79cc899a41e1b655fa88b60b67acceb994d5",
+        "problem.json": "2aae23d9837b0d1c3778d6e6b683174ed1177098e0c1f7a77338c8f625035ec6",
+        "mesh.msh": "1bbd067620ef4ccb9d3c8a3df9eeba5c939c1136aa196daf7ca22af6a7fa87f7"
+      }
     },
     {
       "question": "2.10.3",
       "design_id": "ch02-2-10-3-02-thermal_duct",
-      "status": "running",
-      "container": "ch02sparta-adb2753894ae-013726864"
+      "status": "unvalidated_candidate",
+      "stage": "assembled",
+      "container": "ch02sparta-sample-adb2753894ae-303006419",
+      "reference_sha256": "3f2c53f36bbeef92369620755e97f44d66c8722be052e353ada13f6213be579e",
+      "nodes": 4324,
+      "cells": 18986,
+      "observed_nodes": 1556,
+      "observed_wall_triangles": 3398,
+      "frames": 1,
+      "mapping": "Native DSMC pooled cell moments recovered to actual interior nodes by inverse-distance interpolation. Wall traction is recorded post-minus-pre particle momentum / actual triangle area / sampled event time. Wall-frame energy loss uses the prescribed wall velocity; vector heat flux is outward normal times this scalar. Internal walls use existing native per-triangle surface force/energy tallies. No stationarity, statistical, discretization or accuracy assessment. Original burn-in is resumed with a newly declared native RNG seed, not claimed bitwise identical to the earlier sample.",
+      "ended_unix": 1792511798.9565213,
+      "producer_record": {
+        "producer": "SPARTA 27Aug2026 + read-only boundary event observer",
+        "image": "sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6",
+        "source": "https://github.com/sparta/sparta",
+        "script_sha256": "5ea32c75d755ef8d4e1eb8f8f2553495a7f6fda8fba16b67eb9107436693e282",
+        "binary_sha256": "67936c94e9cd57a323672e2d3ab3aa2c7903eb0f2d8f95cde9d3d0651f320d4f",
+        "patch_sha256": "4f7e06a20e71976019d0366cddb8c1b1afd15b64b1728244914b6e4cbd3c0697",
+        "checkpoint_sha256": "f181da459ff38defd3087e4d6458af8c9a84e214687cb410a57a1d5ceb867628",
+        "conversion_script_sha256": "94935eb761b1692dee989520f4684d015284619ebe091cf27b23b06fa1377fbe"
+      },
+      "input_sha256": {
+        "input.h5": "9d2c8274652c1e3b2d6e8dfeeeed79cc899a41e1b655fa88b60b67acceb994d5",
+        "problem.json": "0931c6a785bfaf445ff9eb03a2632ae709b943a623c8f715c789aa0b50d126f0",
+        "mesh.msh": "1bbd067620ef4ccb9d3c8a3df9eeba5c939c1136aa196daf7ca22af6a7fa87f7"
+      }
     },
     {
       "question": "2.10.3",
       "design_id": "ch02-2-10-3-03-couette",
-      "status": "running",
-      "container": "ch02sparta-1fb9641f7316-013964734"
+      "status": "unvalidated_candidate",
+      "stage": "assembled",
+      "container": "ch02sparta-sample-1fb9641f7316-366886321",
+      "reference_sha256": "f379e432d3da9ac04bc31c7ef8d27ac65575f533da3b7eadb49a70ade85aac66",
+      "nodes": 4324,
+      "cells": 18986,
+      "observed_nodes": 1556,
+      "observed_wall_triangles": 3398,
+      "frames": 1,
+      "mapping": "Native DSMC pooled cell moments recovered to actual interior nodes by inverse-distance interpolation. Wall traction is recorded post-minus-pre particle momentum / actual triangle area / sampled event time. Wall-frame energy loss uses the prescribed wall velocity; vector heat flux is outward normal times this scalar. Internal walls use existing native per-triangle surface force/energy tallies. No stationarity, statistical, discretization or accuracy assessment. Original burn-in is resumed with a newly declared native RNG seed, not claimed bitwise identical to the earlier sample.",
+      "ended_unix": 1792511919.8470557,
+      "producer_record": {
+        "producer": "SPARTA 27Aug2026 + read-only boundary event observer",
+        "image": "sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6",
+        "source": "https://github.com/sparta/sparta",
+        "script_sha256": "5ea32c75d755ef8d4e1eb8f8f2553495a7f6fda8fba16b67eb9107436693e282",
+        "binary_sha256": "67936c94e9cd57a323672e2d3ab3aa2c7903eb0f2d8f95cde9d3d0651f320d4f",
+        "patch_sha256": "4f7e06a20e71976019d0366cddb8c1b1afd15b64b1728244914b6e4cbd3c0697",
+        "checkpoint_sha256": "cf16ce6ca59b07c6200a3bf48c92944639a75262540deaadda8039cec958e89e",
+        "conversion_script_sha256": "94935eb761b1692dee989520f4684d015284619ebe091cf27b23b06fa1377fbe"
+      },
+      "input_sha256": {
+        "input.h5": "a56f6f569cb8cc8a57af4566e8ce8c47a94f34be51db530d74bd87ae71196720",
+        "problem.json": "6ab1e35b50830988467cef9d538790907e815481eb574635398b78217b00165a",
+        "mesh.msh": "1bbd067620ef4ccb9d3c8a3df9eeba5c939c1136aa196daf7ca22af6a7fa87f7"
+      }
     },
     {
       "question": "2.10.3",
       "design_id": "ch02-2-10-3-04-partial_accommodation",
-      "status": "running",
-      "container": "ch02sparta-6e4bc8d4499a-014148478"
+      "status": "unvalidated_candidate",
+      "stage": "assembled",
+      "container": "ch02sparta-sample-6e4bc8d4499a-316795900",
+      "reference_sha256": "3302e789ee12dd85096a4a0c35874afad2cedb8236291f1192d1d982e01cecd4",
+      "nodes": 4324,
+      "cells": 18986,
+      "observed_nodes": 1556,
+      "observed_wall_triangles": 3398,
+      "frames": 1,
+      "mapping": "Native DSMC pooled cell moments recovered to actual interior nodes by inverse-distance interpolation. Wall traction is recorded post-minus-pre particle momentum / actual triangle area / sampled event time. Wall-frame energy loss uses the prescribed wall velocity; vector heat flux is outward normal times this scalar. Internal walls use existing native per-triangle surface force/energy tallies. No stationarity, statistical, discretization or accuracy assessment. Original burn-in is resumed with a newly declared native RNG seed, not claimed bitwise identical to the earlier sample.",
+      "ended_unix": 1792511778.4977684,
+      "producer_record": {
+        "producer": "SPARTA 27Aug2026 + read-only boundary event observer",
+        "image": "sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6",
+        "source": "https://github.com/sparta/sparta",
+        "script_sha256": "5ea32c75d755ef8d4e1eb8f8f2553495a7f6fda8fba16b67eb9107436693e282",
+        "binary_sha256": "67936c94e9cd57a323672e2d3ab3aa2c7903eb0f2d8f95cde9d3d0651f320d4f",
+        "patch_sha256": "4f7e06a20e71976019d0366cddb8c1b1afd15b64b1728244914b6e4cbd3c0697",
+        "checkpoint_sha256": "014b38bc0bb995670c830e5bcb104c84d2fcf1f9f7ad012de8d97c6cf9d47529",
+        "conversion_script_sha256": "94935eb761b1692dee989520f4684d015284619ebe091cf27b23b06fa1377fbe"
+      },
+      "input_sha256": {
+        "input.h5": "9d2c8274652c1e3b2d6e8dfeeeed79cc899a41e1b655fa88b60b67acceb994d5",
+        "problem.json": "3c4c869ab859904a714ac7a9cab9942373d677b70745fa95f068c0792b2544dc",
+        "mesh.msh": "1bbd067620ef4ccb9d3c8a3df9eeba5c939c1136aa196daf7ca22af6a7fa87f7"
+      }
     },
     {
       "question": "2.10.3",
       "design_id": "ch02-2-10-3-05-orifice",
-      "status": "queued"
+      "status": "unvalidated_candidate",
+      "stage": "assembled",
+      "container": "ch02sparta-sample-ca4b48d475af-373946729",
+      "reference_sha256": "2951f499e998d8713d8f985b8fdba588234526e9679e386bdce5f31289f30117",
+      "nodes": 4384,
+      "cells": 18703,
+      "observed_nodes": 1279,
+      "observed_wall_triangles": 3336,
+      "frames": 1,
+      "mapping": "Native DSMC pooled cell moments recovered to actual interior nodes by inverse-distance interpolation. Wall traction is recorded post-minus-pre particle momentum / actual triangle area / sampled event time. Wall-frame energy loss uses the prescribed wall velocity; vector heat flux is outward normal times this scalar. Internal walls use existing native per-triangle surface force/energy tallies. No stationarity, statistical, discretization or accuracy assessment. Original burn-in is resumed with a newly declared native RNG seed, not claimed bitwise identical to the earlier sample.",
+      "ended_unix": 1792512411.0360231,
+      "producer_record": {
+        "producer": "SPARTA 27Aug2026 + read-only boundary event observer",
+        "image": "sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6",
+        "source": "https://github.com/sparta/sparta",
+        "script_sha256": "5ea32c75d755ef8d4e1eb8f8f2553495a7f6fda8fba16b67eb9107436693e282",
+        "binary_sha256": "67936c94e9cd57a323672e2d3ab3aa2c7903eb0f2d8f95cde9d3d0651f320d4f",
+        "patch_sha256": "4f7e06a20e71976019d0366cddb8c1b1afd15b64b1728244914b6e4cbd3c0697",
+        "checkpoint_sha256": "cfcf1616d1f70105ae3cb2b2200d3610f28bc3398c41b8efb29cbf03b2223b37",
+        "conversion_script_sha256": "94935eb761b1692dee989520f4684d015284619ebe091cf27b23b06fa1377fbe"
+      },
+      "input_sha256": {
+        "input.h5": "2217f248e19d95257f2825681b4f2db2c58aa7af5c66a13e33b327e01a6498f3",
+        "problem.json": "2aae23d9837b0d1c3778d6e6b683174ed1177098e0c1f7a77338c8f625035ec6",
+        "mesh.msh": "a22f2357e0ca709ae2377360be08647590f7110d631894ed9e64f732b3a2de42"
+      }
     },
     {
       "question": "2.10.3",
       "design_id": "ch02-2-10-3-06-bend",
-      "status": "running",
-      "container": "ch02sparta-a78ac89a7d0e-231597908"
+      "status": "unvalidated_candidate",
+      "stage": "assembled",
+      "container": "ch02sparta-sample-a78ac89a7d0e-370021537",
+      "reference_sha256": "f4d36b6c232ceffd26de6e9343cfa5bb880a4edd962fac9813f7f1c9ec441cb9",
+      "nodes": 4969,
+      "cells": 21351,
+      "observed_nodes": 1510,
+      "observed_wall_triangles": 3966,
+      "frames": 1,
+      "mapping": "Native DSMC pooled cell moments recovered to actual interior nodes by inverse-distance interpolation. Wall traction is recorded post-minus-pre particle momentum / actual triangle area / sampled event time. Wall-frame energy loss uses the prescribed wall velocity; vector heat flux is outward normal times this scalar. Internal walls use existing native per-triangle surface force/energy tallies. No stationarity, statistical, discretization or accuracy assessment. Original burn-in is resumed with a newly declared native RNG seed, not claimed bitwise identical to the earlier sample.",
+      "ended_unix": 1792512244.2432191,
+      "producer_record": {
+        "producer": "SPARTA 27Aug2026 + read-only boundary event observer",
+        "image": "sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6",
+        "source": "https://github.com/sparta/sparta",
+        "script_sha256": "5ea32c75d755ef8d4e1eb8f8f2553495a7f6fda8fba16b67eb9107436693e282",
+        "binary_sha256": "67936c94e9cd57a323672e2d3ab3aa2c7903eb0f2d8f95cde9d3d0651f320d4f",
+        "patch_sha256": "4f7e06a20e71976019d0366cddb8c1b1afd15b64b1728244914b6e4cbd3c0697",
+        "checkpoint_sha256": "345a63065d6fb3231c8fbf4480ab29f2328991aa051be2f6c1ec3484c9a10f0b",
+        "conversion_script_sha256": "94935eb761b1692dee989520f4684d015284619ebe091cf27b23b06fa1377fbe"
+      },
+      "input_sha256": {
+        "input.h5": "16e7a5116ad6654e349e10fada6663a4950858903d6a9dbf9d542e4987cd92a0",
+        "problem.json": "2aae23d9837b0d1c3778d6e6b683174ed1177098e0c1f7a77338c8f625035ec6",
+        "mesh.msh": "7c6e16626d210773f7a4b9ae562e3831ef49ae574bcd6565b1f4cd95a82e5384"
+      }
     },
     {
       "question": "2.10.3",
       "design_id": "ch02-2-10-3-07-obstacle",
-      "status": "running",
-      "container": "ch02sparta-b5fe104b4bc6-350330218"
+      "status": "unvalidated_candidate",
+      "stage": "assembled",
+      "container": "ch02sparta-sample-b5fe104b4bc6-373438491",
+      "reference_sha256": "12c8d8b342b4cdcca129d87895a6f9ccfb604b57ab6249aea1ae51899bd0e161",
+      "nodes": 4544,
+      "cells": 19376,
+      "observed_nodes": 1224,
+      "observed_wall_triangles": 3652,
+      "frames": 1,
+      "mapping": "Native DSMC pooled cell moments recovered to actual interior nodes by inverse-distance interpolation. Wall traction is recorded post-minus-pre particle momentum / actual triangle area / sampled event time. Wall-frame energy loss uses the prescribed wall velocity; vector heat flux is outward normal times this scalar. Internal walls use existing native per-triangle surface force/energy tallies. No stationarity, statistical, discretization or accuracy assessment. Original burn-in is resumed with a newly declared native RNG seed, not claimed bitwise identical to the earlier sample.",
+      "ended_unix": 1792512272.3343809,
+      "producer_record": {
+        "producer": "SPARTA 27Aug2026 + read-only boundary event observer",
+        "image": "sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6",
+        "source": "https://github.com/sparta/sparta",
+        "script_sha256": "5ea32c75d755ef8d4e1eb8f8f2553495a7f6fda8fba16b67eb9107436693e282",
+        "binary_sha256": "67936c94e9cd57a323672e2d3ab3aa2c7903eb0f2d8f95cde9d3d0651f320d4f",
+        "patch_sha256": "4f7e06a20e71976019d0366cddb8c1b1afd15b64b1728244914b6e4cbd3c0697",
+        "checkpoint_sha256": "a1ddd949a18df788ce8b4b0f9164b5cb3c3d936ac86e28ef3c11e53feb0b46d6",
+        "conversion_script_sha256": "94935eb761b1692dee989520f4684d015284619ebe091cf27b23b06fa1377fbe"
+      },
+      "input_sha256": {
+        "input.h5": "ca90ffcbb598e9b8683f0e632171ca45316a795adc87f62bedfcaf43b7843a36",
+        "problem.json": "2aae23d9837b0d1c3778d6e6b683174ed1177098e0c1f7a77338c8f625035ec6",
+        "mesh.msh": "b1623d09bb2bbfd3c71d4381c40b313f3eed9ecf9108849a7dec104dd7524966"
+      }
     },
     {
       "question": "2.10.3",
       "design_id": "ch02-2-10-3-08-thermal_wall",
-      "status": "running",
-      "container": "ch02sparta-633151d06de8-017267641"
+      "status": "unvalidated_candidate",
+      "stage": "assembled",
+      "container": "ch02sparta-sample-633151d06de8-357211399",
+      "reference_sha256": "48192f5ff0a435d4c36e9d412410b6ee63519962cf09de29b4c663c43fae45ec",
+      "nodes": 4324,
+      "cells": 18986,
+      "observed_nodes": 1556,
+      "observed_wall_triangles": 3398,
+      "frames": 1,
+      "mapping": "Native DSMC pooled cell moments recovered to actual interior nodes by inverse-distance interpolation. Wall traction is recorded post-minus-pre particle momentum / actual triangle area / sampled event time. Wall-frame energy loss uses the prescribed wall velocity; vector heat flux is outward normal times this scalar. Internal walls use existing native per-triangle surface force/energy tallies. No stationarity, statistical, discretization or accuracy assessment. Original burn-in is resumed with a newly declared native RNG seed, not claimed bitwise identical to the earlier sample.",
+      "ended_unix": 1792511796.325678,
+      "producer_record": {
+        "producer": "SPARTA 27Aug2026 + read-only boundary event observer",
+        "image": "sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6",
+        "source": "https://github.com/sparta/sparta",
+        "script_sha256": "5ea32c75d755ef8d4e1eb8f8f2553495a7f6fda8fba16b67eb9107436693e282",
+        "binary_sha256": "67936c94e9cd57a323672e2d3ab3aa2c7903eb0f2d8f95cde9d3d0651f320d4f",
+        "patch_sha256": "4f7e06a20e71976019d0366cddb8c1b1afd15b64b1728244914b6e4cbd3c0697",
+        "checkpoint_sha256": "84b5fc43abf93579ec4401f8f0a4c4320a22037d12a5fe70891bfc143be88af7",
+        "conversion_script_sha256": "94935eb761b1692dee989520f4684d015284619ebe091cf27b23b06fa1377fbe"
+      },
+      "input_sha256": {
+        "input.h5": "3269c9f5153ca3a303540b2957529acea919198195ca03a0c41207a329868739",
+        "problem.json": "10814d88a68e1e0f94969e9f65e8dcdaba3ab628998912eff8ce8019dd0a9da9",
+        "mesh.msh": "1bbd067620ef4ccb9d3c8a3df9eeba5c939c1136aa196daf7ca22af6a7fa87f7"
+      }
     },
     {
       "question": "2.10.3",
       "design_id": "ch02-2-10-3-09-cross_reservoir",
-      "status": "queued"
+      "status": "unvalidated_candidate",
+      "stage": "assembled",
+      "container": "ch02sparta-sample-183c0930c724-377147187",
+      "reference_sha256": "5c27a79f0022db96091b808f512853d429c409019ac86c6a34d9c02b2c719f43",
+      "nodes": 4688,
+      "cells": 19287,
+      "observed_nodes": 1061,
+      "observed_wall_triangles": 3502,
+      "frames": 1,
+      "mapping": "Native DSMC pooled cell moments recovered to actual interior nodes by inverse-distance interpolation. Wall traction is recorded post-minus-pre particle momentum / actual triangle area / sampled event time. Wall-frame energy loss uses the prescribed wall velocity; vector heat flux is outward normal times this scalar. Internal walls use existing native per-triangle surface force/energy tallies. No stationarity, statistical, discretization or accuracy assessment. Original burn-in is resumed with a newly declared native RNG seed, not claimed bitwise identical to the earlier sample.",
+      "ended_unix": 1792512576.807769,
+      "producer_record": {
+        "producer": "SPARTA 27Aug2026 + read-only boundary event observer",
+        "image": "sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6",
+        "source": "https://github.com/sparta/sparta",
+        "script_sha256": "5ea32c75d755ef8d4e1eb8f8f2553495a7f6fda8fba16b67eb9107436693e282",
+        "binary_sha256": "67936c94e9cd57a323672e2d3ab3aa2c7903eb0f2d8f95cde9d3d0651f320d4f",
+        "patch_sha256": "4f7e06a20e71976019d0366cddb8c1b1afd15b64b1728244914b6e4cbd3c0697",
+        "checkpoint_sha256": "880ad48bbac7297230a9a2f21c6afec713c6284967480d3c0d0f7de10c04bda1",
+        "conversion_script_sha256": "94935eb761b1692dee989520f4684d015284619ebe091cf27b23b06fa1377fbe"
+      },
+      "input_sha256": {
+        "input.h5": "10c58f516a580319c7ecc05fafbe6e61c429d6db05b5b73867124de084b27b4d",
+        "problem.json": "a65c8a52a48491843b499c32d0ad54db5ceb8f310dccfea98a7c009a462f04c6",
+        "mesh.msh": "e79f79ea7f37371fbbd5292872cead1e0577cd62a2587bbc171ec905e33a2478"
+      }
     },
     {
       "question": "2.10.3",
       "design_id": "ch02-2-10-3-10-mixed_reflection",
-      "status": "running",
-      "container": "ch02sparta-8d6a1f525a4f-017229738"
+      "status": "unvalidated_candidate",
+      "stage": "assembled",
+      "container": "ch02sparta-sample-8d6a1f525a4f-366420641",
+      "reference_sha256": "b8d3e04c584b0bef2a77a72232e0bbacbed1a82b2d53d515b7821c6530bb160c",
+      "nodes": 3752,
+      "cells": 15726,
+      "observed_nodes": 1072,
+      "observed_wall_triangles": 3242,
+      "frames": 1,
+      "mapping": "Native DSMC pooled cell moments recovered to actual interior nodes by inverse-distance interpolation. Wall traction is recorded post-minus-pre particle momentum / actual triangle area / sampled event time. Wall-frame energy loss uses the prescribed wall velocity; vector heat flux is outward normal times this scalar. Internal walls use existing native per-triangle surface force/energy tallies. No stationarity, statistical, discretization or accuracy assessment. Original burn-in is resumed with a newly declared native RNG seed, not claimed bitwise identical to the earlier sample.",
+      "ended_unix": 1792512184.8921278,
+      "producer_record": {
+        "producer": "SPARTA 27Aug2026 + read-only boundary event observer",
+        "image": "sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6",
+        "source": "https://github.com/sparta/sparta",
+        "script_sha256": "5ea32c75d755ef8d4e1eb8f8f2553495a7f6fda8fba16b67eb9107436693e282",
+        "binary_sha256": "67936c94e9cd57a323672e2d3ab3aa2c7903eb0f2d8f95cde9d3d0651f320d4f",
+        "patch_sha256": "4f7e06a20e71976019d0366cddb8c1b1afd15b64b1728244914b6e4cbd3c0697",
+        "checkpoint_sha256": "1913682dfca2c96f30a4fa20a13161f22b24cf9d0c0fdee6d6e81cbef70af5ab",
+        "conversion_script_sha256": "94935eb761b1692dee989520f4684d015284619ebe091cf27b23b06fa1377fbe"
+      },
+      "input_sha256": {
+        "input.h5": "c2b2ef99ce3286d0249fa50b3b8b84f26cd149998d4c90fc841956e8795af69c",
+        "problem.json": "b110962bf3e0cbaba44a2aaa71c46c9673cad846344cfbe3eafcf075ca7e9bb6",
+        "mesh.msh": "5e07d9c026be9b02d7b0cddc3d531025eae3a438e39c4117f45a61bb40f0ac19"
+      }
     },
     {
       "question": "2.10.4",
       "design_id": "ch02-2-10-4-01-pressure_duct",
-      "status": "running",
-      "container": "ch02sparta-b203cf467ad6-980680360"
+      "status": "unvalidated_candidate",
+      "stage": "assembled",
+      "container": "ch02sparta-sample-b203cf467ad6-201352622",
+      "reference_sha256": "b4e523dbfc7b2e3eeef30d2352d9ef1b03bc4f725df6ac2edb8d8b6b39750d6f",
+      "nodes": 4324,
+      "cells": 18986,
+      "observed_nodes": 1556,
+      "observed_wall_triangles": 3398,
+      "frames": 1,
+      "mapping": "Native DSMC pooled cell moments recovered to actual interior nodes by inverse-distance interpolation. Wall traction is recorded post-minus-pre particle momentum / actual triangle area / sampled event time. Wall-frame energy loss uses the prescribed wall velocity; vector heat flux is outward normal times this scalar. Internal walls use existing native per-triangle surface force/energy tallies. No stationarity, statistical, discretization or accuracy assessment. Original burn-in is resumed with a newly declared native RNG seed, not claimed bitwise identical to the earlier sample.",
+      "ended_unix": 1792511347.353221,
+      "producer_record": {
+        "producer": "SPARTA 27Aug2026 + read-only boundary event observer",
+        "image": "sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6",
+        "source": "https://github.com/sparta/sparta",
+        "script_sha256": "78ce02b76bba9377dcaa528867b94137a59193f47b171105d9cd2c6fc25e6419",
+        "binary_sha256": "67936c94e9cd57a323672e2d3ab3aa2c7903eb0f2d8f95cde9d3d0651f320d4f",
+        "patch_sha256": "4f7e06a20e71976019d0366cddb8c1b1afd15b64b1728244914b6e4cbd3c0697",
+        "checkpoint_sha256": "7f431adf94d5f011bb7f4a421377a2612706c6099feb7b7e8a6263dad52a79b1",
+        "conversion_script_sha256": "94935eb761b1692dee989520f4684d015284619ebe091cf27b23b06fa1377fbe"
+      },
+      "input_sha256": {
+        "input.h5": "9d2c8274652c1e3b2d6e8dfeeeed79cc899a41e1b655fa88b60b67acceb994d5",
+        "problem.json": "9fae4dfa9074c8463f3b3266836358ed4a9df2ba16e50fe7698c0f53ea7781c3",
+        "mesh.msh": "1bbd067620ef4ccb9d3c8a3df9eeba5c939c1136aa196daf7ca22af6a7fa87f7"
+      }
     },
     {
       "question": "2.10.4",
       "design_id": "ch02-2-10-4-02-thermal_duct",
-      "status": "running",
-      "container": "ch02sparta-44da8a42493c-010369653"
+      "status": "unvalidated_candidate",
+      "stage": "assembled",
+      "container": "ch02sparta-sample-44da8a42493c-318799253",
+      "reference_sha256": "6dc74b32e0f9f7362bbf1111c792da78e3c0bb5f783905f20fc05d1b8c4af9e9",
+      "nodes": 4324,
+      "cells": 18986,
+      "observed_nodes": 1556,
+      "observed_wall_triangles": 3398,
+      "frames": 1,
+      "mapping": "Native DSMC pooled cell moments recovered to actual interior nodes by inverse-distance interpolation. Wall traction is recorded post-minus-pre particle momentum / actual triangle area / sampled event time. Wall-frame energy loss uses the prescribed wall velocity; vector heat flux is outward normal times this scalar. Internal walls use existing native per-triangle surface force/energy tallies. No stationarity, statistical, discretization or accuracy assessment. Original burn-in is resumed with a newly declared native RNG seed, not claimed bitwise identical to the earlier sample.",
+      "ended_unix": 1792511546.64815,
+      "producer_record": {
+        "producer": "SPARTA 27Aug2026 + read-only boundary event observer",
+        "image": "sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6",
+        "source": "https://github.com/sparta/sparta",
+        "script_sha256": "5ea32c75d755ef8d4e1eb8f8f2553495a7f6fda8fba16b67eb9107436693e282",
+        "binary_sha256": "67936c94e9cd57a323672e2d3ab3aa2c7903eb0f2d8f95cde9d3d0651f320d4f",
+        "patch_sha256": "4f7e06a20e71976019d0366cddb8c1b1afd15b64b1728244914b6e4cbd3c0697",
+        "checkpoint_sha256": "5ace7a7c41b79ca4f68b1cfdbfe89096ce0b0e86d4c25314ca32481b96fb487a",
+        "conversion_script_sha256": "94935eb761b1692dee989520f4684d015284619ebe091cf27b23b06fa1377fbe"
+      },
+      "input_sha256": {
+        "input.h5": "9d2c8274652c1e3b2d6e8dfeeeed79cc899a41e1b655fa88b60b67acceb994d5",
+        "problem.json": "d4032bb08fa553e5efb1fcdc169a0222a564b5686015719f4738610c60a7b642",
+        "mesh.msh": "1bbd067620ef4ccb9d3c8a3df9eeba5c939c1136aa196daf7ca22af6a7fa87f7"
+      }
     },
     {
       "question": "2.10.4",
       "design_id": "ch02-2-10-4-03-couette",
-      "status": "running",
-      "container": "ch02sparta-8e3cccfdaa45-012612441"
+      "status": "unvalidated_candidate",
+      "stage": "assembled",
+      "container": "ch02sparta-sample-8e3cccfdaa45-262277144",
+      "reference_sha256": "50e7d48c70c9943ffe98852d84600da6965c25f01674df2b149f1607f1939085",
+      "nodes": 4324,
+      "cells": 18986,
+      "observed_nodes": 1556,
+      "observed_wall_triangles": 3398,
+      "frames": 1,
+      "mapping": "Native DSMC pooled cell moments recovered to actual interior nodes by inverse-distance interpolation. Wall traction is recorded post-minus-pre particle momentum / actual triangle area / sampled event time. Wall-frame energy loss uses the prescribed wall velocity; vector heat flux is outward normal times this scalar. Internal walls use existing native per-triangle surface force/energy tallies. No stationarity, statistical, discretization or accuracy assessment. Original burn-in is resumed with a newly declared native RNG seed, not claimed bitwise identical to the earlier sample.",
+      "ended_unix": 1792511420.1572928,
+      "producer_record": {
+        "producer": "SPARTA 27Aug2026 + read-only boundary event observer",
+        "image": "sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6",
+        "source": "https://github.com/sparta/sparta",
+        "script_sha256": "5ea32c75d755ef8d4e1eb8f8f2553495a7f6fda8fba16b67eb9107436693e282",
+        "binary_sha256": "67936c94e9cd57a323672e2d3ab3aa2c7903eb0f2d8f95cde9d3d0651f320d4f",
+        "patch_sha256": "4f7e06a20e71976019d0366cddb8c1b1afd15b64b1728244914b6e4cbd3c0697",
+        "checkpoint_sha256": "db8d1af31541f9fe2dbe3cd834a2a875e5d1321ab30c8b8275edee5e5829bb2e",
+        "conversion_script_sha256": "94935eb761b1692dee989520f4684d015284619ebe091cf27b23b06fa1377fbe"
+      },
+      "input_sha256": {
+        "input.h5": "a56f6f569cb8cc8a57af4566e8ce8c47a94f34be51db530d74bd87ae71196720",
+        "problem.json": "7a81e42ecf1f842c3fbeb3fc9adadbc473ad65af0eeb92c54668abcb71fef285",
+        "mesh.msh": "1bbd067620ef4ccb9d3c8a3df9eeba5c939c1136aa196daf7ca22af6a7fa87f7"
+      }
     },
     {
       "question": "2.10.4",
       "design_id": "ch02-2-10-4-04-partial_accommodation",
-      "status": "running",
-      "container": "ch02sparta-854877d98270-012482174"
+      "status": "unvalidated_candidate",
+      "stage": "assembled",
+      "container": "ch02sparta-sample-854877d98270-323494586",
+      "reference_sha256": "09d6bb03eab8e4249e4eafb383f6519bba652ba0f86be18dbdd6bf32bf26a2e2",
+      "nodes": 4324,
+      "cells": 18986,
+      "observed_nodes": 1556,
+      "observed_wall_triangles": 3398,
+      "frames": 1,
+      "mapping": "Native DSMC pooled cell moments recovered to actual interior nodes by inverse-distance interpolation. Wall traction is recorded post-minus-pre particle momentum / actual triangle area / sampled event time. Wall-frame energy loss uses the prescribed wall velocity; vector heat flux is outward normal times this scalar. Internal walls use existing native per-triangle surface force/energy tallies. No stationarity, statistical, discretization or accuracy assessment. Original burn-in is resumed with a newly declared native RNG seed, not claimed bitwise identical to the earlier sample.",
+      "ended_unix": 1792511607.2558415,
+      "producer_record": {
+        "producer": "SPARTA 27Aug2026 + read-only boundary event observer",
+        "image": "sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6",
+        "source": "https://github.com/sparta/sparta",
+        "script_sha256": "5ea32c75d755ef8d4e1eb8f8f2553495a7f6fda8fba16b67eb9107436693e282",
+        "binary_sha256": "67936c94e9cd57a323672e2d3ab3aa2c7903eb0f2d8f95cde9d3d0651f320d4f",
+        "patch_sha256": "4f7e06a20e71976019d0366cddb8c1b1afd15b64b1728244914b6e4cbd3c0697",
+        "checkpoint_sha256": "38ccca25fd3ab695433c6151064b3ffc0bc6cb2430025d652ac5af8af59d166a",
+        "conversion_script_sha256": "94935eb761b1692dee989520f4684d015284619ebe091cf27b23b06fa1377fbe"
+      },
+      "input_sha256": {
+        "input.h5": "9d2c8274652c1e3b2d6e8dfeeeed79cc899a41e1b655fa88b60b67acceb994d5",
+        "problem.json": "1f207eafab8f672bfbe9ec8cb8b8dbcc01b20d208218151a4c1f48fefc65c59c",
+        "mesh.msh": "1bbd067620ef4ccb9d3c8a3df9eeba5c939c1136aa196daf7ca22af6a7fa87f7"
+      }
     },
     {
       "question": "2.10.4",
       "design_id": "ch02-2-10-4-05-orifice",
-      "status": "running",
-      "container": "ch02sparta-6d0e695c0296-200103060"
+      "status": "unvalidated_candidate",
+      "stage": "assembled",
+      "container": "ch02sparta-sample-6d0e695c0296-301876656",
+      "reference_sha256": "79a539d34977082f22d76c427b15b064e83855f30f23ededc9b5d628b6ddb01e",
+      "nodes": 4384,
+      "cells": 18703,
+      "observed_nodes": 1279,
+      "observed_wall_triangles": 3336,
+      "frames": 1,
+      "mapping": "Native DSMC pooled cell moments recovered to actual interior nodes by inverse-distance interpolation. Wall traction is recorded post-minus-pre particle momentum / actual triangle area / sampled event time. Wall-frame energy loss uses the prescribed wall velocity; vector heat flux is outward normal times this scalar. Internal walls use existing native per-triangle surface force/energy tallies. No stationarity, statistical, discretization or accuracy assessment. Original burn-in is resumed with a newly declared native RNG seed, not claimed bitwise identical to the earlier sample.",
+      "ended_unix": 1792511679.4300883,
+      "producer_record": {
+        "producer": "SPARTA 27Aug2026 + read-only boundary event observer",
+        "image": "sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6",
+        "source": "https://github.com/sparta/sparta",
+        "script_sha256": "5ea32c75d755ef8d4e1eb8f8f2553495a7f6fda8fba16b67eb9107436693e282",
+        "binary_sha256": "67936c94e9cd57a323672e2d3ab3aa2c7903eb0f2d8f95cde9d3d0651f320d4f",
+        "patch_sha256": "4f7e06a20e71976019d0366cddb8c1b1afd15b64b1728244914b6e4cbd3c0697",
+        "checkpoint_sha256": "e52fdbdd8b86ed92cfa30b46e9d283fc5a992b430b368b595b921e428f02c322",
+        "conversion_script_sha256": "94935eb761b1692dee989520f4684d015284619ebe091cf27b23b06fa1377fbe"
+      },
+      "input_sha256": {
+        "input.h5": "2217f248e19d95257f2825681b4f2db2c58aa7af5c66a13e33b327e01a6498f3",
+        "problem.json": "9fae4dfa9074c8463f3b3266836358ed4a9df2ba16e50fe7698c0f53ea7781c3",
+        "mesh.msh": "a22f2357e0ca709ae2377360be08647590f7110d631894ed9e64f732b3a2de42"
+      }
     },
     {
       "question": "2.10.4",
       "design_id": "ch02-2-10-4-06-bend",
-      "status": "running",
-      "container": "ch02sparta-f765e927d1ac-202944551"
+      "status": "unvalidated_candidate",
+      "stage": "assembled",
+      "container": "ch02sparta-sample-f765e927d1ac-311455921",
+      "reference_sha256": "b0bf8f2a62c19ca69a0748b30670f181e822d636dc6f32396c0296c49bdb359a",
+      "nodes": 4969,
+      "cells": 21351,
+      "observed_nodes": 1510,
+      "observed_wall_triangles": 3966,
+      "frames": 1,
+      "mapping": "Native DSMC pooled cell moments recovered to actual interior nodes by inverse-distance interpolation. Wall traction is recorded post-minus-pre particle momentum / actual triangle area / sampled event time. Wall-frame energy loss uses the prescribed wall velocity; vector heat flux is outward normal times this scalar. Internal walls use existing native per-triangle surface force/energy tallies. No stationarity, statistical, discretization or accuracy assessment. Original burn-in is resumed with a newly declared native RNG seed, not claimed bitwise identical to the earlier sample.",
+      "ended_unix": 1792511768.8515792,
+      "producer_record": {
+        "producer": "SPARTA 27Aug2026 + read-only boundary event observer",
+        "image": "sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6",
+        "source": "https://github.com/sparta/sparta",
+        "script_sha256": "5ea32c75d755ef8d4e1eb8f8f2553495a7f6fda8fba16b67eb9107436693e282",
+        "binary_sha256": "67936c94e9cd57a323672e2d3ab3aa2c7903eb0f2d8f95cde9d3d0651f320d4f",
+        "patch_sha256": "4f7e06a20e71976019d0366cddb8c1b1afd15b64b1728244914b6e4cbd3c0697",
+        "checkpoint_sha256": "cce378a4cf2537c5810e5b13864f7b1dc99196af0f59a875137ba730ba3caa69",
+        "conversion_script_sha256": "94935eb761b1692dee989520f4684d015284619ebe091cf27b23b06fa1377fbe"
+      },
+      "input_sha256": {
+        "input.h5": "16e7a5116ad6654e349e10fada6663a4950858903d6a9dbf9d542e4987cd92a0",
+        "problem.json": "9fae4dfa9074c8463f3b3266836358ed4a9df2ba16e50fe7698c0f53ea7781c3",
+        "mesh.msh": "7c6e16626d210773f7a4b9ae562e3831ef49ae574bcd6565b1f4cd95a82e5384"
+      }
     },
     {
       "question": "2.10.4",
       "design_id": "ch02-2-10-4-07-obstacle",
-      "status": "running",
-      "container": "ch02sparta-7664dbbdc96c-210169895"
+      "status": "unvalidated_candidate",
+      "stage": "assembled",
+      "container": "ch02sparta-sample-7664dbbdc96c-312002539",
+      "reference_sha256": "38b0a28394d36fc4d39f99b606e2b5f966c4f52d398e8f459d3541d1ac60f770",
+      "nodes": 4544,
+      "cells": 19376,
+      "observed_nodes": 1224,
+      "observed_wall_triangles": 3652,
+      "frames": 1,
+      "mapping": "Native DSMC pooled cell moments recovered to actual interior nodes by inverse-distance interpolation. Wall traction is recorded post-minus-pre particle momentum / actual triangle area / sampled event time. Wall-frame energy loss uses the prescribed wall velocity; vector heat flux is outward normal times this scalar. Internal walls use existing native per-triangle surface force/energy tallies. No stationarity, statistical, discretization or accuracy assessment. Original burn-in is resumed with a newly declared native RNG seed, not claimed bitwise identical to the earlier sample.",
+      "ended_unix": 1792511826.814732,
+      "producer_record": {
+        "producer": "SPARTA 27Aug2026 + read-only boundary event observer",
+        "image": "sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6",
+        "source": "https://github.com/sparta/sparta",
+        "script_sha256": "5ea32c75d755ef8d4e1eb8f8f2553495a7f6fda8fba16b67eb9107436693e282",
+        "binary_sha256": "67936c94e9cd57a323672e2d3ab3aa2c7903eb0f2d8f95cde9d3d0651f320d4f",
+        "patch_sha256": "4f7e06a20e71976019d0366cddb8c1b1afd15b64b1728244914b6e4cbd3c0697",
+        "checkpoint_sha256": "254e359f10b164dac5f18007fd75b5c1fa339440646fb1878792034b8e17dc6b",
+        "conversion_script_sha256": "94935eb761b1692dee989520f4684d015284619ebe091cf27b23b06fa1377fbe"
+      },
+      "input_sha256": {
+        "input.h5": "ca90ffcbb598e9b8683f0e632171ca45316a795adc87f62bedfcaf43b7843a36",
+        "problem.json": "9fae4dfa9074c8463f3b3266836358ed4a9df2ba16e50fe7698c0f53ea7781c3",
+        "mesh.msh": "b1623d09bb2bbfd3c71d4381c40b313f3eed9ecf9108849a7dec104dd7524966"
+      }
     },
     {
       "question": "2.10.4",
       "design_id": "ch02-2-10-4-08-thermal_wall",
-      "status": "running",
-      "container": "ch02sparta-4f7375f06716-013077475"
+      "status": "unvalidated_candidate",
+      "stage": "assembled",
+      "container": "ch02sparta-sample-4f7375f06716-344954500",
+      "reference_sha256": "3be311aebedb28aaba7ecc888038e183af35dd5d2fa3100033ebb2eba808c909",
+      "nodes": 4324,
+      "cells": 18986,
+      "observed_nodes": 1556,
+      "observed_wall_triangles": 3398,
+      "frames": 1,
+      "mapping": "Native DSMC pooled cell moments recovered to actual interior nodes by inverse-distance interpolation. Wall traction is recorded post-minus-pre particle momentum / actual triangle area / sampled event time. Wall-frame energy loss uses the prescribed wall velocity; vector heat flux is outward normal times this scalar. Internal walls use existing native per-triangle surface force/energy tallies. No stationarity, statistical, discretization or accuracy assessment. Original burn-in is resumed with a newly declared native RNG seed, not claimed bitwise identical to the earlier sample.",
+      "ended_unix": 1792511632.2461069,
+      "producer_record": {
+        "producer": "SPARTA 27Aug2026 + read-only boundary event observer",
+        "image": "sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6",
+        "source": "https://github.com/sparta/sparta",
+        "script_sha256": "5ea32c75d755ef8d4e1eb8f8f2553495a7f6fda8fba16b67eb9107436693e282",
+        "binary_sha256": "67936c94e9cd57a323672e2d3ab3aa2c7903eb0f2d8f95cde9d3d0651f320d4f",
+        "patch_sha256": "4f7e06a20e71976019d0366cddb8c1b1afd15b64b1728244914b6e4cbd3c0697",
+        "checkpoint_sha256": "3fad2f574a3ca4a4477232c8b52b189bbfed8c9ab15f260f233eef1534d3713e",
+        "conversion_script_sha256": "94935eb761b1692dee989520f4684d015284619ebe091cf27b23b06fa1377fbe"
+      },
+      "input_sha256": {
+        "input.h5": "3269c9f5153ca3a303540b2957529acea919198195ca03a0c41207a329868739",
+        "problem.json": "33db6074c1b305b413d99630022f27bb8807372247d8299846a233c0f4a419cc",
+        "mesh.msh": "1bbd067620ef4ccb9d3c8a3df9eeba5c939c1136aa196daf7ca22af6a7fa87f7"
+      }
     },
     {
       "question": "2.10.4",
       "design_id": "ch02-2-10-4-09-cross_reservoir",
-      "status": "queued"
+      "status": "unvalidated_candidate",
+      "stage": "assembled",
+      "container": "ch02sparta-sample-c4eed563b627-327600965",
+      "reference_sha256": "c6370a6e7946a6c410fb55f3ebbc5699449066db782f0d0486951933dfe0c18c",
+      "nodes": 4688,
+      "cells": 19287,
+      "observed_nodes": 1061,
+      "observed_wall_triangles": 3502,
+      "frames": 1,
+      "mapping": "Native DSMC pooled cell moments recovered to actual interior nodes by inverse-distance interpolation. Wall traction is recorded post-minus-pre particle momentum / actual triangle area / sampled event time. Wall-frame energy loss uses the prescribed wall velocity; vector heat flux is outward normal times this scalar. Internal walls use existing native per-triangle surface force/energy tallies. No stationarity, statistical, discretization or accuracy assessment. Original burn-in is resumed with a newly declared native RNG seed, not claimed bitwise identical to the earlier sample.",
+      "ended_unix": 1792512396.7232976,
+      "producer_record": {
+        "producer": "SPARTA 27Aug2026 + read-only boundary event observer",
+        "image": "sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6",
+        "source": "https://github.com/sparta/sparta",
+        "script_sha256": "5ea32c75d755ef8d4e1eb8f8f2553495a7f6fda8fba16b67eb9107436693e282",
+        "binary_sha256": "67936c94e9cd57a323672e2d3ab3aa2c7903eb0f2d8f95cde9d3d0651f320d4f",
+        "patch_sha256": "4f7e06a20e71976019d0366cddb8c1b1afd15b64b1728244914b6e4cbd3c0697",
+        "checkpoint_sha256": "5bb2ee1d65685c44bbe67d108fe96bbcc57ca5b4317c6a1bf9aef19fea9519bf",
+        "conversion_script_sha256": "94935eb761b1692dee989520f4684d015284619ebe091cf27b23b06fa1377fbe"
+      },
+      "input_sha256": {
+        "input.h5": "10c58f516a580319c7ecc05fafbe6e61c429d6db05b5b73867124de084b27b4d",
+        "problem.json": "c9595cc16676b4b44a05986b3fe2c800561c62e3c1952dee629c7df7ec9e66bd",
+        "mesh.msh": "e79f79ea7f37371fbbd5292872cead1e0577cd62a2587bbc171ec905e33a2478"
+      }
     },
     {
       "question": "2.10.4",
       "design_id": "ch02-2-10-4-10-mixed_reflection",
-      "status": "running",
-      "container": "ch02sparta-2826845440b4-013479510"
+      "status": "unvalidated_candidate",
+      "stage": "assembled",
+      "container": "ch02sparta-sample-2826845440b4-318258941",
+      "reference_sha256": "ad71a2fc175ed866aed2a9b648318af07bb5ca309cac27e420d9a1fb3c86c453",
+      "nodes": 3752,
+      "cells": 15726,
+      "observed_nodes": 1072,
+      "observed_wall_triangles": 3242,
+      "frames": 1,
+      "mapping": "Native DSMC pooled cell moments recovered to actual interior nodes by inverse-distance interpolation. Wall traction is recorded post-minus-pre particle momentum / actual triangle area / sampled event time. Wall-frame energy loss uses the prescribed wall velocity; vector heat flux is outward normal times this scalar. Internal walls use existing native per-triangle surface force/energy tallies. No stationarity, statistical, discretization or accuracy assessment. Original burn-in is resumed with a newly declared native RNG seed, not claimed bitwise identical to the earlier sample.",
+      "ended_unix": 1792511432.4348826,
+      "producer_record": {
+        "producer": "SPARTA 27Aug2026 + read-only boundary event observer",
+        "image": "sha256:2935438c074847a45e250dcddac72bb3b791540624a5aebe3a52b6b4ab75c2c6",
+        "source": "https://github.com/sparta/sparta",
+        "script_sha256": "5ea32c75d755ef8d4e1eb8f8f2553495a7f6fda8fba16b67eb9107436693e282",
+        "binary_sha256": "67936c94e9cd57a323672e2d3ab3aa2c7903eb0f2d8f95cde9d3d0651f320d4f",
+        "patch_sha256": "4f7e06a20e71976019d0366cddb8c1b1afd15b64b1728244914b6e4cbd3c0697",
+        "checkpoint_sha256": "9b3b74f00fe5584ff2a9bd9f0bc1f69e2df8404b52864a3479d1d2cc0a9b7a2d",
+        "conversion_script_sha256": "94935eb761b1692dee989520f4684d015284619ebe091cf27b23b06fa1377fbe"
+      },
+      "input_sha256": {
+        "input.h5": "c2b2ef99ce3286d0249fa50b3b8b84f26cd149998d4c90fc841956e8795af69c",
+        "problem.json": "22211767ff0f8fb45ae7c822d8f66db36a7ddc54aba50dd287b66bdb0227e0ce",
+        "mesh.msh": "5e07d9c026be9b02d7b0cddc3d531025eae3a438e39c4117f45a61bb40f0ac19"
+      }
     },
     {
       "question": "2.11.1",

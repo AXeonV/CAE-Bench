@@ -48,3 +48,9 @@ Elmer通量使用恢复梯度，原生VTU只有8位有效数字；文献公式�
 `maintenance/bounded-finalizer.json`为一次性汇总脚本身份，最大等待24小时，结束或到时后刷新Titan执行索引。原试算的单项语法修复控制器为`sparta-trial-repair.json`。
 
 `maintenance/sparta-surface-trial.json`及`sparta-geometry-queue.json`续作原8项非平凡几何；与盒形队列按已存在status去重，统一预约40核。三角形曲面和四面体几何快照保存在各项native目录及native-input-mesh.npz。
+
+## 持久调度与短摘要巡检
+
+已启动独立的第二章持久调度器与每30分钟巡检；旧FOAMBench巡检保持暂停。维护流程见[AUTOMATION.md](AUTOMATION.md)。Titan维护目录保存批准队列、PID/starttime、短摘要、完整交接及资源历史。一次性巡检已实际执行，完整能量瞬态的新增队列已实际启动；幂律物性原生类型组合已编译，字典系数键名修复前的失败现场全部归档。
+
+原生迭代上限条目仍未完成，不自动重跑。其余普通适配待办由半小时巡检逐个有界推进；持久调度器只执行明确批准的现成生产脚本，不会自行补物理或生成求解器。

@@ -48,15 +48,19 @@ def convert(job,e,view,data):
     save(job/'statistics-production.json',record);return record
 
 
-def run(root,e,g):
+def run(root,e,g,direct_retry=False):
     job=root/'cases'/e['design_id'];status=job/'status.json'
     if status.exists():return json.loads(status.read_text())
     job.mkdir(parents=True);save(job/'design.json',e);state={'design_id':e['design_id'],'status':'queued'};save(status,state);name='ch02thermalstats-'+hashlib.sha256(e['design_id'].encode()).hexdigest()[:12]+'-'+str(time.time_ns())[-9:]
     try:
         with reservation(root,name):
             state['status']='preparing';save(status,state);view=sample_view(e);save(job/'native-sampling-view.json',view);data=base.prepare(job,view)
+            if direct_retry:
+                sif=job/'native/case.sif';text=sif.read_text();assert text.count('Linear System Solver = Iterative')==2
+                sif.write_text(text.replace('Linear System Solver = Iterative','Linear System Solver = Direct\nLinear System Direct Method = UMFPACK'))
+                save(job/'linear-repair.json',{'reason':'Native IterSolve STOP 1: too many linear iterations with BiCGStabL/ILU1','new_native_linear_solver':'UMFPACK','physical_changes':False,'grid_time_step_or_tolerance_changes':False,'attempts':1})
             cmd=['docker','--host',SOCKET,'run','--name',name,'--network','none','--cpus','1','--memory','768m','--user',f'{os.getuid()}:{os.getgid()}','-e','OMP_NUM_THREADS=1','-e','OPENBLAS_NUM_THREADS=1','-v',f'{job.resolve()}:/work','-w','/work/native',IMAGE,'ElmerSolver','case.sif']
-            save(job/'execution.json',{'producer':'unmodified Elmer direct transient FlowSolver + HeatSolver; sampled statistics','image':IMAGE,'source_commit':COMMIT,'source_url':f'https://github.com/ElmerCSC/elmerfem/tree/{COMMIT}/fem/src/modules','script_sha256':digest(Path(__file__)),'conversion_script_sha256':digest(Path(base.__file__)),'command':cmd,'start_unix':time.time(),'native_closure':'Direct unsteady equations, no RANS or explicit SGS model; resolution adequacy unverified','numerical_validation':False});state.update(status='running',container=name);save(status,state)
+            save(job/'execution.json',{'producer':'unmodified Elmer direct transient FlowSolver + HeatSolver; sampled statistics','image':IMAGE,'source_commit':COMMIT,'source_url':f'https://github.com/ElmerCSC/elmerfem/tree/{COMMIT}/fem/src/modules','script_sha256':digest(Path(__file__)),'conversion_script_sha256':digest(Path(base.__file__)),'command':cmd,'start_unix':time.time(),'linear_configuration':'UMFPACK one-shot repair' if direct_retry else 'BiCGStabL/ILU1', 'native_closure':'Direct unsteady equations, no RANS or explicit SGS model; resolution adequacy unverified','numerical_validation':False});state.update(status='running',container=name);save(status,state)
             with (job/'solver.log').open('w') as log:cp=subprocess.run(cmd,stdout=log,stderr=subprocess.STDOUT)
             assert cp.returncode==0,f'Elmer exit {cp.returncode}'
             state.update(convert(job,e,view,data));save(job/'reference/grading.json',g);state['status']='unvalidated_candidate'

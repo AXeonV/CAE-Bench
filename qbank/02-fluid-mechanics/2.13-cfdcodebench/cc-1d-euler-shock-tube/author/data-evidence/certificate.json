@@ -1,0 +1,167 @@
+{
+  "source_id": "CFDCodeBench:e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2:1D_Euler_Shock_Tube",
+  "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_problem": "1D_Euler_Shock_Tube",
+  "development_case_id": "C03-base",
+  "input_files": {
+    "input.h5": "13835155161e0f9d64457c38416d33acf352d4ec13fd8577ce26bb914add8080",
+    "problem.json": "57c226cab5119514da70320a08d6eb22a25b9e1b6afa05ce81c5e653c675e082"
+  },
+  "reference_files": {
+    "grading.json": "09b7c391a510b2f0a9b7d90003abd2e897bc9c2af1881db20467d7c51a764660",
+    "reference.h5": "4b72a83e3626a1f9c90ffe88739d8671e8995010644835f25bf8bf7ae1bddd52"
+  },
+  "contract_sha256": "130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063",
+  "numerical_validation_sha256": "8db17fa2237708583978e6e6f2a630a751d2b1a94d97ac477740455f491cd529",
+  "numerical_validation": {
+    "index": 3,
+    "task": "cc-1d-euler-shock-tube",
+    "case_id": "C03-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [],
+    "checks": {
+      "truncation_64_128": {
+        "rho": {
+          "rmse": 0.0,
+          "reference_rms": 0.6743201258587633,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        },
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 0.4889445632965085,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        },
+        "E": {
+          "rmse": 0.0,
+          "reference_rms": 2.4034690735772726,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "truncation_128_256": {
+        "rho": {
+          "rmse": 0.0,
+          "reference_rms": 0.6743201258587633,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        },
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 0.4889445632965085,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        },
+        "E": {
+          "rmse": 0.0,
+          "reference_rms": 2.4034690735772726,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "clawpack_exact_Riemann": {
+        "rho": {
+          "rmse": 1.2899625854847775e-16,
+          "reference_rms": 0.6743201258587633,
+          "nrmse": 1.9129824782286876e-16,
+          "nmse": 3.659501962009971e-32,
+          "max_abs": 6.661338147750939e-16
+        },
+        "u": {
+          "rmse": 5.42832645933576e-17,
+          "reference_rms": 0.4889445632965085,
+          "nrmse": 1.1102130725695141e-16,
+          "nmse": 1.2325730665042413e-32,
+          "max_abs": 1.1102230246251565e-16
+        },
+        "E": {
+          "rmse": 2.0591569550578067e-16,
+          "reference_rms": 2.4034690735772726,
+          "nrmse": 8.567436867381868e-17,
+          "nmse": 7.340097447657403e-33,
+          "max_abs": 8.881784197001252e-16
+        }
+      }
+    },
+    "reference_sha256": "4b72a83e3626a1f9c90ffe88739d8671e8995010644835f25bf8bf7ae1bddd52",
+    "resource_status": "provisional"
+  },
+  "reference_production": {
+    "index": 3,
+    "task": "cc-1d-euler-shock-tube",
+    "case_id": "C03-base",
+    "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+    "input_contract": "passed",
+    "reference_status": "formula-evaluated-needs-independent-audit",
+    "comparisons": {
+      "truncation_64_128": {
+        "rho": {
+          "rmse": 0.0,
+          "reference_rms": 0.6743201258587633,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        },
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 0.4889445632965085,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        },
+        "E": {
+          "rmse": 0.0,
+          "reference_rms": 2.4034690735772726,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "truncation_128_256": {
+        "rho": {
+          "rmse": 0.0,
+          "reference_rms": 0.6743201258587633,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        },
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 0.4889445632965085,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        },
+        "E": {
+          "rmse": 0.0,
+          "reference_rms": 2.4034690735772726,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      }
+    },
+    "producer": "published representation; see formula audit",
+    "reference_self_grade": "passed",
+    "reference_sha256": "4b72a83e3626a1f9c90ffe88739d8671e8995010644835f25bf8bf7ae1bddd52",
+    "production_sources": [
+      {
+        "file": "qbank\\02-fluid-mechanics\\2.13-cfdcodebench\\author\\analytic.py",
+        "sha256": "b86207a33d547f35ad53aaa4307a61b769a2527ca32b8392f8ca60cd396dd692",
+        "base": "repository"
+      }
+    ]
+  },
+  "conversion_tool_sha256": "30675f2817ab349d9c769bea4f8ca60829513342e9b82e03cb65c8196e724926",
+  "resource_status": "provisional",
+  "hf_uploaded": false
+}

@@ -1,0 +1,262 @@
+{
+  "source_id": "CFDCodeBench:e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2:Lid_Driven_Cavity",
+  "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_problem": "Lid_Driven_Cavity",
+  "development_case_id": "C18-base",
+  "input_files": {
+    "input.h5": "aa53eb9ec279678f0c931762f4337889dfc9d59c45d08c1d92a8ce93b2c0022a",
+    "problem.json": "d0d3c018479a415647978412f31a31485f763377c55112277df14600dc1a4cc7"
+  },
+  "reference_files": {
+    "grading.json": "66bccea81bbe1b49905ddd5182f9687dbbed5d7092b8b4efd2adbe9ad24ccc01",
+    "reference.h5": "d5e9e2085276cf7e95b0d06659a597ffae3007ac090979f6f5428e084821260f"
+  },
+  "contract_sha256": "130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063",
+  "numerical_validation_sha256": "65486858308d3b73c85ed16f423b7f0161d69b9c6baf567a4fd407a0af4286c0",
+  "numerical_validation": {
+    "index": 18,
+    "task": "cc-lid-driven-cavity",
+    "case_id": "C18-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [],
+    "checks": {
+      "space_L0_L1": {
+        "u": {
+          "rmse": 0.0016553560589993473,
+          "reference_rms": 0.214449357526454,
+          "nrmse": 0.007719100108729149,
+          "nmse": 5.958450648858237e-05,
+          "max_abs": 0.030854106602247078
+        },
+        "v": {
+          "rmse": 0.0015111957211817735,
+          "reference_rms": 0.1361491294900743,
+          "nrmse": 0.011099562126043152,
+          "nmse": 0.00012320027938989158,
+          "max_abs": 0.03208930260106996
+        },
+        "p": {
+          "rmse": 0.015989177106850605,
+          "reference_rms": 0.7055672197698121,
+          "nrmse": 0.022661451182591785,
+          "nmse": 0.0005135413697009906,
+          "max_abs": 0.4873559582338842
+        }
+      },
+      "space_L1_L2": {
+        "u": {
+          "rmse": 0.0003986312708036552,
+          "reference_rms": 0.21442565266596048,
+          "nrmse": 0.0018590652090711202,
+          "nmse": 3.456123451578648e-06,
+          "max_abs": 0.008034352643474461
+        },
+        "v": {
+          "rmse": 0.0003540651352558204,
+          "reference_rms": 0.13636912919358948,
+          "nrmse": 0.002596373074680193,
+          "nmse": 6.7411531429242785e-06,
+          "max_abs": 0.007264194852545036
+        },
+        "p": {
+          "rmse": 0.006169240989014244,
+          "reference_rms": 0.7100963572714676,
+          "nrmse": 0.008687892742781334,
+          "nmse": 7.547948031007257e-05,
+          "max_abs": 0.1779275003357128
+        }
+      },
+      "half_dt": {
+        "u": {
+          "rmse": 2.1114088686945315e-05,
+          "reference_rms": 0.2144333567004048,
+          "nrmse": 9.846457198562081e-05,
+          "nmse": 9.695271936311503e-09,
+          "max_abs": 5.730659586222764e-05
+        },
+        "v": {
+          "rmse": 1.9554218056577683e-05,
+          "reference_rms": 0.13638490307194975,
+          "nrmse": 0.00014337523887275025,
+          "nmse": 2.0556459121818194e-08,
+          "max_abs": 4.777526250857034e-05
+        },
+        "p": {
+          "rmse": 1.4368968448620426e-05,
+          "reference_rms": 0.7100937321199979,
+          "nrmse": 2.023531232379929e-05,
+          "nmse": 4.0946786484170346e-10,
+          "max_abs": 4.741564707261281e-05
+        }
+      },
+      "independent_OpenFOAM_N64": {
+        "u": {
+          "rmse": 0.0004772701783528552,
+          "reference_rms": 0.2144333567004048,
+          "nrmse": 0.0022257273107918205,
+          "nmse": 4.953862062004589e-06,
+          "max_abs": 0.005955212530408649
+        },
+        "v": {
+          "rmse": 0.0005168511352058767,
+          "reference_rms": 0.13638490307194975,
+          "nrmse": 0.00378965063994812,
+          "nmse": 1.4361451972859196e-05,
+          "max_abs": 0.006702217187738946
+        },
+        "p": {
+          "rmse": 0.005215851908274923,
+          "reference_rms": 0.7100937321199979,
+          "nrmse": 0.0073453005882799455,
+          "nmse": 5.3953440732185715e-05,
+          "max_abs": 0.11467298832998196
+        }
+      },
+      "independent_OpenFOAM_N128": {
+        "u": {
+          "rmse": 0.0005764287073097158,
+          "reference_rms": 0.2144333567004048,
+          "nrmse": 0.002688148505342255,
+          "nmse": 7.2261423867738e-06,
+          "max_abs": 0.009679520467583205
+        },
+        "v": {
+          "rmse": 0.0005819190477667657,
+          "reference_rms": 0.13638490307194975,
+          "nrmse": 0.004266740927034825,
+          "nmse": 1.8205078138434002e-05,
+          "max_abs": 0.0111842013483201
+        },
+        "p": {
+          "rmse": 0.004256213806891872,
+          "reference_rms": 0.7100937321199979,
+          "nrmse": 0.005993876039695305,
+          "nmse": 3.592654997923347e-05,
+          "max_abs": 0.1118041651702999
+        }
+      }
+    },
+    "reference_sha256": "d5e9e2085276cf7e95b0d06659a597ffae3007ac090979f6f5428e084821260f",
+    "resource_status": "provisional"
+  },
+  "reference_production": {
+    "index": 18,
+    "task": "cc-lid-driven-cavity",
+    "case_id": "C18-base",
+    "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+    "input_contract": "passed",
+    "reference_status": "computed-needs-independent-audit",
+    "comparisons": {
+      "space_L0_L1": {
+        "u": {
+          "rmse": 0.0016553560589993473,
+          "reference_rms": 0.214449357526454,
+          "nrmse": 0.007719100108729149,
+          "nmse": 5.958450648858237e-05,
+          "max_abs": 0.030854106602247078
+        },
+        "v": {
+          "rmse": 0.0015111957211817735,
+          "reference_rms": 0.1361491294900743,
+          "nrmse": 0.011099562126043152,
+          "nmse": 0.00012320027938989158,
+          "max_abs": 0.03208930260106996
+        },
+        "p": {
+          "rmse": 0.015989177106850605,
+          "reference_rms": 0.7055672197698121,
+          "nrmse": 0.022661451182591785,
+          "nmse": 0.0005135413697009906,
+          "max_abs": 0.4873559582338842
+        }
+      },
+      "space_L1_L2": {
+        "u": {
+          "rmse": 0.0003986312708036552,
+          "reference_rms": 0.21442565266596048,
+          "nrmse": 0.0018590652090711202,
+          "nmse": 3.456123451578648e-06,
+          "max_abs": 0.008034352643474461
+        },
+        "v": {
+          "rmse": 0.0003540651352558204,
+          "reference_rms": 0.13636912919358948,
+          "nrmse": 0.002596373074680193,
+          "nmse": 6.7411531429242785e-06,
+          "max_abs": 0.007264194852545036
+        },
+        "p": {
+          "rmse": 0.006169240989014244,
+          "reference_rms": 0.7100963572714676,
+          "nrmse": 0.008687892742781334,
+          "nmse": 7.547948031007257e-05,
+          "max_abs": 0.1779275003357128
+        }
+      },
+      "half_dt": {
+        "u": {
+          "rmse": 2.1114088686945315e-05,
+          "reference_rms": 0.2144333567004048,
+          "nrmse": 9.846457198562081e-05,
+          "nmse": 9.695271936311503e-09,
+          "max_abs": 5.730659586222764e-05
+        },
+        "v": {
+          "rmse": 1.9554218056577683e-05,
+          "reference_rms": 0.13638490307194975,
+          "nrmse": 0.00014337523887275025,
+          "nmse": 2.0556459121818194e-08,
+          "max_abs": 4.777526250857034e-05
+        },
+        "p": {
+          "rmse": 1.4368968448620426e-05,
+          "reference_rms": 0.7100937321199979,
+          "nrmse": 2.023531232379929e-05,
+          "nmse": 4.0946786484170346e-10,
+          "max_abs": 4.741564707261281e-05
+        }
+      }
+    },
+    "reference_self_grade": "passed",
+    "production_sources": [
+      {
+        "file": "cavity-p3/C18/L0-dt1/process.json",
+        "sha256": "6bf18030a8e2ffc8f48aa94601263897efccf12ca5775408c746eae52f6c7622"
+      },
+      {
+        "file": "cavity-p3/C18/L0-dt1/native.npz",
+        "sha256": "966e7b8701276254ab1fdc178051c26eccd5a8595c12d9b59388be3bfd5451f5"
+      },
+      {
+        "file": "cavity-p3/C18/L1-dt1/process.json",
+        "sha256": "7220215f4b196336ea6277f735325d2bc24956111e00e852df45ca6e948d0997"
+      },
+      {
+        "file": "cavity-p3/C18/L1-dt1/native.npz",
+        "sha256": "33212b503d6eaaf6ad1d33d1ee394f7f87fa4dfc5914c70d8a85add52edd3e51"
+      },
+      {
+        "file": "cavity-p3/C18/L2-dt1/process.json",
+        "sha256": "7b6ffdd8b3f98c00f7283bf730b599d7de1a3efa75be52e1fd99ed4597a9b247"
+      },
+      {
+        "file": "cavity-p3/C18/L2-dt1/native.npz",
+        "sha256": "12c279ad70a75028c6f75de73401d65f6c855d469af98b3219f2c401633967e4"
+      },
+      {
+        "file": "cavity-p3/C18/L2-dt2/process.json",
+        "sha256": "78ced9d059b76669d5c56352184357b8a295d91b443ffaa72ccef162640fa8d3"
+      },
+      {
+        "file": "cavity-p3/C18/L2-dt2/native.npz",
+        "sha256": "08ef5dc8a27669fec601517c11858ad0e22eb968febd3ceedee25ae586908beb"
+      }
+    ],
+    "reference_sha256": "d5e9e2085276cf7e95b0d06659a597ffae3007ac090979f6f5428e084821260f"
+  },
+  "conversion_tool_sha256": "30675f2817ab349d9c769bea4f8ca60829513342e9b82e03cb65c8196e724926",
+  "resource_status": "provisional",
+  "hf_uploaded": false
+}

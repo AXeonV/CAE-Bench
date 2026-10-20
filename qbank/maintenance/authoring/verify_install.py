@@ -29,7 +29,8 @@ def main():
         if not domain.isidentifier() or not (ROOT/'tests'/f'{domain}_fixture.py').is_file():
             parser.error(f'Unknown fixture domain: {domain}')
         fixture=import_module(f'{domain}_fixture').fixture
-        for slug in import_module(f'caeoj_ext.{domain}').models():
+        for identity,cfg in import_module(f'caeoj_ext.{domain}').models().items():
+            slug=cfg.get('task',identity)
             if slug in fixtures:
                 parser.error(f'Duplicate task: {slug}')
             fixtures[slug]=fixture
@@ -70,9 +71,12 @@ v={s["array"]:np.zeros((len(p.arrays[m["time_axes"][s["time_axis"]]]),len(p.arra
 write_result(sys.argv[2],p,v);load_result(p,sys.argv[2])
 '''
         subprocess.run([str(python),'-I','-c',script,str(path),str(output)],cwd=work,check=True,capture_output=True,encoding='utf-8',errors='backslashreplace')
-        from caeoj.case_grading import direct_config
+        from caeoj.case_grading import direct_config,parse_config
         from caeoj.grading_policy import load_policy
-        config=direct_config(load_policy(task/'author/grading-template.json'))
+        template=task/'author/grading-template.json'
+        if (task/'author/case-grading-template.json').exists():template=task/'author/case-grading-template.json'
+        raw=json.loads(template.read_text(encoding='utf-8'))
+        config=parse_config(template.read_text(encoding='utf-8')) if 'checks' in raw else direct_config(load_policy(template))
         config['checks'][0]['reference']=output.name
         grading=path.parent/'grading.json';grading.write_text(json.dumps(config))
         commands=[['info','--input',str(path)],['validate-input',str(path)],

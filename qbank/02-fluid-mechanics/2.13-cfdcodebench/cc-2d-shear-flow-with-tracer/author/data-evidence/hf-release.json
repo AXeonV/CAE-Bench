@@ -1,0 +1,152 @@
+{
+  "index": 22,
+  "task": "cc-2d-shear-flow-with-tracer",
+  "task_id": "caeoj-000027",
+  "pool_case_id": "case-887658c521f21ab1f95cfc3f",
+  "bundle": "D:\\Code\\CAE-Bench-OJ\\runs\\benchmarks\\cfdcodebench-24-20261020\\release\\bundles\\cc-2d-shear-flow-with-tracer",
+  "reference_sha256": "f98db963d005e95216a76f6a73676bc9a733d3851d8333680cc8e39008872d3a",
+  "hf_branch": "cases/cfdcodebench-24-20261020",
+  "hf_commit": "dc2be55e268aa078897da29de693491d3abf1e03",
+  "manifest_sha256": "60743501277ad2e280418a31fbe3a3016b91dff4af9fa29e25913dc37d38db67",
+  "descriptor_sha256": "2c10d9162c99862f24dd3767f7d7f7f4357f45666f5c3313ec5f1b375aac1653",
+  "samples": 1,
+  "sample_kind": "format",
+  "sample_seed": 2026102022,
+  "sample_output_sha256": "761541616b87fb9c823afe04760c4f98aba359a5a383ca43283ab0384c9b8c4f",
+  "strict_integrity": {
+    "valid": true,
+    "errors": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-887658c521f21ab1f95cfc3f",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "assembly_report": {
+    "revision": "dc2be55e268aa078897da29de693491d3abf1e03",
+    "files": 8,
+    "changed": 2,
+    "removed": 0,
+    "complete": true,
+    "incomplete": [],
+    "overlaps": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-887658c521f21ab1f95cfc3f",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "numerical_validation": {
+    "index": 22,
+    "task": "cc-2d-shear-flow-with-tracer",
+    "case_id": "C22-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [
+      "Space/time checks use the same Dedalus engine and equation configuration; not an independent solver cross-validation"
+    ],
+    "checks": {
+      "space_L0_L1": {
+        "u": {
+          "rmse": 0.0006263831249206998,
+          "reference_rms": 0.4379484492864326,
+          "nrmse": 0.001430266794964776,
+          "nmse": 2.0456631047788126e-06,
+          "max_abs": 0.0023588997809186607
+        },
+        "w": {
+          "rmse": 0.0005620552935634056,
+          "reference_rms": 0.07723873314980104,
+          "nrmse": 0.007276858004303679,
+          "nmse": 5.295266241479852e-05,
+          "max_abs": 0.0017686117008610391
+        },
+        "s": {
+          "rmse": 0.008865789468679114,
+          "reference_rms": 0.3987273478419459,
+          "nrmse": 0.022235217916864534,
+          "nmse": 0.0004944049158104536,
+          "max_abs": 0.0437428040658855
+        },
+        "p": {
+          "rmse": 0.00011456312050583665,
+          "reference_rms": 0.041171713337552325,
+          "nrmse": 0.0027825686914356496,
+          "nmse": 7.742688522557903e-06,
+          "max_abs": 0.0003663445880378244
+        }
+      },
+      "space_L1_L2": {
+        "u": {
+          "rmse": 1.5162656180900307e-05,
+          "reference_rms": 0.4379483454360245,
+          "nrmse": 3.4622019557590195e-05,
+          "nmse": 1.198684238246158e-09,
+          "max_abs": 6.15355452590477e-05
+        },
+        "w": {
+          "rmse": 1.1894781271940488e-05,
+          "reference_rms": 0.0772393169298653,
+          "nrmse": 0.00015399904795560486,
+          "nmse": 2.3715706771232684e-08,
+          "max_abs": 3.649600051670518e-05
+        },
+        "s": {
+          "rmse": 0.0002997115500051294,
+          "reference_rms": 0.39872423827518216,
+          "nrmse": 0.0007516762745641802,
+          "nmse": 5.650172217426847e-07,
+          "max_abs": 0.001981273833017525
+        },
+        "p": {
+          "rmse": 2.2613562775443302e-06,
+          "reference_rms": 0.041172562559389864,
+          "nrmse": 5.492386523871108e-05,
+          "nmse": 3.016630972760095e-09,
+          "max_abs": 6.5497501722106e-06
+        }
+      },
+      "half_dt": {
+        "u": {
+          "rmse": 2.53430306134044e-08,
+          "reference_rms": 0.43794834616308415,
+          "nrmse": 5.786762488187844e-08,
+          "nmse": 3.3486620094697966e-15,
+          "max_abs": 1.1179130679495053e-07
+        },
+        "w": {
+          "rmse": 1.8844965307161036e-08,
+          "reference_rms": 0.07723931098506745,
+          "nrmse": 2.439815304774573e-07,
+          "nmse": 5.952698721412243e-14,
+          "max_abs": 7.02074881564485e-08
+        },
+        "s": {
+          "rmse": 8.571585048982768e-07,
+          "reference_rms": 0.398724242741874,
+          "nrmse": 2.149752668671275e-06,
+          "nmse": 4.621436536459268e-12,
+          "max_abs": 4.2706801965941565e-06
+        },
+        "p": {
+          "rmse": 5.807731437932489e-07,
+          "reference_rms": 0.041172022374359823,
+          "nrmse": 1.4106014480234267e-05,
+          "nmse": 1.9897964451657884e-10,
+          "max_abs": 1.3426768657037735e-06
+        }
+      }
+    },
+    "reference_sha256": "f98db963d005e95216a76f6a73676bc9a733d3851d8333680cc8e39008872d3a",
+    "resource_status": "provisional"
+  },
+  "resource_status": "awaiting_calibration",
+  "installed_consumption": "passed"
+}

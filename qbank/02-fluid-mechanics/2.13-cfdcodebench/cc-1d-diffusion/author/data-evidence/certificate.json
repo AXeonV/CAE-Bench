@@ -1,0 +1,124 @@
+{
+  "source_id": "CFDCodeBench:e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2:1D_Diffusion",
+  "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_problem": "1D_Diffusion",
+  "development_case_id": "C02-base",
+  "input_files": {
+    "input.h5": "872c5b9ad9f7b21ea98e610f6cfe0b96e46cda058cf91360941a64c6e37b3844",
+    "problem.json": "4a91fd3a60488fe90ecb6198320d8abdd7bb14e15a1412db7814252a55228f51"
+  },
+  "reference_files": {
+    "grading.json": "ac9c323ab597699ebee1b0865f66d38bf379cb37e54fdcee0c693e51a8d8b932",
+    "reference.h5": "76fe36d3a76727a830aa90a728fefccefdf1272cd6c7413ab87c00fd82de95d3"
+  },
+  "contract_sha256": "130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063",
+  "numerical_validation_sha256": "86eba91592c88a41ab64296508be516c6e8a8f1409785812bfc5492c4cbcf71e",
+  "numerical_validation": {
+    "index": 2,
+    "task": "cc-1d-diffusion",
+    "case_id": "C02-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [],
+    "checks": {
+      "truncation_64_128": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 1.292530922567379,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "truncation_128_256": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 1.292530922567379,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "independent_representation": {
+        "u": {
+          "rmse": 1.5779233923431829e-16,
+          "reference_rms": 1.292530922567379,
+          "nrmse": 1.2208012704322178e-16,
+          "nmse": 1.490355741888917e-32,
+          "max_abs": 4.440892098500626e-16
+        }
+      },
+      "source_C02-N201": {
+        "u": {
+          "rmse": 0.007211349245447234,
+          "reference_rms": 1.292530922567379,
+          "nrmse": 0.00557924697934746,
+          "nmse": 3.112799685655776e-05,
+          "max_abs": 0.014136964999037938
+        }
+      },
+      "source_C02-N401": {
+        "u": {
+          "rmse": 0.0036069475507684912,
+          "reference_rms": 1.292530922567379,
+          "nrmse": 0.002790608323400064,
+          "nmse": 7.787494814629717e-06,
+          "max_abs": 0.007069188708931806
+        }
+      },
+      "source_C02-N801": {
+        "u": {
+          "rmse": 0.0018037977734789328,
+          "reference_rms": 1.292530922567379,
+          "nrmse": 0.001395554831211322,
+          "nmse": 1.9475732869172614e-06,
+          "max_abs": 0.0035346848804962416
+        }
+      }
+    },
+    "reference_sha256": "76fe36d3a76727a830aa90a728fefccefdf1272cd6c7413ab87c00fd82de95d3",
+    "resource_status": "provisional"
+  },
+  "reference_production": {
+    "index": 2,
+    "task": "cc-1d-diffusion",
+    "case_id": "C02-base",
+    "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+    "input_contract": "passed",
+    "reference_status": "formula-evaluated-needs-independent-audit",
+    "comparisons": {
+      "truncation_64_128": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 1.292530922567379,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "truncation_128_256": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 1.292530922567379,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      }
+    },
+    "producer": "published representation; see formula audit",
+    "reference_self_grade": "passed",
+    "reference_sha256": "76fe36d3a76727a830aa90a728fefccefdf1272cd6c7413ab87c00fd82de95d3",
+    "production_sources": [
+      {
+        "file": "qbank\\02-fluid-mechanics\\2.13-cfdcodebench\\author\\analytic.py",
+        "sha256": "b86207a33d547f35ad53aaa4307a61b769a2527ca32b8392f8ca60cd396dd692",
+        "base": "repository"
+      }
+    ]
+  },
+  "conversion_tool_sha256": "30675f2817ab349d9c769bea4f8ca60829513342e9b82e03cb65c8196e724926",
+  "resource_status": "provisional",
+  "hf_uploaded": false
+}

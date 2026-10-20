@@ -1,0 +1,115 @@
+{
+  "source_id": "CFDCodeBench:e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2:2D_Steady_Heat_Equation",
+  "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_problem": "2D_Steady_Heat_Equation",
+  "development_case_id": "C15-base",
+  "input_files": {
+    "input.h5": "b2fafe044c7cbfbb5dd461124f3bd6a28c6346fc7a3e0b58e4d91ecbf35a6c74",
+    "problem.json": "a1d4a319bf4eccb732c977a4554df2ce19c5e89d46e34236f259ab51e8f17a3f"
+  },
+  "reference_files": {
+    "grading.json": "c8acd0eee58a886bcdc78425cc5917b329356f925b0ecbcac72e320c3a711efd",
+    "reference.h5": "d193eaf1755b6a0be9e319168a4094abb0595f3ade0b96a2f350d0254463fac8"
+  },
+  "contract_sha256": "130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063",
+  "numerical_validation_sha256": "b741f99d0ef592db54fe7811fe327abf9808b18686c041e3322b63aa5b615949",
+  "numerical_validation": {
+    "index": 15,
+    "task": "cc-2d-steady-heat-equation",
+    "case_id": "C15-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [],
+    "checks": {
+      "truncation_64_128": {
+        "T": {
+          "rmse": 0.010568170448901473,
+          "reference_rms": 9.7702571198873,
+          "nrmse": 0.001081667587579658,
+          "nmse": 1.1700047700203971e-06,
+          "max_abs": 0.17538345519270138
+        }
+      },
+      "truncation_128_256": {
+        "T": {
+          "rmse": 0.0009278770314705885,
+          "reference_rms": 9.770251975421946,
+          "nrmse": 9.496961120396452e-05,
+          "nmse": 9.019227052232183e-09,
+          "max_abs": 0.0239433196837453
+        }
+      },
+      "independent_FEM_L0": {
+        "T": {
+          "rmse": 0.0218629721028602,
+          "reference_rms": 9.770251975421946,
+          "nrmse": 0.0022377081121202104,
+          "nmse": 5.007337595048596e-06,
+          "max_abs": 0.7689003642591672
+        }
+      },
+      "independent_FEM_L1": {
+        "T": {
+          "rmse": 0.001995450172597248,
+          "reference_rms": 9.770251975421946,
+          "nrmse": 0.00020423732956089609,
+          "nmse": 4.171288678616608e-08,
+          "max_abs": 0.05636402344214275
+        }
+      },
+      "independent_FEM_L2": {
+        "T": {
+          "rmse": 0.00017356477542416053,
+          "reference_rms": 9.770251975421946,
+          "nrmse": 1.7764616087771353e-05,
+          "nmse": 3.155815847459048e-10,
+          "max_abs": 0.006225119282845526
+        }
+      }
+    },
+    "reference_sha256": "d193eaf1755b6a0be9e319168a4094abb0595f3ade0b96a2f350d0254463fac8",
+    "resource_status": "provisional"
+  },
+  "reference_production": {
+    "index": 15,
+    "task": "cc-2d-steady-heat-equation",
+    "case_id": "C15-base",
+    "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+    "input_contract": "passed",
+    "reference_status": "formula-evaluated-needs-independent-audit",
+    "comparisons": {
+      "truncation_64_128": {
+        "T": {
+          "rmse": 0.010568170448901473,
+          "reference_rms": 9.7702571198873,
+          "nrmse": 0.001081667587579658,
+          "nmse": 1.1700047700203971e-06,
+          "max_abs": 0.17538345519270138
+        }
+      },
+      "truncation_128_256": {
+        "T": {
+          "rmse": 0.0009278770314705885,
+          "reference_rms": 9.770251975421946,
+          "nrmse": 9.496961120396452e-05,
+          "nmse": 9.019227052232183e-09,
+          "max_abs": 0.0239433196837453
+        }
+      }
+    },
+    "producer": "published representation; see formula audit",
+    "reference_self_grade": "passed",
+    "reference_sha256": "d193eaf1755b6a0be9e319168a4094abb0595f3ade0b96a2f350d0254463fac8",
+    "production_sources": [
+      {
+        "file": "qbank\\02-fluid-mechanics\\2.13-cfdcodebench\\author\\analytic.py",
+        "sha256": "b86207a33d547f35ad53aaa4307a61b769a2527ca32b8392f8ca60cd396dd692",
+        "base": "repository"
+      }
+    ]
+  },
+  "conversion_tool_sha256": "30675f2817ab349d9c769bea4f8ca60829513342e9b82e03cb65c8196e724926",
+  "resource_status": "provisional",
+  "hf_uploaded": false
+}

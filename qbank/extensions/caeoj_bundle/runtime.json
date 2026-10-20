@@ -886,6 +886,94 @@
         "caeoj_ext/microstructure/__init__.py",
         "caeoj_ext/microstructure/models.json"
       ]
+    },
+    "compat.cfdcodebench": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model": "cfdcodebench-c01-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c02-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c03-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c04-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c05-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c06-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c07-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c08-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c09-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c10-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c11-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c12-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c13-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c14-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c15-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c16-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c17-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c18-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c19-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c20-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c21-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c22-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c23-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c24-v1"
+        }
+      ],
+      "check": "caeoj_ext.cfdcodebench:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/cfdcodebench/__init__.py",
+        "caeoj_ext/cfdcodebench/models.json",
+        "caeoj_ext/normalized_fields.py"
+      ],
+      "evaluators": {
+        "field.normalized_outputs": "caeoj_ext.normalized_fields:prepare"
+      }
     }
   },
   "tasks": {
@@ -1593,6 +1681,78 @@
     ],
     "crystal-density": [
       "microstructure.phase_field"
+    ],
+    "cc-1d-burgers-equation": [
+      "compat.cfdcodebench"
+    ],
+    "cc-1d-diffusion": [
+      "compat.cfdcodebench"
+    ],
+    "cc-1d-euler-shock-tube": [
+      "compat.cfdcodebench"
+    ],
+    "cc-1d-linear-convection": [
+      "compat.cfdcodebench"
+    ],
+    "cc-1d-nonlinear-convection": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-burgers-equation": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-convection": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-diffusion": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-inviscid-burgers": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-laplace-equation": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-linear-convection": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-navier-stokes-cavity": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-navier-stokes-channel": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-poisson-equation": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-steady-heat-equation": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-unsteady-heat-equation": [
+      "compat.cfdcodebench"
+    ],
+    "cc-fully-developed-turbulent-channel-flow": [
+      "compat.cfdcodebench"
+    ],
+    "cc-lid-driven-cavity": [
+      "compat.cfdcodebench"
+    ],
+    "cc-flow-past-circular-cylinder": [
+      "compat.cfdcodebench"
+    ],
+    "cc-1d-kdv-burgers-equation": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-rayleigh-benard-convection": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-shear-flow-with-tracer": [
+      "compat.cfdcodebench"
+    ],
+    "cc-pipe-flow-disk-evp": [
+      "compat.cfdcodebench"
+    ],
+    "cc-lane-emden-equation": [
+      "compat.cfdcodebench"
     ]
   },
   "aliases": {

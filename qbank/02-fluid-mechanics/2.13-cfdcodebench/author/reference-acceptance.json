@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "case_overrides": {
+    "19": {
+      "metric": "nmse",
+      "limit": 0.01,
+      "comparison": "strict_less",
+      "basis": "Human user explicitly accepted current R256-P384 reference on2026-10-20 against original NMSE<1% target",
+      "selected_native": "cylinder-openfoam/R256-P384/native.npz",
+      "scope": "reference grid and independent-solver comparisons only; candidate scoring remains NRMSE<=0.1",
+      "limitations": "Pairwise differences are verification evidence, not a rigorous exact-solution error bound; prior NRMSE<=0.01 failures are retained in historical evidence."
+    }
+  }
+}

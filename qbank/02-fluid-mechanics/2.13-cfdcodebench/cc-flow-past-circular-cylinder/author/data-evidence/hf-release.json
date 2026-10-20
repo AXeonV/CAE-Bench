@@ -1,0 +1,168 @@
+{
+  "index": 19,
+  "task": "cc-flow-past-circular-cylinder",
+  "task_id": "caeoj-000024",
+  "pool_case_id": "case-8c324d7724ce2f3aa6d6e7ee",
+  "bundle": "D:\\Code\\CAE-Bench-OJ\\runs\\benchmarks\\cfdcodebench-24-20261020\\release\\bundles\\cc-flow-past-circular-cylinder",
+  "reference_sha256": "6dbc24e7f9fa1567ad96232a73bc44cd213907dfaabcbe74586c5b148a637775",
+  "hf_branch": "cases/cfdcodebench-24-20261020",
+  "hf_commit": "dc2be55e268aa078897da29de693491d3abf1e03",
+  "manifest_sha256": "e52d283609300137b000e7bdfecdf3c41f596be48e74bcfee5cf807df4503131",
+  "descriptor_sha256": "c385cbf57e8de9bc30729200b594602c81ab8a9fde4620d822218a3869142421",
+  "samples": 1,
+  "sample_kind": "format",
+  "sample_seed": 2026102019,
+  "sample_output_sha256": "3b64cceaaf5be298dfa455752a64a45c8468f926059b8db8cdd291643acab6c8",
+  "strict_integrity": {
+    "valid": true,
+    "errors": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-8c324d7724ce2f3aa6d6e7ee",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "assembly_report": {
+    "revision": "dc2be55e268aa078897da29de693491d3abf1e03",
+    "files": 8,
+    "changed": 8,
+    "removed": 0,
+    "complete": true,
+    "incomplete": [],
+    "overlaps": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-8c324d7724ce2f3aa6d6e7ee",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "numerical_validation": {
+    "index": 19,
+    "task": "cc-flow-past-circular-cylinder",
+    "case_id": "C19-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [
+      "OpenFOAM psi/omega are reconstructed from velocity; reconstruction and exterior streamfunction closure require separate audit",
+      "Pairwise differences are verification evidence, not a rigorous exact-solution error bound; prior NRMSE<=0.01 failures are retained in historical evidence."
+    ],
+    "checks": {
+      "space_L0_L1": {
+        "psi": {
+          "rmse": 0.0046598407954275755,
+          "reference_rms": 20.603787443448155,
+          "nrmse": 0.0002261642820873387,
+          "nmse": 5.115028249208131e-08,
+          "max_abs": 0.02632663494517473
+        },
+        "omega": {
+          "rmse": 0.04664701133739954,
+          "reference_rms": 0.42507235723050274,
+          "nrmse": 0.10973899041876393,
+          "nmse": 0.012042646018129563,
+          "max_abs": 1.6905186156245016
+        }
+      },
+      "space_L1_L2": {
+        "psi": {
+          "rmse": 0.0011668433768644917,
+          "reference_rms": 20.60374216961855,
+          "nrmse": 5.6632594567460284e-05,
+          "nmse": 3.2072507674423323e-09,
+          "max_abs": 0.006936658277375329
+        },
+        "omega": {
+          "rmse": 0.012502471174888457,
+          "reference_rms": 0.42510762428279725,
+          "nrmse": 0.029410131601336213,
+          "nmse": 0.000864955840807915,
+          "max_abs": 0.8370335709577041
+        }
+      },
+      "independent_FEM_L0_dt1": {
+        "psi": {
+          "rmse": 0.009817488880660821,
+          "reference_rms": 20.60374216961855,
+          "nrmse": 0.0004764905714621733,
+          "nmse": 2.270432646923485e-07,
+          "max_abs": 0.14670192378207147
+        },
+        "omega": {
+          "rmse": 0.11209412445847096,
+          "reference_rms": 0.42510762428279725,
+          "nrmse": 0.2636841074012397,
+          "nmse": 0.06952930849598851,
+          "max_abs": 3.8846281560236235
+        }
+      },
+      "independent_FEM_L1_dt1": {
+        "psi": {
+          "rmse": 0.0033761618615982393,
+          "reference_rms": 20.60374216961855,
+          "nrmse": 0.00016386158561897517,
+          "nmse": 2.685061924156473e-08,
+          "max_abs": 0.04700876345812688
+        },
+        "omega": {
+          "rmse": 0.0344496144954514,
+          "reference_rms": 0.42510762428279725,
+          "nrmse": 0.08103739506806457,
+          "nmse": 0.0065670593994175755,
+          "max_abs": 1.2493455932005904
+        }
+      },
+      "independent_FEM_L2_dt1": {
+        "psi": {
+          "rmse": 0.0004977177945651564,
+          "reference_rms": 20.60374216961855,
+          "nrmse": 2.4156669718914996e-05,
+          "nmse": 5.835446919087447e-10,
+          "max_abs": 0.005588704849383674
+        },
+        "omega": {
+          "rmse": 0.006442856495570064,
+          "reference_rms": 0.42510762428279725,
+          "nrmse": 0.015155824378449725,
+          "nmse": 0.00022969901259041098,
+          "max_abs": 0.18441294494061822
+        }
+      },
+      "independent_FEM_L2_dt2": {
+        "psi": {
+          "rmse": 0.0004975429862817997,
+          "reference_rms": 20.60374216961855,
+          "nrmse": 2.4148185421163764e-05,
+          "nmse": 5.831348591349062e-10,
+          "max_abs": 0.005584597079142384
+        },
+        "omega": {
+          "rmse": 0.006438456342537135,
+          "reference_rms": 0.42510762428279725,
+          "nrmse": 0.01514547369833583,
+          "nmse": 0.00022938537354698238,
+          "max_abs": 0.18445369896440766
+        }
+      }
+    },
+    "reference_sha256": "6dbc24e7f9fa1567ad96232a73bc44cd213907dfaabcbe74586c5b148a637775",
+    "resource_status": "provisional",
+    "reference_acceptance": {
+      "metric": "nmse",
+      "limit": 0.01,
+      "comparison": "strict_less",
+      "basis": "Human user explicitly accepted current R256-P384 reference on2026-10-20 against original NMSE<1% target",
+      "selected_native": "cylinder-openfoam/R256-P384/native.npz",
+      "scope": "reference grid and independent-solver comparisons only; candidate scoring remains NRMSE<=0.1",
+      "limitations": "Pairwise differences are verification evidence, not a rigorous exact-solution error bound; prior NRMSE<=0.01 failures are retained in historical evidence."
+    }
+  },
+  "resource_status": "awaiting_calibration",
+  "installed_consumption": "passed"
+}

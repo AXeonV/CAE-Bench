@@ -1,0 +1,375 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.5.4",
+  "task": "immiscible-interface-3d",
+  "question_path": "qbank/02-fluid-mechanics/2.5-interface-flow/immiscible-interface-3d",
+  "model": "fluid-multiphase-immiscible-v1",
+  "family": "immiscible",
+  "analysis_kind": "transient",
+  "document_sha256": {
+    "instruction.md": "0ded5ec28b64bee3baf74a4e57de308f21ecbf2ef904d881b2b7744ec9e40425",
+    "DATA.md": "5fb05829f97f4849dad51d0c6cb458fda188d8ec408d4b6b7dec3d6ffba42ae2",
+    "author/grading-template.json": "1cce7f09c4e4ad72e5d4e51cc6f597caffe579bfc27477360cf143df6e7b8083"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-5-4-01-stable_layers",
+      "title": "方盒",
+      "driving_and_state": "稳定重力分层、零初速度",
+      "difference_and_coverage": "分层基线",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-5-4-02-lock_exchange",
+      "title": "长盒",
+      "driving_and_state": "水平相分离",
+      "difference_and_coverage": "密度流交换",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-5-4-03-rt_wave",
+      "title": "方盒",
+      "driving_and_state": "上重下轻、界面低幅扰动",
+      "difference_and_coverage": "Rayleigh–Taylor发展",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-5-4-04-rising_blob",
+      "title": "高盒",
+      "driving_and_state": "轻相团块位于重相内部",
+      "difference_and_coverage": "无表面张力浮升",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-5-4-05-sinking_blob",
+      "title": "高盒",
+      "driving_and_state": "重相团块位于轻相内部",
+      "difference_and_coverage": "沉降和变形",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-5-4-06-two_blobs",
+      "title": "方盒",
+      "driving_and_state": "两种尺寸的轻相团块",
+      "difference_and_coverage": "团块相互作用",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-5-4-07-inclined_interface",
+      "title": "长盒",
+      "driving_and_state": "斜界面、稳定密度序",
+      "difference_and_coverage": "界面调整",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-5-4-08-obstacle_exchange",
+      "title": "带固定方柱盒",
+      "driving_and_state": "侧向分层释放",
+      "difference_and_coverage": "不同相绕障",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-5-4-09-viscosity_contrast",
+      "title": "矩形盒",
+      "driving_and_state": "近等密度、黏度对比及相容涡初态",
+      "difference_and_coverage": "黏性对比而非仅密度对比",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-5-4-10-double_lock",
+      "title": "三段长盒",
+      "driving_and_state": "两端重相、中间轻相",
+      "difference_and_coverage": "双向密度前缘相互作用",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "确认两流体动量、零表面张力和物理相平均转全单元平均"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "stable_and_unstable_density_order",
+      "assigned_design_ids": [
+        "ch02-2-5-4-01-stable_layers",
+        "ch02-2-5-4-03-rt_wave"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "lock_exchange",
+      "assigned_design_ids": [
+        "ch02-2-5-4-02-lock_exchange",
+        "ch02-2-5-4-10-double_lock"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "rising_and_sinking_phase",
+      "assigned_design_ids": [
+        "ch02-2-5-4-04-rising_blob",
+        "ch02-2-5-4-05-sinking_blob"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "multiple_phase_regions",
+      "assigned_design_ids": [
+        "ch02-2-5-4-06-two_blobs",
+        "ch02-2-5-4-10-double_lock"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "inclined_interface",
+      "assigned_design_ids": [
+        "ch02-2-5-4-07-inclined_interface"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "inner_boundary",
+      "assigned_design_ids": [
+        "ch02-2-5-4-08-obstacle_exchange"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "viscosity_contrast_and_nonzero_initial_velocity",
+      "assigned_design_ids": [
+        "ch02-2-5-4-09-viscosity_contrast"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "both_phases_momentum_zero_surface_tension",
+      "assigned_design_ids": [
+        "ch02-2-5-4-01-stable_layers",
+        "ch02-2-5-4-02-lock_exchange",
+        "ch02-2-5-4-03-rt_wave",
+        "ch02-2-5-4-04-rising_blob",
+        "ch02-2-5-4-05-sinking_blob",
+        "ch02-2-5-4-06-two_blobs",
+        "ch02-2-5-4-07-inclined_interface",
+        "ch02-2-5-4-08-obstacle_exchange",
+        "ch02-2-5-4-09-viscosity_contrast",
+        "ch02-2-5-4-10-double_lock"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "velocity_continuity_and_traction_continuity",
+      "assigned_design_ids": [
+        "ch02-2-5-4-01-stable_layers",
+        "ch02-2-5-4-02-lock_exchange",
+        "ch02-2-5-4-03-rt_wave",
+        "ch02-2-5-4-04-rising_blob",
+        "ch02-2-5-4-05-sinking_blob",
+        "ch02-2-5-4-06-two_blobs",
+        "ch02-2-5-4-07-inclined_interface",
+        "ch02-2-5-4-08-obstacle_exchange",
+        "ch02-2-5-4-09-viscosity_contrast",
+        "ch02-2-5-4-10-double_lock"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "真实几何网格、合法边界不重不漏；不把二维结果简单挤出充当三维响应",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部域单元的面积/体积平均主字段；不把节点插值冒充单元平均",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "二维与三维按各题允许的一阶单元类型安排网格；时间、参数和字段不添加求解器私有输入",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

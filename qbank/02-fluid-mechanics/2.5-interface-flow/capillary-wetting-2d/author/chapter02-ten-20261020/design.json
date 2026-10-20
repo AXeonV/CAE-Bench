@@ -1,0 +1,390 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.5.5",
+  "task": "capillary-wetting-2d",
+  "question_path": "qbank/02-fluid-mechanics/2.5-interface-flow/capillary-wetting-2d",
+  "model": "fluid-multiphase-wetting-v1",
+  "family": "capillary",
+  "analysis_kind": "transient",
+  "document_sha256": {
+    "instruction.md": "347768e96a11404ee59230463457d6879a97a5ca218c026d826312de9a6e4493",
+    "DATA.md": "f5650c14f7fd7c3bd895683190769bb18663eb2dcc2ef3039727fb03fc7c02fb",
+    "author/grading-template.json": "1cce7f09c4e4ad72e5d4e51cc6f597caffe579bfc27477360cf143df6e7b8083"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-5-5-01-sessile_equilibrium",
+      "title": "方盒底壁",
+      "driving_and_state": "与指定接触角相容的静态液滴",
+      "difference_and_coverage": "Laplace压差及压力规范",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ],
+      "contact_angle_proposal_rad": 1.5707963267948966
+    },
+    {
+      "design_id": "ch02-2-5-5-02-spreading",
+      "title": "宽盒底壁",
+      "driving_and_state": "初滴角大于静态接触角",
+      "difference_and_coverage": "润湿铺展与物理滑移",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ],
+      "contact_angle_proposal_rad": 1.0471975511965976
+    },
+    {
+      "design_id": "ch02-2-5-5-03-receding",
+      "title": "宽盒底壁",
+      "driving_and_state": "初滴角小于静态接触角",
+      "difference_and_coverage": "去润湿回缩",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ],
+      "contact_angle_proposal_rad": 2.0943951023931953
+    },
+    {
+      "design_id": "ch02-2-5-5-04-corner_wetting",
+      "title": "直角壁交接处",
+      "driving_and_state": "角落液体团",
+      "difference_and_coverage": "角落毛细吸液",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ],
+      "contact_angle_proposal_rad": 0.7853981633974483
+    },
+    {
+      "design_id": "ch02-2-5-5-05-bridge",
+      "title": "窄间隙盒",
+      "driving_and_state": "连接上下壁的液桥",
+      "difference_and_coverage": "双壁接触线与曲率",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ],
+      "contact_angle_proposal_rad": 1.0471975511965976
+    },
+    {
+      "design_id": "ch02-2-5-5-06-oscillating_drop",
+      "title": "方盒内部",
+      "driving_and_state": "椭圆/椭球形液滴",
+      "difference_and_coverage": "毛细振荡及黏性衰减",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ],
+      "contact_angle_proposal_rad": 1.5707963267948966,
+      "material_design": "分别选择高黏度对比的毛细阻尼及有明显密度对比的重力/毛细竞争；数值比例随物理滑移长度、毛细时间和Bond数共同冻结，不能仅改变数值凑例。"
+    },
+    {
+      "design_id": "ch02-2-5-5-07-gravity_spreading",
+      "title": "底壁宽盒",
+      "driving_and_state": "重力下的相容液滴",
+      "difference_and_coverage": "Bond数竞争",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ],
+      "contact_angle_proposal_rad": 1.5707963267948966,
+      "material_design": "分别选择高黏度对比的毛细阻尼及有明显密度对比的重力/毛细竞争；数值比例随物理滑移长度、毛细时间和Bond数共同冻结，不能仅改变数值凑例。"
+    },
+    {
+      "design_id": "ch02-2-5-5-08-obstacle_wetting",
+      "title": "带方柱盒",
+      "driving_and_state": "接触障碍物的液体",
+      "difference_and_coverage": "内部接触线",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ],
+      "contact_angle_proposal_rad": 2.0943951023931953
+    },
+    {
+      "design_id": "ch02-2-5-5-09-two_drops",
+      "title": "宽盒底壁",
+      "driving_and_state": "两滴毛细松弛",
+      "difference_and_coverage": "接触线相互作用；不预设合并",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ],
+      "contact_angle_proposal_rad": 1.0471975511965976
+    },
+    {
+      "design_id": "ch02-2-5-5-10-anisotropic_patch",
+      "title": "非正方盒底壁",
+      "driving_and_state": "非圆足迹的液体团",
+      "difference_and_coverage": "二维弧/三维足迹的各向异性松弛",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ],
+      "contact_angle_proposal_rad": 1.5707963267948966
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "匹配非零物理Navier滑移长度及穿a相静态接触角；不能使用网格滑移代替"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "laplace_pressure_and_gauge",
+      "assigned_design_ids": [
+        "ch02-2-5-5-01-sessile_equilibrium"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "advancing_and_receding_contact_lines",
+      "assigned_design_ids": [
+        "ch02-2-5-5-02-spreading",
+        "ch02-2-5-5-03-receding"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "corner_and_internal_wall_wetting",
+      "assigned_design_ids": [
+        "ch02-2-5-5-04-corner_wetting",
+        "ch02-2-5-5-08-obstacle_wetting"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "liquid_bridge",
+      "assigned_design_ids": [
+        "ch02-2-5-5-05-bridge"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "capillary_viscous_relaxation",
+      "assigned_design_ids": [
+        "ch02-2-5-5-06-oscillating_drop"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "gravity_capillary_competition",
+      "assigned_design_ids": [
+        "ch02-2-5-5-07-gravity_spreading"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "multiple_interfaces",
+      "assigned_design_ids": [
+        "ch02-2-5-5-09-two_drops"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "anisotropic_shape",
+      "assigned_design_ids": [
+        "ch02-2-5-5-10-anisotropic_patch"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "physical_navier_slip_not_mesh_slip",
+      "assigned_design_ids": [
+        "ch02-2-5-5-02-spreading",
+        "ch02-2-5-5-03-receding",
+        "ch02-2-5-5-04-corner_wetting",
+        "ch02-2-5-5-05-bridge"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "wetting_neutral_nonwetting_contact_angles_across_cases",
+      "assigned_design_ids": [
+        "ch02-2-5-5-01-sessile_equilibrium",
+        "ch02-2-5-5-02-spreading",
+        "ch02-2-5-5-03-receding",
+        "ch02-2-5-5-04-corner_wetting"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "vary_density_and_viscosity_ratios_with_meaning",
+      "assigned_design_ids": [
+        "ch02-2-5-5-06-oscillating_drop",
+        "ch02-2-5-5-07-gravity_spreading"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全局xy真实几何；按本题定义区分单位厚度与实际水平面积",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部域单元的面积/体积平均主字段；不把节点插值冒充单元平均",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "二维与三维按各题允许的一阶单元类型安排网格；时间、参数和字段不添加求解器私有输入",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

@@ -1,0 +1,718 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.1.4",
+  "task": "newtonian-incompressible-transient-3d",
+  "question_path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-transient-3d",
+  "model": "cfd-2.1",
+  "family": "closed_flow",
+  "analysis_kind": "steady",
+  "document_sha256": {
+    "instruction.md": "bd30dc545d90d7c450cb526ce178e2118e2c59492c97698cacc0b2a02fc5072e",
+    "DATA.md": "4ae49ac05fd59cbc530bd956d762f74686fd3756e1d2f42766ff6083046bd63c",
+    "author/grading-template.json": "78ad073fbfd826b78a5f677a17bf0473d86525ff625c7c15d385f50441949dcd"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-1-4-01-lid_start",
+      "title": "方腔",
+      "driving_and_state": "顶壁从静止线性加速",
+      "difference_and_coverage": "黏性启动与主涡形成",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam"
+        ],
+        "producer_compatibility": "icoFoam constant-density laminar incompressible transient; closed fixed no-slip walls"
+      },
+      "status": "numerically_specified_pending_native_adapter",
+      "remaining_before_execution": [
+        "生成自包含输入和原生配置；完成映射代码后实际执行"
+      ],
+      "prescription": {
+        "spatial_dimension": 3,
+        "length_m": [
+          1,
+          1,
+          1
+        ],
+        "target_cells_xyz": [
+          24,
+          24,
+          12
+        ],
+        "obstacle_xy_fraction": null,
+        "obstacle_through_z": false,
+        "density_kg_m3": 1.0,
+        "dynamic_viscosity_Pa_s": 0.01,
+        "temperature_K": 300.0,
+        "pressure": {
+          "representation": "gauge",
+          "reference_pressure_Pa": 101325.0,
+          "gauge": "volume_mean",
+          "gauge_value_Pa": 0.0
+        },
+        "time_interval_s": [
+          0.0,
+          0.2
+        ],
+        "initial_velocity_m_s": [
+          0,
+          0,
+          0
+        ],
+        "wall_velocity_vectors_m_s": {
+          "top_left": [
+            1,
+            0,
+            0
+          ],
+          "top_right": [
+            1,
+            0,
+            0
+          ]
+        },
+        "wall_speed_multiplier_linear_table": [
+          [
+            0,
+            0
+          ],
+          [
+            0.05,
+            1
+          ],
+          [
+            0.2,
+            1
+          ]
+        ],
+        "other_boundaries": "no_slip",
+        "body_acceleration_m_s2": [
+          0,
+          0,
+          0
+        ],
+        "output_times_s": [
+          0.05,
+          0.1,
+          0.15,
+          0.2
+        ],
+        "outputs": [
+          "velocity",
+          "pressure"
+        ],
+        "output_support": "each supplied fluid cell; physical cell average",
+        "native_solver": "icoFoam",
+        "native_dt_s": 0.0005,
+        "native_time_scheme": "Euler",
+        "native_turbulence": "none",
+        "status": "numerically_specified_not_computed_not_validated"
+      }
+    },
+    {
+      "design_id": "ch02-2-1-4-02-velocity_reservoir",
+      "title": "矩形入口发展通道",
+      "driving_and_state": "速度入口线性启动、完整储槽牵引出口、无滑移侧壁",
+      "difference_and_coverage": "开边界及压力出口的完整牵引语义",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-4-03-traction_channel",
+      "title": "直通道",
+      "driving_and_state": "两端显式总牵引的分段线性压差驱动",
+      "difference_and_coverage": "完整矢量牵引、无额外压力规范",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-4-04-periodic_acceleration",
+      "title": "周期直通道",
+      "driving_and_state": "周期端面、无滑移壁、时变全域加速度",
+      "difference_and_coverage": "周期无压力跳跃，体力驱动及均值压力规范",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-4-05-symmetry_channel",
+      "title": "通道对称半域",
+      "driving_and_state": "速度入口、牵引出口、一个平面对称边界",
+      "difference_and_coverage": "对称重建与无回流保证",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-4-06-slip_vortex",
+      "title": "全滑移方盒",
+      "driving_and_state": "满足无穿透及零切向牵引的非零涡初态",
+      "difference_and_coverage": "滑移和物理初态，不用零初态覆盖全部瞬态",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-4-07-spatial_force",
+      "title": "非对称封闭域",
+      "driving_and_state": "空间非均匀非保守体加速度，时间按previous分段保持；静壁、点压力规范",
+      "difference_and_coverage": "分布源项、非线性时间采样和点规范；给定体力不补造其他源",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-4-08-obstacle_flux",
+      "title": "带偏心固定方柱的通道",
+      "driving_and_state": "正流量入口和非均匀shape、储槽牵引出口",
+      "difference_and_coverage": "流量全边界归一化、内孔、真实面平均与整体流率/载荷",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-4-09-pulse",
+      "title": "方腔",
+      "driving_and_state": "顶壁加速、保持、减速至静止",
+      "difference_and_coverage": "驱动撤去后的涡衰减；稳态题改为分段顶壁驱动",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam"
+        ],
+        "producer_compatibility": "icoFoam constant-density laminar incompressible transient; closed fixed no-slip walls"
+      },
+      "status": "numerically_specified_pending_native_adapter",
+      "remaining_before_execution": [
+        "生成自包含输入和原生配置；完成映射代码后实际执行"
+      ],
+      "prescription": {
+        "spatial_dimension": 3,
+        "length_m": [
+          1,
+          1,
+          1
+        ],
+        "target_cells_xyz": [
+          24,
+          24,
+          12
+        ],
+        "obstacle_xy_fraction": null,
+        "obstacle_through_z": false,
+        "density_kg_m3": 1.0,
+        "dynamic_viscosity_Pa_s": 0.01,
+        "temperature_K": 300.0,
+        "pressure": {
+          "representation": "gauge",
+          "reference_pressure_Pa": 101325.0,
+          "gauge": "volume_mean",
+          "gauge_value_Pa": 0.0
+        },
+        "time_interval_s": [
+          0.0,
+          0.3
+        ],
+        "initial_velocity_m_s": [
+          0,
+          0,
+          0
+        ],
+        "wall_velocity_vectors_m_s": {
+          "top_left": [
+            1,
+            0,
+            0
+          ],
+          "top_right": [
+            1,
+            0,
+            0
+          ]
+        },
+        "wall_speed_multiplier_linear_table": [
+          [
+            0,
+            0
+          ],
+          [
+            0.05,
+            1
+          ],
+          [
+            0.1,
+            1
+          ],
+          [
+            0.15,
+            0
+          ],
+          [
+            0.3,
+            0
+          ]
+        ],
+        "other_boundaries": "no_slip",
+        "body_acceleration_m_s2": [
+          0,
+          0,
+          0
+        ],
+        "output_times_s": [
+          0.075,
+          0.15,
+          0.225,
+          0.3
+        ],
+        "outputs": [
+          "velocity",
+          "pressure"
+        ],
+        "output_support": "each supplied fluid cell; physical cell average",
+        "native_solver": "icoFoam",
+        "native_dt_s": 0.0005,
+        "native_time_scheme": "Euler",
+        "native_turbulence": "none",
+        "status": "numerically_specified_not_computed_not_validated"
+      }
+    },
+    {
+      "design_id": "ch02-2-1-4-10-reversal",
+      "title": "方腔",
+      "driving_and_state": "顶壁正向启动后反向",
+      "difference_and_coverage": "流向反转的记忆；稳态题改为不等速反向双壁",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam"
+        ],
+        "producer_compatibility": "icoFoam constant-density laminar incompressible transient; closed fixed no-slip walls"
+      },
+      "status": "numerically_specified_pending_native_adapter",
+      "remaining_before_execution": [
+        "生成自包含输入和原生配置；完成映射代码后实际执行"
+      ],
+      "prescription": {
+        "spatial_dimension": 3,
+        "length_m": [
+          1,
+          1,
+          1
+        ],
+        "target_cells_xyz": [
+          24,
+          24,
+          12
+        ],
+        "obstacle_xy_fraction": null,
+        "obstacle_through_z": false,
+        "density_kg_m3": 1.0,
+        "dynamic_viscosity_Pa_s": 0.01,
+        "temperature_K": 300.0,
+        "pressure": {
+          "representation": "gauge",
+          "reference_pressure_Pa": 101325.0,
+          "gauge": "volume_mean",
+          "gauge_value_Pa": 0.0
+        },
+        "time_interval_s": [
+          0.0,
+          0.3
+        ],
+        "initial_velocity_m_s": [
+          0,
+          0,
+          0
+        ],
+        "wall_velocity_vectors_m_s": {
+          "top_left": [
+            1,
+            0,
+            0
+          ],
+          "top_right": [
+            1,
+            0,
+            0
+          ]
+        },
+        "wall_speed_multiplier_linear_table": [
+          [
+            0,
+            0
+          ],
+          [
+            0.05,
+            1
+          ],
+          [
+            0.1,
+            1
+          ],
+          [
+            0.15,
+            -1
+          ],
+          [
+            0.3,
+            -1
+          ]
+        ],
+        "other_boundaries": "no_slip",
+        "body_acceleration_m_s2": [
+          0,
+          0,
+          0
+        ],
+        "output_times_s": [
+          0.075,
+          0.15,
+          0.225,
+          0.3
+        ],
+        "outputs": [
+          "velocity",
+          "pressure"
+        ],
+        "output_support": "each supplied fluid cell; physical cell average",
+        "native_solver": "icoFoam",
+        "native_dt_s": 0.0005,
+        "native_time_scheme": "Euler",
+        "native_turbulence": "none",
+        "status": "numerically_specified_not_computed_not_validated"
+      }
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "闭腔压力按流体单元体积均值转换到Pa；二维仅空方向为empty"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "no_slip_and_moving_wall",
+      "assigned_design_ids": [
+        "ch02-2-1-4-01-lid_start",
+        "ch02-2-1-4-09-pulse",
+        "ch02-2-1-4-10-reversal"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "velocity_inlet_and_full_pressure_traction",
+      "assigned_design_ids": [
+        "ch02-2-1-4-02-velocity_reservoir",
+        "ch02-2-1-4-05-symmetry_channel"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "general_vector_traction",
+      "assigned_design_ids": [
+        "ch02-2-1-4-03-traction_channel"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "periodic_without_pressure_jump",
+      "assigned_design_ids": [
+        "ch02-2-1-4-04-periodic_acceleration"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "symmetry",
+      "assigned_design_ids": [
+        "ch02-2-1-4-05-symmetry_channel"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "perfect_slip",
+      "assigned_design_ids": [
+        "ch02-2-1-4-06-slip_vortex"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "nonzero_compatible_initial_velocity",
+      "assigned_design_ids": [
+        "ch02-2-1-4-06-slip_vortex"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "uniform_time_varying_acceleration",
+      "assigned_design_ids": [
+        "ch02-2-1-4-04-periodic_acceleration"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "spatially_varying_nonconservative_acceleration",
+      "assigned_design_ids": [
+        "ch02-2-1-4-07-spatial_force"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "flow_rate_with_nonuniform_shape",
+      "assigned_design_ids": [
+        "ch02-2-1-4-08-obstacle_flux"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "internal_obstacle_boundary",
+      "assigned_design_ids": [
+        "ch02-2-1-4-08-obstacle_flux"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "mean_pressure_gauge",
+      "assigned_design_ids": [
+        "ch02-2-1-4-01-lid_start",
+        "ch02-2-1-4-04-periodic_acceleration",
+        "ch02-2-1-4-06-slip_vortex",
+        "ch02-2-1-4-09-pulse",
+        "ch02-2-1-4-10-reversal"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "point_pressure_gauge",
+      "assigned_design_ids": [
+        "ch02-2-1-4-07-spatial_force"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "pressure_fixed_by_traction_no_extra_gauge",
+      "assigned_design_ids": [
+        "ch02-2-1-4-02-velocity_reservoir",
+        "ch02-2-1-4-03-traction_channel",
+        "ch02-2-1-4-05-symmetry_channel",
+        "ch02-2-1-4-08-obstacle_flux"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "ramp_pulse_reversal_histories",
+      "assigned_design_ids": [
+        "ch02-2-1-4-01-lid_start",
+        "ch02-2-1-4-09-pulse",
+        "ch02-2-1-4-10-reversal"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "constant_linear_previous_input_reconstruction",
+      "assigned_design_ids": [
+        "ch02-2-1-4-01-lid_start",
+        "ch02-2-1-4-04-periodic_acceleration",
+        "ch02-2-1-4-07-spatial_force"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "nodal_piecewise_linear_and_entity_constant_inputs",
+      "assigned_design_ids": [
+        "ch02-2-1-4-02-velocity_reservoir",
+        "ch02-2-1-4-06-slip_vortex",
+        "ch02-2-1-4-07-spatial_force",
+        "ch02-2-1-4-08-obstacle_flux"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "velocity_pressure_density_viscosity_shear_rate",
+      "assigned_design_ids": [
+        "ch02-2-1-4-01-lid_start",
+        "ch02-2-1-4-02-velocity_reservoir",
+        "ch02-2-1-4-06-slip_vortex"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "boundary_traction_force_and_signed_flows",
+      "assigned_design_ids": [
+        "ch02-2-1-4-03-traction_channel",
+        "ch02-2-1-4-08-obstacle_flux"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "point_cell_average_and_region_mean_observations",
+      "assigned_design_ids": [
+        "ch02-2-1-4-02-velocity_reservoir",
+        "ch02-2-1-4-06-slip_vortex",
+        "ch02-2-1-4-07-spatial_force"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "真实几何网格、合法边界不重不漏；不把二维结果简单挤出充当三维响应",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在十例间安排point、cell average、region mean及真实边界积分；不在奇异角点请求导数",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "二维安排三角/四边形及合法混合网格；三维安排四面体、六面体及有意义的棱柱/金字塔过渡网格",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "初态、边界历史、体源历史使用各自明确的采样轴；请求输出时刻不决定内部步长",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

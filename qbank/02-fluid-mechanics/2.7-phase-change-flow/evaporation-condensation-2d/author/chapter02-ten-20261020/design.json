@@ -1,0 +1,389 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.7.2",
+  "task": "evaporation-condensation-2d",
+  "question_path": "qbank/02-fluid-mechanics/2.7-phase-change-flow/evaporation-condensation-2d",
+  "model": "fluid-multiphase-evaporation-condensation-v1",
+  "family": "evaporation",
+  "analysis_kind": "transient",
+  "document_sha256": {
+    "instruction.md": "dda807dc1de31e775724c4925b54c17e6109210773458624b8163b60afc63caa",
+    "DATA.md": "817c170e610547cdaae6dad59128c2091373098f2adad9729069d4d40427faf0",
+    "author/grading-template.json": "b44befb9c6ec90250039472c5387c62f04806c85051bbf4ae0f0c29ddba3018f"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-7-2-01-planar_evaporation",
+      "title": "长矩形储槽",
+      "driving_and_state": "平界面、液侧加热",
+      "difference_and_coverage": "正质量通量与速度法向跳跃",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-2-02-planar_condensation",
+      "title": "长矩形储槽",
+      "driving_and_state": "平界面、气侧冷却",
+      "difference_and_coverage": "负质量通量",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-2-03-two_sided_heating",
+      "title": "矩形储槽",
+      "driving_and_state": "两端不同超热壁",
+      "difference_and_coverage": "完整显热/潜热焓跳跃",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-2-04-curved_evaporation",
+      "title": "方形储槽",
+      "driving_and_state": "弯曲界面和热壁",
+      "difference_and_coverage": "几何面积定义的质量率",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-2-05-offcentre_drop",
+      "title": "非正方储槽",
+      "driving_and_state": "偏心液滴和周围过热蒸气",
+      "difference_and_coverage": "非均匀界面热通量",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-2-06-vapour_pocket",
+      "title": "液体包围的气穴及储槽出口",
+      "driving_and_state": "冷液造成气穴收缩",
+      "difference_and_coverage": "冷凝及体积交换",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-2-07-two_interfaces",
+      "title": "分层长槽",
+      "driving_and_state": "中部液层、两侧蒸气",
+      "difference_and_coverage": "多个界面同时交换",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-2-08-gravity_exchange",
+      "title": "高储槽",
+      "driving_and_state": "重力与热驱动界面",
+      "difference_and_coverage": "体力和反冲竞争",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-2-09-wall_pulse",
+      "title": "矩形储槽",
+      "driving_and_state": "热壁升温后降温",
+      "difference_and_coverage": "蒸冷切换",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-2-10-obstacle_heat",
+      "title": "有固定障碍物的储槽",
+      "driving_and_state": "非均匀壁温、偏心液区",
+      "difference_and_coverage": "绕障与质量交换",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "匹配尖锐界面质量率、法向速度跳跃、反冲牵引和完整焓跳跃；Lee体积源不能替换"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "positive_and_negative_mass_transfer",
+      "assigned_design_ids": [
+        "ch02-2-7-2-01-planar_evaporation",
+        "ch02-2-7-2-02-planar_condensation"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "sensible_and_latent_enthalpy_jump",
+      "assigned_design_ids": [
+        "ch02-2-7-2-03-two_sided_heating"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "curved_and_offcentre_interfaces",
+      "assigned_design_ids": [
+        "ch02-2-7-2-04-curved_evaporation",
+        "ch02-2-7-2-05-offcentre_drop"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "vapour_pocket_condensation",
+      "assigned_design_ids": [
+        "ch02-2-7-2-06-vapour_pocket"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "multiple_interfaces",
+      "assigned_design_ids": [
+        "ch02-2-7-2-07-two_interfaces"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "gravity_and_recoil",
+      "assigned_design_ids": [
+        "ch02-2-7-2-08-gravity_exchange"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "evaporation_condensation_switch",
+      "assigned_design_ids": [
+        "ch02-2-7-2-09-wall_pulse"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "inner_boundary",
+      "assigned_design_ids": [
+        "ch02-2-7-2-10-obstacle_heat"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "normal_velocity_jump_and_recoil_traction",
+      "assigned_design_ids": [
+        "ch02-2-7-2-01-planar_evaporation",
+        "ch02-2-7-2-02-planar_condensation",
+        "ch02-2-7-2-03-two_sided_heating",
+        "ch02-2-7-2-04-curved_evaporation",
+        "ch02-2-7-2-05-offcentre_drop",
+        "ch02-2-7-2-06-vapour_pocket",
+        "ch02-2-7-2-07-two_interfaces",
+        "ch02-2-7-2-08-gravity_exchange",
+        "ch02-2-7-2-09-wall_pulse",
+        "ch02-2-7-2-10-obstacle_heat"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "interface_integral_to_cell_average_mass_rate",
+      "assigned_design_ids": [
+        "ch02-2-7-2-01-planar_evaporation",
+        "ch02-2-7-2-02-planar_condensation",
+        "ch02-2-7-2-03-two_sided_heating",
+        "ch02-2-7-2-04-curved_evaporation",
+        "ch02-2-7-2-05-offcentre_drop",
+        "ch02-2-7-2-06-vapour_pocket",
+        "ch02-2-7-2-07-two_interfaces",
+        "ch02-2-7-2-08-gravity_exchange",
+        "ch02-2-7-2-09-wall_pulse",
+        "ch02-2-7-2-10-obstacle_heat"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "unequal_phase_heat_capacities",
+      "assigned_design_ids": [
+        "ch02-2-7-2-03-two_sided_heating"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全局xy真实几何；按本题定义区分单位厚度与实际水平面积",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部域单元的面积/体积平均主字段；不把节点插值冒充单元平均",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "二维与三维按各题允许的一阶单元类型安排网格；时间、参数和字段不添加求解器私有输入",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

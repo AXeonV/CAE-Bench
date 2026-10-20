@@ -1,0 +1,377 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.2.6",
+  "task": "inviscid-compressible-transient-2d",
+  "question_path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-transient-2d",
+  "model": "fluid-energy-inviscid-laminar-transient-v1",
+  "family": "euler_transient",
+  "analysis_kind": "steady",
+  "document_sha256": {
+    "instruction.md": "fadb08c4bb66c88b3d188bfd07a33b1893da83c7eea321f200146b409631c1a8",
+    "DATA.md": "48846766c7cecd0c68f9e792299fccb81163f8b3b220a75fd40785d977995df1",
+    "author/grading-template.json": "74142e0de528db20d46a74781c4c9b26317c88578b4e3b8f24ccf2de749bd2d7"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-2-6-01-acoustic_mode",
+      "title": "封闭矩形盒",
+      "driving_and_state": "小幅平面声学压力扰动",
+      "difference_and_coverage": "线性极限",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-2-6-02-compression_pulse",
+      "title": "长封闭盒",
+      "driving_and_state": "有限幅平滑压缩脉冲",
+      "difference_and_coverage": "非线性压缩",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-2-6-03-rarefaction",
+      "title": "长封闭盒",
+      "driving_and_state": "无真空稀疏波初态",
+      "difference_and_coverage": "膨胀与熵可容许性",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-2-6-04-sod",
+      "title": "封闭长盒",
+      "driving_and_state": "Sod型分片初态，早于端壁反射取样",
+      "difference_and_coverage": "激波、接触与稀疏波",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-2-6-05-contact",
+      "title": "封闭长盒",
+      "driving_and_state": "等压静止密度接触面",
+      "difference_and_coverage": "接触间断保持",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-2-6-06-cross_acoustic",
+      "title": "方盒",
+      "driving_and_state": "相交的低幅声学扰动",
+      "difference_and_coverage": "多方向波传播",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-2-6-07-radial_blast",
+      "title": "方盒",
+      "driving_and_state": "中心高压区、静止初速度",
+      "difference_and_coverage": "圆柱/球面膨胀",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-2-6-08-offcentre_blast",
+      "title": "长宽不等的盒",
+      "driving_and_state": "偏心高压区",
+      "difference_and_coverage": "非对称壁面反射",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-2-6-09-gravity_adjustment",
+      "title": "高盒",
+      "driving_and_state": "均匀初态与分段线性加速度脉冲",
+      "difference_and_coverage": "时变体力调整中的能量转换",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-2-6-10-obstacle_reflection",
+      "title": "带方形障碍物的盒",
+      "driving_and_state": "低幅压力脉冲",
+      "difference_and_coverage": "绕射和封闭内边界",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "仅封闭滑移绝热壁；不得以开边界激波管直接替换"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "smooth_acoustics",
+      "assigned_design_ids": [
+        "ch02-2-2-6-01-acoustic_mode",
+        "ch02-2-2-6-06-cross_acoustic"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "nonlinear_compression_and_rarefaction",
+      "assigned_design_ids": [
+        "ch02-2-2-6-02-compression_pulse",
+        "ch02-2-2-6-03-rarefaction"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "shock_and_entropy_admissibility",
+      "assigned_design_ids": [
+        "ch02-2-2-6-04-sod",
+        "ch02-2-2-6-07-radial_blast"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "contact_discontinuity",
+      "assigned_design_ids": [
+        "ch02-2-2-6-04-sod",
+        "ch02-2-2-6-05-contact"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "multi_directional_waves",
+      "assigned_design_ids": [
+        "ch02-2-2-6-06-cross_acoustic",
+        "ch02-2-2-6-07-radial_blast",
+        "ch02-2-2-6-08-offcentre_blast"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "closed_wall_reflections",
+      "assigned_design_ids": [
+        "ch02-2-2-6-08-offcentre_blast",
+        "ch02-2-2-6-10-obstacle_reflection"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "body_force_and_energy_conversion",
+      "assigned_design_ids": [
+        "ch02-2-2-6-09-gravity_adjustment"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "inner_boundary",
+      "assigned_design_ids": [
+        "ch02-2-2-6-10-obstacle_reflection"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "all_four_primary_fields_at_multiple_physical_times",
+      "assigned_design_ids": [
+        "ch02-2-2-6-01-acoustic_mode",
+        "ch02-2-2-6-02-compression_pulse",
+        "ch02-2-2-6-03-rarefaction",
+        "ch02-2-2-6-04-sod",
+        "ch02-2-2-6-05-contact",
+        "ch02-2-2-6-06-cross_acoustic",
+        "ch02-2-2-6-07-radial_blast",
+        "ch02-2-2-6-08-offcentre_blast",
+        "ch02-2-2-6-09-gravity_adjustment",
+        "ch02-2-2-6-10-obstacle_reflection"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "time_varying_body_acceleration",
+      "assigned_design_ids": [
+        "ch02-2-2-6-09-gravity_adjustment"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全局xy真实几何；按本题定义区分单位厚度与实际水平面积",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部域单元的面积/体积平均主字段；不把节点插值冒充单元平均",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "二维与三维按各题允许的一阶单元类型安排网格；时间、参数和字段不添加求解器私有输入",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

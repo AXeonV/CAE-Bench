@@ -1,0 +1,381 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.7.3",
+  "task": "boiling-3d",
+  "question_path": "qbank/02-fluid-mechanics/2.7-phase-change-flow/boiling-3d",
+  "model": "fluid-multiphase-boiling-v1",
+  "family": "boiling",
+  "analysis_kind": "transient",
+  "document_sha256": {
+    "instruction.md": "65b4e49234101db75334b5f3f836a1ce729a455a81fbfddd8ce05147285b677c",
+    "DATA.md": "57de8502cc6eb49b89621d3c2feeaebcafcb5fd1705ef6647eafac163e140ad5",
+    "author/grading-template.json": "b44befb9c6ec90250039472c5387c62f04806c85051bbf4ae0f0c29ddba3018f"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-7-3-01-bulk_superheat",
+      "title": "开储槽盒",
+      "driving_and_state": "均匀过热纯液",
+      "difference_and_coverage": "允许纯液成核的Lee型体积率",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-3-02-bulk_condensation",
+      "title": "开储槽盒",
+      "driving_and_state": "亚冷两相混合物",
+      "difference_and_coverage": "体积冷凝",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-3-03-hot_bottom",
+      "title": "高储槽盒",
+      "driving_and_state": "底部热壁、上方压力储槽",
+      "difference_and_coverage": "壁面热扩散与膨胀",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-3-04-hot_side",
+      "title": "矩形储槽盒",
+      "driving_and_state": "侧热壁、显式重力",
+      "difference_and_coverage": "热前缘和体力耦合",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-3-05-superheated_patch",
+      "title": "立方储槽盒",
+      "driving_and_state": "局部过热温度团",
+      "difference_and_coverage": "空间非均匀成核",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-3-06-subcooled_patch",
+      "title": "立方储槽盒",
+      "driving_and_state": "局部亚冷温度团",
+      "difference_and_coverage": "空间非均匀冷凝",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-3-07-fraction_gradient",
+      "title": "深储槽盒",
+      "driving_and_state": "初始含率和温度梯度",
+      "difference_and_coverage": "共温混合焓与不同热容",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-3-08-pulse_heating",
+      "title": "矩形储槽盒",
+      "driving_and_state": "热壁升温再冷却",
+      "difference_and_coverage": "蒸发/冷凝反转",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-3-09-obstacle",
+      "title": "带方柱储槽盒",
+      "driving_and_state": "障碍物热壁",
+      "difference_and_coverage": "局部热流与体积率",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-3-10-reservoir_history",
+      "title": "宽储槽盒",
+      "driving_and_state": "储槽alpha随时间变化、内部热驱动",
+      "difference_and_coverage": "储槽来流状态与自然流出",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "匹配指定Lee型体积质量率、非零速度散度及混合焓；不使用壁面沸腾经验闭合"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "pure_liquid_bulk_nucleation",
+      "assigned_design_ids": [
+        "ch02-2-7-3-01-bulk_superheat"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "bulk_condensation",
+      "assigned_design_ids": [
+        "ch02-2-7-3-02-bulk_condensation"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "bottom_and_side_thermal_driving",
+      "assigned_design_ids": [
+        "ch02-2-7-3-03-hot_bottom",
+        "ch02-2-7-3-04-hot_side"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "localized_superheat_subcooling",
+      "assigned_design_ids": [
+        "ch02-2-7-3-05-superheated_patch",
+        "ch02-2-7-3-06-subcooled_patch"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "initial_fraction_and_temperature_variation",
+      "assigned_design_ids": [
+        "ch02-2-7-3-07-fraction_gradient"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "phase_change_reversal",
+      "assigned_design_ids": [
+        "ch02-2-7-3-08-pulse_heating"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "inner_thermal_boundary",
+      "assigned_design_ids": [
+        "ch02-2-7-3-09-obstacle"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "reservoir_backflow_phase_state",
+      "assigned_design_ids": [
+        "ch02-2-7-3-10-reservoir_history"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "divergence_from_phase_change_and_deviatoric_stress",
+      "assigned_design_ids": [
+        "ch02-2-7-3-01-bulk_superheat",
+        "ch02-2-7-3-02-bulk_condensation",
+        "ch02-2-7-3-03-hot_bottom",
+        "ch02-2-7-3-04-hot_side",
+        "ch02-2-7-3-05-superheated_patch",
+        "ch02-2-7-3-06-subcooled_patch",
+        "ch02-2-7-3-07-fraction_gradient",
+        "ch02-2-7-3-08-pulse_heating",
+        "ch02-2-7-3-09-obstacle",
+        "ch02-2-7-3-10-reservoir_history"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "complete_mixture_enthalpy_without_double_latent_source",
+      "assigned_design_ids": [
+        "ch02-2-7-3-01-bulk_superheat",
+        "ch02-2-7-3-02-bulk_condensation",
+        "ch02-2-7-3-03-hot_bottom",
+        "ch02-2-7-3-04-hot_side",
+        "ch02-2-7-3-05-superheated_patch",
+        "ch02-2-7-3-06-subcooled_patch",
+        "ch02-2-7-3-07-fraction_gradient",
+        "ch02-2-7-3-08-pulse_heating",
+        "ch02-2-7-3-09-obstacle",
+        "ch02-2-7-3-10-reservoir_history"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "真实几何网格、合法边界不重不漏；不把二维结果简单挤出充当三维响应",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部域单元的面积/体积平均主字段；不把节点插值冒充单元平均",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "二维与三维按各题允许的一阶单元类型安排网格；时间、参数和字段不添加求解器私有输入",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

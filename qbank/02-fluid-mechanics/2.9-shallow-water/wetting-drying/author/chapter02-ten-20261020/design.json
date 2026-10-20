@@ -1,0 +1,371 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.9.3",
+  "task": "wetting-drying",
+  "question_path": "qbank/02-fluid-mechanics/2.9-shallow-water/wetting-drying",
+  "model": "fluid-reduced-wetting-drying-v1",
+  "family": "wetdry",
+  "analysis_kind": "transient",
+  "document_sha256": {
+    "instruction.md": "9d97f1b79764e48ca4979651b83c8174c5485971599b4a2b08d346f424d7a7f5",
+    "DATA.md": "d4d660cdf24ff1ca31065328a82454f03bdfe71e39ad424d3182d20575416215",
+    "author/grading-template.json": "693bb2e3a39a86bfcbc2574eff49ff73a1c773faf20a3f85327455426817b54a"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-9-3-01-dry_dam",
+      "title": "长干床池",
+      "driving_and_state": "左侧水柱",
+      "difference_and_coverage": "干床推进",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-3-02-radial",
+      "title": "方干床池",
+      "driving_and_state": "中央水柱",
+      "difference_and_coverage": "多方向润湿",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-3-03-slope_runup",
+      "title": "斜坡池",
+      "driving_and_state": "低处水体向坡面推进",
+      "difference_and_coverage": "爬坡与回撤",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-3-04-hump_overtop",
+      "title": "带床丘水道",
+      "driving_and_state": "上游水柱释放",
+      "difference_and_coverage": "漫顶与背水干区",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-3-05-island",
+      "title": "有岛干床池",
+      "driving_and_state": "坝溃来流",
+      "difference_and_coverage": "绕岛分叉",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-3-06-two_fronts",
+      "title": "长干池",
+      "driving_and_state": "两端水柱释放",
+      "difference_and_coverage": "湿润前缘相撞",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-3-07-reservoir_flood",
+      "title": "开水道",
+      "driving_and_state": "储槽水深随时间上升",
+      "difference_and_coverage": "边界洪水入射",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-3-08-drainage",
+      "title": "含洼地的水道",
+      "driving_and_state": "湿初态、低位储槽排水",
+      "difference_and_coverage": "排水与残留水洼",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-3-09-friction_spread",
+      "title": "宽干床池",
+      "driving_and_state": "有线性摩擦的水柱释放",
+      "difference_and_coverage": "推进阻滞",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-3-10-compound_topography",
+      "title": "分叉水道",
+      "driving_and_state": "床台阶与坝溃",
+      "difference_and_coverage": "地形控制的分区干湿",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "干区严格按DATA定义；不把内部干湿阈值变成物理输入"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "initial_dry_bed",
+      "assigned_design_ids": [
+        "ch02-2-9-3-01-dry_dam",
+        "ch02-2-9-3-02-radial"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "runup_and_retreat",
+      "assigned_design_ids": [
+        "ch02-2-9-3-03-slope_runup"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "bed_obstacle_overtopping",
+      "assigned_design_ids": [
+        "ch02-2-9-3-04-hump_overtop"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "island_front_splitting",
+      "assigned_design_ids": [
+        "ch02-2-9-3-05-island"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "colliding_wetting_fronts",
+      "assigned_design_ids": [
+        "ch02-2-9-3-06-two_fronts"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "reservoir_flood_history",
+      "assigned_design_ids": [
+        "ch02-2-9-3-07-reservoir_flood"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "drainage_and_residual_pools",
+      "assigned_design_ids": [
+        "ch02-2-9-3-08-drainage"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "linear_drag",
+      "assigned_design_ids": [
+        "ch02-2-9-3-09-friction_spread"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "compound_bed_and_branching",
+      "assigned_design_ids": [
+        "ch02-2-9-3-10-compound_topography"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "dry_state_and_zero_velocity_observation_convention",
+      "assigned_design_ids": [
+        "ch02-2-9-3-01-dry_dam",
+        "ch02-2-9-3-02-radial",
+        "ch02-2-9-3-03-slope_runup",
+        "ch02-2-9-3-04-hump_overtop",
+        "ch02-2-9-3-05-island",
+        "ch02-2-9-3-06-two_fronts",
+        "ch02-2-9-3-07-reservoir_flood",
+        "ch02-2-9-3-08-drainage",
+        "ch02-2-9-3-09-friction_spread",
+        "ch02-2-9-3-10-compound_topography"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全局xy真实几何；按本题定义区分单位厚度与实际水平面积",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "一阶单纯形网格与节点分片线性输入；输出采用本题允许的真实节点子集，避开多迹或非唯一导数位置",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "整体量仅使用本题允许的aggregate/source；不制造带坐标的汇总探针",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

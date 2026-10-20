@@ -1,0 +1,386 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.10.1",
+  "task": "isothermal-slip",
+  "question_path": "qbank/02-fluid-mechanics/2.10-rarefied-gas/isothermal-slip",
+  "model": "fluid-reduced-isothermal-slip-v1",
+  "family": "slip_gas",
+  "analysis_kind": "steady",
+  "document_sha256": {
+    "instruction.md": "caa6df7e23cfc3eb3c517ba3f049adc2ce78f7296d3639c74a1becc5c2f151a5",
+    "DATA.md": "c9066afea5cfd10d335dd03407f82ed8e652e3c43fe968bd4fb339f2b9c50418",
+    "author/grading-template.json": "9f97b7e852fb3e368a2324ea50c9c5930313202bf983247dcc0b286b092951d3"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-10-1-01-pressure_channel",
+      "title": "微通道",
+      "driving_and_state": "储槽压差和静止滑移壁",
+      "difference_and_coverage": "稀薄滑移压力流",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-10-1-02-couette_channel",
+      "title": "微通道",
+      "driving_and_state": "一面移动滑移壁与储槽",
+      "difference_and_coverage": "稀薄剪切流",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-10-1-03-mixed_drive",
+      "title": "微通道",
+      "driving_and_state": "壁速与压差协同",
+      "difference_and_coverage": "混合驱动",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-10-1-04-opposing_drive",
+      "title": "微通道",
+      "driving_and_state": "壁速与压差相反",
+      "difference_and_coverage": "竞争流动",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-10-1-05-contraction",
+      "title": "收缩微通道",
+      "driving_and_state": "储槽驱动",
+      "difference_and_coverage": "截面变化与可压缩性",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-10-1-06-expansion",
+      "title": "扩张微通道",
+      "driving_and_state": "储槽驱动",
+      "difference_and_coverage": "扩张区稀薄效应",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-10-1-07-obstacle",
+      "title": "带障碍物微通道",
+      "driving_and_state": "储槽驱动",
+      "difference_and_coverage": "固体内边界",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-10-1-08-heated_or_isothermal_bend",
+      "title": "弯微通道",
+      "driving_and_state": "热滑移题含温差；等温题仅压差",
+      "difference_and_coverage": "转弯与壁面相互作用",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-10-1-09-asymmetric_wall",
+      "title": "微通道",
+      "driving_and_state": "不等速上下壁；热题另给不等壁温",
+      "difference_and_coverage": "非对称壁面驱动",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-10-1-10-network",
+      "title": "分支微通道",
+      "driving_and_state": "多个储槽条件",
+      "difference_and_coverage": "多开口质量分配",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "核对硬球mu(T)、等温/含热方程、Navier滑移及热跳跃；存在储槽开边界"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "pressure_and_couette_driving",
+      "assigned_design_ids": [
+        "ch02-2-10-1-01-pressure_channel",
+        "ch02-2-10-1-02-couette_channel"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "aiding_and_opposing_drive",
+      "assigned_design_ids": [
+        "ch02-2-10-1-03-mixed_drive",
+        "ch02-2-10-1-04-opposing_drive"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "geometry_contraction_expansion",
+      "assigned_design_ids": [
+        "ch02-2-10-1-05-contraction",
+        "ch02-2-10-1-06-expansion"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "inner_boundary",
+      "assigned_design_ids": [
+        "ch02-2-10-1-07-obstacle"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "curved_microchannel",
+      "assigned_design_ids": [
+        "ch02-2-10-1-08-heated_or_isothermal_bend"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "asymmetric_walls",
+      "assigned_design_ids": [
+        "ch02-2-10-1-09-asymmetric_wall"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "multiple_reservoirs",
+      "assigned_design_ids": [
+        "ch02-2-10-1-10-network"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "hard_sphere_viscosity_and_absolute_pressure",
+      "assigned_design_ids": [
+        "ch02-2-10-1-01-pressure_channel",
+        "ch02-2-10-1-02-couette_channel",
+        "ch02-2-10-1-03-mixed_drive",
+        "ch02-2-10-1-04-opposing_drive",
+        "ch02-2-10-1-05-contraction",
+        "ch02-2-10-1-06-expansion",
+        "ch02-2-10-1-07-obstacle",
+        "ch02-2-10-1-08-heated_or_isothermal_bend",
+        "ch02-2-10-1-09-asymmetric_wall",
+        "ch02-2-10-1-10-network"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "navier_slip_and_no_penetration",
+      "assigned_design_ids": [
+        "ch02-2-10-1-01-pressure_channel",
+        "ch02-2-10-1-02-couette_channel",
+        "ch02-2-10-1-03-mixed_drive",
+        "ch02-2-10-1-04-opposing_drive",
+        "ch02-2-10-1-05-contraction",
+        "ch02-2-10-1-06-expansion",
+        "ch02-2-10-1-07-obstacle",
+        "ch02-2-10-1-08-heated_or_isothermal_bend",
+        "ch02-2-10-1-09-asymmetric_wall",
+        "ch02-2-10-1-10-network"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "all_legal_wall_inlet_outlet_operators",
+      "assigned_design_ids": [
+        "ch02-2-10-1-01-pressure_channel",
+        "ch02-2-10-1-02-couette_channel",
+        "ch02-2-10-1-08-heated_or_isothermal_bend",
+        "ch02-2-10-1-09-asymmetric_wall",
+        "ch02-2-10-1-10-network"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全局xy真实几何；按本题定义区分单位厚度与实际水平面积",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "一阶单纯形网格与节点分片线性输入；输出采用本题允许的真实节点子集，避开多迹或非唯一导数位置",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "整体量仅使用本题允许的aggregate/source；不制造带坐标的汇总探针",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

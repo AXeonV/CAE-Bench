@@ -1,0 +1,385 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.11.4",
+  "task": "thermal-generalized-newtonian",
+  "question_path": "qbank/02-fluid-mechanics/2.11-memory-fluids/thermal-generalized-newtonian",
+  "model": "fluid-reduced-thermal-generalized-newtonian-v1",
+  "family": "thermal_generalized",
+  "analysis_kind": "transient",
+  "document_sha256": {
+    "instruction.md": "114b98218768a88e5332da545523d48ac32db7dff8341bdf4a30c44010227895",
+    "DATA.md": "81d3e256a8ffabde1076b23201d66311c3068ceb0ee721c6ddd66a2437ea4952",
+    "author/grading-template.json": "7f69d43dec90861a361bb025d35ed2c975c2759153af741ebf6dbe1f559afd12"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-11-4-01-heated_lid",
+      "title": "立方腔",
+      "driving_and_state": "Carreau温移流体、顶壁驱动和壁面温差",
+      "difference_and_coverage": "温黏剪切耦合",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-4-02-deep_cavity",
+      "title": "高深腔",
+      "driving_and_state": "顶壁驱动、冷却壁",
+      "difference_and_coverage": "不同热扩散与回流尺度",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-4-03-opposed_lids",
+      "title": "矩形腔",
+      "driving_and_state": "上下反向壁、两壁同温",
+      "difference_and_coverage": "剪切发热与黏度反馈",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-4-04-heated_inlet_outlet",
+      "title": "矩形通道",
+      "driving_and_state": "给定速度及温度入口、完整牵引出口、侧壁定温",
+      "difference_and_coverage": "机械开边界与所有边界Dirichlet温度闭合",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-4-05-orthogonal",
+      "title": "立方腔",
+      "driving_and_state": "顶壁沿x、侧壁沿z驱动",
+      "difference_and_coverage": "真实三维温度与速度耦合",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-4-06-heated_obstacle",
+      "title": "偏心方柱腔",
+      "driving_and_state": "外顶壁运动、内柱定温",
+      "difference_and_coverage": "内部热边界与非线性流变",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-4-07-thermal_patch",
+      "title": "宽腔",
+      "driving_and_state": "顶壁运动、局部高温壁区",
+      "difference_and_coverage": "温度空间非均匀",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-4-08-viscous_heating",
+      "title": "薄深腔",
+      "driving_and_state": "反向不等速壁、全部壁面定温",
+      "difference_and_coverage": "有限剪切耗散",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-4-09-wall_pulse",
+      "title": "立方腔",
+      "driving_and_state": "机械驱动保持、壁温脉冲",
+      "difference_and_coverage": "非定常温移响应",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-4-10-flow_reversal",
+      "title": "非对称腔",
+      "driving_and_state": "壁速反转和冷热壁",
+      "difference_and_coverage": "剪切率变化与热滞后",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "按DATA的指数温移Carreau律；不沿用2.2幂律温度模型",
+    "本题无Boussinesq温胀；工况中的热对流仅由机械驱动产生"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "temperature_shifted_carreau_not_power_law_T",
+      "assigned_design_ids": [
+        "ch02-2-11-4-01-heated_lid",
+        "ch02-2-11-4-02-deep_cavity"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "shear_dissipation_and_temperature_feedback",
+      "assigned_design_ids": [
+        "ch02-2-11-4-03-opposed_lids",
+        "ch02-2-11-4-08-viscous_heating"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "multiple_mechanical_and_thermal_partitions",
+      "assigned_design_ids": [
+        "ch02-2-11-4-04-heated_inlet_outlet",
+        "ch02-2-11-4-07-thermal_patch"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "fully_3d_cross_wall_motion",
+      "assigned_design_ids": [
+        "ch02-2-11-4-05-orthogonal"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "inner_thermal_boundary",
+      "assigned_design_ids": [
+        "ch02-2-11-4-06-heated_obstacle"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "temperature_history_and_reversal",
+      "assigned_design_ids": [
+        "ch02-2-11-4-09-wall_pulse",
+        "ch02-2-11-4-10-flow_reversal"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "velocity_inlet_full_traction_outlet_and_thermal_dirichlet",
+      "assigned_design_ids": [
+        "ch02-2-11-4-04-heated_inlet_outlet"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "no_boussinesq_expansion_or_undeclared_heat_source",
+      "assigned_design_ids": [
+        "ch02-2-11-4-01-heated_lid",
+        "ch02-2-11-4-02-deep_cavity",
+        "ch02-2-11-4-03-opposed_lids",
+        "ch02-2-11-4-04-heated_inlet_outlet",
+        "ch02-2-11-4-05-orthogonal",
+        "ch02-2-11-4-06-heated_obstacle",
+        "ch02-2-11-4-07-thermal_patch",
+        "ch02-2-11-4-08-viscous_heating",
+        "ch02-2-11-4-09-wall_pulse",
+        "ch02-2-11-4-10-flow_reversal"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "all_dirichlet_thermal_boundaries_and_pressure_gauge",
+      "assigned_design_ids": [
+        "ch02-2-11-4-01-heated_lid",
+        "ch02-2-11-4-02-deep_cavity",
+        "ch02-2-11-4-03-opposed_lids",
+        "ch02-2-11-4-04-heated_inlet_outlet",
+        "ch02-2-11-4-05-orthogonal",
+        "ch02-2-11-4-06-heated_obstacle",
+        "ch02-2-11-4-07-thermal_patch",
+        "ch02-2-11-4-08-viscous_heating",
+        "ch02-2-11-4-09-wall_pulse",
+        "ch02-2-11-4-10-flow_reversal"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "carreau_plateau_transition_not_only_single_effective_mu",
+      "assigned_design_ids": [
+        "ch02-2-11-4-03-opposed_lids",
+        "ch02-2-11-4-08-viscous_heating"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "真实几何网格、合法边界不重不漏；不把二维结果简单挤出充当三维响应",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "一阶单纯形网格与节点分片线性输入；输出采用本题允许的真实节点子集，避开多迹或非唯一导数位置",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "整体量仅使用本题允许的aggregate/source；不制造带坐标的汇总探针",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

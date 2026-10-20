@@ -1,0 +1,364 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.8.3",
+  "task": "thermal-film",
+  "question_path": "qbank/02-fluid-mechanics/2.8-thin-film/thermal-film",
+  "model": "fluid-reduced-thermal-film-v1",
+  "family": "thermal_film",
+  "analysis_kind": "transient",
+  "document_sha256": {
+    "instruction.md": "8bcdfa7e8f605be46418c50c8535ae28dbe3a26b563e85fe8e07a1b460386031",
+    "DATA.md": "79dabe3419e891f62fc7386537c2c92a5fba90a7a1f519a152ae730b1da86dd4",
+    "author/grading-template.json": "d7efc80dd87aa0eb12356e87ea5cf41f738a9be62d0146d9578ebabf89a68195"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-8-3-01-heated_wedge",
+      "title": "收敛楔形面积",
+      "driving_and_state": "滑动壁和均匀壁温",
+      "difference_and_coverage": "压力流耗散与剪切耗散",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-8-3-02-couette_heating",
+      "title": "定间隙矩形面积",
+      "driving_and_state": "上下壁反向运动",
+      "difference_and_coverage": "纯剪切升温与散热",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-8-3-03-pressure_heating",
+      "title": "定间隙矩形面积",
+      "driving_and_state": "侧边压差、零壁速",
+      "difference_and_coverage": "压力流耗散",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-8-3-04-squeeze_heating",
+      "title": "矩形面积",
+      "driving_and_state": "间隙线性压缩",
+      "difference_and_coverage": "挤压功率与温度响应",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-8-3-05-hot_wall_patch",
+      "title": "矩形面积",
+      "driving_and_state": "局部壁温热斑和滑动",
+      "difference_and_coverage": "跨隙均温闭合的局部换热",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-8-3-06-weak_cooling",
+      "title": "宽楔形面积",
+      "driving_and_state": "弱壁面换热",
+      "difference_and_coverage": "热输运占优",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-8-3-07-strong_cooling",
+      "title": "短楔形面积",
+      "driving_and_state": "强壁面换热",
+      "difference_and_coverage": "壁温约束占优",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-8-3-08-temperature_feedback",
+      "title": "双向楔形面积",
+      "driving_and_state": "温黏系数非零、斜向滑动",
+      "difference_and_coverage": "温黏压力反馈",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-8-3-09-wall_pulse",
+      "title": "矩形面积",
+      "driving_and_state": "壁温脉冲和恒定滑动",
+      "difference_and_coverage": "非定常热滞后",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-8-3-10-inner_feed",
+      "title": "带内孔面积",
+      "driving_and_state": "内孔高压供液和冷却边界",
+      "difference_and_coverage": "热压耦合与多连通域",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "匹配跨隙均温能量、两项耗散和2H壁换热，不用跨隙热模型替代"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "pressure_and_shear_dissipation",
+      "assigned_design_ids": [
+        "ch02-2-8-3-01-heated_wedge",
+        "ch02-2-8-3-02-couette_heating",
+        "ch02-2-8-3-03-pressure_heating"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "squeeze_term",
+      "assigned_design_ids": [
+        "ch02-2-8-3-04-squeeze_heating"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "spatial_wall_temperature",
+      "assigned_design_ids": [
+        "ch02-2-8-3-05-hot_wall_patch"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "weak_strong_two_wall_heat_exchange",
+      "assigned_design_ids": [
+        "ch02-2-8-3-06-weak_cooling",
+        "ch02-2-8-3-07-strong_cooling"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "exponential_temperature_viscosity_feedback",
+      "assigned_design_ids": [
+        "ch02-2-8-3-08-temperature_feedback"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "wall_thermal_history",
+      "assigned_design_ids": [
+        "ch02-2-8-3-09-wall_pulse"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "inner_pressure_and_temperature_boundary",
+      "assigned_design_ids": [
+        "ch02-2-8-3-10-inner_feed"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "cross_gap_uniform_temperature_closure",
+      "assigned_design_ids": [
+        "ch02-2-8-3-01-heated_wedge",
+        "ch02-2-8-3-02-couette_heating",
+        "ch02-2-8-3-03-pressure_heating",
+        "ch02-2-8-3-04-squeeze_heating",
+        "ch02-2-8-3-05-hot_wall_patch",
+        "ch02-2-8-3-06-weak_cooling",
+        "ch02-2-8-3-07-strong_cooling",
+        "ch02-2-8-3-08-temperature_feedback",
+        "ch02-2-8-3-09-wall_pulse",
+        "ch02-2-8-3-10-inner_feed"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "side_dirichlet_temperature_including_outflow",
+      "assigned_design_ids": [
+        "ch02-2-8-3-01-heated_wedge",
+        "ch02-2-8-3-02-couette_heating",
+        "ch02-2-8-3-03-pressure_heating",
+        "ch02-2-8-3-04-squeeze_heating",
+        "ch02-2-8-3-05-hot_wall_patch",
+        "ch02-2-8-3-06-weak_cooling",
+        "ch02-2-8-3-07-strong_cooling",
+        "ch02-2-8-3-08-temperature_feedback",
+        "ch02-2-8-3-09-wall_pulse",
+        "ch02-2-8-3-10-inner_feed"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全局xy真实几何；按本题定义区分单位厚度与实际水平面积",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "一阶单纯形网格与节点分片线性输入；输出采用本题允许的真实节点子集，避开多迹或非唯一导数位置",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "整体量仅使用本题允许的aggregate/source；不制造带坐标的汇总探针",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

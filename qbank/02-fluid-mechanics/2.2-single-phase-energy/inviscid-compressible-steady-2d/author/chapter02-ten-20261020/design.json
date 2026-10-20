@@ -1,0 +1,376 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.2.5",
+  "task": "inviscid-compressible-steady-2d",
+  "question_path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-steady-2d",
+  "model": "fluid-energy-inviscid-laminar-steady-v1",
+  "family": "euler_equilibrium",
+  "analysis_kind": "steady",
+  "document_sha256": {
+    "instruction.md": "b2b11c00179e24962d863f7c4da52f639aca094a204ace461d08a62f62830a09",
+    "DATA.md": "b2397173bb1bf60c77a9971b6ff5b9930fde219f15202b32cc3f059695dbcc3e",
+    "author/grading-template.json": "74142e0de528db20d46a74781c4c9b26317c88578b4e3b8f24ccf2de749bd2d7"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-2-5-01-vertical_gravity",
+      "title": "方盒",
+      "driving_and_state": "均匀竖直保守加速度",
+      "difference_and_coverage": "等熵静水与总体质量",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-2-5-02-horizontal_gravity",
+      "title": "宽盒",
+      "driving_and_state": "均匀水平保守加速度",
+      "difference_and_coverage": "不同几何质量归一化；不是旋转复制",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-2-5-03-oblique_gravity",
+      "title": "非正方矩形盒",
+      "driving_and_state": "斜向保守加速度",
+      "difference_and_coverage": "双向温度及密度梯度",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-2-5-04-deep_column",
+      "title": "深柱盒",
+      "driving_and_state": "竖直保守加速度",
+      "difference_and_coverage": "可观分层和温度范围限制",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ],
+      "entropy_inventory_design": "独立指定等熵参考密度与总体平均密度，不将两者设为隐含同值；二者连同保守势和温度范围一起冻结。"
+    },
+    {
+      "design_id": "ch02-2-2-5-05-quadratic_potential",
+      "title": "方盒",
+      "driving_and_state": "二次势的线性回复加速度",
+      "difference_and_coverage": "非均匀保守体力",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-2-5-06-anisotropic_potential",
+      "title": "矩形盒",
+      "driving_and_state": "不同方向刚度的二次势",
+      "difference_and_coverage": "各向异性势能与质量约束",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-2-5-07-offcentre_well",
+      "title": "带偏心方孔的盒",
+      "driving_and_state": "偏心二次势",
+      "difference_and_coverage": "内孔域上的质量积分",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-2-5-08-piecewise_potential",
+      "title": "长盒",
+      "driving_and_state": "连续分片线性势",
+      "difference_and_coverage": "契约分片输入的静水重建",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-2-5-09-double_well",
+      "title": "宽盒",
+      "driving_and_state": "双阱光滑保守势的采样",
+      "difference_and_coverage": "多个密度峰而非自由环流",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-2-5-10-multiaxis_well",
+      "title": "非对称盒",
+      "driving_and_state": "含交叉项的正定二次势",
+      "difference_and_coverage": "耦合多方向静水平衡",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ],
+      "entropy_inventory_design": "独立指定等熵参考密度与总体平均密度，不将两者设为隐含同值；二者连同保守势和温度范围一起冻结。"
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "只允许等熵u=0平衡；采样体力必须保持保守，不能通过任意采样引入旋度"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "strictly_zero_velocity_isentropic_branch",
+      "assigned_design_ids": [
+        "ch02-2-2-5-01-vertical_gravity",
+        "ch02-2-2-5-02-horizontal_gravity",
+        "ch02-2-2-5-03-oblique_gravity",
+        "ch02-2-2-5-04-deep_column",
+        "ch02-2-2-5-05-quadratic_potential",
+        "ch02-2-2-5-06-anisotropic_potential",
+        "ch02-2-2-5-07-offcentre_well",
+        "ch02-2-2-5-08-piecewise_potential",
+        "ch02-2-2-5-09-double_well",
+        "ch02-2-2-5-10-multiaxis_well"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "constant_conservative_acceleration",
+      "assigned_design_ids": [
+        "ch02-2-2-5-01-vertical_gravity",
+        "ch02-2-2-5-02-horizontal_gravity",
+        "ch02-2-2-5-03-oblique_gravity",
+        "ch02-2-2-5-04-deep_column"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "spatially_varying_conservative_acceleration",
+      "assigned_design_ids": [
+        "ch02-2-2-5-05-quadratic_potential",
+        "ch02-2-2-5-06-anisotropic_potential",
+        "ch02-2-2-5-07-offcentre_well",
+        "ch02-2-2-5-08-piecewise_potential",
+        "ch02-2-2-5-09-double_well",
+        "ch02-2-2-5-10-multiaxis_well"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "geometry_dependent_total_mass_constraint",
+      "assigned_design_ids": [
+        "ch02-2-2-5-04-deep_column",
+        "ch02-2-2-5-07-offcentre_well"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "closed_slip_adiabatic_boundaries",
+      "assigned_design_ids": [
+        "ch02-2-2-5-01-vertical_gravity",
+        "ch02-2-2-5-02-horizontal_gravity",
+        "ch02-2-2-5-03-oblique_gravity",
+        "ch02-2-2-5-04-deep_column",
+        "ch02-2-2-5-05-quadratic_potential",
+        "ch02-2-2-5-06-anisotropic_potential",
+        "ch02-2-2-5-07-offcentre_well",
+        "ch02-2-2-5-08-piecewise_potential",
+        "ch02-2-2-5-09-double_well",
+        "ch02-2-2-5-10-multiaxis_well"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "positive_state_and_temperature_bounds",
+      "assigned_design_ids": [
+        "ch02-2-2-5-01-vertical_gravity",
+        "ch02-2-2-5-02-horizontal_gravity",
+        "ch02-2-2-5-03-oblique_gravity",
+        "ch02-2-2-5-04-deep_column",
+        "ch02-2-2-5-05-quadratic_potential",
+        "ch02-2-2-5-06-anisotropic_potential",
+        "ch02-2-2-5-07-offcentre_well",
+        "ch02-2-2-5-08-piecewise_potential",
+        "ch02-2-2-5-09-double_well",
+        "ch02-2-2-5-10-multiaxis_well"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "independent_entropy_parameter_and_mean_density",
+      "assigned_design_ids": [
+        "ch02-2-2-5-04-deep_column",
+        "ch02-2-2-5-10-multiaxis_well"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全局xy真实几何；按本题定义区分单位厚度与实际水平面积",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部域单元的面积/体积平均主字段；不把节点插值冒充单元平均",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "二维与三维按各题允许的一阶单元类型安排网格；时间、参数和字段不添加求解器私有输入",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

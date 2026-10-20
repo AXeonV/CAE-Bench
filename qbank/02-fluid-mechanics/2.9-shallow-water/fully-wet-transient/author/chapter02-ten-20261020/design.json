@@ -1,0 +1,367 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.9.2",
+  "task": "fully-wet-transient",
+  "question_path": "qbank/02-fluid-mechanics/2.9-shallow-water/fully-wet-transient",
+  "model": "fluid-reduced-fully-wet-transient-v1",
+  "family": "shallow_transient",
+  "analysis_kind": "steady",
+  "document_sha256": {
+    "instruction.md": "5f41d4c6f06bac59af395f50d4a3693785a44c6eb4e92f17eacaa15233fcb80a",
+    "DATA.md": "f5adf3dcb4a95af4da1b64bf2c33f2fd45cacd52e14288a35f325d61ff4d60b5",
+    "author/grading-template.json": "693bb2e3a39a86bfcbc2574eff49ff73a1c773faf20a3f85327455426817b54a"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-9-2-01-gaussian_hump",
+      "title": "封闭方池",
+      "driving_and_state": "低幅水深隆起",
+      "difference_and_coverage": "全湿重力波",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-2-02-wet_dam",
+      "title": "长池",
+      "driving_and_state": "两侧均正水深的坝溃初态",
+      "difference_and_coverage": "激波与稀疏波",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-2-03-radial_release",
+      "title": "方池",
+      "driving_and_state": "中心高水深圆区",
+      "difference_and_coverage": "多方向波前",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-2-04-sloshing",
+      "title": "长池",
+      "driving_and_state": "倾斜自由水面",
+      "difference_and_coverage": "反射与振荡",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-2-05-bed_bump",
+      "title": "含床丘的池",
+      "driving_and_state": "水位扰动",
+      "difference_and_coverage": "地形与重力波",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-2-06-obstacle_wave",
+      "title": "有岛池",
+      "driving_and_state": "入射水深脉冲",
+      "difference_and_coverage": "绕射",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-2-07-cross_waves",
+      "title": "方池",
+      "driving_and_state": "两个垂直方向水深脉冲",
+      "difference_and_coverage": "波相互作用",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-2-08-friction_decay",
+      "title": "长池",
+      "driving_and_state": "相容速度扰动、线性摩擦",
+      "difference_and_coverage": "动量耗散",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-2-09-reservoir_pulse",
+      "title": "开水道",
+      "driving_and_state": "储槽水深分段线性历史",
+      "difference_and_coverage": "特征入射",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-2-10-uneven_bed",
+      "title": "非对称池",
+      "driving_and_state": "非平床、非均匀水深初态",
+      "difference_and_coverage": "全湿正性与床源项",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "全湿、线性摩擦、节点点值与有限体积均值需明确转换"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "smooth_gravity_waves",
+      "assigned_design_ids": [
+        "ch02-2-9-2-01-gaussian_hump",
+        "ch02-2-9-2-04-sloshing"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "wet_bed_shock_rarefaction",
+      "assigned_design_ids": [
+        "ch02-2-9-2-02-wet_dam"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "radial_and_crossing_waves",
+      "assigned_design_ids": [
+        "ch02-2-9-2-03-radial_release",
+        "ch02-2-9-2-07-cross_waves"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "nonflat_bed_source",
+      "assigned_design_ids": [
+        "ch02-2-9-2-05-bed_bump",
+        "ch02-2-9-2-10-uneven_bed"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "island_diffraction",
+      "assigned_design_ids": [
+        "ch02-2-9-2-06-obstacle_wave"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "linear_drag_decay",
+      "assigned_design_ids": [
+        "ch02-2-9-2-08-friction_decay"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "reservoir_history",
+      "assigned_design_ids": [
+        "ch02-2-9-2-09-reservoir_pulse"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "positive_depth_and_entropy_weak_solution",
+      "assigned_design_ids": [
+        "ch02-2-9-2-02-wet_dam",
+        "ch02-2-9-2-03-radial_release",
+        "ch02-2-9-2-07-cross_waves"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "depth_velocity_and_volume_integral",
+      "assigned_design_ids": [
+        "ch02-2-9-2-01-gaussian_hump",
+        "ch02-2-9-2-02-wet_dam",
+        "ch02-2-9-2-03-radial_release",
+        "ch02-2-9-2-04-sloshing",
+        "ch02-2-9-2-05-bed_bump",
+        "ch02-2-9-2-06-obstacle_wave",
+        "ch02-2-9-2-07-cross_waves",
+        "ch02-2-9-2-08-friction_decay",
+        "ch02-2-9-2-09-reservoir_pulse",
+        "ch02-2-9-2-10-uneven_bed"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全局xy真实几何；按本题定义区分单位厚度与实际水平面积",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "一阶单纯形网格与节点分片线性输入；输出采用本题允许的真实节点子集，避开多迹或非唯一导数位置",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "整体量仅使用本题允许的aggregate/source；不制造带坐标的汇总探针",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

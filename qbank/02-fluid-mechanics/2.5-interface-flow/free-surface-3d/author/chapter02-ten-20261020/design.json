@@ -1,0 +1,390 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.5.2",
+  "task": "free-surface-3d",
+  "question_path": "qbank/02-fluid-mechanics/2.5-interface-flow/free-surface-3d",
+  "model": "fluid-multiphase-free-surface-v1",
+  "family": "free_surface",
+  "analysis_kind": "transient",
+  "document_sha256": {
+    "instruction.md": "6ef2ca302bf4fbde8cbd100f9d398fae759a581c23a0fa80522ca5a6db059293",
+    "DATA.md": "4dcb7ec073214f736106359507939ef98b59264409ca87d3525ed3609d68f2f4",
+    "author/grading-template.json": "1cce7f09c4e4ad72e5d4e51cc6f597caffe579bfc27477360cf143df6e7b8083"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-5-2-01-dam_break",
+      "title": "矩形水箱",
+      "driving_and_state": "左侧水柱、静止初态、重力",
+      "difference_and_coverage": "干床推进",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-5-2-02-wet_dam_break",
+      "title": "矩形水箱",
+      "driving_and_state": "左水柱加下游浅水",
+      "difference_and_coverage": "湿床碰撞",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-5-2-03-sloshing",
+      "title": "长水箱",
+      "driving_and_state": "倾斜初始液面",
+      "difference_and_coverage": "自由液面重力振荡",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-5-2-04-local_mound",
+      "title": "方水箱",
+      "driving_and_state": "中心液面隆起",
+      "difference_and_coverage": "多方向重力波",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-5-2-05-asymmetric_mound",
+      "title": "矩形水箱",
+      "driving_and_state": "偏心隆起",
+      "difference_and_coverage": "非对称波反射",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-5-2-06-obstacle_break",
+      "title": "带偏心方柱水箱",
+      "driving_and_state": "水柱释放",
+      "difference_and_coverage": "绕障分流和回合",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-5-2-07-two_columns",
+      "title": "长水箱",
+      "driving_and_state": "两端水柱向中心释放",
+      "difference_and_coverage": "对撞液面",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-5-2-08-step_bed",
+      "title": "有固定台阶的水箱",
+      "driving_and_state": "局部高液面",
+      "difference_and_coverage": "地形控制的推进",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-5-2-09-viscous_collapse",
+      "title": "宽水箱",
+      "driving_and_state": "高黏液柱释放，液体内部另给远离壁面/界面的紧支撑散度零涡初态",
+      "difference_and_coverage": "黏性铺展和非零物理初态；不通过投影偷改初态",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-5-2-10-multi_basin",
+      "title": "由窄颈连接的两池",
+      "driving_and_state": "两池不同液位",
+      "difference_and_coverage": "几何限制的液位交换",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "basilisk",
+          "openfoam"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "必须是一流体自由表面；有小但非零气体密度/黏度的两流体近似不是精确相同工况"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "dry_and_wet_downstream",
+      "assigned_design_ids": [
+        "ch02-2-5-2-01-dam_break",
+        "ch02-2-5-2-02-wet_dam_break"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "free_surface_oscillation",
+      "assigned_design_ids": [
+        "ch02-2-5-2-03-sloshing",
+        "ch02-2-5-2-04-local_mound"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "multi_directional_and_asymmetric_motion",
+      "assigned_design_ids": [
+        "ch02-2-5-2-04-local_mound",
+        "ch02-2-5-2-05-asymmetric_mound"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "inner_fixed_boundaries",
+      "assigned_design_ids": [
+        "ch02-2-5-2-06-obstacle_break"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "interacting_fronts",
+      "assigned_design_ids": [
+        "ch02-2-5-2-07-two_columns"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "bed_step_geometry",
+      "assigned_design_ids": [
+        "ch02-2-5-2-08-step_bed"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "viscosity_dominated_motion",
+      "assigned_design_ids": [
+        "ch02-2-5-2-09-viscous_collapse"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "connected_multibasin_geometry",
+      "assigned_design_ids": [
+        "ch02-2-5-2-10-multi_basin"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "liquid_only_dynamics_and_zero_gas_velocity_extension",
+      "assigned_design_ids": [
+        "ch02-2-5-2-01-dam_break",
+        "ch02-2-5-2-02-wet_dam_break",
+        "ch02-2-5-2-03-sloshing",
+        "ch02-2-5-2-04-local_mound",
+        "ch02-2-5-2-05-asymmetric_mound",
+        "ch02-2-5-2-06-obstacle_break",
+        "ch02-2-5-2-07-two_columns",
+        "ch02-2-5-2-08-step_bed",
+        "ch02-2-5-2-09-viscous_collapse",
+        "ch02-2-5-2-10-multi_basin"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "alpha_and_extended_velocity_pressure_true_cell_average",
+      "assigned_design_ids": [
+        "ch02-2-5-2-01-dam_break",
+        "ch02-2-5-2-02-wet_dam_break",
+        "ch02-2-5-2-03-sloshing",
+        "ch02-2-5-2-04-local_mound",
+        "ch02-2-5-2-05-asymmetric_mound",
+        "ch02-2-5-2-06-obstacle_break",
+        "ch02-2-5-2-07-two_columns",
+        "ch02-2-5-2-08-step_bed",
+        "ch02-2-5-2-09-viscous_collapse",
+        "ch02-2-5-2-10-multi_basin"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "nonzero_compatible_initial_velocity",
+      "assigned_design_ids": [
+        "ch02-2-5-2-09-viscous_collapse"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "真实几何网格、合法边界不重不漏；不把二维结果简单挤出充当三维响应",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部域单元的面积/体积平均主字段；不把节点插值冒充单元平均",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "二维与三维按各题允许的一阶单元类型安排网格；时间、参数和字段不添加求解器私有输入",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

@@ -1,0 +1,372 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.8.2",
+  "task": "gas-film",
+  "question_path": "qbank/02-fluid-mechanics/2.8-thin-film/gas-film",
+  "model": "fluid-reduced-gas-film-v1",
+  "family": "gas_film",
+  "analysis_kind": "transient",
+  "document_sha256": {
+    "instruction.md": "3a10c395efde340f0a8d717b8d1f64e660359a5732d94906fce2f00eaa87246b",
+    "DATA.md": "b10037e6696aa34b4922d2039082b5225fe0dd0a76e2c2bb7afcc80fca45eeb6",
+    "author/grading-template.json": "41fd9cf1dce28fec20334e924b6d266f2cb1b92fc7386b6f6b187f67b3c60d68"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-8-2-01-squeeze",
+      "title": "矩形面积",
+      "driving_and_state": "均匀间隙线性减小",
+      "difference_and_coverage": "可压缩挤压",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-8-2-02-separation",
+      "title": "矩形面积",
+      "driving_and_state": "均匀间隙线性增大",
+      "difference_and_coverage": "气膜稀释",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-8-2-03-wedge_start",
+      "title": "收敛楔形面积",
+      "driving_and_state": "壁速从零启动",
+      "difference_and_coverage": "剪切泵送瞬态",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-8-2-04-pressure_pulse",
+      "title": "矩形面积",
+      "driving_and_state": "侧边压力脉冲、恒定间隙",
+      "difference_and_coverage": "压力扩散",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-8-2-05-tilt_squeeze",
+      "title": "矩形面积",
+      "driving_and_state": "倾斜间隙并挤压",
+      "difference_and_coverage": "空间与时间间隙变化",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-8-2-06-local_dimple",
+      "title": "带局部凹坑的面积",
+      "driving_and_state": "滑动壁和可压缩初压",
+      "difference_and_coverage": "二维纹理气膜",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-8-2-07-oblique_slide",
+      "title": "非正方面积",
+      "driving_and_state": "双向间隙梯度和斜向壁速",
+      "difference_and_coverage": "二维气体通量",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-8-2-08-two_wall_drive",
+      "title": "矩形面积",
+      "driving_and_state": "上下壁不同速度历史",
+      "difference_and_coverage": "时变剪切泵送",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-8-2-09-inner_feed",
+      "title": "带内孔的面积",
+      "driving_and_state": "内孔供气、四周环境压",
+      "difference_and_coverage": "多连通供气",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-8-2-10-squeeze_release",
+      "title": "矩形面积",
+      "driving_and_state": "先挤压再分离",
+      "difference_and_coverage": "压缩/恢复历史",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "必须是可压缩Reynolds薄膜模型而非完整Navier–Stokes近似"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "squeeze_and_separation",
+      "assigned_design_ids": [
+        "ch02-2-8-2-01-squeeze",
+        "ch02-2-8-2-02-separation"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "wall_driven_transient_pumping",
+      "assigned_design_ids": [
+        "ch02-2-8-2-03-wedge_start"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "boundary_pressure_history",
+      "assigned_design_ids": [
+        "ch02-2-8-2-04-pressure_pulse"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "spatiotemporal_gap",
+      "assigned_design_ids": [
+        "ch02-2-8-2-05-tilt_squeeze"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "spatial_texture",
+      "assigned_design_ids": [
+        "ch02-2-8-2-06-local_dimple"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "two_dimensional_vector_flux",
+      "assigned_design_ids": [
+        "ch02-2-8-2-07-oblique_slide"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "independent_wall_velocity_histories",
+      "assigned_design_ids": [
+        "ch02-2-8-2-08-two_wall_drive"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "inner_pressure_boundary",
+      "assigned_design_ids": [
+        "ch02-2-8-2-09-inner_feed"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "squeeze_release_switch",
+      "assigned_design_ids": [
+        "ch02-2-8-2-10-squeeze_release"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "isothermal_density_pressure_coupling",
+      "assigned_design_ids": [
+        "ch02-2-8-2-01-squeeze",
+        "ch02-2-8-2-02-separation",
+        "ch02-2-8-2-03-wedge_start",
+        "ch02-2-8-2-04-pressure_pulse",
+        "ch02-2-8-2-05-tilt_squeeze",
+        "ch02-2-8-2-06-local_dimple",
+        "ch02-2-8-2-07-oblique_slide",
+        "ch02-2-8-2-08-two_wall_drive",
+        "ch02-2-8-2-09-inner_feed",
+        "ch02-2-8-2-10-squeeze_release"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "one_sided_gap_time_derivative_at_knots",
+      "assigned_design_ids": [
+        "ch02-2-8-2-01-squeeze",
+        "ch02-2-8-2-02-separation",
+        "ch02-2-8-2-05-tilt_squeeze",
+        "ch02-2-8-2-10-squeeze_release"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全局xy真实几何；按本题定义区分单位厚度与实际水平面积",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "一阶单纯形网格与节点分片线性输入；输出采用本题允许的真实节点子集，避开多迹或非唯一导数位置",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "整体量仅使用本题允许的aggregate/source；不制造带坐标的汇总探针",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

@@ -1,0 +1,684 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "base_git_commit": "1740d71a86bcb9260b3b3fdde7feb6ab28ed2735",
+  "branch": "cases/chapter-02-ten-reference-candidates",
+  "excluded_questions": [
+    "2.1.1",
+    "2.1.3"
+  ],
+  "hf_read_revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+  "scope": {
+    "questions": 63,
+    "scenario_proposals": 630,
+    "numerically_specified": 6,
+    "computed": 0,
+    "validated": 0
+  },
+  "policy": {
+    "all_designs_before_batch_execution": true,
+    "numerical_validation": false,
+    "hf_writes": false,
+    "formal_selection_changes": false,
+    "benchmark": false,
+    "custom_physics_extensions": false,
+    "unmatched_producers": "hold_and_search_existing_implementation"
+  },
+  "sources": {
+    "openfoam": {
+      "url": "https://gitlab.com/openfoam/core/openfoam",
+      "version": "OpenCFD v2512",
+      "image_id": "sha256:d6e27c56bb5f598bc93597fdf671d6e9d06534b1851885f1b093e3cc627ea67e",
+      "role": "现成求解器出处；本批几何/工况为作者设计，不声称为原教程数据"
+    },
+    "basilisk": {
+      "url": "https://basilisk.fr/src/navier-stokes/centered.h",
+      "version": "2026.10.18-snapshot-de851a91",
+      "image_id": "sha256:906dc955c1b156196abcd087463cec6d3a4fbca76465d7aa21486dde84621ad9"
+    },
+    "elmer": {
+      "url": "https://github.com/ElmerCSC/elmerfem",
+      "image_id": "sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059"
+    },
+    "clawpack": {
+      "url": "https://www.clawpack.org/gallery/",
+      "image_id": "sha256:9553e81044dfb139789f41e711f890689d72632ea00e851f3c021d38af84bc3f"
+    },
+    "piclas": {
+      "url": "https://piclas.readthedocs.io/en/stable/userguide/features-and-models/DSMC.html",
+      "version": "4.3.0",
+      "image_id": "sha256:a6b6097c8ff0493c5d9e8e8ba98e954be23dd98940c2267ca31f2759dddbea0a"
+    }
+  },
+  "questions": [
+    {
+      "question": "2.1.2",
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-transient-2d/author/chapter02-ten-20261020/design.json",
+      "family": "closed_flow",
+      "cases": 10,
+      "numerically_specified": 3,
+      "coverage_targets": 20,
+      "unassigned_targets": 0,
+      "sha256": "2810ba3e1a4a90ae5de2236c00d6227f72fb2a88bd42623cd2c102fd545c67e0"
+    },
+    {
+      "question": "2.1.4",
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-transient-3d/author/chapter02-ten-20261020/design.json",
+      "family": "closed_flow",
+      "cases": 10,
+      "numerically_specified": 3,
+      "coverage_targets": 20,
+      "unassigned_targets": 0,
+      "sha256": "e0edae2cd6eff6673a5b61c4f570636c7fd952aefe627ef8eeace46ce9215ca9"
+    },
+    {
+      "question": "2.1.5",
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-steady-2d/author/chapter02-ten-20261020/design.json",
+      "family": "generalized_flow",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 15,
+      "unassigned_targets": 0,
+      "sha256": "0665fb94340edd8e06d08556a022221052a3284311291854ad190404c15cdd42"
+    },
+    {
+      "question": "2.1.6",
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-transient-2d/author/chapter02-ten-20261020/design.json",
+      "family": "generalized_flow",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 15,
+      "unassigned_targets": 0,
+      "sha256": "f8e4d11f0e8ddda1bd681fa8ec35d233b647a1a2d35804f41d3c99039be44b7e"
+    },
+    {
+      "question": "2.1.7",
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-steady-3d/author/chapter02-ten-20261020/design.json",
+      "family": "generalized_flow",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 15,
+      "unassigned_targets": 0,
+      "sha256": "06a42fd09b0215c6ab7d2fa7866001c96b0ff6fe642d3a4c6a5eb712335c9b31"
+    },
+    {
+      "question": "2.1.8",
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-transient-3d/author/chapter02-ten-20261020/design.json",
+      "family": "generalized_flow",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 15,
+      "unassigned_targets": 0,
+      "sha256": "59fdf916ae54bda2e10f86b9e45bdf7fb4473a24ac2a6cb14ad7fb150ae8cb37"
+    },
+    {
+      "question": "2.1.9",
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-steady-2d/author/chapter02-ten-20261020/design.json",
+      "family": "isothermal_compressible",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 12,
+      "unassigned_targets": 0,
+      "sha256": "3ec6184db51b8c673cfd2adf7f6b198657264ccbe0b69fa5d77e560f317da2ca"
+    },
+    {
+      "question": "2.1.10",
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-transient-2d/author/chapter02-ten-20261020/design.json",
+      "family": "isothermal_compressible",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 12,
+      "unassigned_targets": 0,
+      "sha256": "ccd696e83a9a2c85bf83d3ae766959d1aba9884f2e711439a058ee1554a43f20"
+    },
+    {
+      "question": "2.1.11",
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-steady-3d/author/chapter02-ten-20261020/design.json",
+      "family": "isothermal_compressible",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 12,
+      "unassigned_targets": 0,
+      "sha256": "58d431c5963d256ce649cd7a2fb22986766ffbcc6491c327dcd08cf1dac72ddc"
+    },
+    {
+      "question": "2.1.12",
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-transient-3d/author/chapter02-ten-20261020/design.json",
+      "family": "isothermal_compressible",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 12,
+      "unassigned_targets": 0,
+      "sha256": "6e1df5a6eef9f7c8d3ea2c04ddd59095a47259219c7b64f4b73d0a427c3727df"
+    },
+    {
+      "question": "2.2.1",
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-steady-2d/author/chapter02-ten-20261020/design.json",
+      "family": "lowmach_energy",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 11,
+      "unassigned_targets": 0,
+      "sha256": "b133150796172aa73fba7158132996277c929e233828ed5e69a4c71bfb81d425"
+    },
+    {
+      "question": "2.2.2",
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-transient-2d/author/chapter02-ten-20261020/design.json",
+      "family": "lowmach_energy",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 11,
+      "unassigned_targets": 0,
+      "sha256": "0c30312de4d397c46a0053052ab53d4662d4c5d36ef6dec092c11623e0b61080"
+    },
+    {
+      "question": "2.2.3",
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-steady-3d/author/chapter02-ten-20261020/design.json",
+      "family": "lowmach_energy",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 12,
+      "unassigned_targets": 0,
+      "sha256": "50a293f8a200972d777756709134e84a1bf0a551e44db630dd746eae471c9d15"
+    },
+    {
+      "question": "2.2.4",
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-transient-3d/author/chapter02-ten-20261020/design.json",
+      "family": "lowmach_energy",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 12,
+      "unassigned_targets": 0,
+      "sha256": "7d2052cb9213b7084b87687fd72a910889173754c8ba971f138dd20ef2fe7c7c"
+    },
+    {
+      "question": "2.2.5",
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-steady-2d/author/chapter02-ten-20261020/design.json",
+      "family": "euler_equilibrium",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 7,
+      "unassigned_targets": 0,
+      "sha256": "7a4018f01d714d96a52023dd066fe0761a1a6e6392eed8ff09d32006126da834"
+    },
+    {
+      "question": "2.2.6",
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-transient-2d/author/chapter02-ten-20261020/design.json",
+      "family": "euler_transient",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 10,
+      "unassigned_targets": 0,
+      "sha256": "ef56d7e46a8f8d0b972b835a3ca2d6ef48ff77a3dad4b295e1cd8ae7927c9a8a"
+    },
+    {
+      "question": "2.2.7",
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-steady-3d/author/chapter02-ten-20261020/design.json",
+      "family": "euler_equilibrium",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 7,
+      "unassigned_targets": 0,
+      "sha256": "fa5826a2f54dd73b058f924c786e063d714b5c2b14380f4c30780cec41ad2d29"
+    },
+    {
+      "question": "2.2.8",
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-transient-3d/author/chapter02-ten-20261020/design.json",
+      "family": "euler_transient",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 10,
+      "unassigned_targets": 0,
+      "sha256": "e2e3d9d2a357bd0b4ada3bd6529fa5d1ca522b31ed62d338b7f85b005fd6a7e8"
+    },
+    {
+      "question": "2.2.9",
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-steady-2d/author/chapter02-ten-20261020/design.json",
+      "family": "compressible_energy",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 12,
+      "unassigned_targets": 0,
+      "sha256": "cf8a26f246f9f03844d26b00964d63de52a9dd171fb591aa8d6c0fa4db803ff1"
+    },
+    {
+      "question": "2.2.10",
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-transient-2d/author/chapter02-ten-20261020/design.json",
+      "family": "compressible_energy",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 12,
+      "unassigned_targets": 0,
+      "sha256": "39976a3af5d65398abbc4c9cd08b1ce20de32c9dbec71e14d55d93f8a166ad4a"
+    },
+    {
+      "question": "2.2.11",
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-steady-3d/author/chapter02-ten-20261020/design.json",
+      "family": "compressible_energy",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 12,
+      "unassigned_targets": 0,
+      "sha256": "4071746ce3602d454fd1e72f7bf56a1ba7ee114a5a433429f4bc951b5510e36a"
+    },
+    {
+      "question": "2.2.12",
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-transient-3d/author/chapter02-ten-20261020/design.json",
+      "family": "compressible_energy",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 12,
+      "unassigned_targets": 0,
+      "sha256": "f9be3d6cae9ca5c92e8e7bcded7dda4479f517da508b2d0e7e6e8e4526d7f742"
+    },
+    {
+      "question": "2.3.1",
+      "path": "qbank/02-fluid-mechanics/2.3-turbulent-flow/rans-steady-2d/author/chapter02-ten-20261020/design.json",
+      "family": "turbulent_flow",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 8,
+      "unassigned_targets": 0,
+      "sha256": "b0e19c369728d25d3e5bb68babc9778bd85a1196fdb969594efe7587bc089add"
+    },
+    {
+      "question": "2.3.2",
+      "path": "qbank/02-fluid-mechanics/2.3-turbulent-flow/rans-steady-3d/author/chapter02-ten-20261020/design.json",
+      "family": "turbulent_flow",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 9,
+      "unassigned_targets": 0,
+      "sha256": "88ef100398fca9b681546eebac0e4bd59f66c779bef64076ca85f6f077b04007"
+    },
+    {
+      "question": "2.3.3",
+      "path": "qbank/02-fluid-mechanics/2.3-turbulent-flow/urans-transient-3d/author/chapter02-ten-20261020/design.json",
+      "family": "turbulent_flow",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 10,
+      "unassigned_targets": 0,
+      "sha256": "3e949a5a7fca0338f45b88c8969d744d669dcc2d9cbdf856ca8b17c832e21c0d"
+    },
+    {
+      "question": "2.3.4",
+      "path": "qbank/02-fluid-mechanics/2.3-turbulent-flow/resolved-statistics-3d/author/chapter02-ten-20261020/design.json",
+      "family": "turbulent_flow",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 10,
+      "unassigned_targets": 0,
+      "sha256": "27bd125d824f043cd8f4e398fd696c40e682794742bf079781298c4dbe8c2b42"
+    },
+    {
+      "question": "2.3.5",
+      "path": "qbank/02-fluid-mechanics/2.3-turbulent-flow/isothermal-rans-3d/author/chapter02-ten-20261020/design.json",
+      "family": "turbulent_flow",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 9,
+      "unassigned_targets": 0,
+      "sha256": "6e806df5de70ecb40bd6cd91ce1688bab75a5705dcb75d89ea6dc20124684040"
+    },
+    {
+      "question": "2.4.1",
+      "path": "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-rans-3d/author/chapter02-ten-20261020/design.json",
+      "family": "lowmach_energy",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 12,
+      "unassigned_targets": 0,
+      "sha256": "f9880b046064e9e4cfbc9e6669c464dc93b3a4ea6eed0bcb32c6482035b00e02"
+    },
+    {
+      "question": "2.4.2",
+      "path": "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-urans-3d/author/chapter02-ten-20261020/design.json",
+      "family": "lowmach_energy",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 12,
+      "unassigned_targets": 0,
+      "sha256": "fda51d6924e162a6f79cde27b8ac3627361181f21dbb70c702aa25dd384722d8"
+    },
+    {
+      "question": "2.4.3",
+      "path": "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-statistics-3d/author/chapter02-ten-20261020/design.json",
+      "family": "lowmach_energy",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 12,
+      "unassigned_targets": 0,
+      "sha256": "d9f8037d2e9e8d9fb8e1fa8beacc83dbbe0586c5453a3ab1dc2d27c0f2eb9b34"
+    },
+    {
+      "question": "2.4.4",
+      "path": "qbank/02-fluid-mechanics/2.4-turbulent-energy/compressible-thermal-rans-3d/author/chapter02-ten-20261020/design.json",
+      "family": "compressible_energy",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 12,
+      "unassigned_targets": 0,
+      "sha256": "a39bc65c994dba37a0b00a7b85a19a81fae17eef4439e54df126c5996eda2805"
+    },
+    {
+      "question": "2.5.1",
+      "path": "qbank/02-fluid-mechanics/2.5-interface-flow/free-surface-2d/author/chapter02-ten-20261020/design.json",
+      "family": "free_surface",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 11,
+      "unassigned_targets": 0,
+      "sha256": "d42fce3d8a2c309cbed8aec8bf9b0c6f7ebaaaa3d5755edaa30852cc6a4efd57"
+    },
+    {
+      "question": "2.5.2",
+      "path": "qbank/02-fluid-mechanics/2.5-interface-flow/free-surface-3d/author/chapter02-ten-20261020/design.json",
+      "family": "free_surface",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 11,
+      "unassigned_targets": 0,
+      "sha256": "6ca6ddf4dc344cbdc0dd3ef2d4df1002755ce96ef8f8cf39769efee3a7c66ebe"
+    },
+    {
+      "question": "2.5.3",
+      "path": "qbank/02-fluid-mechanics/2.5-interface-flow/immiscible-interface-2d/author/chapter02-ten-20261020/design.json",
+      "family": "immiscible",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 9,
+      "unassigned_targets": 0,
+      "sha256": "e4b1279c6612930f2d8b2922be1d2b74ae350f7c66e7b87225cf0737bce43455"
+    },
+    {
+      "question": "2.5.4",
+      "path": "qbank/02-fluid-mechanics/2.5-interface-flow/immiscible-interface-3d/author/chapter02-ten-20261020/design.json",
+      "family": "immiscible",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 9,
+      "unassigned_targets": 0,
+      "sha256": "4406c36d63caf60661ddb96d4dd74f47a3111a7bbf13fb16d5ebdc83e960a6a6"
+    },
+    {
+      "question": "2.5.5",
+      "path": "qbank/02-fluid-mechanics/2.5-interface-flow/capillary-wetting-2d/author/chapter02-ten-20261020/design.json",
+      "family": "capillary",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 11,
+      "unassigned_targets": 0,
+      "sha256": "159097874d707a498c46b4a2e541bc8d5ea8f7278649c4006810a5d9df93ea75"
+    },
+    {
+      "question": "2.5.6",
+      "path": "qbank/02-fluid-mechanics/2.5-interface-flow/capillary-wetting-3d/author/chapter02-ten-20261020/design.json",
+      "family": "capillary",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 11,
+      "unassigned_targets": 0,
+      "sha256": "d07a80cf2958cea03f7ed5f53875975a9ae2687c5ba1f1232c775a2c056bcb29"
+    },
+    {
+      "question": "2.6.1",
+      "path": "qbank/02-fluid-mechanics/2.6-dispersed-flow/passive-particles-3d/author/chapter02-ten-20261020/design.json",
+      "family": "dispersed",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 11,
+      "unassigned_targets": 0,
+      "sha256": "2ab4a7167a7508a4aed60305b4de62b392d713c57de8324b191eb6d5ddb2010d"
+    },
+    {
+      "question": "2.6.2",
+      "path": "qbank/02-fluid-mechanics/2.6-dispersed-flow/coupled-particles-3d/author/chapter02-ten-20261020/design.json",
+      "family": "dispersed",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 11,
+      "unassigned_targets": 0,
+      "sha256": "a5844a817c605670292adbb9357657647015fce1c2a9d06dc5338fab199a9df6"
+    },
+    {
+      "question": "2.6.3",
+      "path": "qbank/02-fluid-mechanics/2.6-dispersed-flow/bubbles-droplets-3d/author/chapter02-ten-20261020/design.json",
+      "family": "dispersed",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 11,
+      "unassigned_targets": 0,
+      "sha256": "85a90a1ba6fe922cc92e80439c20421554f6bdcf9d292bd58b131a05b60da64f"
+    },
+    {
+      "question": "2.6.4",
+      "path": "qbank/02-fluid-mechanics/2.6-dispersed-flow/dense-dispersed-3d/author/chapter02-ten-20261020/design.json",
+      "family": "dispersed",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 11,
+      "unassigned_targets": 0,
+      "sha256": "4799b53c577d7314c374755bdd328d4f8a37e6b13cdbdb63a5849fa6605b5bf9"
+    },
+    {
+      "question": "2.7.1",
+      "path": "qbank/02-fluid-mechanics/2.7-phase-change-flow/interphase-exchange-3d/author/chapter02-ten-20261020/design.json",
+      "family": "exchange",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 11,
+      "unassigned_targets": 0,
+      "sha256": "f79b88836b1d858abd59730902ae84c2f151710b31890b1bec63ff727a6004cc"
+    },
+    {
+      "question": "2.7.2",
+      "path": "qbank/02-fluid-mechanics/2.7-phase-change-flow/evaporation-condensation-2d/author/chapter02-ten-20261020/design.json",
+      "family": "evaporation",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 11,
+      "unassigned_targets": 0,
+      "sha256": "9a125ec6a8d8b572e1fe30fbc7841ac0e6a27245d18f100a06e82c28b3276b36"
+    },
+    {
+      "question": "2.7.3",
+      "path": "qbank/02-fluid-mechanics/2.7-phase-change-flow/boiling-3d/author/chapter02-ten-20261020/design.json",
+      "family": "boiling",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 10,
+      "unassigned_targets": 0,
+      "sha256": "1d693e6fdd005abef2a52e63b34d2dc00f37acd61a95b6650d2915d7b33e0e1f"
+    },
+    {
+      "question": "2.7.4",
+      "path": "qbank/02-fluid-mechanics/2.7-phase-change-flow/cavitation-3d/author/chapter02-ten-20261020/design.json",
+      "family": "cavitation",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 10,
+      "unassigned_targets": 0,
+      "sha256": "6c378fa336c0aa959129fc807929e4a998d35222e574b166317a330cfa48c388"
+    },
+    {
+      "question": "2.7.5",
+      "path": "qbank/02-fluid-mechanics/2.7-phase-change-flow/melting-solidification-2d/author/chapter02-ten-20261020/design.json",
+      "family": "melting",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 9,
+      "unassigned_targets": 0,
+      "sha256": "df7abd99fa913d74d858cd32a8e8e06f439357d8c89fa8f08f6406a96683d097"
+    },
+    {
+      "question": "2.8.1",
+      "path": "qbank/02-fluid-mechanics/2.8-thin-film/liquid-lubrication/author/chapter02-ten-20261020/design.json",
+      "family": "liquid_film",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 11,
+      "unassigned_targets": 0,
+      "sha256": "0fa3f8729490eae57663b4d1e3db2c72be0bfd1bcb93d355b7da59ee939cfb21"
+    },
+    {
+      "question": "2.8.2",
+      "path": "qbank/02-fluid-mechanics/2.8-thin-film/gas-film/author/chapter02-ten-20261020/design.json",
+      "family": "gas_film",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 11,
+      "unassigned_targets": 0,
+      "sha256": "b0b252fb161bd3ab26990df49440a362af9951141fb58899480a27a7c81b2b3e"
+    },
+    {
+      "question": "2.8.3",
+      "path": "qbank/02-fluid-mechanics/2.8-thin-film/thermal-film/author/chapter02-ten-20261020/design.json",
+      "family": "thermal_film",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 9,
+      "unassigned_targets": 0,
+      "sha256": "160180df9da1d01a0dc7c6501131f71ec8716e69d510da105231e05f00b61a6b"
+    },
+    {
+      "question": "2.8.4",
+      "path": "qbank/02-fluid-mechanics/2.8-thin-film/nonnewtonian-film/author/chapter02-ten-20261020/design.json",
+      "family": "nonnewtonian_film",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 10,
+      "unassigned_targets": 0,
+      "sha256": "262a267f9fd1c8717fd81da7272a663c7ce6b822515db9beec8b911bfc7730d2"
+    },
+    {
+      "question": "2.9.1",
+      "path": "qbank/02-fluid-mechanics/2.9-shallow-water/fully-wet-steady/author/chapter02-ten-20261020/design.json",
+      "family": "shallow_steady",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 10,
+      "unassigned_targets": 0,
+      "sha256": "9778e54b434c74bd9a0c57d962edeadff444449b75d62ca85967f79fc2ca9d16"
+    },
+    {
+      "question": "2.9.2",
+      "path": "qbank/02-fluid-mechanics/2.9-shallow-water/fully-wet-transient/author/chapter02-ten-20261020/design.json",
+      "family": "shallow_transient",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 9,
+      "unassigned_targets": 0,
+      "sha256": "9ab76bf2640653516e4050a26eaf8979454dab34cede7856f0a6ed5b2b0cdb7e"
+    },
+    {
+      "question": "2.9.3",
+      "path": "qbank/02-fluid-mechanics/2.9-shallow-water/wetting-drying/author/chapter02-ten-20261020/design.json",
+      "family": "wetdry",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 10,
+      "unassigned_targets": 0,
+      "sha256": "69f6a08e59660485c9b76959576d5dd4eab602c4ff85f06df57eb752200332a3"
+    },
+    {
+      "question": "2.9.4",
+      "path": "qbank/02-fluid-mechanics/2.9-shallow-water/two-layer/author/chapter02-ten-20261020/design.json",
+      "family": "two_layer",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 9,
+      "unassigned_targets": 0,
+      "sha256": "52e1c6172ebedf7d049c9ee5228dfa6fe77bf886bece033b10732f10cf73aefb"
+    },
+    {
+      "question": "2.10.1",
+      "path": "qbank/02-fluid-mechanics/2.10-rarefied-gas/isothermal-slip/author/chapter02-ten-20261020/design.json",
+      "family": "slip_gas",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 10,
+      "unassigned_targets": 0,
+      "sha256": "7be6b32b07956f121333134e61a2ddc2e52701f871dfb7fb413af09df4ce98e6"
+    },
+    {
+      "question": "2.10.2",
+      "path": "qbank/02-fluid-mechanics/2.10-rarefied-gas/thermal-slip/author/chapter02-ten-20261020/design.json",
+      "family": "slip_gas",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 11,
+      "unassigned_targets": 0,
+      "sha256": "ec4cce28422be337b45bb955221ae2e4090c9bd64422d42de933c86b4e88f7b0"
+    },
+    {
+      "question": "2.10.3",
+      "path": "qbank/02-fluid-mechanics/2.10-rarefied-gas/transition-gas/author/chapter02-ten-20261020/design.json",
+      "family": "kinetic_gas",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 11,
+      "unassigned_targets": 0,
+      "sha256": "1ac49655935c311b28bffb6efe06eeca576841ac9e2f6bcd365ed2d7c831b9c2"
+    },
+    {
+      "question": "2.10.4",
+      "path": "qbank/02-fluid-mechanics/2.10-rarefied-gas/free-molecular/author/chapter02-ten-20261020/design.json",
+      "family": "kinetic_gas",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 11,
+      "unassigned_targets": 0,
+      "sha256": "1a2eefacdcee6417e019e8a84a5901f4011da05155da2fb5df19ba65497e07dd"
+    },
+    {
+      "question": "2.11.1",
+      "path": "qbank/02-fluid-mechanics/2.11-memory-fluids/viscoelastic-steady/author/chapter02-ten-20261020/design.json",
+      "family": "viscoelastic",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 10,
+      "unassigned_targets": 0,
+      "sha256": "99db00d50a602601ab9d19e94995e731bc3ee066bf5167caec22fc90155a1588"
+    },
+    {
+      "question": "2.11.2",
+      "path": "qbank/02-fluid-mechanics/2.11-memory-fluids/viscoelastic-transient/author/chapter02-ten-20261020/design.json",
+      "family": "viscoelastic",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 11,
+      "unassigned_targets": 0,
+      "sha256": "3e9219cc03b2c6e5dcf5e8fc1d8e7faeea6b1e7d5df5691ab49f40012d6a6ca5"
+    },
+    {
+      "question": "2.11.3",
+      "path": "qbank/02-fluid-mechanics/2.11-memory-fluids/thixotropic-transient/author/chapter02-ten-20261020/design.json",
+      "family": "thixotropic",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 9,
+      "unassigned_targets": 0,
+      "sha256": "3b328d99c00a95eb90c0860f499ac318808af87694cdc4990fdb890df63219c3"
+    },
+    {
+      "question": "2.11.4",
+      "path": "qbank/02-fluid-mechanics/2.11-memory-fluids/thermal-generalized-newtonian/author/chapter02-ten-20261020/design.json",
+      "family": "thermal_generalized",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 10,
+      "unassigned_targets": 0,
+      "sha256": "e7f268798720e8fa2ef97757b88c49fdce5e8572fa117b76484008a47a37e48a"
+    },
+    {
+      "question": "2.11.5",
+      "path": "qbank/02-fluid-mechanics/2.11-memory-fluids/thermal-viscoelastic/author/chapter02-ten-20261020/design.json",
+      "family": "viscoelastic",
+      "cases": 10,
+      "numerically_specified": 0,
+      "coverage_targets": 14,
+      "unassigned_targets": 0,
+      "sha256": "893de01429d42173a05eac7f20f8773598437102708117abe875c62aaadc2ac1"
+    }
+  ]
+}

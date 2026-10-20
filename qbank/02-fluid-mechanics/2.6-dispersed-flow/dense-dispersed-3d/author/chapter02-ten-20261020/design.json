@@ -1,0 +1,392 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.6.4",
+  "task": "dense-dispersed-3d",
+  "question_path": "qbank/02-fluid-mechanics/2.6-dispersed-flow/dense-dispersed-3d",
+  "model": "fluid-multiphase-dense-dispersed-v1",
+  "family": "dispersed",
+  "analysis_kind": "transient",
+  "document_sha256": {
+    "instruction.md": "a9a4ccb90a43095d2ee707477ed2828c87d229e66f2bc32aea7e67e084a3734e",
+    "DATA.md": "7cb72a284b327c2017f5ab6b974e44f4fce2e58e12dc276aa965a90b7c687681",
+    "author/grading-template.json": "7394ac09ceaa653a80151c6b9b8740cdae7425ca6113215a40cc65471d40d80f"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-6-4-01-uniform_relaxation",
+      "title": "封闭盒",
+      "driving_and_state": "相容载液静止、分散相局部滑移",
+      "difference_and_coverage": "拖曳松弛；壁邻区无初始穿透",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-6-4-02-settling_cloud",
+      "title": "高盒",
+      "driving_and_state": "紧支撑局部颗粒/泡滴云与重力，云外beta恰为0且flux_b恰为0",
+      "difference_and_coverage": "沉降/浮升及缺相分支",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-6-4-03-two_clouds",
+      "title": "宽盒",
+      "driving_and_state": "两个不同位置的云团",
+      "difference_and_coverage": "相互作用和含率输运",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-6-4-04-vortex_capture",
+      "title": "方盒",
+      "driving_and_state": "相容三维涡初态与云团",
+      "difference_and_coverage": "惯性偏离流线",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-6-4-05-weak_drag",
+      "title": "长盒",
+      "driving_and_state": "长松弛时间的局部滑移云",
+      "difference_and_coverage": "惯性主导阶段；与强拖曳并列有意义",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-6-4-06-strong_drag",
+      "title": "深盒",
+      "driving_and_state": "短松弛时间的局部滑移云",
+      "difference_and_coverage": "拖曳刚性与近随流极限",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-6-4-07-concentration_front",
+      "title": "矩形盒",
+      "driving_and_state": "光滑含率前缘和相容速度",
+      "difference_and_coverage": "Euler含率通量",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-6-4-08-obstacle",
+      "title": "带方柱盒",
+      "driving_and_state": "初始涡推动云团绕障",
+      "difference_and_coverage": "固壁相通量边界",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-6-4-09-oblique_gravity",
+      "title": "矩形盒",
+      "driving_and_state": "斜向重力与偏心云团",
+      "difference_and_coverage": "多方向通量及压力",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-6-4-10-inhomogeneous_slip",
+      "title": "立方盒",
+      "driving_and_state": "具有空间变化的两相相对速度",
+      "difference_and_coverage": "非均匀反馈；dense题含拥挤压力",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "本题为Euler含率和表观相通量，不是随意离散颗粒轨迹",
+    "分别匹配单向/双向、相应应力、线性拖曳及dense拥挤压强闭合"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "drag_relaxation",
+      "assigned_design_ids": [
+        "ch02-2-6-4-01-uniform_relaxation",
+        "ch02-2-6-4-05-weak_drag",
+        "ch02-2-6-4-06-strong_drag"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "settling_or_rising",
+      "assigned_design_ids": [
+        "ch02-2-6-4-02-settling_cloud",
+        "ch02-2-6-4-09-oblique_gravity"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "multiple_clouds",
+      "assigned_design_ids": [
+        "ch02-2-6-4-03-two_clouds"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "inertial_motion_in_carrier_vortex",
+      "assigned_design_ids": [
+        "ch02-2-6-4-04-vortex_capture"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "inhomogeneous_volume_fraction_transport",
+      "assigned_design_ids": [
+        "ch02-2-6-4-07-concentration_front"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "inner_wall_boundary",
+      "assigned_design_ids": [
+        "ch02-2-6-4-08-obstacle"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "spatial_slip_and_pressure_feedback",
+      "assigned_design_ids": [
+        "ch02-2-6-4-10-inhomogeneous_slip"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "superficial_flux_not_conditional_velocity",
+      "assigned_design_ids": [
+        "ch02-2-6-4-01-uniform_relaxation",
+        "ch02-2-6-4-02-settling_cloud",
+        "ch02-2-6-4-03-two_clouds",
+        "ch02-2-6-4-04-vortex_capture",
+        "ch02-2-6-4-05-weak_drag",
+        "ch02-2-6-4-06-strong_drag",
+        "ch02-2-6-4-07-concentration_front",
+        "ch02-2-6-4-08-obstacle",
+        "ch02-2-6-4-09-oblique_gravity",
+        "ch02-2-6-4-10-inhomogeneous_slip"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "exact_zero_missing_phase_flux",
+      "assigned_design_ids": [
+        "ch02-2-6-4-02-settling_cloud"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "dense_crowding_pressure_and_viscosity_when_applicable",
+      "assigned_design_ids": [
+        "ch02-2-6-4-07-concentration_front",
+        "ch02-2-6-4-10-inhomogeneous_slip"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "matching_one_way_two_way_and_phase_stresses",
+      "assigned_design_ids": [
+        "ch02-2-6-4-01-uniform_relaxation",
+        "ch02-2-6-4-02-settling_cloud",
+        "ch02-2-6-4-03-two_clouds",
+        "ch02-2-6-4-04-vortex_capture",
+        "ch02-2-6-4-05-weak_drag",
+        "ch02-2-6-4-06-strong_drag",
+        "ch02-2-6-4-07-concentration_front",
+        "ch02-2-6-4-08-obstacle",
+        "ch02-2-6-4-09-oblique_gravity",
+        "ch02-2-6-4-10-inhomogeneous_slip"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "真实几何网格、合法边界不重不漏；不把二维结果简单挤出充当三维响应",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部域单元的面积/体积平均主字段；不把节点插值冒充单元平均",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "二维与三维按各题允许的一阶单元类型安排网格；时间、参数和字段不添加求解器私有输入",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

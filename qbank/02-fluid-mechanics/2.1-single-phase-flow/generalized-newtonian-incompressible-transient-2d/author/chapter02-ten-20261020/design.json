@@ -1,0 +1,419 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.1.6",
+  "task": "generalized-newtonian-incompressible-transient-2d",
+  "question_path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-transient-2d",
+  "model": "cfd-2.1",
+  "family": "generalized_flow",
+  "analysis_kind": "steady",
+  "document_sha256": {
+    "instruction.md": "429cde765d93b51c1c85cdf785c3155e1038c7d1156332a1cc9b0040037b8bc4",
+    "DATA.md": "c18d56594243f259fcba9e02f5d2a44a22d94e40105480f4727833442fa661a3",
+    "author/grading-template.json": "3de8e05f2ec94b8ca5ec0df93b0917b4f5dfe456a811a4cf034f2b556999c382"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-1-6-01-power_law_channel",
+      "title": "入口发展通道",
+      "driving_and_state": "剪切变稀截断幂律、速度入口及完整储槽牵引出口",
+      "difference_and_coverage": "幂律有效剪切区和开边界",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-6-02-power_law_thickening",
+      "title": "周期通道",
+      "driving_and_state": "剪切增稠截断幂律、体力驱动",
+      "difference_and_coverage": "增稠、周期无压差及体源",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-6-03-cross_obstacle_flux",
+      "title": "带偏心方柱通道",
+      "driving_and_state": "Cross、带shape的流量入口及储槽牵引出口",
+      "difference_and_coverage": "平台过渡、流率归一化与内孔",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-6-04-carreau_cavity",
+      "title": "方腔",
+      "driving_and_state": "Carreau、上下壁反向驱动",
+      "difference_and_coverage": "不同剪切层的黏度反馈",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-6-05-yasuda_symmetry",
+      "title": "通道对称半域",
+      "driving_and_state": "Carreau–Yasuda、对称面和无滑移壁、速度入口",
+      "difference_and_coverage": "独立Yasuda指数及对称边界",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-6-06-power_law_traction",
+      "title": "直通道",
+      "driving_and_state": "截断幂律、两端完整矢量牵引",
+      "difference_and_coverage": "低高剪切截断及牵引条件",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-6-07-cross_spatial_force",
+      "title": "封闭非对称腔",
+      "driving_and_state": "Cross、空间非均匀非保守体加速度、点压力规范",
+      "difference_and_coverage": "源项、停滞区和点压力规范",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-6-08-carreau_pulse",
+      "title": "方腔",
+      "driving_and_state": "Carreau、相向分段壁速",
+      "difference_and_coverage": "低高剪切平台或瞬态黏度调整",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-6-09-yasuda_slip",
+      "title": "带滑移边界的通道",
+      "driving_and_state": "Carreau–Yasuda、速度入口及储槽牵引出口",
+      "difference_and_coverage": "滑移条件及非线性流率",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-6-10-mixed_initial_or_drive",
+      "title": "非对称多壁腔",
+      "driving_and_state": "截断幂律、稳态不等速多壁驱动",
+      "difference_and_coverage": "不同初态与驱动、混合网格及导数观测",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "逐项匹配四种流变律的参数化与剪切率截断；禁止用近似同名模型代替"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "clipped_power_law_shear_thinning",
+      "assigned_design_ids": [
+        "ch02-2-1-6-01-power_law_channel",
+        "ch02-2-1-6-06-power_law_traction",
+        "ch02-2-1-6-10-mixed_initial_or_drive"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "clipped_power_law_shear_thickening",
+      "assigned_design_ids": [
+        "ch02-2-1-6-02-power_law_thickening"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "low_and_high_shear_cutoffs",
+      "assigned_design_ids": [
+        "ch02-2-1-6-06-power_law_traction"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "cross_both_plateaus_and_transition",
+      "assigned_design_ids": [
+        "ch02-2-1-6-03-cross_obstacle_flux",
+        "ch02-2-1-6-07-cross_spatial_force"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "carreau",
+      "assigned_design_ids": [
+        "ch02-2-1-6-04-carreau_cavity",
+        "ch02-2-1-6-08-carreau_pulse"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "carreau_yasuda_independent_exponent",
+      "assigned_design_ids": [
+        "ch02-2-1-6-05-yasuda_symmetry",
+        "ch02-2-1-6-09-yasuda_slip"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "velocity_reservoir_and_flow_rate",
+      "assigned_design_ids": [
+        "ch02-2-1-6-01-power_law_channel",
+        "ch02-2-1-6-03-cross_obstacle_flux",
+        "ch02-2-1-6-05-yasuda_symmetry"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "periodic_body_force",
+      "assigned_design_ids": [
+        "ch02-2-1-6-02-power_law_thickening"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "vector_traction",
+      "assigned_design_ids": [
+        "ch02-2-1-6-06-power_law_traction"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "slip_and_symmetry",
+      "assigned_design_ids": [
+        "ch02-2-1-6-05-yasuda_symmetry",
+        "ch02-2-1-6-09-yasuda_slip"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "moving_walls",
+      "assigned_design_ids": [
+        "ch02-2-1-6-04-carreau_cavity",
+        "ch02-2-1-6-08-carreau_pulse",
+        "ch02-2-1-6-10-mixed_initial_or_drive"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "spatial_source_and_point_pressure",
+      "assigned_design_ids": [
+        "ch02-2-1-6-07-cross_spatial_force"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "inner_boundary",
+      "assigned_design_ids": [
+        "ch02-2-1-6-03-cross_obstacle_flux"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "viscosity_shear_rate_stress_force_and_flows",
+      "assigned_design_ids": [
+        "ch02-2-1-6-01-power_law_channel",
+        "ch02-2-1-6-03-cross_obstacle_flux",
+        "ch02-2-1-6-06-power_law_traction"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "transient_nonzero_initial_and_history_or_steady_unique_state",
+      "assigned_design_ids": [
+        "ch02-2-1-6-08-carreau_pulse",
+        "ch02-2-1-6-10-mixed_initial_or_drive"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全局xy真实几何；按本题定义区分单位厚度与实际水平面积",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在十例间安排point、cell average、region mean及真实边界积分；不在奇异角点请求导数",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "二维安排三角/四边形及合法混合网格；三维安排四面体、六面体及有意义的棱柱/金字塔过渡网格",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "初态、边界历史、体源历史使用各自明确的采样轴；请求输出时刻不决定内部步长",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

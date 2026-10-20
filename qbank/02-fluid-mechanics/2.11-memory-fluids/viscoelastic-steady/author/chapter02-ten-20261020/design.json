@@ -1,0 +1,373 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.11.1",
+  "task": "viscoelastic-steady",
+  "question_path": "qbank/02-fluid-mechanics/2.11-memory-fluids/viscoelastic-steady",
+  "model": "fluid-reduced-viscoelastic-steady-v1",
+  "family": "viscoelastic",
+  "analysis_kind": "steady",
+  "document_sha256": {
+    "instruction.md": "6f78e2e3cec07935b95ceaf43e69740aac75edfb42c9908f129a532d93c329fb",
+    "DATA.md": "dda9c11e0cb8a3d78fec179f939f1d43d2056dad8ba358098f263aedb145fa01",
+    "author/grading-template.json": "bd7786a9e41b1239e9fc0cd22ae714f39bf10289d718532fca23bd3b63246624"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-11-1-01-lid",
+      "title": "方腔",
+      "driving_and_state": "Oldroyd-B顶壁驱动",
+      "difference_and_coverage": "弹性应力与压力",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-1-02-deep",
+      "title": "深腔",
+      "driving_and_state": "顶壁驱动",
+      "difference_and_coverage": "长松弛路径",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-1-03-opposed",
+      "title": "矩形腔",
+      "driving_and_state": "反向双壁驱动",
+      "difference_and_coverage": "对向弹性剪切",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-1-04-split",
+      "title": "宽腔",
+      "driving_and_state": "分段相向顶壁",
+      "difference_and_coverage": "拉伸与剪切共存",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-1-05-obstacle",
+      "title": "偏心方柱腔",
+      "driving_and_state": "外顶壁驱动",
+      "difference_and_coverage": "绕障构象输运",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-1-06-side_drive",
+      "title": "方腔",
+      "driving_and_state": "相邻双壁切向运动",
+      "difference_and_coverage": "非对称构象",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-1-07-inlet_memory",
+      "title": "直通道",
+      "driving_and_state": "速度入口给定SPD构象、完整牵引出口和自然记忆流出",
+      "difference_and_coverage": "入口构象不能省略；无回流、不添加应力扩散",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-1-08-prestrained_or_unequal",
+      "title": "深腔",
+      "driving_and_state": "不等速反向壁、无物理初态",
+      "difference_and_coverage": "真实聚合物预应变或构象各向异性",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-1-09-relaxation_or_segments",
+      "title": "方腔",
+      "driving_and_state": "三段顶壁的定常驱动",
+      "difference_and_coverage": "松弛或多剪切层",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-1-10-reversal_or_offcentre",
+      "title": "非对称腔",
+      "driving_and_state": "偏心内孔附近的不等速定常壁驱动",
+      "difference_and_coverage": "弹性记忆或非对称拉伸",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "匹配Oldroyd-B、无额外应力扩散、构象SPD和Azz=1；不能只生成速度压力"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "oldroyd_b_coupled_momentum_and_conformation",
+      "assigned_design_ids": [
+        "ch02-2-11-1-01-lid",
+        "ch02-2-11-1-02-deep"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "opposed_wall_shear",
+      "assigned_design_ids": [
+        "ch02-2-11-1-03-opposed"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "extensional_stagnation_flow",
+      "assigned_design_ids": [
+        "ch02-2-11-1-04-split"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "internal_obstacle_transport",
+      "assigned_design_ids": [
+        "ch02-2-11-1-05-obstacle"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "asymmetric_driving",
+      "assigned_design_ids": [
+        "ch02-2-11-1-06-side_drive",
+        "ch02-2-11-1-08-prestrained_or_unequal"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "codirectional_driving",
+      "assigned_design_ids": [
+        "ch02-2-11-1-07-inlet_memory"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "relaxation_and_reversal_or_steady_multisegment_drive",
+      "assigned_design_ids": [
+        "ch02-2-11-1-09-relaxation_or_segments",
+        "ch02-2-11-1-10-reversal_or_offcentre"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "inflow_conformation_and_natural_memory_outflow",
+      "assigned_design_ids": [
+        "ch02-2-11-1-07-inlet_memory"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "full_vector_traction_and_pressure_convention",
+      "assigned_design_ids": [
+        "ch02-2-11-1-07-inlet_memory"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "polymer_stress_and_A_not_only_u_p",
+      "assigned_design_ids": [
+        "ch02-2-11-1-01-lid",
+        "ch02-2-11-1-02-deep",
+        "ch02-2-11-1-03-opposed",
+        "ch02-2-11-1-04-split",
+        "ch02-2-11-1-05-obstacle",
+        "ch02-2-11-1-06-side_drive",
+        "ch02-2-11-1-07-inlet_memory",
+        "ch02-2-11-1-08-prestrained_or_unequal",
+        "ch02-2-11-1-09-relaxation_or_segments",
+        "ch02-2-11-1-10-reversal_or_offcentre"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全局xy真实几何；按本题定义区分单位厚度与实际水平面积",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "一阶单纯形网格与节点分片线性输入；输出采用本题允许的真实节点子集，避开多迹或非唯一导数位置",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "整体量仅使用本题允许的aggregate/source；不制造带坐标的汇总探针",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

@@ -1,0 +1,379 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.10.4",
+  "task": "free-molecular",
+  "question_path": "qbank/02-fluid-mechanics/2.10-rarefied-gas/free-molecular",
+  "model": "fluid-reduced-free-molecular-v1",
+  "family": "kinetic_gas",
+  "analysis_kind": "steady",
+  "document_sha256": {
+    "instruction.md": "a846956bdc496aa64ff90109f672051c68071d5b8e50a830a338ebef6e57ac6c",
+    "DATA.md": "da7f2ccbb8866eed1a36024de2287f4b9b3fa4511b60fd3180717bbdef9ed7c4",
+    "author/grading-template.json": "ace0f85774f62d00e352463bebce0e995ff0bdff077b5337a5d57437f772f658"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-10-4-01-pressure_duct",
+      "title": "三维微管",
+      "driving_and_state": "两端Maxwell储槽压差",
+      "difference_and_coverage": "稀薄输运与分子通量",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "piclas"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-10-4-02-thermal_duct",
+      "title": "三维微管",
+      "driving_and_state": "等压不同温储槽",
+      "difference_and_coverage": "非平衡热输运",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "piclas"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-10-4-03-couette",
+      "title": "有储槽的薄盒",
+      "driving_and_state": "移动Maxwell壁",
+      "difference_and_coverage": "壁面动量交换",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "piclas"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-10-4-04-partial_accommodation",
+      "title": "微管",
+      "driving_and_state": "部分镜面/漫反射壁与压差",
+      "difference_and_coverage": "Maxwell混合反射",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "piclas"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-10-4-05-orifice",
+      "title": "有小孔隔板的三维域",
+      "driving_and_state": "储槽压差",
+      "difference_and_coverage": "孔口分子输运",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "piclas"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-10-4-06-bend",
+      "title": "三维弯管",
+      "driving_and_state": "储槽驱动",
+      "difference_and_coverage": "弯曲壁碰撞历史",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "piclas"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-10-4-07-obstacle",
+      "title": "带方柱的三维管道",
+      "driving_and_state": "两端储槽驱动",
+      "difference_and_coverage": "阴影与绕障输运",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "piclas"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-10-4-08-thermal_wall",
+      "title": "三维管道",
+      "driving_and_state": "热壁区与冷壁区",
+      "difference_and_coverage": "热壁再发射",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "piclas"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-10-4-09-cross_reservoir",
+      "title": "三维分支通道",
+      "driving_and_state": "多储槽温压不同",
+      "difference_and_coverage": "多方向半空间边界",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "piclas"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-10-4-10-mixed_reflection",
+      "title": "不等长宽高盒",
+      "driving_and_state": "不同墙分区的镜面/漫反射",
+      "difference_and_coverage": "三维非各向同性分布",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "piclas"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "transition用硬球碰撞而非BGK；free-molecular禁碰撞",
+    "核对Maxwell混合反射、半空间储槽、粒子统计和完整三维速度分布"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "pressure_driven_nonequilibrium",
+      "assigned_design_ids": [
+        "ch02-2-10-4-01-pressure_duct"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "different_reservoir_temperatures",
+      "assigned_design_ids": [
+        "ch02-2-10-4-02-thermal_duct"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "moving_wall",
+      "assigned_design_ids": [
+        "ch02-2-10-4-03-couette"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "partial_maxwell_accommodation",
+      "assigned_design_ids": [
+        "ch02-2-10-4-04-partial_accommodation"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "orifice_and_shadow_transport",
+      "assigned_design_ids": [
+        "ch02-2-10-4-05-orifice",
+        "ch02-2-10-4-07-obstacle"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "bent_trajectory_history",
+      "assigned_design_ids": [
+        "ch02-2-10-4-06-bend"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "hot_cold_wall_reemission",
+      "assigned_design_ids": [
+        "ch02-2-10-4-08-thermal_wall"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "multiple_halfspace_reservoirs",
+      "assigned_design_ids": [
+        "ch02-2-10-4-09-cross_reservoir"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "pure_specular_diffuse_mixed_wall_partitions",
+      "assigned_design_ids": [
+        "ch02-2-10-4-10-mixed_reflection"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "hard_sphere_collisions_or_exact_collisionless_branch",
+      "assigned_design_ids": [
+        "ch02-2-10-4-01-pressure_duct",
+        "ch02-2-10-4-02-thermal_duct",
+        "ch02-2-10-4-03-couette",
+        "ch02-2-10-4-04-partial_accommodation",
+        "ch02-2-10-4-05-orifice",
+        "ch02-2-10-4-06-bend",
+        "ch02-2-10-4-07-obstacle",
+        "ch02-2-10-4-08-thermal_wall",
+        "ch02-2-10-4-09-cross_reservoir",
+        "ch02-2-10-4-10-mixed_reflection"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "full_three_velocity_moments",
+      "assigned_design_ids": [
+        "ch02-2-10-4-01-pressure_duct",
+        "ch02-2-10-4-02-thermal_duct",
+        "ch02-2-10-4-03-couette",
+        "ch02-2-10-4-04-partial_accommodation",
+        "ch02-2-10-4-05-orifice",
+        "ch02-2-10-4-06-bend",
+        "ch02-2-10-4-07-obstacle",
+        "ch02-2-10-4-08-thermal_wall",
+        "ch02-2-10-4-09-cross_reservoir",
+        "ch02-2-10-4-10-mixed_reflection"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "真实几何网格、合法边界不重不漏；不把二维结果简单挤出充当三维响应",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "一阶单纯形网格与节点分片线性输入；输出采用本题允许的真实节点子集，避开多迹或非唯一导数位置",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "整体量仅使用本题允许的aggregate/source；不制造带坐标的汇总探针",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

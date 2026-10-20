@@ -1,0 +1,365 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.9.4",
+  "task": "two-layer",
+  "question_path": "qbank/02-fluid-mechanics/2.9-shallow-water/two-layer",
+  "model": "fluid-reduced-two-layer-v1",
+  "family": "two_layer",
+  "analysis_kind": "transient",
+  "document_sha256": {
+    "instruction.md": "cfa746509152c97f3b99fbd0ebb2c9f2f63dd83d345f80b4fb535b01af23aca3",
+    "DATA.md": "bc4a10a1da7ffd84682d3f3be2c2d7593fea135be7ff11eda228e24a8284e9c6",
+    "author/grading-template.json": "e57fb126e0fb8521a1b868a20d40d3deb2323af4e8c11dde2d5e7e2a0bb3c7b4"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-9-4-01-surface_wave",
+      "title": "方池",
+      "driving_and_state": "低幅自由面扰动、界面平坦",
+      "difference_and_coverage": "外部重力模态",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-4-02-internal_wave",
+      "title": "方池",
+      "driving_and_state": "自由面平坦、界面低幅扰动",
+      "difference_and_coverage": "内部重力模态",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-4-03-counterflow",
+      "title": "长池",
+      "driving_and_state": "小幅反向相容层速度",
+      "difference_and_coverage": "稳定剪切和界面摩擦",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-4-04-codirectional",
+      "title": "长池",
+      "driving_and_state": "同向不等速两层",
+      "difference_and_coverage": "外部/内部模态耦合",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-4-05-bed_bump",
+      "title": "有床丘的池",
+      "driving_and_state": "光滑双层水深扰动",
+      "difference_and_coverage": "下层床形影响",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-4-06-oblique_wave",
+      "title": "矩形池",
+      "driving_and_state": "斜向界面扰动",
+      "difference_and_coverage": "双向层通量",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-4-07-bed_friction",
+      "title": "长池",
+      "driving_and_state": "非零床摩擦与层间滑移",
+      "difference_and_coverage": "不同摩擦作用位置",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-4-08-interfacial_friction",
+      "title": "方池",
+      "driving_and_state": "层间摩擦主导的光滑初态",
+      "difference_and_coverage": "相对动量松弛",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-4-09-obstacle",
+      "title": "有岛池",
+      "driving_and_state": "低幅长波",
+      "difference_and_coverage": "双层绕射",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-9-4-10-supercritical_inlet_outflow",
+      "title": "双层直水道",
+      "driving_and_state": "两层同向超临界入流和纯超临界流出，入流叠加低幅光滑自由面/界面波",
+      "difference_and_coverage": "layer_inlet/layer_outflow全部实特征符号约束；不使用本版不支持的亚临界储槽",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "clawpack",
+          "basilisk"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "匹配两个独立层的质量/动量、床摩擦和层间摩擦；保持光滑全湿双曲稳定范围"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "external_and_internal_wave_modes",
+      "assigned_design_ids": [
+        "ch02-2-9-4-01-surface_wave",
+        "ch02-2-9-4-02-internal_wave"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "counterflow_and_codirectional_shear",
+      "assigned_design_ids": [
+        "ch02-2-9-4-03-counterflow",
+        "ch02-2-9-4-04-codirectional"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "nonflat_bed",
+      "assigned_design_ids": [
+        "ch02-2-9-4-05-bed_bump"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "two_dimensional_layer_flux",
+      "assigned_design_ids": [
+        "ch02-2-9-4-06-oblique_wave"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "bed_and_interface_drag_distinct",
+      "assigned_design_ids": [
+        "ch02-2-9-4-07-bed_friction",
+        "ch02-2-9-4-08-interfacial_friction"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "inner_boundary",
+      "assigned_design_ids": [
+        "ch02-2-9-4-09-obstacle"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "interacting_layer_modes",
+      "assigned_design_ids": [
+        "ch02-2-9-4-10-supercritical_inlet_outflow"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "smooth_positive_depth_hyperbolic_stable_scope",
+      "assigned_design_ids": [
+        "ch02-2-9-4-01-surface_wave",
+        "ch02-2-9-4-02-internal_wave",
+        "ch02-2-9-4-03-counterflow",
+        "ch02-2-9-4-04-codirectional",
+        "ch02-2-9-4-05-bed_bump",
+        "ch02-2-9-4-06-oblique_wave",
+        "ch02-2-9-4-07-bed_friction",
+        "ch02-2-9-4-08-interfacial_friction",
+        "ch02-2-9-4-09-obstacle",
+        "ch02-2-9-4-10-supercritical_inlet_outflow"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "full_supercritical_layer_inlet_and_outflow",
+      "assigned_design_ids": [
+        "ch02-2-9-4-10-supercritical_inlet_outflow"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全局xy真实几何；按本题定义区分单位厚度与实际水平面积",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "一阶单纯形网格与节点分片线性输入；输出采用本题允许的真实节点子集，避开多迹或非唯一导数位置",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "整体量仅使用本题允许的aggregate/source；不制造带坐标的汇总探针",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

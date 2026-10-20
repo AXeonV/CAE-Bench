@@ -1,0 +1,368 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.11.3",
+  "task": "thixotropic-transient",
+  "question_path": "qbank/02-fluid-mechanics/2.11-memory-fluids/thixotropic-transient",
+  "model": "fluid-reduced-thixotropic-transient-v1",
+  "family": "thixotropic",
+  "analysis_kind": "steady",
+  "document_sha256": {
+    "instruction.md": "97b3791fb707bebd887079c5db7d27d718be377c5db7b8fb30d44de6e05f2e99",
+    "DATA.md": "f5b0a41bba32974617289edc734d163c3f58ebaa6ed388a9dbfb1fc3f1042b3d",
+    "author/grading-template.json": "e14026298e85e17ed35213b6f3d2e4a55ae5afbe1537163d43a0a7d0cbf23f1c"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-11-3-01-startup",
+      "title": "方腔",
+      "driving_and_state": "完整结构初态、顶壁启动",
+      "difference_and_coverage": "结构破坏",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-3-02-rebuild",
+      "title": "方腔",
+      "driving_and_state": "破坏结构初态、壁速撤去",
+      "difference_and_coverage": "结构重建",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-3-03-reversal",
+      "title": "矩形腔",
+      "driving_and_state": "壁速正反切换",
+      "difference_and_coverage": "结构滞后",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-3-04-opposed",
+      "title": "矩形腔",
+      "driving_and_state": "反向双壁启动",
+      "difference_and_coverage": "高剪切结构耗散",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-3-05-split",
+      "title": "宽腔",
+      "driving_and_state": "相向分段壁速",
+      "difference_and_coverage": "结构空间分区",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-3-06-obstacle",
+      "title": "偏心方柱腔",
+      "driving_and_state": "外顶壁运动",
+      "difference_and_coverage": "绕障结构输运",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-3-07-structured_patch",
+      "title": "方腔",
+      "driving_and_state": "结构初态非均匀、相容速度",
+      "difference_and_coverage": "初态结构记忆",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-3-08-pulse",
+      "title": "深腔",
+      "driving_and_state": "两段速度脉冲",
+      "difference_and_coverage": "间歇休止与恢复",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-3-09-structure_inlet",
+      "title": "直通道",
+      "driving_and_state": "入口速度和结构值随时间变化、完整牵引出口",
+      "difference_and_coverage": "入流结构历史与自然结构流出",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-11-3-10-inhomogeneous_structure_inlet",
+      "title": "非对称带孔通道",
+      "driving_and_state": "空间非均匀入口结构及分段线性入口速度、完整牵引出口",
+      "difference_and_coverage": "结构入流、无回流、绝对压力基准与额外应力观测",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "匹配线性结构黏度与build/break动力学；不以默认不同触变律替代"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "structure_breakdown_and_rebuild",
+      "assigned_design_ids": [
+        "ch02-2-11-3-01-startup",
+        "ch02-2-11-3-02-rebuild"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "reversal_hysteresis",
+      "assigned_design_ids": [
+        "ch02-2-11-3-03-reversal"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "opposed_shear",
+      "assigned_design_ids": [
+        "ch02-2-11-3-04-opposed"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "spatial_structure_transport",
+      "assigned_design_ids": [
+        "ch02-2-11-3-05-split",
+        "ch02-2-11-3-06-obstacle",
+        "ch02-2-11-3-07-structured_patch"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "intermittent_rest",
+      "assigned_design_ids": [
+        "ch02-2-11-3-08-pulse"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "history_interaction",
+      "assigned_design_ids": [
+        "ch02-2-11-3-09-structure_inlet",
+        "ch02-2-11-3-10-inhomogeneous_structure_inlet"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "linear_structure_viscosity_and_build_break_kinetics",
+      "assigned_design_ids": [
+        "ch02-2-11-3-01-startup",
+        "ch02-2-11-3-02-rebuild",
+        "ch02-2-11-3-03-reversal",
+        "ch02-2-11-3-04-opposed",
+        "ch02-2-11-3-05-split",
+        "ch02-2-11-3-06-obstacle",
+        "ch02-2-11-3-07-structured_patch",
+        "ch02-2-11-3-08-pulse",
+        "ch02-2-11-3-09-structure_inlet",
+        "ch02-2-11-3-10-inhomogeneous_structure_inlet"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "inlet_structure_and_natural_outflow",
+      "assigned_design_ids": [
+        "ch02-2-11-3-09-structure_inlet",
+        "ch02-2-11-3-10-inhomogeneous_structure_inlet"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "traction_outlet_and_absolute_pressure_convention",
+      "assigned_design_ids": [
+        "ch02-2-11-3-09-structure_inlet",
+        "ch02-2-11-3-10-inhomogeneous_structure_inlet"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全局xy真实几何；按本题定义区分单位厚度与实际水平面积",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "一阶单纯形网格与节点分片线性输入；输出采用本题允许的真实节点子集，避开多迹或非唯一导数位置",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "整体量仅使用本题允许的aggregate/source；不制造带坐标的汇总探针",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

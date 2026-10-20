@@ -1,0 +1,410 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.1.10",
+  "task": "newtonian-isothermal-compressible-transient-2d",
+  "question_path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-transient-2d",
+  "model": "cfd-2.1",
+  "family": "isothermal_compressible",
+  "analysis_kind": "steady",
+  "document_sha256": {
+    "instruction.md": "78e4797e53a4324805b25efc7f118f43833eca3ffbea918169e4612c0ed25a69",
+    "DATA.md": "b7d916325ae0d658ba77e5e956d4d27c0a68f1a8d7d376c9fe9048c1ddf1b033",
+    "author/grading-template.json": "3de8e05f2ec94b8ca5ec0df93b0917b4f5dfe456a811a4cf034f2b556999c382"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-1-10-01-ideal_lid",
+      "title": "方腔",
+      "driving_and_state": "理想气体、顶壁驱动",
+      "difference_and_coverage": "密度与绝对静压耦合",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-10-02-barotropic_lid",
+      "title": "方腔",
+      "driving_and_state": "线性正压、顶壁驱动",
+      "difference_and_coverage": "不同于理想气体的状态关系",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-10-03-ideal_deep",
+      "title": "深腔",
+      "driving_and_state": "理想气体、侧壁驱动",
+      "difference_and_coverage": "受限回流中的密度分布",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-10-04-barotropic_periodic",
+      "title": "周期通道",
+      "driving_and_state": "线性正压、无压跳周期端面、体加速度驱动、非零体黏度",
+      "difference_and_coverage": "可压缩周期与体力驱动",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-10-05-ideal_obstacle_flux",
+      "title": "偏心方柱通道",
+      "driving_and_state": "理想气体、流量入口加给定密度、完整储槽牵引出口",
+      "difference_and_coverage": "内边界、流率归一化和入口密度",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-10-06-ideal_stratified_slip",
+      "title": "高腔",
+      "driving_and_state": "理想气体、均匀竖直体加速度、滑移壁",
+      "difference_and_coverage": "封闭质量库存、分层和滑移",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-10-07-barotropic_stratified",
+      "title": "矩形腔",
+      "driving_and_state": "线性正压、斜向体加速度",
+      "difference_and_coverage": "非竖直压力和密度梯度",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-10-08-ideal_symmetry_channel",
+      "title": "对称半通道",
+      "driving_and_state": "理想气体、速度与密度入口、对称面及完整储槽牵引出口",
+      "difference_and_coverage": "对称边界、压力与入口密度共同约束",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-10-09-ideal_density_initial_or_inlet",
+      "title": "矩形通道",
+      "driving_and_state": "理想气体、非零体黏度、空间非均匀入口密度和完整储槽牵引出口",
+      "difference_and_coverage": "密度输入、体黏度与压缩性调整",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-1-10-10-barotropic_network",
+      "title": "带双障碍物的多入口通道",
+      "driving_and_state": "线性正压、不同密度的两个速度入口、储槽牵引出口",
+      "difference_and_coverage": "多入口质量供给、状态关系与回流排除",
+      "spatial_dimension": 2,
+      "geometry_note": "全局xy；薄膜/浅水是实际水平面积，其他二维积分按DATA",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "保持真正等温状态关系；不运行能量方程后仅覆盖输出温度",
+    "核对非零体黏度及封闭质量约束"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "ideal_gas_eos",
+      "assigned_design_ids": [
+        "ch02-2-1-10-01-ideal_lid",
+        "ch02-2-1-10-03-ideal_deep",
+        "ch02-2-1-10-05-ideal_obstacle_flux",
+        "ch02-2-1-10-06-ideal_stratified_slip",
+        "ch02-2-1-10-08-ideal_symmetry_channel",
+        "ch02-2-1-10-09-ideal_density_initial_or_inlet"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "linear_barotropic_eos",
+      "assigned_design_ids": [
+        "ch02-2-1-10-02-barotropic_lid",
+        "ch02-2-1-10-04-barotropic_periodic",
+        "ch02-2-1-10-07-barotropic_stratified",
+        "ch02-2-1-10-10-barotropic_network"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "absolute_pressure_positive_density",
+      "assigned_design_ids": [
+        "ch02-2-1-10-01-ideal_lid",
+        "ch02-2-1-10-02-barotropic_lid",
+        "ch02-2-1-10-06-ideal_stratified_slip",
+        "ch02-2-1-10-07-barotropic_stratified"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "closed_mass_inventory",
+      "assigned_design_ids": [
+        "ch02-2-1-10-01-ideal_lid",
+        "ch02-2-1-10-02-barotropic_lid",
+        "ch02-2-1-10-03-ideal_deep",
+        "ch02-2-1-10-06-ideal_stratified_slip",
+        "ch02-2-1-10-07-barotropic_stratified"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "moving_wall_driving",
+      "assigned_design_ids": [
+        "ch02-2-1-10-01-ideal_lid",
+        "ch02-2-1-10-02-barotropic_lid",
+        "ch02-2-1-10-03-ideal_deep",
+        "ch02-2-1-10-04-barotropic_periodic",
+        "ch02-2-1-10-08-ideal_symmetry_channel"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "body_acceleration",
+      "assigned_design_ids": [
+        "ch02-2-1-10-06-ideal_stratified_slip",
+        "ch02-2-1-10-07-barotropic_stratified"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "inner_boundary",
+      "assigned_design_ids": [
+        "ch02-2-1-10-05-ideal_obstacle_flux",
+        "ch02-2-1-10-10-barotropic_network"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "nonuniform_initial_density_in_transient",
+      "assigned_design_ids": [
+        "ch02-2-1-10-09-ideal_density_initial_or_inlet"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "bulk_viscosity_effects",
+      "assigned_design_ids": [
+        "ch02-2-1-10-04-barotropic_periodic",
+        "ch02-2-1-10-09-ideal_density_initial_or_inlet"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "open_inlet_density_and_full_traction_outlet",
+      "assigned_design_ids": [
+        "ch02-2-1-10-05-ideal_obstacle_flux",
+        "ch02-2-1-10-08-ideal_symmetry_channel",
+        "ch02-2-1-10-09-ideal_density_initial_or_inlet",
+        "ch02-2-1-10-10-barotropic_network"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "flow_rate_inlet",
+      "assigned_design_ids": [
+        "ch02-2-1-10-05-ideal_obstacle_flux"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "slip_symmetry_periodic",
+      "assigned_design_ids": [
+        "ch02-2-1-10-04-barotropic_periodic",
+        "ch02-2-1-10-06-ideal_stratified_slip",
+        "ch02-2-1-10-08-ideal_symmetry_channel"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全局xy真实几何；按本题定义区分单位厚度与实际水平面积",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在十例间安排point、cell average、region mean及真实边界积分；不在奇异角点请求导数",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "二维安排三角/四边形及合法混合网格；三维安排四面体、六面体及有意义的棱柱/金字塔过渡网格",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "初态、边界历史、体源历史使用各自明确的采样轴；请求输出时刻不决定内部步长",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

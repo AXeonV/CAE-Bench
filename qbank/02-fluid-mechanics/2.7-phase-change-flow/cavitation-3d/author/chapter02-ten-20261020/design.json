@@ -1,0 +1,381 @@
+{
+  "batch": "chapter02-ten-20261020",
+  "question": "2.7.4",
+  "task": "cavitation-3d",
+  "question_path": "qbank/02-fluid-mechanics/2.7-phase-change-flow/cavitation-3d",
+  "model": "fluid-multiphase-cavitation-v1",
+  "family": "cavitation",
+  "analysis_kind": "transient",
+  "document_sha256": {
+    "instruction.md": "024abed341694c87698861d71f2ec878fb4dc42ab15f2ffa43708394359bc1de",
+    "DATA.md": "964657391791a9c72eda268deaace55023f008d9820fbb3122d6ba7f31b2fbb0",
+    "author/grading-template.json": "a2a1f09281a00696bec0e4fa78a618c09f4d3de4a632de420714e513e1ccd386"
+  },
+  "hf_baseline": {
+    "repo": "jimzhouzzy2006/CAE-Bench-OJ",
+    "revision": "d46b17a03d444646157e1e2fe4b4f00587dc5d89",
+    "pool_cases": 0
+  },
+  "target_pool_size": 10,
+  "proposed_cases": [
+    {
+      "design_id": "ch02-2-7-4-01-depressurized",
+      "title": "压力储槽盒",
+      "driving_and_state": "外压低于饱和压、含核液体",
+      "difference_and_coverage": "压力线性蒸发",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-4-02-recovery",
+      "title": "压力储槽盒",
+      "driving_and_state": "外压高于饱和压、初始蒸气含率",
+      "difference_and_coverage": "核率下限控制的冷凝",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-4-03-body_force",
+      "title": "长储槽盒",
+      "driving_and_state": "体加速度建立压力梯度",
+      "difference_and_coverage": "局部低压区",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-4-04-gravity_column",
+      "title": "高储槽盒",
+      "driving_and_state": "竖直重力及近饱和储槽",
+      "difference_and_coverage": "静压梯度跨越饱和阈值",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-4-05-localized_vapour",
+      "title": "宽储槽盒",
+      "driving_and_state": "局部蒸气团与高压储槽",
+      "difference_and_coverage": "非均匀冷凝",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-4-06-fraction_gradient",
+      "title": "矩形储槽盒",
+      "driving_and_state": "光滑含率梯度与低压储槽",
+      "difference_and_coverage": "alpha依赖的蒸发率",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-4-07-obstacle_pressure",
+      "title": "带方柱储槽盒",
+      "driving_and_state": "体力驱动且压力储槽",
+      "difference_and_coverage": "绕障压力最低区",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-4-08-two_pockets",
+      "title": "立方储槽盒",
+      "driving_and_state": "两个蒸气团与恢复压力",
+      "difference_and_coverage": "蒸气团相互作用",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-4-09-time_force",
+      "title": "长储槽盒",
+      "driving_and_state": "体加速度脉冲",
+      "difference_and_coverage": "蒸发与恢复的动力学切换",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    },
+    {
+      "design_id": "ch02-2-7-4-10-inflow_fraction",
+      "title": "矩形储槽盒",
+      "driving_and_state": "储槽alpha的分段线性历史",
+      "difference_and_coverage": "核率与储槽来流相态的区别",
+      "spatial_dimension": 3,
+      "geometry_note": "3D题必须采用有限深度及真实端壁/非平面场，不能仅把2D结果挤出",
+      "provenance": {
+        "case_conditions": "author-designed proposal",
+        "candidate_solver_sources": [
+          "openfoam",
+          "elmer"
+        ],
+        "producer_compatibility": "not_yet_established"
+      },
+      "status": "scenario_proposal_not_numerically_frozen",
+      "remaining_before_execution": [
+        "确定数值几何、全部SI物性和初边值",
+        "确认现成生产者与本题闭合及边界等价",
+        "生成自包含problem.json、mesh.msh、input.h5和原生求解器配置"
+      ]
+    }
+  ],
+  "limitations_and_model_checks": [
+    "未做数值验证、网格加密或独立交叉验证；不得称为已验证case",
+    "匹配DATA压力线性质量率；Schnerr–Sauer/Merkle/Kunz默认模型不可按同名直接代入"
+  ],
+  "coverage_matrix": [
+    {
+      "requirement": "linear_pressure_evaporation",
+      "assigned_design_ids": [
+        "ch02-2-7-4-01-depressurized"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "nuclei_limited_condensation",
+      "assigned_design_ids": [
+        "ch02-2-7-4-02-recovery"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "body_force_driven_pressure_gradient",
+      "assigned_design_ids": [
+        "ch02-2-7-4-03-body_force",
+        "ch02-2-7-4-04-gravity_column"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "localized_phase_fraction",
+      "assigned_design_ids": [
+        "ch02-2-7-4-05-localized_vapour",
+        "ch02-2-7-4-06-fraction_gradient"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "inner_boundary_pressure_minimum",
+      "assigned_design_ids": [
+        "ch02-2-7-4-07-obstacle_pressure"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "multiple_vapour_regions",
+      "assigned_design_ids": [
+        "ch02-2-7-4-08-two_pockets"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "time_dependent_force_and_recovery",
+      "assigned_design_ids": [
+        "ch02-2-7-4-09-time_force"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "reservoir_fraction_history",
+      "assigned_design_ids": [
+        "ch02-2-7-4-10-inflow_fraction"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "nonzero_divergence_and_correct_deviatoric_stress",
+      "assigned_design_ids": [
+        "ch02-2-7-4-01-depressurized",
+        "ch02-2-7-4-02-recovery",
+        "ch02-2-7-4-03-body_force",
+        "ch02-2-7-4-04-gravity_column",
+        "ch02-2-7-4-05-localized_vapour",
+        "ch02-2-7-4-06-fraction_gradient",
+        "ch02-2-7-4-07-obstacle_pressure",
+        "ch02-2-7-4-08-two_pockets",
+        "ch02-2-7-4-09-time_force",
+        "ch02-2-7-4-10-inflow_fraction"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    },
+    {
+      "requirement": "absolute_pressure_relative_to_saturation",
+      "assigned_design_ids": [
+        "ch02-2-7-4-01-depressurized",
+        "ch02-2-7-4-02-recovery",
+        "ch02-2-7-4-03-body_force",
+        "ch02-2-7-4-04-gravity_column",
+        "ch02-2-7-4-05-localized_vapour",
+        "ch02-2-7-4-06-fraction_gradient",
+        "ch02-2-7-4-07-obstacle_pressure",
+        "ch02-2-7-4-08-two_pockets",
+        "ch02-2-7-4-09-time_force",
+        "ch02-2-7-4-10-inflow_fraction"
+      ],
+      "status": "planned_not_implemented",
+      "implementation_evidence": []
+    }
+  ],
+  "coverage_state": "design_targets_only_not_verified",
+  "representation_coverage_targets": [
+    {
+      "target": "实体tag作为身份而非数组行号；位置与字段显式引用；输出轴及IDs原样返回",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部必需主字段；在有唯一物理迹处选择本题允许的适用派生/整体观测",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "真实几何网格、合法边界不重不漏；不把二维结果简单挤出充当三维响应",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "在输入预算内选择基线、耦合及较复杂工况；复杂度不能只来自扩大网格或延长时域",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "全部域单元的面积/体积平均主字段；不把节点插值冒充单元平均",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    },
+    {
+      "target": "二维与三维按各题允许的一阶单元类型安排网格；时间、参数和字段不添加求解器私有输入",
+      "status": "not_yet_instantiated_in_input",
+      "case_assignment": "to_be_fixed_with_mesh_and_observation_design"
+    }
+  ]
+}

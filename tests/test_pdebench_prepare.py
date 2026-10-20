@@ -124,14 +124,23 @@ class ConversionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             path=Path(tmp)/'ns.h5'
             with h5py.File(path,'w') as h:
-                h.attrs['config']=yaml.safe_dump({'domain_size':[1,1],'grid_size':[4,4]})
+                h.attrs['config']=yaml.safe_dump({'domain_size':[1,1],'grid_size':[4,4],'NU':.01,'velocity_extrapolation':'ZERO','particle_extrapolation':'BOUNDARY','force_extrapolation':'ZERO'})
                 h.create_dataset('velocity',shape=(1,5,4,4,2),dtype='f4')
+                h.create_dataset('particles',shape=(1,5,4,4,1),dtype='f4')
+                h.create_dataset('force',shape=(1,4,4,2),dtype='f4')
+                h['particles'][0,1:]=np.nan
+                h['velocity'][...,0]=1.5;h['velocity'][...,1]=-2.5
                 h.create_dataset('t',data=[[0.,np.nan,.011,.02,.027]],chunks=(1,1),compression='lzf')
             with h5py.File(path,'r') as h:
                 reader=Reader(h,BY_TASK['incompressible-navier-stokes-2d'])
                 coords,times,_=reader.metadata(0,frames=np.array([0,2,4]))
                 np.testing.assert_array_equal(times,[0.,.011,.027])
                 np.testing.assert_array_equal(coords[0],[.125,.375,.625,.875])
+                values=reader.values(0,[0,2,4])
+                self.assertEqual(values['tracer'].shape,(1,4,4,1))
+                self.assertTrue(np.isfinite(values['tracer']).all())
+                np.testing.assert_array_equal(values['velocity'][...,0],1.5)
+                np.testing.assert_array_equal(values['velocity'][...,1],-2.5)
                 # A full read would encounter the deliberately invalid,
                 # irrelevant frame. Requested time values remain untouched.
                 with self.assertRaisesRegex(PreparationError,'Invalid actual source times'):
@@ -139,6 +148,21 @@ class ConversionTests(unittest.TestCase):
                 for frames in ([1,2],[0,2,2],[0,5]):
                     with self.assertRaisesRegex(PreparationError,'Invalid selected'):
                         reader.metadata(0,frames=np.array(frames))
+
+    def test_ns_metadata_rejects_incompatible_physics(self):
+        import yaml
+        base={'domain_size':[1,1],'grid_size':[4,4],'NU':.01,'velocity_extrapolation':'ZERO','particle_extrapolation':'BOUNDARY','force_extrapolation':'ZERO'}
+        with tempfile.TemporaryDirectory() as tmp:
+            p=Path(tmp)/'source.h5'
+            with h5py.File(p,'w') as h:
+                h.create_dataset('velocity',shape=(1,2,4,4,2),dtype='f4')
+                h.create_dataset('particles',shape=(1,2,4,4,1),dtype='f4')
+                h.create_dataset('force',shape=(1,4,4,2),dtype='f4')
+                h['t']=[[0.,.01]]
+                for key,value in [('NU',.02),('velocity_extrapolation','PERIODIC'),('enable_gravity',True),('enable_obstacles',True),('domain_size',[512,512])]:
+                    with self.subTest(key=key):
+                        h.attrs['config']=yaml.safe_dump(dict(base,**{key:value}))
+                        with self.assertRaises(PreparationError):Reader(h,BY_TASK['incompressible-navier-stokes-2d']).metadata(0,frames=np.array([0,1]))
 
     def test_fhn_complete_initial_data_and_output_subset(self):
         model=BY_TASK['reaction-diffusion-2d'];seed=17;n=8

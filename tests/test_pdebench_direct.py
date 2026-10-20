@@ -86,6 +86,21 @@ class DirectTests(unittest.TestCase):
             self.assertTrue((task/'samples/01/reference/grading.json').exists())
             self.assertTrue((task/'samples/01/output/result.h5').exists())
 
+    def test_incompressible_reference_preserves_raw_snapshot_and_velocity(self):
+        from utils.PDEBench.conversion import build_input
+        model=BY_TASK['incompressible-navier-stokes-2d']
+        coords=[(np.arange(4)+.5)/4]*2
+        velocity=np.arange(3*4*4*2,dtype=float).reshape(3,4,4,2)/100
+        values={'velocity':velocity,'tracer':np.ones((1,4,4,1)),'forcing':np.ones((1,4,4,2))}
+        config={'NU':.01,'domain_size':[1,1],'grid_size':[4,4],'velocity_extrapolation':'ZERO'}
+        with tempfile.TemporaryDirectory() as tmp:
+            problem=build_input(model,{'filename':'ns.h5'},coords,np.array([0.,.005,.01]),values,Path(tmp))
+            arrays,evidence=source_reference(model,problem,values,config)
+            self.assertEqual(evidence['blocked'],[])
+            np.testing.assert_array_equal(arrays['velocity'],velocity.reshape(3,16,2))
+            np.testing.assert_array_equal(problem.arrays['initial_velocity'],velocity[0:1].reshape(1,16,2))
+            self.assertFalse(evidence['continuum_error_certified'])
+
     def test_network_retry_charge_cannot_exceed_limit(self):
         budget = NetworkBudget(8)
         budget.admit(5)

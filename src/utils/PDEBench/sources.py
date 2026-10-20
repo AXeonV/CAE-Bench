@@ -90,6 +90,15 @@ class Reader:
                 raise PreparationError("Cannot establish unit-square source configuration")
             if list(config.get('grid_size',[]))!=list(shape):
                 raise PreparationError('Source grid_size does not match the published velocity grid')
+            expected = {'NU': .01, 'velocity_extrapolation': 'ZERO',
+                        'particle_extrapolation': 'BOUNDARY', 'force_extrapolation': 'ZERO'}
+            if any(config.get(key) != value for key, value in expected.items()):
+                raise PreparationError('Incompressible source viscosity or boundary configuration differs from task')
+            if config.get('enable_gravity', False) or config.get('enable_obstacles', False):
+                raise PreparationError('Incompressible gravity/obstacle configuration outside task')
+            n, nt, nx, ny, components = self.h['velocity'].shape
+            if components != 2 or self.h['particles'].shape != (n, nt, nx, ny, 1) or self.h['force'].shape != (n, nx, ny, 2) or self.h['t'].shape != (n, nt):
+                raise PreparationError('Incompressible scalar/vector axes differ from declared source layout')
             # Released domain_size is checked independently against short-time
             # tracer transport; the current generator's grid_size Box differs.
             coords = [lo+(np.arange(n)+.5)*(hi-lo)/n
@@ -148,7 +157,8 @@ class Reader:
             return {name: data[..., i:i+1] for i, (name, _, _, _) in enumerate(model.fields)}
         if model.points:
             return {'velocity': np.asarray(self.h['velocity'][index, frames], dtype=np.float64),
-                    'tracer': np.asarray(self.h['particles'][index, frames], dtype=np.float64),
+                    # Tracer is input only: never fetch unrequested hidden transport outputs.
+                    'tracer': np.asarray(self.h['particles'][index, 0:1], dtype=np.float64),
                     'forcing': np.asarray(self.h['force'][index], dtype=np.float64)[None]}
         if model.model == 'darcy_flow_2d':
             # Published Darcy uses a separate nu coefficient and scalar tensor.

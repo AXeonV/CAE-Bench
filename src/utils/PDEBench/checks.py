@@ -16,7 +16,8 @@ def source_reference(model, problem, values, config):
         # Do not silently replace published finite-time snapshots with a new steady solve.
         blocked.append('Published Darcy steady-state suitability unresolved; no automatic equilibrium correction')
     if model.points:
-        blocked.append('Unit-Box/generator provenance requires source-bound review; no automatic transport solve')
+        metrics.update(kinematic_viscosity=config['NU'], domain_size=config['domain_size'],
+                       grid_size=config['grid_size'], velocity_extrapolation=config['velocity_extrapolation'])
     if model.model == 'reaction_diffusion_2d':
         sim = config.get('sim', {})
         if any(sim.get(k) != v for k, v in [('Du', .001), ('Dv', .005), ('k', .005)]):

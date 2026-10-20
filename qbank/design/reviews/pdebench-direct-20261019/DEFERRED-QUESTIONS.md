@@ -14,18 +14,17 @@
 - 暂不改变题面、自动修正参考或以离散残差替代连续精度证明。
 - 依据：[题面](../../../01-prescribed-pdes/1.1-elliptic/darcy-flow-2d/instruction.md)、[既往来源记录](../../../01-prescribed-pdes/1.1-elliptic/darcy-flow-2d/author/data-evidence/reference/DESIGN.md)。
 
-## 二维不可压缩流：incompressible-navier-stokes-2d
+## 二维不可压缩流：incompressible-navier-stokes-2d（2026-10-20恢复直接制数）
 
-- 官方补充材料 D.6 规定单位方域、运动黏度 0.01 和零壁速；所审生成器包含标量耦合驱动、离散投影与速度再采样步骤。
-- 当前题面进一步规定连续 Helmholtz 初始投影、预投影首帧和点值重建。连续定义与发布离散流程不能仅凭名称认定等价。
-- 既往作者记录有实际分片单位域尺度检查；该证据应按来源身份复核，不能把已审过的尺度仍一概当作未知，也不能把尺度核对当成全部投影/采样误差已解决。
-- 尚缺：对应生成版本与实际分片、连续初态/投影及输出采样的逐项对应。
-- 暂不改题、重算投影或新增输运求解。
-- 依据：[题面](../../../01-prescribed-pdes/1.6-constrained-systems/incompressible-navier-stokes-2d/instruction.md)、[既往来源记录](../../../01-prescribed-pdes/1.6-constrained-systems/incompressible-navier-stokes-2d/author/data-evidence/reference/DESIGN.md)。
+用户授权先核对实际分片的黏度、壁面、强迫耦合、坐标/分量及首帧约定，对应成立后沿用发布速度轨迹。不重算投影、不修正参考，不要求连续解与离散参考完全一致。
+
+已读取分片133280的实际配置和布局：NU=.01、domain_size=[1,1]、grid_size=[512,512]、velocity_extrapolation=ZERO、particle_extrapolation=BOUNDARY、force_extrapolation=ZERO；速度4×1000×512×512×2，标量及force布局一致，实际初帧时刻为0。固定源码说明χf耦合、交错场中心采样与预推进首帧保存；与题面数据映射相应，精确历史生成commit仍不由配置证明。历史单位域尺度证据保留，不把其余数值差异作为精度认证门槛。
+
+工具逐分片严格核验配置与布局，解除全题拦截；输入保留原速度首帧、标量首帧、静态force，参考保留选中速度帧，不执行投影或参考修正。新20条/2example记录见本题author/data-evidence/direct-20261020/；是否安装就绪以该报告为准。Darcy继续暂缓。
 
 ## 当前工具状态与后续边界
 
-以下是2026-10-19历史状态；一维反应扩散已按上节恢复，其余两题仍使用全题门禁。原三题当时使用保守的全题门禁：可以取得 input 和私有 candidate.h5，不生成可判分 reference、example 或评测包。这个实现状态不等于三族全部数据已被逐例否决；解除门禁需要后续独立处理本记录，不属于此次剩余八题工作。
+以下是2026-10-19历史状态；一维反应扩散已按上节恢复，二维不可压缩流也已按上节恢复，Darcy仍使用全题门禁。原三题当时使用保守的全题门禁：可以取得 input 和私有 candidate.h5，不生成可判分 reference、example 或评测包。这个实现状态不等于三族全部数据已被逐例否决；解除门禁需要后续独立处理本记录，不属于此次剩余八题工作。
 
 其余八题为：平流、Burgers、一维/二维/三维可压缩流、吸附扩散、二维反应扩散、浅水。当前真实 DaRUS 制数及容器判题验收只覆盖前三者中的平流、Burgers、一维可压缩流的固定小批周期配置；另五题仅有离线格式覆盖，见[验收记录](REPORT.md)。
 

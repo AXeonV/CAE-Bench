@@ -24,7 +24,14 @@ from titan_resources import reservation
 
 
 def prepare(job, e):
-    assert e['detailed_spec']['analysis_kind'] == 'steady'
+    transient = e['detailed_spec']['analysis_kind'] == 'transient'
+    k0, length0 = .001, .05
+    if transient:
+        k0 = e['detailed_spec']['initial']['turbulent_kinetic_energy']['expression']
+        length0 = e['detailed_spec']['initial']['turbulence_length_scale']['expression']
+        assert isinstance(k0, (int, float)) and isinstance(length0, (int, float)), 'nonuniform KE input mapping not implemented'
+        assert k0 > 0 and length0 > 0
+        assert min(e['detailed_spec']['output_times_s']) > 0
     data = base.prepare(job, e)
     p = job/'native/case.sif'; s = p.read_text()
     solver = '''Solver 4
@@ -56,13 +63,13 @@ End
  KE Clip = Real 1e-12
  Turbulent Prandtl Number = Real 0.85
 ''', 1)
-    eps = .09**.75 * .001**1.5/.05
-    s = s.replace('Initial Condition 1\n', f'Initial Condition 1\nKinetic Energy = Real 0.001\nKinetic Dissipation = Real {eps:.17g}\n', 1)
+    eps = .09**.75 * k0**1.5/length0
+    s = s.replace('Initial Condition 1\n', f'Initial Condition 1\nKinetic Energy = Real {k0:.17g}\nKinetic Dissipation = Real {eps:.17g}\n', 1)
     pairs = base.boundary_groups(e['detailed_spec'], data[0])[-1]
     for i in range(len(pairs)):
         s = s.replace(f'Boundary Condition {i+1}\n', f'Boundary Condition {i+1}\nNoslip Wall BC = Logical True\n', 1)
     put(p, s)
-    save(job/'native-closure.json', {'model': 'standard k-epsilon', 'source_commit': COMMIT, 'source_paths': ['fem/src/modules/KESolver.F90', 'fem/src/modules/MaterialModels.F90', 'fem/tests/Step_ke/Step_ke.sif'], 'Pr_t': .85, 'near_wall': 'native Noslip Wall BC; k=0 and native EpsilonWall', 'clip_floor': 1e-12, 'dissipation_closure': 'Native Friction Heat with effective viscosity; modeled Reynolds stress work converted through eddy viscosity, not a separately transported epsilon heat source.', 'pressure': 'native modified pressure minus 2*rho*k/3 then volume-mean-zero static gauge', 'iteration_seed_not_physical_initial_state': {'k': .001, 'epsilon': eps}, 'numerical_validation': False})
+    save(job/'native-closure.json', {'model': 'standard k-epsilon', 'source_commit': COMMIT, 'source_paths': ['fem/src/modules/KESolver.F90', 'fem/src/modules/MaterialModels.F90', 'fem/tests/Step_ke/Step_ke.sif'], 'Pr_t': .85, 'near_wall': 'native Noslip Wall BC; k=0 and native EpsilonWall', 'clip_floor': 1e-12, 'dissipation_closure': 'Native Friction Heat with effective viscosity; modeled Reynolds stress work converted through eddy viscosity, not a separately transported epsilon heat source.', 'pressure': 'native modified pressure minus 2*rho*k/3 then volume-mean-zero static gauge', 'initialization': {'kind': 'physical constant URANS initial state' if transient else 'steady iteration seed, not a physical initial state', 'k': k0, 'length': length0, 'epsilon': eps, 'initial_reynolds_stress': '2*k/3*I; zero initial mean strain'}, 'numerical_validation': False})
     return data
 
 
@@ -70,18 +77,33 @@ def convert(job, e, data):
     result = base.convert(job, e, data)
     m = data[0]; x = m['x']; c = m['c']; d = x.shape[1]
     files = sorted((job/'native').rglob('solution*.vtu'))
-    tree = ET.parse(files[-1]); pos = np.fromstring(tree.find('.//Points/DataArray').text, sep=' ').reshape(-1, 3)[:, :d]
-    dist, order = cKDTree(pos).query(x)
-    assert dist.max() < max(e['detailed_spec']['geometry']['bounding_lengths'])*1e-7
-    arrays = {a.get('Name').lower(): np.fromstring(a.text, sep=' ').reshape(len(x), -1)[order] for a in tree.findall('.//PointData/DataArray')}
-    assert 'kinetic energy' in arrays, sorted(arrays)
-    k = arrays['kinetic energy'][c].mean(axis=1)
-    assert np.isfinite(k).all()
+    transient = e['detailed_spec']['analysis_kind'] == 'transient'
+    end_time = (e['detailed_spec']['time_interval_s'] or [0, 1])[1]
+    corrections = []
+    for time_value in e['detailed_spec']['output_times_s']:
+        file = files[round(time_value/end_time*1000)-1] if transient else files[-1]
+        tree = ET.parse(file); pos = np.fromstring(tree.find('.//Points/DataArray').text, sep=' ').reshape(-1, 3)[:, :d]
+        dist, order = cKDTree(pos).query(x)
+        assert dist.max() < max(e['detailed_spec']['geometry']['bounding_lengths'])*1e-7
+        arrays = {a.get('Name').lower(): np.fromstring(a.text, sep=' ').reshape(len(x), -1)[order] for a in tree.findall('.//PointData/DataArray')}
+        assert 'kinetic energy' in arrays, sorted(arrays)
+        k = arrays['kinetic energy'][c].mean(axis=1)
+        assert np.isfinite(k).all()
+        corrections.append(2*e['detailed_spec']['parameters']['density']['value']*k/3)
     with h5py.File(job/'reference/reference.h5', 'r+') as f:
-        p = f['pressure'][...]
-        p -= 2*e['detailed_spec']['parameters']['density']['value']*k/3
-        p -= np.sum(p[0, :, 0]*m['volume'])/np.sum(m['volume'])
+        p = f['pressure'][...] - np.array(corrections)
+        p -= np.sum(p[:, :, 0]*m['volume'], axis=1)[:, None, None]/np.sum(m['volume'])
         f['pressure'][...] = p
+    if transient:
+        problem_path = job/'input/problem.json'; problem = json.loads(problem_path.read_text())
+        with h5py.File(job/'input/input.h5', 'r+') as f:
+            for q, unit in [('turbulent_kinetic_energy', 'm2/s2'), ('turbulence_length_scale', 'm')]:
+                key = 'initial_'+q; f[key] = np.full((1, len(c), 1), e['detailed_spec']['initial'][q]['expression'], dtype=float)
+                field = dict(problem['fields']['initial_temperature'])
+                field.update(array=key, quantity=q, unit=unit)
+                problem['fields'][key] = field
+                problem['conditions'].append({'role': 'initial', 'variable': q, 'operator': 'assign', 'location': 'domain', 'data': {'value': {'field': key}}})
+        save(problem_path, problem)
     result.update(reference_sha256=digest(job/'reference/reference.h5'), native_output_frames=len(files), mapping='Unmodified Elmer standard KE + FlowSolver + HeatSolver; native no-slip KE wall treatment, Pr_t=.85, effective-viscosity Friction Heat. Static pressure subtracts 2*rho*k/3 before volume gauge. Simplex means of native P1 fields. No numerical validation.')
     return result
 
@@ -101,7 +123,7 @@ def run(root, e, g):
             with (job/'solver.log').open('w') as log: cp = subprocess.run(command, stdout=log, stderr=subprocess.STDOUT)
             assert cp.returncode == 0, f'Elmer exit {cp.returncode}'
             frames = list((job/'native').rglob('solution*.vtu'))
-            if len(frames) >= 300: state['status'] = 'native_iteration_limit'
+            if e['detailed_spec']['analysis_kind'] == 'steady' and len(frames) >= 300: state['status'] = 'native_iteration_limit'
             else:
                 state.update(convert(job, e, data)); save(job/'reference/grading.json', g); state['status'] = 'unvalidated_candidate'
     except Exception as ex: state.update(status='needs_attention', error=repr(ex))

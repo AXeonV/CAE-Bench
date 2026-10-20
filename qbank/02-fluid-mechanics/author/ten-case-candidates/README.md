@@ -82,4 +82,4 @@ python qbank/02-fluid-mechanics/author/ten-case-candidates/freeze_designs.py
 
 [native_thermal_rans.py](native_thermal_rans.py)配置原生Elmer标准k–epsilon、FlowSolver和HeatSolver，覆盖2.4.1的10个稳态工况。原生无滑移壁处理、Pr_t=0.85及有效黏度Friction Heat闭合明确留在生产记录；输出扣除2rho k/3后施加静压规范。当前为实际启动的未验证生产队列，不是已确认精度的参考。
 
-[native_thermal_urans.py](native_thermal_urans.py)复用原生Elmer KE/Flow/Heat配置，执行2.4.2前9个常值公开k/长度尺度初态的瞬态工况；全部请求帧独立恢复静压，实际输入补齐两项P0湍流初态。第10例非均匀初态仍待保真映射，不能替换为常数。
+[native_thermal_urans.py](native_thermal_urans.py)复用原生Elmer KE/Flow/Heat配置，执行2.4.2前9个常值公开k/长度尺度初态的瞬态工况；全部请求帧独立恢复静压，实际输入补齐两项P0湍流初态。第10例由[native_thermal_urans_nonuniform.py](native_thermal_urans_nonuniform.py)和[native_initial_ke.py](native_initial_ke.py)单独装配：保留实际P0初值，经体积集块映射到原生P1节点；[InitialKE.F90](InitialKE.F90)只读入节点初值，不实现演化或物理模块。映射与近壁误差尚未验证。

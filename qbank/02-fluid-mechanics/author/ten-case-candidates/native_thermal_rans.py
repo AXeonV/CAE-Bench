@@ -26,10 +26,12 @@ from titan_resources import reservation
 def prepare(job, e):
     transient = e['detailed_spec']['analysis_kind'] == 'transient'
     k0, length0 = .001, .05
+    nonuniform = False
     if transient:
         k0 = e['detailed_spec']['initial']['turbulent_kinetic_energy']['expression']
         length0 = e['detailed_spec']['initial']['turbulence_length_scale']['expression']
-        assert isinstance(k0, (int, float)) and isinstance(length0, (int, float)), 'nonuniform KE input mapping not implemented'
+        nonuniform = not (isinstance(k0, (int, float)) and isinstance(length0, (int, float)))
+        if nonuniform: k0, length0 = .001, .05  # Replaced by native read-only procedures below.
         assert k0 > 0 and length0 > 0
         assert min(e['detailed_spec']['output_times_s']) > 0
     data = base.prepare(job, e)
@@ -68,8 +70,11 @@ End
     pairs = base.boundary_groups(e['detailed_spec'], data[0])[-1]
     for i in range(len(pairs)):
         s = s.replace(f'Boundary Condition {i+1}\n', f'Boundary Condition {i+1}\nNoslip Wall BC = Logical True\n', 1)
+    if nonuniform:
+        from native_initial_ke import apply
+        s = apply(job, e, data, s)
     put(p, s)
-    save(job/'native-closure.json', {'model': 'standard k-epsilon', 'source_commit': COMMIT, 'source_paths': ['fem/src/modules/KESolver.F90', 'fem/src/modules/MaterialModels.F90', 'fem/tests/Step_ke/Step_ke.sif'], 'Pr_t': .85, 'near_wall': 'native Noslip Wall BC; k=0 and native EpsilonWall', 'clip_floor': 1e-12, 'dissipation_closure': 'Native Friction Heat with effective viscosity; modeled Reynolds stress work converted through eddy viscosity, not a separately transported epsilon heat source.', 'pressure': 'native modified pressure minus 2*rho*k/3 then volume-mean-zero static gauge', 'initialization': {'kind': 'physical constant URANS initial state' if transient else 'steady iteration seed, not a physical initial state', 'k': k0, 'length': length0, 'epsilon': eps, 'initial_reynolds_stress': '2*k/3*I; zero initial mean strain'}, 'numerical_validation': False})
+    save(job/'native-closure.json', {'model': 'standard k-epsilon', 'source_commit': COMMIT, 'source_paths': ['fem/src/modules/KESolver.F90', 'fem/src/modules/MaterialModels.F90', 'fem/tests/Step_ke/Step_ke.sif'], 'Pr_t': .85, 'near_wall': 'native Noslip Wall BC; k=0 and native EpsilonWall', 'clip_floor': 1e-12, 'dissipation_closure': 'Native Friction Heat with effective viscosity; modeled Reynolds stress work converted through eddy viscosity, not a separately transported epsilon heat source.', 'pressure': 'native modified pressure minus 2*rho*k/3 then volume-mean-zero static gauge', 'initialization': {'kind': ('physical P0 initial state projected to native P1; see initial-ke-mapping.json' if nonuniform else 'physical constant URANS initial state') if transient else 'steady iteration seed, not a physical initial state', 'k': k0, 'length': length0, 'epsilon': eps, 'initial_reynolds_stress': '2*k/3*I; zero initial mean strain'}, 'numerical_validation': False})
     return data
 
 
@@ -98,7 +103,10 @@ def convert(job, e, data):
         problem_path = job/'input/problem.json'; problem = json.loads(problem_path.read_text())
         with h5py.File(job/'input/input.h5', 'r+') as f:
             for q, unit in [('turbulent_kinetic_energy', 'm2/s2'), ('turbulence_length_scale', 'm')]:
-                key = 'initial_'+q; f[key] = np.full((1, len(c), 1), e['detailed_spec']['initial'][q]['expression'], dtype=float)
+                key = 'initial_'+q
+                if (job/'initial-ke-input.npz').exists():
+                    with np.load(job/'initial-ke-input.npz') as stored: f[key] = stored[q][None, :, None]
+                else: f[key] = np.full((1, len(c), 1), e['detailed_spec']['initial'][q]['expression'], dtype=float)
                 field = dict(problem['fields']['initial_temperature'])
                 field.update(array=key, quantity=q, unit=unit)
                 problem['fields'][key] = field

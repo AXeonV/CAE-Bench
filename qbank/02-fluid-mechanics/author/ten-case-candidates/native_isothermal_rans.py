@@ -21,7 +21,7 @@ from native_closed_cavity import IMAGE, SOCKET, header, put, save, digest, field
 from titan_resources import reservation
 
 
-def prepare(job, e):
+def prepare(job, e, pressure_retry=False):
     view = copy.deepcopy(e); s = view['detailed_spec']; p = {k:v['value'] for k,v in s['parameters'].items()}
     assert p['bulk_viscosity'] == 0 and s['analysis_kind'] == 'steady'
     s['analysis'] = {'temperature_K':p['reference_temperature'], 'pressure_representation':'absolute', 'mean_density_kg_m3':p['mean_density']}
@@ -32,6 +32,12 @@ def prepare(job, e):
     schemes=(n/'system/fvSchemes').read_text().replace('default none;', 'default Gauss linear;').replace('div(phi,U) Gauss upwind;', 'div(phi,U) Gauss upwind; div(phi,R) Gauss upwind; div(phi,epsilon) Gauss upwind; div(devRhoReff) Gauss linear;')+'\nwallDist { method meshWave; }\n'
     put(n/'system/fvSchemes',schemes)
     solution=(n/'system/fvSolution').read_text().replace('solvers {','solvers { R { solver smoothSolver; smoother symGaussSeidel; tolerance 1e-9; relTol 0; } epsilon { $R; }',1).replace('residualControl { U 1e-9; }','residualControl { U 1e-8; R 1e-8; epsilon 1e-8; }').replace('U 0.3; h 1;', 'U 0.3; R 0.3; epsilon 0.3; h 1;')
+    if pressure_retry:
+        solution=solution.replace('solver PCG; preconditioner DIC; tolerance 1e-10; relTol 0;', 'solver GAMG; smoother DICGaussSeidel; tolerance 1e-10; relTol 0; maxIter 1000; nCellsInCoarsestLevel 10; agglomerator faceAreaPair; mergeLevels 1;')
+        solution=solution.replace('p 0.2; rho 0.5;', 'p 0.05; rho 0.1;').replace('U 0.3; R 0.3; epsilon 0.3;', 'U 0.1; R 0.1; epsilon 0.1;')
+        control=(n/'system/controlDict').read_text().replace('functions {', 'functions { diagnosticRanges { type fieldMinMax; libs (fieldFunctionObjects); fields (p rho U R epsilon T); mode component; log true; writeControl timeStep; writeInterval 1; }', 1)
+        put(n/'system/controlDict',control)
+        save(job/'retry-configuration.json', {'variant':'one bounded conservative-relaxation and GAMG attempt', 'original_failure':'Continuity and epsilon diverge before pressure PCG FPE at native iteration 15', 'physical_changes':False, 'convergence_threshold_changes':False, 'iteration_limit_changes':False, 'pressure_tolerance':1e-10, 'relaxation':{'p':.05,'rho':.1,'U':.1,'R':.1,'epsilon':.1}, 'pressure_solver':'native GAMG/DICGaussSeidel', 'script_sha256':digest(Path(__file__)), 'numerical_validation':False})
     put(n/'system/fvSolution',solution)
     return app, mesh_view
 
@@ -60,15 +66,15 @@ def convert(job,e,m):
     return result
 
 
-def run(root,e,g):
+def run(root,e,g,pressure_retry=False):
     job=root/'cases'/e['design_id'];status=job/'status.json'
     if status.exists():return json.loads(status.read_text())
     job.mkdir(parents=True);save(job/'design.json',e);state={'design_id':e['design_id'],'status':'queued'};save(status,state);name='ch02isorans-'+hashlib.sha256(e['design_id'].encode()).hexdigest()[:12]+'-'+str(time.time_ns())[-9:]
     try:
         with reservation(root,name):
-            app,view=prepare(job,e);common=['docker','--host',SOCKET,'run','--network','none','--cpus','1','--memory','768m','--user',f'{os.getuid()}:{os.getgid()}','-e','OMP_NUM_THREADS=1','-v',f'{job.resolve()}:/work',IMAGE,'bash','-c'];prefix='source /usr/lib/openfoam/openfoam2512/etc/bashrc && cd /work/native && '
+            app,view=prepare(job,e,pressure_retry);common=['docker','--host',SOCKET,'run','--network','none','--cpus','1','--memory','768m','--user',f'{os.getuid()}:{os.getgid()}','-e','OMP_NUM_THREADS=1','-v',f'{job.resolve()}:/work',IMAGE,'bash','-c'];prefix='source /usr/lib/openfoam/openfoam2512/etc/bashrc && cd /work/native && '
             subprocess.run(common[:-3]+['--rm']+common[-3:]+[prefix+'blockMesh > ../blockMesh.log 2>&1'],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.STDOUT);m=initialize(job,e,view);command=common[:-3]+['--name',name]+common[-3:]+[prefix+app+' > ../solver.log 2>&1']
-            save(job/'execution.json',{'producer':'unmodified OpenCFD rhoSimpleFoam + full-R LRR + fixedTemperatureConstraint','image':IMAGE,'source':'image:src/TurbulenceModels/turbulenceModels/{RAS/LRR,ReynoldsStress}; native perfectGas and fixedTemperatureConstraint','script_sha256':digest(Path(__file__)),'dependency_sha256':{p.name:digest(p) for p in [Path(iso.__file__),Path(turb.__file__)]},'command':command,'start_unix':time.time(),'numerical_validation':False});state.update(status='running',container=name);save(status,state)
+            save(job/'execution.json',{'producer':'unmodified OpenCFD rhoSimpleFoam + full-R LRR + fixedTemperatureConstraint','image':IMAGE,'source':'image:src/TurbulenceModels/turbulenceModels/{RAS/LRR,ReynoldsStress}; native perfectGas and fixedTemperatureConstraint','script_sha256':digest(Path(__file__)),'numerical_configuration_variant':'conservative-pressure-retry' if pressure_retry else 'initial', 'dependency_sha256':{p.name:digest(p) for p in [Path(iso.__file__),Path(turb.__file__)]},'command':command,'start_unix':time.time(),'numerical_validation':False});state.update(status='running',container=name);save(status,state)
             with (job/'docker.log').open('w') as log:cp=subprocess.run(command,stdout=log,stderr=subprocess.STDOUT)
             assert cp.returncode==0,f'native exit {cp.returncode}'
             if 'SIMPLE solution converged' not in (job/'solver.log').read_text():state['status']='native_iteration_limit'

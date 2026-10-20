@@ -10,7 +10,7 @@
 
 已核查五档来源133217–133221的缓存头部与各一个实际缓存样本，beta属性与标签一致，系数/解分开保存，128²中心坐标和轴布局对应。题面恢复论文D.4四边零Dirichlet，撤销将零虚单元解释为边界值等于半个单元平均的非局部条件；系数双线性重建和单元平均输出保留为显式采样约定。
 
-发布单帧参考不补算、不修正、不以未认证稳态收敛为筛选或全族拦截条件。工具仍核验beta属性、标签、网格和布局。源离散闭合与连续边界的差异、精确历史生成版本及参考误差未认证均保留记录。详情见[核查报告](../../../01-prescribed-pdes/1.1-elliptic/darcy-flow-2d/author/data-evidence/direct-20261020/REPORT.md)。本次未制作或安装20case/2example，未运行模型。
+发布单帧参考不补算、不修正、不以未认证稳态收敛为筛选或全族拦截条件。工具仍核验beta属性、标签、网格和布局。源离散闭合与连续边界的差异、精确历史生成版本及参考误差未认证均保留记录。详情见[核查报告](../../../01-prescribed-pdes/1.1-elliptic/darcy-flow-2d/author/data-evidence/direct-20261020/REPORT.md)。前置核查当时未制作或安装20case/2example；现已完成正式本地安装，见[安装验收](../../../01-prescribed-pdes/1.1-elliptic/darcy-flow-2d/author/data-evidence/install-20261020/REPORT.md)，未运行模型。
 
 ## 二维不可压缩流：incompressible-navier-stokes-2d（2026-10-20恢复直接制数）
 

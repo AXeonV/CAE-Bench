@@ -13,6 +13,6 @@
 | [author/README.md](author/README.md) | 数据准备工具与本地状态 |
 | [通用数据协议](../../../../docs/CONTRACT.md) | 共享 JSON/Gmsh/HDF5 契约 |
 
-本地不保留题目数据或仅含 `problem.json` 的骨架。PDEBench 的冻结来源选择保存在 `author/data-evidence/reference/selection.json`；尚未制备并上传 HF 的数据不可拉取使用。
+本地直接来源数据已安装；配方、冻结选择、原始参考政策与验收见[本批报告](author/data-evidence/install-20261020/REPORT.md)。数据Git忽略，重新制数按作者工具说明操作，无需先迁移HF。旧reference目录selection是历史规划。
 
-当前评分及资源配置用于试运行，连续 PDE 参考误差和资源校准尚未完成。数值参考与精确连续真解应加以区分；来源与审核证据见 `author/data-evidence/reference/`，不能仅凭参考文件存在认定其精度。
+当前评分及资源配置用于试运行，连续 PDE 参考误差和资源校准尚未完成。数值参考与精确连续真解应加以区分；当前来源与审核证据见[本批报告](author/data-evidence/install-20261020/REPORT.md)，不能仅凭参考文件存在认定其精度。

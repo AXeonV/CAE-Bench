@@ -16,3 +16,7 @@
 本地直接来源数据已安装；配方、冻结选择、原始参考政策与验收见[本批报告](author/data-evidence/install-20261020/REPORT.md)。数据Git忽略，重新制数按作者工具说明操作，无需先迁移HF。旧reference目录selection是历史规划。
 
 当前评分及资源配置用于试运行，连续 PDE 参考误差和资源校准尚未完成。数值参考与精确连续真解应加以区分；当前来源与审核证据见[本批报告](author/data-evidence/install-20261020/REPORT.md)，不能仅凭参考文件存在认定其精度。
+
+## 数据获取
+
+按[已发布PDEBench数据获取流程](../../../maintenance/PDEBENCH-DATA.md)装配本题数据，版本与发布状态以该指南引用的记录为准；本题data-manifest.json是正式选择的唯一入口。来源制作与历史安装证据在author/data-evidence中。

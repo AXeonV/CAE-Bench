@@ -16,3 +16,7 @@
 当前20条直接来源试验配方与验收位于[author/data-evidence/direct-20261020/](author/data-evidence/direct-20261020/)。制作后可本地install，不要求先上传HF；实际就绪状态以安装回执及该记录为准。旧reference目录中的selection为历史规划。
 
 当前评分及资源配置用于试运行，连续 PDE 参考误差和资源校准尚未完成。数值参考与精确连续真解应加以区分；来源与审核证据见 `author/data-evidence/reference/`，不能仅凭参考文件存在认定其精度。
+
+## 数据获取
+
+按[已发布PDEBench数据获取流程](../../../maintenance/PDEBENCH-DATA.md)装配本题数据，版本与发布状态以该指南引用的记录为准；本题data-manifest.json是正式选择的唯一入口。来源制作与历史安装证据在author/data-evidence中。

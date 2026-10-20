@@ -79,3 +79,5 @@ python qbank/02-fluid-mechanics/author/ten-case-candidates/freeze_designs.py
 
 持久脚本调度、半小时短摘要巡检和有界维护见[AUTOMATION.md](AUTOMATION.md)。
 [native_isothermal.py](native_isothermal.py)使用原生温度约束及精确状态关系；[native_compressible_thermal.py](native_compressible_thermal.py)使用原生完整总能量方程，幂律物性只注册已有原生类型组合。两者只运行明确匹配的子集。
+
+[native_thermal_rans.py](native_thermal_rans.py)配置原生Elmer标准k–epsilon、FlowSolver和HeatSolver，覆盖2.4.1的10个稳态工况。原生无滑移壁处理、Pr_t=0.85及有效黏度Friction Heat闭合明确留在生产记录；输出扣除2rho k/3后施加静压规范。当前为实际启动的未验证生产队列，不是已确认精度的参考。

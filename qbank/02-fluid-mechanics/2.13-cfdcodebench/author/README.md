@@ -97,10 +97,10 @@
 
 审阅完整证据在 `runs/design-review/cfdcodebench-implementation-20261019/`、`runs/candidate-review/cfdcodebench-20261019/`、`runs/design-review/cfdcodebench-judge-20261019/`、`runs/data-review/cfdcodebench-20261019/`；普通 wheel 安装、移走源码、切换工作目录、隔离解释器的 24 题 CLI/SDK 证据在 `runs/install-check/cfdcodebench-20261019/`。这些验证不代表正式 benchmark。
 
-运行环境快照在本地 `scientific-environment.json`。专项判分 6 项、数量评分相关 68 项、领域装配 1 项与 runtime 非目录断言 6 项已分别实际运行。完整 runtime 目录测试遇到 HEAD 原有的 126 个 FOAMBench 题面无评分模板／无工具绑定，基线核对保存在 `runtime-suite-baseline.json`，没有借本次迁移补齐或掩盖这些题的未实施状态。
+运行环境快照在本地 `scientific-environment.json`。专项判分 6 项、数量评分相关 68 项、领域装配 1 项与 runtime 非目录断言 6 项已分别实际运行。原开发工作区的完整 runtime 目录测试曾遇到另一未发布题集的缺项，基线证据保存在 `runtime-suite-baseline.json`；这段历史不作为当前独立 PR 的通过证据。本 PR 基于 GitHub 主分支，未带入 FOAMBench 题集。24 题实际公开包安装、参考重放、隔离与资源校准另有真实记录。
 
 
-需要在现有长任务完成后收束时，可单次运行 `finish_local.py --wait-hours 24`。它只等待既有队列的实际结束记录，再重建已完成的 OpenFOAM 场、装配、审计并以正常安装的 CLI 消费真实数据；不会启动／重启求解器或创建定时任务。重复实例由本地锁拒绝，作者 Python 脚本在等待期间变化会要求人工复核。当前阶段与逐任务状态写在本地 `completion-pipeline.json`；等待到期不终止仍活跃的计算，也不声称任务完成。完整目录测试的既有 FOAMBench 缺项、资源待校准与独立求解器覆盖局限仍单独保留。
+需要在现有长任务完成后收束时，可单次运行 `finish_local.py --wait-hours 24`。它只等待既有队列的实际结束记录，再重建已完成的 OpenFOAM 场、装配、审计并以正常安装的 CLI 消费真实数据；不会启动／重启求解器或创建定时任务。重复实例由本地锁拒绝，作者 Python 脚本在等待期间变化会要求人工复核。当前阶段与逐任务状态写在本地 `completion-pipeline.json`；等待到期不终止仍活跃的计算，也不声称任务完成。该脚本的旧阶段日志保留历史语义；当前参考、装配、发布与资源状态分别以对应索引为准。独立求解器覆盖局限不因消费检查通过而消失。
 
 
 ## 题库装配与固定提交恢复

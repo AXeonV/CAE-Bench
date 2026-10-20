@@ -85,3 +85,5 @@ python qbank/02-fluid-mechanics/author/ten-case-candidates/freeze_designs.py
 [native_thermal_urans.py](native_thermal_urans.py)复用原生Elmer KE/Flow/Heat配置，执行2.4.2前9个常值公开k/长度尺度初态的瞬态工况；全部请求帧独立恢复静压，实际输入补齐两项P0湍流初态。第10例由[native_thermal_urans_nonuniform.py](native_thermal_urans_nonuniform.py)和[native_initial_ke.py](native_initial_ke.py)单独装配：保留实际P0初值，经体积集块映射到原生P1节点；[InitialKE.F90](InitialKE.F90)只读入节点初值，不实现演化或物理模块。映射与近壁误差尚未验证。
 
 [native_isothermal_rans.py](native_isothermal_rans.py)针对2.3.5使用原生rhoSimpleFoam、全Reynolds应力LRR及固定温度约束。公共包保持本题parameters协议；内部复用2.1状态关系/网格配置视图，不将其作为公共题目。源项为rho*a，绝对静压不扣除k或重新归零，参考仍未验证。
+
+[finish_elmer_node_order.py](finish_elmer_node_order.py)只对已确认原生退出码0、因旧节点顺序断言而失败的一例重做转换；归档旧公共载荷，保留原生场，通过坐标双射恢复节点身份，记录转换摘要，不重新求解或声称数值验证。

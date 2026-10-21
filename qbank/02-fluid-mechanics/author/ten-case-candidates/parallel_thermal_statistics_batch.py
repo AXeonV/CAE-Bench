@@ -7,7 +7,7 @@ import parallel_lowmach_replan as producer
 from parallel_lowmach_replan import run_one
 from hashlib import sha256
 def main():
-    assert sha256(Path(producer.__file__).read_bytes()).hexdigest()=='d9880db6d9a0773e548be0596a6039959609981d88e5aff768dceec06f8a44b4'
+    assert sha256(Path(producer.__file__).read_bytes()).hexdigest()=='149a655147f749fa46000dd63986d14b900b1b7b5b7b7e7f92b4abe76b784698'
     ap=argparse.ArgumentParser();ap.add_argument('--root',type=Path,required=True);ap.add_argument('--snapshot',type=Path,required=True);ap.add_argument('--workers',type=int,default=1);a=ap.parse_args()
     assert sha256(Path(producer.__file__).with_name('native_thermal_statistics.py').read_bytes()).hexdigest()=='5f88011caa67072164ea331eaa786609779611b6c57e9b1c3ee79b64dc50ccf5'
     assert sha256(Path(producer.__file__).with_name('InitialKE_MPI.F90').read_bytes()).hexdigest()=='cf130e49ad699f310b3a46aa7f60b2000c51b820ff5862cd0bd7e2195a571a2b'

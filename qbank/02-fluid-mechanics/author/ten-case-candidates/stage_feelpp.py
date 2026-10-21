@@ -6,12 +6,12 @@ import time
 from pathlib import Path
 from native_closed_cavity import SOCKET,save,digest
 
-TAG='feelpp/feelpp-toolboxes:latest'
+TAG='ghcr.io/feelpp/feelpp:noble-v0.111.0'
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--root',type=Path,required=True);ap.add_argument('--snapshot',type=Path);ap.add_argument('--workers',type=int);a=ap.parse_args()
     root=a.root/'maintenance/feelpp-native-stage';root.mkdir(exist_ok=True);status=root/'status.json';start=time.time()
-    state={'stage':'pulling_official_toolbox','tag':TAG,'started_unix':start,'maximum_stage_seconds':6900,'script_sha256':digest(Path(__file__)),'solver_rerun':False,'reference_produced':False,'numerical_validation':False,'source_docs':['https://docs.feelpp.org/user/latest/install/containers.html','https://docs.feelpp.org/toolboxes/latest/cfd/manual.html'],'scope':'Existing CFD toolbox: two-sided power-law viscosity bounds plus full stress Neumann interfaces. Matching actual version and case adapter still required.'};save(status,state)
+    state={'stage':'pulling_official_toolbox','tag':TAG,'started_unix':start,'maximum_stage_seconds':6900,'script_sha256':digest(Path(__file__)),'solver_rerun':False,'reference_produced':False,'numerical_validation':False,'source_docs':['https://github.com/feelpp/feelpp/releases/tag/v0.111.0','https://docs.feelpp.org/toolboxes/latest/cfd/manual.html'],'scope':'Existing CFD toolbox: two-sided power-law viscosity bounds plus full stress Neumann interfaces. Matching actual version and case adapter still required.'};save(status,state)
     try:
         with (root/'pull.log').open('w') as log:subprocess.run(['docker','--host',SOCKET,'pull',TAG],stdout=log,stderr=subprocess.STDOUT,timeout=6600,check=True)
         info=json.loads(subprocess.check_output(['docker','--host',SOCKET,'image','inspect',TAG],text=True))[0]

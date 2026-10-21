@@ -35,7 +35,11 @@ def run_one(r,approval,cores):
     case=approval['case_id'];assert cores in (8,16);assert int(os.environ['CH02_SOLVE_BUDGET_SECONDS'])<=14300
     archive=Path(approval['archive']);assert digest(archive/'native/case.sif')==approval['original_sif_sha256']
     image=json.loads((r/'maintenance/elmer-mpi-native-stage/stage.json').read_text());assert image['status']=='native_mpi_ready_pending_parallel_case_adapter';image=image['image']
-    e=json.loads((archive/'design.json').read_text());s=e['detailed_spec'];assert e['design_id']==case and s['analysis_kind']=='transient';j=r/'cases'/case;assert not j.exists();j.mkdir();save(j/'design.json',e);state={'design_id':case,'status':'queued'};save(j/'status.json',state);name='ch02lowmach-mpi-'+str(time.time_ns())[-9:]
+    e=json.loads((archive/'design.json').read_text());view=e
+    if approval.get('converter')=='thermal_statistics':
+        from native_thermal_statistics import sample_view
+        view=sample_view(e)
+    s=view['detailed_spec'];assert e['design_id']==case and s['analysis_kind']=='transient';j=r/'cases'/case;assert not j.exists();j.mkdir();save(j/'design.json',e);state={'design_id':case,'status':'queued'};save(j/'status.json',state);name='ch02lowmach-mpi-'+str(time.time_ns())[-9:]
     try:
         with reservation(r,name,cpu=cores,memory_limit_bytes=8*1024**3,workload='parallel_long'):
             n=j/'native';n.mkdir();
@@ -48,7 +52,11 @@ def run_one(r,approval,cores):
             z=np.load(j/'adapter-data.npz');m={k:z[k] for k in z.files if k not in ['mech','thermal','joint','hist','sources']};data=(m,z['mech'],z['thermal'],z['hist'],z['sources'])
             end=s['time_interval_s'][1];knots=sorted(set([0.,.1*end,.4*end,.6*end,end,*s['output_times_s']]));intervals=[math.ceil((b-a)/.01-1e-10) for a,b in zip(knots,knots[1:])];sizes=[(b-a)/n for a,b,n in zip(knots,knots[1:],intervals)];times=[]
             for lo,hi,num in zip(knots,knots[1:],intervals):times.extend(np.linspace(lo,hi,num+1)[1:].tolist())
-            text=(archive/'native/case.sif').read_text();text=re.sub(r'Timestep Intervals\(1\) = 1000',f'Timestep Intervals({len(intervals)}) = '+' '.join(map(str,intervals)),text);text=re.sub(r'Timestep Sizes\(1\) = [^\n]+',f'Timestep Sizes({len(sizes)}) = '+' '.join(format(v,'.17g') for v in sizes),text);text=text.replace('Output Intervals(1) = 1',f'Output Intervals({len(sizes)}) = '+' '.join('1' for _ in sizes))
+            text=(archive/'native/case.sif').read_text()
+            if approval.get('converter')=='thermal_statistics':
+                text=text.replace('Linear System Solver = Direct','Linear System Solver = Iterative').replace('Linear System Direct Method = UMFPACK','! Native MPI BiCGStabL/ILU1; serial UMFPACK removed')
+                save(j/'native-sampling-view.json',view)
+            text=re.sub(r'Timestep Intervals\(1\) = 1000',f'Timestep Intervals({len(intervals)}) = '+' '.join(map(str,intervals)),text);text=re.sub(r'Timestep Sizes\(1\) = [^\n]+',f'Timestep Sizes({len(sizes)}) = '+' '.join(format(v,'.17g') for v in sizes),text);text=text.replace('Output Intervals(1) = 1',f'Output Intervals({len(sizes)}) = '+' '.join('1' for _ in sizes))
             coupled_max=int(approval.get('coupled_max_iterations',10));assert 10<=coupled_max<=30
             text=text.replace('Steady State Max Iterations = 20',f'Steady State Max Iterations = {coupled_max}').replace('Steady State Convergence Tolerance = 1e-8','Steady State Convergence Tolerance = 1e-6').replace('Nonlinear System Max Iterations = 30','Nonlinear System Max Iterations = 20').replace('Nonlinear System Convergence Tolerance = 1e-8','Nonlinear System Convergence Tolerance = 1e-6').replace('Nonlinear System Convergence Tolerance = 1e-9','Nonlinear System Convergence Tolerance = 1e-6').replace('Nonlinear System Newton After Iterations = 1000000','Nonlinear System Newton After Iterations = 3').replace('Linear System Convergence Tolerance = 1e-10','Linear System Convergence Tolerance = 1e-8').replace('Linear System Convergence Tolerance = 1e-11','Linear System Convergence Tolerance = 1e-8')
             (n/'case.sif').write_text(text);save(j/'parallel-numerical-plan.json',{'cores':cores,'coupled_max_iterations':coupled_max,'native_time_steps':len(times),'time_knots':knots,'native_frame_times':times,'production_tolerances':'Nonlinear/coupled1e-6,linear1e-8; Newton after3; no accuracy certificate','wall_budget_seconds':int(os.environ['CH02_SOLVE_BUDGET_SECONDS']),'basis':approval['numerical_plan_basis'],'physical_change':False,'original_sif_sha256':approval['original_sif_sha256']})
@@ -68,7 +76,11 @@ def run_one(r,approval,cores):
             converter=base
             if approval.get('converter')=='thermal_urans':
                 import native_thermal_rans as converter
-            state.update(converter.convert(j,e,data,native_frames=frames));save(j/'reference/grading.json',json.loads((archive/'grading-template.json').read_text()) if (archive/'grading-template.json').exists() else approval['grading']);state.update(status='unvalidated_candidate',mpi_ranks=cores,native_steps=len(times))
+            if approval.get('converter')=='thermal_statistics':
+                import native_thermal_statistics as statistics
+                result=statistics.convert(j,e,view,data,native_frames=frames)
+            else:result=converter.convert(j,e,data,native_frames=frames)
+            state.update(result);save(j/'reference/grading.json',json.loads((archive/'grading-template.json').read_text()) if (archive/'grading-template.json').exists() else approval['grading']);state.update(status='unvalidated_candidate',mpi_ranks=cores,native_steps=len(times))
     except Exception as ex:state.update(status='needs_attention',error=repr(ex),traceback=traceback.format_exc())
     state['ended_unix']=time.time();save(j/'status.json',state)
 def main():

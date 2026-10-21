@@ -29,8 +29,8 @@ def sample_view(e):
     s['output_times_s']=times.tolist();return v
 
 
-def convert(job,e,view,data):
-    base.convert(job,view,data)
+def convert(job,e,view,data,native_frames=None):
+    base.convert(job,view,data,native_frames=native_frames)
     path=job/'reference/reference.h5';samples=job/'native-sample-reference.h5';path.rename(samples)
     with h5py.File(samples,'r') as f:cells=f['cells'][...];u=f['velocity'][...];p=f['pressure'][...];T=f['temperature'][...];times=f['requested'][...]
     um=u.mean(axis=0);tm=T.mean(axis=0);du=u-um;dt=T-tm;count=len(times)

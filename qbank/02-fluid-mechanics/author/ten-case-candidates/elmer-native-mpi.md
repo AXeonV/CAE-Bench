@@ -1,0 +1,9 @@
+# Native Elmer MPI preparation
+
+The active Elmer image is serial: its retained recipe explicitly sets WITH_MPI=FALSE and WITH_OpenMP=FALSE; ElmerSolver_mpi and mpirun are absent. Raising its CPU quota cannot turn those processes into MPI jobs. Existing active jobs are preserved.
+
+stage_elmer_mpi.py builds the exact same upstream source commit a19504ac53ec222e3355e182b08f2ff280c2203a from the already retained archive (SHA256 1451e82f05b9661d82e1ebbf6e90ac373fc1b19482eef3889334a6df5ff0144a), enabling native MPI, MUMPS and Hypre. No solver source or physical module is modified. The stage has an 8-core, 8 GiB allocation and a two-hour limit; package/build evidence is retained. Four-rank launcher execution and a copied mesh partition are execution preparation, not PDE calculation or numerical verification. A local image is committed only on successful completion; no registry publication occurs.
+
+The resource reservation helper now accepts explicit CPU and memory requests, counts pending reservations by weight, enforces the 40-core and 65 GiB aggregate inner limits, and preserves at least 8 GiB actual host/parent working-set headroom. Existing callers retain their default one-core behavior. A live admission check measured 20 allocated cores, 15 GiB aggregate container limits and about 40 GiB actual available memory before dispatching the isolated build. Running native jobs were not reloaded or restarted.
+
+Next inspect the stage receipt, native MPI binary, linked libraries and partition preflight. Then choose a justified fresh or explicitly reviewed failed case and implement native parallel linear solving and partition-aware output assembly. Do not duplicate active cases or assume speedup from a successful build. Actual per-step performance still needs measurement when an eligible production case is available. Detailed state and resource decisions are on Titan in maintenance/elmer-mpi-adapter-handoff.json and elmer-mpi-native-stage/.

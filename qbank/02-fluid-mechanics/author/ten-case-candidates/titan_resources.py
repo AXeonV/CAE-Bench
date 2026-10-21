@@ -1,4 +1,4 @@
-"""Bounded reservations for one-core producers on Titan, not a daemon."""
+"""Bounded weighted CPU/memory reservations on Titan, not a daemon."""
 import contextlib
 import hashlib
 import fcntl
@@ -51,23 +51,25 @@ def capacity(root):
         if cap.exists() and cap.read_text().strip()!='max':
             stat=dict(line.split() for line in (level/'memory.stat').read_text().splitlines());working=int((level/'memory.current').read_text())-int(stat.get('inactive_file',0));limits.append(int(cap.read_text())-working)
     assert limits
-    return names,used+legacy,min(host,*limits),{'host_available_bytes':host,'outer_available_working_set_bytes':min(limits),'running_quota_cores':used,'legacy_queue_reserved_cores':legacy}
+    return names,used+legacy,min(host,*limits),{'host_available_bytes':host,'outer_available_working_set_bytes':min(limits),'running_quota_cores':used,'legacy_queue_reserved_cores':legacy,'running_memory_limit_bytes':sum(c['HostConfig']['Memory'] for c in running)}
 
 
 @contextlib.contextmanager
-def reservation(root,name):
+def reservation(root,name,cpu=1,memory_limit_bytes=768*1024**2):
+    assert 0<cpu<=40 and 0<memory_limit_bytes<=65*1024**3
     directory=root/'maintenance/reservations';directory.mkdir(exist_ok=True);mine=directory/(name+'.json');lock=(directory/'lock').open('a');pid=os.getpid();start=identity(pid)
     while True:
         fcntl.flock(lock,fcntl.LOCK_EX)
         try:
-            names,used,available,record=capacity(root);pending=0
+            names,used,available,record=capacity(root);pending=0;pending_cpu=0;pending_memory=0
             for p in directory.glob('*.json'):
                 try:v=json.loads(p.read_text())
                 except FileNotFoundError:continue
-                if identity(v['pid'])==v['starttime'] and v['name'] not in names:pending+=1
-            if used+pending+1<=40 and available>8*1024**3+(pending+1)*768*1024**2:
-                save(mine,{'pid':pid,'starttime':start,'name':name,'at_unix':time.time(),'cpu':1,'memory_limit_bytes':768*1024**2})
-                with (root/'maintenance/resource-scheduling.jsonl').open('a') as f:f.write(json.dumps({'name':name,'decision':'reserved_one_core','pending_reservations':pending,**record,'at_unix':time.time()})+'\n')
+                if identity(v['pid'])==v['starttime'] and v['name'] not in names:
+                    pending+=1;pending_cpu+=v.get('cpu',1);pending_memory+=v.get('memory_limit_bytes',768*1024**2)
+            if used+pending_cpu+cpu<=40 and available>8*1024**3+pending_memory+memory_limit_bytes and record['running_memory_limit_bytes']+pending_memory+memory_limit_bytes<=65*1024**3:
+                save(mine,{'pid':pid,'starttime':start,'name':name,'at_unix':time.time(),'cpu':cpu,'memory_limit_bytes':memory_limit_bytes})
+                with (root/'maintenance/resource-scheduling.jsonl').open('a') as f:f.write(json.dumps({'name':name,'decision':'reserved_resources','requested_cpu':cpu,'requested_memory_bytes':memory_limit_bytes,'pending_reservations':pending,'pending_cpu':pending_cpu,**record,'at_unix':time.time()})+'\n')
                 break
         finally:fcntl.flock(lock,fcntl.LOCK_UN)
         time.sleep(5)

@@ -1,0 +1,9 @@
+# User-authorized solve wall-clock limits
+
+New solve attempts must fit a two-hour wall-clock budget. Before launching, record native parallel allocation, time-step/iteration strategy and expected cost. A successful reference still requires completing the frozen physical task; reaching a budget is not convergence. Do not evade the budget by automatic repeated restarts or split attempts, change physical conditions or omit difficult cases.
+
+The user explicitly authorized interrupting pre-existing tasks running over four hours. Twenty identity-verified case containers, each running about 5.1 to 19.4 hours, were stopped. Inputs, meshes, logs, last completed native outputs and execution records are retained. Every stop has a receipt with immutable Docker container ID, actual StartedAt/PID, image/mount evidence, elapsed time and post-stop native state. Partial results are not candidates. No automatic restart is enabled.
+
+The independent runtime_guard.py process checks every 15 seconds. New containers are stopped at 7100 seconds with a 30-second grace, leaving scheduling margin within the two-hour budget. Pre-existing containers have the four-hour cap. It only acts on running case statuses whose actual container identity, source image and exact case mount match; build/import containers are excluded. The separate MPI build already has its own two-hour cap. Existing native controller exit paths can write a failure after a stop; the guard reconciles those statuses back to stopped_runtime_limit using the stop receipt and matching container identity.
+
+The guard has the same absolute expiry as the existing bounded supervisor. Half-hour monitoring checks its PID/starttime and policy receipt; it does not substitute for the 15-second enforcement loop. The scheduled prompt now contains this explicit exception to the earlier no-interruption rule. Live per-case evidence and policy remain on Titan under maintenance and the original case directories.

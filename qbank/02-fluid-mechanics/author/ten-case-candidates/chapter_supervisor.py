@@ -48,7 +48,7 @@ def inspect(root, snapshot):
             counts[s['status']] += 1
             if s['status'] == 'pending_producer_adapter':
                 pending[design['question']].append(e['design_id'])
-            elif s['status'] in ('needs_attention', 'native_iteration_limit'):
+            elif s['status'] in ('needs_attention', 'native_iteration_limit', 'stopped_runtime_limit'):
                 issues.append({'design_id': e['design_id'], 'status': s['status'], 'error': s.get('error')})
     assert sum(counts.values()) == 630
     names, quota, available, memory = capacity(root)
@@ -81,6 +81,11 @@ def dispatch(root, snapshot):
             actions.append({'queue': q['name'], 'action': 'waiting_for_existing_controller'}); continue
         script = root/'scripts'/q['script']
         assert hashlib.sha256(script.read_bytes()).hexdigest() == q['script_sha256'], 'approved script changed; update plan explicitly'
+        parallel_env={}
+        if q.get('workload')=='parallel_long':
+            cores=q['cpu_per_case'];budget=q['solver_budget_seconds']
+            assert 8<=cores<=16 and 0<budget<=7100
+            parallel_env={'CH02_LONG_SOLVER_CORES':str(cores),'CH02_SOLVE_BUDGET_SECONDS':str(budget)}
         missing = [i for i in q['case_ids'] if not (root/'cases'/i/'status.json').exists()]
         if not missing:
             actions.append({'queue': q['name'], 'action': 'no_unstarted_cases'}); continue
@@ -94,7 +99,7 @@ def dispatch(root, snapshot):
         capacity(root)
         command = [sys.executable, str(script), '--root', str(root), '--snapshot', str(snapshot), '--workers', '40']
         with (root/'maintenance'/(q['name']+'.log')).open('a') as log:
-            p = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT, start_new_session=True, env={**os.environ, 'OMP_NUM_THREADS': '1', 'OPENBLAS_NUM_THREADS': '1'})
+            p = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT, start_new_session=True, env={**os.environ, 'OMP_NUM_THREADS': '1', 'OPENBLAS_NUM_THREADS': '1',**parallel_env})
         save(marker, {'pid': p.pid, 'starttime': identity(p.pid), 'command': command, 'launched_unix': time.time(), 'approved_case_ids': q['case_ids']})
         actions.append({'queue': q['name'], 'action': 'launched', 'pid': p.pid, 'unstarted': len(missing)})
     # Only a reviewed conversion defect can be repaired automatically. Native

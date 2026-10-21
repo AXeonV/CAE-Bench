@@ -15,13 +15,24 @@ IMAGE='sha256:49e9458cc3b1ea3d7e7383c32056af59b0f718e74b0f30adbe3e1bccc0e7b059'
 SOURCE=Path('/home/zhouzhiyu/code/docker/qbank/maintenance/solver-images/local/builds/elmer/20261017T183532.079713+0000/context/source.tar.gz')
 SOURCE_SHA='1451e82f05b9661d82e1ebbf6e90ac373fc1b19482eef3889334a6df5ff0144a'
 
-def main():
+def main(repair_optional_mumps=False):
     ap=argparse.ArgumentParser();ap.add_argument('--root',type=Path,required=True);ap.add_argument('--snapshot',type=Path,required=True);ap.add_argument('--workers',type=int,default=1);a=ap.parse_args();r=a.root
     assert digest(SOURCE)==SOURCE_SHA
-    j=r/'maintenance/elmer-mpi-native-stage';assert not j.exists(),'Inspect prior build; no automatic repeat';j.mkdir();shutil.copy2(SOURCE,j/'source.tar.gz')
-    source_mesh=r/'cases/ch02-2-2-4-02-natural_convection/native/mesh'
-    (j/'partition-probe/mesh').mkdir(parents=True)
-    for filename in ['mesh.header','mesh.nodes','mesh.elements','mesh.boundary']:shutil.copy2(source_mesh/filename,j/'partition-probe/mesh'/filename)
+    j=r/'maintenance/elmer-mpi-native-stage';image=IMAGE;repair_receipt=None
+    if repair_optional_mumps:
+        prior=json.loads((j/'stage.json').read_text());assert prior['status']=='stage_needs_attention' and 'ParMetis library not found' in (j/'build.log').read_text()
+        actual=json.loads(subprocess.check_output(['docker','--host',SOCKET,'inspect',prior['container']],text=True))[0]
+        assert not actual['State']['Running'] and actual['State']['Pid']==0
+        assert any(m['Source']==str(j) and m['Destination']=='/work' for m in actual['Mounts'])
+        archive=j/'attempts/optional-mumps';assert not archive.exists();archive.mkdir(parents=True)
+        for filename in ['stage.json','build.log','build.sh']:shutil.copy2(j/filename,archive/filename)
+        image=subprocess.check_output(['docker','--host',SOCKET,'commit',actual['Id'],'caeoj/elmer-ch02-mpi-deps:a19504a-20261021'],text=True).strip()
+        repair_receipt={'reason':'Optional MUMPS discovery requires missing ParMETIS; use native MPI+Hypre iterative backend instead. No PDE/source modification.','previous_state':actual['State'],'mounts':actual['Mounts'],'dependency_image':image};save(archive/'repair.json',repair_receipt)
+    else:
+        assert not j.exists(),'Inspect prior build; no automatic repeat';j.mkdir();shutil.copy2(SOURCE,j/'source.tar.gz')
+        source_mesh=r/'cases/ch02-2-2-4-02-natural_convection/native/mesh'
+        (j/'partition-probe/mesh').mkdir(parents=True)
+        for filename in ['mesh.header','mesh.nodes','mesh.elements','mesh.boundary']:shutil.copy2(source_mesh/filename,j/'partition-probe/mesh'/filename)
     shell='''set -e
 export DEBIAN_FRONTEND=noninteractive OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
 apt-get update
@@ -39,9 +50,10 @@ cd /work/partition-probe
 /opt/elmer-mpi/bin/ElmerGrid 2 2 mesh -metis 4 > /work/partition.log 2>&1
 ldd /opt/elmer-mpi/bin/ElmerSolver_mpi > /work/mpi-libraries.txt
 '''
+    if repair_optional_mumps:shell='set -e\nexport OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1\n'+shell[shell.index('cmake -S'):].replace('-DWITH_Mumps=TRUE','-DWITH_Mumps=FALSE')
     (j/'build.sh').write_text(shell);name='ch02-elmer-mpi-build-'+str(time.time_ns())[-9:]
-    cmd=['docker','--host',SOCKET,'run','--name',name,'--network','bridge','--cpus','8','--memory','8g','-v',f'{j}:/work',IMAGE,'bash','/work/build.sh']
-    rec={'status':'queued','container':name,'source_sha256':SOURCE_SHA,'source_commit':'a19504ac53ec222e3355e182b08f2ff280c2203a','base_image':IMAGE,'command':cmd,'script_sha256':digest(Path(__file__)),'start_unix':time.time(),'scope':'Same native source, MPI/MUMPS/Hypre configuration and four-rank launcher/mesh-partition preflight only. No PDE, reference verification or active task restart.'};save(j/'stage.json',rec)
+    cmd=['docker','--host',SOCKET,'run','--name',name,'--network','none' if repair_optional_mumps else 'bridge','--cpus','8','--memory','8g','-v',f'{j}:/work',image,'bash','/work/build.sh']
+    rec={'status':'queued','container':name,'source_sha256':SOURCE_SHA,'source_commit':'a19504ac53ec222e3355e182b08f2ff280c2203a','base_image':image,'command':cmd,'script_sha256':digest(Path(__file__)),'start_unix':time.time(),'repair':repair_receipt,'scope':'Same native source, native MPI/Hypre configuration and four-rank launcher/mesh-partition preflight only. No PDE, reference verification or active task restart.'};save(j/'stage.json',rec)
     try:
         with reservation(r,name,cpu=8,memory_limit_bytes=8*1024**3):
             rec['status']='running';save(j/'stage.json',rec)

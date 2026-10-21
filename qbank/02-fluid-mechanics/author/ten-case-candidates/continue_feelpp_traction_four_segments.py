@@ -1,7 +1,7 @@
 """Finite four native BDF1 continuations sharing the original absolute4h deadline.
 Stock solver only; partial or failed trajectories never become candidates.
 """
-import argparse,csv,hashlib,json,re,shutil,subprocess,sys,time
+import argparse,csv,hashlib,json,os,re,shutil,subprocess,sys,time
 from pathlib import Path
 import numpy as np
 from native_closed_cavity import SOCKET,save
@@ -37,7 +37,7 @@ def main():
    estimate_per_step=max(50.,reports[-1]['solver_seconds']/reports[-1]['native_steps'])
    remaining=sum(x[2] for x in PHASES[phase-1:]);assert remaining*estimate_per_step*1.25+120<deadline-time.time(), 'Remaining native trajectory no longer fits original4h deadline'
    cfg=job/'native/cfd.cfg';text=cfg.read_text();text=re.sub(r'(?m)^ts.time-final=.*$',f'ts.time-final={end+1e-9:.17g}',text);text=re.sub(r'(?m)^ts.time-step=.*$',f'ts.time-step={(end-start)/nsteps:.17g}',text);assert 'ts.restart=true' in text and 'reuse-jac=false' in text and 'reuse-prec.rebuild-at-first-newton-step=true' in text;cfg.write_text(text)
-   name=f'ch02feelpp-traction-reusepc-phase{phase}';cmd=list(ex['command']);cmd[cmd.index('--name')+1]=name;assert subprocess.run(['docker','--host',SOCKET,'inspect',name],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode!=0
+   name=f'ch02feelpp-traction-reusepc-phase{phase}';cmd=list(ex['command']);cmd[cmd.index('--name')+1]=name;cmd[cmd.index('--user')+1]=f'{os.getuid()}:{os.getgid()}';assert subprocess.run(['docker','--host',SOCKET,'inspect',name],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode!=0
    with reservation(a.root,name,cpu=8,memory_limit_bytes=16*1024**3,workload='parallel_long'):
     runex={**ex,'command':cmd,'start_unix':time.time(),'solver_budget_seconds':int(deadline-time.time()),'absolute_solve_deadline_unix':deadline,'native_segment':phase,'native_segment_start':start,'native_segment_end':end,'native_segment_steps':nsteps,'script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()};save(job/'execution.json',runex)
     state.update(status='running',container=name,segment=phase,native_exit_code=None,reference_produced=False);state.pop('error',None);save(job/'status.json',state)

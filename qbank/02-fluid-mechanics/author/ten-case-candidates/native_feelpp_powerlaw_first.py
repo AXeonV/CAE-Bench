@@ -58,8 +58,10 @@ def prepare(root, snapshot):
                 assert expr==[0.]*d,expr
                 vector=np.zeros(d)
             value={'expr':'{'+','.join(format(float(v),'.17g') for v in vector)+'}'}
-            assert name not in stress or stress[name]==value, 'Normal must be constant on this traction partition'
-            stress[name]=value
+            if name in stress:
+                previous=np.fromstring(stress[name]['expr'].strip('{}'),sep=',')
+                assert np.allclose(previous,vector,rtol=0,atol=1e-12), 'Normal must be constant on this traction partition'
+            else:stress[name]=value
         else:raise ValueError(bc['operator'])
         names[tag]=(d-1,name);tags.append(tag)
     # Linear mesh and original node/cell ordering; P2 trace on each inlet facet

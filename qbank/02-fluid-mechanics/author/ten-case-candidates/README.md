@@ -115,3 +115,5 @@ python qbank/02-fluid-mechanics/author/ten-case-candidates/freeze_designs.py
 ### 无黏可压缩时变体力
 
 `native_euler_gravity.py`处理两例时变体加速度工况，复用已有初态、网格和输出装配。原生 `rhoPimpleFoam` 在零黏度和零导热下推进动量及总能量形式；原生 `SemiImplicitSource` 的 `exprField` 分别计算 `rho*a` 和 `rho*(U dot a)`，加速度严格按实际公开输入样本作分段线性插值。没有新增或编译物理模块，不能把这个无黏等价配置直接用于要求完整黏性应力做功的工况。原生源文件及摘要、配置和实际日志保存在计算目录的维护证据中。
+
+热统计线性故障复用 `retry_thermal_statistics_linear.execute` 的有限执行器。每次仅消费维护目录中已保存的退出与归档证据；存在修复后工况目录就拒绝重复执行。自然对流新增故障的单例入口为 `retry_thermal_statistics_natural_convection.py`，仅将已结束任务的线性方法改为原生 UMFPACK，保留原始计算记录。

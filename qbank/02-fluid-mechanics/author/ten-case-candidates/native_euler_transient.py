@@ -41,17 +41,17 @@ def initial_values(spec,i,xyz,conn):
         weight=np.prod(w[list(ids)]);rhoavg+=weight*rho;Tavg+=weight*p/(287*rho)
     return rhoavg,Tavg
 
-def command(job,name,script):return ['docker','--host',SOCKET,'run','--name',name,'--network','none','--cpus','1','--memory','1g','--user',f'{os.getuid()}:{os.getgid()}','-e','HOME=/tmp','-v',f'{job.resolve()}:/work',IMAGE,'bash','-c','source /usr/lib/openfoam/openfoam2512/etc/bashrc && cd /work/native && '+script]
+def command(job,name,script):return ['docker','--host',SOCKET,'run','--name',name,'--network','none','--cpus','1','--memory','768m','--user',f'{os.getuid()}:{os.getgid()}','-e','HOME=/tmp','-v',f'{job.resolve()}:/work',IMAGE,'bash','-c','source /usr/lib/openfoam/openfoam2512/etc/bashrc && cd /work/native && '+script]
 
-def run(root,r,e,grading):
+def run(root,r,e,grading,source_adapter=None,native_name=None):
     job=root/'cases'/e['design_id'];status=job/'status.json'
     if status.exists():return json.loads(status.read_text())
-    s=e['detailed_spec'];assert not s['sources'];d=e['spatial_dimension'];i=int(e['design_id'].split('-')[-2])-1
+    s=e['detailed_spec'];assert not s['sources'] or source_adapter is not None;d=e['spatial_dimension'];i=int(e['design_id'].split('-')[-2])-1
     assert s['geometry']['operation']=='box';job.mkdir(parents=True);save(job/'design.json',e);state={'design_id':e['design_id'],'status':'preparing'};save(status,state)
     try:
         L=s['geometry']['bounding_lengths']+([.02] if d==2 else []);cells=s['mesh_recipe']['base_divisions']+([1] if d==2 else [])
         p={'spatial_dimension':d,'length_m':L,'target_cells_xyz':cells,'obstacle_xy_fraction':[.4,.6,.3,.5] if s['geometry']['holes'] else None,'wall_speed_multiplier_linear_table':[[0,0],[.001,0]],'wall_velocity_vectors_m_s':{},'dynamic_viscosity_Pa_s':0.,'density_kg_m3':1.,'time_interval_s':[0,.001],'native_dt_s':1e-6}
-        native=job/'native';prepare_native(native,p);base='ch02euler-'+hashlib.sha256(e['design_id'].encode()).hexdigest()[:12]
+        native=job/'native';prepare_native(native,p);base=native_name or 'ch02euler-'+hashlib.sha256(e['design_id'].encode()).hexdigest()[:12]
         cmd=command(job,base+'-mesh','blockMesh');save(job/'mesh-execution.json',{'command':cmd,'image':IMAGE});cp=subprocess.run(cmd,capture_output=True,text=True,timeout=120);put(job/'blockMesh.log',cp.stdout+cp.stderr);assert cp.returncode==0
         xyz,conn,patches,vol=native_mesh(native,d);rho,T=initial_values(s,i,xyz,conn);n=len(conn)
         def scalar_file(name,vals,dimensions):
@@ -81,7 +81,8 @@ def run(root,r,e,grading):
         outputs={q:descriptor(q,cc,u,'domain',True) for q,u,cc in [('velocity','m/s',d),('pressure','Pa',1),('temperature','K',1),('density','kg/m3',1)]}
         for o in outputs.values():o['time_axis']='requested'
         problem={'task':r['task'],'spatial_dimension':d,'physics':{'model':r['model'],'parameters':s['parameters']},'data_file':'input.h5','geometries':{},'meshes':{'main':{'file':'mesh.msh'}},'locations':locations,'time_axes':{'initial':'initial','requested':'requested'},'fields':fields,'conditions':conditions,'outputs':outputs};save(inp/'problem.json',problem)
-        cmd=command(job,base,'rhoCentralFoam');save(job/'execution.json',{'command':cmd,'image':IMAGE,'producer':'unmodified OpenCFD rhoCentralFoam','source':'OpenCFD v2512 applications/solvers/compressible/rhoCentralFoam; native forwardStep tutorial inviscid configuration','script_sha256':digest(Path(__file__)),'start_unix':time.time(),'numerical_validation':False});state.update(status='running',container=base);save(status,state);cp=subprocess.run(cmd,capture_output=True,text=True,timeout=1800);put(job/'rhoCentralFoam.log',cp.stdout+cp.stderr);assert cp.returncode==0,f'Native exit {cp.returncode}'
+        app='rhoCentralFoam' if source_adapter is None else source_adapter(job,s)
+        cmd=command(job,base,app);save(job/'execution.json',{'command':cmd,'image':IMAGE,'producer':'unmodified OpenCFD '+app,'source':'OpenCFD v2512 applications/solvers/compressible/rhoCentralFoam; native forwardStep tutorial inviscid configuration','script_sha256':digest(Path(__file__)),'start_unix':time.time(),'numerical_validation':False});state.update(status='running',container=base);save(status,state);cp=subprocess.run(cmd,capture_output=True,text=True,timeout=1800);put(job/'rhoCentralFoam.log',cp.stdout+cp.stderr);assert cp.returncode==0,f'Native exit {cp.returncode}'
         native_times={round(float(p.name),12):p for p in native.iterdir() if p.is_dir() and p.name[0].isdigit()};result={q:[] for q in outputs}
         for t in s['output_times_s']:
             td=native_times[t]

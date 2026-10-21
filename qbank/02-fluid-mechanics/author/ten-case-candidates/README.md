@@ -111,3 +111,7 @@ python qbank/02-fluid-mechanics/author/ten-case-candidates/freeze_designs.py
 `shallow_reservoir_fields.py`把储槽常量速度明确写成同边界位置的 P0 平均字段，边界水深字段同样使用平均值语义。原有输入归档，已算参考文件摘要保持不变；这是表示修复，不是重新计算或物理变更。后续储槽生产者复用该转换。
 
 干湿储槽第07例由 `native_pyclaw_wetdry_reservoir.py` 复用同一原生干湿生产与输出装配流程，`pyclaw_wetdry_reservoir_runtime.py` 只把公开时间表映射到外部幽灵状态，内部水深和动量由原生 Riemann 波传播推进。初始干区保留零水深，其他边界保持水墙。该入口只处理已冻结的矩形、零摩擦工况，不覆盖复合几何或摩擦闭合。
+
+### 无黏可压缩时变体力
+
+`native_euler_gravity.py`处理两例时变体加速度工况，复用已有初态、网格和输出装配。原生 `rhoPimpleFoam` 在零黏度和零导热下推进动量及总能量形式；原生 `SemiImplicitSource` 的 `exprField` 分别计算 `rho*a` 和 `rho*(U dot a)`，加速度严格按实际公开输入样本作分段线性插值。没有新增或编译物理模块，不能把这个无黏等价配置直接用于要求完整黏性应力做功的工况。原生源文件及摘要、配置和实际日志保存在计算目录的维护证据中。

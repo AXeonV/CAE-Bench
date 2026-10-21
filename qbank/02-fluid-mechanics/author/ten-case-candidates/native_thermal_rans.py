@@ -78,19 +78,22 @@ End
     return data
 
 
-def convert(job, e, data):
-    result = base.convert(job, e, data)
+def convert(job, e, data, native_frames=None):
+    result = base.convert(job, e, data, native_frames=native_frames)
     m = data[0]; x = m['x']; c = m['c']; d = x.shape[1]
     files = sorted((job/'native').rglob('solution*.vtu'))
     transient = e['detailed_spec']['analysis_kind'] == 'transient'
     end_time = (e['detailed_spec']['time_interval_s'] or [0, 1])[1]
     corrections = []
     for time_value in e['detailed_spec']['output_times_s']:
-        file = files[round(time_value/end_time*1000)-1] if transient else files[-1]
-        tree = ET.parse(file); pos = np.fromstring(tree.find('.//Points/DataArray').text, sep=' ').reshape(-1, 3)[:, :d]
-        dist, order = cKDTree(pos).query(x)
-        assert dist.max() < max(e['detailed_spec']['geometry']['bounding_lengths'])*1e-7
-        arrays = {a.get('Name').lower(): np.fromstring(a.text, sep=' ').reshape(len(x), -1)[order] for a in tree.findall('.//PointData/DataArray')}
+        if native_frames is not None:
+            arrays = native_frames[round(float(time_value),12)]
+        else:
+            file = files[round(time_value/end_time*1000)-1] if transient else files[-1]
+            tree = ET.parse(file); pos = np.fromstring(tree.find('.//Points/DataArray').text, sep=' ').reshape(-1, 3)[:, :d]
+            dist, order = cKDTree(pos).query(x)
+            assert dist.max() < max(e['detailed_spec']['geometry']['bounding_lengths'])*1e-7
+            arrays = {a.get('Name').lower(): np.fromstring(a.text, sep=' ').reshape(len(x), -1)[order] for a in tree.findall('.//PointData/DataArray')}
         assert 'kinetic energy' in arrays, sorted(arrays)
         k = arrays['kinetic energy'][c].mean(axis=1)
         assert np.isfinite(k).all()
@@ -112,7 +115,7 @@ def convert(job, e, data):
                 problem['fields'][key] = field
                 problem['conditions'].append({'role': 'initial', 'variable': q, 'operator': 'assign', 'location': 'domain', 'data': {'value': {'field': key}}})
         save(problem_path, problem)
-    result.update(reference_sha256=digest(job/'reference/reference.h5'), native_output_frames=len(files), mapping='Unmodified Elmer standard KE + FlowSolver + HeatSolver; native no-slip KE wall treatment, Pr_t=.85, effective-viscosity Friction Heat. Static pressure subtracts 2*rho*k/3 before volume gauge. Simplex means of native P1 fields. No numerical validation.')
+    result.update(reference_sha256=digest(job/'reference/reference.h5'), native_output_frames=len(native_frames) if native_frames is not None else len(files), mapping='Unmodified Elmer standard KE + FlowSolver + HeatSolver; native no-slip KE wall treatment, Pr_t=.85, effective-viscosity Friction Heat. Static pressure subtracts 2*rho*k/3 before volume gauge. Simplex means of native P1 fields. No numerical validation.')
     return result
 
 

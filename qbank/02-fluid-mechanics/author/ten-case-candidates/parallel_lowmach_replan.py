@@ -69,8 +69,10 @@ def run_one(r,approval,cores):
             with (j/'solver.log').open('w') as log:cp=subprocess.run(cmd,stdout=log,stderr=subprocess.STDOUT)
             assert cp.returncode==0,f'Native MPI exit{cp.returncode}'
             logtext=(j/'solver.log').read_text(errors='replace')
-            if re.search(rf'NAVIER-STOKES ITERATION\s+{nonlinear_max}\b|Coupled system iteration:\s+{coupled_max}\b',logtext):
-                state.update(status='native_iteration_limit',reason='Native configured iteration ceiling reached; conservatively retain raw results without candidate packaging.');save(j/'status.json',state);return
+            from native_coupled_completion import assess
+            termination=assess(j);save(j/'native-termination.json',termination)
+            if not termination['native_coupled_termination_complete']:
+                state.update(status='native_iteration_limit',reason='One or more steps lack final converged native coupled termination.');save(j/'status.json',state);return
             files=sorted(n.rglob('solution*.pvtu'));assert len(files)==len(times),(len(files),len(times));frames={}
             for t in s['output_times_s']:
                 k=int(np.argmin(np.abs(np.array(times)-t)));assert abs(times[k]-t)<1e-12;frames[round(float(t),12)]=merge_frame(files[k],m['x'])

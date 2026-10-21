@@ -7,10 +7,11 @@ import parallel_lowmach_replan as producer
 from parallel_lowmach_replan import run_one
 from hashlib import sha256
 def main():
-    assert sha256(Path(producer.__file__).read_bytes()).hexdigest()=='149a655147f749fa46000dd63986d14b900b1b7b5b7b7e7f92b4abe76b784698'
+    assert sha256(Path(producer.__file__).read_bytes()).hexdigest()=='8e810a58ac0b8f7ea0f5eb4e330356882a3c72974fb38f1ba1bc66f2ff43639b'
     ap=argparse.ArgumentParser();ap.add_argument('--root',type=Path,required=True);ap.add_argument('--snapshot',type=Path,required=True);ap.add_argument('--workers',type=int,default=1);a=ap.parse_args()
     assert sha256(Path(producer.__file__).with_name('native_thermal_statistics.py').read_bytes()).hexdigest()=='5f88011caa67072164ea331eaa786609779611b6c57e9b1c3ee79b64dc50ccf5'
     assert sha256(Path(producer.__file__).with_name('InitialKE_MPI.F90').read_bytes()).hexdigest()=='cf130e49ad699f310b3a46aa7f60b2000c51b820ff5862cd0bd7e2195a571a2b'
+    assert sha256(Path(producer.__file__).with_name('native_coupled_completion.py').read_bytes()).hexdigest()=='7414baeaf0ac52c81ec1c09ff74a5de4933b54d35676fb5d51b6112df39c9fac'
     cores=int(os.environ['CH02_LONG_SOLVER_CORES']);assert cores in (8,16)
     approvals=json.loads((a.root/'maintenance/parallel-statistics-batch-approval.json').read_text())['cases']
     tasks=[e for e in approvals if e['cores']==cores and not (a.root/'cases'/e['case_id']/'status.json').exists()]

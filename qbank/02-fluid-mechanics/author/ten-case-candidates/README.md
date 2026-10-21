@@ -123,3 +123,5 @@ python qbank/02-fluid-mechanics/author/ten-case-candidates/freeze_designs.py
 `codesaturne_boundary_setup.py`在原生配置API中建立三组无滑移壁和温度/绝热分区，温度边界由原生 `cfxtcl` 转换成相应能量边界，不直接用 `cv*T` 替代温度条件。数据准备通过 `code_saturne run --initialize` 执行；该步骤没有调用 `--execute`。闭域质量库存、稳态收敛停止及输出装配完成前，不把这一配置计作参考解。
 
 原始热统计队列结束后新发现的混合逆向对流线性故障，由 `retry_thermal_statistics_remaining_linear.py` 消费单独归档的有限清单，继续复用同一个修复执行器；不重复已经采用UMFPACK的工况。
+
+`native_codesaturne_thermal_cavity.py`提供单例、5000步有界的原生可压缩全局变步长松弛流程，保持实际闭域边界和密度库存。`codesaturne_relaxation_observer.c`只读取原生字段、记录变化率与库存、导出原始字段，并在达到生产停止条件时请求原生结束；不修改方程、物性或解场。达到步数上限不计候选，收敛后的原始计算也须另行完成公开输入输出装配。该生产停止条件不构成数值精度验证。

@@ -19,6 +19,7 @@ from titan_resources import reservation
 from native_elmer_incompressible import evaluate
 
 CASE = 'ch02-2-1-5-01-power_law_channel'
+RANKS = 8
 IMAGE = 'sha256:c5a7643109973d30c9b2a1adb9a2d18579129bbfba28bb659254a0fa9489de95'
 
 
@@ -73,34 +74,34 @@ def prepare(root, snapshot):
     lines += ['$EndElements'];(native/'mesh.msh').write_text('\n'.join(lines)+'\n')
     q={k:v['value'] for k,v in s['materials']['viscosity']['parameters'].items()};mu=q['reference_viscosity'];g=q['reference_shear_rate'];n=q['power_index']
     ends=[mu*(v/g)**(n-1) for v in [q['minimum_shear_rate'],q['maximum_shear_rate']]]
-    model={'Name':CASE,'ShortName':'power_law_channel','Models':{'fluid':{'setup':{'equations':'Navier-Stokes','viscosity_law':'power_law'}}},'Meshes':{'fluid':{'Import':{'filename':'/work/native/mesh.msh','partition':True,'number-of-partition':8}}},'Materials':{'Omega':{'rho':s['materials']['density']['parameters']['density']['value'],'mu':mu,'mu_k':mu*g**(1-n),'mu_power_law_n':n,'mu_min':min(ends),'mu_max':max(ends)}},'BoundaryConditions':{'fluid':{'velocity':velocity,'normal_stress':stress}},'PostProcess':{'fluid':{'Exports':{'fields':['velocity','pressure','pid','materials.dynamic-viscosity']}}}}
+    model={'Name':CASE,'ShortName':'power_law_channel','Models':{'fluid':{'setup':{'equations':'Navier-Stokes','viscosity_law':'power_law'}}},'Meshes':{'fluid':{'Import':{'filename':'/work/native/mesh.msh','partition':True,'number-of-partition':RANKS}}},'Materials':{'Omega':{'rho':s['materials']['density']['parameters']['density']['value'],'mu':mu,'mu_k':mu*g**(1-n),'mu_power_law_n':n,'mu_min':min(ends),'mu_max':max(ends)}},'BoundaryConditions':{'fluid':{'velocity':velocity,'normal_stress':stress}},'PostProcess':{'fluid':{'Exports':{'fields':['velocity','pressure','pid','materials.dynamic-viscosity']}}}}
     edges=np.unique(np.sort(np.concatenate([c[:,pair] for pair in combinations(range(d+1),2)]),axis=1),axis=0)
     midpoints=x[edges].mean(axis=1)
     def point_expr(pt):return '{'+','.join(format(float(v),'.17g') for v in list(pt)+([0.] if d==2 else []))+'}'
     point_measures={f'midpoint_{i:05d}':{'coord':point_expr(pt),'fields':['velocity','pressure'],'include_coordinates':1} for i,pt in enumerate(midpoints)}
     derived=any(q['quantity'] in ('density','dynamic_viscosity','shear_rate') for q in s['observation_requests'])
-    assert not derived or d==2, '3D nonlinear derived-field quadrature not adapted yet'
     if derived or d==3:
         point_measures.update({f'vertex_{i:05d}':{'coord':point_expr(pt),'fields':['velocity'],'include_coordinates':1} for i,pt in enumerate(x)})
     model['PostProcess']['fluid'].update(Save={'Fields':{'names':['velocity','pressure']}},Measures={'Points':point_measures})
-    mapping='Triangle P2 mean: average3edge midpoints. Tetrahedron P2 mean: -sum4vertex values/20+sum6edge midpoint values/5. P1 pressure mean: average edge midpoints. All are exact polynomial integration on the original straight simplex. Derived2D fields use declared12x12Duffy Gauss quadrature, without exactness/accuracy certification. Native point measures evaluate the high-order FE field.'
+    mapping='Triangle P2 mean: average3edge midpoints. Tetrahedron P2 mean: -sum4vertex values/20+sum6edge midpoint values/5. P1 pressure mean: average edge midpoints. These are exact polynomial integrals on the original straight simplex. Nonlinear derived fields use declared order12 tensor Gauss-Duffy quadrature (12^dimension points), without exactness/accuracy certification. Native point measures evaluate the high-order FE field.'
     save(job/'native-point-map.json',{'dimension':d,'edges':edges.tolist(),'coordinates':midpoints.tolist(),'include_vertex_velocity':derived or d==3,'derived_quadrature_duffy_order':12,'integration':mapping})
     save(native/'cfd.json',model)
     (native/'cfd.cfg').write_text(f'directory=/work/native/output\ncase.dimension={d}\ncase.discretization=P2P1G1\nts.steady=true\n[fluid]\nfilename=/work/native/cfd.json\nsolver=Newton\nsnes-maxit=40\nsnes-rtol=1e-8\nsnes-atol=1e-10\nsnes-monitor=true\nksp-type=preonly\npc-type=lu\npc-factor-mat-solver-package-type=mumps\n')
-    save(job/'parallel-numerical-plan.json',{'actual_native_ranks':8,'cpu_per_case':8,'workload':'parallel_long','solver_budget_seconds':14300,'target_seconds':7200,'maximum_seconds':14400,'stationary_nonlinear_max_iterations':40,'physics_modified':False,'input_mapping':'Frozen inlet nodal values reconstructed separately as exact P1 trace on each supplied facet; native P2 velocity retains that trace. Complete zero sigma*n outlet, no pressure gauge or extra outlet velocity constraint.','scope':'First native raw solve; native high-order output and cell-average conversion remain to inspect. No candidate claimed before packaging.'})
+    save(job/'parallel-numerical-plan.json',{'actual_native_ranks':RANKS,'cpu_per_case':RANKS,'memory_limit_gib':16 if d==3 else 8,'workload':'parallel_long','solver_budget_seconds':14300,'target_seconds':7200,'maximum_seconds':14400,'stationary_nonlinear_max_iterations':40,'physics_modified':False,'input_mapping':'Frozen inlet nodal values reconstructed separately as exact P1 trace on each supplied facet; native P2 velocity retains that trace. Full supplied sigma*n traction, no extra outlet velocity or pressure gauge constraint.','scope':'Candidate only after native termination, original global mesh topology and complete requested field mapping; no accuracy validation.'})
     return job, {'nodes':len(x),'cells':len(c),'boundary_faces':len(b),'inlet_trace_facets':len(velocity)-1,'spatial_dimension':d}
 
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--root',type=Path,required=True);p.add_argument('--snapshot',type=Path,required=True);p.add_argument('--workers',type=int,default=8);a=p.parse_args()
+    assert 8<=RANKS<=16
     if (a.root/'cases'/CASE).exists():raise RuntimeError('Existing case preserved; no automatic retry')
     job,meshinfo=prepare(a.root,a.snapshot);name='ch02feelpp-dist-'+hashlib.sha256(CASE.encode()).hexdigest()[:12]
     memory_gib=16 if meshinfo['spatial_dimension']==3 else 8
-    command=['docker','--host',SOCKET,'run','--name',name,'--network','none','--cpus','8','--memory',f'{memory_gib}g','--label','ch02.workload=parallel_long','--user','0:0','-e','HOME=/tmp','-e','OMP_NUM_THREADS=1','-e','OPENBLAS_NUM_THREADS=1','-v',f'{job.resolve()}:/work','-w','/work/native','--entrypoint','/bin/bash',IMAGE,'-c','mpirun --allow-run-as-root --oversubscribe -np 8 /usr/bin/feelpp_toolbox_fluid --config-file /work/native/cfd.cfg']
+    command=['docker','--host',SOCKET,'run','--name',name,'--network','none','--cpus',str(RANKS),'--memory',f'{memory_gib}g','--label','ch02.workload=parallel_long','--user','0:0','-e','HOME=/tmp','-e','OMP_NUM_THREADS=1','-e','OPENBLAS_NUM_THREADS=1','-v',f'{job.resolve()}:/work','-w','/work/native','--entrypoint','/bin/bash',IMAGE,'-c',f'mpirun --allow-run-as-root --oversubscribe -np {RANKS} /usr/bin/feelpp_toolbox_fluid --config-file /work/native/cfd.cfg']
     state={'design_id':CASE,'status':'running','container':name,'producer':'unmodified Feel++ CFD toolbox v0.111.0','numerical_validation':False,**meshinfo}
     try:
-        with reservation(a.root,name,cpu=8,memory_limit_bytes=memory_gib*1024**3,workload='parallel_long'):
-            save(job/'execution.json',{'command':command,'image':IMAGE,'start_unix':time.time(),'native_ranks':8,'solver_budget_seconds':14300,'script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()});save(job/'status.json',state)
+        with reservation(a.root,name,cpu=RANKS,memory_limit_bytes=memory_gib*1024**3,workload='parallel_long'):
+            save(job/'execution.json',{'command':command,'image':IMAGE,'start_unix':time.time(),'native_ranks':RANKS,'solver_budget_seconds':14300,'script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()});save(job/'status.json',state)
             with (job/'native-solver.log').open('w') as out:
                 result=subprocess.run(command,stdout=out,stderr=subprocess.STDOUT,timeout=14460)
             state.update(status='native_raw_complete_pending_package' if result.returncode==0 else 'needs_attention',native_exit_code=result.returncode,reference_produced=False)

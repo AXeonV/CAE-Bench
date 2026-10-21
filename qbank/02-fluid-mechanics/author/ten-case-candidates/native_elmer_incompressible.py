@@ -222,7 +222,8 @@ def package(job,e,m,groups,native_cell_frames=None):
             arrays[sh]=np.array([evaluate(expr,pos,t,s) for t in ts])[...,None];fields[sh]=desc('shape',where,'1',1,'history',vk,True);fields[sh]['array']=sh
             conditions.append({'role':'boundary','variable':'flow','operator':op,'location':name,'data':{'rate':{'field':rk},'shape':{'field':sh}}})
         elif op=='traction':
-            expr=data['traction']['expression'];q=name+'traction';v=np.array([-0.1*evaluate('R',x[b[ids]].mean(axis=1),t,s)[:,None]*m['normal'][ids] if expr=='-R*0.1*n' else np.zeros((len(ids),d)) for t in ts]);arrays[q]=v;fields[q]=desc('traction',name,'Pa',d,'history','average',True);fields[q]['array']=q
+            expr=data['traction']['expression'];q=name+'traction';assert expr in ('-R*0.1*n','-0.1*R*n') if isinstance(expr,str) else expr==[0.]*d
+            v=np.array([-0.1*evaluate('R',x[b[ids]].mean(axis=1),t,s)[:,None]*m['normal'][ids] if isinstance(expr,str) else np.zeros((len(ids),d)) for t in ts]);arrays[q]=v;fields[q]=desc('traction',name,'Pa',d,'history','average',True);fields[q]['array']=q
             conditions.append({'role':'boundary','variable':'flow','operator':op,'location':name,'data':{'traction':{'field':q}}})
         elif op=='pressure_outlet':conditions.append({'role':'boundary','variable':'flow','operator':op,'location':name,'data':{'pressure':{'value':data['pressure_Pa'],'unit':'Pa'},'backflow':{'option':'forbid'}}})
         else:conditions.append({'role':'boundary','variable':'flow','operator':op,'location':name,'data':{}})
@@ -253,7 +254,7 @@ def package(job,e,m,groups,native_cell_frames=None):
     with h5py.File(inp/'input.h5','w') as f:
         for k,v in arrays.items():f[k]=v
     if native_cell_frames is not None:
-        assert set(outputs)<=set(native_cell_frames) and set(outputs)<= {'velocity','pressure'}
+        assert set(outputs)<=set(native_cell_frames) and set(outputs)<= {'velocity','pressure','density','dynamic_viscosity','shear_rate'}
         with h5py.File(ref/'reference.h5','w') as f:
             for k in {locations[o['location']]['ids'] for o in outputs.values()}|{'requested'}:f[k]=arrays[k]
             for q in outputs:

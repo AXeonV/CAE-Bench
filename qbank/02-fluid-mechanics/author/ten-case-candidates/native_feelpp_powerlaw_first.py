@@ -45,6 +45,16 @@ def prepare(root, snapshot):
             tag=100+k;name=f'inlet_facet_{k}';yy=x[nodes,1];L=s['geometry']['bounding_lengths'][1]
             values=.4*(yy/L)*(1-yy/L);slope=(values[1]-values[0])/(yy[1]-yy[0]);intercept=values[0]-slope*yy[0]
             velocity[name]={'expr':'{('+format(intercept,'.17g')+')+('+format(slope,'.17g')+')*y,0}:y'}
+        elif bc['operator']=='traction':
+            expr=bc['data']['traction']['expression'];tag=20+int(group);name=f'traction_{group}'
+            if expr in ('-0.1*R*n','-R*0.1*n'):
+                vector=-.1*mesh['normal'][k]
+            else:
+                assert expr==[0.,0.],expr
+                vector=np.zeros(2)
+            value={'expr':'{'+','.join(format(float(v),'.17g') for v in vector)+'}'}
+            assert name not in stress or stress[name]==value, 'Normal must be constant on this traction partition'
+            stress[name]=value
         else:raise ValueError(bc['operator'])
         names[tag]=(1,name);tags.append(tag)
     # Linear mesh and original node/cell ordering; P2 trace on each inlet facet
@@ -63,8 +73,11 @@ def prepare(root, snapshot):
     edges=np.unique(np.sort(np.concatenate([c[:,[0,1]],c[:,[1,2]],c[:,[2,0]]]),axis=1),axis=0)
     midpoints=x[edges].mean(axis=1)
     point_measures={f'midpoint_{i:05d}':{'coord':'{'+','.join(format(float(v),'.17g') for v in [*pt,0.])+'}','fields':['velocity','pressure'],'include_coordinates':1} for i,pt in enumerate(midpoints)}
+    derived=any(q['quantity'] in ('density','dynamic_viscosity','shear_rate') for q in s['observation_requests'])
+    if derived:
+        point_measures.update({f'vertex_{i:05d}':{'coord':'{'+','.join(format(float(v),'.17g') for v in [*pt,0.])+'}','fields':['velocity'],'include_coordinates':1} for i,pt in enumerate(x)})
     model['PostProcess']['fluid'].update(Save={'Fields':{'names':['velocity','pressure']}},Measures={'Points':point_measures})
-    save(job/'native-point-map.json',{'edges':edges.tolist(),'coordinates':midpoints.tolist(),'integration':'Original triangle cell mean is the mean of native P2 velocity at its three edge midpoints (degree2 exact quadrature). Same quadrature exactly integrates native P1 pressure. Native point measures evaluate original high-order FE field; vertex-only visualization is not used.'})
+    save(job/'native-point-map.json',{'edges':edges.tolist(),'coordinates':midpoints.tolist(),'include_vertex_velocity':derived,'derived_quadrature_duffy_order':12,'integration':'Original triangle cell mean is the mean of native P2 velocity at its three edge midpoints (degree2 exact quadrature). Same quadrature exactly integrates native P1 pressure. Derived shear rate and viscosity use original P2 nodal+midpoint field, analytic FE shape derivatives and declared order12x12 Duffy Gauss quadrature; no exactness or accuracy certification for nonlinear derived averages. Native point measures evaluate original high-order FE field; vertex-only visualization is not used.'})
     save(native/'cfd.json',model)
     (native/'cfd.cfg').write_text('directory=/work/native/output\ncase.dimension=2\ncase.discretization=P2P1G1\nts.steady=true\n[fluid]\nfilename=/work/native/cfd.json\nsolver=Newton\nsnes-maxit=40\nsnes-rtol=1e-8\nsnes-atol=1e-10\nsnes-monitor=true\nksp-type=preonly\npc-type=lu\npc-factor-mat-solver-package-type=mumps\n')
     save(job/'parallel-numerical-plan.json',{'actual_native_ranks':8,'cpu_per_case':8,'workload':'parallel_long','solver_budget_seconds':14300,'target_seconds':7200,'maximum_seconds':14400,'stationary_nonlinear_max_iterations':40,'physics_modified':False,'input_mapping':'Frozen inlet nodal values reconstructed separately as exact P1 trace on each supplied facet; native P2 velocity retains that trace. Complete zero sigma*n outlet, no pressure gauge or extra outlet velocity constraint.','scope':'First native raw solve; native high-order output and cell-average conversion remain to inspect. No candidate claimed before packaging.'})
@@ -91,7 +104,7 @@ def main():
     state['finished_unix']=time.time();save(job/'status.json',state)
     if state['status']=='native_raw_complete_pending_package':
         from finish_feelpp_powerlaw import finish
-        finish(a.root,a.snapshot)
+        finish(a.root,a.snapshot,case_id=CASE)
 
 
 if __name__=='__main__':main()

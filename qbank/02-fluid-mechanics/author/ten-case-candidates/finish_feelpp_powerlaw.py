@@ -14,8 +14,26 @@ from native_elmer_incompressible import package
 CASE='ch02-2-1-5-01-power_law_channel'
 
 
-def finish(root,snapshot):
-    job=root/'cases'/CASE;status=json.loads((job/'status.json').read_text())
+def derived_cell_means(m,vertex_velocity,midpoint_velocity,indices,parameters,order):
+    """Postprocess the native P2 polynomial; this integrates no PDE."""
+    c=m['c'];x=m['x'];inverse=np.linalg.inv(x[c][:,1:]-x[c][:,:1])
+    grad_lambda=np.stack([-inverse.sum(axis=2),inverse[:,:,0],inverse[:,:,1]],axis=1)
+    dofs=np.concatenate([vertex_velocity[c],midpoint_velocity[indices]],axis=1)
+    ab,weights=np.polynomial.legendre.leggauss(order);ab=(ab+1)/2;weights=weights/2
+    shear=np.zeros(len(c));viscosity=np.zeros(len(c))
+    for i,a in enumerate(ab):
+        for j,b in enumerate(ab):
+            lam=np.array([1-a-(1-a)*b,a,(1-a)*b]);weight=2*weights[i]*weights[j]*(1-a)
+            shape_grad=np.concatenate([(4*lam-1)[None,:,None]*grad_lambda,np.stack([4*(lam[q]*grad_lambda[:,p]+lam[p]*grad_lambda[:,q]) for p,q in [(0,1),(1,2),(2,0)]],axis=1)],axis=1)
+            grad=np.einsum('nki,nkj->nij',dofs,shape_grad);twod=grad+grad.swapaxes(1,2);rate=np.sqrt(.5*np.sum(twod**2,axis=(1,2)))
+            clipped=np.clip(rate,parameters['minimum_shear_rate'],parameters['maximum_shear_rate'])
+            mu=parameters['reference_viscosity']*(clipped/parameters['reference_shear_rate'])**(parameters['power_index']-1)
+            shear+=weight*rate;viscosity+=weight*mu
+    return shear,viscosity
+
+
+def finish(root,snapshot,case_id=CASE):
+    job=root/'cases'/case_id;status=json.loads((job/'status.json').read_text())
     assert status['status']=='native_raw_complete_pending_package'
     container=json.loads(subprocess.check_output(['docker','--host',SOCKET,'inspect',status['container']]))[0]
     assert not container['State']['Running'] and container['State']['Pid']==0 and container['State']['ExitCode']==0
@@ -39,7 +57,16 @@ def finish(root,snapshot):
     lookup={tuple(v):i for i,v in enumerate(edges)};indices=np.array([[lookup[tuple(sorted((a,b)))] for a,b in [(c[0],c[1]),(c[1],c[2]),(c[2],c[0])]] for c in m['c']])
     fields={'velocity':np.asarray(u)[indices].mean(axis=1)[None],'pressure':np.asarray(p)[indices].mean(axis=1)[None,:,None]}
     records=list(snapshot.glob('qbank/02-fluid-mechanics/*/generalized-newtonian-incompressible-steady-2d/author/chapter02-ten-20261020/design.json'));assert len(records)==1
-    record=json.loads(records[0].read_text());entry=next(e for e in record['proposed_cases'] if e['design_id']==CASE);entry={**entry,'task':record['task']}
+    record=json.loads(records[0].read_text());entry=next(e for e in record['proposed_cases'] if e['design_id']==case_id);entry={**entry,'task':record['task']}
+    if pointmap.get('include_vertex_velocity'):
+        vertex_velocity=[]
+        for i,pt in enumerate(m['x']):
+            prefix=f'Points_vertex_{i:05d}_';actual=[float(row[prefix+'coordinates_'+str(k)]) for k in range(2)]
+            assert np.max(np.abs(np.asarray(actual)-pt))<1e-12
+            vertex_velocity.append([float(row[prefix+'field_velocity_'+str(k)]) for k in range(2)])
+        spec=entry['detailed_spec'];parameters={k:v['value'] for k,v in spec['materials']['viscosity']['parameters'].items()}
+        shear,mu=derived_cell_means(m,np.asarray(vertex_velocity),np.asarray(u),indices,parameters,pointmap['derived_quadrature_duffy_order'])
+        fields.update(shear_rate=shear[None,:,None],dynamic_viscosity=mu[None,:,None],density=np.full((1,len(m['c']),1),spec['materials']['density']['parameters']['density']['value']))
     result=package(job,entry,m,m['groups'],native_cell_frames=fields)
     grading=json.loads((records[0].parents[1]/'grading-template.json').read_text());save(job/'reference/grading.json',grading)
     save(job/'native-to-contract.json',{'native_point_map_sha256':hashlib.sha256((job/'native-point-map.json').read_bytes()).hexdigest(),'native_measures_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'mapping':pointmap['integration'],'partitioning':mesh['partitioning'],'native_nonlinear_final_residual':residuals[-1],'numerical_validation':False})

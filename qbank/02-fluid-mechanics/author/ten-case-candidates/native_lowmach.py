@@ -149,7 +149,7 @@ Material 1
     return m,mech,thermal,hist,sources
 
 
-def convert(job,e,data):
+def convert(job,e,data,native_frames=None):
     m,mech,thermal,hist,sources=data;s=e['detailed_spec'];x=m['x'];c=m['c'];b=m['b'];d=x.shape[1];nc=len(c);n=len(x);mid=x[b].mean(axis=1);transient=s['analysis_kind']=='transient';end=(s['time_interval_s'] or [0,1])[1]
     inp=job/'input';ref=job/'reference';inp.mkdir(exist_ok=True);ref.mkdir(exist_ok=True);gmsh(inp/'mesh.msh',x,c,b,d)
     arrays={'cells':np.arange(1,nc+1,dtype=np.int64),'history':hist,'requested':np.array(s['output_times_s']),'initial':np.array([0.])};locations={'domain':{'kind':'mesh','mesh':'main','entity':'element','dimension':d,'ids':'cells'}};fields={};conditions=[]
@@ -173,10 +173,14 @@ def convert(job,e,data):
     problem={'task':e['task'],'spatial_dimension':d,'physics':{'model':e['model'],'parameters':s['parameters']},'data_file':'input.h5','geometries':{},'meshes':{'main':{'file':'mesh.msh'}},'locations':locations,'time_axes':{'history':'history','initial':'initial','requested':'requested'},'fields':fields,'conditions':conditions,'outputs':outputs};save(inp/'problem.json',problem)
     with h5py.File(inp/'input.h5','w') as f:
         for key,v in arrays.items():f[key]=v
-    files=sorted((job/'native').rglob('solution*.vtu'));assert len(files)==1000 if transient else len(files)>0;result={q:[] for q in outputs}
+    if native_frames is None:
+        files=sorted((job/'native').rglob('solution*.vtu'));assert len(files)==1000 if transient else len(files)>0
+    result={q:[] for q in outputs}
     for t in s['output_times_s']:
-        file=files[round(t/end*1000)-1] if transient else files[-1];tree=ET.parse(file);pos=np.fromstring(tree.find('.//Points/DataArray').text,sep=' ').reshape(-1,3)[:,:d];dist,order=cKDTree(pos).query(x);assert len(np.unique(order))==n and dist.max()<max(s['geometry']['bounding_lengths'])*1e-7
-        native={a.get('Name').lower():np.fromstring(a.text,sep=' ').reshape(n,-1)[order] for a in tree.findall('.//PointData/DataArray')}
+        if native_frames is None:
+            file=files[round(t/end*1000)-1] if transient else files[-1];tree=ET.parse(file);pos=np.fromstring(tree.find('.//Points/DataArray').text,sep=' ').reshape(-1,3)[:,:d];dist,order=cKDTree(pos).query(x);assert len(np.unique(order))==n and dist.max()<max(s['geometry']['bounding_lengths'])*1e-7
+            native={a.get('Name').lower():np.fromstring(a.text,sep=' ').reshape(n,-1)[order] for a in tree.findall('.//PointData/DataArray')}
+        else:native=native_frames[round(float(t),12)]
         u=native['velocity'][:,:d][c].mean(axis=1);p=native['pressure'][c].mean(axis=1);p-=np.sum(p[:,0]*m['volume'])/sum(m['volume']);T=native['temperature'][c].mean(axis=1)
         for key,v in [('velocity',u),('pressure',p),('temperature',T)]:assert np.isfinite(v).all();result[key].append(v)
     with h5py.File(ref/'reference.h5','w') as f:

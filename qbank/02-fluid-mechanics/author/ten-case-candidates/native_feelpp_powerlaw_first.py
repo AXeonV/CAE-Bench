@@ -26,17 +26,18 @@ IMAGE = 'sha256:c5a7643109973d30c9b2a1adb9a2d18579129bbfba28bb659254a0fa9489de95
 def prepare(root, snapshot):
     freeze=json.loads((snapshot/'qbank/02-fluid-mechanics/author/ten-case-candidates/design-freeze.json').read_text())
     matches=[]
-    for p in snapshot.glob('qbank/02-fluid-mechanics/*/generalized-newtonian-incompressible-steady-*d/author/chapter02-ten-20261020/design.json'):
+    for p in snapshot.glob('qbank/02-fluid-mechanics/*/generalized-newtonian-incompressible-*-*d/author/chapter02-ten-20261020/design.json'):
         assert hashlib.sha256(p.read_bytes()).hexdigest()==freeze['designs'][p.relative_to(snapshot).as_posix()]
         record=json.loads(p.read_text())
         matches.extend((record,e) for e in record['proposed_cases'] if e['design_id']==CASE)
     assert len(matches)==1
-    record,e=matches[0];s=e['detailed_spec'];assert s['analysis_kind']=='steady' and not s['sources']
+    record,e=matches[0];s=e['detailed_spec'];assert not s['sources'];transient=s['analysis_kind']=='transient'
+    end=s['time_interval_s'][1] if transient else 1.;ramp=f'(0.5*(t/{.1*end:.17g}+1-abs(t/{.1*end:.17g}-1)))'
     job=root/'cases'/CASE
     assert not job.exists(), 'Never overwrite or retry an existing case'
     job.mkdir();native=job/'native';native.mkdir();save(job/'design.json',e)
     mesh=generate(s);groups=partitions(s,mesh);np.savez(job/'adapter-data.npz',**mesh,groups=groups)
-    x=mesh['x'];c=mesh['c'];b=mesh['b'];d=x.shape[1];zero='{'+','.join(['0']*d)+'}';velocity={};stress={};names={10000:(d,'Omega')};tags=[]
+    x=mesh['x'];c=mesh['c'];b=mesh['b'];d=x.shape[1];zero='{'+','.join(['0']*d)+'}';velocity={};stress={};stress_vectors={};names={10000:(d,'Omega')};tags=[]
     for k,(nodes,group) in enumerate(zip(b,groups)):
         bc=s['boundaries'][int(group)]
         if bc['operator']=='no_slip':tag=1;name='wall';velocity[name]={'expr':zero}
@@ -45,11 +46,12 @@ def prepare(root, snapshot):
             tag=2;name='outlet';stress[name]={'expr':zero}
         elif bc['operator']=='velocity':
             tag=100+k;name=f'inlet_facet_{k}';positions=x[nodes]
-            values=evaluate(bc['data']['velocity']['expression'],positions,0.,s)
+            values=evaluate(bc['data']['velocity']['expression'],positions,end if transient else 0.,s)
             coordinates=np.column_stack([np.ones(len(nodes)),positions]);coeff=np.linalg.lstsq(coordinates,values,rcond=None)[0]
             assert np.max(np.abs(coordinates@coeff-values))<1e-12
             expressions=['('+format(coeff[0,k],'.17g')+')'+''.join('+('+format(coeff[j+1,k],'.17g')+')*'+axis for j,axis in enumerate('xyz'[:d])) for k in range(d)]
-            velocity[name]={'expr':'{'+','.join(expressions)+'}:'+':'.join('xyz'[:d])}
+            if transient:expressions=[f'({v})*{ramp}' for v in expressions]
+            velocity[name]={'expr':'{'+','.join(expressions)+'}:'+':'.join(list('xyz'[:d])+(['t'] if transient else []))}
         elif bc['operator']=='traction':
             expr=bc['data']['traction']['expression'];tag=20+int(group);name=f'traction_{group}'
             if expr in ('-0.1*R*n','-R*0.1*n'):
@@ -57,11 +59,13 @@ def prepare(root, snapshot):
             else:
                 assert expr==[0.]*d,expr
                 vector=np.zeros(d)
-            value={'expr':'{'+','.join(format(float(v),'.17g') for v in vector)+'}'}
+            components=[format(float(v),'.17g') for v in vector]
+            if transient and isinstance(expr,str):components=[f'({v})*{ramp}' for v in components]
+            value={'expr':'{'+','.join(components)+'}'+(':t' if transient and isinstance(expr,str) else '')}
             if name in stress:
-                previous=np.fromstring(stress[name]['expr'].strip('{}'),sep=',')
+                previous=stress_vectors[name]
                 assert np.allclose(previous,vector,rtol=0,atol=1e-12), 'Normal must be constant on this traction partition'
-            else:stress[name]=value
+            else:stress[name]=value;stress_vectors[name]=vector.copy()
         else:raise ValueError(bc['operator'])
         names[tag]=(d-1,name);tags.append(tag)
     # Linear mesh and original node/cell ordering; P2 trace on each inlet facet
@@ -85,11 +89,21 @@ def prepare(root, snapshot):
     if derived or d==3:
         point_measures.update({f'vertex_{i:05d}':{'coord':point_expr(pt),'fields':['velocity'],'include_coordinates':1} for i,pt in enumerate(x)})
     model['PostProcess']['fluid'].update(Save={'Fields':{'names':['velocity','pressure']}},Measures={'Points':point_measures})
+    if transient:
+        assert d==2, '3D transient runtime/step plan requires a separate review'
+        initial=s['initial']['velocity']['expression'];assert initial==[0.]*d
+        assert s['time_interval_s'][0]==0. and end==1.
+        assert all(abs(t/.001-round(t/.001))<1e-9 for t in s['output_times_s'])
+        model['InitialConditions']={'fluid':{'velocity':{'Expression':{'expr':zero}}}}
     mapping='Triangle P2 mean: average3edge midpoints. Tetrahedron P2 mean: -sum4vertex values/20+sum6edge midpoint values/5. P1 pressure mean: average edge midpoints. These are exact polynomial integrals on the original straight simplex. Nonlinear derived fields use declared order12 tensor Gauss-Duffy quadrature (12^dimension points), without exactness/accuracy certification. Native point measures evaluate the high-order FE field.'
     save(job/'native-point-map.json',{'dimension':d,'edges':edges.tolist(),'coordinates':midpoints.tolist(),'include_vertex_velocity':derived or d==3,'derived_quadrature_duffy_order':12,'integration':mapping})
     save(native/'cfd.json',model)
-    (native/'cfd.cfg').write_text(f'directory=/work/native/output\ncase.dimension={d}\ncase.discretization=P2P1G1\nts.steady=true\n[fluid]\nfilename=/work/native/cfd.json\nsolver=Newton\nsnes-maxit=40\nsnes-rtol=1e-8\nsnes-atol=1e-10\nsnes-monitor=true\nksp-type=preonly\npc-type=lu\npc-factor-mat-solver-package-type=mumps\n')
+    global_time=f'ts.steady={str(not transient).lower()}\n'+(f'ts.time-initial=0\nts.time-final={end:.17g}\nts.time-step=0.001\n' if transient else '')
+    native_time=f'ts.steady={str(not transient).lower()}\n'+(f'ts.time-initial=0\nts.time-final={end:.17g}\nts.time-step=0.001\nbdf.order=1\ntime-stepping=BDF\n' if transient else '')
+    (native/'cfd.cfg').write_text(f'directory=/work/native/output\ncase.dimension={d}\ncase.discretization=P2P1G1\n'+global_time+'[fluid]\nfilename=/work/native/cfd.json\n'+native_time+'solver=Newton\nsnes-maxit=40\nsnes-rtol=1e-8\nsnes-atol=1e-10\nsnes-monitor=true\nksp-type=preonly\npc-type=lu\npc-factor-mat-solver-package-type=mumps\n')
     save(job/'parallel-numerical-plan.json',{'actual_native_ranks':RANKS,'cpu_per_case':RANKS,'memory_limit_gib':16 if d==3 else 8,'workload':'parallel_long','solver_budget_seconds':14300,'target_seconds':7200,'maximum_seconds':14400,'stationary_nonlinear_max_iterations':40,'physics_modified':False,'input_mapping':'Frozen inlet nodal values reconstructed separately as exact P1 trace on each supplied facet; native P2 velocity retains that trace. Full supplied sigma*n traction, no extra outlet velocity or pressure gauge constraint.','scope':'Candidate only after native termination, original global mesh topology and complete requested field mapping; no accuracy validation.'})
+    if transient:
+        plan=json.loads((job/'parallel-numerical-plan.json').read_text());plan.update(native_time_scheme='BDF1',dt_seconds=.001,expected_time_steps=1000,output_times=s['output_times_s'],ramp_history='Original nodal spatial input times piecewise-linear R(t), once only. Uniform zero initial field. Every requested time is an actual native step.');save(job/'parallel-numerical-plan.json',plan)
     return job, {'nodes':len(x),'cells':len(c),'boundary_faces':len(b),'inlet_trace_facets':len(velocity)-1,'spatial_dimension':d}
 
 

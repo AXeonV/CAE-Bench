@@ -5,6 +5,7 @@ import json
 import re
 import subprocess
 import time
+from itertools import combinations
 from pathlib import Path
 
 import numpy as np
@@ -12,6 +13,11 @@ from native_closed_cavity import SOCKET,save
 from native_elmer_incompressible import package
 
 CASE='ch02-2-1-5-01-power_law_channel'
+
+
+def primary_cell_means(d,c,vertex_velocity,midpoint_velocity,midpoint_pressure,indices):
+    velocity=midpoint_velocity[indices].mean(axis=1) if d==2 else -.05*vertex_velocity[c].sum(axis=1)+.2*midpoint_velocity[indices].sum(axis=1)
+    return {'velocity':velocity[None],'pressure':midpoint_pressure[indices].mean(axis=1)[None,:,None]}
 
 
 def derived_cell_means(m,vertex_velocity,midpoint_velocity,indices,parameters,order):
@@ -49,21 +55,24 @@ def finish(root,snapshot,case_id=CASE):
     path=job/'native/output/np_8/fluid.measures/values.csv'
     with path.open() as f:rows=list(csv.DictReader(f))
     assert len(rows)==1
-    row=rows[0];u=[];p=[]
+    row=rows[0];u=[];p=[];d=m['x'].shape[1]
     for i,pt in enumerate(positions):
-        prefix=f'Points_midpoint_{i:05d}_';actual=[float(row[prefix+'coordinates_'+str(k)]) for k in range(2)]
+        prefix=f'Points_midpoint_{i:05d}_';actual=[float(row[prefix+'coordinates_'+str(k)]) for k in range(d)]
         assert np.max(np.abs(np.asarray(actual)-pt))<1e-12
-        u.append([float(row[prefix+'field_velocity_'+str(k)]) for k in range(2)]);p.append(float(row[prefix+'field_pressure']))
-    lookup={tuple(v):i for i,v in enumerate(edges)};indices=np.array([[lookup[tuple(sorted((a,b)))] for a,b in [(c[0],c[1]),(c[1],c[2]),(c[2],c[0])]] for c in m['c']])
-    fields={'velocity':np.asarray(u)[indices].mean(axis=1)[None],'pressure':np.asarray(p)[indices].mean(axis=1)[None,:,None]}
-    records=list(snapshot.glob('qbank/02-fluid-mechanics/*/generalized-newtonian-incompressible-steady-2d/author/chapter02-ten-20261020/design.json'));assert len(records)==1
+        u.append([float(row[prefix+'field_velocity_'+str(k)]) for k in range(d)]);p.append(float(row[prefix+'field_pressure']))
+    pairs=[(0,1),(1,2),(2,0)] if d==2 else list(combinations(range(d+1),2))
+    lookup={tuple(v):i for i,v in enumerate(edges)};indices=np.array([[lookup[tuple(sorted((cell[a],cell[b])))] for a,b in pairs] for cell in m['c']])
+    records=list(snapshot.glob(f'qbank/02-fluid-mechanics/*/generalized-newtonian-incompressible-steady-{d}d/author/chapter02-ten-20261020/design.json'));assert len(records)==1
     record=json.loads(records[0].read_text());entry=next(e for e in record['proposed_cases'] if e['design_id']==case_id);entry={**entry,'task':record['task']}
+    vertex_velocity=[]
     if pointmap.get('include_vertex_velocity'):
-        vertex_velocity=[]
         for i,pt in enumerate(m['x']):
-            prefix=f'Points_vertex_{i:05d}_';actual=[float(row[prefix+'coordinates_'+str(k)]) for k in range(2)]
+            prefix=f'Points_vertex_{i:05d}_';actual=[float(row[prefix+'coordinates_'+str(k)]) for k in range(d)]
             assert np.max(np.abs(np.asarray(actual)-pt))<1e-12
-            vertex_velocity.append([float(row[prefix+'field_velocity_'+str(k)]) for k in range(2)])
+            vertex_velocity.append([float(row[prefix+'field_velocity_'+str(k)]) for k in range(d)])
+    fields=primary_cell_means(d,m['c'],np.asarray(vertex_velocity),np.asarray(u),np.asarray(p),indices)
+    if any(q['quantity'] in ('density','dynamic_viscosity','shear_rate') for q in entry['detailed_spec']['observation_requests']):
+        assert d==2, '3D nonlinear derived-field quadrature not adapted yet'
         spec=entry['detailed_spec'];parameters={k:v['value'] for k,v in spec['materials']['viscosity']['parameters'].items()}
         shear,mu=derived_cell_means(m,np.asarray(vertex_velocity),np.asarray(u),indices,parameters,pointmap['derived_quadrature_duffy_order'])
         fields.update(shear_rate=shear[None,:,None],dynamic_viscosity=mu[None,:,None],density=np.full((1,len(m['c']),1),spec['materials']['density']['parameters']['density']['value']))

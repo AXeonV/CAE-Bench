@@ -37,6 +37,7 @@ end subroutine cs_f_user_boundary_conditions
 subroutine usipsu(nmodpp)
 use paramx
 use numvar
+use optcal, only: visls0
 use cstphy
 use ppppar
 use ppthch

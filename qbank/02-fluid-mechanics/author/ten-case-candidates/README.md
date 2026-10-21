@@ -121,3 +121,5 @@ python qbank/02-fluid-mechanics/author/ten-case-candidates/freeze_designs.py
 `codesaturne_mesh_adapter.py`为首个冻结热压缩工况制作同坐标、同连接和同实体身份的公开MSH4.1与原生MSH2.2网格，并实际执行Code_Saturne预处理器。热边界物理组分别保留热墙、冷墙和绝热墙。该步骤仅完成网格适配，不生产参考解；热物性XML、原生应力做功与体积黏度定义的源码摘要及后续边界/稳态映射待办保存在计算目录维护记录中。
 
 `codesaturne_boundary_setup.py`在原生配置API中建立三组无滑移壁和温度/绝热分区，温度边界由原生 `cfxtcl` 转换成相应能量边界，不直接用 `cv*T` 替代温度条件。数据准备通过 `code_saturne run --initialize` 执行；该步骤没有调用 `--execute`。闭域质量库存、稳态收敛停止及输出装配完成前，不把这一配置计作参考解。
+
+原始热统计队列结束后新发现的混合逆向对流线性故障，由 `retry_thermal_statistics_remaining_linear.py` 消费单独归档的有限清单，继续复用同一个修复执行器；不重复已经采用UMFPACK的工况。

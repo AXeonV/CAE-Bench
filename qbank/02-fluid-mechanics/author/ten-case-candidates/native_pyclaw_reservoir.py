@@ -50,6 +50,8 @@ def prepare(job,e,allow_bed=True):
     raw=dict(np.load(job/'native-input.npz'));raw.update(reservoir_times=times,reservoir_depth=vals)
     np.savez(job/'native-input.npz',**raw)
     save(job/'reservoir-adapter.json',{'physical_boundary':'Exterior h(t), u=0; same bed on both sides. Ghost state only; native Riemann kernel applies sign-split fluctuations at x=0. Interior boundary cells are evolved, not overwritten. Tangential exterior and initial velocity both zero.','source':'https://github.com/clawpack/riemann/blob/v5.9.0/src/rpn2_shallow_bathymetry_fwave.f90','scope':'single finite case; no friction, holes or drying','native_input_sha256':digest(job/'native-input.npz'),'numerical_validation':False})
+    from shallow_reservoir_fields import normalize
+    normalize(job)
     return m,ids
 
 

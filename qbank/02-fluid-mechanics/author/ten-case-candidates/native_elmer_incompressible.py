@@ -33,7 +33,7 @@ def evaluate(expr,x,t,s):
     down=0 if s['analysis_kind']=='steady' else np.clip((t-.4*end)/(.2*end),0,1)
     ns={a:x[:,j]/L[j] for j,a in enumerate('XYZ'[:d])}
     ns['B']=np.maximum(1-np.sum(((x/np.array(L)-.5)/.2)**2,axis=1),0)**4
-    ns.update(R=R,P=R-down,V=R-2*down,pi=np.pi,sin=np.sin,cos=np.cos,abs=np.abs,min=np.minimum,max=np.maximum)
+    ns.update(R=R,P=R-down,V=R-2*down,pi=np.pi,sin=np.sin,cos=np.cos,abs=np.abs,min=np.minimum,max=np.maximum,sqrt=np.sqrt)
     if isinstance(expr,list):return np.column_stack([evaluate(v,x,t,s) for v in expr])
     if isinstance(expr,(float,int)):return np.full(len(x),expr,dtype=float)
     return np.broadcast_to(eval(expr.replace('^','**'),{'__builtins__':{}},ns),(len(x),)).copy()

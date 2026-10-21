@@ -49,6 +49,8 @@ def prepare(job,e,allow_bed=True):
     np.savez(job/'native-input.npz',**raw)
     save(job/'input-transfer.json',{'method':'Exact clipping and affine integration of supplied public P1 bed onto native FV cells. Depth/momentum initial seed is private to the steady iteration; public steady input has no initial fields.','native_input_sha256':digest(job/'native-input.npz'),'numerical_validation':False})
     save(job/'steady-adapter.json',{'initialization':'Private native iteration seed h=1,u=(reservoir_speed,0), not a prescribed physical initial condition. No initial fields in public steady input.','boundary':'Both x faces are exterior-state Riemann interfaces; other faces impermeable. Native f-wave sign splitting, no interior overwrites.','stop':'Relative component state change per 1s <1e-8 for five consecutive windows; 1000-window cap. Not mesh/accuracy validation.','native_input_sha256':digest(job/'native-input.npz'),'numerical_validation':False})
+    from shallow_reservoir_fields import normalize
+    normalize(job)
     return m,ids
 
 

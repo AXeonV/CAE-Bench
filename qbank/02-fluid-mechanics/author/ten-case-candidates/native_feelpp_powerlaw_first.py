@@ -94,7 +94,7 @@ def prepare(root, snapshot):
         initial=s['initial']['velocity']['expression'];assert initial==[0.]*d
         assert s['time_interval_s'][0]==0. and end==1.
         assert all(abs(t/.001-round(t/.001))<1e-9 for t in s['output_times_s'])
-        model['InitialConditions']={'fluid':{'velocity':{'Expression':{'expr':zero}}}}
+        model['InitialConditions']={'fluid':{'velocity':{'Expression':{'initial_zero':{'expr':zero,'time':0,'markers':['Omega']}}}}}
     mapping='Triangle P2 mean: average3edge midpoints. Tetrahedron P2 mean: -sum4vertex values/20+sum6edge midpoint values/5. P1 pressure mean: average edge midpoints. These are exact polynomial integrals on the original straight simplex. Nonlinear derived fields use declared order12 tensor Gauss-Duffy quadrature (12^dimension points), without exactness/accuracy certification. Native point measures evaluate the high-order FE field.'
     save(job/'native-point-map.json',{'dimension':d,'edges':edges.tolist(),'coordinates':midpoints.tolist(),'include_vertex_velocity':derived or d==3,'derived_quadrature_duffy_order':12,'integration':mapping})
     save(native/'cfd.json',model)

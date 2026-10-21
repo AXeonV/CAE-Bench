@@ -117,3 +117,5 @@ python qbank/02-fluid-mechanics/author/ten-case-candidates/freeze_designs.py
 `native_euler_gravity.py`处理两例时变体加速度工况，复用已有初态、网格和输出装配。原生 `rhoPimpleFoam` 在零黏度和零导热下推进动量及总能量形式；原生 `SemiImplicitSource` 的 `exprField` 分别计算 `rho*a` 和 `rho*(U dot a)`，加速度严格按实际公开输入样本作分段线性插值。没有新增或编译物理模块，不能把这个无黏等价配置直接用于要求完整黏性应力做功的工况。原生源文件及摘要、配置和实际日志保存在计算目录的维护证据中。
 
 热统计线性故障复用 `retry_thermal_statistics_linear.execute` 的有限执行器。每次仅消费维护目录中已保存的退出与归档证据；存在修复后工况目录就拒绝重复执行。自然对流新增故障的单例入口为 `retry_thermal_statistics_natural_convection.py`，仅将已结束任务的线性方法改为原生 UMFPACK，保留原始计算记录。
+
+`codesaturne_mesh_adapter.py`为首个冻结热压缩工况制作同坐标、同连接和同实体身份的公开MSH4.1与原生MSH2.2网格，并实际执行Code_Saturne预处理器。热边界物理组分别保留热墙、冷墙和绝热墙。该步骤仅完成网格适配，不生产参考解；热物性XML、原生应力做功与体积黏度定义的源码摘要及后续边界/稳态映射待办保存在计算目录维护记录中。

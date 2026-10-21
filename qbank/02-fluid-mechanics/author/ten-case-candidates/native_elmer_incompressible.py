@@ -189,7 +189,7 @@ def mu_of(g,s):
     return lo+delta*(1+(lam*g)**a)**((p['power_index']-1)/a)
 
 
-def package(job,e,m,groups):
+def package(job,e,m,groups,native_cell_frames=None):
     s=e['detailed_spec'];x=m['x'];c=m['c'];b=m['b'];d=x.shape[1];n=len(x);nc=len(c);nb=len(b);L=np.array(s['geometry']['bounding_lengths'])
     inp=job/'input';ref=job/'reference';inp.mkdir(exist_ok=True);ref.mkdir(exist_ok=True);gmsh(inp/'mesh.msh',x,c,b,d)
     transient=s['analysis_kind']=='transient';end=(s['time_interval_s'] or [0,1])[1];ts=np.array([0,.1*end,.4*end,.6*end,end] if transient else [0.]);ot=s['output_times_s']
@@ -252,6 +252,14 @@ def package(job,e,m,groups):
     save(inp/'problem.json',problem)
     with h5py.File(inp/'input.h5','w') as f:
         for k,v in arrays.items():f[k]=v
+    if native_cell_frames is not None:
+        assert set(outputs)<=set(native_cell_frames) and set(outputs)<= {'velocity','pressure'}
+        with h5py.File(ref/'reference.h5','w') as f:
+            for k in {locations[o['location']]['ids'] for o in outputs.values()}|{'requested'}:f[k]=arrays[k]
+            for q in outputs:
+                values=np.asarray(native_cell_frames[q]);assert values.shape==(len(ot),nc,d if q=='velocity' else 1) and np.isfinite(values).all()
+                f[q]=values
+        return {'reference_sha256':digest(ref/'reference.h5'),'nodes':n,'cells':nc,'frames':len(ot),'mapping':'Native high-order field cell averages supplied by source-specific I/O adapter; original frozen input sampling preserved. No accuracy validation.'}
     files=sorted((job/'native').rglob('solution*.vtu'));assert len(files)==(1000 if transient else 1),len(files)
     frames={q:[] for q in outputs};A=x[c][:,1:]-x[c][:,:1]
     for t in ot:

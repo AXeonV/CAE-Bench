@@ -59,7 +59,12 @@ def prepare(root, snapshot):
     lines += ['$EndElements'];(native/'mesh.msh').write_text('\n'.join(lines)+'\n')
     q={k:v['value'] for k,v in s['materials']['viscosity']['parameters'].items()};mu=q['reference_viscosity'];g=q['reference_shear_rate'];n=q['power_index']
     ends=[mu*(v/g)**(n-1) for v in [q['minimum_shear_rate'],q['maximum_shear_rate']]]
-    model={'Name':CASE,'ShortName':'power_law_channel','Models':{'fluid':{'setup':{'equations':'Navier-Stokes','viscosity_law':'power_law'}}},'Meshes':{'fluid':{'Import':{'filename':'/work/native/mesh.msh'}}},'Materials':{'Omega':{'rho':s['materials']['density']['parameters']['density']['value'],'mu':mu,'mu_k':mu*g**(1-n),'mu_power_law_n':n,'mu_min':min(ends),'mu_max':max(ends)}},'BoundaryConditions':{'fluid':{'velocity':velocity,'normal_stress':stress}},'PostProcess':{'fluid':{'Exports':{'fields':['velocity','pressure','pid','materials.dynamic-viscosity']}}}}
+    model={'Name':CASE,'ShortName':'power_law_channel','Models':{'fluid':{'setup':{'equations':'Navier-Stokes','viscosity_law':'power_law'}}},'Meshes':{'fluid':{'Import':{'filename':'/work/native/mesh.msh','partition':True,'number-of-partition':8}}},'Materials':{'Omega':{'rho':s['materials']['density']['parameters']['density']['value'],'mu':mu,'mu_k':mu*g**(1-n),'mu_power_law_n':n,'mu_min':min(ends),'mu_max':max(ends)}},'BoundaryConditions':{'fluid':{'velocity':velocity,'normal_stress':stress}},'PostProcess':{'fluid':{'Exports':{'fields':['velocity','pressure','pid','materials.dynamic-viscosity']}}}}
+    edges=np.unique(np.sort(np.concatenate([c[:,[0,1]],c[:,[1,2]],c[:,[2,0]]]),axis=1),axis=0)
+    midpoints=x[edges].mean(axis=1)
+    point_measures={f'midpoint_{i:05d}':{'coord':'{'+','.join(format(float(v),'.17g') for v in [*pt,0.])+'}','fields':['velocity','pressure'],'include_coordinates':1} for i,pt in enumerate(midpoints)}
+    model['PostProcess']['fluid'].update(Save={'Fields':{'names':['velocity','pressure']}},Measures={'Points':point_measures})
+    save(job/'native-point-map.json',{'edges':edges.tolist(),'coordinates':midpoints.tolist(),'integration':'Original triangle cell mean is the mean of native P2 velocity at its three edge midpoints (degree2 exact quadrature). Same quadrature exactly integrates native P1 pressure. Native point measures evaluate original high-order FE field; vertex-only visualization is not used.'})
     save(native/'cfd.json',model)
     (native/'cfd.cfg').write_text('directory=/work/native/output\ncase.dimension=2\ncase.discretization=P2P1G1\nts.steady=true\n[fluid]\nfilename=/work/native/cfd.json\nsolver=Newton\nsnes-maxit=40\nsnes-rtol=1e-8\nsnes-atol=1e-10\nsnes-monitor=true\nksp-type=preonly\npc-type=lu\npc-factor-mat-solver-package-type=mumps\n')
     save(job/'parallel-numerical-plan.json',{'actual_native_ranks':8,'cpu_per_case':8,'workload':'parallel_long','solver_budget_seconds':14300,'target_seconds':7200,'maximum_seconds':14400,'stationary_nonlinear_max_iterations':40,'physics_modified':False,'input_mapping':'Frozen inlet nodal values reconstructed separately as exact P1 trace on each supplied facet; native P2 velocity retains that trace. Complete zero sigma*n outlet, no pressure gauge or extra outlet velocity constraint.','scope':'First native raw solve; native high-order output and cell-average conversion remain to inspect. No candidate claimed before packaging.'})
@@ -69,7 +74,7 @@ def prepare(root, snapshot):
 def main():
     p=argparse.ArgumentParser();p.add_argument('--root',type=Path,required=True);p.add_argument('--snapshot',type=Path,required=True);p.add_argument('--workers',type=int,default=8);a=p.parse_args()
     if (a.root/'cases'/CASE).exists():raise RuntimeError('Existing case preserved; no automatic retry')
-    job,meshinfo=prepare(a.root,a.snapshot);name='ch02feelpp-'+hashlib.sha256(CASE.encode()).hexdigest()[:12]
+    job,meshinfo=prepare(a.root,a.snapshot);name='ch02feelpp-dist-'+hashlib.sha256(CASE.encode()).hexdigest()[:12]
     command=['docker','--host',SOCKET,'run','--name',name,'--network','none','--cpus','8','--memory','8g','--label','ch02.workload=parallel_long','--user','0:0','-e','HOME=/tmp','-e','OMP_NUM_THREADS=1','-e','OPENBLAS_NUM_THREADS=1','-v',f'{job.resolve()}:/work','-w','/work/native','--entrypoint','/bin/bash',IMAGE,'-c','mpirun --allow-run-as-root --oversubscribe -np 8 /usr/bin/feelpp_toolbox_fluid --config-file /work/native/cfd.cfg']
     state={'design_id':CASE,'status':'running','container':name,'producer':'unmodified Feel++ CFD toolbox v0.111.0','numerical_validation':False,**meshinfo}
     try:
@@ -84,6 +89,9 @@ def main():
     old=json.loads((job/'status.json').read_text()) if (job/'status.json').exists() else {}
     if old.get('status')=='stopped_runtime_limit':return
     state['finished_unix']=time.time();save(job/'status.json',state)
+    if state['status']=='native_raw_complete_pending_package':
+        from finish_feelpp_powerlaw import finish
+        finish(a.root,a.snapshot)
 
 
 if __name__=='__main__':main()

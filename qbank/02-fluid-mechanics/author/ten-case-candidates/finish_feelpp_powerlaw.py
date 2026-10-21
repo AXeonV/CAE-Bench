@@ -90,7 +90,10 @@ def finish(root,snapshot,case_id=CASE):
         if int(iteration)==0:residual_groups.append([])
         assert residual_groups
         residual_groups[-1].append(float(value))
-    assert residual_groups and all(g[-1]<=max(1e-10,1e-8*g[0]) for g in residual_groups), 'A native nonlinear solve did not meet its configured termination threshold'
+    native_reasons=[int(v) for v in re.findall(r'convergence reason\s*:\s*(-?\d+)',(output/'logs/rank-000000.log').read_text())]
+    snes=json.loads((output/'journal.json').read_text())['Toolboxes']['fluid']['Algebraic Solver']['SNES']
+    assert snes['rtol']==1e-8 and snes['atol']==1e-10 and snes['stol']==1e-8
+    assert residual_groups and len(native_reasons)==len(residual_groups) and all(v in (2,3,4) for v in native_reasons), 'Missing or unsuccessful native nonlinear convergence reason'
     if transient:
         plan=json.loads((job/'parallel-numerical-plan.json').read_text());assert len(residual_groups)>=plan['expected_time_steps']
     pointmap=json.loads((job/'native-point-map.json').read_text());path=output/'fluid.measures/values.csv';metadata=json.loads((path.parent/'metadata.json').read_text());native_times=metadata['times'];requested=spec['output_times_s'];selected={};rowcount=0
@@ -111,6 +114,6 @@ def finish(root,snapshot,case_id=CASE):
     fields={q:np.concatenate([selected[k][q] for k in range(len(requested))],axis=0) for q in selected[0]}
     result=package(job,entry,m,m['groups'],native_cell_frames=fields)
     grading=json.loads((recordpath.parents[1]/'grading-template.json').read_text());save(job/'reference/grading.json',grading)
-    save(job/'native-to-contract.json',{'native_point_map_sha256':hashlib.sha256((job/'native-point-map.json').read_bytes()).hexdigest(),'native_measures_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'mapping':pointmap['integration'],'partitioning':mesh['partitioning'],'native_nonlinear_solves':len(residual_groups),'native_nonlinear_final_residual':residual_groups[-1][-1],'physical_output_times':requested,'numerical_validation':False})
+    save(job/'native-to-contract.json',{'native_point_map_sha256':hashlib.sha256((job/'native-point-map.json').read_bytes()).hexdigest(),'native_measures_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'mapping':pointmap['integration'],'partitioning':mesh['partitioning'],'native_convergence_reasons':native_reasons,'native_snes_tolerances':snes,'native_nonlinear_solves':len(residual_groups),'native_nonlinear_final_residual':residual_groups[-1][-1],'physical_output_times':requested,'numerical_validation':False})
     status.update(result,status='unvalidated_candidate',reference_produced=True,finished_unix=time.time());save(job/'status.json',status)
     return status

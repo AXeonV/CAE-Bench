@@ -109,3 +109,5 @@ python qbank/02-fluid-mechanics/author/ten-case-candidates/freeze_designs.py
 `native_pyclaw_wetdry.py`使用镜像中已编译的 Clawpack 5.9 `sw_aug_2D`，对应官方 `rpn2_sw_aug.f90`、`rpt2_sw_aug.f90`。该原生实现包含干区跳过、干湿界面和地形处理；不使用仅适用于湿区的 HLLE/普通 f-wave 核，不添加人工水深。有限队列只含矩形、无孔洞、零摩擦、全水墙的五例；复合几何继续待适配。采用一阶原生推进，输出在真实内部节点进行连续守恒变量重建，正水深时速度为动量/水深，零水深时速度为零。计算完成不表示干湿前沿或空间误差已经验证。
 
 `shallow_reservoir_fields.py`把储槽常量速度明确写成同边界位置的 P0 平均字段，边界水深字段同样使用平均值语义。原有输入归档，已算参考文件摘要保持不变；这是表示修复，不是重新计算或物理变更。后续储槽生产者复用该转换。
+
+干湿储槽第07例由 `native_pyclaw_wetdry_reservoir.py` 复用同一原生干湿生产与输出装配流程，`pyclaw_wetdry_reservoir_runtime.py` 只把公开时间表映射到外部幽灵状态，内部水深和动量由原生 Riemann 波传播推进。初始干区保留零水深，其他边界保持水墙。该入口只处理已冻结的矩形、零摩擦工况，不覆盖复合几何或摩擦闭合。

@@ -49,19 +49,21 @@ def convert(job,e,m,ids):
     return {'reference_sha256':digest(ref/'reference.h5'),'frames':len(times),'mapping':'Native PyClaw Classic 2D sw_aug_2D first order, native augmented wet/dry Riemann handling. Zero-friction closed rectangular geometry, actual P1 bed/depth integrals. Conservative native state bilinearly reconstructed at real public interior nodes; u=hu/h for positive h and exactly zero for h=0. No author depth clipping or added water. Water volume native FV integral. Spatial accuracy and wet/dry accuracy unverified.'}
 
 
-def run(root,e,g):
+def run(root,e,g,prepare_fn=prepare,runtime_name='pyclaw_wetdry_runtime.py'):
     job=root/'cases'/e['design_id'];status=job/'status.json'
     if status.exists():return json.loads(status.read_text())
     job.mkdir();save(job/'design.json',e);state={'design_id':e['design_id'],'status':'queued'};save(status,state);name='ch02wetdry-'+hashlib.sha256(e['design_id'].encode()).hexdigest()[:12]+'-'+str(time.time_ns())[-9:]
     try:
         with reservation(root,name):
-            m,ids=prepare(job,e,True);runtime=Path(__file__).with_name('pyclaw_wetdry_runtime.py');shutil.copy2(runtime,job/runtime.name)
+            m,ids=prepare_fn(job,e,True);runtime=Path(__file__).with_name(runtime_name);shutil.copy2(runtime,job/runtime.name)
             cmd=['docker','--host',SOCKET,'run','--name',name,'--network','none','--cpus','1','--memory','768m','--user',f'{os.getuid()}:{os.getgid()}','-e','OMP_NUM_THREADS=1','-e','OPENBLAS_NUM_THREADS=1','-v',f'{job}:/work','-w','/work',IMAGE,'python',runtime.name]
-            record={'producer':'unmodified Clawpack/PyClaw 5.9.0 Classic 2D sw_aug_2D','image':IMAGE,'source_url':'https://github.com/clawpack/clawpack/tree/v5.9.0','script_sha256':digest(Path(__file__)),'conversion_script_sha256':digest(Path(__file__)),'native_configuration_script_sha256':digest(runtime),'command':cmd,'start_unix':time.time(),'native_dry_tolerance':1e-14,'native_order':1,'physical_scope':'Wetting/drying, zero drag, reflective walls; native augmented Riemann kernel handles dry states and bed source. First-order discretization; no accuracy certification.','numerical_validation':False};save(job/'execution.json',record);state.update(status='running',container=name);save(status,state)
+            record={'producer':'unmodified Clawpack/PyClaw 5.9.0 Classic 2D sw_aug_2D','image':IMAGE,'source_url':'https://github.com/clawpack/clawpack/tree/v5.9.0','script_sha256':digest(Path(__file__)),'conversion_script_sha256':digest(Path(__file__)),'native_configuration_script_sha256':digest(runtime),'command':cmd,'start_unix':time.time(),'native_dry_tolerance':1e-14,'native_order':1,'physical_scope':'Wetting/drying, zero drag; native augmented Riemann kernel handles dry states and bed source. Boundary configuration recorded in native runtime; first-order discretization, no accuracy certification.','numerical_validation':False};save(job/'execution.json',record);state.update(status='running',container=name);save(status,state)
             with (job/'solver.log').open('w') as log:cp=subprocess.run(cmd,stdout=log,stderr=subprocess.STDOUT)
             assert cp.returncode==0,f'native exit {cp.returncode}'
             record['binary_sha256']=json.loads((job/'native-runtime.json').read_text())['riemann_binary_sha256'];save(job/'execution.json',record)
-            result=convert(job,e,m,ids);state.update(result);save(job/'reference/grading.json',g);state['status']='unvalidated_candidate'
+            result=convert(job,e,m,ids)
+            if any(b['operator']=='water_reservoir' for b in e['detailed_spec']['boundaries']):result['mapping']=result['mapping'].replace('closed rectangular geometry','rectangular geometry with x=0 exterior-state reservoir and other walls')
+            state.update(result);save(job/'reference/grading.json',g);state['status']='unvalidated_candidate'
     except Exception as ex:state.update(status='needs_attention',error=repr(ex),traceback=traceback.format_exc())
     state['ended_unix']=time.time();save(status,state);return state
 

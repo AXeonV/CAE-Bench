@@ -14,29 +14,30 @@ dist,ids=cKDTree(data['x']).query(coords);assert np.max(dist)<1e-9 and len(np.un
 inverse=np.empty(len(ids),int);inverse[ids]=np.arange(len(ids));observed=inverse[data['observed']]
 h0=Function(P1);h0.dat.data[:]=data['h'][ids]
 u0=Function(V1);u0.dat.data[:]=data['u'][ids]
-bathymetry=Function(P1).assign(1.)
-# Constant vertical datum: h=1+eta, and physical bed is exactly zero.
+bathymetry=Function(P1);bathymetry.dat.data[:]=1.-data['bed'][ids]
+# Constant vertical datum: h=1-P1_bed+eta; no physical bed is altered.
 physical_constants['g_grav'].assign(float(data['gravity']))
 physical_constants['rho0'].assign(float(data['density']))
 solver=solver2d.FlowSolver2d(mesh,bathymetry);o=solver.options
 o.use_nonlinear_equations=True;o.element_family='dg-dg';o.polynomial_degree=1
 o.linear_drag_coefficient=Constant(float(data['drag']))
 o.horizontal_viscosity=None;o.coriolis_frequency=None
+o.use_wetting_and_drying=False
 o.swe_timestepper_type='CrankNicolson';o.timestep=.0005
 o.simulation_end_time=float(data['end']);o.simulation_export_time=.0005
 o.no_exports=True;o.check_volume_conservation_2d=False
 o.swe_timestepper_options.solver_parameters={'snes_type':'newtonls','snes_rtol':1e-9,'snes_atol':1e-10,'snes_max_it':25,'ksp_type':'preonly','pc_type':'lu'}
 # Omitted boundary entries are native impermeable land/slip boundaries,
 # as in Thetis' official closed 2-D channel example.
-solver.assign_initial_conditions(elev=h0-1.,uv=u0)
+solver.assign_initial_conditions(elev=h0-bathymetry,uv=u0)
 frames={k:[] for k in ['depth','velocity','water_flux','water_volume']};times=[];raw_elev=[];raw_uv=[]
 def export():
     t=solver.simulation_time
     if not any(abs(t-float(v))<1e-9 for v in data['times']):return
     uv=solver.fields.uv_2d;eta=solver.fields.elev_2d
-    depth=Function(P1).project(1.+eta);velocity=Function(V1).project(uv);flux=Function(V1).project((1.+eta)*uv)
+    depth=Function(P1).project(bathymetry+eta);velocity=Function(V1).project(uv);flux=Function(V1).project((bathymetry+eta)*uv)
     h=depth.dat.data_ro[observed].copy();assert np.isfinite(h).all() and np.min(h)>0
-    frames['depth'].append(h[:,None]);frames['velocity'].append(velocity.dat.data_ro[observed].copy());frames['water_flux'].append(flux.dat.data_ro[observed].copy());frames['water_volume'].append([[float(assemble((1.+eta)*dx))]])
+    frames['depth'].append(h[:,None]);frames['velocity'].append(velocity.dat.data_ro[observed].copy());frames['water_flux'].append(flux.dat.data_ro[observed].copy());frames['water_volume'].append([[float(assemble((bathymetry+eta)*dx))]])
     times.append(t);raw_elev.append(eta.dat.data_ro.copy());raw_uv.append(uv.dat.data_ro.copy())
     Path('/work/progress.json').write_text(json.dumps({'physical_time':t,'frames':len(times),'numerical_validation':False}))
 solver.iterate(export_func=export)

@@ -119,3 +119,5 @@ python qbank/02-fluid-mechanics/author/ten-case-candidates/freeze_designs.py
 热统计线性故障复用 `retry_thermal_statistics_linear.execute` 的有限执行器。每次仅消费维护目录中已保存的退出与归档证据；存在修复后工况目录就拒绝重复执行。自然对流新增故障的单例入口为 `retry_thermal_statistics_natural_convection.py`，仅将已结束任务的线性方法改为原生 UMFPACK，保留原始计算记录。
 
 `codesaturne_mesh_adapter.py`为首个冻结热压缩工况制作同坐标、同连接和同实体身份的公开MSH4.1与原生MSH2.2网格，并实际执行Code_Saturne预处理器。热边界物理组分别保留热墙、冷墙和绝热墙。该步骤仅完成网格适配，不生产参考解；热物性XML、原生应力做功与体积黏度定义的源码摘要及后续边界/稳态映射待办保存在计算目录维护记录中。
+
+`codesaturne_boundary_setup.py`在原生配置API中建立三组无滑移壁和温度/绝热分区，温度边界由原生 `cfxtcl` 转换成相应能量边界，不直接用 `cv*T` 替代温度条件。数据准备通过 `code_saturne run --initialize` 执行；该步骤没有调用 `--execute`。闭域质量库存、稳态收敛停止及输出装配完成前，不把这一配置计作参考解。

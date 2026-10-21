@@ -7,7 +7,13 @@ from code_saturne.model.TimeStepModel import TimeStepModel
 from code_saturne.model.SolutionDomainModel import SolutionDomainModel
 c=Case(package=cs_package.package(),file_name='/work/native/study/cavity/DATA/setup.xml')
 SolutionDomainModel(c).setMeshInput('/work/native/mesh_input')
-t=TimeStepModel(c);t.setTimePassing(1);t.setTimeStep(.001);t.setMaxCourant(.5);t.setMaxFourier(10.);t.setTimeStepMaxFactor(1.e9);t.setStopCriterion('iterations',5000)
+t=TimeStepModel(c);t.setTimePassing(1);t.setTimeStep(.0001);t.setMaxCourant(.2);t.setMaxFourier(.1);t.setTimeStepMaxFactor(1.e9);t.setStopCriterion('iterations',5000)
+# Native lower-order numerical options for the reported offset/gradient-bad cells.
+from code_saturne.model.NumericalParamEquationModel import NumericalParamEquationModel
+eq=NumericalParamEquationModel(c)
+for field in ['velocity','total_energy']:
+    eq.setScheme(field,'upwind');eq.setFluxReconstruction(field,'off')
+eq.setRhsReconstruction('pressure',1)
 from code_saturne.model.InitializationModel import InitializationModel
 params=json.loads(Path('/work/design.json').read_text())['detailed_spec']['parameters']
 i=InitializationModel(c);i.setDensityStatus('1','on');i.setDensityFormula('1','density = '+str(params['mean_density']['value'])+';');i.setTemperatureStatus('1','on');i.setTemperatureFormula('1','temperature = '+str(params['reference_temperature']['value'])+';');i.setPressureStatus('1','off');i.setEnergyStatus('1','off')

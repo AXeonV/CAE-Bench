@@ -30,3 +30,19 @@ do ifac = 1, nfabor
   end select
 enddo
 end subroutine cs_f_user_boundary_conditions
+
+! iniusi calls this after csphys/cssca3 and before computing EOS cv0.
+! cssca3 uses lambda/Cp for the thermal scalar; cfener requires lambda/Cv.
+! This fixed producer case has frozen lambda=.02 and Cv=717.5 SI.
+subroutine usipsu(nmodpp)
+use paramx
+use numvar
+use cstphy
+use ppppar
+use ppthch
+use ppincl
+use cfpoin
+implicit none
+integer nmodpp
+visls0(ienerg) = 0.02d0 / 717.5d0
+end subroutine usipsu

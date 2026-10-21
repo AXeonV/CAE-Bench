@@ -84,7 +84,7 @@ def dispatch(root, snapshot):
         parallel_env={}
         if q.get('workload')=='parallel_long':
             cores=q['cpu_per_case'];budget=q['solver_budget_seconds']
-            assert 8<=cores<=16 and 0<budget<=7100
+            assert 8<=cores<=16 and 0<budget<=14300
             parallel_env={'CH02_LONG_SOLVER_CORES':str(cores),'CH02_SOLVE_BUDGET_SECONDS':str(budget)}
         missing = [i for i in q['case_ids'] if not (root/'cases'/i/'status.json').exists()]
         if not missing:

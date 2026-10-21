@@ -35,7 +35,7 @@ def main():
             put(n/'system/fvSolution',header('dictionary','fvSolution')+'solvers { h { solver PCG; preconditioner DIC; tolerance 1e-10; relTol 0; } hFinal { $h; } hU { solver smoothSolver; smoother symGaussSeidel; tolerance 1e-10; relTol 0; } hUFinal { $hU; } } PIMPLE { nOuterCorrectors 3; nCorrectors 1; nNonOrthogonalCorrectors 0; momentumPredictor yes; }\n')
             put(n/'constant/gravitationalProperties',header('dictionary','gravitationalProperties')+f'g [0 1 -2 0 0 0 0] (0 0 -{s["parameters"]["gravity"]["value"]}); rotating false;\n')
             base=['docker','--host',SOCKET,'run','--network','none','--cpus','1','--memory','768m','--user',f'{os.getuid()}:{os.getgid()}','-e','OMP_NUM_THREADS=1','-v',f'{j}:/work','-w','/work/native']
-            env='source /usr/lib/openfoam/openfoam2512/etc/bashrc && '
+            env='source /usr/lib/openfoam/openfoam2512/etc/bashrc && cd /work/native && '
             with (j/'blockMesh.log').open('w') as log:cp=subprocess.run(base+['--name',name+'-mesh',IMAGE,'bash','-c',env+'blockMesh'],stdout=log,stderr=subprocess.STDOUT)
             assert cp.returncode==0,'native blockMesh failure'
             xyz,quads,patch,area=native_mesh(n,2);x=xyz[:,:2];q=np.array(quads)-1;c=np.concatenate((q[:,[0,1,2]],q[:,[0,2,3]]));b=np.array([v for pp in patch.values() for v in pp])-1

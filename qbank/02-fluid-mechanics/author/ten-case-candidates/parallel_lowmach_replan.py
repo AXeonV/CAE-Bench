@@ -20,7 +20,7 @@ CASE='ch02-2-2-4-02-natural_convection'
 def merge_frame(pvtu,x):
     totals={};count=np.zeros(len(x));tree=cKDTree(x)
     for piece in ET.parse(pvtu).findall('.//Piece'):
-        p=pvtu.parent/piece.get('Source');t=ET.parse(p);pos=np.fromstring(t.find('.//Points/DataArray').text,sep=' ').reshape(-1,3)[:,:x.shape[1]];dist,ids=tree.query(pos);assert dist.max()<1e-8
+        p=pvtu.parent/piece.get('Source');t=ET.parse(p);pos=np.fromstring(t.find('.//Points/DataArray').text,sep=' ').reshape(-1,3)[:,:x.shape[1]];dist,nearest=tree.query(pos,k=2);assert np.all(dist[:,0]<1e-7*max(1.,np.abs(x).max())) and np.all(dist[:,1]>10*dist[:,0]), 'native node order';ids=nearest[:,0]
         np.add.at(count,ids,1)
         for a in t.findall('.//PointData/DataArray'):
             key=a.get('Name').lower()

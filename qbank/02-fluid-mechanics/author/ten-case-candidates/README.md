@@ -99,3 +99,7 @@ python qbank/02-fluid-mechanics/author/ten-case-candidates/freeze_designs.py
 ### 浅水储槽的有限适配
 
 `native_pyclaw_reservoir.py`仅处理 2.9.2 第07例：实际公开边界实体保存储槽水深的线性时间表，原生 PyClaw 的外部幽灵单元读取该表；内部单元由原生三波 f-wave Riemann 核的正负波传播更新。其他边界保持水墙，零摩擦。配置脚本见 `pyclaw_reservoir_runtime.py`。该入口不覆盖摩擦、孔洞或干湿界面；不作数值正确性声明。逐次源文件摘要、配置、原始场和执行状态保存在计算目录的维护证据中。
+
+### 稳态浅水的有限原生队列
+
+`native_pyclaw_steady.py`只处理矩形、无孔洞、零摩擦的稳态浅水五例；收缩与扩张的多边形域不在该入口范围。`pyclaw_steady_runtime.py`使用原生 PyClaw f-wave，在两端设置储槽外部幽灵状态，侧面为水墙。初始水深和流速只作私有迭代种子，公开稳态输入不含初始条件。最多推进1000个一秒窗口，连续五个窗口的逐守恒分量归一化变化率小于1e-8才生成候选参考，否则保留迭代上限状态与原始输出。该收敛停止条件不构成离散误差或数值正确性验证。

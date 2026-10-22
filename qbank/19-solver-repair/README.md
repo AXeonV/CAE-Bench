@@ -7,3 +7,5 @@
 | 19.1.1 | [双边距离约束系统的加速度与反力求值](19.1-constraints/constrained-assembly-repair/instruction.md) | 修复指定状态求值，并保持位置/速度装配行为 |
 
 章与节边界见[规划](../design/chapter-19-solver-repair.md)，实际完成情况与验证证据见[实施记录](../design/reviews/chrono-846-repair-implementation.md)。
+
+本轮扩展的22道题及其验收状态见[建设清单](../design/repair-22-checklist.md)；未验收题目不列作上表已可用入口。

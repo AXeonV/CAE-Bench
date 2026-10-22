@@ -1,0 +1,58 @@
+--- baseline/ChAssemblyAnalysis.cpp
++++ luna/ChAssemblyAnalysis.cpp
+@@ -93,24 +93,19 @@
+         }
+     }
+ 
+-    if ((action & AssemblyAnalysis::Level::VELOCITY) || (action & AssemblyAnalysis::Level::ACCELERATION)) {
++    if (action & AssemblyAnalysis::Level::VELOCITY) {
+ 
+         if (!(action & AssemblyAnalysis::Level::POSITION)) {
+             // no risk of not meeting any termination criteria, only position-level assembly can not converge
+             exit_flag = AssemblyAnalysis::ExitFlag::SUCCESS;
+         }
+ 
+-        ChStateDelta Vold;
+-
+         // setup auxiliary vectors
+-        Vold.setZero(integrable->GetNumCoordsVelLevel(), GetIntegrable());
+         R.setZero(integrable->GetNumCoordsVelLevel());
+         Qc.setZero(integrable->GetNumConstraints());
+         L.setZero(integrable->GetNumConstraints());
+ 
+         integrable->StateGather(X, V, T);  // state <- system
+-
+-        Vold = V;
+ 
+         // Perform a linearized semi-implicit Euler integration step
+         //
+@@ -137,15 +132,24 @@
+ 
+         L *= (1.0 / dt);  // Note it is not -(1.0/dt) because we assume StateSolveCorrection already flips sign of L
+ 
+-        if (action & AssemblyAnalysis::Level::ACCELERATION) {
+-            integrable->StateScatterAcceleration(
+-                (V - Vold) * (1 / dt));  // -> system auxiliary data (i.e acceleration as measure, fits DVI/MDI)
++    }
+ 
+-            integrable->StateScatterReactions(L);  // -> system auxiliary data
+-        }
++    // Acceleration-level assembly is an instantaneous constrained dynamics solve.
++    // Do not approximate it with a finite velocity update: that makes the result
++    // depend on dt and can introduce a spurious impulse into the reported forces.
++    if (action & AssemblyAnalysis::Level::ACCELERATION) {
++        integrable->StateGather(X, V, T);
++        A.setZero(integrable->GetNumCoordsAccLevel(), GetIntegrable());
++        L.setZero(integrable->GetNumConstraints());
++
++        integrable->StateSolveA(A, L, X, V, T, dt, false,
++                                UpdateFlags::UPDATE_ALL_NO_VISUAL);
++
++        integrable->StateScatterAcceleration(A);
++        integrable->StateScatterReactions(L);
+     }
+ 
+     return exit_flag;
+ }
+ 
+-}  // end namespace chrono+}  // end namespace chrono

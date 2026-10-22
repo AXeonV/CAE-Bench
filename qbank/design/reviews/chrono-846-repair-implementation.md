@@ -23,7 +23,7 @@
 | 实际数据审计 | 已完成 | 20例及2个公开样例全部字段/输出/评分绑定审计，5类非法变体拒绝；独立后端复核再次核对40个清单/评分文件 |
 | 独立 verifier | 已完成 | 最终后端 Oracle 20/20；先前缺Gmsh系统库失败保留，未算考生错误 |
 | HF 任务分支 | 已完成远端核验 | cases/chrono-846-repair；固定提交重取90个文件，严格核验有效；详见本题author/data-evidence/hf-upload.json |
-| Luna Benchmark | 待启动 | 前置验证已完成；提交后冻结，再由持久控制器启动唯一 medium trial |
+| Luna Benchmark | 已完成 | 固定提交740aaa0；唯一medium trial：5/20（25%），公开1/2、隐藏4/18；全部20例执行完成，基础设施异常0 |
 
 ## 已确认的工程事实
 
@@ -43,6 +43,18 @@
 - 上述审阅与精简验证证据已归档到本题author/data-evidence。题面收尾仅删除一个末尾LF，独立考生已确认其余公开内容不变及原审阅对当前哈希继续适用。
 
 数值参考的加速度误差最高约为其逐分量评分容差的3.24%，反力约1.66%；位置/速度回归为双精度舍入量级。它们支持本批20例的验收，不作为整个声明参数范围的数学误差上界。
+
+## Luna 实测结果
+
+唯一一次独立求解为 `chrono846-luna-medium`，Codex 0.163.0 / `openai/gpt-6-luna` / medium，禁用搜索，重试0。运行于2026-10-22 17:15:32–17:21:50 UTC（香港2026-10-23 01:15:32–01:21:50），约6分19秒，包含环境准备及验证。
+
+- 总分5/20（25%）；公开1/2，隐藏4/18。20例均有终态，不存在未执行例。
+- 15个加速度case全部 `runtime_error`、退出1；2个位置及3个速度case通过。Luna改为调用 `StateSolveA()`，原件与候选均强制编译成功。考生公开样例诊断出现 `Invalid dimensions`；verifier外层仅保存子进程退出1，未保留嵌套驱动stderr，因此不推断更精确的内部抛出位置。
+- 相同冻结环境的参考补丁20/20；上述运行失败归考生提交，未追加模型调用、未按隐藏反馈修补答案。
+- 输入514332 tokens，其中缓存470784；输出2438 tokens。适配器报告费用估计USD0.01028164，不作为账单；一次尝试不能估计模型稳定通过率。
+- 机器摘要、实际编译摘要和原始产物SHA见本题 `author/data-evidence/benchmark.json`；冻结计划见 `benchmark-plan.json`；考生改动见 `luna-submission.diff`。完整逐例报告保留在 `runs/benchmarks/chrono-846-repair/report.md`，原始trial、日志和候选源码位于 `runs/harbor/jobs/chrono846-luna-medium`。
+
+共享 [Viewer](http://127.0.0.1:8080) 保留供回看。Windows上停止前先用 `Get-NetTCPConnection -LocalPort 8080 -State Listen` 查询PID，并用 `Get-CimInstance Win32_Process -Filter "ProcessId=<PID>"` 核对命令仍为本仓库 `runs/harbor/monitor/start_viewer.py`，确认后执行 `Stop-Process -Id <PID>`。交付时PID49104，健康接口正常且jobs目录匹配；POSIX viewer辅助脚本不支持本机，不能用作Windows停止入口。本次不停止共享服务。长跑scheduled task在交付完成后暂停。
 
 ## 续作入口
 

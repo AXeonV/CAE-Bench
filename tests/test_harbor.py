@@ -58,6 +58,78 @@ class HarborTests(unittest.TestCase):
         publisher.publish(TASK, root=self.root)
         return Path(prepare.prepare(TASK, self.root)['task_directory'])
 
+    def test_explicit_public_assets_are_hashed_and_do_not_include_author_files(self):
+        import hashlib
+        task = self.root / TASK_PATH
+        (task / 'public').mkdir()
+        (task / 'public/source.txt').write_text('public source')
+        (task / 'author/secret.txt').write_text('private reference')
+        descriptor = {'version': 1, 'files': [{'path': 'public/source.txt',
+                      'sha256': hashlib.sha256(b'public source').hexdigest()}]}
+        (task / 'public-materials.json').write_text(json.dumps(descriptor))
+        files, _ = publisher.collect_materials(TASK, self.root)
+        self.assertEqual(files[f'{TASK_PATH.as_posix()}/public/source.txt'], b'public source')
+        self.assertFalse(any(name.endswith('secret.txt') for name in files))
+        descriptor['files'][0]['sha256'] = '0'*64
+        (task / 'public-materials.json').write_text(json.dumps(descriptor))
+        with self.assertRaisesRegex(ValueError, 'hash mismatch'):
+            publisher.collect_materials(TASK, self.root)
+        descriptor['files'][0]['path'] = 'public/../author/secret.txt'
+        (task / 'public-materials.json').write_text(json.dumps(descriptor))
+        with self.assertRaisesRegex(ValueError, 'under public'):
+            publisher.collect_materials(TASK, self.root)
+
+    def test_source_repair_stages_a_trusted_backend_and_keeps_oracle_private(self):
+        task = self.root / TASK_PATH
+        config = {'version': 1, 'base_image': 'local-repair:test',
+                  'replacements': [{'submission': 'Assembly.cpp', 'target': '/opt/source/Assembly.cpp'}],
+                  'build_directory': '/opt/build', 'build_target': 'core',
+                  'build_timeout_seconds': 123, 'max_source_bytes': 1048576,
+                  'rebuild_files': ['/opt/build/assembly.o'],
+                  'runner': f'/app/{TASK_PATH.as_posix()}/public/run_case.py'}
+        (task / 'harbor').mkdir(exist_ok=True)
+        (task / 'harbor/source-repair.json').write_text(json.dumps(config))
+        (task / 'author/generated').mkdir()
+        (task / 'author/generated/Assembly.cpp').write_text('// private oracle\n')
+        # The standard fixture must expose the new trusted backend template.
+        shutil.copyfile(ROOT/'src/utils/harbor/tests/source_repair.py',
+                        self.root/'src/utils/harbor/tests/source_repair.py')
+        directory = self.prepared()
+        self.assertEqual(json.loads((directory/'tests/source-repair.json').read_text()), config)
+        self.assertTrue((directory/'tests/source_repair.py').is_file())
+        self.assertIn('FROM --platform=linux/amd64 local-repair:test',
+                      (directory/'environment/Dockerfile').read_text())
+        self.assertIn('COPY . /tests', (directory/'tests/Dockerfile').read_text())
+        self.assertEqual((directory/'solution/Assembly.cpp').read_text(), '// private oracle\n')
+        self.assertNotIn('baseline.py', (directory/'solution/solve.sh').read_text())
+        instruction = (directory/'instruction.md').read_text(encoding='utf-8')
+        self.assertIn('不提交 solve.py', instruction)
+        self.assertNotIn('python /app/submission/solve.py', instruction)
+        with zipfile.ZipFile(directory/'environment/agent.zip') as archive:
+            readme = archive.read('README.md').decode('utf-8')
+            self.assertNotIn('python solve.py', readme)
+            self.assertIn('源码修复材料', readme)
+        with zipfile.ZipFile(directory/'environment/agent.zip') as archive:
+            self.assertFalse(any('Assembly.cpp' in name or 'source_repair.py' in name for name in archive.namelist()))
+
+    def test_source_repair_rejects_ambiguous_or_command_like_configuration(self):
+        from caeoj_tools.source_repair import configuration
+        task = self.root / TASK_PATH
+        (task / 'harbor').mkdir(exist_ok=True)
+        config = {'version': 1, 'base_image': 'bad\nRUN false', 'replacements': [],
+                  'build_directory': '/opt/build', 'build_target': 'core',
+                  'build_timeout_seconds': 300, 'max_source_bytes': 1024, 'runner': '/app/run.py',
+                  'rebuild_files': ['/opt/build/assembly.o']}
+        path = task / 'harbor/source-repair.json'
+        path.write_text(json.dumps(config))
+        with self.assertRaisesRegex(ValueError, 'base image'):
+            configuration(task, self.root)
+        config['base_image'] = 'repair:test'
+        config['replacements'] = [{'submission': '../a.cpp', 'target': '/opt/a.cpp'}]
+        path.write_text(json.dumps(config))
+        with self.assertRaisesRegex(ValueError, r'plain C\+\+'):
+            configuration(task, self.root)
+
     def test_instruction_lists_only_published_sample_assets(self):
         task = self.root / TASK_PATH
         for example in task.glob('samples/*/output/result.h5'):

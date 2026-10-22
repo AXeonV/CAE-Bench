@@ -39,10 +39,11 @@ Case 级判题的实施、HF 迁移和验证证据见[实施记录](reviews/case
 | 第 16 章 | [材料组织与微观演化分析](chapter-16-microstructure.md) | 相分离、晶粒长大、相变动力学及微结构演化 |
 | 第 17 章 | [多物理场耦合分析](chapter-17-multiphysics.md) | 流固、热固、电热、压电、磁固、孔隙流固等跨领域相互作用，以及多场联合演化 |
 | 第 18 章 | [系统级多领域分析](chapter-18-system-multidomain.md) | 集总参数与一维网络构成的机械、液压、气动、热、电等工程系统 |
+| 第 19 章 | [求解器诊断与修复](chapter-19-solver-repair.md) | 在固定真实求解器中诊断、修复及验证可复用的物理与数值实现 |
 
 ## 细化与归属规则
 
-1. **按领域设章，逐级细化能力范围。** 维度、稳态／瞬态、材料类型、能量与湍流等物理范围，以及方法要求，在节、子节和具体题目层展开。给定 PDE 章按数学问题组织。
+1. **通常按领域设章，逐级细化能力范围。** 维度、稳态／瞬态、材料类型、能量与湍流等物理范围，以及方法要求，在节、子节和具体题目层展开。给定 PDE 章按数学问题组织。第 19 章按用户授权新增为修复任务章：指定现有实现及修改边界是考察目标，按所修复的能力划分题目，并与对应物理章交叉标记；不按来源仓库分章或重复声明从零求解能力。
 2. **几何和工况属于算例。** 腔体、弯管、台阶、障碍物等不单独成为物理问题族；题目应声明支持的几何与条件范围。
 3. **行业应用作为标签。** 汽车、航空航天、土木、岩土、生物医学、制造加工等应用可以涉及多章，不据此重复建立相同能力的题目。
 4. **每题有主要归属，允许交叉标签。** 依据主要分析目标和能力要求确定归属。以换热为目标的分析主要归传热章，以流动为目标且包含热效应的分析主要归流体章；以跨场反馈和联合响应为核心的题目归耦合章。
@@ -70,3 +71,4 @@ Case 级判题的实施、HF 迁移和验证证据见[实施记录](reviews/case
 | 第 14 章 | [题目](../14-plasma/README.md) | [清单](chapter-14-task-plan.md) | [进度](reviews/chapter-14-progress.md) |
 | 第 17 章 | [题目](../17-multiphysics/README.md) | [清单](chapter-17-task-plan.md) | [进度](reviews/chapter-17-progress.md) · [实施与审阅](reviews/chapter-17-implementation.md) |
 | 第 18 章 | [题目](../18-system-multidomain/README.md) | [清单](chapter-18-task-plan.md) | [进度](reviews/chapter-18-progress.md) · [实施与审阅](reviews/chapter-18-implementation.md) |
+| 第 19 章 | [题目](../19-solver-repair/README.md) | [规划与目标清单](chapter-19-solver-repair.md) | [实施与审阅](reviews/chrono-846-repair-implementation.md) |

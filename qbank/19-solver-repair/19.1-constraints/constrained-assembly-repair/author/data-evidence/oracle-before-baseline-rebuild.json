@@ -1,0 +1,72 @@
+{
+  "job": "chrono846-oracle-preflight2",
+  "score": 20,
+  "total_cases": 20,
+  "completed_cases": 20,
+  "complete": true,
+  "public_cases": [
+    {
+      "case": "01-pendulum-public",
+      "sample": "01",
+      "case_id": "case-0d0113e7ce9b7dc330dd4ee1"
+    },
+    {
+      "case": "02-position-public",
+      "sample": "02",
+      "case_id": "case-17cd9cb1986d8aca70c9cab0"
+    }
+  ],
+  "report_sha256": "5d45a0f9417bada8f5dc79923bc56e5cd5624b1b0f1b7ac4976973b2586a96a6",
+  "build": {
+    "command": [
+      "setpriv",
+      "--reuid=1000",
+      "--regid=1000",
+      "--clear-groups",
+      "--no-new-privs",
+      "cmake",
+      "--build",
+      "/opt/chrono-build",
+      "--target",
+      "Chrono_core",
+      "--parallel",
+      "4"
+    ],
+    "exit_code": 0,
+    "status": "built",
+    "elapsed_seconds": 1.6719666569999845,
+    "sources_sha256": {
+      "ChAssemblyAnalysis.cpp": "eb24585705b87a9803bb50604bea107b764dcf5e02ac58684499b7ecee0a9ccb"
+    },
+    "removed_build_artifacts": [
+      "/opt/chrono-build/src/chrono/CMakeFiles/Chrono_core.dir/timestepper/ChAssemblyAnalysis.cpp.o",
+      "/opt/chrono-build/lib/libChrono_core.so"
+    ],
+    "built_artifacts_sha256": {
+      "/opt/chrono-build/src/chrono/CMakeFiles/Chrono_core.dir/timestepper/ChAssemblyAnalysis.cpp.o": "d360c8186bdeeb134415011138542eb7624ebeaa3f047a521dace9ca86621406",
+      "/opt/chrono-build/lib/libChrono_core.so": "ed17d4c41b0a58bbbec12113a4d49c71387fa285d94d94f170bff58a43b5e303"
+    }
+  },
+  "case_elapsed_seconds": {
+    "01-pendulum-public": 0.3938488779999716,
+    "02-position-public": 0.4213519610000276,
+    "03-resting-load": 0.3679277060000459,
+    "04-zero-gravity": 0.5203752570000688,
+    "05-two-link-chain": 0.3974580280000737,
+    "06-free-triangle": 0.393570866999994,
+    "07-two-anchors": 1.018403754000019,
+    "08-branched-tree": 0.4136366039999757,
+    "09-disconnected-free-body": 0.3719985699999597,
+    "10-fixed-second-endpoint": 0.41084447700006876,
+    "11-long-scale": 0.41842677600004663,
+    "12-short-scale": 0.41832835499997145,
+    "13-free-system": 0.4100344089999908,
+    "14-loaded-network": 0.37237949600000775,
+    "15-spatial-chain": 0.3779430600000069,
+    "16-larger-tree": 0.4624025130000291,
+    "17-position-outward": 0.3785953750000317,
+    "18-velocity-single": 0.41910807399995065,
+    "19-velocity-coupled": 0.391672256999982,
+    "20-velocity-free-network": 0.39553010400004496
+  }
+}

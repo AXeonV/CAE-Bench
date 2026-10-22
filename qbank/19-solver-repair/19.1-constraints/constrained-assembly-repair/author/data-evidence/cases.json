@@ -1,0 +1,128 @@
+{
+  "cases": [
+    {
+      "name": "01-pendulum-public",
+      "condition": 1.0,
+      "note": "Public moving pendulum; centripetal acceleration and vector reaction.",
+      "action": 4
+    },
+    {
+      "name": "02-position-public",
+      "condition": 1.0,
+      "note": "Public position assembly from an incompatible initial guess.",
+      "action": 1
+    },
+    {
+      "name": "03-resting-load",
+      "condition": 1.0,
+      "note": "At-rest non-regression.",
+      "action": 4
+    },
+    {
+      "name": "04-zero-gravity",
+      "condition": 1.0,
+      "note": "Pure curvature force without gravity.",
+      "action": 4
+    },
+    {
+      "name": "05-two-link-chain",
+      "condition": 1.3333333333333333,
+      "note": "Shared moving endpoint and unequal masses require a coupled solve.",
+      "action": 4
+    },
+    {
+      "name": "06-free-triangle",
+      "condition": 3.275607331312273,
+      "note": "Unanchored closed constraint network with global free translation.",
+      "action": 4
+    },
+    {
+      "name": "07-two-anchors",
+      "condition": 1.7199999999999993,
+      "note": "Two independent constraints reduce one body motion to an intersection tangent.",
+      "action": 4
+    },
+    {
+      "name": "08-branched-tree",
+      "condition": 1.1538461538461537,
+      "note": "Branch coupling and mass weighting; not a repeated single pendulum.",
+      "action": 4
+    },
+    {
+      "name": "09-disconnected-free-body",
+      "condition": 1.0,
+      "note": "Constrained and unconstrained active bodies in the same system.",
+      "action": 4
+    },
+    {
+      "name": "10-fixed-second-endpoint",
+      "condition": 1.0,
+      "note": "Force acts on the fixed second endpoint; tests sign and global frame.",
+      "action": 4
+    },
+    {
+      "name": "11-long-scale",
+      "condition": 1.0,
+      "note": "Length-scale sensitivity of constraint differencing at 5 m.",
+      "action": 4
+    },
+    {
+      "name": "12-short-scale",
+      "condition": 1.0,
+      "note": "Small radius and high curvature acceleration.",
+      "action": 4
+    },
+    {
+      "name": "13-free-system",
+      "condition": null,
+      "note": "No constraints; retains force-over-mass behavior.",
+      "action": 4
+    },
+    {
+      "name": "14-loaded-network",
+      "condition": 3.4210352495760654,
+      "note": "External load, non-axis gravity and coupled force balance.",
+      "action": 4
+    },
+    {
+      "name": "15-spatial-chain",
+      "condition": 4.012900634420024,
+      "note": "Three coupled spatial constraints.",
+      "action": 4
+    },
+    {
+      "name": "16-larger-tree",
+      "condition": 2.1366869438513594,
+      "note": "Eight-body branched tree tests accumulation across several coupled constraints.",
+      "action": 4
+    },
+    {
+      "name": "17-position-outward",
+      "condition": 1.0,
+      "note": "Outward position correction and reversed endpoint order.",
+      "action": 1
+    },
+    {
+      "name": "18-velocity-single",
+      "condition": 1.0,
+      "note": "Remove normal velocity while preserving tangent motion.",
+      "action": 2
+    },
+    {
+      "name": "19-velocity-coupled",
+      "condition": 2.67133886899249,
+      "note": "Simultaneous mass-weighted velocity projection.",
+      "action": 2
+    },
+    {
+      "name": "20-velocity-free-network",
+      "condition": 2.5899999066338797,
+      "note": "Projection preserves free-system momentum with unequal masses.",
+      "action": 2
+    }
+  ],
+  "public_cases": [
+    "01-pendulum-public",
+    "02-position-public"
+  ]
+}

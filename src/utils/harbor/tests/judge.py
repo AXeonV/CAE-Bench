@@ -17,6 +17,7 @@ from caeoj.sdk import load_problem
 TESTS = Path('/tests')
 LOGS = Path('/logs/verifier')
 SUBMISSION = Path('/app/submission')
+SOURCE_REPAIR = (TESTS / 'source-repair.json').is_file()
 
 
 def output_limit(config):
@@ -37,6 +38,9 @@ def output_within_limit(path, limit):
 
 def freeze_submission():
     """Reject links and remove solver write permissions before execution."""
+    if SOURCE_REPAIR:
+        import source_repair
+        return source_repair.prepare()
     if not SUBMISSION.is_dir() or SUBMISSION.is_symlink():
         raise ValueError('Missing regular submission directory')
     for path in [SUBMISSION, *SUBMISSION.rglob('*')]:
@@ -52,17 +56,24 @@ def execute(directory, timeout, logs):
     # Keep the canonical submission immutable, but give each invocation its own
     # writable source tree for compiled helpers and caches. No changes survive
     # into the next case.
-    working_submission = directory / 'submission'
-    shutil.copytree(SUBMISSION, working_submission)
-    for path in [working_submission, *working_submission.rglob('*')]:
-        os.chown(path, 1000, 1000)
+    if SOURCE_REPAIR:
+        import source_repair
+        arguments = source_repair.command(directory)
+    else:
+        working_submission = directory / 'submission'
+        shutil.copytree(SUBMISSION, working_submission)
+        for path in [working_submission, *working_submission.rglob('*')]:
+            os.chown(path, 1000, 1000)
+        arguments = ['python', str(working_submission / 'solve.py'),
+                     '--input', str(directory / 'input/problem.json'),
+                     '--output', str(directory / 'result.h5')]
     command = ['setpriv', '--reuid=1000', '--regid=1000', '--clear-groups',
-               '--no-new-privs', 'python', str(working_submission / 'solve.py'),
-               '--input', str(directory / 'input/problem.json'),
-               '--output', str(directory / 'result.h5')]
+               '--no-new-privs', *arguments]
     # Credentials from the agent phase are never passed to solver processes.
     env = {'PATH': '/usr/local/bin:/usr/bin:/bin', 'HOME': '/home/solver',
            'PYTHONDONTWRITEBYTECODE': '1'}
+    if SOURCE_REPAIR:
+        env['LD_LIBRARY_PATH'] = '/opt/chrono-build/lib'
     with (logs / 'stdout.log').open('wb') as out, (logs / 'stderr.log').open('wb') as err:
         process = subprocess.Popen(command, cwd=directory, env=env, stdout=out,
                                    stderr=err, start_new_session=True)
@@ -121,8 +132,8 @@ def main():
     try:
         submitted = freeze_submission()
         submission_error = 'missing_submission' if not submitted else None
-    except ValueError:
-        submission_error = 'invalid_submission'
+    except ValueError as exc:
+        submission_error = getattr(exc, 'status', 'invalid_submission')
     results = []
     for path in paths:
         case = path.parent.name

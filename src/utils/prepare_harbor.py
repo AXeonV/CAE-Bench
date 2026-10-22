@@ -13,6 +13,7 @@ from publish_dist import PROJECT_ROOT, read_public_file, collect_materials
 from caeoj.case_grading import prepare_case
 from caeoj.sdk import load_problem
 from caeoj_tools.task_paths import task_directory
+from caeoj_tools.source_repair import configuration as repair_configuration, dockerfile as repair_dockerfile, oracle_sources
 
 TEMPLATE_FILES = ('environment/Dockerfile', 'solution/solve.sh',
                   'tests/test.sh', 'tests/judge.py')
@@ -93,6 +94,7 @@ def task_config(template, overrides, *, judge_config=None, case_count=None):
 def prepare(task, root=PROJECT_ROOT):
     root = Path(root).resolve()
     source = task_directory(task, root)
+    repair = repair_configuration(source, root)
     public_cases = []
     if (source / 'data-manifest.json').is_file():
         from caeoj_tools.data_pool import verify
@@ -125,7 +127,18 @@ def prepare(task, root=PROJECT_ROOT):
     instruction = Template(read_public_file(root, template / 'instruction.md').decode('utf-8')).substitute(
         task=task, task_path=task_path, sample=manifest['public_samples'][0], timeout_seconds=judge_config['timeout_seconds'],
         sample_materials=sample_materials(task_path, manifest['public_samples'], names))
+    if repair:
+        instruction = (f'# 修复求解器\n\n阅读 `/app/{task_path}/instruction.md`、该目录的 DATA.md 和 '
+                       '`/app/docs/CONTRACT.md`。按题面修复指定源码并提交到 `/app/submission/`。'
+                       '仅此目录传入独立 verifier；最终提交只包含题面列出的源码替换文件。'
+                       '不提交 solve.py。编译和调用由可信后端执行。\n\n'
+                       + sample_materials(task_path, manifest['public_samples'], names))
     resources = tomllib.loads(rendered_config)
+    if repair:
+        minimum = repair['build_timeout_seconds'] + 60 + len(cases) * (
+            judge_config['timeout_seconds'] + judge_config.get('evaluation_timeout_seconds', 60))
+        if resources['verifier']['timeout_sec'] < minimum:
+            raise ValueError('Verifier budget cannot cover source build, baseline check and all cases')
     instruction += f"公开样例判分：python -m caeoj grade --input /app/{task_path}/samples/{manifest['public_samples'][0]}/input/problem.json --output /app/sample-result.h5 --grading /app/{task_path}/samples/{manifest['public_samples'][0]}/reference/grading.json\n"
     environment = resources['environment']
     if 'cpus' in environment:
@@ -135,6 +148,7 @@ def prepare(task, root=PROJECT_ROOT):
     if judge_config.get('max_output_bytes') is not None:
         instruction += f"每例结果文件大小上限：{judge_config['max_output_bytes']} 字节。\n"
     baseline = source / 'author/baseline.py'
+    repair_oracle = oracle_sources(source, repair) if repair else []
     destination = root / 'runs/harbor/tasks' / task
     destination.parent.mkdir(parents=True, exist_ok=True)
     if destination.is_symlink() or getattr(destination, 'is_junction', lambda: False)():
@@ -153,6 +167,8 @@ def prepare(task, root=PROJECT_ROOT):
             target.write_bytes(data)
 
         for name in TEMPLATE_FILES:
+            if repair and name == 'solution/solve.sh':
+                continue
             if name == 'solution/solve.sh' and not baseline.is_file():
                 continue
             copy(template / name, Path(name))
@@ -168,11 +184,23 @@ def prepare(task, root=PROJECT_ROOT):
         # Harbor builds the separate verifier from tests/, not environment/.
         # Reuse the public runtime definition and install private files only there.
         copy(template / 'environment/Dockerfile', Path('tests/Dockerfile'))
+        if repair:
+            runtime_dockerfile = repair_dockerfile(repair)
+            for path in ['environment/Dockerfile', 'tests/Dockerfile']:
+                (staged / path).write_text(runtime_dockerfile, encoding='utf-8', newline='\n')
+            copy(source / 'harbor/source-repair.json', Path('tests/source-repair.json'))
+            copy(template / 'tests/source_repair.py', Path('tests/source_repair.py'))
+            if repair_oracle:
+                commands = ['#!/bin/bash', 'set -euo pipefail', 'mkdir -p /app/submission']
+                for path in repair_oracle:
+                    copy(path, Path('solution') / path.name)
+                    commands.append(f'cp /solution/{path.name} /app/submission/{path.name}')
+                (staged / 'solution/solve.sh').write_text('\n'.join(commands) + '\n', encoding='utf-8', newline='\n')
         with (staged / 'tests/Dockerfile').open('a', encoding='utf-8', newline='\n') as stream:
             stream.write('COPY . /tests\n')
         copy(archive, Path('tests/agent.zip'))
         shutil.copyfile(staged / 'environment/requirements.txt', staged / 'tests/requirements.txt')
-        if baseline.is_file():
+        if baseline.is_file() and not repair:
             copy(baseline, Path('solution/baseline.py'))
         copy(source / 'judge-config.json', Path('tests/judge-config.json'))
         (staged/'tests/selection.json').write_text(json.dumps({'public_cases': public_cases}, indent=2)+'\n', encoding='utf-8')
@@ -196,7 +224,7 @@ def prepare(task, root=PROJECT_ROOT):
         # ACLs, which must not follow the published task into its destination.
         shutil.copytree(staged, destination)
     return {'task_directory': str(destination), 'cases': len(cases), 'archive': str(archive),
-            'oracle_available': baseline.is_file(), 'public_cases': public_cases}
+            'oracle_available': bool(repair_oracle) if repair else baseline.is_file(), 'public_cases': public_cases}
 
 
 if __name__ == '__main__':

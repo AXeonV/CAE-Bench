@@ -95,6 +95,7 @@ flowchart LR
 | [第 16 章](qbank/16-microstructure/README.md) | 材料组织与微观演化分析 |
 | [第 17 章](qbank/17-multiphysics/README.md) | 多物理场耦合 |
 | [第 18 章](qbank/18-system-multidomain/README.md) | 系统级多领域分析 |
+| [第 19 章](qbank/19-solver-repair/README.md) | 求解器诊断与修复 |
 
 第 2～18 章已完成各自首版清单的题面、DATA 和评测配置；正式数值数据、参考及评测发布仍待完成。逐章交付范围和证据见 [题库设计](qbank/design/README.md)。
 

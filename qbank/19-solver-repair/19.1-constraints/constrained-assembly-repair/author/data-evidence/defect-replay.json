@@ -1,0 +1,677 @@
+{
+  "mode": "defect",
+  "image": "caeoj-chrono846-core:base",
+  "image_id": "sha256:2a9a1f1a1db5b74a40a95f3dec58c9f92c39934f19010d57d9bf9bcae180e88f",
+  "cases": [
+    {
+      "case": "01-pendulum-public",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "caeoj-chrono846-core:base",
+        "/opt/driver-build/assembly-driver"
+      ],
+      "elapsed_seconds": 0.3440000000409782,
+      "input_sha256": "12a4989720109e74fd109021515db540592a8c995aae85f722c39732366770e6",
+      "checks": {
+        "acceleration": {
+          "max_absolute_error": 3.1999999999951942,
+          "max_tolerance_fraction": 314.78093214456254,
+          "passed": false
+        },
+        "reaction": {
+          "max_absolute_error": 3.19999999981085,
+          "max_tolerance_fraction": 58.45902022336552,
+          "passed": false
+        }
+      },
+      "score": 0,
+      "output_sha256": "3d7297ed7410c4f68ad0ece1c4abae7dc01aaf0097831afefa576804325536f6"
+    },
+    {
+      "case": "02-position-public",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "caeoj-chrono846-core:base",
+        "/opt/driver-build/assembly-driver"
+      ],
+      "elapsed_seconds": 0.31299999996554106,
+      "input_sha256": "4277fccaf1ffc67d585858d567f2e96958637fae1c47583d07de35f0e2421ec7",
+      "checks": {
+        "position": {
+          "max_absolute_error": 1.6653345369377348e-16,
+          "max_tolerance_fraction": 1.2427869678639811e-08,
+          "passed": true
+        }
+      },
+      "score": 1,
+      "output_sha256": "c496e0daf08f6bf487dae724f06b49af8ba890d25d67d3c29ee9db84b21c90a5"
+    },
+    {
+      "case": "03-resting-load",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "caeoj-chrono846-core:base",
+        "/opt/driver-build/assembly-driver"
+      ],
+      "elapsed_seconds": 0.2809999999590218,
+      "input_sha256": "1c8b4d6062cc087da3ad811c41b8ee160bf4b755b192db0ca762d0a865b1217d",
+      "checks": {
+        "acceleration": {
+          "max_absolute_error": 8.881784197001252e-16,
+          "max_tolerance_fraction": 7.189166772163158e-14,
+          "passed": true
+        },
+        "reaction": {
+          "max_absolute_error": 8.881784197001252e-16,
+          "max_tolerance_fraction": 1.6964733044407446e-14,
+          "passed": true
+        }
+      },
+      "score": 1,
+      "output_sha256": "f6893e1b846e5277425b979a34860dc1ab9e578eeab8c27640090da90cb0f2df"
+    },
+    {
+      "case": "04-zero-gravity",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "caeoj-chrono846-core:base",
+        "/opt/driver-build/assembly-driver"
+      ],
+      "elapsed_seconds": 0.28200000000651926,
+      "input_sha256": "2b586993c05c112fd877770d3b2e77d504f49d4f03eae5ba21ff539eedbdafdf",
+      "checks": {
+        "acceleration": {
+          "max_absolute_error": 5.882352941176471,
+          "max_tolerance_fraction": 454.54545454545456,
+          "passed": false
+        },
+        "reaction": {
+          "max_absolute_error": 5.882352941176471,
+          "max_tolerance_fraction": 111.1111111111111,
+          "passed": false
+        }
+      },
+      "score": 0,
+      "output_sha256": "6208d6ca86c17f4070bee744b096f9ef9b33d9b3e578ed568771b022781d6ead"
+    },
+    {
+      "case": "05-two-link-chain",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "caeoj-chrono846-core:base",
+        "/opt/driver-build/assembly-driver"
+      ],
+      "elapsed_seconds": 0.32900000002700835,
+      "input_sha256": "2a275f25f335c0fb671829c64030e8151f1a7ac2723a47963baddfd1e252aab2",
+      "checks": {
+        "acceleration": {
+          "max_absolute_error": 2.6681421813148596,
+          "max_tolerance_fraction": 196.60718873280652,
+          "passed": false
+        },
+        "reaction": {
+          "max_absolute_error": 2.6681421816148174,
+          "max_tolerance_fraction": 51.976048751154664,
+          "passed": false
+        }
+      },
+      "score": 0,
+      "output_sha256": "b453b4a16ba21ac06764b08823d8872b291b35cc685585efdd66f69e1a8074bb"
+    },
+    {
+      "case": "06-free-triangle",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "caeoj-chrono846-core:base",
+        "/opt/driver-build/assembly-driver"
+      ],
+      "elapsed_seconds": 0.31299999996554106,
+      "input_sha256": "ebfd91bcc0976f93fdcbbea7aca401211774123123172065de78e8331c8442eb",
+      "checks": {
+        "acceleration": {
+          "max_absolute_error": 12.052033673251083,
+          "max_tolerance_fraction": 729.276376305762,
+          "passed": false
+        },
+        "reaction": {
+          "max_absolute_error": 7.85251280293669,
+          "max_tolerance_fraction": 145.61575987213777,
+          "passed": false
+        }
+      },
+      "score": 0,
+      "output_sha256": "1ba7e2228c4ede5b3ac541a478cd2b48363ea7aabf3df5e2607a62ffba7178ff"
+    },
+    {
+      "case": "07-two-anchors",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "caeoj-chrono846-core:base",
+        "/opt/driver-build/assembly-driver"
+      ],
+      "elapsed_seconds": 0.28100000007543713,
+      "input_sha256": "69b506330695b602e360807d7bdce59fadfc6f23a58ebac1ae6a5e53daf8c1ee",
+      "checks": {
+        "acceleration": {
+          "max_absolute_error": 0.030862259236476675,
+          "max_tolerance_fraction": 2.6318439501227466,
+          "passed": false
+        },
+        "reaction": {
+          "max_absolute_error": 0.02571854951014263,
+          "max_tolerance_fraction": 0.5041491777551068,
+          "passed": true
+        }
+      },
+      "score": 0,
+      "output_sha256": "64b54129ea2f25e32a7d1a25194a1999bb2aa161fafedf4604c07bc2b042caea"
+    },
+    {
+      "case": "08-branched-tree",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "caeoj-chrono846-core:base",
+        "/opt/driver-build/assembly-driver"
+      ],
+      "elapsed_seconds": 0.3130000000819564,
+      "input_sha256": "27c9ef730364b523322e1c29827debbaf499c7453d2d40e21325433b2d03eea0",
+      "checks": {
+        "acceleration": {
+          "max_absolute_error": 1.8971699311724635,
+          "max_tolerance_fraction": 154.97634004870477,
+          "passed": false
+        },
+        "reaction": {
+          "max_absolute_error": 0.37943398695215524,
+          "max_tolerance_fraction": 7.559994550356525,
+          "passed": false
+        }
+      },
+      "score": 0,
+      "output_sha256": "ddab5b9edd3ae95a2c01f296eea4656514db20b2e24c7d4f4b3a7779da9293a6"
+    },
+    {
+      "case": "09-disconnected-free-body",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "caeoj-chrono846-core:base",
+        "/opt/driver-build/assembly-driver"
+      ],
+      "elapsed_seconds": 0.2970000000204891,
+      "input_sha256": "7efc22c7a86a3504a17f572fd0ccfe5dadf177267f0c27340d05776c1a664fa6",
+      "checks": {
+        "acceleration": {
+          "max_absolute_error": 0.6353303303974638,
+          "max_tolerance_fraction": 61.57694790682098,
+          "passed": false
+        },
+        "reaction": {
+          "max_absolute_error": 0.6353303303984781,
+          "max_tolerance_fraction": 11.504883520161258,
+          "passed": false
+        }
+      },
+      "score": 0,
+      "output_sha256": "70ab0889a9b055a3cb9f7084e162df0683575d84f459c22206432dfc69b18139"
+    },
+    {
+      "case": "10-fixed-second-endpoint",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "caeoj-chrono846-core:base",
+        "/opt/driver-build/assembly-driver"
+      ],
+      "elapsed_seconds": 0.2970000000204891,
+      "input_sha256": "86968e8671118d025f36bc226648bc7a5650378b204adff901e17c53c2ff8329",
+      "checks": {
+        "acceleration": {
+          "max_absolute_error": 1.3461467581290023,
+          "max_tolerance_fraction": 130.3331375773531,
+          "passed": false
+        },
+        "reaction": {
+          "max_absolute_error": 2.6922935164382515,
+          "max_tolerance_fraction": 44.52499494985411,
+          "passed": false
+        }
+      },
+      "score": 0,
+      "output_sha256": "9ea0bf7b4a65f1db6451cc248a7df7b63ac4ab2193cf4cf376bba2b7787569be"
+    },
+    {
+      "case": "11-long-scale",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "caeoj-chrono846-core:base",
+        "/opt/driver-build/assembly-driver"
+      ],
+      "elapsed_seconds": 0.3440000000409782,
+      "input_sha256": "2248e00588ca9ef720832bdc6bbe4d72447daad3f3fad7aed0025fbce16f32fd",
+      "checks": {
+        "acceleration": {
+          "max_absolute_error": 1.4399999999951953,
+          "max_tolerance_fraction": 130.36629307023443,
+          "passed": false
+        },
+        "reaction": {
+          "max_absolute_error": 5.7599999999886045,
+          "max_tolerance_fraction": 88.02386424746632,
+          "passed": false
+        }
+      },
+      "score": 0,
+      "output_sha256": "0b74f2ac58bf4c02e219f82e85d1a8c12d21544e12b30ebfef1eac7b1cf78678"
+    },
+    {
+      "case": "12-short-scale",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "caeoj-chrono846-core:base",
+        "/opt/driver-build/assembly-driver"
+      ],
+      "elapsed_seconds": 0.28100000007543713,
+      "input_sha256": "f01bc51c4b136a083f3ea26294d3406ffe2558513ba1783ae96ac93e319e29a3",
+      "checks": {
+        "acceleration": {
+          "max_absolute_error": 25.0,
+          "max_tolerance_fraction": 1111.111111111111,
+          "passed": false
+        },
+        "reaction": {
+          "max_absolute_error": 4.999999999999999,
+          "max_tolerance_fraction": 97.05157320600165,
+          "passed": false
+        }
+      },
+      "score": 0,
+      "output_sha256": "f24117c5d121d76737f8434d5bbf153b773be6162461f7aec9ec4b8aedfaca6a"
+    },
+    {
+      "case": "13-free-system",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "caeoj-chrono846-core:base",
+        "/opt/driver-build/assembly-driver"
+      ],
+      "elapsed_seconds": 0.2970000000204891,
+      "input_sha256": "e43a5359c67faab493cfd14c06ab186661dd11ee681d29471fd39d2a6c7b0e99",
+      "checks": {
+        "acceleration": {
+          "max_absolute_error": 1.7837020749311705e-10,
+          "max_tolerance_fraction": 1.3377765561983777e-08,
+          "passed": true
+        }
+      },
+      "score": 1,
+      "output_sha256": "efff152863cb847da32bea194c03ad0e20ca2fe79235b422a1e8b41e1174088c"
+    },
+    {
+      "case": "14-loaded-network",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "caeoj-chrono846-core:base",
+        "/opt/driver-build/assembly-driver"
+      ],
+      "elapsed_seconds": 0.3280000000959262,
+      "input_sha256": "1632b58bec73b973fdabd4c4a70e4b83675c190cf59828e08341cc0c31a0523d",
+      "checks": {
+        "acceleration": {
+          "max_absolute_error": 4.508868023882413,
+          "max_tolerance_fraction": 376.0136492519828,
+          "passed": false
+        },
+        "reaction": {
+          "max_absolute_error": 11.650528969331862,
+          "max_tolerance_fraction": 193.43214670682136,
+          "passed": false
+        }
+      },
+      "score": 0,
+      "output_sha256": "f824cae80a97cc9097467f42971b307465375663c2744f0ad5187890913870f2"
+    },
+    {
+      "case": "15-spatial-chain",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "caeoj-chrono846-core:base",
+        "/opt/driver-build/assembly-driver"
+      ],
+      "elapsed_seconds": 0.28200000000651926,
+      "input_sha256": "5709248d26c245f819841463b6ab38cfee959140871e32d327116a39decebf24",
+      "checks": {
+        "acceleration": {
+          "max_absolute_error": 4.272297017328338,
+          "max_tolerance_fraction": 286.01539138986516,
+          "passed": false
+        },
+        "reaction": {
+          "max_absolute_error": 4.193819692873837,
+          "max_tolerance_fraction": 83.32368774832473,
+          "passed": false
+        }
+      },
+      "score": 0,
+      "output_sha256": "583c31062ae0659a09603c0f9853d7bb56701d1ce1de12f73323be1ba45c3256"
+    },
+    {
+      "case": "16-larger-tree",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "caeoj-chrono846-core:base",
+        "/opt/driver-build/assembly-driver"
+      ],
+      "elapsed_seconds": 0.2970000000204891,
+      "input_sha256": "51a339402a1fde5858c653f836ecc32c9b3aaadfc818c59ac48c1262d3dbd319",
+      "checks": {
+        "acceleration": {
+          "max_absolute_error": 1.9705389958348563,
+          "max_tolerance_fraction": 179.38012319572667,
+          "passed": false
+        },
+        "reaction": {
+          "max_absolute_error": 1.7734850962308197,
+          "max_tolerance_fraction": 34.85161374911209,
+          "passed": false
+        }
+      },
+      "score": 0,
+      "output_sha256": "a6e78226a9e1e99af5b4cb109df43b2ad06ab085e9e64f4b9176eb9088b1d15f"
+    },
+    {
+      "case": "17-position-outward",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "caeoj-chrono846-core:base",
+        "/opt/driver-build/assembly-driver"
+      ],
+      "elapsed_seconds": 0.3279999999795109,
+      "input_sha256": "a374b09d2d7927bb670b13ea9b5816702ce82b5746679deca57fc96e9241f50c",
+      "checks": {
+        "position": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 8.28524645242654e-09,
+          "passed": true
+        }
+      },
+      "score": 1,
+      "output_sha256": "7d28ee133907575e6d259d52ff36e05fb1dcb408c0850a90dfa5d3948b5ea0f9"
+    },
+    {
+      "case": "18-velocity-single",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "caeoj-chrono846-core:base",
+        "/opt/driver-build/assembly-driver"
+      ],
+      "elapsed_seconds": 0.2809999999590218,
+      "input_sha256": "e61aa59412922a30968999200a16ba8637873e7dd3282373c5ac6d9bd174f2a3",
+      "checks": {
+        "velocity": {
+          "max_absolute_error": 6.661338147750939e-16,
+          "max_tolerance_fraction": 3.05231885557891e-08,
+          "passed": true
+        }
+      },
+      "score": 1,
+      "output_sha256": "eab5fe04397233d23a117db6d0fe1bc8664616050fba0bda099796057a7b68ef"
+    },
+    {
+      "case": "19-velocity-coupled",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "caeoj-chrono846-core:base",
+        "/opt/driver-build/assembly-driver"
+      ],
+      "elapsed_seconds": 0.31299999996554106,
+      "input_sha256": "b44f71df4b0659d48da1c43998f9f4399baedd11fd84890e6497948c6ad78e3b",
+      "checks": {
+        "velocity": {
+          "max_absolute_error": 2.220446049250313e-15,
+          "max_tolerance_fraction": 1.02805868297729e-07,
+          "passed": true
+        }
+      },
+      "score": 1,
+      "output_sha256": "aa435c8065a10b9a5f088e4bff65af39dd4f66dd0c8122f23927c0c6df9f8db8"
+    },
+    {
+      "case": "20-velocity-free-network",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "caeoj-chrono846-core:base",
+        "/opt/driver-build/assembly-driver"
+      ],
+      "elapsed_seconds": 0.39099999994505197,
+      "input_sha256": "9767f315cece0a88ab3268f1217f94f17fc6bd2ab7cc2e8d2d2837ed42cc0574",
+      "checks": {
+        "velocity": {
+          "max_absolute_error": 3.3306690738754696e-16,
+          "max_tolerance_fraction": 1.713925962510923e-08,
+          "passed": true
+        }
+      },
+      "score": 1,
+      "output_sha256": "dce0c7ea5266acd1430feca2e0369387fa4dc27e7f4a4fdef99d5137cccffeda"
+    }
+  ]
+}

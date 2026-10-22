@@ -1,0 +1,286 @@
+{
+  "passed": 9,
+  "expected": 9,
+  "results": [
+    {
+      "mode": "valid",
+      "passed": true,
+      "permissions": {
+        "uid": 1000,
+        "access": {
+          "/tests/cases": {
+            "read": false,
+            "write": false
+          },
+          "/tests/reference": {
+            "read": false,
+            "write": false
+          },
+          "/logs/verifier": {
+            "read": false,
+            "write": false
+          },
+          "/app/submission/ChAssemblyAnalysis.cpp": {
+            "read": true,
+            "write": false
+          },
+          "/opt/chrono-build/lib/libChrono_core.so": {
+            "read": true,
+            "write": false
+          },
+          "/opt/chrono-build/lib": {
+            "read": true,
+            "write": false
+          },
+          "/opt/driver-build/assembly-driver": {
+            "read": true,
+            "write": false
+          },
+          "/opt/chrono-source/src/chrono/timestepper/ChAssemblyAnalysis.cpp": {
+            "read": true,
+            "write": false
+          }
+        },
+        "private_read": "denied",
+        "network": "denied"
+      },
+      "cpu_max": "400000 100000",
+      "memory_max": "8589934592",
+      "forced_rebuild": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "cmake",
+          "--build",
+          "/opt/chrono-build",
+          "--target",
+          "Chrono_core",
+          "--parallel",
+          "4"
+        ],
+        "exit_code": 0,
+        "status": "built",
+        "elapsed_seconds": 1.970794031999958,
+        "sources_sha256": {
+          "ChAssemblyAnalysis.cpp": "eb24585705b87a9803bb50604bea107b764dcf5e02ac58684499b7ecee0a9ccb"
+        },
+        "removed_build_artifacts": [
+          "/opt/chrono-build/src/chrono/CMakeFiles/Chrono_core.dir/timestepper/ChAssemblyAnalysis.cpp.o",
+          "/opt/chrono-build/lib/libChrono_core.so"
+        ],
+        "built_artifacts_sha256": {
+          "/opt/chrono-build/src/chrono/CMakeFiles/Chrono_core.dir/timestepper/ChAssemblyAnalysis.cpp.o": "d360c8186bdeeb134415011138542eb7624ebeaa3f047a521dace9ca86621406",
+          "/opt/chrono-build/lib/libChrono_core.so": "ed17d4c41b0a58bbbec12113a4d49c71387fa285d94d94f170bff58a43b5e303"
+        }
+      },
+      "original_library_sha256": "24abfe3baadaed8240fb862a7b3018048927f6891744ee744f464a05213cb223",
+      "new_library_sha256": "ed17d4c41b0a58bbbec12113a4d49c71387fa285d94d94f170bff58a43b5e303",
+      "driver_uses_rebuilt_library": true,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\runs\\benchmarks\\chrono-846-repair\\backend-probes-final\\probe,target=/probe,readonly",
+        "caeoj-chrono846-verifier:preflight",
+        "python",
+        "/probe/backend_probe.py",
+        "valid"
+      ],
+      "elapsed_seconds": 6.109000000054948
+    },
+    {
+      "mode": "syntax",
+      "passed": true,
+      "classified_status": "build_error",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\runs\\benchmarks\\chrono-846-repair\\backend-probes-final\\probe,target=/probe,readonly",
+        "caeoj-chrono846-verifier:preflight",
+        "python",
+        "/probe/backend_probe.py",
+        "syntax"
+      ],
+      "elapsed_seconds": 3.1869999999180436
+    },
+    {
+      "mode": "baseline",
+      "passed": true,
+      "classified_status": "infrastructure_error",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\runs\\benchmarks\\chrono-846-repair\\backend-probes-final\\probe,target=/probe,readonly",
+        "caeoj-chrono846-verifier:preflight",
+        "python",
+        "/probe/backend_probe.py",
+        "baseline"
+      ],
+      "elapsed_seconds": 1.75
+    },
+    {
+      "mode": "compiler",
+      "passed": true,
+      "classified_status": "infrastructure_error",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\runs\\benchmarks\\chrono-846-repair\\backend-probes-final\\probe,target=/probe,readonly",
+        "caeoj-chrono846-verifier:preflight",
+        "python",
+        "/probe/backend_probe.py",
+        "compiler"
+      ],
+      "elapsed_seconds": 1.4849999999860302
+    },
+    {
+      "mode": "extra",
+      "passed": true,
+      "classified_status": "invalid_submission",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\runs\\benchmarks\\chrono-846-repair\\backend-probes-final\\probe,target=/probe,readonly",
+        "caeoj-chrono846-verifier:preflight",
+        "python",
+        "/probe/backend_probe.py",
+        "extra"
+      ],
+      "elapsed_seconds": 0.4220000000204891
+    },
+    {
+      "mode": "symlink",
+      "passed": true,
+      "classified_status": "invalid_submission",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\runs\\benchmarks\\chrono-846-repair\\backend-probes-final\\probe,target=/probe,readonly",
+        "caeoj-chrono846-verifier:preflight",
+        "python",
+        "/probe/backend_probe.py",
+        "symlink"
+      ],
+      "elapsed_seconds": 0.4529999999795109
+    },
+    {
+      "mode": "compile-timeout",
+      "passed": true,
+      "actual_compile_process_tree_timeout": "passed",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\runs\\benchmarks\\chrono-846-repair\\backend-probes-final\\probe,target=/probe,readonly",
+        "caeoj-chrono846-verifier:preflight",
+        "python",
+        "/probe/backend_probe.py",
+        "compile-timeout"
+      ],
+      "elapsed_seconds": 5.01500000001397
+    },
+    {
+      "mode": "runtime-timeout",
+      "passed": true,
+      "actual_driver_descendant_timeout": "passed",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\runs\\benchmarks\\chrono-846-repair\\backend-probes-final\\probe,target=/probe,readonly",
+        "caeoj-chrono846-verifier:preflight",
+        "python",
+        "/probe/backend_probe.py",
+        "runtime-timeout"
+      ],
+      "elapsed_seconds": 4.922000000020489
+    },
+    {
+      "mode": "generic",
+      "passed": true,
+      "actual_standard_submission": "passed",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\runs\\benchmarks\\chrono-846-repair\\backend-probes-final\\probe,target=/probe,readonly",
+        "caeoj-chrono846-verifier:preflight",
+        "python",
+        "/probe/backend_probe.py",
+        "generic"
+      ],
+      "elapsed_seconds": 0.9070000000065193
+    }
+  ]
+}

@@ -19,6 +19,7 @@ from caeoj.validation import ContractError, validate_input, validate_output
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 from caeoj_tools.assembly import read_public_file, runtime_materials, validate_public_runtime
+from caeoj_tools.source_repair import configuration as repair_configuration
 
 PUBLIC_FILES = ("LICENSE", "docs/CONTRACT.md", "docs/GRADING.md")
 
@@ -30,8 +31,24 @@ h5py、NumPy、Gmsh、jsonschema 是协议依赖；额外求解依赖由程序�
 """
 
 
-def agent_readme(task_path, sample, *, include_install=True):
+def agent_readme(task_path, sample, *, include_install=True, source_repair=False):
     installation = INSTALLATION if include_install else ""
+    if source_repair:
+        return f'''# 源码修复材料
+
+阅读 `{task_path}/instruction.md`、同题 DATA.md 和 `docs/CONTRACT.md`。公开样例位于 `{task_path}/samples/`，基线源码与可信驱动源码位于本题 `public/`。
+
+{installation}
+
+本题提交题面指定的 C++ 源码替换文件，编译与数据驱动由固定环境提供。按题面操作修改源码、编译，再用以下命令运行和检查样例：
+
+```text
+python {task_path}/public/run_case.py --input {task_path}/samples/{sample}/input/problem.json --output result.h5
+python -m caeoj grade --input {task_path}/samples/{sample}/input/problem.json --output result.h5 --grading {task_path}/samples/{sample}/reference/grading.json
+```
+
+MANIFEST.json 记录公开资产的 SHA-256。源码修复、数据与评分的完整要求以三份公开文档为准。
+'''.encode('utf-8')
     return f"""# 解题材料
 
 阅读 `{task_path}/instruction.md`、同题 DATA.md 和 `docs/CONTRACT.md` 即可确定完整任务与数据规则。公开示例在 `{task_path}/samples/`；每个样例的 reference/grading.json 供本地判分使用，不是额外题意。
@@ -72,6 +89,25 @@ def collect_materials(task, root=PROJECT_ROOT):
     add(task_dir / "instruction.md")
     if (task_dir / "DATA.md").is_file():
         add(task_dir / "DATA.md")
+    extra_manifest = task_dir / 'public-materials.json'
+    if extra_manifest.is_file():
+        extra = json.loads(read_public_file(root, extra_manifest))
+        if set(extra) != {'version', 'files'} or extra['version'] != 1 or not isinstance(extra['files'], list):
+            raise ValueError('Invalid public-materials.json')
+        seen = set()
+        for record in extra['files']:
+            if not isinstance(record, dict) or set(record) != {'path', 'sha256'}:
+                raise ValueError('Invalid public material record')
+            relative = record['path']
+            if (not isinstance(relative, str) or not relative.startswith('public/')
+                    or '\\' in relative or any(p in ('', '.', '..') for p in relative.split('/'))
+                    or relative in seen):
+                raise ValueError('Extra public material must be a unique path under public/')
+            seen.add(relative)
+            data = read_public_file(root, task_dir / relative)
+            if hashlib.sha256(data).hexdigest() != record['sha256']:
+                raise ValueError('Public material hash mismatch: ' + relative)
+            files[f'{task_path}/{relative}'] = data
     paths = sorted((task_dir / "samples").glob("*/input/problem.json"))
     if not paths:
         raise ValueError(f"No complete public samples in {task_path}/samples; add them before publishing")
@@ -104,7 +140,7 @@ def collect_materials(task, root=PROJECT_ROOT):
             grade = grade_case(path, result, sample/'reference/grading.json')
             if grade['score'] != 1: raise ValueError('Public submission example fails its case evaluation')
         samples.append(sample.name)
-    files["README.md"] = agent_readme(task_path, samples[0])
+    files["README.md"] = agent_readme(task_path, samples[0], source_repair=bool(repair_configuration(task_dir, root)))
     manifest = {"task": task, "public_samples": samples, "assembly": runtime["id"],
                 "files": {name: hashlib.sha256(data).hexdigest() for name, data in sorted(files.items())}}
     files["MANIFEST.json"] = (json.dumps(manifest, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
@@ -118,6 +154,8 @@ def collect_bundle(tasks, root=PROJECT_ROOT):
         raise ValueError('Select at least one task')
     if len(tasks) == 1:
         return collect_materials(tasks[0], root)
+    if any(repair_configuration(task_directory(task, root), root) for task in tasks):
+        raise ValueError('Source-repair tasks require a separate submission environment')
     root = Path(root).resolve()
     directories = {task: task_directory(task, root) for task in tasks}
     files, runtime = runtime_materials(directories, root)

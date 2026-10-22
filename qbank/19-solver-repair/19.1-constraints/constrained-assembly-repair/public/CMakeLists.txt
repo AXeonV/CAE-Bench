@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.18)
+project(caeoj_assembly_driver LANGUAGES CXX)
+find_package(Chrono CONFIG REQUIRED)
+add_executable(assembly-driver driver.cpp)
+target_link_libraries(assembly-driver PRIVATE ${CHRONO_TARGETS})
+set_target_properties(assembly-driver PROPERTIES CXX_STANDARD 17)

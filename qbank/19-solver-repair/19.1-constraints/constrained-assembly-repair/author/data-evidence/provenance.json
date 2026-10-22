@@ -1,0 +1,22 @@
+{
+  "source_issue": "https://github.com/projectchrono/chrono/issues/846",
+  "merged_fix": "https://github.com/projectchrono/chrono/pull/852",
+  "baseline_commit": "c6acd4e5a199f56052ba74b8e9d735a2157ba613",
+  "upstream_fix_commit": "23c679076915d893ccd949fd0f8a2af0fc906982",
+  "reference_producer": "Actual Chrono baseline with the upstream fixed ChAssemblyAnalysis.cpp replacing the defective translation unit; no other solver implementation is used to produce reference.h5.",
+  "scope": "Source-repair task for center-of-mass distance constraints only. The separate ChSystem.cpp step-restoration fix is outside the task and does not affect these instantaneous outputs.",
+  "case_origin": "Author-designed controlled variants of the issue mechanism and official regression families; coupled graph cases are adaptations, not copies of the original issue input.",
+  "independent_validation": "Differentiate exact distance constraints analytically, solve the resulting mass-weighted constraint equations, compare all published observables. This is an independent mathematical check, not another upstream numerical producer.",
+  "public_cases": [
+    "01-pendulum-public",
+    "02-position-public"
+  ],
+  "sha256": {
+    "author/generate.py": "595de1554dd46c1ce8f5f21d0dc880e97f6a0cd4a64516006c9fede961c24fe8",
+    "author/replay.py": "e28d178166d8503a7ffa924806c19b71c1d858646ea1b83843e99733a0ef741d",
+    "author/generated/ChAssemblyAnalysis.cpp": "eb24585705b87a9803bb50604bea107b764dcf5e02ac58684499b7ecee0a9ccb",
+    "public/run_case.py": "7e2fdabb82d9c058a860bd1fb72ca210612a33ee0a5c7774b5ab1d09afe4075e",
+    "public/driver.cpp": "b505de2fb33ea0972712d82e4e479efa612dd12f44c11d68e87969cc508c3428",
+    "author/grading-template.json": "fa94c4ae4cfea77d470301c5dfdb9c5334efb7fcd0c21b526b8669c189803175"
+  }
+}

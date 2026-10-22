@@ -1,0 +1,95 @@
+{
+  "job": "chrono846-oracle-final",
+  "score": 20,
+  "total_cases": 20,
+  "completed_cases": 20,
+  "complete": true,
+  "public_cases": [
+    {
+      "case": "01-pendulum-public",
+      "sample": "01",
+      "case_id": "case-0d0113e7ce9b7dc330dd4ee1"
+    },
+    {
+      "case": "02-position-public",
+      "sample": "02",
+      "case_id": "case-17cd9cb1986d8aca70c9cab0"
+    }
+  ],
+  "report_sha256": "6bc8722d2c85fae26ba7e49bd3650db56392ba24e3ca03e15f060c6059f86fb5",
+  "build": {
+    "command": [
+      "setpriv",
+      "--reuid=1000",
+      "--regid=1000",
+      "--clear-groups",
+      "--no-new-privs",
+      "cmake",
+      "--build",
+      "/opt/chrono-build",
+      "--target",
+      "Chrono_core",
+      "--parallel",
+      "4"
+    ],
+    "exit_code": 0,
+    "status": "built",
+    "elapsed_seconds": 1.6230929180001112,
+    "sources_sha256": {
+      "ChAssemblyAnalysis.cpp": "eb24585705b87a9803bb50604bea107b764dcf5e02ac58684499b7ecee0a9ccb"
+    },
+    "removed_build_artifacts": [
+      "/opt/chrono-build/src/chrono/CMakeFiles/Chrono_core.dir/timestepper/ChAssemblyAnalysis.cpp.o",
+      "/opt/chrono-build/lib/libChrono_core.so"
+    ],
+    "built_artifacts_sha256": {
+      "/opt/chrono-build/src/chrono/CMakeFiles/Chrono_core.dir/timestepper/ChAssemblyAnalysis.cpp.o": "d360c8186bdeeb134415011138542eb7624ebeaa3f047a521dace9ca86621406",
+      "/opt/chrono-build/lib/libChrono_core.so": "ed17d4c41b0a58bbbec12113a4d49c71387fa285d94d94f170bff58a43b5e303"
+    }
+  },
+  "baseline_build": {
+    "command": [
+      "setpriv",
+      "--reuid=1000",
+      "--regid=1000",
+      "--clear-groups",
+      "--no-new-privs",
+      "cmake",
+      "--build",
+      "/opt/chrono-build",
+      "--target",
+      "Chrono_core",
+      "--parallel",
+      "4"
+    ],
+    "exit_code": 0,
+    "status": "built",
+    "elapsed_seconds": 1.471055460999878,
+    "removed_build_artifacts": [
+      "/opt/chrono-build/src/chrono/CMakeFiles/Chrono_core.dir/timestepper/ChAssemblyAnalysis.cpp.o",
+      "/opt/chrono-build/lib/libChrono_core.so"
+    ]
+  },
+  "case_elapsed_seconds": {
+    "01-pendulum-public": 0.3900655080001343,
+    "02-position-public": 0.3925940910000918,
+    "03-resting-load": 0.5268031660000361,
+    "04-zero-gravity": 0.4196505970000999,
+    "05-two-link-chain": 0.41829340799995407,
+    "06-free-triangle": 0.39977397500001643,
+    "07-two-anchors": 0.3992053560000386,
+    "08-branched-tree": 0.40325314400001844,
+    "09-disconnected-free-body": 0.40113325600009375,
+    "10-fixed-second-endpoint": 0.42201000999989446,
+    "11-long-scale": 0.4041481499998554,
+    "12-short-scale": 0.39719582199995784,
+    "13-free-system": 0.4214932869999757,
+    "14-loaded-network": 0.3998630190001222,
+    "15-spatial-chain": 0.39829646599991975,
+    "16-larger-tree": 0.42508146399995894,
+    "17-position-outward": 0.409108710000055,
+    "18-velocity-single": 0.3878898450000179,
+    "19-velocity-coupled": 0.42151829099998395,
+    "20-velocity-free-network": 0.4217475289999584
+  }
+}

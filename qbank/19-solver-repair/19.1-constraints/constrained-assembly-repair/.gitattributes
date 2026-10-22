@@ -9,3 +9,7 @@
 .gitattributes text eol=lf
 # Captured evidence hashes describe the original bytes, including line endings.
 author/data-evidence/* -text
+
+# Raw frozen plan retains CRLF bytes; unified diff blank context carries one space.
+author/data-evidence/benchmark-plan.json whitespace=cr-at-eol
+author/data-evidence/luna-submission.diff whitespace=-blank-at-eol

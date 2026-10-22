@@ -106,6 +106,7 @@ Skill 是供维护 Agent 使用的工作流，位于 `.agents/skills/`，可在�
 | 技能 | 用途 |
 |---|---|
 | [caeoj-author-question](.agents/skills/caeoj-author-question/SKILL.md) | 补齐单题／章节规划，撰写题面并协调独立设计、考生审阅 |
+| [caeoj-author-repair-question](.agents/skills/caeoj-author-repair-question/SKILL.md) | 从真实求解器 issue 筛选并建设源码修复题，验证缺陷、参考与可信编译链 |
 | [caeoj-design-data](.agents/skills/caeoj-design-data/SKILL.md) | 设计自包含 DATA.md，按需补足协议及工具支持 |
 | [caeoj-source-cases](.agents/skills/caeoj-source-cases/SKILL.md) | 为指定题目寻找或实际计算可追溯算例，验证并更新 HF pool，默认不改正式选样 |
 | [caeoj-manage-data](.agents/skills/caeoj-manage-data/SKILL.md) | 制作和上传 HF 题内数据池，选样、下载装配与完整性核验 |

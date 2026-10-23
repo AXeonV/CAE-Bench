@@ -1,0 +1,35 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "cmake",
+    "--build",
+    "/opt/moose-source",
+    "--target",
+    "phasefield_repair",
+    "--parallel",
+    "4"
+  ],
+  "exit_code": 0,
+  "status": "built",
+  "elapsed_seconds": 151.9716161360011,
+  "sources_sha256": {
+    "GrandPotentialSinteringMaterial.C": "a442e80efdbe38c7c698ad1653d153e404bdab2046306e48f7b81df3d1193845",
+    "GrandPotentialSinteringMaterial.h": "ce8253852b04a1eed66edaa60b1109e2ef83fe4f8208d4b2e57fd9418925ae52"
+  },
+  "removed_build_artifacts": [
+    "/opt/moose-source/modules/phase_field/build/unity_src/materials_Unity.x86_64-pc-linux-gnu.opt.lo",
+    "/opt/moose-source/modules/phase_field/build/unity_src/.libs/materials_Unity.x86_64-pc-linux-gnu.opt.o",
+    "/opt/moose-source/modules/phase_field/lib/.libs/libphase_field-opt.so.0.0.0",
+    "/opt/moose-source/modules/phase_field/phase_field-opt"
+  ],
+  "built_artifacts_sha256": {
+    "/opt/moose-source/modules/phase_field/build/unity_src/materials_Unity.x86_64-pc-linux-gnu.opt.lo": "17d460c1aa94f7e60559ae55a02bf0a0bd779875af7a21a5c51ff4ef44979f67",
+    "/opt/moose-source/modules/phase_field/build/unity_src/.libs/materials_Unity.x86_64-pc-linux-gnu.opt.o": "4bca2c58989b09c5ad6785ba56aa647ded06581c25785ff1f27ac50efee6337f",
+    "/opt/moose-source/modules/phase_field/lib/.libs/libphase_field-opt.so.0.0.0": "3cbc5c486e929aea4f7d543b171a9afb148eb990c00bdb9777759e530e2cc217",
+    "/opt/moose-source/modules/phase_field/phase_field-opt": "b4375447f4e9e1c0f65a076936eee63c3b29c135c254d7a856513472e49e1016"
+  }
+}

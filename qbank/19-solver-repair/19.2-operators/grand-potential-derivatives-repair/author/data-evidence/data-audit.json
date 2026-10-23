@@ -1,0 +1,159 @@
+{
+  "cases": [
+    {
+      "case": "01-coupled-polynomial-public",
+      "programs": 4,
+      "active_grains": 2,
+      "variable_name_set": 0,
+      "strict": 1,
+      "outputs": 20,
+      "score": 1
+    },
+    {
+      "case": "02-renamed-three-grains-public",
+      "programs": 4,
+      "active_grains": 3,
+      "variable_name_set": 1,
+      "strict": 1,
+      "outputs": 20,
+      "score": 1
+    },
+    {
+      "case": "03-clamped-constant-control",
+      "programs": 4,
+      "active_grains": 1,
+      "variable_name_set": 1,
+      "strict": 1,
+      "outputs": 20,
+      "score": 1
+    },
+    {
+      "case": "04-pure-void-control",
+      "programs": 4,
+      "active_grains": 4,
+      "variable_name_set": 0,
+      "strict": 0,
+      "outputs": 20,
+      "score": 1
+    },
+    {
+      "case": "05-solid-endpoint-grain-derivatives",
+      "programs": 4,
+      "active_grains": 4,
+      "variable_name_set": 1,
+      "strict": 1,
+      "outputs": 20,
+      "score": 1
+    },
+    {
+      "case": "06-near-interface-endpoints",
+      "programs": 4,
+      "active_grains": 4,
+      "variable_name_set": 1,
+      "strict": 1,
+      "outputs": 20,
+      "score": 1
+    },
+    {
+      "case": "07-one-grain-sign-change",
+      "programs": 4,
+      "active_grains": 1,
+      "variable_name_set": 0,
+      "strict": 1,
+      "outputs": 20,
+      "score": 1
+    },
+    {
+      "case": "08-four-grain-mixed-hessian",
+      "programs": 4,
+      "active_grains": 4,
+      "variable_name_set": 1,
+      "strict": 1,
+      "outputs": 20,
+      "score": 1
+    },
+    {
+      "case": "09-nonstrict-parabolic-regression",
+      "programs": 4,
+      "active_grains": 2,
+      "variable_name_set": 0,
+      "strict": 0,
+      "outputs": 20,
+      "score": 1
+    },
+    {
+      "case": "10-stiffness-contrast",
+      "programs": 4,
+      "active_grains": 2,
+      "variable_name_set": 0,
+      "strict": 1,
+      "outputs": 20,
+      "score": 1
+    },
+    {
+      "case": "11-volume-and-reverse-contrast",
+      "programs": 4,
+      "active_grains": 4,
+      "variable_name_set": 1,
+      "strict": 1,
+      "outputs": 20,
+      "score": 1
+    },
+    {
+      "case": "12-eight-program-sparse-identities",
+      "programs": 8,
+      "active_grains": 4,
+      "variable_name_set": 0,
+      "strict": 1,
+      "outputs": 20,
+      "score": 1
+    }
+  ],
+  "samples": [
+    {
+      "sample": "01",
+      "score": 1
+    },
+    {
+      "sample": "02",
+      "score": 1
+    }
+  ],
+  "negative_variants": [
+    {
+      "name": "chemical_potential_wrong_unit",
+      "rejected": true,
+      "exception": "ValueError"
+    },
+    {
+      "name": "excess_phi",
+      "rejected": true,
+      "exception": "ValueError"
+    },
+    {
+      "name": "inactive_grain_not_zero",
+      "rejected": true,
+      "exception": "ValueError"
+    },
+    {
+      "name": "nonpositive_program_identity",
+      "rejected": true,
+      "exception": "ValueError"
+    },
+    {
+      "name": "fraction_out_of_range",
+      "rejected": true,
+      "exception": "ValueError"
+    },
+    {
+      "name": "unbounded_potential",
+      "rejected": true,
+      "exception": "ValueError"
+    },
+    {
+      "name": "inactive_polynomial_cross_term",
+      "rejected": true,
+      "exception": "ValueError"
+    }
+  ]
+}

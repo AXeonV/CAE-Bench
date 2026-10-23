@@ -1,0 +1,290 @@
+id: cannot find name for user ID 1000
+id: cannot find name for group ID 1000
+id: cannot find name for user ID 1000
+make[4]: warning: -j2 forced in submake: resetting jobserver mode.
+fatal: not a git repository (or any of the parent directories): .git
+cut: /.git: No such file or directory
+fatal: not a git repository (or any of the parent directories): .git
+cut: /.git: No such file or directory
+fatal: not a git repository (or any of the parent directories): .git
+cut: /.git: No such file or directory
+fatal: not a git repository (or any of the parent directories): .git
+Traceback (most recent call last):
+  File "/opt/moose-source/scripts/versioner.py", line 893, in git_rev_parse
+    return subprocess.check_output(cmd, text=True, cwd=directory).rstrip()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/miniforge3/lib/python3.11/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/miniforge3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/moose-source/framework/../scripts/premake.py", line 258, in <module>
+    PreMake().check()
+    ^^^^^^^^^
+  File "/opt/moose-source/framework/../scripts/premake.py", line 27, in __init__
+    self.packages = Versioner().get_packages('HEAD')
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/moose-source/scripts/versioner.py", line 460, in get_packages
+    commit = Versioner.git_rev_parse(ref)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/moose-source/scripts/versioner.py", line 896, in git_rev_parse
+    raise ValueError(f'Reference {ref} is not valid in repo {directory}') from e
+ValueError: Reference HEAD is not valid in repo /opt/moose-source
+In file included from /opt/moose-source/modules/phase_field/build/unity_src/materials_Unity.C:34:
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialSinteringMaterial.C:1:1: error: 'invalid' does not name a type
+    1 | invalid C++ !!!
+      | ^~~~~~~
+In file included from /opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:10,
+                 from /opt/moose-source/modules/phase_field/build/unity_src/materials_Unity.C:35:
+/opt/moose-source/modules/phase_field/build/header_symlinks/GrandPotentialTensorMaterial.h:21:1: error: expected class-name before '{' token
+   21 | {
+      | ^
+/opt/moose-source/modules/phase_field/build/header_symlinks/GrandPotentialTensorMaterial.h:27:16: error: 'virtual void GrandPotentialTensorMaterial::computeProperties()' marked 'override', but does not override
+   27 |   virtual void computeProperties() override;
+      |                ^~~~~~~~~~~~~~~~~
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C: In static member function 'static InputParameters GrandPotentialTensorMaterial::validParams()':
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:20:28: error: 'PolycrystalDiffusivityTensorBase' has not been declared
+   20 |   InputParameters params = PolycrystalDiffusivityTensorBase::validParams();
+      |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C: In constructor 'GrandPotentialTensorMaterial::GrandPotentialTensorMaterial(const InputParameters&)':
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:38:5: error: class 'GrandPotentialTensorMaterial' does not have any field named 'PolycrystalDiffusivityTensorBase'
+   38 |   : PolycrystalDiffusivityTensorBase(parameters),
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:39:16: error: 'getParam' was not declared in this scope
+   39 |     _chiD_name(getParam<std::string>("f_name")),
+      |                ^~~~~~~~
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:39:36: error: expected primary-expression before '>' token
+   39 |     _chiD_name(getParam<std::string>("f_name")),
+      |                                    ^
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:40:11: error: 'declareProperty' was not declared in this scope
+   40 |     _chiD(declareProperty<RealTensorValue>(_chiD_name)),
+      |           ^~~~~~~~~~~~~~~
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:40:42: error: expected primary-expression before '>' token
+   40 |     _chiD(declareProperty<RealTensorValue>(_chiD_name)),
+      |                                          ^
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:41:32: error: '_c_name' was not declared in this scope; did you mean '_Ls_name'?
+   41 |     _dchiDdc(isCoupledConstant(_c_name)
+      |                                ^~~~~~~
+      |                                _Ls_name
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:41:14: error: 'isCoupledConstant' was not declared in this scope
+   41 |     _dchiDdc(isCoupledConstant(_c_name)
+      |              ^~~~~~~~~~~~~~~~~
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:43:21: error: 'declarePropertyDerivative' was not declared in this scope
+   43 |                  : &declarePropertyDerivative<RealTensorValue>(_chiD_name, _c_name)),
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:43:62: error: expected primary-expression before '>' token
+   43 |                  : &declarePropertyDerivative<RealTensorValue>(_chiD_name, _c_name)),
+      |                                                              ^
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:44:34: error: expected primary-expression before '>' token
+   44 |     _Ls_name(getParam<std::string>("solid_mobility")),
+      |                                  ^
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:45:29: error: expected primary-expression before '>' token
+   45 |     _Ls(declareProperty<Real>(_Ls_name)),
+      |                             ^
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:46:34: error: expected primary-expression before '>' token
+   46 |     _Lv_name(getParam<std::string>("void_mobility")),
+      |                                  ^
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:47:29: error: expected primary-expression before '>' token
+   47 |     _Lv(declareProperty<Real>(_Lv_name)),
+      |                             ^
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:48:34: error: expected primary-expression before '>' token
+   48 |     _chiDmag(declareProperty<Real>(_chiD_name + "_mag")),
+      |                                  ^
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:49:14: error: 'getMaterialProperty' was not declared in this scope; did you mean 'MaterialProperty'?
+   49 |     _sigma_s(getMaterialProperty<Real>("surface_energy")),
+      |              ^~~~~~~~~~~~~~~~~~~
+      |              MaterialProperty
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:49:38: error: expected primary-expression before '>' token
+   49 |     _sigma_s(getMaterialProperty<Real>("surface_energy")),
+      |                                      ^
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:50:29: error: expected primary-expression before '>' token
+   50 |     _int_width(getParam<Real>("int_width")),
+      |                             ^
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:51:44: error: expected primary-expression before '>' token
+   51 |     _chi_name(getParam<MaterialPropertyName>("chi")),
+      |                                            ^
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:52:34: error: expected primary-expression before '>' token
+   52 |     _chi(getMaterialProperty<Real>(_chi_name)),
+      |                                  ^
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:53:13: error: 'getMaterialPropertyDerivative' was not declared in this scope; did you mean 'MaterialPropertyRegistry'?
+   53 |     _dchidc(getMaterialPropertyDerivative<Real>(_chi_name, _c_name)),
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |             MaterialPropertyRegistry
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:53:47: error: expected primary-expression before '>' token
+   53 |     _dchidc(getMaterialPropertyDerivative<Real>(_chi_name, _c_name)),
+      |                                               ^
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:54:15: error: '_op_num' was not declared in this scope
+   54 |     _dchideta(_op_num),
+      |               ^~~~~~~
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:56:30: error: expected primary-expression before '>' token
+   56 |     _GBMobility(getParam<Real>("GBMobility")),
+      |                              ^
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:57:26: error: expected primary-expression before '>' token
+   57 |     _GBmob0(getParam<Real>("GBmob0")),
+      |                          ^
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:58:21: error: expected primary-expression before '>' token
+   58 |     _Q(getParam<Real>("Q"))
+      |                     ^
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:62:55: error: expected primary-expression before '>' token
+   62 |     _dchideta[i] = &getMaterialPropertyDerivative<Real>(_chi_name, _vals_name[i]);
+      |                                                       ^
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:62:68: error: '_vals_name' was not declared in this scope; did you mean '_Ls_name'?
+   62 |     _dchideta[i] = &getMaterialPropertyDerivative<Real>(_chi_name, _vals_name[i]);
+      |                                                                    ^~~~~~~~~~
+      |                                                                    _Ls_name
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:64:65: error: expected primary-expression before '>' token
+   64 |       _dchiDdeta[i] = &declarePropertyDerivative<RealTensorValue>(_chiD_name, _vals_name[i]);
+      |                                                                 ^
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C: In member function 'virtual void GrandPotentialTensorMaterial::computeProperties()':
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:71:3: error: 'PolycrystalDiffusivityTensorBase' has not been declared
+   71 |   PolycrystalDiffusivityTensorBase::computeProperties();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:73:8: error: '_qp' was not declared in this scope
+   73 |   for (_qp = 0; _qp < _qrule->n_points(); ++_qp)
+      |        ^~~
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:73:23: error: '_qrule' was not declared in this scope
+   73 |   for (_qp = 0; _qp < _qrule->n_points(); ++_qp)
+      |                       ^~~~~~
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:75:18: error: '_D' was not declared in this scope; did you mean '_Q'?
+   75 |     _chiD[_qp] = _D[_qp] * _chi[_qp];
+      |                  ^~
+      |                  _Q
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:77:28: error: '_dDdc' was not declared in this scope; did you mean '_dchiDdc'?
+   77 |       (*_dchiDdc)[_qp] = (*_dDdc)[_qp] * _chi[_qp] + _D[_qp] * _dchidc[_qp];
+      |                            ^~~~~
+      |                            _dchiDdc
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:78:34: error: '_op_num' was not declared in this scope
+   78 |     for (unsigned int i = 0; i < _op_num; ++i)
+      |                                  ^~~~~~~
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:80:68: error: '_dDdeta' was not declared in this scope; did you mean '_dchideta'?
+   80 |         (*_dchiDdeta[i])[_qp] = _D[_qp] * (*_dchideta[i])[_qp] + (*_dDdeta[i])[_qp] * _chi[_qp];
+      |                                                                    ^~~~~~~
+      |                                                                    _dchideta
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:86:41: error: '_kb' was not declared in this scope
+   86 |       GBmob = _GBmob0 * std::exp(-_Q / (_kb * _T[_qp]));
+      |                                         ^~~
+/opt/moose-source/modules/phase_field/src/materials/GrandPotentialTensorMaterial.C:86:47: error: '_T' was not declared in this scope; did you mean '_Q'?
+   86 |       GBmob = _GBmob0 * std::exp(-_Q / (_kb * _T[_qp]));
+      |                                               ^~
+      |                                               _Q
+In file included from /opt/moose-source/framework/build/header_symlinks/MooseObject.h:17,
+                 from /opt/moose-source/framework/build/header_symlinks/MaterialBase.h:13,
+                 from /opt/moose-source/framework/build/header_symlinks/Material.h:13,
+                 from /opt/moose-source/modules/phase_field/build/header_symlinks/ADInterfaceOrientationMaterial.h:12,
+                 from /opt/moose-source/modules/phase_field/src/materials/ADInterfaceOrientationMaterial.C:10,
+                 from /opt/moose-source/modules/phase_field/build/unity_src/materials_Unity.C:2:
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C: At global scope:
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:13:38: error: 'PolycrystalDiffusivityTensorBase' was not declared in this scope; did you mean 'PolycrystalDiffusivity'?
+   13 | registerMooseObject("PhaseFieldApp", PolycrystalDiffusivityTensorBase);
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/moose-source/framework/build/header_symlinks/Registry.h:44:21: note: in definition of macro 'registerMooseObject'
+   44 |       Registry::add<classname>({app, #classname, "", "", __FILE__, __LINE__, "", ""})
+      |                     ^~~~~~~~~
+/opt/moose-source/framework/build/header_symlinks/Registry.h:44:31: error: no matching function for call to 'Registry::add<<expression error> >(<brace-enclosed initializer list>)'
+   44 |       Registry::add<classname>({app, #classname, "", "", __FILE__, __LINE__, "", ""})
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:13:1: note: in expansion of macro 'registerMooseObject'
+   13 | registerMooseObject("PhaseFieldApp", PolycrystalDiffusivityTensorBase);
+      | ^~~~~~~~~~~~~~~~~~~
+/opt/moose-source/framework/build/header_symlinks/Registry.h:173:15: note: candidate: 'template<class T> static char Registry::add(const RegistryEntryData&)'
+  173 |   static char add(const RegistryEntryData & base_info)
+      |               ^~~
+/opt/moose-source/framework/build/header_symlinks/Registry.h:173:15: note:   template argument deduction/substitution failed:
+/opt/moose-source/framework/build/header_symlinks/Registry.h:44:31: error: template argument 1 is invalid
+   44 |       Registry::add<classname>({app, #classname, "", "", __FILE__, __LINE__, "", ""})
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:13:1: note: in expansion of macro 'registerMooseObject'
+   13 | registerMooseObject("PhaseFieldApp", PolycrystalDiffusivityTensorBase);
+      | ^~~~~~~~~~~~~~~~~~~
+In file included from /opt/moose-source/modules/phase_field/build/unity_src/materials_Unity.C:57:
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:16:1: error: 'PolycrystalDiffusivityTensorBase' has not been declared
+   16 | PolycrystalDiffusivityTensorBase::validParams()
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:35:1: error: 'PolycrystalDiffusivityTensorBase' does not name a type; did you mean 'PolycrystalDiffusivity'?
+   35 | PolycrystalDiffusivityTensorBase::PolycrystalDiffusivityTensorBase(
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      | PolycrystalDiffusivity
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:73:1: error: 'PolycrystalDiffusivityTensorBase' has not been declared
+   73 | PolycrystalDiffusivityTensorBase::computeProperties()
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C: In function 'void computeProperties()':
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:77:8: error: '_qp' was not declared in this scope
+   77 |   for (_qp = 0; _qp < _qrule->n_points(); ++_qp)
+      |        ^~~
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:77:23: error: '_qrule' was not declared in this scope
+   77 |   for (_qp = 0; _qp < _qrule->n_points(); ++_qp)
+      |                       ^~~~~~
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:79:14: error: '_c' was not declared in this scope; did you mean 'c'?
+   79 |     Real c = _c[_qp];
+      |              ^~
+      |              c
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:84:43: error: '_op_num' was not declared in this scope
+   84 |     std::vector<RealTensorValue> dDgbdeta(_op_num);
+      |                                           ^~~~~~~
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:89:30: error: '_grad_vals' was not declared in this scope
+   89 |         RealGradient ngb = (*_grad_vals[i])[_qp] - (*_grad_vals[j])[_qp];
+      |                              ^~~~~~~~~~
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:103:18: error: '_vals' was not declared in this scope
+  103 |         Dgb += (*_vals[i])[_qp] * (*_vals[j])[_qp] * Tgb;
+      |                  ^~~~~
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:111:9: error: '_grad_c' was not declared in this scope
+  111 |     if (_grad_c[_qp].norm() > 1.0e-10)
+      |         ^~~~~~~
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:125:5: error: '_Dbulk' was not declared in this scope
+  125 |     _Dbulk = _D0 * std::exp(-_Em / _kb / _T[_qp]);
+      |     ^~~~~~
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:125:14: error: '_D0' was not declared in this scope
+  125 |     _Dbulk = _D0 * std::exp(-_Em / _kb / _T[_qp]);
+      |              ^~~
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:125:30: error: '_Em' was not declared in this scope
+  125 |     _Dbulk = _D0 * std::exp(-_Em / _kb / _T[_qp]);
+      |                              ^~~
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:125:36: error: '_kb' was not declared in this scope
+  125 |     _Dbulk = _D0 * std::exp(-_Em / _kb / _T[_qp]);
+      |                                    ^~~
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:125:42: error: '_T' was not declared in this scope
+  125 |     _Dbulk = _D0 * std::exp(-_Em / _kb / _T[_qp]);
+      |                                          ^~
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:130:5: error: '_D' was not declared in this scope
+  130 |     _D[_qp] = _Dbulk * (_b_index * mult_bulk * I + _gb_index * Dgb + _s_index * Dsurf);
+      |     ^~
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:130:25: error: '_b_index' was not declared in this scope; did you mean 'rindex'?
+  130 |     _D[_qp] = _Dbulk * (_b_index * mult_bulk * I + _gb_index * Dgb + _s_index * Dsurf);
+      |                         ^~~~~~~~
+      |                         rindex
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:130:52: error: '_gb_index' was not declared in this scope
+  130 |     _D[_qp] = _Dbulk * (_b_index * mult_bulk * I + _gb_index * Dgb + _s_index * Dsurf);
+      |                                                    ^~~~~~~~~
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:130:70: error: '_s_index' was not declared in this scope; did you mean 'rindex'?
+  130 |     _D[_qp] = _Dbulk * (_b_index * mult_bulk * I + _gb_index * Dgb + _s_index * Dsurf);
+      |                                                                      ^~~~~~~~
+      |                                                                      rindex
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:131:9: error: '_dDdc' was not declared in this scope
+  131 |     if (_dDdc)
+      |         ^~~~~
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:134:11: error: '_dDdeta' was not declared in this scope
+  134 |       if (_dDdeta[i])
+      |           ^~~~~~~
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C: At global scope:
+/opt/moose-source/framework/build/header_symlinks/Registry.h:43:28: warning: 'dummyvar_for_registering_obj_PolycrystalDiffusivityTensorBase49' defined but not used [-Wunused-variable]
+   43 |   static char combineNames(dummyvar_for_registering_obj_##classname, __COUNTER__) =                \
+      |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/moose-source/framework/build/header_symlinks/Registry.h:24:29: note: in definition of macro 'combineNames1'
+   24 | #define combineNames1(X, Y) X##Y
+      |                             ^
+/opt/moose-source/framework/build/header_symlinks/Registry.h:43:15: note: in expansion of macro 'combineNames'
+   43 |   static char combineNames(dummyvar_for_registering_obj_##classname, __COUNTER__) =                \
+      |               ^~~~~~~~~~~~
+/opt/moose-source/modules/phase_field/src/materials/PolycrystalDiffusivityTensorBase.C:13:1: note: in expansion of macro 'registerMooseObject'
+   13 | registerMooseObject("PhaseFieldApp", PolycrystalDiffusivityTensorBase);
+      | ^~~~~~~~~~~~~~~~~~~
+make[4]: *** [/opt/moose-source/framework/build.mk:151: /opt/moose-source/modules/phase_field/build/unity_src/materials_Unity.x86_64-pc-linux-gnu.opt.lo] Error 1
+gmake[3]: *** [CMakeFiles/phasefield_repair.dir/build.make:70: CMakeFiles/phasefield_repair] Error 2
+gmake[2]: *** [CMakeFiles/Makefile2:83: CMakeFiles/phasefield_repair.dir/all] Error 2
+gmake[1]: *** [CMakeFiles/Makefile2:90: CMakeFiles/phasefield_repair.dir/rule] Error 2
+gmake: *** [Makefile:124: phasefield_repair] Error 2

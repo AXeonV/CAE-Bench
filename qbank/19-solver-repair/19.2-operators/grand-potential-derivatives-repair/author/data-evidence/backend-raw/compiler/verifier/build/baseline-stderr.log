@@ -1,0 +1,46 @@
+id: cannot find name for user ID 1000
+id: cannot find name for group ID 1000
+id: cannot find name for user ID 1000
+make[4]: warning: -j2 forced in submake: resetting jobserver mode.
+make[4]: mpicxx: Command not found
+fatal: not a git repository (or any of the parent directories): .git
+cut: /.git: No such file or directory
+fatal: not a git repository (or any of the parent directories): .git
+cut: /.git: No such file or directory
+make[4]: mpicxx: Command not found
+fatal: not a git repository (or any of the parent directories): .git
+cut: /.git: No such file or directory
+make[4]: mpicxx: Command not found
+fatal: not a git repository (or any of the parent directories): .git
+Traceback (most recent call last):
+  File "/opt/moose-source/scripts/versioner.py", line 893, in git_rev_parse
+    return subprocess.check_output(cmd, text=True, cwd=directory).rstrip()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/miniforge3/lib/python3.11/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/miniforge3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/moose-source/framework/../scripts/premake.py", line 258, in <module>
+    PreMake().check()
+    ^^^^^^^^^
+  File "/opt/moose-source/framework/../scripts/premake.py", line 27, in __init__
+    self.packages = Versioner().get_packages('HEAD')
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/moose-source/scripts/versioner.py", line 460, in get_packages
+    commit = Versioner.git_rev_parse(ref)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/moose-source/scripts/versioner.py", line 896, in git_rev_parse
+    raise ValueError(f'Reference {ref} is not valid in repo {directory}') from e
+ValueError: Reference HEAD is not valid in repo /opt/moose-source
+/opt/libmesh/contrib/bin/libtool: line 1930: mpicxx: command not found
+make[4]: *** [/opt/moose-source/framework/build.mk:151: /opt/moose-source/modules/phase_field/build/unity_src/materials_Unity.x86_64-pc-linux-gnu.opt.lo] Error 1
+gmake[3]: *** [CMakeFiles/phasefield_repair.dir/build.make:70: CMakeFiles/phasefield_repair] Error 2
+gmake[2]: *** [CMakeFiles/Makefile2:83: CMakeFiles/phasefield_repair.dir/all] Error 2
+gmake[1]: *** [CMakeFiles/Makefile2:90: CMakeFiles/phasefield_repair.dir/rule] Error 2
+gmake: *** [Makefile:124: phasefield_repair] Error 2

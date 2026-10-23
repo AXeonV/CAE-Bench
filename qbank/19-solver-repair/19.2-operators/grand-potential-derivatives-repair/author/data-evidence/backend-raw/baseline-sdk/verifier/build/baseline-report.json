@@ -1,0 +1,25 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "cmake",
+    "--build",
+    "/opt/moose-source",
+    "--target",
+    "phasefield_repair",
+    "--parallel",
+    "4"
+  ],
+  "exit_code": 0,
+  "status": "built",
+  "elapsed_seconds": 146.9187569800015,
+  "removed_build_artifacts": [
+    "/opt/moose-source/modules/phase_field/build/unity_src/materials_Unity.x86_64-pc-linux-gnu.opt.lo",
+    "/opt/moose-source/modules/phase_field/build/unity_src/.libs/materials_Unity.x86_64-pc-linux-gnu.opt.o",
+    "/opt/moose-source/modules/phase_field/lib/.libs/libphase_field-opt.so.0.0.0",
+    "/opt/moose-source/modules/phase_field/phase_field-opt"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "status": "baseline_defect_and_independent_fullstep_DFT_proven; actual_fix_build_pending",
+  "baseline": "ccb3c372dc34ca75ce01f99c2b50e0e89ad0a203",
+  "image": "caeoj-meep2408-prototype:base",
+  "dt": 0.025,
+  "final_time": 750,
+  "time_samples": 30000,
+  "frequencies": 401,
+  "auto_decimation": 23,
+  "auto_vs_fullstep_Ex_max_abs_error": 1.2998342191344607,
+  "worst_frequency": 0.7383333333333333,
+  "worst_auto_abs": 1.2998342373292544,
+  "worst_fullstep_abs": 1.8212826794575528e-08,
+  "independent_trace_quadrature": {
+    "Ex": {
+      "max_abs_DTFT_error": 1.943386340858687e-13,
+      "max_magnitude": 14.67947595632445
+    },
+    "Hy": {
+      "max_abs_DTFT_error": 7.888304520226981e-14,
+      "max_magnitude": 14.71004855889862
+    }
+  },
+  "assets_sha256": {
+    "prototype.cpp": "d3cadff114949f134cd24df4c8048a9ce1c9dc2ec69527c2ccaf07c806aa3282",
+    "prototype-baseline.json": "74ad9e06ed5cd5593c120a2b0f6045c5cea75cb3f1591cc8db0dd858544a4a54",
+    "trace-baseline.csv": "758cb382efb86ba51fe972b08ce0178af95978d5b2cc275bdbdfab811642e1c6"
+  },
+  "prototype_history": "v1/v2 non-Yee-aligned point used get_dft_array and exhibited unrelated postprocess discrepancy; v3 exactly aligned get_dft_array segfaulted; v4 reads genuine public dft_chunk accumulator at one aligned point directly and verifies exact same-point trace. Not a production reference yet."
+}

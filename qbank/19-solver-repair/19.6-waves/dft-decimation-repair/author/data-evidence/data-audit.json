@@ -1,0 +1,221 @@
+{
+  "cases": [
+    {
+      "path": "work\\repair-22\\meep-2408\\dataset\\cases\\01-third-harmonic-auto-public\\problem.json",
+      "requests": 50,
+      "checks": {
+        "max_independent_DTFT_error": 1.176836406102666e-13,
+        "stride": 1,
+        "all_four_components": true
+      }
+    },
+    {
+      "path": "work\\repair-22\\meep-2408\\dataset\\cases\\02-second-harmonic-auto-public\\problem.json",
+      "requests": 49,
+      "checks": {
+        "max_independent_DTFT_error": 8.72635297355373e-14,
+        "stride": 1,
+        "all_four_components": true
+      }
+    },
+    {
+      "path": "work\\repair-22\\meep-2408\\dataset\\cases\\03-mixed-nonlinearity\\problem.json",
+      "requests": 49,
+      "checks": {
+        "max_independent_DTFT_error": 5.684341886080802e-14,
+        "stride": 1,
+        "all_four_components": true
+      }
+    },
+    {
+      "path": "work\\repair-22\\meep-2408\\dataset\\cases\\04-local-cubic-three-chunks\\problem.json",
+      "requests": 49,
+      "checks": {
+        "max_independent_DTFT_error": 8.837375276016246e-14,
+        "stride": 1,
+        "all_four_components": true
+      }
+    },
+    {
+      "path": "work\\repair-22\\meep-2408\\dataset\\cases\\05-local-quadratic-two-chunks\\problem.json",
+      "requests": 49,
+      "checks": {
+        "max_independent_DTFT_error": 4.085620730620576e-14,
+        "stride": 1,
+        "all_four_components": true
+      }
+    },
+    {
+      "path": "work\\repair-22\\meep-2408\\dataset\\cases\\06-linear-auto\\problem.json",
+      "requests": 49,
+      "checks": {
+        "max_independent_DTFT_error": 3.863576125695545e-14,
+        "stride": 19,
+        "all_four_components": true
+      }
+    },
+    {
+      "path": "work\\repair-22\\meep-2408\\dataset\\cases\\07-linear-explicit-one\\problem.json",
+      "requests": 49,
+      "checks": {
+        "max_independent_DTFT_error": 4.1744385725905886e-14,
+        "stride": 1,
+        "all_four_components": true
+      }
+    },
+    {
+      "path": "work\\repair-22\\meep-2408\\dataset\\cases\\08-cubic-explicit-one\\problem.json",
+      "requests": 49,
+      "checks": {
+        "max_independent_DTFT_error": 3.530509218307998e-14,
+        "stride": 1,
+        "all_four_components": true
+      }
+    },
+    {
+      "path": "work\\repair-22\\meep-2408\\dataset\\cases\\09-mixed-explicit-four\\problem.json",
+      "requests": 49,
+      "checks": {
+        "max_independent_DTFT_error": 3.064215547965432e-14,
+        "stride": 4,
+        "all_four_components": true
+      }
+    }
+  ],
+  "samples": [
+    {
+      "path": "work\\repair-22\\meep-2408\\dataset\\samples\\01\\input\\problem.json",
+      "requests": 50,
+      "checks": {}
+    },
+    {
+      "path": "work\\repair-22\\meep-2408\\dataset\\samples\\02\\input\\problem.json",
+      "requests": 49,
+      "checks": {}
+    }
+  ],
+  "declaration_variants": [
+    {
+      "name": "linear-zero-chi",
+      "accepted": true,
+      "expected": true
+    },
+    {
+      "name": "explicit-eight",
+      "accepted": true,
+      "expected": true
+    },
+    {
+      "name": "negative-source",
+      "accepted": true,
+      "expected": true
+    },
+    {
+      "name": "zero-probe-label",
+      "accepted": true,
+      "expected": true
+    },
+    {
+      "name": "float-resolution",
+      "accepted": false,
+      "expected": false
+    },
+    {
+      "name": "bool-decimation",
+      "accepted": false,
+      "expected": false
+    },
+    {
+      "name": "low-resolution",
+      "accepted": false,
+      "expected": false
+    },
+    {
+      "name": "zero-source-frequency",
+      "accepted": false,
+      "expected": false
+    },
+    {
+      "name": "extra-parameter",
+      "accepted": false,
+      "expected": false
+    },
+    {
+      "name": "fractional-PML-cells",
+      "accepted": false,
+      "expected": false
+    },
+    {
+      "name": "outside-monitor-index",
+      "accepted": false,
+      "expected": false
+    },
+    {
+      "name": "odd-cells",
+      "accepted": false,
+      "expected": false
+    },
+    {
+      "name": "misaligned-coordinate",
+      "accepted": false,
+      "expected": false
+    },
+    {
+      "name": "frequency-order",
+      "accepted": false,
+      "expected": false
+    },
+    {
+      "name": "bad-frequency-range",
+      "accepted": false,
+      "expected": false
+    },
+    {
+      "name": "nonzero-static-label",
+      "accepted": false,
+      "expected": false
+    },
+    {
+      "name": "output-component-order",
+      "accepted": false,
+      "expected": false
+    },
+    {
+      "name": "wrong-output-unit",
+      "accepted": false,
+      "expected": false
+    },
+    {
+      "name": "extra-HDF-key",
+      "accepted": false,
+      "expected": false
+    }
+  ],
+  "output_variants": [
+    {
+      "name": "reference",
+      "score": 1,
+      "status": "accepted"
+    },
+    {
+      "name": "wrong-Hy-time",
+      "score": 0,
+      "status": "wrong_answer"
+    },
+    {
+      "name": "wrong-stride",
+      "score": 0,
+      "status": "wrong_answer"
+    },
+    {
+      "name": "missing-field",
+      "score": 0,
+      "status": "invalid_output"
+    },
+    {
+      "name": "nonfinite",
+      "score": 0,
+      "status": "invalid_output"
+    }
+  ]
+}

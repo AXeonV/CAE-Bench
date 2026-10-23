@@ -1,0 +1,36 @@
+{
+  "invalid_infrastructure_configs": [
+    {
+      "name": "missing-reference",
+      "exit": 2,
+      "stdout": "{\n  \"status\": \"evaluation_error\",\n  \"score\": null,\n  \"message\": \"ValueError: Missing or unsafe grading asset: absent.h5\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "name": "missing-stride-policy",
+      "exit": 2,
+      "stdout": "{\n  \"status\": \"evaluation_error\",\n  \"score\": null,\n  \"message\": \"ValueError: No grading rule for output quantity sampling_stride\"\n}\n",
+      "stderr": ""
+    }
+  ],
+  "oversize": {
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "4",
+      "--memory",
+      "4g",
+      "-i",
+      "caeoj-meep2408-probes:preflight",
+      "python",
+      "-"
+    ],
+    "returncode": 0,
+    "stdout": "{\"mode\": \"oversize\", \"status\": \"invalid_submission\", \"compiled\": false}\n",
+    "stderr": ""
+  }
+}

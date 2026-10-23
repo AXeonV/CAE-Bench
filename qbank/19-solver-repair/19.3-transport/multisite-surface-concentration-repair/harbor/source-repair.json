@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "base_image": "caeoj-cantera1996-core:base",
+  "replacements": [
+    {
+      "submission": "FlowReactor.cpp",
+      "target": "/opt/cantera-source/src/zeroD/FlowReactor.cpp"
+    },
+    {
+      "submission": "SurfPhase.cpp",
+      "target": "/opt/cantera-source/src/thermo/SurfPhase.cpp"
+    }
+  ],
+  "build_directory": "/opt/cantera1996-build",
+  "build_target": "repair_sources",
+  "rebuild_files": [
+    "/opt/cantera1996-build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/zeroD/FlowReactor.cpp.o",
+    "/opt/cantera1996-build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/thermo/SurfPhase.cpp.o",
+    "/opt/cantera1996-build/lib/libcantera_shared.so.3.1.0",
+    "/opt/cantera1996-build/CMakeFiles/flow_driver.dir/opt/cantera1996-driver/driver.cpp.o",
+    "/opt/cantera1996-build/bin/flow-driver"
+  ],
+  "build_timeout_seconds": 300,
+  "max_source_bytes": 1048576,
+  "runner": "/app/qbank/19-solver-repair/19.3-transport/multisite-surface-concentration-repair/public/run_case.py"
+}

@@ -1,0 +1,484 @@
+{
+  "mode": "upstream-subset",
+  "image": "sha256:6f1e5174e9856aa4efbdb5b00ba7147c041cfba39a51d458f6a8e429a1df67dd",
+  "producer": "actual Cantera FlowReactor/ReactorNet (and real SurfPhase/kinetics direct outputs where requested)",
+  "cases": [
+    {
+      "case": "01-reacting-last-public",
+      "score": 0,
+      "checks": {
+        "mass_fractions": {
+          "max_absolute_error": 0.10641392564028251,
+          "max_tolerance_fraction": 257342.03478827764,
+          "passed": false
+        },
+        "coverages": {
+          "max_absolute_error": 0.2657250619058871,
+          "max_tolerance_fraction": 441648.61925208673,
+          "passed": false
+        },
+        "pressure": {
+          "max_absolute_error": 0.0672978852817323,
+          "max_tolerance_fraction": 3.136563637254221,
+          "passed": false
+        },
+        "density": {
+          "max_absolute_error": 1.779782138056074e-07,
+          "max_tolerance_fraction": 5.121846544924772,
+          "passed": false
+        },
+        "speed": {
+          "max_absolute_error": 0.28768157217169527,
+          "max_tolerance_fraction": 7238690.083689355,
+          "passed": false
+        },
+        "direct_concentrations": {
+          "max_absolute_error": 6.617444900424222e-24,
+          "max_tolerance_fraction": 5.821973138579696e-11,
+          "passed": true
+        },
+        "direct_density": {
+          "max_absolute_error": 3.3881317890172014e-21,
+          "max_tolerance_fraction": 3.0426513866987427e-09,
+          "passed": true
+        },
+        "direct_rates": {
+          "max_absolute_error": 8.673617379884035e-19,
+          "max_tolerance_fraction": 8.963038642290777e-08,
+          "passed": true
+        },
+        "surface_concentrations": {
+          "max_absolute_error": 8.960470737070564e-09,
+          "max_tolerance_fraction": 72525.99750600242,
+          "passed": false
+        }
+      },
+      "elapsed_seconds": 0.7179999999934807,
+      "output_sha256": "fbe009d3d4e1a771c71955314cdf84c1c0b1571764a638380bf724c04ccd024b"
+    },
+    {
+      "case": "02-inert-last-public",
+      "score": 1,
+      "checks": {
+        "mass_fractions": {
+          "max_absolute_error": 1.1726348225771233e-09,
+          "max_tolerance_fraction": 0.00259314911560413,
+          "passed": true
+        },
+        "coverages": {
+          "max_absolute_error": 1.0661228566632985e-09,
+          "max_tolerance_fraction": 0.0014163707188955205,
+          "passed": true
+        },
+        "pressure": {
+          "max_absolute_error": 5.820766091346741e-11,
+          "max_tolerance_fraction": 2.674063901171517e-09,
+          "passed": true
+        },
+        "density": {
+          "max_absolute_error": 1.6653345369377348e-16,
+          "max_tolerance_fraction": 3.3201131011982003e-09,
+          "passed": true
+        },
+        "speed": {
+          "max_absolute_error": 7.771561172376096e-16,
+          "max_tolerance_fraction": 2.3848242191718758e-08,
+          "passed": true
+        },
+        "direct_concentrations": {
+          "max_absolute_error": 6.617444900424222e-24,
+          "max_tolerance_fraction": 5.427069810952735e-11,
+          "passed": true
+        },
+        "direct_density": {
+          "max_absolute_error": 1.6940658945086007e-21,
+          "max_tolerance_fraction": 1.559622364907888e-09,
+          "passed": true
+        },
+        "direct_rates": {
+          "max_absolute_error": 8.673617379884035e-19,
+          "max_tolerance_fraction": 6.821260245805878e-08,
+          "passed": true
+        },
+        "surface_concentrations": {
+          "max_absolute_error": 3.7684839930478644e-17,
+          "max_tolerance_fraction": 0.0003248627238377072,
+          "passed": true
+        }
+      },
+      "elapsed_seconds": 0.7029999999795109,
+      "output_sha256": "a2f29b4af729f84908a6bffdf5c02855073b8343411cbbbe309b75ae6967f4c9"
+    },
+    {
+      "case": "03-zero-adsorption",
+      "score": 1,
+      "checks": {
+        "mass_fractions": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 1.194261334937569e-10,
+          "passed": true
+        },
+        "coverages": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "pressure": {
+          "max_absolute_error": 5.820766091346741e-11,
+          "max_tolerance_fraction": 2.6510837106597023e-09,
+          "passed": true
+        },
+        "density": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.0272158636131354e-09,
+          "passed": true
+        },
+        "speed": {
+          "max_absolute_error": 3.885780586188048e-16,
+          "max_tolerance_fraction": 1.1883399435140713e-08,
+          "passed": true
+        },
+        "direct_concentrations": {
+          "max_absolute_error": 6.617444900424222e-24,
+          "max_tolerance_fraction": 5.683212574496042e-11,
+          "passed": true
+        },
+        "direct_density": {
+          "max_absolute_error": 3.3881317890172014e-21,
+          "max_tolerance_fraction": 3.0535919514837285e-09,
+          "passed": true
+        },
+        "direct_rates": {
+          "max_absolute_error": 1.0842021724855044e-19,
+          "max_tolerance_fraction": 2.2342796914053435e-08,
+          "passed": true
+        },
+        "surface_concentrations": {
+          "max_absolute_error": 6.617444900424222e-24,
+          "max_tolerance_fraction": 4.544103900529413e-11,
+          "passed": true
+        }
+      },
+      "elapsed_seconds": 0.5470000000204891,
+      "output_sha256": "8634c8f3bdb5320445140c74a46489a6f34588762a4251b347a48fa4b112fa41"
+    },
+    {
+      "case": "04-zero-conversion",
+      "score": 1,
+      "checks": {
+        "mass_fractions": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 1.8151357197940692e-10,
+          "passed": true
+        },
+        "coverages": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 2.7713280483327615e-10,
+          "passed": true
+        },
+        "pressure": {
+          "max_absolute_error": 5.820766091346741e-11,
+          "max_tolerance_fraction": 2.758275083002137e-09,
+          "passed": true
+        },
+        "density": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.7252450168186013e-09,
+          "passed": true
+        },
+        "speed": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 1.4143160203229261e-09,
+          "passed": true
+        },
+        "direct_concentrations": {
+          "max_absolute_error": 1.3234889800848443e-23,
+          "max_tolerance_fraction": 9.239333154782222e-11,
+          "passed": true
+        },
+        "direct_density": {
+          "max_absolute_error": 3.3881317890172014e-21,
+          "max_tolerance_fraction": 2.9767564632459005e-09,
+          "passed": true
+        },
+        "direct_rates": {
+          "max_absolute_error": 1.734723475976807e-18,
+          "max_tolerance_fraction": 6.042223557229712e-08,
+          "passed": true
+        },
+        "surface_concentrations": {
+          "max_absolute_error": 6.617444900424222e-24,
+          "max_tolerance_fraction": 5.4524622633048336e-11,
+          "passed": true
+        }
+      },
+      "elapsed_seconds": 0.5779999999795109,
+      "output_sha256": "d65ab2050f192a85caa43afb6e01c51c80420f02416e282a418828fb9519a9c3"
+    },
+    {
+      "case": "05-product-rich",
+      "score": 0,
+      "checks": {
+        "mass_fractions": {
+          "max_absolute_error": 0.0022570241095707377,
+          "max_tolerance_fraction": 6988.223647057903,
+          "passed": false
+        },
+        "coverages": {
+          "max_absolute_error": 0.016601283803911127,
+          "max_tolerance_fraction": 32525.217264426326,
+          "passed": false
+        },
+        "pressure": {
+          "max_absolute_error": 0.004885808157268912,
+          "max_tolerance_fraction": 0.2239932315325787,
+          "passed": true
+        },
+        "density": {
+          "max_absolute_error": 2.7075654274177907e-08,
+          "max_tolerance_fraction": 0.6090030153677206,
+          "passed": true
+        },
+        "speed": {
+          "max_absolute_error": 0.02225932050123486,
+          "max_tolerance_fraction": 567831.7819655794,
+          "passed": false
+        },
+        "direct_concentrations": {
+          "max_absolute_error": 6.617444900424222e-24,
+          "max_tolerance_fraction": 5.6810627553005087e-11,
+          "passed": true
+        },
+        "direct_density": {
+          "max_absolute_error": 1.6940658945086007e-21,
+          "max_tolerance_fraction": 1.6043964548129087e-09,
+          "passed": true
+        },
+        "direct_rates": {
+          "max_absolute_error": 1.6263032587282567e-19,
+          "max_tolerance_fraction": 6.544036003606226e-08,
+          "passed": true
+        },
+        "surface_concentrations": {
+          "max_absolute_error": 1.0305257600812782e-09,
+          "max_tolerance_fraction": 7192.57886384684,
+          "passed": false
+        }
+      },
+      "elapsed_seconds": 0.5939999999245629,
+      "output_sha256": "7c4915629f0ec09132a57971887be786f8758e32140745d30bcae8b9e97618fb"
+    },
+    {
+      "case": "06-trace-substrate",
+      "score": 0,
+      "checks": {
+        "mass_fractions": {
+          "max_absolute_error": 2.5703523198750133e-09,
+          "max_tolerance_fraction": 0.008481116842584041,
+          "passed": true
+        },
+        "coverages": {
+          "max_absolute_error": 4.637675976582045e-08,
+          "max_tolerance_fraction": 0.14608979718970025,
+          "passed": true
+        },
+        "pressure": {
+          "max_absolute_error": 2.399610821157694e-06,
+          "max_tolerance_fraction": 0.00011122555533910308,
+          "passed": true
+        },
+        "density": {
+          "max_absolute_error": 1.9999668587900032e-11,
+          "max_tolerance_fraction": 0.00044460803440252134,
+          "passed": true
+        },
+        "speed": {
+          "max_absolute_error": 1.57588534175912e-05,
+          "max_tolerance_fraction": 496.13378318343894,
+          "passed": false
+        },
+        "direct_concentrations": {
+          "max_absolute_error": 9.926167350636332e-24,
+          "max_tolerance_fraction": 7.791578345069633e-11,
+          "passed": true
+        },
+        "direct_density": {
+          "max_absolute_error": 1.6940658945086007e-21,
+          "max_tolerance_fraction": 1.6159040386842362e-09,
+          "passed": true
+        },
+        "direct_rates": {
+          "max_absolute_error": 5.421010862427522e-20,
+          "max_tolerance_fraction": 2.449787206995039e-08,
+          "passed": true
+        },
+        "surface_concentrations": {
+          "max_absolute_error": 1.891576937887685e-15,
+          "max_tolerance_fraction": 0.013504002262602096,
+          "passed": true
+        }
+      },
+      "elapsed_seconds": 0.5790000000270084,
+      "output_sha256": "caa39df5042ee26e75947f507664f105de2f4442fa025f75fb8d59e6b71bc1d6"
+    },
+    {
+      "case": "07-site-density",
+      "score": 0,
+      "checks": {
+        "mass_fractions": {
+          "max_absolute_error": 0.046735121447482986,
+          "max_tolerance_fraction": 79676.38175218775,
+          "passed": false
+        },
+        "coverages": {
+          "max_absolute_error": 0.019301121209680583,
+          "max_tolerance_fraction": 30943.941458868776,
+          "passed": false
+        },
+        "pressure": {
+          "max_absolute_error": 0.02145787884364836,
+          "max_tolerance_fraction": 0.9807177443144846,
+          "passed": true
+        },
+        "density": {
+          "max_absolute_error": 2.0196520322812717e-07,
+          "max_tolerance_fraction": 4.360113873242291,
+          "passed": false
+        },
+        "speed": {
+          "max_absolute_error": 0.11159773301617265,
+          "max_tolerance_fraction": 4933441.883153633,
+          "passed": false
+        },
+        "direct_concentrations": {
+          "max_absolute_error": 5.293955920339377e-23,
+          "max_tolerance_fraction": 1.1927939399028588e-10,
+          "passed": true
+        },
+        "direct_density": {
+          "max_absolute_error": 1.3552527156068805e-20,
+          "max_tolerance_fraction": 7.675325413026573e-09,
+          "passed": true
+        },
+        "direct_rates": {
+          "max_absolute_error": 1.6653345369377348e-16,
+          "max_tolerance_fraction": 5.199536285088856e-08,
+          "passed": true
+        },
+        "surface_concentrations": {
+          "max_absolute_error": 1.5655734481980659e-09,
+          "max_tolerance_fraction": 12399.605977743568,
+          "passed": false
+        }
+      },
+      "elapsed_seconds": 0.5779999999795109,
+      "output_sha256": "65f8bd6df45cf0b60f14c66759b9e05f27092a1742ecbaad7a1138975467ea33"
+    },
+    {
+      "case": "08-pressure-scale",
+      "score": 0,
+      "checks": {
+        "mass_fractions": {
+          "max_absolute_error": 0.039321298985590225,
+          "max_tolerance_fraction": 61377.47836272732,
+          "passed": false
+        },
+        "coverages": {
+          "max_absolute_error": 0.016435103764064762,
+          "max_tolerance_fraction": 23136.46579287855,
+          "passed": false
+        },
+        "pressure": {
+          "max_absolute_error": 0.4572617792291567,
+          "max_tolerance_fraction": 17.203659406758327,
+          "passed": false
+        },
+        "density": {
+          "max_absolute_error": 7.771943630885403e-07,
+          "max_tolerance_fraction": 3.041209687270078,
+          "passed": false
+        },
+        "speed": {
+          "max_absolute_error": 0.31892579067624044,
+          "max_tolerance_fraction": 8130853.509676526,
+          "passed": false
+        },
+        "direct_concentrations": {
+          "max_absolute_error": 6.617444900424222e-24,
+          "max_tolerance_fraction": 4.757046854446272e-11,
+          "passed": true
+        },
+        "direct_density": {
+          "max_absolute_error": 1.6940658945086007e-21,
+          "max_tolerance_fraction": 1.5829859517449188e-09,
+          "passed": true
+        },
+        "direct_rates": {
+          "max_absolute_error": 5.204170427930421e-18,
+          "max_tolerance_fraction": 7.7196658488242e-08,
+          "passed": true
+        },
+        "surface_concentrations": {
+          "max_absolute_error": 3.454815005919722e-10,
+          "max_tolerance_fraction": 3180.4663345818767,
+          "passed": false
+        }
+      },
+      "elapsed_seconds": 0.609000000054948,
+      "output_sha256": "fcdf443aef3f8fafb784ba82d4756842c984981d6146012e0c3b8c60bd3485cb"
+    },
+    {
+      "case": "09-kinetic-regimes",
+      "score": 0,
+      "checks": {
+        "mass_fractions": {
+          "max_absolute_error": 0.07126974700218891,
+          "max_tolerance_fraction": 183276.14036213458,
+          "passed": false
+        },
+        "coverages": {
+          "max_absolute_error": 0.20258843749124353,
+          "max_tolerance_fraction": 336407.873940545,
+          "passed": false
+        },
+        "pressure": {
+          "max_absolute_error": 0.017422940582036972,
+          "max_tolerance_fraction": 0.8023510191820742,
+          "passed": true
+        },
+        "density": {
+          "max_absolute_error": 2.35892171185359e-07,
+          "max_tolerance_fraction": 4.315434376887837,
+          "passed": false
+        },
+        "speed": {
+          "max_absolute_error": 0.07911273577006361,
+          "max_tolerance_fraction": 2592489.978078967,
+          "passed": false
+        },
+        "direct_concentrations": {
+          "max_absolute_error": 6.617444900424222e-24,
+          "max_tolerance_fraction": 5.0781067039805644e-11,
+          "passed": true
+        },
+        "direct_density": {
+          "max_absolute_error": 1.6940658945086007e-21,
+          "max_tolerance_fraction": 1.518801435825328e-09,
+          "passed": true
+        },
+        "direct_rates": {
+          "max_absolute_error": 2.168404344971009e-19,
+          "max_tolerance_fraction": 1.98038012996417e-08,
+          "passed": true
+        },
+        "surface_concentrations": {
+          "max_absolute_error": 1.3665101600688905e-08,
+          "max_tolerance_fraction": 92917.11602408625,
+          "passed": false
+        }
+      },
+      "elapsed_seconds": 0.6400000000139698,
+      "output_sha256": "15a458c5ce8827c8c5422426cb2693768b6eda529970904ddfcfcb72bc32f9bf"
+    }
+  ]
+}

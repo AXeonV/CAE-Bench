@@ -6,7 +6,7 @@
 
 按 caeoj-data-review 技能执行。审阅者已完成独立考生审阅，本阶段经协调方明确扩大白名单：三份公开文档、全部实际cases输入及依赖、对应reference判题配置和参考、2个samples完整公开输入/参考/输出、data-manifest.json、.data-assembly.json及其回执描述。三文档仍是唯一题意依据。未读取作者生成器、参考实现、求解源码、driver、设计报告，也未运行题目solver或付费benchmark。未修改正式数据、实现或回执。
 
-基线提交 `940fa23777538be857eb18a3acc6b1b0d4ad67b7`；题目当时在未跟踪的19.2-operators目录中，故实际SHA作为审计版本证据。完整55文件路径/SHA清单保存在 [evidence.json](evidence.json)：三公开文档、data-manifest及装配回执5文件，10case×4文件，2sample×5文件。无未读大数组；本轮全部HDF5 dataset均完整读取。
+基线提交 `940fa23777538be857eb18a3acc6b1b0d4ad67b7`；题目当时在未跟踪的19.2-operators目录中，故实际SHA作为审计版本证据。完整55文件路径/SHA清单保存在 `runs/data-review/repair22-kratos/evidence.json`：三公开文档、data-manifest及装配回执5文件，10case×4文件，2sample×5文件。无未读大数组；本轮全部HDF5 dataset均完整读取。
 
 | 解释文件 | SHA256 |
 |---|---|
@@ -48,7 +48,7 @@
 | 09-negative-direction | 4 | 0 | 4 | 4 |
 | 10-section-roll | 4 | 0 | 4 | 4 |
 
-40根中27根Iyy≠Izz、13根Iyy=Izz，40根Ay≠Az，涵盖坐标对齐、平面斜向、一般三维和反向梁以及截面转角。密度逐例取值和方向细节见 [bindings-coverage.json](bindings-coverage.json)。公开2sample均b=0的缺口，在实际case07的4根非零b梁中得到数值检查。
+40根中27根Iyy≠Izz、13根Iyy=Izz，40根Ay≠Az，涵盖坐标对齐、平面斜向、一般三维和反向梁以及截面转角。密度逐例取值和方向细节见 `runs/data-review/repair22-kratos/bindings-coverage.json`。公开2sample均b=0的缺口，在实际case07的4根非零b梁中得到数值检查。
 
 ## 输出、物理关系及评分绑定
 
@@ -62,7 +62,7 @@ combined/separate矩阵及力逐值一致。依据DATA:43，用combined自由端
 
 ## 从最终DATA独立选取的契约变体
 
-仅在本审计目录fixtures修改副本。正式SDK来自发布ZIP的src/caeoj、caeoj_bundle、caeoj_task_ext，复制供运行而不阅读实现；新子进程以该src优先的PYTHONPATH调用CLI，未载入或运行题目solver。复现脚本 [check_sdk.py](check_sdk.py) 与完整诊断 [sdk-evidence.json](sdk-evidence.json) 留存。
+仅在本审计目录fixtures修改副本。正式SDK来自发布ZIP的src/caeoj、caeoj_bundle、caeoj_task_ext，复制供运行而不阅读实现；新子进程以该src优先的PYTHONPATH调用CLI，未载入或运行题目solver。复现脚本 `runs/data-review/repair22-kratos/check_sdk.py` 与完整诊断 `runs/data-review/repair22-kratos/sdk-evidence.json` 留存。
 
 正式SDK对12实际输入、12完整参考及2公开示例输出的26次validate-input/output均通过。未运行参考对自身判分并将它冒充数值认证。
 
@@ -73,3 +73,5 @@ combined/separate矩阵及力逐值一致。依据DATA:43，用combined自由端
 无本范围必需文件缺失，无未检查数组。实际资料没有非零b与非零tip_load同时作用的数值case；合法混合载荷副本已通过契约解析，但未运行solver产生此副本参考。未对参数全部极端组合做数值校准，未验证构建、真实3API调用及CPU/内存/时间限制。
 
 装配描述origin为prepared-input，本阶段未获准读取作者生产者记录或参考求解源码，也未审计上游物理参考出处；不能据本轮结构、关系和摘要检查宣称来源建设或数值参考资格已全面认证。若需此认证，应由来源建设环节提供/审查独立生产者与精度证据。当前实际数据与已公开定义一致，故本轮数据审计通过。
+
+存档说明：原始诊断与检查脚本位于上述runs维护目录，本存档将其原相对链接改为完整路径，审阅结论与数值不变。

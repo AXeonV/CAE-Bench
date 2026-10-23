@@ -1,0 +1,37 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "cmake",
+    "--build",
+    "/opt/cantera1996-build",
+    "--target",
+    "repair_sources",
+    "--parallel",
+    "4"
+  ],
+  "exit_code": 0,
+  "status": "built",
+  "elapsed_seconds": 8.282709011000406,
+  "sources_sha256": {
+    "FlowReactor.cpp": "664295cce24bec8e4b1af8ab928fa9091c00d5d965dae633908a594607aee6e9",
+    "SurfPhase.cpp": "6219c3a49bb045baddee630339248cf49fe008050fa6073f44766eaf51f70300"
+  },
+  "removed_build_artifacts": [
+    "/opt/cantera1996-build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/zeroD/FlowReactor.cpp.o",
+    "/opt/cantera1996-build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/thermo/SurfPhase.cpp.o",
+    "/opt/cantera1996-build/lib/libcantera_shared.so.3.1.0",
+    "/opt/cantera1996-build/CMakeFiles/flow_driver.dir/opt/cantera1996-driver/driver.cpp.o",
+    "/opt/cantera1996-build/bin/flow-driver"
+  ],
+  "built_artifacts_sha256": {
+    "/opt/cantera1996-build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/zeroD/FlowReactor.cpp.o": "3a2f355d3bf3140f00071b5f9ab0b5d356ae91ebe5fbe3a34488698d5e8fe754",
+    "/opt/cantera1996-build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/thermo/SurfPhase.cpp.o": "e6b2ef41c774a0b52ff26f99b5dc1e55971de654a625801abfb8e018ec920dea",
+    "/opt/cantera1996-build/lib/libcantera_shared.so.3.1.0": "9f9b492c041435386e5a9a27695fdd9fbe0939cfce8f1b0093a550c22e429307",
+    "/opt/cantera1996-build/CMakeFiles/flow_driver.dir/opt/cantera1996-driver/driver.cpp.o": "edfaf2abfdc34b091301dae46d1e1a9452945c04018a97e47abda13cf6896280",
+    "/opt/cantera1996-build/bin/flow-driver": "683f6a1914c7864e48b7fed90cf59f82e76af9f296c13c2178d8452d25bb1acd"
+  }
+}

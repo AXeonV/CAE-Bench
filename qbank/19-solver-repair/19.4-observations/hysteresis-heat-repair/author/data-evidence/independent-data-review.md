@@ -8,7 +8,7 @@
 
 为核实input_sha256的含义，协调方后续明确许可读取author/replay.py和public/run_case.py的serialize函数。实际一次文件读取意外还显示了同一中性适配器的run包装器；未运行该包装器，也未读取driver或solver源码。只独立重建中性JSON序列化payload用于摘要比较。author/independent.py实际不存在，协调方确认此白名单名称为误述；本轮数学预期直接来自公开公式，没有用作者generate.py中的热公式或独立检查结果作预期。仅对generate.py做过定位摘要关键字的搜索。
 
-完整实际材料路径与SHA256见[evidence.json](evidence.json)，计79文件：3解释文件、manifest与回执、14×4正式输入/参考文件、2×5样例文件、5来源证据文件、上述2定位文件及仅搜索定位关键字的generate.py。源码归档、求解源码、driver未读，正式数据和实现未改。
+完整实际材料路径与SHA256见`runs/data-review/repair22-hysteresis/evidence.json`，计79文件：3解释文件、manifest与回执、14×4正式输入/参考文件、2×5样例文件、5来源证据文件、上述2定位文件及仅搜索定位关键字的generate.py。源码归档、求解源码、driver未读，正式数据和实现未改。
 
 | 解释文件 | SHA256 |
 |---|---|
@@ -89,10 +89,12 @@ reference-replay.json声明生产者为真实固定PyBaMM热子模型，修复�
 
 ## 正式SDK与独立合法/非法变体
 
-仅从公开ZIP提取src的caeoj、caeoj_bundle、caeoj_task_ext中性运行器和题目契约扩展，不读或提取求解源码/driver。使用项目.venv的依赖，新子进程设ZIP的src为优先PYTHONPATH，避免本地已缓存任务装配。脚本[check_sdk.py](check_sdk.py)及[sdk-evidence.json](sdk-evidence.json)记录34次实际检查（16输入、16参考、2公开输出），全部通过。
+仅从公开ZIP提取src的caeoj、caeoj_bundle、caeoj_task_ext中性运行器和题目契约扩展，不读或提取求解源码/driver。使用项目.venv的依赖，新子进程设ZIP的src为优先PYTHONPATH，避免本地已缓存任务装配。脚本`runs/data-review/repair22-hysteresis/check_sdk.py`及`runs/data-review/repair22-hysteresis/sdk-evidence.json`记录34次实际检查（16输入、16参考、2公开输出），全部通过。
 
 从最终DATA独立选择6合法变体均接受：ID含0、pairs=32、T=400、V_cell=1e-10独立取值、负J=−1e7、single相Ueq与U差5e-13。17非法变体均拒绝：single差1e-9、相数3、mask越位或负、pairs=0或2.0非整数、参数错误单位、T低于250、J越界、U低于−2、entropy越界、隔膜厚度0、体积0、负ID、额外输出key、单相错误分量标签、非空conditions。预期来自公开定义，不取自生成器。
 
 ## 限制
 
 无未检查数据数组，无材料缺口。本轮不改题、不生成参考、不运行driver或solver，不做付费benchmark。未重跑真实库、构建或资源限额；没有把维护记录中的约2秒执行历史当成本轮资源验证。合法/非法fixture不是额外正式测试case，也不证明所有极端参数组合的数值表现。所有实际五热输出及本题声明条件已独立核对，本轮数据审计通过。
+
+存档说明：本报告引用的原始诊断和检查脚本保留在上述runs目录，不随题目公开包发布；本存档将其原相对链接改为完整维护路径，审阅结论与数值不变。

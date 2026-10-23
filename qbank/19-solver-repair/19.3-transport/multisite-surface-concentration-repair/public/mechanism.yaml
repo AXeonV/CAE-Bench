@@ -1,0 +1,41 @@
+phases:
+- name: gas
+  thermo: ideal-gas
+  elements: [O, Pt]
+  species: [A, I, B]
+  kinetics: gas
+  reactions: none
+  state: {T: 800, P: 101325, X: {A: 0.8, I: 0.2}}
+- name: surf
+  thermo: ideal-surface
+  adjacent-phases: [gas]
+  elements: [O, Pt]
+  species: [S, AS]
+  kinetics: surface
+  reactions: all
+  site-density: 2.5e-8
+  state: {T: 800, coverages: {S: 0.5, AS: 0.5}}
+species:
+- name: A
+  composition: {O: 1}
+  thermo: {model: constant-cp, cp0: 20800, h0: 0, s0: 0}
+- name: B
+  composition: {O: 1}
+  thermo: {model: constant-cp, cp0: 20800, h0: 0, s0: 0}
+- name: I
+  composition: {O: 1}
+  thermo: {model: constant-cp, cp0: 20800, h0: 0, s0: 0}
+- name: S
+  composition: {Pt: 1}
+  thermo: {model: constant-cp, cp0: 1000, h0: 0, s0: 0}
+- name: AS
+  composition: {Pt: 2, O: 1}
+  sites: 2
+  thermo: {model: constant-cp, cp0: 1000, h0: 0, s0: 0}
+reactions:
+- equation: A + 2 S => AS
+  rate-constant: {A: 1.0e12, b: 0, Ea: 0}
+- equation: AS => A + 2 S
+  rate-constant: {A: 1.0e4, b: 0, Ea: 0}
+- equation: AS => B + 2 S
+  rate-constant: {A: 1.0e4, b: 0, Ea: 0}

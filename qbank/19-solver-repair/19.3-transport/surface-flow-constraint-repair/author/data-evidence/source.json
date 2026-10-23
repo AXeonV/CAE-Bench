@@ -1,0 +1,23 @@
+{
+  "repository": "https://github.com/Cantera/cantera",
+  "issue": "https://github.com/Cantera/cantera/issues/1655",
+  "upstream_prs": [
+    2018
+  ],
+  "baseline": "v3.1.0",
+  "baseline_commit": "6e0027548cf295bd478b8acfe34816f2db6dd58b",
+  "source_sha256": "4d9004660d83ea5200216cbd465ae77277fde9191fd47d1eb30a68c1ad6ee09e",
+  "applied_fix": [
+    "/opt/cantera-source/src/zeroD/FlowReactor.cpp"
+  ],
+  "scope": "isothermal equal-molar-mass irreversible catalytic A-to-B plug flow with single-site adsorbate; species order permutations",
+  "additional_necessary_local_fix": "Accumulate all gas-species surface mass source terms in FlowReactor::evalDae; upstream PR2018 alone preserves sumY but fails equal-mass continuity.",
+  "reference_source_sha256": {
+    "FlowReactor.cpp": "664295cce24bec8e4b1af8ab928fa9091c00d5d965dae633908a594607aee6e9"
+  },
+  "baseline_target_sha256": {
+    "src/zeroD/FlowReactor.cpp": "a06d79b27e52cc2fea9c231fa4cbce22cabdba1a643d582d4caf6e3460a2bbc2"
+  },
+  "reference_patch_sha256": "8770be1ac55ede45712a74d90cac38cf467eefb265c88229b92893a0af360cc7",
+  "upstream_subset_note": "Only necessary code portions backported onto the immutable v3.1.0 tree; not a whole upstream PR checkout. Flow full reference additionally fixes net surface mass accumulation."
+}

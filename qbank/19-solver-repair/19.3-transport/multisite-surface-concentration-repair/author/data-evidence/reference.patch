@@ -1,0 +1,56 @@
+--- a/src/zeroD/FlowReactor.cpp
++++ b/src/zeroD/FlowReactor.cpp
+@@ -251,7 +251,7 @@
+     const vector<double>& mw = m_thermo->molecularWeights();
+     double sk_wk = 0;
+     for (size_t i = 0; i < m_nsp; ++i) {
+-        sk_wk = m_sdot[i] * mw[i];
++        sk_wk += m_sdot[i] * mw[i];
+     }
+     m_thermo->getPartialMolarEnthalpies(m_hk.data());
+     // get net production
+@@ -297,10 +297,16 @@
+ 
+     //! species conservation equations
+     //! Kee.'s Chemically Reacting Flow, Eq. 16.51
++    double dSumYdz = 0;
+     for (size_t i = 0; i < m_nsp; ++i) {
+         residual[i + m_offset_Y] = m_rho * m_u * ydot[i + m_offset_Y] +
+             y[i + m_offset_Y] * hydraulic * sk_wk -
+             mw[i] * (m_wdot[i] + hydraulic * m_sdot[i]);
++        dSumYdz += ydot[i + m_offset_Y];
++    }
++    double scale = 0.1 * m_rho * m_u / m_ss_rtol;
++    for (size_t i = 0; i < m_nsp; ++i) {
++        residual[i + m_offset_Y] += scale * std::max(0.0, y[i + m_offset_Y]) * dSumYdz;
+     }
+ 
+     // surface algebraic constraints
+--- a/src/thermo/SurfPhase.cpp
++++ b/src/thermo/SurfPhase.cpp
+@@ -208,8 +208,8 @@
+                            "Site density must be positive. Got {}", n0);
+     }
+     m_n0 = n0;
+-    assignDensity(n0 * meanMolecularWeight());
+     m_logn0 = log(m_n0);
++    compositionChanged();
+ }
+ 
+ void SurfPhase::setCoverages(const double* theta)
+@@ -297,7 +297,14 @@
+ void SurfPhase::compositionChanged()
+ {
+     ThermoPhase::compositionChanged();
+-    assignDensity(m_n0 * meanMolecularWeight());
++    getMoleFractions(m_work.data());
++    double q = 0;
++    double sumX = 0;
++    for (size_t k = 0; k < m_kk; k++) {
++        q += m_work[k] * size(k);
++        sumX += m_work[k];
++    }
++    assignDensity(m_n0 * meanMolecularWeight() * sumX / q);
+ }
+ 
+ void SurfPhase::_updateThermo(bool force) const

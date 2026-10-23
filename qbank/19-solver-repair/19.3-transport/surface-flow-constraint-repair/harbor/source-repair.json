@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "base_image": "caeoj-cantera1655-core:base",
+  "replacements": [
+    {
+      "submission": "FlowReactor.cpp",
+      "target": "/opt/cantera-source/src/zeroD/FlowReactor.cpp"
+    }
+  ],
+  "build_directory": "/opt/cantera1655-build",
+  "build_target": "repair_sources",
+  "rebuild_files": [
+    "/opt/cantera1655-build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/zeroD/FlowReactor.cpp.o",
+    "/opt/cantera1655-build/lib/libcantera_shared.so.3.1.0",
+    "/opt/cantera1655-build/CMakeFiles/flow_driver.dir/opt/cantera1655-driver/driver.cpp.o",
+    "/opt/cantera1655-build/bin/flow-driver"
+  ],
+  "build_timeout_seconds": 300,
+  "max_source_bytes": 1048576,
+  "runner": "/app/qbank/19-solver-repair/19.3-transport/surface-flow-constraint-repair/public/run_case.py"
+}

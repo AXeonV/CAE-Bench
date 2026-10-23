@@ -1,0 +1,27 @@
+{
+  "repository": "https://github.com/Cantera/cantera",
+  "issue": "https://github.com/Cantera/cantera/issues/1996",
+  "upstream_prs": [
+    2018,
+    2016
+  ],
+  "baseline": "v3.1.0",
+  "baseline_commit": "6e0027548cf295bd478b8acfe34816f2db6dd58b",
+  "source_sha256": "4d9004660d83ea5200216cbd465ae77277fde9191fd47d1eb30a68c1ad6ee09e",
+  "applied_fix": [
+    "/opt/cantera-source/src/zeroD/FlowReactor.cpp",
+    "/opt/cantera-source/src/thermo/SurfPhase.cpp"
+  ],
+  "scope": "isothermal equal-molar-mass irreversible catalytic A-to-B plug flow with two-site adsorbate and direct normalized/unnormalized surface concentration/rates",
+  "additional_necessary_local_fix": "Accumulate all gas-species surface mass source terms in FlowReactor::evalDae; upstream PR2018 alone preserves sumY but fails equal-mass continuity.",
+  "reference_source_sha256": {
+    "FlowReactor.cpp": "664295cce24bec8e4b1af8ab928fa9091c00d5d965dae633908a594607aee6e9",
+    "SurfPhase.cpp": "6219c3a49bb045baddee630339248cf49fe008050fa6073f44766eaf51f70300"
+  },
+  "baseline_target_sha256": {
+    "src/zeroD/FlowReactor.cpp": "a06d79b27e52cc2fea9c231fa4cbce22cabdba1a643d582d4caf6e3460a2bbc2",
+    "src/thermo/SurfPhase.cpp": "745efb203a1279b1d51dfb8c1de47a8b15f04c8725a413de75af535e504dc9f7"
+  },
+  "reference_patch_sha256": "99bc8bf867b38e3e18cc449c0a59a268037c1eccd3c5703d208a52a15df1d50c",
+  "upstream_subset_note": "Only necessary code portions backported onto the immutable v3.1.0 tree; not a whole upstream PR checkout. Flow full reference additionally fixes net surface mass accumulation."
+}

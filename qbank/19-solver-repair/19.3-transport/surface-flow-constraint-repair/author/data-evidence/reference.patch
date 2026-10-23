@@ -1,0 +1,28 @@
+--- a/src/zeroD/FlowReactor.cpp
++++ b/src/zeroD/FlowReactor.cpp
+@@ -251,7 +251,7 @@
+     const vector<double>& mw = m_thermo->molecularWeights();
+     double sk_wk = 0;
+     for (size_t i = 0; i < m_nsp; ++i) {
+-        sk_wk = m_sdot[i] * mw[i];
++        sk_wk += m_sdot[i] * mw[i];
+     }
+     m_thermo->getPartialMolarEnthalpies(m_hk.data());
+     // get net production
+@@ -297,10 +297,16 @@
+ 
+     //! species conservation equations
+     //! Kee.'s Chemically Reacting Flow, Eq. 16.51
++    double dSumYdz = 0;
+     for (size_t i = 0; i < m_nsp; ++i) {
+         residual[i + m_offset_Y] = m_rho * m_u * ydot[i + m_offset_Y] +
+             y[i + m_offset_Y] * hydraulic * sk_wk -
+             mw[i] * (m_wdot[i] + hydraulic * m_sdot[i]);
++        dSumYdz += ydot[i + m_offset_Y];
++    }
++    double scale = 0.1 * m_rho * m_u / m_ss_rtol;
++    for (size_t i = 0; i < m_nsp; ++i) {
++        residual[i + m_offset_Y] += scale * std::max(0.0, y[i + m_offset_Y]) * dSumYdz;
+     }
+ 
+     // surface algebraic constraints

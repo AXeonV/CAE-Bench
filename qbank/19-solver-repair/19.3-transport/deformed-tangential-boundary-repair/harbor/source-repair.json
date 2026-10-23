@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "base_image": "caeoj-aspect6818-runtime:offline-v4",
+  "replacements": [{"submission": "core.cc", "target": "/opt/aspect/source/simulator/core.cc"}],
+  "build_directory": "/opt/aspect-build",
+  "build_target": "aspect",
+  "rebuild_files": ["/opt/aspect-build/CMakeFiles/aspect.exe.release.dir/Unity/unity_45_cxx.cxx.o", "/opt/aspect-build/aspect-release"],
+  "build_timeout_seconds": 900,
+  "baseline_timeout_seconds": 900,
+  "baseline_probe": ["/opt/caeoj-python/bin/python", "/app/qbank/19-solver-repair/19.3-transport/deformed-tangential-boundary-repair/public/baseline_probe.py"],
+  "max_source_bytes": 1048576,
+  "runner": "/app/qbank/19-solver-repair/19.3-transport/deformed-tangential-boundary-repair/public/run_case.py"
+}

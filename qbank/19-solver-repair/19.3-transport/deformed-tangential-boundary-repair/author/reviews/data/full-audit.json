@@ -1,0 +1,1887 @@
+{
+  "inputs": {
+    "01-parallel-public": {
+      "model": "deformed-tangential-parallel-v1",
+      "dimension": 2,
+      "parameters": {
+        "density": 1.0,
+        "viscosity": 1.0,
+        "temperature": 300.0,
+        "time_step": 0.25,
+        "end_time": 1.0,
+        "refinement": 1,
+        "width": 2.0,
+        "height": 1.0,
+        "rate_x": 0.3,
+        "velocity_x": 1.0
+      },
+      "N": 15,
+      "T": 5,
+      "times": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "minimum_boundary_distance": 0.0660900136802594,
+      "required_margin": 0.0001,
+      "input_arrays": {
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            15,
+            2
+          ],
+          "min": 0.2,
+          "max": 1.8
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            15
+          ],
+          "min": 3.0,
+          "max": 101.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        }
+      },
+      "output_arrays": {
+        "pressure": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            15,
+            1
+          ],
+          "min": -5.50738e-11,
+          "max": 9.58774e-11
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            15
+          ],
+          "min": 3.0,
+          "max": 101.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        },
+        "velocity": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            15,
+            2
+          ],
+          "min": -6.42979e-15,
+          "max": 1.0
+        }
+      },
+      "analytic_velocity_error": 6.42979e-15,
+      "analytic_pressure_error": 9.58774e-11
+    },
+    "02-annulus-public": {
+      "model": "deformed-tangential-annulus-v1",
+      "dimension": 2,
+      "parameters": {
+        "density": 1.0,
+        "viscosity": 1.0,
+        "temperature": 300.0,
+        "time_step": 0.25,
+        "end_time": 0.0,
+        "refinement": 3,
+        "inner_radius": 1.0,
+        "outer_radius": 2.0,
+        "angular_speed": 1.0
+      },
+      "N": 36,
+      "T": 1,
+      "times": [
+        0.0
+      ],
+      "minimum_boundary_distance": 0.19999999999999973,
+      "required_margin": 0.0001,
+      "input_arrays": {
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            36,
+            2
+          ],
+          "min": -1.8,
+          "max": 1.8
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            36
+          ],
+          "min": 3.0,
+          "max": 248.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "min": 0.0,
+          "max": 0.0
+        }
+      },
+      "output_arrays": {
+        "pressure": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            36,
+            1
+          ],
+          "min": -6.54519e-10,
+          "max": 6.6249e-10
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            36
+          ],
+          "min": 3.0,
+          "max": 248.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "min": 0.0,
+          "max": 0.0
+        },
+        "velocity": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            36,
+            2
+          ],
+          "min": -1.8,
+          "max": 1.8
+        }
+      },
+      "analytic_velocity_error": 4.273188010994744e-06,
+      "analytic_pressure_error": 6.6249e-10
+    },
+    "03-parallel-negative": {
+      "model": "deformed-tangential-parallel-v1",
+      "dimension": 2,
+      "parameters": {
+        "density": 1.0,
+        "viscosity": 1.0,
+        "temperature": 300.0,
+        "time_step": 0.25,
+        "end_time": 1.0,
+        "refinement": 1,
+        "width": 1.5,
+        "height": 1.2,
+        "rate_x": -0.3,
+        "velocity_x": -0.7
+      },
+      "N": 15,
+      "T": 5,
+      "times": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "minimum_boundary_distance": 0.11422078451262227,
+      "required_margin": 0.00012,
+      "input_arrays": {
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            15,
+            2
+          ],
+          "min": 0.11924999999999998,
+          "max": 1.35
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            15
+          ],
+          "min": 3.0,
+          "max": 101.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        }
+      },
+      "output_arrays": {
+        "pressure": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            15,
+            1
+          ],
+          "min": -3.30574e-11,
+          "max": 5.2918e-11
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            15
+          ],
+          "min": 3.0,
+          "max": 101.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        },
+        "velocity": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            15,
+            2
+          ],
+          "min": -0.7,
+          "max": 0.21
+        }
+      },
+      "analytic_velocity_error": 2.9194e-15,
+      "analytic_pressure_error": 5.2918e-11
+    },
+    "04-parallel-pivot": {
+      "model": "deformed-tangential-parallel-v1",
+      "dimension": 2,
+      "parameters": {
+        "density": 1.0,
+        "viscosity": 1.0,
+        "temperature": 300.0,
+        "time_step": 0.25,
+        "end_time": 1.0,
+        "refinement": 2,
+        "width": 0.2,
+        "height": 1.0,
+        "rate_x": 2.0,
+        "velocity_x": 0.1
+      },
+      "N": 15,
+      "T": 5,
+      "times": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "minimum_boundary_distance": 0.01999999999999999,
+      "required_margin": 2e-05,
+      "input_arrays": {
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            15,
+            2
+          ],
+          "min": 0.020000000000000004,
+          "max": 0.9039999999999999
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            15
+          ],
+          "min": 3.0,
+          "max": 101.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        }
+      },
+      "output_arrays": {
+        "pressure": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            15,
+            1
+          ],
+          "min": -9.22664e-12,
+          "max": 3.90719e-08
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            15
+          ],
+          "min": 3.0,
+          "max": 101.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        },
+        "velocity": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            15,
+            2
+          ],
+          "min": -5.35694e-15,
+          "max": 0.2
+        }
+      },
+      "analytic_velocity_error": 6.61581e-15,
+      "analytic_pressure_error": 3.90719e-08
+    },
+    "05-parallel-static": {
+      "model": "deformed-tangential-parallel-v1",
+      "dimension": 2,
+      "parameters": {
+        "density": 1.0,
+        "viscosity": 1.0,
+        "temperature": 300.0,
+        "time_step": 0.25,
+        "end_time": 1.0,
+        "refinement": 1,
+        "width": 1.5,
+        "height": 0.8,
+        "rate_x": 0.0,
+        "velocity_x": 0.8
+      },
+      "N": 15,
+      "T": 5,
+      "times": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "minimum_boundary_distance": 0.12,
+      "required_margin": 8e-05,
+      "input_arrays": {
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            15,
+            2
+          ],
+          "min": 0.12,
+          "max": 1.35
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            15
+          ],
+          "min": 3.0,
+          "max": 101.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        }
+      },
+      "output_arrays": {
+        "pressure": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            15,
+            1
+          ],
+          "min": -1.87447e-11,
+          "max": 1.87414e-11
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            15
+          ],
+          "min": 3.0,
+          "max": 101.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        },
+        "velocity": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            15,
+            2
+          ],
+          "min": -4.37813e-15,
+          "max": 0.8
+        }
+      },
+      "analytic_velocity_error": 4.37813e-15,
+      "analytic_pressure_error": 1.87447e-11
+    },
+    "06-three-dimensional": {
+      "model": "deformed-tangential-parallel-v1",
+      "dimension": 3,
+      "parameters": {
+        "density": 1.0,
+        "viscosity": 1.0,
+        "temperature": 300.0,
+        "time_step": 0.25,
+        "end_time": 1.0,
+        "refinement": 1,
+        "width": 2.0,
+        "depth": 1.0,
+        "height": 1.0,
+        "rate_x": 0.3,
+        "rate_y": 0.2,
+        "velocity_x": 1.0,
+        "velocity_y": -0.4
+      },
+      "N": 45,
+      "T": 5,
+      "times": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "minimum_boundary_distance": 0.04233243907726192,
+      "required_margin": 0.0001,
+      "input_arrays": {
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            45,
+            3
+          ],
+          "min": 0.2,
+          "max": 1.8
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            45
+          ],
+          "min": 3.0,
+          "max": 311.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        }
+      },
+      "output_arrays": {
+        "pressure": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            45,
+            1
+          ],
+          "min": -5.80122e-09,
+          "max": 5.23268e-09
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            45
+          ],
+          "min": 3.0,
+          "max": 311.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        },
+        "velocity": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            45,
+            3
+          ],
+          "min": -0.4,
+          "max": 1.0
+        }
+      },
+      "analytic_velocity_error": 2.47743e-16,
+      "analytic_pressure_error": 5.80122e-09
+    },
+    "07-three-dimensional-negative": {
+      "model": "deformed-tangential-parallel-v1",
+      "dimension": 3,
+      "parameters": {
+        "density": 1.0,
+        "viscosity": 1.0,
+        "temperature": 300.0,
+        "time_step": 0.25,
+        "end_time": 1.0,
+        "refinement": 1,
+        "width": 1.4,
+        "depth": 1.0,
+        "height": 1.0,
+        "rate_x": -0.2,
+        "rate_y": 0.25,
+        "velocity_x": -0.6,
+        "velocity_y": 0.7
+      },
+      "N": 45,
+      "T": 5,
+      "times": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "minimum_boundary_distance": 0.11400000000000002,
+      "required_margin": 0.0001,
+      "input_arrays": {
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            45,
+            3
+          ],
+          "min": 0.1197,
+          "max": 1.26
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            45
+          ],
+          "min": 3.0,
+          "max": 311.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        }
+      },
+      "output_arrays": {
+        "pressure": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            45,
+            1
+          ],
+          "min": -5.39362e-09,
+          "max": 5.37992e-09
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            45
+          ],
+          "min": 3.0,
+          "max": 311.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        },
+        "velocity": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            45,
+            3
+          ],
+          "min": -0.6,
+          "max": 0.7
+        }
+      },
+      "analytic_velocity_error": 5.36263e-16,
+      "analytic_pressure_error": 5.39362e-09
+    },
+    "08-three-dimensional-pivot": {
+      "model": "deformed-tangential-parallel-v1",
+      "dimension": 3,
+      "parameters": {
+        "density": 1.0,
+        "viscosity": 1.0,
+        "temperature": 300.0,
+        "time_step": 0.25,
+        "end_time": 1.0,
+        "refinement": 1,
+        "width": 0.4,
+        "depth": 0.2,
+        "height": 1.0,
+        "rate_x": 0.0,
+        "rate_y": 1.6,
+        "velocity_x": 0.2,
+        "velocity_y": 0.1
+      },
+      "N": 45,
+      "T": 5,
+      "times": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "minimum_boundary_distance": 0.03999999999999998,
+      "required_margin": 2e-05,
+      "input_arrays": {
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            45,
+            3
+          ],
+          "min": 0.04000000000000001,
+          "max": 0.8884000000000001
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            45
+          ],
+          "min": 3.0,
+          "max": 311.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        }
+      },
+      "output_arrays": {
+        "pressure": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            45,
+            1
+          ],
+          "min": -5.94435e-10,
+          "max": 1.24796e-08
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            45
+          ],
+          "min": 3.0,
+          "max": 311.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        },
+        "velocity": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            45,
+            3
+          ],
+          "min": -5.28243e-17,
+          "max": 0.2
+        }
+      },
+      "analytic_velocity_error": 7.55005e-17,
+      "analytic_pressure_error": 1.24796e-08
+    },
+    "09-wedge-negative": {
+      "model": "deformed-tangential-wedge-v1",
+      "dimension": 2,
+      "parameters": {
+        "density": 1.0,
+        "viscosity": 1.0,
+        "temperature": 300.0,
+        "time_step": 0.25,
+        "end_time": 1.0,
+        "refinement": 6,
+        "width": 2.0,
+        "height": 0.5,
+        "rate_x": -0.1,
+        "peak_velocity": 1.0
+      },
+      "N": 15,
+      "T": 5,
+      "times": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "minimum_boundary_distance": 0.06268734298322932,
+      "required_margin": 5e-05,
+      "input_arrays": {
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            15,
+            2
+          ],
+          "min": 0.063,
+          "max": 1.8
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            15
+          ],
+          "min": 3.0,
+          "max": 101.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        }
+      },
+      "output_arrays": {
+        "pressure": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            15,
+            1
+          ],
+          "min": -9.15615,
+          "max": 9.8888
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            15
+          ],
+          "min": 3.0,
+          "max": 101.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        },
+        "velocity": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            15,
+            2
+          ],
+          "min": -0.444534,
+          "max": 0.565609
+        }
+      }
+    },
+    "10-wedge-positive": {
+      "model": "deformed-tangential-wedge-v1",
+      "dimension": 2,
+      "parameters": {
+        "density": 1.0,
+        "viscosity": 1.0,
+        "temperature": 300.0,
+        "time_step": 0.25,
+        "end_time": 1.0,
+        "refinement": 6,
+        "width": 2.0,
+        "height": 0.6,
+        "rate_x": 0.15,
+        "peak_velocity": -0.8
+      },
+      "N": 15,
+      "T": 5,
+      "times": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "minimum_boundary_distance": 0.07120341740651744,
+      "required_margin": 6e-05,
+      "input_arrays": {
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            15,
+            2
+          ],
+          "min": 0.072,
+          "max": 1.8
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            15
+          ],
+          "min": 3.0,
+          "max": 101.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        }
+      },
+      "output_arrays": {
+        "pressure": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            15,
+            1
+          ],
+          "min": -5.48618,
+          "max": 6.05898
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            15
+          ],
+          "min": 3.0,
+          "max": 101.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        },
+        "velocity": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            15,
+            2
+          ],
+          "min": -0.446058,
+          "max": 0.347925
+        }
+      }
+    },
+    "11-wedge-static": {
+      "model": "deformed-tangential-wedge-v1",
+      "dimension": 2,
+      "parameters": {
+        "density": 1.0,
+        "viscosity": 1.0,
+        "temperature": 300.0,
+        "time_step": 0.25,
+        "end_time": 1.0,
+        "refinement": 6,
+        "width": 2.0,
+        "height": 0.5,
+        "rate_x": 0.0,
+        "peak_velocity": 1.0
+      },
+      "N": 15,
+      "T": 5,
+      "times": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "minimum_boundary_distance": 0.075,
+      "required_margin": 5e-05,
+      "input_arrays": {
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            15,
+            2
+          ],
+          "min": 0.075,
+          "max": 1.8
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            15
+          ],
+          "min": 3.0,
+          "max": 101.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        }
+      },
+      "output_arrays": {
+        "pressure": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            15,
+            1
+          ],
+          "min": -9.15615,
+          "max": 9.15615
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            15
+          ],
+          "min": 3.0,
+          "max": 101.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        },
+        "velocity": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            15,
+            2
+          ],
+          "min": -0.444534,
+          "max": 0.565609
+        }
+      }
+    },
+    "12-annulus-reverse": {
+      "model": "deformed-tangential-annulus-v1",
+      "dimension": 2,
+      "parameters": {
+        "density": 1.0,
+        "viscosity": 1.0,
+        "temperature": 300.0,
+        "time_step": 0.25,
+        "end_time": 0.0,
+        "refinement": 3,
+        "inner_radius": 0.7,
+        "outer_radius": 1.7,
+        "angular_speed": -0.6
+      },
+      "N": 36,
+      "T": 1,
+      "times": [
+        0.0
+      ],
+      "minimum_boundary_distance": 0.19999999999999973,
+      "required_margin": 7e-05,
+      "input_arrays": {
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            36,
+            2
+          ],
+          "min": -1.5,
+          "max": 1.5
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            36
+          ],
+          "min": 3.0,
+          "max": 248.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "min": 0.0,
+          "max": 0.0
+        }
+      },
+      "output_arrays": {
+        "pressure": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            36,
+            1
+          ],
+          "min": -4.16782e-10,
+          "max": 4.14266e-10
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            36
+          ],
+          "min": 3.0,
+          "max": 248.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "min": 0.0,
+          "max": 0.0
+        },
+        "velocity": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            36,
+            2
+          ],
+          "min": -0.9,
+          "max": 0.9
+        }
+      },
+      "analytic_velocity_error": 2.907247957928405e-07,
+      "analytic_pressure_error": 4.16782e-10
+    },
+    "sample-01": {
+      "model": "deformed-tangential-parallel-v1",
+      "dimension": 2,
+      "parameters": {
+        "density": 1.0,
+        "viscosity": 1.0,
+        "temperature": 300.0,
+        "time_step": 0.25,
+        "end_time": 1.0,
+        "refinement": 1,
+        "width": 2.0,
+        "height": 1.0,
+        "rate_x": 0.3,
+        "velocity_x": 1.0
+      },
+      "N": 15,
+      "T": 5,
+      "times": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "minimum_boundary_distance": 0.0660900136802594,
+      "required_margin": 0.0001,
+      "input_arrays": {
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            15,
+            2
+          ],
+          "min": 0.2,
+          "max": 1.8
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            15
+          ],
+          "min": 3.0,
+          "max": 101.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        }
+      },
+      "output_arrays": {
+        "pressure": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            15,
+            1
+          ],
+          "min": -5.50738e-11,
+          "max": 9.58774e-11
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            15
+          ],
+          "min": 3.0,
+          "max": 101.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "min": 0.0,
+          "max": 1.0
+        },
+        "velocity": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            15,
+            2
+          ],
+          "min": -6.42979e-15,
+          "max": 1.0
+        }
+      },
+      "analytic_velocity_error": 6.42979e-15,
+      "analytic_pressure_error": 9.58774e-11
+    },
+    "sample-02": {
+      "model": "deformed-tangential-annulus-v1",
+      "dimension": 2,
+      "parameters": {
+        "density": 1.0,
+        "viscosity": 1.0,
+        "temperature": 300.0,
+        "time_step": 0.25,
+        "end_time": 0.0,
+        "refinement": 3,
+        "inner_radius": 1.0,
+        "outer_radius": 2.0,
+        "angular_speed": 1.0
+      },
+      "N": 36,
+      "T": 1,
+      "times": [
+        0.0
+      ],
+      "minimum_boundary_distance": 0.19999999999999973,
+      "required_margin": 0.0001,
+      "input_arrays": {
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            36,
+            2
+          ],
+          "min": -1.8,
+          "max": 1.8
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            36
+          ],
+          "min": 3.0,
+          "max": 248.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "min": 0.0,
+          "max": 0.0
+        }
+      },
+      "output_arrays": {
+        "pressure": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            36,
+            1
+          ],
+          "min": -6.54519e-10,
+          "max": 6.6249e-10
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            36
+          ],
+          "min": 3.0,
+          "max": 248.0
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "min": 0.0,
+          "max": 0.0
+        },
+        "velocity": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            36,
+            2
+          ],
+          "min": -1.8,
+          "max": 1.8
+        }
+      },
+      "analytic_velocity_error": 4.273188010994744e-06,
+      "analytic_pressure_error": 6.6249e-10
+    }
+  },
+  "native": {
+    "01-parallel-public": {
+      "reference": {
+        "rows": 75,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      },
+      "defect": {
+        "rows": 75,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      }
+    },
+    "02-annulus-public": {
+      "reference": {
+        "rows": 36,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      },
+      "defect": {
+        "rows": 36,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      }
+    },
+    "03-parallel-negative": {
+      "reference": {
+        "rows": 75,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      },
+      "defect": {
+        "rows": 75,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      }
+    },
+    "04-parallel-pivot": {
+      "reference": {
+        "rows": 75,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      },
+      "defect": {
+        "rows": 75,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      }
+    },
+    "05-parallel-static": {
+      "reference": {
+        "rows": 75,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      },
+      "defect": {
+        "rows": 75,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      }
+    },
+    "06-three-dimensional": {
+      "reference": {
+        "rows": 225,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      },
+      "defect": {
+        "rows": 225,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      }
+    },
+    "07-three-dimensional-negative": {
+      "reference": {
+        "rows": 225,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      },
+      "defect": {
+        "rows": 225,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      }
+    },
+    "08-three-dimensional-pivot": {
+      "reference": {
+        "rows": 225,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      },
+      "defect": {
+        "rows": 225,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      }
+    },
+    "09-wedge-negative": {
+      "reference": {
+        "rows": 75,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      },
+      "defect": {
+        "rows": 75,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      }
+    },
+    "10-wedge-positive": {
+      "reference": {
+        "rows": 75,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      },
+      "defect": {
+        "rows": 75,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      }
+    },
+    "11-wedge-static": {
+      "reference": {
+        "rows": 75,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      },
+      "defect": {
+        "rows": 75,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      }
+    },
+    "12-annulus-reverse": {
+      "reference": {
+        "rows": 36,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      },
+      "defect": {
+        "rows": 36,
+        "all_values_exactly_mapped": true,
+        "all_frames_and_coordinates": true
+      }
+    }
+  },
+  "elmer": {
+    "09-wedge-negative-h02": {
+      "frames": [
+        {
+          "frame": 0.0,
+          "nodes": 11983,
+          "triangles": 5866,
+          "minimum_abs_determinant": 0.00020638810704979872,
+          "mesh_area": 1.0,
+          "top_elements": 100,
+          "top_length": 2.0000000000000013,
+          "raw_pressure_offset": 2117651224.1277387,
+          "independent_normalization_difference": 1.858462928439053e-06,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 0.25,
+          "nodes": 11997,
+          "triangles": 5872,
+          "minimum_abs_determinant": 0.00017719544344180641,
+          "mesh_area": 0.9999999999999953,
+          "top_elements": 101,
+          "top_length": 2.0006249023742555,
+          "raw_pressure_offset": 25.643402285309435,
+          "independent_normalization_difference": 1.9776997817189113e-09,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 0.5,
+          "nodes": 11993,
+          "triangles": 5870,
+          "minimum_abs_determinant": 0.00018838858807774216,
+          "mesh_area": 0.9999999999999906,
+          "top_elements": 101,
+          "top_length": 2.0024984394500787,
+          "raw_pressure_offset": -11.346193337511219,
+          "independent_normalization_difference": 1.8749970465137267e-09,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 0.75,
+          "nodes": 12033,
+          "triangles": 5890,
+          "minimum_abs_determinant": 0.0001741931989869673,
+          "mesh_area": 1.000000000000007,
+          "top_elements": 101,
+          "top_length": 2.0056171120131587,
+          "raw_pressure_offset": 153.90052648794244,
+          "independent_normalization_difference": 1.7664820717300245e-09,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 1.0,
+          "nodes": 12086,
+          "triangles": 5917,
+          "minimum_abs_determinant": 0.00019063197933892162,
+          "mesh_area": 1.000000000000001,
+          "top_elements": 101,
+          "top_length": 2.00997512422418,
+          "raw_pressure_offset": 34.4541858579522,
+          "independent_normalization_difference": 1.6160495164285749e-09,
+          "embedded_probes": 15
+        }
+      ],
+      "max_velocity_error": 0.00019881113276359885,
+      "max_pressure_error": 0.0025038181880727706
+    },
+    "09-wedge-negative-h01": {
+      "frames": [
+        {
+          "frame": 0.0,
+          "nodes": 46981,
+          "triangles": 23240,
+          "minimum_abs_determinant": 4.888168010333628e-05,
+          "mesh_area": 1.0,
+          "top_elements": 200,
+          "top_length": 2.0,
+          "raw_pressure_offset": 1741289565.8782425,
+          "independent_normalization_difference": 1.3148684043784442e-06,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 0.25,
+          "nodes": 47107,
+          "triangles": 23302,
+          "minimum_abs_determinant": 4.431112611462991e-05,
+          "mesh_area": 1.0000000000000084,
+          "top_elements": 201,
+          "top_length": 2.0006249023742555,
+          "raw_pressure_offset": 580.814873287614,
+          "independent_normalization_difference": 1.3013590205446235e-09,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 0.5,
+          "nodes": 47188,
+          "triangles": 23343,
+          "minimum_abs_determinant": 4.856537193266623e-05,
+          "mesh_area": 1.000000000000007,
+          "top_elements": 201,
+          "top_length": 2.0024984394500813,
+          "raw_pressure_offset": 494.99878382198733,
+          "independent_normalization_difference": 1.355182632778451e-09,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 0.75,
+          "nodes": 47039,
+          "triangles": 23268,
+          "minimum_abs_determinant": 4.6723020808262e-05,
+          "mesh_area": 1.0000000000000058,
+          "top_elements": 201,
+          "top_length": 2.005617112013156,
+          "raw_pressure_offset": -53.45664638630035,
+          "independent_normalization_difference": 1.4132837122815545e-09,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 1.0,
+          "nodes": 47104,
+          "triangles": 23301,
+          "minimum_abs_determinant": 4.3316150167965184e-05,
+          "mesh_area": 0.9999999999999835,
+          "top_elements": 201,
+          "top_length": 2.009975124224177,
+          "raw_pressure_offset": 188.26107485376355,
+          "independent_normalization_difference": 1.4785328517064045e-09,
+          "embedded_probes": 15
+        }
+      ],
+      "max_velocity_error": 4.957542211037058e-05,
+      "max_pressure_error": 0.0006568562131388234
+    },
+    "09-wedge-negative-refinement": {
+      "velocity": 0.00014923571065322827,
+      "pressure": 0.0018469619749339472
+    },
+    "10-wedge-positive-h02": {
+      "frames": [
+        {
+          "frame": 0.0,
+          "nodes": 14393,
+          "triangles": 7066,
+          "minimum_abs_determinant": 0.00018933504809607368,
+          "mesh_area": 1.2,
+          "top_elements": 100,
+          "top_length": 2.0000000000000013,
+          "raw_pressure_offset": -12687851.859462177,
+          "independent_normalization_difference": 7.39856442777409e-09,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 0.25,
+          "nodes": 14351,
+          "triangles": 7044,
+          "minimum_abs_determinant": 0.00017691938741842098,
+          "mesh_area": 1.1999999999999873,
+          "top_elements": 101,
+          "top_length": 2.0014057559625433,
+          "raw_pressure_offset": 2.626659946518714,
+          "independent_normalization_difference": 1.184794484743179e-09,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 0.5,
+          "nodes": 14331,
+          "triangles": 7034,
+          "minimum_abs_determinant": 0.0001904608048168727,
+          "mesh_area": 1.1999999999999944,
+          "top_elements": 101,
+          "top_length": 2.0056171120131587,
+          "raw_pressure_offset": -23.29253415345999,
+          "independent_normalization_difference": 1.2123502202143754e-09,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 0.75,
+          "nodes": 14315,
+          "triangles": 7026,
+          "minimum_abs_determinant": 0.0001926169684734634,
+          "mesh_area": 1.2000000000000013,
+          "top_elements": 101,
+          "top_length": 2.0126164562578723,
+          "raw_pressure_offset": 87.22870407082227,
+          "independent_normalization_difference": 1.2278649208496972e-09,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 1.0,
+          "nodes": 14306,
+          "triangles": 7021,
+          "minimum_abs_determinant": 0.00016248318780313616,
+          "mesh_area": 1.2,
+          "top_elements": 102,
+          "top_length": 2.0223748416156684,
+          "raw_pressure_offset": 111.32531130281178,
+          "independent_normalization_difference": 2.4438318035890916e-10,
+          "embedded_probes": 15
+        }
+      ],
+      "max_velocity_error": 0.0001322203281044071,
+      "max_pressure_error": 0.0013958799393583021
+    },
+    "10-wedge-positive-h01": {
+      "frames": [
+        {
+          "frame": 0.0,
+          "nodes": 56625,
+          "triangles": 28052,
+          "minimum_abs_determinant": 4.2965519136906104e-05,
+          "mesh_area": 1.1999999999999997,
+          "top_elements": 200,
+          "top_length": 2.0,
+          "raw_pressure_offset": -1021455158.5370349,
+          "independent_normalization_difference": 2.0364366992708938e-07,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 0.25,
+          "nodes": 56427,
+          "triangles": 27952,
+          "minimum_abs_determinant": 4.312440684608959e-05,
+          "mesh_area": 1.2000000000000122,
+          "top_elements": 201,
+          "top_length": 2.001405755962544,
+          "raw_pressure_offset": 18.99352460511291,
+          "independent_normalization_difference": 6.482947512154169e-10,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 0.5,
+          "nodes": 56351,
+          "triangles": 27914,
+          "minimum_abs_determinant": 4.681999522056386e-05,
+          "mesh_area": 1.1999999999999944,
+          "top_elements": 201,
+          "top_length": 2.005617112013156,
+          "raw_pressure_offset": -1.186970169164935,
+          "independent_normalization_difference": 6.14345907479219e-10,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 0.75,
+          "nodes": 56358,
+          "triangles": 27917,
+          "minimum_abs_determinant": 4.6956000560767635e-05,
+          "mesh_area": 1.2000000000000026,
+          "top_elements": 202,
+          "top_length": 2.0126164562578746,
+          "raw_pressure_offset": -37.36574599120615,
+          "independent_normalization_difference": 1.443931196831727e-09,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 1.0,
+          "nodes": 56426,
+          "triangles": 27951,
+          "minimum_abs_determinant": 5.064513821831375e-05,
+          "mesh_area": 1.1999999999999953,
+          "top_elements": 203,
+          "top_length": 2.02237484161567,
+          "raw_pressure_offset": -248.74612180386336,
+          "independent_normalization_difference": 3.022053718382267e-10,
+          "embedded_probes": 15
+        }
+      ],
+      "max_velocity_error": 3.303052587574906e-05,
+      "max_pressure_error": 0.0005310078353545911
+    },
+    "10-wedge-positive-refinement": {
+      "velocity": 9.918980222865803e-05,
+      "pressure": 0.0010421934691979828
+    },
+    "11-wedge-static-h02": {
+      "frames": [
+        {
+          "frame": 0.0,
+          "nodes": 12023,
+          "triangles": 5886,
+          "minimum_abs_determinant": 0.00020669996619792057,
+          "mesh_area": 0.9999999999999999,
+          "top_elements": 100,
+          "top_length": 2.0000000000000013,
+          "raw_pressure_offset": -2015163786.086132,
+          "independent_normalization_difference": 1.3347565683829998e-06,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 0.25,
+          "nodes": 12023,
+          "triangles": 5886,
+          "minimum_abs_determinant": 0.00020669996619792057,
+          "mesh_area": 0.9999999999999999,
+          "top_elements": 100,
+          "top_length": 2.0000000000000013,
+          "raw_pressure_offset": -2015163786.086132,
+          "independent_normalization_difference": 1.3347565683829998e-06,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 0.5,
+          "nodes": 12023,
+          "triangles": 5886,
+          "minimum_abs_determinant": 0.00020669996619792057,
+          "mesh_area": 0.9999999999999999,
+          "top_elements": 100,
+          "top_length": 2.0000000000000013,
+          "raw_pressure_offset": -2015163786.086132,
+          "independent_normalization_difference": 1.3347565683829998e-06,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 0.75,
+          "nodes": 12023,
+          "triangles": 5886,
+          "minimum_abs_determinant": 0.00020669996619792057,
+          "mesh_area": 0.9999999999999999,
+          "top_elements": 100,
+          "top_length": 2.0000000000000013,
+          "raw_pressure_offset": -2015163786.086132,
+          "independent_normalization_difference": 1.3347565683829998e-06,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 1.0,
+          "nodes": 12023,
+          "triangles": 5886,
+          "minimum_abs_determinant": 0.00020669996619792057,
+          "mesh_area": 0.9999999999999999,
+          "top_elements": 100,
+          "top_length": 2.0000000000000013,
+          "raw_pressure_offset": -2015163786.086132,
+          "independent_normalization_difference": 1.3347565683829998e-06,
+          "embedded_probes": 15
+        }
+      ],
+      "max_velocity_error": 0.0001981739587181286,
+      "max_pressure_error": 0.002519839102074428
+    },
+    "11-wedge-static-h01": {
+      "frames": [
+        {
+          "frame": 0.0,
+          "nodes": 46989,
+          "triangles": 23244,
+          "minimum_abs_determinant": 5.210302539794575e-05,
+          "mesh_area": 1.0,
+          "top_elements": 200,
+          "top_length": 2.0,
+          "raw_pressure_offset": 52313543.07936099,
+          "independent_normalization_difference": 3.2871835031755836e-08,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 0.25,
+          "nodes": 46989,
+          "triangles": 23244,
+          "minimum_abs_determinant": 5.210302539794575e-05,
+          "mesh_area": 1.0,
+          "top_elements": 200,
+          "top_length": 2.0,
+          "raw_pressure_offset": 52313543.07936099,
+          "independent_normalization_difference": 3.2871835031755836e-08,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 0.5,
+          "nodes": 46989,
+          "triangles": 23244,
+          "minimum_abs_determinant": 5.210302539794575e-05,
+          "mesh_area": 1.0,
+          "top_elements": 200,
+          "top_length": 2.0,
+          "raw_pressure_offset": 52313543.07936099,
+          "independent_normalization_difference": 3.2871835031755836e-08,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 0.75,
+          "nodes": 46989,
+          "triangles": 23244,
+          "minimum_abs_determinant": 5.210302539794575e-05,
+          "mesh_area": 1.0,
+          "top_elements": 200,
+          "top_length": 2.0,
+          "raw_pressure_offset": 52313543.07936099,
+          "independent_normalization_difference": 3.2871835031755836e-08,
+          "embedded_probes": 15
+        },
+        {
+          "frame": 1.0,
+          "nodes": 46989,
+          "triangles": 23244,
+          "minimum_abs_determinant": 5.210302539794575e-05,
+          "mesh_area": 1.0,
+          "top_elements": 200,
+          "top_length": 2.0,
+          "raw_pressure_offset": 52313543.07936099,
+          "independent_normalization_difference": 3.2871835031755836e-08,
+          "embedded_probes": 15
+        }
+      ],
+      "max_velocity_error": 4.976897142511261e-05,
+      "max_pressure_error": 0.0006893473802733752
+    },
+    "11-wedge-static-refinement": {
+      "velocity": 0.000148404987293016,
+      "pressure": 0.001830491721801053
+    }
+  },
+  "convergence": {
+    "02-annulus-public": {
+      "velocity": 6.163025e-11,
+      "pressure": 9.05854e-10
+    },
+    "09-wedge-negative": {
+      "velocity": 1.1000000000038757e-06,
+      "pressure": 0.0010599999999998388
+    },
+    "10-wedge-positive": {
+      "velocity": 2.000000000002e-06,
+      "pressure": 0.0006999999999992568
+    },
+    "11-wedge-static": {
+      "velocity": 1.0000000000287557e-06,
+      "pressure": 0.0010599999999998388
+    },
+    "12-annulus-reverse": {
+      "velocity": 2.0039933e-11,
+      "pressure": 9.190760000000001e-10
+    }
+  },
+  "variants": {}
+}

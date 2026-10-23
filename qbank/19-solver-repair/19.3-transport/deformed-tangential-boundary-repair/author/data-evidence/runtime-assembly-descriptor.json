@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "strict_tasks": true,
+  "tasks": {
+    "deformed-tangential-boundary-repair": [
+      "task.deformed-tangential-boundary-repair"
+    ]
+  },
+  "extensions": {
+    "task.deformed-tangential-boundary-repair": {
+      "version": 1,
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model": "deformed-tangential-parallel-v1"
+        },
+        {
+          "physics.model": "deformed-tangential-wedge-v1"
+        },
+        {
+          "physics.model": "deformed-tangential-annulus-v1"
+        }
+      ],
+      "check": "caeoj_task_ext.deformed_tangential:check",
+      "files": [
+        "caeoj_task_ext/__init__.py",
+        "caeoj_task_ext/deformed_tangential.py"
+      ]
+    }
+  },
+  "aliases": {},
+  "modules": {},
+  "model_namespaces": [
+    "fluid-energy-",
+    "fluid-multiphase-",
+    "fluid-reduced-",
+    "solid-",
+    "multibody-",
+    "thermal-",
+    "acoustic-",
+    "electromagnetic-",
+    "optics-",
+    "species-",
+    "electrochemistry-",
+    "semiconductor-",
+    "granular-",
+    "porous-",
+    "plasma-",
+    "multiphysics-",
+    "systems-",
+    "radiation-",
+    "microstructure-"
+  ],
+  "model_namespace_diagnostics": {
+    "fluid-energy-": "E_FLUID",
+    "fluid-multiphase-": "E_FLUID",
+    "fluid-reduced-": "E_FLUID",
+    "solid-": "E_SOLID",
+    "multibody-": "E_MULTIBODY",
+    "thermal-": "E_THERMAL",
+    "acoustic-": "E_ACOUSTIC",
+    "electromagnetic-": "E_ELECTROMAGNETIC",
+    "optics-": "E_OPTICS",
+    "species-": "E_SPECIES",
+    "electrochemistry-": "E_ELECTROCHEMISTRY",
+    "semiconductor-": "E_SEMICONDUCTOR",
+    "granular-": "E_GRANULAR",
+    "porous-": "E_POROUS",
+    "plasma-": "E_PLASMA",
+    "multiphysics-": "E_MULTIPHYSICS",
+    "systems-": "E_SYSTEMS",
+    "radiation-": "E_RADIATION",
+    "microstructure-": "E_MICROSTRUCTURE"
+  },
+  "core_version": "0.3.0",
+  "dependencies": [
+    "attrs==26.1.0",
+    "gmsh==4.15.2",
+    "h5py==3.16.0",
+    "jsonschema==4.26.0",
+    "jsonschema-specifications==2025.9.1",
+    "numpy==2.4.6",
+    "referencing==0.37.0",
+    "rpds-py==2026.9.1"
+  ],
+  "id": "e3846389ee982e5738deeade1910eedebbfa4e3ffd549bff6d5b2b7a96519dc2"
+}

@@ -1,0 +1,250 @@
+[
+  {
+    "manifest": {
+      "task": "deformed-tangential-boundary-repair",
+      "spatial_dimension": 3,
+      "data_file": "input.h5",
+      "physics": {
+        "model": "deformed-tangential-parallel-v1",
+        "parameters": {
+          "density": {
+            "value": 1.0,
+            "unit": "kg/m^3"
+          },
+          "viscosity": {
+            "value": 1.0,
+            "unit": "Pa*s"
+          },
+          "temperature": {
+            "value": 300.0,
+            "unit": "K"
+          },
+          "time_step": {
+            "value": 0.5,
+            "unit": "s"
+          },
+          "end_time": {
+            "value": 0.5,
+            "unit": "s"
+          },
+          "refinement": {
+            "value": 1,
+            "unit": "1"
+          },
+          "width": {
+            "value": 1.0,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.0,
+            "unit": "m"
+          },
+          "depth": {
+            "value": 1.0,
+            "unit": "m"
+          },
+          "rate_x": {
+            "value": 0.1,
+            "unit": "1/s"
+          },
+          "rate_y": {
+            "value": -0.1,
+            "unit": "1/s"
+          },
+          "velocity_x": {
+            "value": 0.4,
+            "unit": "m/s"
+          },
+          "velocity_y": {
+            "value": 0.2,
+            "unit": "m/s"
+          }
+        }
+      },
+      "geometries": {},
+      "meshes": {},
+      "conditions": [],
+      "locations": {
+        "probes": {
+          "kind": "points",
+          "ids": "probe_ids",
+          "coordinates": "probe_coordinates"
+        }
+      },
+      "time_axes": {
+        "frames": "times"
+      },
+      "fields": {},
+      "outputs": {
+        "velocity": {
+          "array": "velocity",
+          "quantity": "velocity",
+          "unit": "m/s",
+          "location": "probes",
+          "time_axis": "frames",
+          "dtype": "float64",
+          "kind": "vector",
+          "component_shape": [
+            3
+          ],
+          "components": [
+            "x",
+            "y",
+            "z"
+          ],
+          "value_kind": "point"
+        },
+        "pressure": {
+          "array": "pressure",
+          "quantity": "pressure",
+          "unit": "Pa",
+          "location": "probes",
+          "time_axis": "frames",
+          "dtype": "float64",
+          "kind": "scalar",
+          "component_shape": [
+            1
+          ],
+          "components": [
+            "value"
+          ],
+          "value_kind": "point"
+        }
+      }
+    },
+    "arrays": {
+      "probe_coordinates": [
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "probe_ids": [
+        7
+      ],
+      "times": [
+        0.0,
+        0.5
+      ]
+    },
+    "sdk_load": "passed"
+  },
+  {
+    "manifest": {
+      "task": "deformed-tangential-boundary-repair",
+      "spatial_dimension": 2,
+      "data_file": "input.h5",
+      "physics": {
+        "model": "deformed-tangential-wedge-v1",
+        "parameters": {
+          "density": {
+            "value": 1.0,
+            "unit": "kg/m^3"
+          },
+          "viscosity": {
+            "value": 1.0,
+            "unit": "Pa*s"
+          },
+          "temperature": {
+            "value": 300.0,
+            "unit": "K"
+          },
+          "time_step": {
+            "value": 0.5,
+            "unit": "s"
+          },
+          "end_time": {
+            "value": 0.5,
+            "unit": "s"
+          },
+          "refinement": {
+            "value": 1,
+            "unit": "1"
+          },
+          "width": {
+            "value": 1.0,
+            "unit": "m"
+          },
+          "height": {
+            "value": 1.0,
+            "unit": "m"
+          },
+          "rate_x": {
+            "value": 0.1,
+            "unit": "1/s"
+          },
+          "peak_velocity": {
+            "value": 0.5,
+            "unit": "m/s"
+          }
+        }
+      },
+      "geometries": {},
+      "meshes": {},
+      "conditions": [],
+      "locations": {
+        "probes": {
+          "kind": "points",
+          "ids": "probe_ids",
+          "coordinates": "probe_coordinates"
+        }
+      },
+      "time_axes": {
+        "frames": "times"
+      },
+      "fields": {},
+      "outputs": {
+        "velocity": {
+          "array": "velocity",
+          "quantity": "velocity",
+          "unit": "m/s",
+          "location": "probes",
+          "time_axis": "frames",
+          "dtype": "float64",
+          "kind": "vector",
+          "component_shape": [
+            2
+          ],
+          "components": [
+            "x",
+            "y"
+          ],
+          "value_kind": "point"
+        },
+        "pressure": {
+          "array": "pressure",
+          "quantity": "pressure",
+          "unit": "Pa",
+          "location": "probes",
+          "time_axis": "frames",
+          "dtype": "float64",
+          "kind": "scalar",
+          "component_shape": [
+            1
+          ],
+          "components": [
+            "value"
+          ],
+          "value_kind": "point"
+        }
+      }
+    },
+    "arrays": {
+      "probe_coordinates": [
+        [
+          0.5,
+          0.5
+        ]
+      ],
+      "probe_ids": [
+        7
+      ],
+      "times": [
+        0.0,
+        0.5
+      ]
+    },
+    "sdk_load": "passed"
+  }
+]

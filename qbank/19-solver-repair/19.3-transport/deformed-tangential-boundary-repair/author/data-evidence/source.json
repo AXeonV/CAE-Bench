@@ -1,0 +1,55 @@
+{
+  "issue": "https://github.com/geodynamics/aspect/issues/6818",
+  "merged_repair": "https://github.com/geodynamics/aspect/pull/6829",
+  "baseline_commit": "021e8ef55cae159a101e234ff9622e5de0364068",
+  "merge_commit": "6b87380d8a57aa183fd526859d85b0374c5db10b",
+  "repair_head": "18e4ec71d0fa624c345b552bc62b3cd2c23c6a2e",
+  "official_dependencies": "geodynamics/aspect@sha256:dab9d2aaed59782cc9e5b12a10a04c5f65f15c04db7764a2d2a4aa938910892a",
+  "original_archive_sha256": "d8dbcd698c55c10957bf3971300ef99649e7cd426798efb1e7d083f0ff742a87",
+  "baseline_core_sha256": "ede312bba8b819024dc0cbeb87139285899dd36aa2630014c41806fa1e14d9bd",
+  "reference_core_sha256": "eeb67502eb38e75c32b0a1c473d729d49b5256e2b1f3729772c5cd56deb00801",
+  "baseline_binary_sha256": "bb0deae023c5d28c8b2dfbdad4e56279dfc66d103a949db78d435b2b233fbcd0",
+  "reference_binary_sha256": "bdc6993c12566627dd0f7e12141e46166a67d81b8b1974eefdad39b2d94f46cc",
+  "public_source_closure_sha256": "fb58b7d5d6026472166cd70ef26d0b9d8ff8362c03d86357c225c58b9dac3030",
+  "runtime_image": "sha256:030b91b8360adba19f85996b4a1cf4192b444c770d288dfb6497ec3bfa36a1c7",
+  "independent_elmer_source_commit": "a3f108c8580efd649e84b35842cd92a06c834331",
+  "independent_elmer_original_FlowSolve_sha256": "646bf0119a25df9b5f19ed7e9fef4afdd80e43c25ff29ee9726407d6e3a34adb",
+  "independent_elmer_runtime": "sha256:02a78cabde362a80ad7b7b985e7326b2a523d1d398ca95caa467e4c9f160520d",
+  "reference_scope": "Real upstream AMG core repair adapted to original public boundary-set API; no GMG qualification",
+  "python_standalone": {
+    "name": "cpython-3.14.9+20261021-x86_64-unknown-linux-gnu-install_only.tar.gz",
+    "size": 76270309,
+    "digest": "sha256:dfa4c5a40c47f338f41658017be550c72247c391e6bfb1fa4da03ebc8451abdf",
+    "browser_download_url": "https://github.com/astral-sh/python-build-standalone/releases/download/20261021/cpython-3.14.9%2B20261021-x86_64-unknown-linux-gnu-install_only.tar.gz"
+  },
+  "historical_runtime_role": "runtime_image above is original offline-v3 with inherited bash entrypoint; genuine baseline source/binary, failed Harbor startup126",
+  "production_runtime": {
+    "tag": "caeoj-aspect6818-runtime:offline-v4",
+    "id": "sha256:a87c3900fa03b34a57d65c4c1c2b9bc2d7de1354c200f1f939d927ca38d68ff5",
+    "entrypoint": null,
+    "command": [
+      "sleep",
+      "infinity"
+    ],
+    "working_directory": "/app",
+    "rootfs_identical_to_verified_v3": true,
+    "rootfs_layers": [
+      "sha256:ea16cace89338c84eb6bcb91a7efdfcae6838fff359efe951858227436486c34",
+      "sha256:db876380f6348191c0ffd618a6f2d5b9ce6053f943c07021359c9f8bc650dbea",
+      "sha256:5f1ec00e8bcf1742f163fb191a9e64e9d022b85b5aa55e5251e241669cf256c3",
+      "sha256:d442a2b71f9744ec7b0253be05611457dfa75ad26a638797cdf74c342cf78823",
+      "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+      "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+      "sha256:5239ccfcb1a67a2f7d01b17919d03e710518faf3aca2431777785c12b9e30348",
+      "sha256:58ff50574b3f43269a21fd02c44a5de210052c1fb17b8aee50219aab70c3336f",
+      "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+      "sha256:b2b25a186c188b65328087f6e944de42ee9e80c5272c47edbf645fc695d19f80",
+      "sha256:ac6bb4622ce0bbc350126636de9f18a85a4c6a462db0112eff1349b53e648b69",
+      "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+    ],
+    "original_tree_verification": "pristine-runtime-v4-report.json",
+    "configuration_change": "Clear inherited ENTRYPOINT; explicit sleep infinity CMD and /app workdir; no source/binary/SDK filesystem changes",
+    "public_archive_sha256": "9acb735ced6dcc52c86ffb187a5c7b3ae34e784713ba5b963f6d412e3e6b63ee",
+    "HF_revision": "eebdf355f381244b685814da1309e7d42296488f"
+  }
+}

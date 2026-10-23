@@ -1,8 +1,10 @@
+归档阅读副本：仅调整相对链接以适应归档目录；独立审阅原始字节保存在同名 `.source.txt`，数值与结论未改。
+
 # SPECFEM661 独立全数据审阅
 
 结论：**通过（P1已由文末有界复核关闭）**。初审发现 DATA 的 C-PML 外终端声明 Neumann，但固定原生求解器实际上强制零势；现已更正为真实Dirichlet。全量数据、参考绑定及独立数学核验未发现其他阻断问题。以下保留原发现证据，8/8 Oracle 或小的 Green 残差本身均不能关闭该冲突。
 
-日期 2026-10-23；范围为 `qbank/19-solver-repair/19.6-waves/parallel-pml-reduction-repair`。应用 caeoj-data-review 与 caeoj-configure-judge 技能；不是候选盲审。不改题，不制作数值，不运行付费模型，不重跑原生制数流水线。独立检查脚本 [checks.py](checks.py) 与完整机器证据 [actualchecks.json](actualchecks.json) 均保留；后者记录逐文件 SHA、逐数组值摘要、全部形状/范围/采样及逐例 grade。
+日期 2026-10-23；范围为 `qbank/19-solver-repair/19.6-waves/parallel-pml-reduction-repair`。应用 caeoj-data-review 与 caeoj-configure-judge 技能；不是候选盲审。不改题，不制作数值，不运行付费模型，不重跑原生制数流水线。独立检查脚本 [checks.py](checks.py) 与完整机器证据 [actualchecks.json](actualchecks.json.gz) 均保留；后者记录逐文件 SHA、逐数组值摘要、全部形状/范围/采样及逐例 grade。
 
 ## P1：C-PML 外终端并非公开声明的自然 Neumann
 

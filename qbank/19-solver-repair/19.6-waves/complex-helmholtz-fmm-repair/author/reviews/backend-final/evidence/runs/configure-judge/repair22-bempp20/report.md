@@ -1,3 +1,5 @@
+归档阅读副本：仅调整相对链接以适应归档目录；独立审阅原始字节保存在同名 `.source.txt`，数值与结论未改。
+
 # Bempp20 独立后端配置与最终执行审阅
 
 最终结论：**通过最终有界后端验收。** 最终公开ZIP仍为 `3b2f5344125bf5679bd026bef828bbe97a44c9a132cca97a5975a25ed8d319bf`；Oracle-v4使用新共享judge `5595500ff6c8612f4682f4eda0cdc6521c5af94343dcba6c825bb3555141180f`、真实原生健康检查与相同60/600/30秒资源要求，完整12例accepted、reward1、exception_info=null。新版8探针和新监督器真实Linux回归均独立核对通过。最终增补见文末；以下预审原文保留为历史，不把旧版证据改名为最终执行。
@@ -43,7 +45,7 @@
 
 本轮重新读取 `dataset-v2/reference-report.json` 全12条原生执行：returncode均0、score均1，点例约15.58–37.64秒，曲面约84.67–126.55秒，均低于600秒；全部以4CPU/4GiB/no-network且真实不可变reference image运行。图像ID、driver SHA、输出SHA、逐例耗时摘录为 [reference-run-summary.json](reference-run-summary.json)。这些是原生参考运行，区别于最终SDK/verifier的端到端Oracle。
 
-独立全量数值与契约审计见 [数据审阅报告](../../data-review/repair22-bempp20/report.md)：全部6点直接Green/梯度独立计算，全部6曲面原始dense弱形式加独立P1质量逆及独立外势积分；全部12参考与原生stdout一致。点FMM最大容差占用0.410544，曲面边界最大0.035600，外势最大0.023342；没有把结构预检等同数值正确。
+独立全量数值与契约审计见 [数据审阅报告](../../../../../data/report.md)：全部6点直接Green/梯度独立计算，全部6曲面原始dense弱形式加独立P1质量逆及独立外势积分；全部12参考与原生stdout一致。点FMM最大容差占用0.410544，曲面边界最大0.035600，外势最大0.023342；没有把结构预检等同数值正确。
 
 最终ZIP内SDK由数据审阅者用-I隔离子进程真实绑定后重新完整校验/评分全部14输入参考与28磁盘变体，原固定文件名漏检已关闭；包内41份材料全部SHA核对。它证明新SDK/extension绑定的适配与合法固定数据保持不变，不能替代普通离线pip安装或原生Oracle。协调者的 `bempp-offline-v2.stdout.log` 已出现 `12 [(1, 0), (0, 0)]`，仅此简略stdout不足以独立说明全部安装条件，本预审不据此宣布普通离线安装验收完成，最终closure应读其完整脚本/结构记录。
 

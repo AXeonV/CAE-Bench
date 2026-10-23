@@ -1,3 +1,5 @@
+归档阅读副本：仅调整相对链接以适应归档目录；独立审阅原始字节保存在同名 `.source.txt`，数值与结论未改。
+
 # Bempp20 独立后端配置与最终执行审阅
 
 最终结论：**通过最终有界后端验收。** 最终公开ZIP仍为 `3b2f5344125bf5679bd026bef828bbe97a44c9a132cca97a5975a25ed8d319bf`；Oracle-v4使用新共享judge `5595500ff6c8612f4682f4eda0cdc6521c5af94343dcba6c825bb3555141180f`、真实原生健康检查与相同60/600/30秒资源要求，完整12例accepted、reward1、exception_info=null。新版8探针和新监督器真实Linux回归均独立核对通过。最终增补见文末；以下预审原文保留为历史，不把旧版证据改名为最终执行。
@@ -6,7 +8,7 @@
 
 结论：**公开要求、实际配置和后端消费映射通过本次预审；最终 ZIP 的完整 formal Oracle-v3 验收尚未完成。** 没有发现需要更改正式配置或执行器的 P0/P1 问题。旧版真实探针 7/7、原生参考 12/12 与最终包的有界数据/SDK 验证具有清楚的版本边界，不能合并声称最终包已完成全量原生 Oracle。
 
-本次按 `caeoj-configure-judge` 及 workflow/current-backend 读取 instruction、DATA、CONTRACT、实际 12 case 配置、public/extension/harbor、共享 source_repair、judge 和 prepare_harbor 消费者。仅写本报告目录；没有 prepare、重启/中止 Oracle、重算高成本参考、改动正式材料或调用付费模型。独立便宜检查入口为 [checks.py](checks.py) 与 [inspect_runtime.py](inspect_runtime.py)。
+本次按 `caeoj-configure-judge` 及 workflow/current-backend 读取 instruction、DATA、CONTRACT、实际 12 case 配置、public/extension/harbor、共享 source_repair、judge 和 prepare_harbor 消费者。仅写本报告目录；没有 prepare、重启/中止 Oracle、重算高成本参考、改动正式材料或调用付费模型。独立便宜检查入口为 [checks.py](evidence/runs/configure-judge/repair22-bempp20/checks.py) 与 [inspect_runtime.py](evidence/runs/configure-judge/repair22-bempp20/inspect_runtime.py)。
 
 ## 公开要求→实际消费者→证据
 
@@ -29,25 +31,25 @@
 
 ## 版本与旧证据的有界复用
 
-旧ZIP为 `241b6bad4d344139e034dd798638a0cb62d0a364ae28c9b999a41a7bb9e18e27`，来自 `bempp-oracle-v1-prepared/tests/agent.zip`。最终ZIP为 `3b2f5344125bf5679bd026bef828bbe97a44c9a132cca97a5975a25ed8d319bf`。本轮读取双方全部41个member并逐字节SHA比较，**无新增/删除，36份完全相同、5份变化**，完整清单和文本diff见 [zip-comparison.json](zip-comparison.json)。
+旧ZIP为 `241b6bad4d344139e034dd798638a0cb62d0a364ae28c9b999a41a7bb9e18e27`，来自 `bempp-oracle-v1-prepared/tests/agent.zip`。最终ZIP为 `3b2f5344125bf5679bd026bef828bbe97a44c9a132cca97a5975a25ed8d319bf`。本轮读取双方全部41个member并逐字节SHA比较，**无新增/删除，36份完全相同、5份变化**，完整清单和文本diff见 [zip-comparison.json](evidence/runs/configure-judge/repair22-bempp20/zip-comparison.json)。
 
 实际语义变化只有 extension 两行固定 `data_file == input.h5` 校验与 instruction 安装后切换到题目录说明；instruction同时由LF改为CRLF。其余三份变化为 MANIFEST 的内容SHA/assembly、pyproject bundle版本、runtime bundle ID，均随上述材料更新。DATA、CONTRACT、全部通用SDK/评分代码、driver、run_case、CMake、两份来源档案、全部公开样例输入/参考/策略字节完全相同。
 
 因此旧探针可复用来证明：相同后端source_repair/同语义judge、原件健康、三PY/三pyc强制重建与导入、相同真实驱动和原生FMM路径、该样例数值判分、相同UID/只读边界/网络与cgroup参数。这是**旧版本实际执行加未变代码的有界推论**，不是最终ZIP重跑。新data_file拒绝分支不能用旧包证明；最终bundle绑定身份、最终包普通安装、最终formal的完整12例与资源/预算须单独取证。
 
-探针构建上下文 agent.zip 独立SHA也确为旧241b6bad，fixture原文件/上下文文件SHA一致；7项原始stdout全部有passed=true、各原始执行returncode0。原始日志逐SHA及实际结果保存在 [probes-independent.json](probes-independent.json)，没有改旧身份或原始日志。仅compiler/baseline-runtime两项的捕获条件较宽，但本轮进一步读取其准确error文本，确认分别真实到达baseline build_error与runtime probe_error，而非把任意RuntimeError误判为指定故障。
+探针构建上下文 agent.zip 独立SHA也确为旧241b6bad，fixture原文件/上下文文件SHA一致；7项原始stdout全部有passed=true、各原始执行returncode0。原始日志逐SHA及实际结果保存在 [probes-independent.json](evidence/runs/configure-judge/repair22-bempp20/probes-independent.json)，没有改旧身份或原始日志。仅compiler/baseline-runtime两项的捕获条件较宽，但本轮进一步读取其准确error文本，确认分别真实到达baseline build_error与runtime probe_error，而非把任意RuntimeError误判为指定故障。
 
 本轮同时核对旧v1启动清单的全部72个文件与保存快照，**72/72一致，0缺失/差异**。当前 source_repair.py、source-repair.json、judge-config.json与其完全一致；judge.py仅工作区CRLF/装配LF不同，规范LF文本一致。该快照恢复身份不代表中途Windows共享目录锁事故没有发生，也不能证明运行中的v1没有受影响；旧v1最终结果必须按其真实终态与异常记录解释。
 
 ## 原生来源、数值和最终SDK的已存在证据
 
-本轮重新读取 `dataset-v2/reference-report.json` 全12条原生执行：returncode均0、score均1，点例约15.58–37.64秒，曲面约84.67–126.55秒，均低于600秒；全部以4CPU/4GiB/no-network且真实不可变reference image运行。图像ID、driver SHA、输出SHA、逐例耗时摘录为 [reference-run-summary.json](reference-run-summary.json)。这些是原生参考运行，区别于最终SDK/verifier的端到端Oracle。
+本轮重新读取 `dataset-v2/reference-report.json` 全12条原生执行：returncode均0、score均1，点例约15.58–37.64秒，曲面约84.67–126.55秒，均低于600秒；全部以4CPU/4GiB/no-network且真实不可变reference image运行。图像ID、driver SHA、输出SHA、逐例耗时摘录为 [reference-run-summary.json](evidence/runs/configure-judge/repair22-bempp20/reference-run-summary.json)。这些是原生参考运行，区别于最终SDK/verifier的端到端Oracle。
 
-独立全量数值与契约审计见 [数据审阅报告](../../data-review/repair22-bempp20/report.md)：全部6点直接Green/梯度独立计算，全部6曲面原始dense弱形式加独立P1质量逆及独立外势积分；全部12参考与原生stdout一致。点FMM最大容差占用0.410544，曲面边界最大0.035600，外势最大0.023342；没有把结构预检等同数值正确。
+独立全量数值与契约审计见 [数据审阅报告](../data/report.md)：全部6点直接Green/梯度独立计算，全部6曲面原始dense弱形式加独立P1质量逆及独立外势积分；全部12参考与原生stdout一致。点FMM最大容差占用0.410544，曲面边界最大0.035600，外势最大0.023342；没有把结构预检等同数值正确。
 
 最终ZIP内SDK由数据审阅者用-I隔离子进程真实绑定后重新完整校验/评分全部14输入参考与28磁盘变体，原固定文件名漏检已关闭；包内41份材料全部SHA核对。它证明新SDK/extension绑定的适配与合法固定数据保持不变，不能替代普通离线pip安装或原生Oracle。协调者的 `bempp-offline-v2.stdout.log` 已出现 `12 [(1, 0), (0, 0)]`，仅此简略stdout不足以独立说明全部安装条件，本预审不据此宣布普通离线安装验收完成，最终closure应读其完整脚本/结构记录。
 
-本轮只读base检查 [runtime-readonly-inspection.json](runtime-readonly-inspection.json) 记录不可变image ID、三份原pyc头flags=3（checked-hash），真实原生 `.so` SHA `9732e560b1cb42155b7a310af6156a7d1526b1e5379acd8791ead1550c165689`，venv全部8726条目的solver模式写权限均否。容器带--read-only，故另外按原owner/group/mode计算权限，未只用os.access推断原文件模式。此检查没有运行数值求解。
+本轮只读base检查 [runtime-readonly-inspection.json](evidence/runs/configure-judge/repair22-bempp20/runtime-readonly-inspection.json) 记录不可变image ID、三份原pyc头flags=3（checked-hash），真实原生 `.so` SHA `9732e560b1cb42155b7a310af6156a7d1526b1e5379acd8791ead1550c165689`，venv全部8726条目的solver模式写权限均否。容器带--read-only，故另外按原owner/group/mode计算权限，未只用os.access推断原文件模式。此检查没有运行数值求解。
 
 ## 最终formal未决项与已保留失败
 
@@ -63,7 +65,7 @@
 
 本轮只读正式材料和原始执行结果，没有再次prepare或重跑整批native。重新读取真实 `repair22-bempp20-oracle-v4.json`、唯一trial `complex-helmholtz-fmm-repair__y2jDGfz/result.json`、verifier全部报告、输出HDF5及构建日志。runner为completed/returncode0/trials1，trial exception_info=null；verifier complete=true、score=completed_cases=total_cases=12、reward1，reward.txt也为1。两个公开样例仍分别映射case002→01、007→02，分母为12。
 
-启动冻结清单全部72文件与当前最终prepared目录逐SHA匹配，0缺失/差异；environment/tests agent.zip均为最终3b2f。完整12输入、参考和grading与题内当前正式材料逐SHA一致；三Oracle源与实际trial提交、构建报告源SHA及author/generated一致。当前共享judge的规范LF字节与冻结judge完全相同，新source-repair.json SHA为 `3a66f8b29262fe44a385453ef617a0e5397c919fb83826e4310671e31036fedd`。完整机器证据见 [final-oracle-v4-independent.json](final-oracle-v4-independent.json)。
+启动冻结清单全部72文件与当前最终prepared目录逐SHA匹配，0缺失/差异；environment/tests agent.zip均为最终3b2f。完整12输入、参考和grading与题内当前正式材料逐SHA一致；三Oracle源与实际trial提交、构建报告源SHA及author/generated一致。当前共享judge的规范LF字节与冻结judge完全相同，新source-repair.json SHA为 `3a66f8b29262fe44a385453ef617a0e5397c919fb83826e4310671e31036fedd`。完整机器证据见 [final-oracle-v4-independent.json](evidence/runs/configure-judge/repair22-bempp20/final-oracle-v4-independent.json)。
 
 全部12实际输出HDF5完整加载；每个dataset的集合、dtype、shape与参考一致，身份/时间轴逐元素精确一致。**3044个物理输出标量分量**按全部势、梯度、边界系数实虚/xyz逐项检查，最大绝对差和最大容差占用均为0，且12份输出均重新调用真实grade_case得到1。3044只计声明outputs数组的数值元素；将IDs/times支持数组一并计入的全HDF5元素数是3489，二者口径不同。此处数值精确一致只描述该固定执行与参考，不改写此前独立Green/质量逆/积分审计所得的真实FMM近似误差。
 
@@ -71,7 +73,7 @@
 
 ### 新8探针和真实绑定
 
-`bempp-backend-probes-v4` 的state为completed，image-build和8实际运行returncode全0。独立解析每份原始stdout末条JSON并核对fixture/执行命令，7原项目加valid-surface全部passed。完整证据为 [final-probes-v4-independent.json](final-probes-v4-independent.json)。本轮确认probe上下文 agent.zip为3b2f，judge/source_repair/config与formal冻结字节相同；fixture为 `work/repair-22/bempp-20/probe-context-v4/backend_probe.py`，流水线为 `runs/authoring/repair-22/bempp-probes-v4-pipeline.py`，未用后来的源码假定旧日志身份。
+`bempp-backend-probes-v4` 的state为completed，image-build和8实际运行returncode全0。独立解析每份原始stdout末条JSON并核对fixture/执行命令，7原项目加valid-surface全部passed。完整证据为 [final-probes-v4-independent.json](evidence/runs/configure-judge/repair22-bempp20/final-probes-v4-independent.json)。本轮确认probe上下文 agent.zip为3b2f，judge/source_repair/config与formal冻结字节相同；fixture为 `work/repair-22/bempp-20/probe-context-v4/backend_probe.py`，流水线为 `runs/authoring/repair-22/bempp-probes-v4-pipeline.py`，未用后来的源码假定旧日志身份。
 
 valid点例整体44.372秒；valid-surface显式BEMPP_PROBE_SAMPLE=02且整体159.473秒，内部真实judge.execute后grade_case得1，输出不是单凭退出码判定。二者均先设原三pyc的mtime到2100年，删除重编后真实import的三PY/三pyc SHA逐项与构建及formal匹配。UID1000、network denied、cpu.max=400000 100000、memory.max=4294967296均在两次实际进程中读取；/tests/cases/reference/logs/probe不可读写，submission/upstream/三PY/三pyc/driver/CMake/Python不可写。原生.so和venv的原模式/不可变image证据仍见此前独立只读检查，源码归属未扩大至venv。compiler准确为baseline build_error，baseline-runtime准确为runtime probe_error；syntax为candidate build_error，extra/symlink为invalid_submission。runtime-timeout在真实候选Python导入内循环、同一新监督器5秒测试限额返回timeout且实际pid停止。
 
@@ -79,7 +81,7 @@ valid点例整体44.372秒；valid-surface显式BEMPP_PROBE_SAMPLE=02且整体15
 
 新judge在每次执行时启动独立root监督器，设置PR_SET_CHILD_SUBREAPER；只向自己直接子进程发SIGKILL，退出后收养跨session/双fork后代并waitpid回收。不扫描或杀死无关进程；若5秒内无法清理则写infrastructure_error并令父judge抛RuntimeError，不伪装candidate零分。正常执行、非零退出及超时状态保持原语义。正式12例的execution.json均为null，表示被监督命令成功退出且清理完成。
 
-本轮在隔离Linux容器实跑当前 `tests/test_harbor_process_cleanup.py`：5测试全通过，包括直接Python成功/exit7、真实编译C++、普通solve.py复制执行、双fork+setsid在timeout和父提前退出两分支全部PID消失（含僵尸）、无关sentinel存活，以及不可回收子进程的5秒基础设施错误分支。最后一项通过mock模拟不可安全制造的不可中断内核IO，其余为真实进程测试；不把mock称为实际内核故障。测试结果、源码SHA及完整命令见 [supervisor-regression.json](supervisor-regression.json)。首次base未安装SDK时，监督器子进程无法import caeoj，测试fixture失败；原始失败单独保留为 `supervisor-regression-initial-sdk-missing.*`，随后在容器内普通离线安装最终包再跑，5/5通过，未改实现或测试以绕过失败。
+本轮在隔离Linux容器实跑当前 `tests/test_harbor_process_cleanup.py`：5测试全通过，包括直接Python成功/exit7、真实编译C++、普通solve.py复制执行、双fork+setsid在timeout和父提前退出两分支全部PID消失（含僵尸）、无关sentinel存活，以及不可回收子进程的5秒基础设施错误分支。最后一项通过mock模拟不可安全制造的不可中断内核IO，其余为真实进程测试；不把mock称为实际内核故障。测试结果、源码SHA及完整命令见 [supervisor-regression.json](evidence/runs/configure-judge/repair22-bempp20/supervisor-regression.json)。首次base未安装SDK时，监督器子进程无法import caeoj，测试fixture失败；原始失败单独保留为 `supervisor-regression-initial-sdk-missing.*`，随后在容器内普通离线安装最终包再跑，5/5通过，未改实现或测试以绕过失败。
 
 ### 最终普通离线安装及历史身份
 

@@ -1,0 +1,622 @@
+[
+  {
+    "mode": "valid",
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "4",
+      "--memory",
+      "4g",
+      "caeoj-meep2338-probes:preflight",
+      "python",
+      "/opt/backend_probe.py",
+      "valid"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 114.56299999996554,
+    "passed": true,
+    "ldd": "\tlinux-vdso.so.1 (0x00000d11238ba000)\n\tlibmeep.so.30 => /opt/meep-repair-build/upstream/src/.libs/libmeep.so.30 (0x00000d11237b1000)\n\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00000d1123546000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00000d1123519000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00000d1123325000)\n\tlibctlgeom.so.7 => /lib/x86_64-linux-gnu/libctlgeom.so.7 (0x00000d1123307000)\n\tlibhdf5_serial.so.310 => /lib/x86_64-linux-gnu/libhdf5_serial.so.310 (0x00000d1122f06000)\n\tlibgsl.so.28 => /lib/x86_64-linux-gnu/libgsl.so.28 (0x00000d1122c00000)\n\tlibharminv.so.3 => /lib/libharminv.so.3 (0x00000d1122bf5000)\n\tliblapack.so.3 => /lib/x86_64-linux-gnu/liblapack.so.3 (0x00000d11224b3000)\n\tlibfftw3.so.3 => /lib/x86_64-linux-gnu/libfftw3.so.3 (0x00000d112228b000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00000d1122199000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00000d11238bc000)\n\tlibcrypto.so.3 => /lib/x86_64-linux-gnu/libcrypto.so.3 (0x00000d1121b5e000)\n\tlibcurl.so.4 => /lib/x86_64-linux-gnu/libcurl.so.4 (0x00000d1121a6e000)\n\tlibsz.so.2 => /lib/x86_64-linux-gnu/libsz.so.2 (0x00000d1121a69000)\n\tlibz.so.1 => /lib/x86_64-linux-gnu/libz.so.1 (0x00000d1121a49000)\n\tlibgslcblas.so.0 => /lib/x86_64-linux-gnu/libgslcblas.so.0 (0x00000d1121a00000)\n\tlibblas.so.3 => /lib/x86_64-linux-gnu/libblas.so.3 (0x00000d1121984000)\n\tlibgfortran.so.5 => /lib/x86_64-linux-gnu/libgfortran.so.5 (0x00000d1121680000)\n\tlibzstd.so.1 => /lib/x86_64-linux-gnu/libzstd.so.1 (0x00000d11215b6000)\n\tlibnghttp3.so.9 => /lib/x86_64-linux-gnu/libnghttp3.so.9 (0x00000d112158c000)\n\tlibnghttp2.so.14 => /lib/x86_64-linux-gnu/libnghttp2.so.14 (0x00000d1121558000)\n\tlibidn2.so.0 => /lib/x86_64-linux-gnu/libidn2.so.0 (0x00000d1121525000)\n\tlibrtmp.so.1 => /lib/x86_64-linux-gnu/librtmp.so.1 (0x00000d1121507000)\n\tlibssh2.so.1 => /lib/x86_64-linux-gnu/libssh2.so.1 (0x00000d11214be000)\n\tlibpsl.so.5 => /lib/x86_64-linux-gnu/libpsl.so.5 (0x00000d11214aa000)\n\tlibssl.so.3 => /lib/x86_64-linux-gnu/libssl.so.3 (0x00000d112139a000)\n\tlibgssapi_krb5.so.2 => /lib/x86_64-linux-gnu/libgssapi_krb5.so.2 (0x00000d1121342000)\n\tlibldap.so.2 => /lib/x86_64-linux-gnu/libldap.so.2 (0x00000d11212de000)\n\tliblber.so.2 => /lib/x86_64-linux-gnu/liblber.so.2 (0x00000d11212cd000)\n\tlibbrotlidec.so.1 => /lib/x86_64-linux-gnu/libbrotlidec.so.1 (0x00000d11212bf000)\n\tlibaec.so.0 => /lib/x86_64-linux-gnu/libaec.so.0 (0x00000d11212b4000)\n\tlibunistring.so.5 => /lib/x86_64-linux-gnu/libunistring.so.5 (0x00000d11210ca000)\n\tlibgnutls.so.30 => /lib/x86_64-linux-gnu/libgnutls.so.30 (0x00000d1120ea1000)\n\tlibhogweed.so.6 => /lib/x86_64-linux-gnu/libhogweed.so.6 (0x00000d1120e56000)\n\tlibnettle.so.8 => /lib/x86_64-linux-gnu/libnettle.so.8 (0x00000d1120e00000)\n\tlibgmp.so.10 => /lib/x86_64-linux-gnu/libgmp.so.10 (0x00000d1120d76000)\n\tlibkrb5.so.3 => /lib/x86_64-linux-gnu/libkrb5.so.3 (0x00000d1120c9c000)\n\tlibk5crypto.so.3 => /lib/x86_64-linux-gnu/libk5crypto.so.3 (0x00000d1120c6e000)\n\tlibcom_err.so.2 => /lib/x86_64-linux-gnu/libcom_err.so.2 (0x00000d1120c68000)\n\tlibkrb5support.so.0 => /lib/x86_64-linux-gnu/libkrb5support.so.0 (0x00000d1120c5a000)\n\tlibsasl2.so.2 => /lib/x86_64-linux-gnu/libsasl2.so.2 (0x00000d1120c3e000)\n\tlibbrotlicommon.so.1 => /lib/x86_64-linux-gnu/libbrotlicommon.so.1 (0x00000d1120c19000)\n\tlibp11-kit.so.0 => /lib/x86_64-linux-gnu/libp11-kit.so.0 (0x00000d1120a78000)\n\tlibtasn1.so.6 => /lib/x86_64-linux-gnu/libtasn1.so.6 (0x00000d1120a62000)\n\tlibkeyutils.so.1 => /lib/x86_64-linux-gnu/libkeyutils.so.1 (0x00000d1120a5b000)\n\tlibresolv.so.2 => /lib/x86_64-linux-gnu/libresolv.so.2 (0x00000d1120a49000)\n\tlibffi.so.8 => /lib/x86_64-linux-gnu/libffi.so.8 (0x00000d1120a3a000)\n",
+    "binding": {
+      "uid": 1000,
+      "permissions": {
+        "/tests": {
+          "read": false,
+          "write": false
+        },
+        "/logs/verifier": {
+          "read": false,
+          "write": false
+        },
+        "/probe": {
+          "read": false,
+          "write": false
+        },
+        "/app/submission": {
+          "read": true,
+          "write": false
+        },
+        "/opt/meep-driver": {
+          "read": true,
+          "write": false
+        },
+        "/opt/meep-driver/driver.cpp": {
+          "read": true,
+          "write": false
+        },
+        "/opt/meep-repair-cmake": {
+          "read": true,
+          "write": false
+        },
+        "/opt/meep-repair-cmake/CMakeLists.txt": {
+          "read": true,
+          "write": false
+        },
+        "/opt/meep-upstream/meep-85e107771808a4b89e4b4514007512f48c1c121b": {
+          "read": true,
+          "write": false
+        },
+        "/opt/meep-upstream/meep-85e107771808a4b89e4b4514007512f48c1c121b/src": {
+          "read": true,
+          "write": false
+        },
+        "/opt/meep-upstream/meep-85e107771808a4b89e4b4514007512f48c1c121b/src/meep_internals.hpp": {
+          "read": true,
+          "write": false
+        },
+        "/opt/meep-upstream/meep-85e107771808a4b89e4b4514007512f48c1c121b/src/step_db.cpp": {
+          "read": true,
+          "write": false
+        },
+        "/opt/meep-repair-build/upstream/src/step_db.lo": {
+          "read": true,
+          "write": false
+        },
+        "/opt/meep-repair-build/upstream/src/step_db.o": {
+          "read": true,
+          "write": false
+        },
+        "/opt/meep-repair-build/upstream/src/.libs/step_db.o": {
+          "read": true,
+          "write": false
+        },
+        "/opt/meep-repair-build/upstream/src/libmeep.la": {
+          "read": true,
+          "write": false
+        },
+        "/opt/meep-repair-build/upstream/src/.libs/libmeep.so.30.0.0": {
+          "read": true,
+          "write": false
+        },
+        "/opt/meep-repair-build/CMakeFiles/cylindrical_driver.dir/opt/meep-driver/driver.cpp.o": {
+          "read": true,
+          "write": false
+        },
+        "/opt/meep-repair-build/bin/cylindrical-driver": {
+          "read": true,
+          "write": false
+        },
+        "/opt": {
+          "read": true,
+          "write": false
+        },
+        "/opt/meep-upstream": {
+          "read": true,
+          "write": false
+        },
+        "/opt/meep-upstream/meep-85e107771808a4b89e4b4514007512f48c1c121b/src/meep.hpp": {
+          "read": true,
+          "write": false
+        },
+        "/opt/meep-upstream/meep-85e107771808a4b89e4b4514007512f48c1c121b/src/fields.cpp": {
+          "read": true,
+          "write": false
+        },
+        "/usr/local/lib/python3.14/site-packages": {
+          "read": true,
+          "write": false
+        },
+        "/usr/local/lib/python3.14/site-packages/caeoj": {
+          "read": true,
+          "write": false
+        },
+        "/usr/local/lib/python3.14/site-packages/caeoj/__init__.py": {
+          "read": true,
+          "write": false
+        }
+      },
+      "network": "denied"
+    },
+    "build": {
+      "command": [
+        "setpriv",
+        "--reuid=1000",
+        "--regid=1000",
+        "--clear-groups",
+        "--no-new-privs",
+        "cmake",
+        "--build",
+        "/opt/meep-repair-build",
+        "--target",
+        "repair_sources",
+        "--parallel",
+        "4"
+      ],
+      "exit_code": 0,
+      "status": "built",
+      "elapsed_seconds": 10.16654026499964,
+      "sources_sha256": {
+        "step_db.cpp": "019e50fd8f5bebc9cf65efd2d1573eb10d1780b334527ff1ff56fbef9e864887"
+      },
+      "removed_build_artifacts": [
+        "/opt/meep-repair-build/upstream/src/step_db.lo",
+        "/opt/meep-repair-build/upstream/src/step_db.o",
+        "/opt/meep-repair-build/upstream/src/.libs/step_db.o",
+        "/opt/meep-repair-build/upstream/src/libmeep.la",
+        "/opt/meep-repair-build/upstream/src/.libs/libmeep.so.30.0.0",
+        "/opt/meep-repair-build/CMakeFiles/cylindrical_driver.dir/opt/meep-driver/driver.cpp.o",
+        "/opt/meep-repair-build/bin/cylindrical-driver"
+      ],
+      "built_artifacts_sha256": {
+        "/opt/meep-repair-build/upstream/src/step_db.lo": "2950b9061b91fc84bcb2a3eedb2e4a82b67f4b5f19da20d04a342bc9fe957599",
+        "/opt/meep-repair-build/upstream/src/step_db.o": "0038b15866d1ea1ad997940dadefa359bb95efcf3b176c43c50e7c7cbdbeb49e",
+        "/opt/meep-repair-build/upstream/src/.libs/step_db.o": "0038b15866d1ea1ad997940dadefa359bb95efcf3b176c43c50e7c7cbdbeb49e",
+        "/opt/meep-repair-build/upstream/src/libmeep.la": "f2658ff14d0f7da40b4b0cc95e965558f9a0fcfab5a3e233c217c68056917853",
+        "/opt/meep-repair-build/upstream/src/.libs/libmeep.so.30.0.0": "4bbcd60b478a49b207fcfab2ac2bdce2b9d9551438e8fd16ea5ab92fcf8fb9c5",
+        "/opt/meep-repair-build/CMakeFiles/cylindrical_driver.dir/opt/meep-driver/driver.cpp.o": "b59e6ed1552392facc4b02df42664f2ebc70008e8e2a33ec58c2b2559a79f472",
+        "/opt/meep-repair-build/bin/cylindrical-driver": "1359cdc3caf237214d5ae513ad254f826c1ebc52b5d62bee0e98d2083fbe811d"
+      }
+    },
+    "baseline_build": {
+      "command": [
+        "setpriv",
+        "--reuid=1000",
+        "--regid=1000",
+        "--clear-groups",
+        "--no-new-privs",
+        "cmake",
+        "--build",
+        "/opt/meep-repair-build",
+        "--target",
+        "repair_sources",
+        "--parallel",
+        "4"
+      ],
+      "exit_code": 0,
+      "status": "built",
+      "elapsed_seconds": 8.37366518899944,
+      "removed_build_artifacts": [
+        "/opt/meep-repair-build/upstream/src/step_db.lo",
+        "/opt/meep-repair-build/upstream/src/step_db.o",
+        "/opt/meep-repair-build/upstream/src/.libs/step_db.o",
+        "/opt/meep-repair-build/upstream/src/libmeep.la",
+        "/opt/meep-repair-build/upstream/src/.libs/libmeep.so.30.0.0",
+        "/opt/meep-repair-build/CMakeFiles/cylindrical_driver.dir/opt/meep-driver/driver.cpp.o",
+        "/opt/meep-repair-build/bin/cylindrical-driver"
+      ]
+    },
+    "baseline_probe": {
+      "command": [
+        "setpriv",
+        "--reuid=1000",
+        "--regid=1000",
+        "--clear-groups",
+        "--no-new-privs",
+        "/usr/local/bin/python",
+        "-c",
+        "import subprocess,json,gmsh,numpy,h5py; assert hasattr(gmsh.lib,'gmshInitialize'); r=json.loads(subprocess.check_output(['/opt/meep-repair-build/bin/cylindrical-driver'],input='2 1 1 1 30 -1 1 1 3 3',text=True)); assert r['dt']>0 and len(r['fields'])==6 and len(r['flux'])==3; assert all(numpy.isfinite(q) for q in r['flux']); print('actual baseline Meep cylindrical fields/PML ready')"
+      ],
+      "exit_code": 0,
+      "status": "ready",
+      "elapsed_seconds": 1.2660079560009763
+    },
+    "prepared_agent_zip_sha256": "acac8a89d2b02b4aa1a753fcdd2354b836c2af0af1cb21748973ed41564e0027",
+    "cpu_max": "400000 100000\n",
+    "memory_max": "4294967296\n"
+  },
+  {
+    "mode": "syntax",
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "4",
+      "--memory",
+      "4g",
+      "caeoj-meep2338-probes:preflight",
+      "python",
+      "/opt/backend_probe.py",
+      "syntax"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 23.01500000001397,
+    "passed": true,
+    "classification": "build_error",
+    "reports": {
+      "baseline-report.json": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "cmake",
+          "--build",
+          "/opt/meep-repair-build",
+          "--target",
+          "repair_sources",
+          "--parallel",
+          "4"
+        ],
+        "exit_code": 0,
+        "status": "built",
+        "elapsed_seconds": 11.538983225000266,
+        "removed_build_artifacts": [
+          "/opt/meep-repair-build/upstream/src/step_db.lo",
+          "/opt/meep-repair-build/upstream/src/step_db.o",
+          "/opt/meep-repair-build/upstream/src/.libs/step_db.o",
+          "/opt/meep-repair-build/upstream/src/libmeep.la",
+          "/opt/meep-repair-build/upstream/src/.libs/libmeep.so.30.0.0",
+          "/opt/meep-repair-build/CMakeFiles/cylindrical_driver.dir/opt/meep-driver/driver.cpp.o",
+          "/opt/meep-repair-build/bin/cylindrical-driver"
+        ]
+      },
+      "report.json": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "cmake",
+          "--build",
+          "/opt/meep-repair-build",
+          "--target",
+          "repair_sources",
+          "--parallel",
+          "4"
+        ],
+        "exit_code": 2,
+        "status": "build_error",
+        "elapsed_seconds": 0.5005666560027748,
+        "sources_sha256": {
+          "step_db.cpp": "8f7598675b7e2387d6bd8d5d12eed4541cbb3d020f0bf29a7544a891cfd5adc2"
+        },
+        "removed_build_artifacts": [
+          "/opt/meep-repair-build/upstream/src/step_db.lo",
+          "/opt/meep-repair-build/upstream/src/step_db.o",
+          "/opt/meep-repair-build/upstream/src/.libs/step_db.o",
+          "/opt/meep-repair-build/upstream/src/libmeep.la",
+          "/opt/meep-repair-build/upstream/src/.libs/libmeep.so.30.0.0",
+          "/opt/meep-repair-build/CMakeFiles/cylindrical_driver.dir/opt/meep-driver/driver.cpp.o",
+          "/opt/meep-repair-build/bin/cylindrical-driver"
+        ]
+      },
+      "baseline-probe-report.json": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "/usr/local/bin/python",
+          "-c",
+          "import subprocess,json,gmsh,numpy,h5py; assert hasattr(gmsh.lib,'gmshInitialize'); r=json.loads(subprocess.check_output(['/opt/meep-repair-build/bin/cylindrical-driver'],input='2 1 1 1 30 -1 1 1 3 3',text=True)); assert r['dt']>0 and len(r['fields'])==6 and len(r['flux'])==3; assert all(numpy.isfinite(q) for q in r['flux']); print('actual baseline Meep cylindrical fields/PML ready')"
+        ],
+        "exit_code": 0,
+        "status": "ready",
+        "elapsed_seconds": 1.6972124829990207
+      }
+    },
+    "submitted_sha256": "8f7598675b7e2387d6bd8d5d12eed4541cbb3d020f0bf29a7544a891cfd5adc2",
+    "stderr_tails": {
+      "candidate-stderr.log": "make[4]: warning: -j4 forced in submake: resetting jobserver mode.\n/opt/meep-upstream/meep-85e107771808a4b89e4b4514007512f48c1c121b/src/step_db.cpp:1:1: error: 'invalid' does not name a type\n    1 | invalid C++ !!!\n      | ^~~~~~~\nmake[6]: *** [Makefile:663: step_db.lo] Error 1\nmake[5]: *** [Makefile:724: all-recursive] Error 1\nmake[4]: *** [Makefile:514: all] Error 2\ngmake[3]: *** [CMakeFiles/meep_upstream.dir/build.make:70: CMakeFiles/meep_upstream] Error 2\ngmake[2]: *** [CMakeFiles/Makefile2:89: CMakeFiles/meep_upstream.dir/all] Error 2\ngmake[1]: *** [CMakeFiles/Makefile2:160: CMakeFiles/repair_sources.dir/rule] Error 2\ngmake: *** [Makefile:150: repair_sources] Error 2\n",
+      "baseline-probe-stderr.log": "",
+      "baseline-stderr.log": "make[4]: warning: -j4 forced in submake: resetting jobserver mode.\n"
+    }
+  },
+  {
+    "mode": "extra",
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "4",
+      "--memory",
+      "4g",
+      "caeoj-meep2338-probes:preflight",
+      "python",
+      "/opt/backend_probe.py",
+      "extra"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 1.547000000020489,
+    "passed": true,
+    "classification": "invalid_submission",
+    "reports": {},
+    "submitted_sha256": "019e50fd8f5bebc9cf65efd2d1573eb10d1780b334527ff1ff56fbef9e864887",
+    "stderr_tails": {}
+  },
+  {
+    "mode": "symlink",
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "4",
+      "--memory",
+      "4g",
+      "caeoj-meep2338-probes:preflight",
+      "python",
+      "/opt/backend_probe.py",
+      "symlink"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.1410000000614673,
+    "passed": true,
+    "classification": "invalid_submission",
+    "reports": {},
+    "submitted_sha256": null,
+    "stderr_tails": {}
+  },
+  {
+    "mode": "compiler",
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "4",
+      "--memory",
+      "4g",
+      "caeoj-meep2338-probes:preflight",
+      "python",
+      "/opt/backend_probe.py",
+      "compiler"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 6.827999999979511,
+    "passed": true,
+    "classification": "infrastructure_error",
+    "reason": "Trusted baseline build failed: build_error",
+    "reports": {
+      "baseline-report.json": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "cmake",
+          "--build",
+          "/opt/meep-repair-build",
+          "--target",
+          "repair_sources",
+          "--parallel",
+          "4"
+        ],
+        "exit_code": 2,
+        "status": "build_error",
+        "elapsed_seconds": 0.6948592329972598,
+        "removed_build_artifacts": [
+          "/opt/meep-repair-build/upstream/src/step_db.lo",
+          "/opt/meep-repair-build/upstream/src/step_db.o",
+          "/opt/meep-repair-build/upstream/src/.libs/step_db.o",
+          "/opt/meep-repair-build/upstream/src/libmeep.la",
+          "/opt/meep-repair-build/upstream/src/.libs/libmeep.so.30.0.0",
+          "/opt/meep-repair-build/CMakeFiles/cylindrical_driver.dir/opt/meep-driver/driver.cpp.o",
+          "/opt/meep-repair-build/bin/cylindrical-driver"
+        ]
+      }
+    },
+    "submitted_sha256": "019e50fd8f5bebc9cf65efd2d1573eb10d1780b334527ff1ff56fbef9e864887",
+    "stderr_tails": {
+      "baseline-stderr.log": "make[4]: warning: -j4 forced in submake: resetting jobserver mode.\n../libtool: line 1918: g++: command not found\nmake[6]: *** [Makefile:663: step_db.lo] Error 1\nmake[5]: *** [Makefile:724: all-recursive] Error 1\nmake[4]: *** [Makefile:514: all] Error 2\ngmake[3]: *** [CMakeFiles/meep_upstream.dir/build.make:70: CMakeFiles/meep_upstream] Error 2\ngmake[2]: *** [CMakeFiles/Makefile2:89: CMakeFiles/meep_upstream.dir/all] Error 2\ngmake[1]: *** [CMakeFiles/Makefile2:160: CMakeFiles/repair_sources.dir/rule] Error 2\ngmake: *** [Makefile:150: repair_sources] Error 2\n"
+    }
+  },
+  {
+    "mode": "baseline-runtime",
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "4",
+      "--memory",
+      "4g",
+      "caeoj-meep2338-probes:preflight",
+      "python",
+      "/opt/backend_probe.py",
+      "baseline-runtime"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 15.202999999979511,
+    "passed": true,
+    "classification": "infrastructure_error",
+    "reason": "Trusted baseline runtime probe failed: probe_error",
+    "reports": {
+      "baseline-report.json": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "cmake",
+          "--build",
+          "/opt/meep-repair-build",
+          "--target",
+          "repair_sources",
+          "--parallel",
+          "4"
+        ],
+        "exit_code": 0,
+        "status": "built",
+        "elapsed_seconds": 10.911487780998868,
+        "removed_build_artifacts": [
+          "/opt/meep-repair-build/upstream/src/step_db.lo",
+          "/opt/meep-repair-build/upstream/src/step_db.o",
+          "/opt/meep-repair-build/upstream/src/.libs/step_db.o",
+          "/opt/meep-repair-build/upstream/src/libmeep.la",
+          "/opt/meep-repair-build/upstream/src/.libs/libmeep.so.30.0.0",
+          "/opt/meep-repair-build/CMakeFiles/cylindrical_driver.dir/opt/meep-driver/driver.cpp.o",
+          "/opt/meep-repair-build/bin/cylindrical-driver"
+        ]
+      },
+      "baseline-probe-report.json": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "/usr/local/bin/python",
+          "-c",
+          "import subprocess,json,gmsh,numpy,h5py; assert hasattr(gmsh.lib,'gmshInitialize'); r=json.loads(subprocess.check_output(['/opt/meep-repair-build/bin/cylindrical-driver'],input='2 1 1 1 30 -1 1 1 3 3',text=True)); assert r['dt']>0 and len(r['fields'])==6 and len(r['flux'])==3; assert all(numpy.isfinite(q) for q in r['flux']); print('actual baseline Meep cylindrical fields/PML ready')"
+        ],
+        "exit_code": 1,
+        "status": "probe_error",
+        "elapsed_seconds": 0.2879873480014794
+      }
+    },
+    "submitted_sha256": "019e50fd8f5bebc9cf65efd2d1573eb10d1780b334527ff1ff56fbef9e864887",
+    "stderr_tails": {
+      "baseline-probe-stderr.log": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    import subprocess,json,gmsh,numpy,h5py; assert hasattr(gmsh.lib,'gmshInitialize'); r=json.loads(subprocess.check_output(['/opt/meep-repair-build/bin/cylindrical-driver'],input='2 1 1 1 30 -1 1 1 3 3',text=True)); assert r['dt']>0 and len(r['fields'])==6 and len(r['flux'])==3; assert all(numpy.isfinite(q) for q in r['flux']); print('actual baseline Meep cylindrical fields/PML ready')\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.14/site-packages/h5py/__init__.py\", line 33, in <module>\n    from . import version\n  File \"/usr/local/lib/python3.14/site-packages/h5py/version.py\", line 61, in <module>\n    'numpy': numpy.__version__,\n             ^^^^^^^^^^^^^^^^^\nAttributeError: module 'numpy' has no attribute '__version__'\n",
+      "baseline-stderr.log": "make[4]: warning: -j4 forced in submake: resetting jobserver mode.\n"
+    }
+  },
+  {
+    "mode": "runtime-timeout",
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "4",
+      "--memory",
+      "4g",
+      "caeoj-meep2338-probes:preflight",
+      "python",
+      "/opt/backend_probe.py",
+      "runtime-timeout"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 30.905999999959022,
+    "passed": true,
+    "actual_cpp_timeout": true,
+    "child_pid": "1071",
+    "post_kill_states": [
+      "Z"
+    ],
+    "poll_interval_seconds": 0.1,
+    "reports": {
+      "baseline-report.json": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "cmake",
+          "--build",
+          "/opt/meep-repair-build",
+          "--target",
+          "repair_sources",
+          "--parallel",
+          "4"
+        ],
+        "exit_code": 0,
+        "status": "built",
+        "elapsed_seconds": 11.139505217997794,
+        "removed_build_artifacts": [
+          "/opt/meep-repair-build/upstream/src/step_db.lo",
+          "/opt/meep-repair-build/upstream/src/step_db.o",
+          "/opt/meep-repair-build/upstream/src/.libs/step_db.o",
+          "/opt/meep-repair-build/upstream/src/libmeep.la",
+          "/opt/meep-repair-build/upstream/src/.libs/libmeep.so.30.0.0",
+          "/opt/meep-repair-build/CMakeFiles/cylindrical_driver.dir/opt/meep-driver/driver.cpp.o",
+          "/opt/meep-repair-build/bin/cylindrical-driver"
+        ]
+      },
+      "report.json": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "cmake",
+          "--build",
+          "/opt/meep-repair-build",
+          "--target",
+          "repair_sources",
+          "--parallel",
+          "4"
+        ],
+        "exit_code": 0,
+        "status": "built",
+        "elapsed_seconds": 7.832947721002711,
+        "sources_sha256": {
+          "step_db.cpp": "b48aaf3559e5bc9925ca992d18323500495f86699578b2d46d0f1dfea022b283"
+        },
+        "removed_build_artifacts": [
+          "/opt/meep-repair-build/upstream/src/step_db.lo",
+          "/opt/meep-repair-build/upstream/src/step_db.o",
+          "/opt/meep-repair-build/upstream/src/.libs/step_db.o",
+          "/opt/meep-repair-build/upstream/src/libmeep.la",
+          "/opt/meep-repair-build/upstream/src/.libs/libmeep.so.30.0.0",
+          "/opt/meep-repair-build/CMakeFiles/cylindrical_driver.dir/opt/meep-driver/driver.cpp.o",
+          "/opt/meep-repair-build/bin/cylindrical-driver"
+        ],
+        "built_artifacts_sha256": {
+          "/opt/meep-repair-build/upstream/src/step_db.lo": "2950b9061b91fc84bcb2a3eedb2e4a82b67f4b5f19da20d04a342bc9fe957599",
+          "/opt/meep-repair-build/upstream/src/step_db.o": "54ffe2af09f9f9ac0ce0897a044266f0921cd3fb8baed15138885b10dc645c29",
+          "/opt/meep-repair-build/upstream/src/.libs/step_db.o": "b6b690b1b10f2d080d94676351628c551c1f624c781947057c06dee7ba3017cb",
+          "/opt/meep-repair-build/upstream/src/libmeep.la": "f2658ff14d0f7da40b4b0cc95e965558f9a0fcfab5a3e233c217c68056917853",
+          "/opt/meep-repair-build/upstream/src/.libs/libmeep.so.30.0.0": "fef4703b45a3ce71743e97ebb1b460add99759b94b089c81362f530c62aa7c57",
+          "/opt/meep-repair-build/CMakeFiles/cylindrical_driver.dir/opt/meep-driver/driver.cpp.o": "b59e6ed1552392facc4b02df42664f2ebc70008e8e2a33ec58c2b2559a79f472",
+          "/opt/meep-repair-build/bin/cylindrical-driver": "1359cdc3caf237214d5ae513ad254f826c1ebc52b5d62bee0e98d2083fbe811d"
+        }
+      },
+      "baseline-probe-report.json": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "/usr/local/bin/python",
+          "-c",
+          "import subprocess,json,gmsh,numpy,h5py; assert hasattr(gmsh.lib,'gmshInitialize'); r=json.loads(subprocess.check_output(['/opt/meep-repair-build/bin/cylindrical-driver'],input='2 1 1 1 30 -1 1 1 3 3',text=True)); assert r['dt']>0 and len(r['fields'])==6 and len(r['flux'])==3; assert all(numpy.isfinite(q) for q in r['flux']); print('actual baseline Meep cylindrical fields/PML ready')"
+        ],
+        "exit_code": 0,
+        "status": "ready",
+        "elapsed_seconds": 1.0781979319981474
+      }
+    },
+    "submitted_sha256": "b48aaf3559e5bc9925ca992d18323500495f86699578b2d46d0f1dfea022b283",
+    "stderr_tails": {
+      "candidate-stderr.log": "make[4]: warning: -j4 forced in submake: resetting jobserver mode.\n",
+      "baseline-probe-stderr.log": "",
+      "baseline-stderr.log": "make[4]: warning: -j4 forced in submake: resetting jobserver mode.\n"
+    }
+  }
+]

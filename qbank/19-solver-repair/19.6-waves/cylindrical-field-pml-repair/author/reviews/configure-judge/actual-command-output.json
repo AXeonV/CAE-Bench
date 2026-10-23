@@ -1,0 +1,59 @@
+{
+  "formal": {
+    "exception_info": null,
+    "complete": true,
+    "score": 8,
+    "total": 8,
+    "reward": 1
+  },
+  "probes": [
+    {
+      "mode": "valid",
+      "actual_raw_json_matches": true,
+      "classification": "built/native-run",
+      "uid": 1000,
+      "network": "denied",
+      "cpu_max": "400000 100000\n",
+      "memory_max": "4294967296\n",
+      "all_7_artifacts_rebuilt": true,
+      "future_mtime_injection_in_probe_source": true
+    },
+    {
+      "mode": "syntax",
+      "actual_raw_json_matches": true,
+      "classification": "build_error"
+    },
+    {
+      "mode": "extra",
+      "actual_raw_json_matches": true,
+      "classification": "invalid_submission"
+    },
+    {
+      "mode": "symlink",
+      "actual_raw_json_matches": true,
+      "classification": "invalid_submission"
+    },
+    {
+      "mode": "compiler",
+      "actual_raw_json_matches": true,
+      "classification": "infrastructure_error"
+    },
+    {
+      "mode": "baseline-runtime",
+      "actual_raw_json_matches": true,
+      "classification": "infrastructure_error"
+    },
+    {
+      "mode": "runtime-timeout",
+      "actual_raw_json_matches": true,
+      "classification": "built/native-run",
+      "child_pid": "1071",
+      "post_kill_states": [
+        "Z"
+      ],
+      "scope": "actual instrumented native main PID only"
+    }
+  ],
+  "frozen_task_files": 56,
+  "outer": 15680
+}

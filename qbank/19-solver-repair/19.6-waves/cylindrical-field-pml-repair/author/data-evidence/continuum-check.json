@@ -1,0 +1,50 @@
+{
+  "status": "physical corroboration, not exact discrete reference",
+  "source": "actual source-diagnostic.cpp one genuine Er source: r=1/(2resolution), z=0, amplitude=A*resolution^2/2; Fourier azimuth convention exp(i*m*phi)",
+  "derivation": [
+    "Annular radial measure r dr dz gives radial moment A/(4*resolution).",
+    "Angular integral of e_r exp(i*m*phi) gives pi*(e_x+i*m*e_y), |m|=1.",
+    "Equivalent current vector q*(1,i*m,0), q=pi*A*Jhat/(4*resolution).",
+    "With Meep Gaussian current |Jhat(fc)|=tau (finite cutoff10), no-half spectral flux Re(Ehat cross conj(Hhat)), outgoing dipole P=omega^2*|q|^2/(3*pi)=pi^3*fc^2*A^2*tau^2/(12*resolution^2).",
+    "Angular density 1+cos(theta)^2; each cap fraction=(4-3*c-c^3)/8, c=Z/sqrt(R^2+Z^2)."
+  ],
+  "limits": [
+    "Continuum point-dipole far-field formula is asymptotic for this finite annular Yee source; no equality with finite-grid native reference is asserted.",
+    "Finite-source, numerical dispersion and surface quadrature remain. Observed error improves res30 to40; no unverified convergence order is asserted.",
+    "Formal output uses actual finite-grid library, not substituted analytic powers."
+  ],
+  "checks": [
+    {
+      "resolution": 30,
+      "actual_flux": [
+        1.8612096390764081,
+        3.249624134182143,
+        1.8612096390764061
+      ],
+      "actual_total": 6.972043412334957,
+      "continuum_point_dipole_total": 7.177378861180513,
+      "total_relative_error": 0.028608695850811383,
+      "actual_cap_fraction": 0.2669532487109233,
+      "continuum_cap_fraction": 0.2706528034837995,
+      "cap_fraction_error": 0.0036995547728762013
+    },
+    {
+      "resolution": 40,
+      "actual_flux": [
+        1.0584902641578129,
+        1.8393052518279462,
+        1.058490264157812
+      ],
+      "actual_total": 3.9562857801435714,
+      "continuum_point_dipole_total": 4.0372756094140385,
+      "total_relative_error": 0.020060515334057616,
+      "actual_cap_fraction": 0.2675464622576888,
+      "continuum_cap_fraction": 0.2706528034837995,
+      "cap_fraction_error": 0.003106341226110698
+    }
+  ],
+  "raw_files": {
+    "narrow-prototype-replay.json": "1a7363052848c5f90e10c6e00d930e7c8423e230f1a0ee4d493fa4e4ff23be71",
+    "extra-prototype-replay.json": "a20bb13d85c1b1087fbe2d6163e3b00c9e6b69be0e09b4b664eadda302b09237"
+  }
+}

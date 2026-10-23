@@ -1,0 +1,114 @@
+[
+  {
+    "case": "01-negative-mode-public",
+    "parameters": {
+      "radius": 2,
+      "half_height": 1,
+      "radial_pml": 1,
+      "axial_pml": 1,
+      "resolution": 30,
+      "mode": -1,
+      "source_amplitude": 1.0
+    },
+    "meaning": "negative mode axis/PML defect with independent absolute flux observation",
+    "origin": "author mechanism adaptation of Meep2338/PR2382 axisymmetric on-axis Er source; not claimed original user input"
+  },
+  {
+    "case": "02-positive-mode-public",
+    "parameters": {
+      "radius": 2,
+      "half_height": 1,
+      "radial_pml": 1,
+      "axial_pml": 1,
+      "resolution": 30,
+      "mode": 1,
+      "source_amplitude": 1.0
+    },
+    "meaning": "positive mode preservation and opposite complex-field handedness",
+    "origin": "author mechanism adaptation of Meep2338/PR2382 axisymmetric on-axis Er source; not claimed original user input"
+  },
+  {
+    "case": "03-radial-pml",
+    "parameters": {
+      "radius": 2,
+      "half_height": 1,
+      "radial_pml": 2,
+      "axial_pml": 1,
+      "resolution": 30,
+      "mode": -1,
+      "source_amplitude": 1.0
+    },
+    "meaning": "radial PML changed while axial PML retained",
+    "origin": "author mechanism adaptation of Meep2338/PR2382 axisymmetric on-axis Er source; not claimed original user input"
+  },
+  {
+    "case": "04-axial-pml",
+    "parameters": {
+      "radius": 2,
+      "half_height": 1,
+      "radial_pml": 1,
+      "axial_pml": 2,
+      "resolution": 30,
+      "mode": -1,
+      "source_amplitude": 1.0
+    },
+    "meaning": "axial PML changed independently",
+    "origin": "author mechanism adaptation of Meep2338/PR2382 axisymmetric on-axis Er source; not claimed original user input"
+  },
+  {
+    "case": "05-source-geometry",
+    "parameters": {
+      "radius": 3,
+      "half_height": 2,
+      "radial_pml": 1,
+      "axial_pml": 1,
+      "resolution": 30,
+      "mode": -1,
+      "source_amplitude": 0.5
+    },
+    "meaning": "original report geometry with physical source amplitude scaling",
+    "origin": "author mechanism adaptation of Meep2338/PR2382 axisymmetric on-axis Er source; not claimed original user input"
+  },
+  {
+    "case": "06-grid-resolution",
+    "parameters": {
+      "radius": 2,
+      "half_height": 1,
+      "radial_pml": 1,
+      "axial_pml": 1,
+      "resolution": 40,
+      "mode": -1,
+      "source_amplitude": 1.0
+    },
+    "meaning": "different Yee discretization and time step",
+    "origin": "author mechanism adaptation of Meep2338/PR2382 axisymmetric on-axis Er source; not claimed original user input"
+  },
+  {
+    "case": "07-negative-source",
+    "parameters": {
+      "radius": 2,
+      "half_height": 2,
+      "radial_pml": 1,
+      "axial_pml": 1,
+      "resolution": 30,
+      "mode": 1,
+      "source_amplitude": -0.75
+    },
+    "meaning": "source sign affects complex fields and square amplitude affects flux",
+    "origin": "author mechanism adaptation of Meep2338/PR2382 axisymmetric on-axis Er source; not claimed original user input"
+  },
+  {
+    "case": "08-cylinder-aspect",
+    "parameters": {
+      "radius": 3,
+      "half_height": 1,
+      "radial_pml": 1,
+      "axial_pml": 1,
+      "resolution": 30,
+      "mode": -1,
+      "source_amplitude": 0.75
+    },
+    "meaning": "different enclosing surface aspect ratio at fixed source",
+    "origin": "author mechanism adaptation of Meep2338/PR2382 axisymmetric on-axis Er source; not claimed original user input"
+  }
+]

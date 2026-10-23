@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "base_image": "caeoj-meep2338-runtime:base",
+  "replacements": [
+    {
+      "submission": "step_db.cpp",
+      "target": "/opt/meep-upstream/meep-85e107771808a4b89e4b4514007512f48c1c121b/src/step_db.cpp"
+    }
+  ],
+  "build_directory": "/opt/meep-repair-build",
+  "build_target": "repair_sources",
+  "rebuild_files": [
+    "/opt/meep-repair-build/upstream/src/step_db.lo",
+    "/opt/meep-repair-build/upstream/src/step_db.o",
+    "/opt/meep-repair-build/upstream/src/.libs/step_db.o",
+    "/opt/meep-repair-build/upstream/src/libmeep.la",
+    "/opt/meep-repair-build/upstream/src/.libs/libmeep.so.30.0.0",
+    "/opt/meep-repair-build/CMakeFiles/cylindrical_driver.dir/opt/meep-driver/driver.cpp.o",
+    "/opt/meep-repair-build/bin/cylindrical-driver"
+  ],
+  "build_timeout_seconds": 300,
+  "baseline_timeout_seconds": 300,
+  "max_source_bytes": 1048576,
+  "runner": "/app/qbank/19-solver-repair/19.6-waves/cylindrical-field-pml-repair/public/run_case.py",
+  "baseline_probe": [
+    "/usr/local/bin/python",
+    "-c",
+    "import subprocess,json,gmsh,numpy,h5py; assert hasattr(gmsh.lib,'gmshInitialize'); r=json.loads(subprocess.check_output(['/opt/meep-repair-build/bin/cylindrical-driver'],input='2 1 1 1 30 -1 1 1 3 3',text=True)); assert r['dt']>0 and len(r['fields'])==6 and len(r['flux'])==3; assert all(numpy.isfinite(q) for q in r['flux']); print('actual baseline Meep cylindrical fields/PML ready')"
+  ]
+}

@@ -1,0 +1,408 @@
+{
+  "mode": "reference",
+  "image_id": "sha256:7a0236142085710589f832d009cd57bb1f8ceaa3e2dd974e9f4a3a76a044c396",
+  "reference_producer": "actual pinned full Meep FDTD plus actual native dft_chunk accumulator; independent trace DTFT is validation only",
+  "driver_sha256": "31ebe923dd90b103454c4999d0a424845ec359af84fcb3a98a4c15f73ed5ac1e",
+  "cases": [
+    {
+      "case": "01-negative-mode-public",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "meep2338-da0120e7966f",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\meep-2338\\dataset\\replay\\reference\\01-negative-mode-public:/audit",
+        "-i",
+        "sha256:7a0236142085710589f832d009cd57bb1f8ceaa3e2dd974e9f4a3a76a044c396",
+        "/opt/meep-repair-build/bin/cylindrical-driver",
+        "/audit/trace.csv"
+      ],
+      "elapsed_seconds": 177.4220000000205,
+      "score": 1,
+      "checks": {
+        "runtime_within_case_budget": true,
+        "spectrum_max_absolute_error": 1.1324274851176597e-14,
+        "spectrum_max_tolerance_fraction": 1.779867694026621e-06,
+        "spectrum_independent_passed": true,
+        "all_flux_finite_positive": true,
+        "dt_passed": true,
+        "window_end_passed": true
+      },
+      "time_samples": 64800,
+      "frequency": 1.0,
+      "genuine_surface_integrals": [
+        2.1071566794387158,
+        2.535021335578007,
+        2.1071566794387158
+      ],
+      "input_assets": {
+        "problem.json": "a36e56753b2343064a6f77e78602a9be4710d9658e306bbda37ac000144525f4",
+        "input.h5": "f2e00a9fd825fe69bf7363e5332391a150bcb15520b982510ff6e37fbd5ea1ab",
+        "surfaces.msh": "1ea9cf252e36701484a250ba1922ebb216a2c7e490d06aea62260a62633d3dda"
+      },
+      "payload_sha256": "46c77c27828aefe267affa17c4cd7c298665e19b15c2918bd0d6ba8353153ea6",
+      "trace_sha256": "85c43a2c926e49063f0a2b6d2848617965871194e2aa3894cabd8333943aa5c6",
+      "output_sha256": "30e5d9bae15c8f4a0ec60b7b743c390eadf9eb7f8af21365123c35d246e4abe6"
+    },
+    {
+      "case": "02-positive-mode-public",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "meep2338-ef927c0adb91",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\meep-2338\\dataset\\replay\\reference\\02-positive-mode-public:/audit",
+        "-i",
+        "sha256:7a0236142085710589f832d009cd57bb1f8ceaa3e2dd974e9f4a3a76a044c396",
+        "/opt/meep-repair-build/bin/cylindrical-driver",
+        "/audit/trace.csv"
+      ],
+      "elapsed_seconds": 172.920999999973,
+      "score": 1,
+      "checks": {
+        "runtime_within_case_budget": true,
+        "spectrum_max_absolute_error": 1.1324274851176597e-14,
+        "spectrum_max_tolerance_fraction": 1.779867694026621e-06,
+        "spectrum_independent_passed": true,
+        "all_flux_finite_positive": true,
+        "dt_passed": true,
+        "window_end_passed": true
+      },
+      "time_samples": 64800,
+      "frequency": 1.0,
+      "genuine_surface_integrals": [
+        2.1071566794387158,
+        2.535021335578007,
+        2.1071566794387158
+      ],
+      "input_assets": {
+        "problem.json": "f4788545a4b48e8c5b974376076936e0354c693f3a28871a157f5056507ed94b",
+        "input.h5": "f2e00a9fd825fe69bf7363e5332391a150bcb15520b982510ff6e37fbd5ea1ab",
+        "surfaces.msh": "1ea9cf252e36701484a250ba1922ebb216a2c7e490d06aea62260a62633d3dda"
+      },
+      "payload_sha256": "538d2f6342c5bc7077de45bc07ecbc79f4d4537cd5c1cf93a77de368379ff67a",
+      "trace_sha256": "5a3454ff7bdd8216ec5ee7f9d28fd7a01a0fe8f3f10700a002b7c9c11c119981",
+      "output_sha256": "37ffc8480a2beb5863646ad6070255a5acb800278871ce1aad22b230e64570f5"
+    },
+    {
+      "case": "03-radial-pml",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "meep2338-ae1dc3273abd",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\meep-2338\\dataset\\replay\\reference\\03-radial-pml:/audit",
+        "-i",
+        "sha256:7a0236142085710589f832d009cd57bb1f8ceaa3e2dd974e9f4a3a76a044c396",
+        "/opt/meep-repair-build/bin/cylindrical-driver",
+        "/audit/trace.csv"
+      ],
+      "elapsed_seconds": 202.2029999999795,
+      "score": 1,
+      "checks": {
+        "runtime_within_case_budget": true,
+        "spectrum_max_absolute_error": 5.218048215738236e-15,
+        "spectrum_max_tolerance_fraction": 1.7049950452488614e-06,
+        "spectrum_independent_passed": true,
+        "all_flux_finite_positive": true,
+        "dt_passed": true,
+        "window_end_passed": true
+      },
+      "time_samples": 64800,
+      "frequency": 1.0,
+      "genuine_surface_integrals": [
+        2.107680807965581,
+        2.524846890979151,
+        2.1076808079655707
+      ],
+      "input_assets": {
+        "problem.json": "0ce822aed7277081ce0f69b36fb6c266bda015732df7ace1a99d5f5eb6bfc818",
+        "input.h5": "f2e00a9fd825fe69bf7363e5332391a150bcb15520b982510ff6e37fbd5ea1ab",
+        "surfaces.msh": "1ea9cf252e36701484a250ba1922ebb216a2c7e490d06aea62260a62633d3dda"
+      },
+      "payload_sha256": "f05ae497525215cc6502cf18e3e7eb728a7e73152e9230b6b34abcc4de7251a2",
+      "trace_sha256": "8b13d47e7122f3de517bdc16cf27a0073342895f6526b8b0e5435c5724cbcda7",
+      "output_sha256": "fa1b3e6eef44ab53a6c003504b2441c6abd75a2f8432e70f839f2cece92d2a1b"
+    },
+    {
+      "case": "04-axial-pml",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "meep2338-2955543c833a",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\meep-2338\\dataset\\replay\\reference\\04-axial-pml:/audit",
+        "-i",
+        "sha256:7a0236142085710589f832d009cd57bb1f8ceaa3e2dd974e9f4a3a76a044c396",
+        "/opt/meep-repair-build/bin/cylindrical-driver",
+        "/audit/trace.csv"
+      ],
+      "elapsed_seconds": 230.40599999995902,
+      "score": 1,
+      "checks": {
+        "runtime_within_case_budget": true,
+        "spectrum_max_absolute_error": 2.7755575615628914e-15,
+        "spectrum_max_tolerance_fraction": 1.5321224388236807e-06,
+        "spectrum_independent_passed": true,
+        "all_flux_finite_positive": true,
+        "dt_passed": true,
+        "window_end_passed": true
+      },
+      "time_samples": 64800,
+      "frequency": 1.0,
+      "genuine_surface_integrals": [
+        2.088152817416108,
+        2.5350205306623517,
+        2.088152817416103
+      ],
+      "input_assets": {
+        "problem.json": "687ec9b562c3a91a00b144baf4ce8b8223453604e28fc134482adc9e2cf3dab8",
+        "input.h5": "f2e00a9fd825fe69bf7363e5332391a150bcb15520b982510ff6e37fbd5ea1ab",
+        "surfaces.msh": "1ea9cf252e36701484a250ba1922ebb216a2c7e490d06aea62260a62633d3dda"
+      },
+      "payload_sha256": "80e9aca17257efa64c5b7271f4e3bed5afc5579f626f244f3c3aa5b8229c23e1",
+      "trace_sha256": "2c53c7d56dccd0601fbaf29a0645cab34259eeead42699e79a5befbbe8f94919",
+      "output_sha256": "1c1e6dee0e60444d7ed0d047d89059d9f0621518c6c0bce14a9aed2f61752494"
+    },
+    {
+      "case": "05-source-geometry",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "meep2338-7095c18e692d",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\meep-2338\\dataset\\replay\\reference\\05-source-geometry:/audit",
+        "-i",
+        "sha256:7a0236142085710589f832d009cd57bb1f8ceaa3e2dd974e9f4a3a76a044c396",
+        "/opt/meep-repair-build/bin/cylindrical-driver",
+        "/audit/trace.csv"
+      ],
+      "elapsed_seconds": 338.23499999998603,
+      "score": 1,
+      "checks": {
+        "runtime_within_case_budget": true,
+        "spectrum_max_absolute_error": 4.163336342344337e-15,
+        "spectrum_max_tolerance_fraction": 1.2899322347696395e-06,
+        "spectrum_independent_passed": true,
+        "all_flux_finite_positive": true,
+        "dt_passed": true,
+        "window_end_passed": true
+      },
+      "time_samples": 64800,
+      "frequency": 1.0,
+      "genuine_surface_integrals": [
+        0.46530240976910203,
+        0.8124060335455358,
+        0.46530240976910153
+      ],
+      "input_assets": {
+        "problem.json": "fb5754c391b1f85610bd5b5bb6eac923bef5368b821400522d206301ca8806da",
+        "input.h5": "f2e00a9fd825fe69bf7363e5332391a150bcb15520b982510ff6e37fbd5ea1ab",
+        "surfaces.msh": "d6db71c0c90b3a44dda07b1c3202fd2a2395bd4bf30b02af672cd677fec0463c"
+      },
+      "payload_sha256": "7b3b0b15080c09063089aa7e9a94b212870a06ca2b511cfd4cefb7003cf53f46",
+      "trace_sha256": "ea086ced69125c65869b593bc8f085a32597b9f6d8ebe980fe74c1b69a88c2fc",
+      "output_sha256": "5ae14597feb34cf6c497921e1a1c9ea7dc94007fdd405ac931c5b390aa1b8c7f"
+    },
+    {
+      "case": "06-grid-resolution",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "meep2338-d95bf0b21c24",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\meep-2338\\dataset\\replay\\reference\\06-grid-resolution:/audit",
+        "-i",
+        "sha256:7a0236142085710589f832d009cd57bb1f8ceaa3e2dd974e9f4a3a76a044c396",
+        "/opt/meep-repair-build/bin/cylindrical-driver",
+        "/audit/trace.csv"
+      ],
+      "elapsed_seconds": 351.155999999959,
+      "score": 1,
+      "checks": {
+        "runtime_within_case_budget": true,
+        "spectrum_max_absolute_error": 5.717648576819556e-15,
+        "spectrum_max_tolerance_fraction": 1.7005437505952873e-06,
+        "spectrum_independent_passed": true,
+        "all_flux_finite_positive": true,
+        "dt_passed": true,
+        "window_end_passed": true
+      },
+      "time_samples": 86400,
+      "frequency": 1.0,
+      "genuine_surface_integrals": [
+        1.208405746660573,
+        1.435545974820878,
+        1.2084057466605707
+      ],
+      "input_assets": {
+        "problem.json": "2fa500ff3481f70b3ed53637c2f311bc244dd939c1b194242f76c9f703e7858b",
+        "input.h5": "03c3710ab4b2576ed899e18c9fe6b887cee655f4d3f0077eb2906c2d47521fbb",
+        "surfaces.msh": "1ea9cf252e36701484a250ba1922ebb216a2c7e490d06aea62260a62633d3dda"
+      },
+      "payload_sha256": "52c564cccfc54ac05794fdb29791e9d2ae5228f44ff6bcd8accea64c622fcdad",
+      "trace_sha256": "c7547e0a7b6da87f8f45c1f65c32f689b379a35a6fa5f9659b440ce7f2e6ac87",
+      "output_sha256": "082df9e3b50ce9d8c51506907e4bedc57c26062b961af66d4b7458a801af1310"
+    },
+    {
+      "case": "07-negative-source",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "meep2338-01ddaf0c3fd5",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\meep-2338\\dataset\\replay\\reference\\07-negative-source:/audit",
+        "-i",
+        "sha256:7a0236142085710589f832d009cd57bb1f8ceaa3e2dd974e9f4a3a76a044c396",
+        "/opt/meep-repair-build/bin/cylindrical-driver",
+        "/audit/trace.csv"
+      ],
+      "elapsed_seconds": 110.68799999996554,
+      "score": 1,
+      "checks": {
+        "runtime_within_case_budget": true,
+        "spectrum_max_absolute_error": 1.5210055437364645e-14,
+        "spectrum_max_tolerance_fraction": 3.170865016043361e-06,
+        "spectrum_independent_passed": true,
+        "all_flux_finite_positive": true,
+        "dt_passed": true,
+        "window_end_passed": true
+      },
+      "time_samples": 64800,
+      "frequency": 1.0,
+      "genuine_surface_integrals": [
+        0.7263887332331126,
+        2.47390908786596,
+        0.7263887332331119
+      ],
+      "input_assets": {
+        "problem.json": "6ba19ef57dbeebbc6cb57cd381bf222b7b631971ca1b76f72b5aa4c1c58145f5",
+        "input.h5": "f2e00a9fd825fe69bf7363e5332391a150bcb15520b982510ff6e37fbd5ea1ab",
+        "surfaces.msh": "09feec39263bfec383a34474afcbe03ce7a88f1ba589236d8470d373839064e9"
+      },
+      "payload_sha256": "c9a6fa8e5864a63fe44b982054482123c68bd51c4f3e10ef8f61e4583ed593db",
+      "trace_sha256": "3c2b6e61a17cc79c593739005e222fa1c71e3f94687b320108c9574b17d04b01",
+      "output_sha256": "7f95e14520a3d03ee5eaed2730e876bbb0c7730c4eaf736c210ea6bf6480d7cf"
+    },
+    {
+      "case": "08-cylinder-aspect",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "meep2338-8cfb11f8c6da",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\meep-2338\\dataset\\replay\\reference\\08-cylinder-aspect:/audit",
+        "-i",
+        "sha256:7a0236142085710589f832d009cd57bb1f8ceaa3e2dd974e9f4a3a76a044c396",
+        "/opt/meep-repair-build/bin/cylindrical-driver",
+        "/audit/trace.csv"
+      ],
+      "elapsed_seconds": 70.125,
+      "score": 1,
+      "checks": {
+        "runtime_within_case_budget": true,
+        "spectrum_max_absolute_error": 7.327471962526033e-15,
+        "spectrum_max_tolerance_fraction": 1.922793211049213e-06,
+        "spectrum_independent_passed": true,
+        "all_flux_finite_positive": true,
+        "dt_passed": true,
+        "window_end_passed": true
+      },
+      "time_samples": 64800,
+      "frequency": 1.0,
+      "genuine_surface_integrals": [
+        1.4082190978791254,
+        0.9735429541928875,
+        1.4082190978791267
+      ],
+      "input_assets": {
+        "problem.json": "46180fffbd4625ec080e5cdd570a6c2f0b44bdb013cd9ece5e5312c20a3132d2",
+        "input.h5": "f2e00a9fd825fe69bf7363e5332391a150bcb15520b982510ff6e37fbd5ea1ab",
+        "surfaces.msh": "ce1e699d85d346123450675bb17796a2f50d64aaa58c9936e99371ac9cc83409"
+      },
+      "payload_sha256": "307813b231bc82a91043409e4ca4e71b52a5a89c28c194dd833d4455f8bae200",
+      "trace_sha256": "8ea72cc1956460ff6896a64f15a5975af1b660688505a31c48ef4bbdb81fad5e",
+      "output_sha256": "d749f77c840352a10667e171effda8213ff97347e5c00d173ddf58a0a84d9d0a"
+    }
+  ]
+}

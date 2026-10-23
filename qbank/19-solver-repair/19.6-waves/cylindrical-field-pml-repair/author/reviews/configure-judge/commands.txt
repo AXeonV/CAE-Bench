@@ -1,0 +1,15 @@
+Final successful audit commands (2026-10-23, repository root):
+1. .venv/Scripts/python.exe runs/data-review/repair22-meep2338/independent_review.py
+   Exit 0; actual-evidence.json: 8 cases, 2 samples, 8 Oracle outputs, maximum DTFT absolute difference 1.887379141862766e-14, 14 declaration checks, 17 grading/output checks.
+2. .venv/Scripts/python.exe runs/data-review/repair22-meep2338/extra_checks.py
+   Exit 0; extra-evidence.json: 17 additional declaration/mesh branches, 8 nextafter neighbors, source Fourier integral, coarse/fine calculations, fixed-HF descriptors, baseline scores and mode parity.
+3. .venv/Scripts/python.exe -m caeoj_tools.cli data verify --task cylindrical-field-pml-repair --strict
+   Exit 0; strict-verify.json valid=true.
+4. docker run --rm --network none --cpus 4 --memory 4g --user 1000:1000 -v <audit-script-directory>:/audit/scripts:ro -v <baseline-tree.json>:/audit/baseline-tree.json:ro caeoj-meep2338-runtime:base python /audit/scripts/read_image.py base
+   Exit 0; configure-judge/base-image.json; hash-only source inventory and ldd, no solver run.
+5. Same read-only container command for caeoj-meep2338-reference:production, read_image.py production.
+   Exit 0; configure-judge/production-image.json; only src/step_db.cpp differs among 700 originals.
+6. .venv/Scripts/python.exe runs/configure-judge/repair22-meep2338/independent_backend.py
+   Exit 0; actual-command-output.json/actual-evidence.json; 56 frozen formal files, both real compilation logs, 7 raw probes and budget/permissions classified.
+
+No source modification, compilation, long FDTD, paid model invocation, Git staging or commit was performed by the reviewer.

@@ -1,0 +1,41 @@
+{
+  "archive_sha256": "acac8a89d2b02b4aa1a753fcdd2354b836c2af0af1cb21748973ed41564e0027",
+  "network": "none",
+  "command": [
+    "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "--cpus",
+    "4",
+    "--memory",
+    "4g",
+    "-v",
+    "D:\\Code\\CAE-Bench-OJ\\dist\\cylindrical-field-pml-repair-agent.zip:/audit/exam.zip:ro",
+    "caeoj-meep2338-runtime:base",
+    "python",
+    "-c",
+    "import json,subprocess,sys,shutil,zipfile,os\nfrom pathlib import Path\np=Path('/tmp/exam');p.mkdir();zipfile.ZipFile('/audit/exam.zip').extractall(p)\nr=subprocess.run([sys.executable,'-m','pip','install','.'],cwd=p,text=True,capture_output=True);assert r.returncode==0,r.stdout+'\\n'+r.stderr\nshutil.move(p/'src','/tmp/moved-sdk-source');os.chdir('/tmp');import caeoj;assert 'site-packages' in caeoj.__file__,caeoj.__file__\nrows=[];task=p/'qbank/19-solver-repair/19.6-waves/cylindrical-field-pml-repair'\nfor sample in sorted((task/'samples').iterdir()):\n output=Path('/tmp')/('sample-'+sample.name+'.h5');cmd=[sys.executable,str(task/'public/run_case.py'),'--input',str(sample/'input/problem.json'),'--output',str(output)];r=subprocess.run(cmd,text=True,capture_output=True);assert r.returncode==0,r.stdout+'\\n'+r.stderr\n g=subprocess.run([sys.executable,'-m','caeoj','grade','--input',str(sample/'input/problem.json'),'--output',str(output),'--grading',str(sample/'reference/grading.json')],text=True,capture_output=True);d=json.loads(g.stdout);assert d['score']==(0 if sample.name=='01' else 1),d;rows.append({'sample':sample.name,'run_exit_code':r.returncode,'grading_exit_code':g.returncode,'score':d['score'],'status':d['status']})\ncheck=subprocess.run([sys.executable,'-m','pip','check'],text=True,capture_output=True);assert check.returncode==0,check.stdout+check.stderr\nprint(json.dumps({'ordinary_offline_pip_install':True,'sdk_source_moved':True,'installed_module':caeoj.__file__,'baseline_samples':rows,'pip_check':check.stdout.strip()}))\n"
+  ],
+  "ordinary_offline_pip_install": true,
+  "sdk_source_moved": true,
+  "installed_module": "/usr/local/lib/python3.14/site-packages/caeoj/__init__.py",
+  "baseline_samples": [
+    {
+      "sample": "01",
+      "run_exit_code": 0,
+      "grading_exit_code": 1,
+      "score": 0,
+      "status": "wrong_answer"
+    },
+    {
+      "sample": "02",
+      "run_exit_code": 0,
+      "grading_exit_code": 0,
+      "score": 1,
+      "status": "accepted"
+    }
+  ],
+  "pip_check": "No broken requirements found."
+}

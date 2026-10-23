@@ -200,6 +200,17 @@ class ReleaseTests(unittest.TestCase):
         self.public[self.prefix + '/harbor/task.toml'] = b'[environment]\ncpus = 7\n'; self.make_public()
         with self.assertRaisesRegex(ValueError, 'private cases'): self.run_build()
 
+    def test_release_notes_are_delivered_and_verified(self):
+        self.plan['release_notes'] = ['Candidate references await numerical qualification.']
+        catalog = self.run_build()
+        self.assertEqual(catalog['release_notes'], self.plan['release_notes'])
+        self.assertIn(self.plan['release_notes'][0], (self.output / 'README.md').read_text(encoding='utf-8'))
+        verify(self.output)
+
+    def test_invalid_release_notes_rejected(self):
+        self.plan['release_notes'] = ['']
+        with self.assertRaisesRegex(ValueError, 'Release notes'): self.run_build()
+
     def test_source_symlink_rejected(self):
         source = self.task / 'cases/a/input.h5'; other = self.root / 'linked.h5'; source.rename(other)
         try: source.symlink_to(other)

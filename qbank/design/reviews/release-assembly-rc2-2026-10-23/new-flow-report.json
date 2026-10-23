@@ -1,0 +1,2874 @@
+[
+  {
+    "question": "2.2.9",
+    "source_cases": [
+      {
+        "case_id": "ch02-2-2-9-01-thermal_cavity",
+        "description": "方盒；静壁、左右温差；封闭气体质量与非均匀密度",
+        "state": "unvalidated_candidate",
+        "payload_complete": true,
+        "local_payload_present": false,
+        "remote_directory": "/home/zhouzhiyu/code/docker/chapter02-ten-reference-candidates-20261020/cases/ch02-2-2-9-01-thermal_cavity",
+        "reference_qualification": "not_performed",
+        "new_remote_only": true,
+        "recorded_reference_sha256": "997ff67be788fac59a689b95f1b7b4a46265645c5534f66c83e6140810dfe53d",
+        "observed_utc": "2026-10-23T13:10:49.631658+00:00"
+      },
+      {
+        "case_id": "ch02-2-2-9-06-heated_obstacle",
+        "description": "偏心方柱盒；内柱热壁、外壁冷却；内孔热交换",
+        "state": "unvalidated_candidate",
+        "payload_complete": true,
+        "local_payload_present": false,
+        "remote_directory": "/home/zhouzhiyu/code/docker/chapter02-ten-reference-candidates-20261020/cases/ch02-2-2-9-06-heated_obstacle",
+        "reference_qualification": "not_performed",
+        "new_remote_only": true,
+        "recorded_reference_sha256": "4900e4ab22dbbfc7089259506a2568aa0e4138b4208b9f80e0a724f321cf65d3",
+        "observed_utc": "2026-10-23T13:10:49.631658+00:00"
+      },
+      {
+        "case_id": "ch02-2-2-9-07-nonuniform_source",
+        "description": "矩形盒；局部体热源、冷却壁；源项空间分布",
+        "state": "unvalidated_candidate",
+        "payload_complete": true,
+        "local_payload_present": false,
+        "remote_directory": "/home/zhouzhiyu/code/docker/chapter02-ten-reference-candidates-20261020/cases/ch02-2-2-9-07-nonuniform_source",
+        "reference_qualification": "not_performed",
+        "new_remote_only": true,
+        "recorded_reference_sha256": "ef5d8fa3ccf60c53acd09b3c2d9c61e914a86712acf1c89e23a6f5d906fdf252",
+        "observed_utc": "2026-10-23T13:10:49.631658+00:00"
+      },
+      {
+        "case_id": "ch02-2-2-9-09-bulk_viscosity",
+        "description": "矩形盒；独立非零体黏度、壁面驱动及冷热壁；独立体黏度",
+        "state": "unvalidated_candidate",
+        "payload_complete": true,
+        "local_payload_present": false,
+        "remote_directory": "/home/zhouzhiyu/code/docker/chapter02-ten-reference-candidates-20261020/cases/ch02-2-2-9-09-bulk_viscosity",
+        "reference_qualification": "not_performed",
+        "new_remote_only": true,
+        "recorded_reference_sha256": "819d8a8e15e562a3cdbb8fd5d0c9de0a07b9f0dcc02f560eb779831cf5f350d4",
+        "observed_utc": "2026-10-23T13:10:49.631658+00:00"
+      }
+    ],
+    "format_example": {
+      "seed": 910229,
+      "generator": "numpy.PCG64 uniform[-1,1)",
+      "reference_values_read": false,
+      "output_sha256": "95c2c35c706c186920bb8a1fc3fc74c1c86b310ae030dc2c91f459f0150600f1",
+      "shapes": {
+        "velocity": [
+          1,
+          344,
+          2
+        ],
+        "pressure": [
+          1,
+          344,
+          1
+        ],
+        "temperature": [
+          1,
+          344,
+          1
+        ],
+        "density": [
+          1,
+          344,
+          1
+        ]
+      }
+    },
+    "verify": {
+      "valid": true,
+      "errors": [],
+      "public_cases": [
+        {
+          "case": "001",
+          "sample": "01",
+          "case_id": "case-f1c27daea2ae26d8a065cd5a",
+          "sample_kind": "format"
+        }
+      ]
+    },
+    "consumer_checks": [
+      {
+        "case": "001",
+        "input": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "reference": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "self_grade": {
+          "status": "accepted",
+          "score": 1,
+          "checks": {
+            "outputs": {
+              "evaluator": "direct_outputs",
+              "passed": true,
+              "fields": {
+                "velocity": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.002,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 344
+                    },
+                    {
+                      "time_index": 0,
+                      "component_index": 1,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 1
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 344
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "velocity",
+                    "unit": "m/s",
+                    "components": [
+                      "x",
+                      "y"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "pressure": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.5,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 344
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "pressure",
+                    "unit": "Pa",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "temperature": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.05,
+                    "rtol": 0.005
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 344
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "temperature",
+                    "unit": "K",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "density": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.0002,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 344
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "density",
+                    "unit": "kg/m3",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                }
+              }
+            }
+          },
+          "grading_sha256": "f0d64c2db9dc7d093d886c69384c349e0189d80d3592200859ac5767994ab704",
+          "assets": {
+            "grading.json": "dfb86479949ab56ea6f9b2e6c6025ff399121bf559d361fd3e4917ec755ec5b9",
+            "reference.h5": "997ff67be788fac59a689b95f1b7b4a46265645c5534f66c83e6140810dfe53d"
+          },
+          "evaluator_code_sha256": {
+            "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+            "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+            "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+            "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+            "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+            "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+            "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+            "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+            "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+            "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+            "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+            "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+            "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+            "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+            "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+            "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+            "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+            "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+            "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+            "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+            "extension/caeoj_ext/fluid/thermal_flow/__init__.py": "c0f8cffaa24892219976fe17306b8584c0b5e5c28d19a41ca50e5bbe78ced4d0",
+            "extension/caeoj_ext/fluid/_compat_energy.py": "eccb8c4ef0f94880e5e9a43374053bc6600e6677c0adf7f66684fda38bf67fe9"
+          },
+          "input_assets": {
+            "problem.json": "5b8da6423d2dc0872b1291037d687db846ec6302038502c371c4eee4af5a03cd",
+            "input.h5": "34f56abbca4cac8c28f5779a2d7ac5d4e5248376ecfe3da5cd9bbbd7536a579f",
+            "mesh.msh": "5f5e0637895ccdca00edad279c963709f86d8d013c3a55c66875b4bbe4ceb285"
+          },
+          "runtime_binding_sha256": "16b44c46d332ce14684d89e90bd3d04decedaae3ba0056a6ba0a31b0a561f762",
+          "dependencies": {
+            "numpy": "2.4.6",
+            "h5py": "3.16.0",
+            "gmsh": "4.15.2",
+            "jsonschema": "4.26.0"
+          },
+          "python": "3.11.9",
+          "evaluation_sha256": "e98b96a2748f82c62ab5448cb0bc34818de4b660a9b657a248378243f62fc8ba"
+        }
+      },
+      {
+        "case": "002",
+        "input": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "reference": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "self_grade": {
+          "status": "accepted",
+          "score": 1,
+          "checks": {
+            "outputs": {
+              "evaluator": "direct_outputs",
+              "passed": true,
+              "fields": {
+                "velocity": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.002,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 402
+                    },
+                    {
+                      "time_index": 0,
+                      "component_index": 1,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 1
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 402
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "velocity",
+                    "unit": "m/s",
+                    "components": [
+                      "x",
+                      "y"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "pressure": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.5,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 402
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "pressure",
+                    "unit": "Pa",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "temperature": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.05,
+                    "rtol": 0.005
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 402
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "temperature",
+                    "unit": "K",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "density": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.0002,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 402
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "density",
+                    "unit": "kg/m3",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                }
+              }
+            }
+          },
+          "grading_sha256": "f0d64c2db9dc7d093d886c69384c349e0189d80d3592200859ac5767994ab704",
+          "assets": {
+            "grading.json": "dfb86479949ab56ea6f9b2e6c6025ff399121bf559d361fd3e4917ec755ec5b9",
+            "reference.h5": "4900e4ab22dbbfc7089259506a2568aa0e4138b4208b9f80e0a724f321cf65d3"
+          },
+          "evaluator_code_sha256": {
+            "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+            "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+            "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+            "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+            "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+            "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+            "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+            "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+            "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+            "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+            "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+            "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+            "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+            "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+            "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+            "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+            "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+            "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+            "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+            "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+            "extension/caeoj_ext/fluid/thermal_flow/__init__.py": "c0f8cffaa24892219976fe17306b8584c0b5e5c28d19a41ca50e5bbe78ced4d0",
+            "extension/caeoj_ext/fluid/_compat_energy.py": "eccb8c4ef0f94880e5e9a43374053bc6600e6677c0adf7f66684fda38bf67fe9"
+          },
+          "input_assets": {
+            "problem.json": "fa2d50dcaa025706f5932706ab54c2e16f3bcd3caaf900623c7b756567b614b1",
+            "input.h5": "0e08cc8dfe165c76328288c361abffe8abed8804c67a25bb6d8c9fce3cf8512c",
+            "mesh.msh": "5bf053f45c39df658094d8ce2018407f9f22de1b8b2f808f295b17be6cd891e2"
+          },
+          "runtime_binding_sha256": "16b44c46d332ce14684d89e90bd3d04decedaae3ba0056a6ba0a31b0a561f762",
+          "dependencies": {
+            "numpy": "2.4.6",
+            "h5py": "3.16.0",
+            "gmsh": "4.15.2",
+            "jsonschema": "4.26.0"
+          },
+          "python": "3.11.9",
+          "evaluation_sha256": "bca1156c9e3c242633bf22c6dc806e961c74c6e644cee2091eab11499b0f42f2"
+        }
+      },
+      {
+        "case": "003",
+        "input": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "reference": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "self_grade": {
+          "status": "accepted",
+          "score": 1,
+          "checks": {
+            "outputs": {
+              "evaluator": "direct_outputs",
+              "passed": true,
+              "fields": {
+                "velocity": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.002,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 344
+                    },
+                    {
+                      "time_index": 0,
+                      "component_index": 1,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 1
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 344
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "velocity",
+                    "unit": "m/s",
+                    "components": [
+                      "x",
+                      "y"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "pressure": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.5,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 344
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "pressure",
+                    "unit": "Pa",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "temperature": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.05,
+                    "rtol": 0.005
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 344
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "temperature",
+                    "unit": "K",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "density": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.0002,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 344
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "density",
+                    "unit": "kg/m3",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                }
+              }
+            }
+          },
+          "grading_sha256": "f0d64c2db9dc7d093d886c69384c349e0189d80d3592200859ac5767994ab704",
+          "assets": {
+            "grading.json": "dfb86479949ab56ea6f9b2e6c6025ff399121bf559d361fd3e4917ec755ec5b9",
+            "reference.h5": "ef5d8fa3ccf60c53acd09b3c2d9c61e914a86712acf1c89e23a6f5d906fdf252"
+          },
+          "evaluator_code_sha256": {
+            "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+            "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+            "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+            "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+            "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+            "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+            "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+            "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+            "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+            "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+            "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+            "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+            "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+            "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+            "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+            "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+            "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+            "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+            "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+            "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+            "extension/caeoj_ext/fluid/thermal_flow/__init__.py": "c0f8cffaa24892219976fe17306b8584c0b5e5c28d19a41ca50e5bbe78ced4d0",
+            "extension/caeoj_ext/fluid/_compat_energy.py": "eccb8c4ef0f94880e5e9a43374053bc6600e6677c0adf7f66684fda38bf67fe9"
+          },
+          "input_assets": {
+            "problem.json": "4e8294ade3e64625720dc9b0de23c87dd02ccf564c50d620c592a9dcbc3cbbdc",
+            "input.h5": "cde50c3bba8cae8e6326ce1d0854da6d068d5cc8095e2bbb083ff7b9d6b579a1",
+            "mesh.msh": "5f5e0637895ccdca00edad279c963709f86d8d013c3a55c66875b4bbe4ceb285"
+          },
+          "runtime_binding_sha256": "16b44c46d332ce14684d89e90bd3d04decedaae3ba0056a6ba0a31b0a561f762",
+          "dependencies": {
+            "numpy": "2.4.6",
+            "h5py": "3.16.0",
+            "gmsh": "4.15.2",
+            "jsonschema": "4.26.0"
+          },
+          "python": "3.11.9",
+          "evaluation_sha256": "4e5e1edcceff3f911404a03f1c4e769928d0b2783fc62f29788c0497b29d4b8f"
+        }
+      },
+      {
+        "case": "004",
+        "input": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "reference": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "self_grade": {
+          "status": "accepted",
+          "score": 1,
+          "checks": {
+            "outputs": {
+              "evaluator": "direct_outputs",
+              "passed": true,
+              "fields": {
+                "velocity": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.002,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 344
+                    },
+                    {
+                      "time_index": 0,
+                      "component_index": 1,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 1
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 344
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "velocity",
+                    "unit": "m/s",
+                    "components": [
+                      "x",
+                      "y"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "pressure": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.5,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 344
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "pressure",
+                    "unit": "Pa",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "temperature": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.05,
+                    "rtol": 0.005
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 344
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "temperature",
+                    "unit": "K",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "density": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.0002,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 344
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "density",
+                    "unit": "kg/m3",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                }
+              }
+            }
+          },
+          "grading_sha256": "f0d64c2db9dc7d093d886c69384c349e0189d80d3592200859ac5767994ab704",
+          "assets": {
+            "grading.json": "dfb86479949ab56ea6f9b2e6c6025ff399121bf559d361fd3e4917ec755ec5b9",
+            "reference.h5": "819d8a8e15e562a3cdbb8fd5d0c9de0a07b9f0dcc02f560eb779831cf5f350d4"
+          },
+          "evaluator_code_sha256": {
+            "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+            "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+            "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+            "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+            "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+            "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+            "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+            "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+            "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+            "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+            "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+            "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+            "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+            "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+            "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+            "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+            "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+            "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+            "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+            "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+            "extension/caeoj_ext/fluid/thermal_flow/__init__.py": "c0f8cffaa24892219976fe17306b8584c0b5e5c28d19a41ca50e5bbe78ced4d0",
+            "extension/caeoj_ext/fluid/_compat_energy.py": "eccb8c4ef0f94880e5e9a43374053bc6600e6677c0adf7f66684fda38bf67fe9"
+          },
+          "input_assets": {
+            "problem.json": "0c9f7ae10eace34ebf68c98fbfbae3775c8056ab7a44e51b975b5a26b769beff",
+            "input.h5": "34f56abbca4cac8c28f5779a2d7ac5d4e5248376ecfe3da5cd9bbbd7536a579f",
+            "mesh.msh": "5f5e0637895ccdca00edad279c963709f86d8d013c3a55c66875b4bbe4ceb285"
+          },
+          "runtime_binding_sha256": "16b44c46d332ce14684d89e90bd3d04decedaae3ba0056a6ba0a31b0a561f762",
+          "dependencies": {
+            "numpy": "2.4.6",
+            "h5py": "3.16.0",
+            "gmsh": "4.15.2",
+            "jsonschema": "4.26.0"
+          },
+          "python": "3.11.9",
+          "evaluation_sha256": "eea68c360c9c1c77f3105248a1fca9ae6981abfbf91dd71fea9f732f907408e0"
+        }
+      }
+    ],
+    "original_document_sha256": {
+      "instruction.md": "20eeda0d782a09358b9783921d8146905670f411fd96e7327829647cec36e411",
+      "DATA.md": "3dd8842678116a1c88fcdda89eee9b3cdc1313aa6f462b85b6ddfdc7e4604856",
+      "judge-config.json": "53fc9316f9ecddeb88cd4cebfe85dd9dc7a9bb386491b385c1965af84d6cb8e7"
+    }
+  },
+  {
+    "question": "2.2.11",
+    "source_cases": [
+      {
+        "case_id": "ch02-2-2-11-06-heated_obstacle",
+        "description": "偏心方柱盒；内柱热壁、外壁冷却；内孔热交换",
+        "state": "unvalidated_candidate",
+        "payload_complete": true,
+        "local_payload_present": false,
+        "remote_directory": "/home/zhouzhiyu/code/docker/chapter02-ten-reference-candidates-20261020/cases/ch02-2-2-11-06-heated_obstacle",
+        "reference_qualification": "not_performed",
+        "new_remote_only": true,
+        "recorded_reference_sha256": "ce4f493e2b3f64401ddb74a1ce4b829e20cbc04f00cc842e8dc145bee01fef11",
+        "observed_utc": "2026-10-23T13:10:49.631658+00:00"
+      },
+      {
+        "case_id": "ch02-2-2-11-07-nonuniform_source",
+        "description": "矩形盒；局部体热源、冷却壁；源项空间分布",
+        "state": "unvalidated_candidate",
+        "payload_complete": true,
+        "local_payload_present": false,
+        "remote_directory": "/home/zhouzhiyu/code/docker/chapter02-ten-reference-candidates-20261020/cases/ch02-2-2-11-07-nonuniform_source",
+        "reference_qualification": "not_performed",
+        "new_remote_only": true,
+        "recorded_reference_sha256": "30fbbdda5a61b57ad7a971343d89f673acbcdfaefe5cd3d584e9b86198efe055",
+        "observed_utc": "2026-10-23T13:10:49.631658+00:00"
+      },
+      {
+        "case_id": "ch02-2-2-11-09-bulk_viscosity",
+        "description": "矩形盒；独立非零体黏度、壁面驱动及冷热壁；独立体黏度",
+        "state": "unvalidated_candidate",
+        "payload_complete": true,
+        "local_payload_present": false,
+        "remote_directory": "/home/zhouzhiyu/code/docker/chapter02-ten-reference-candidates-20261020/cases/ch02-2-2-11-09-bulk_viscosity",
+        "reference_qualification": "not_performed",
+        "new_remote_only": true,
+        "recorded_reference_sha256": "581703fbccfd88693343072757a4f1f58653fda9baf019282da60089a31101ad",
+        "observed_utc": "2026-10-23T13:10:49.631658+00:00"
+      }
+    ],
+    "format_example": {
+      "seed": 910211,
+      "generator": "numpy.PCG64 uniform[-1,1)",
+      "reference_values_read": false,
+      "output_sha256": "a66a46334b240d00b77da8d08cb135e2e3362be24443b508f8c74f572b87f9f0",
+      "shapes": {
+        "velocity": [
+          1,
+          12424,
+          3
+        ],
+        "pressure": [
+          1,
+          12424,
+          1
+        ],
+        "temperature": [
+          1,
+          12424,
+          1
+        ],
+        "density": [
+          1,
+          12424,
+          1
+        ]
+      }
+    },
+    "verify": {
+      "valid": true,
+      "errors": [],
+      "public_cases": [
+        {
+          "case": "001",
+          "sample": "01",
+          "case_id": "case-c10ecbe51d085b824990a319",
+          "sample_kind": "format"
+        }
+      ]
+    },
+    "consumer_checks": [
+      {
+        "case": "001",
+        "input": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "reference": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "self_grade": {
+          "status": "accepted",
+          "score": 1,
+          "checks": {
+            "outputs": {
+              "evaluator": "direct_outputs",
+              "passed": true,
+              "fields": {
+                "velocity": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.002,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12424
+                    },
+                    {
+                      "time_index": 0,
+                      "component_index": 1,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 1
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12424
+                    },
+                    {
+                      "time_index": 0,
+                      "component_index": 2,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 2
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12424
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "velocity",
+                    "unit": "m/s",
+                    "components": [
+                      "x",
+                      "y",
+                      "z"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "pressure": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.5,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12424
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "pressure",
+                    "unit": "Pa",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "temperature": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.05,
+                    "rtol": 0.005
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12424
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "temperature",
+                    "unit": "K",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "density": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.0002,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12424
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "density",
+                    "unit": "kg/m3",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                }
+              }
+            }
+          },
+          "grading_sha256": "f0d64c2db9dc7d093d886c69384c349e0189d80d3592200859ac5767994ab704",
+          "assets": {
+            "grading.json": "dfb86479949ab56ea6f9b2e6c6025ff399121bf559d361fd3e4917ec755ec5b9",
+            "reference.h5": "ce4f493e2b3f64401ddb74a1ce4b829e20cbc04f00cc842e8dc145bee01fef11"
+          },
+          "evaluator_code_sha256": {
+            "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+            "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+            "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+            "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+            "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+            "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+            "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+            "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+            "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+            "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+            "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+            "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+            "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+            "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+            "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+            "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+            "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+            "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+            "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+            "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+            "extension/caeoj_ext/fluid/thermal_flow/__init__.py": "c0f8cffaa24892219976fe17306b8584c0b5e5c28d19a41ca50e5bbe78ced4d0",
+            "extension/caeoj_ext/fluid/_compat_energy.py": "eccb8c4ef0f94880e5e9a43374053bc6600e6677c0adf7f66684fda38bf67fe9"
+          },
+          "input_assets": {
+            "problem.json": "06b4afecf707db50793217f70d91c65e6a482f28eb5ae07552d4a0429d9b742a",
+            "input.h5": "caf3e169e9490f7da50aa67a242e7103757ce86a87b40a9aed2749d764e3f153",
+            "mesh.msh": "18b9508b3ad1e9b7bffcf27c87d1f9f7e895baeb2f8d05e4704514106e4549a7"
+          },
+          "runtime_binding_sha256": "16b44c46d332ce14684d89e90bd3d04decedaae3ba0056a6ba0a31b0a561f762",
+          "dependencies": {
+            "numpy": "2.4.6",
+            "h5py": "3.16.0",
+            "gmsh": "4.15.2",
+            "jsonschema": "4.26.0"
+          },
+          "python": "3.11.9",
+          "evaluation_sha256": "a15e9da38d260850a6cacdd542e7f9698beda1610e9bed98c11a781792009ecf"
+        }
+      },
+      {
+        "case": "002",
+        "input": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "reference": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "self_grade": {
+          "status": "accepted",
+          "score": 1,
+          "checks": {
+            "outputs": {
+              "evaluator": "direct_outputs",
+              "passed": true,
+              "fields": {
+                "velocity": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.002,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    },
+                    {
+                      "time_index": 0,
+                      "component_index": 1,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 1
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    },
+                    {
+                      "time_index": 0,
+                      "component_index": 2,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 2
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "velocity",
+                    "unit": "m/s",
+                    "components": [
+                      "x",
+                      "y",
+                      "z"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "pressure": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.5,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "pressure",
+                    "unit": "Pa",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "temperature": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.05,
+                    "rtol": 0.005
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "temperature",
+                    "unit": "K",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "density": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.0002,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "density",
+                    "unit": "kg/m3",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                }
+              }
+            }
+          },
+          "grading_sha256": "f0d64c2db9dc7d093d886c69384c349e0189d80d3592200859ac5767994ab704",
+          "assets": {
+            "grading.json": "dfb86479949ab56ea6f9b2e6c6025ff399121bf559d361fd3e4917ec755ec5b9",
+            "reference.h5": "30fbbdda5a61b57ad7a971343d89f673acbcdfaefe5cd3d584e9b86198efe055"
+          },
+          "evaluator_code_sha256": {
+            "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+            "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+            "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+            "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+            "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+            "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+            "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+            "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+            "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+            "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+            "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+            "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+            "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+            "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+            "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+            "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+            "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+            "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+            "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+            "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+            "extension/caeoj_ext/fluid/thermal_flow/__init__.py": "c0f8cffaa24892219976fe17306b8584c0b5e5c28d19a41ca50e5bbe78ced4d0",
+            "extension/caeoj_ext/fluid/_compat_energy.py": "eccb8c4ef0f94880e5e9a43374053bc6600e6677c0adf7f66684fda38bf67fe9"
+          },
+          "input_assets": {
+            "problem.json": "eda51bc2153907fe0e6c648b3a52492d25457d9240dfdd2cf764f972eebad202",
+            "input.h5": "14780a7ffff79141b0ba39691f0da3f542580c76c2f6fc72c90cbb7942f7ae08",
+            "mesh.msh": "aa60dc4a0854cedf918919232688ef4a4e48f1a1d6b246cbc85d929ae5752217"
+          },
+          "runtime_binding_sha256": "16b44c46d332ce14684d89e90bd3d04decedaae3ba0056a6ba0a31b0a561f762",
+          "dependencies": {
+            "numpy": "2.4.6",
+            "h5py": "3.16.0",
+            "gmsh": "4.15.2",
+            "jsonschema": "4.26.0"
+          },
+          "python": "3.11.9",
+          "evaluation_sha256": "b64bce4bf732b316a47f80432e63dd36d063241080c8d4dd13c6be900c379aa1"
+        }
+      },
+      {
+        "case": "003",
+        "input": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "reference": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "self_grade": {
+          "status": "accepted",
+          "score": 1,
+          "checks": {
+            "outputs": {
+              "evaluator": "direct_outputs",
+              "passed": true,
+              "fields": {
+                "velocity": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.002,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    },
+                    {
+                      "time_index": 0,
+                      "component_index": 1,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 1
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    },
+                    {
+                      "time_index": 0,
+                      "component_index": 2,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 2
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "velocity",
+                    "unit": "m/s",
+                    "components": [
+                      "x",
+                      "y",
+                      "z"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "pressure": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.5,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "pressure",
+                    "unit": "Pa",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "temperature": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.05,
+                    "rtol": 0.005
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "temperature",
+                    "unit": "K",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "density": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.0002,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "density",
+                    "unit": "kg/m3",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                }
+              }
+            }
+          },
+          "grading_sha256": "f0d64c2db9dc7d093d886c69384c349e0189d80d3592200859ac5767994ab704",
+          "assets": {
+            "grading.json": "dfb86479949ab56ea6f9b2e6c6025ff399121bf559d361fd3e4917ec755ec5b9",
+            "reference.h5": "581703fbccfd88693343072757a4f1f58653fda9baf019282da60089a31101ad"
+          },
+          "evaluator_code_sha256": {
+            "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+            "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+            "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+            "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+            "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+            "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+            "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+            "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+            "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+            "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+            "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+            "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+            "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+            "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+            "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+            "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+            "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+            "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+            "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+            "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+            "extension/caeoj_ext/fluid/thermal_flow/__init__.py": "c0f8cffaa24892219976fe17306b8584c0b5e5c28d19a41ca50e5bbe78ced4d0",
+            "extension/caeoj_ext/fluid/_compat_energy.py": "eccb8c4ef0f94880e5e9a43374053bc6600e6677c0adf7f66684fda38bf67fe9"
+          },
+          "input_assets": {
+            "problem.json": "f56d85de56054f504d661af4d752cf484af8419105a70682788963fc949101ff",
+            "input.h5": "a806bc13c111cf82cd793465d6544412eacdeff206c4dad8a403775fa312286a",
+            "mesh.msh": "aa60dc4a0854cedf918919232688ef4a4e48f1a1d6b246cbc85d929ae5752217"
+          },
+          "runtime_binding_sha256": "16b44c46d332ce14684d89e90bd3d04decedaae3ba0056a6ba0a31b0a561f762",
+          "dependencies": {
+            "numpy": "2.4.6",
+            "h5py": "3.16.0",
+            "gmsh": "4.15.2",
+            "jsonschema": "4.26.0"
+          },
+          "python": "3.11.9",
+          "evaluation_sha256": "5eb224d008a5a30a4ca66e1a5c084dace1aca35729f2711067280bce16abfe10"
+        }
+      }
+    ],
+    "original_document_sha256": {
+      "instruction.md": "928c7f21e5589f2669ae4d6209af725d9da106a423dbc74cc11f63532e08498f",
+      "DATA.md": "31ef87e3792e60b09b36de9f2d4e65b1fc8afc418e387c4154cf2c194e8854d0",
+      "judge-config.json": "53fc9316f9ecddeb88cd4cebfe85dd9dc7a9bb386491b385c1965af84d6cb8e7"
+    }
+  },
+  {
+    "question": "2.4.4",
+    "source_cases": [
+      {
+        "case_id": "ch02-2-4-4-01-thermal_cavity",
+        "description": "方盒；静壁、左右温差；封闭气体质量与非均匀密度",
+        "state": "unvalidated_candidate",
+        "payload_complete": true,
+        "local_payload_present": false,
+        "remote_directory": "/home/zhouzhiyu/code/docker/chapter02-ten-reference-candidates-20261020/cases/ch02-2-4-4-01-thermal_cavity",
+        "reference_qualification": "not_performed",
+        "new_remote_only": true,
+        "recorded_reference_sha256": "caa28a25f8faed9a225f4c1d5dbad138f9b4e2aa7849e75976a5be871315b7b0",
+        "observed_utc": "2026-10-23T13:10:49.631658+00:00"
+      },
+      {
+        "case_id": "ch02-2-4-4-06-heated_obstacle",
+        "description": "偏心方柱盒；内柱热壁、外壁冷却；内孔热交换",
+        "state": "unvalidated_candidate",
+        "payload_complete": true,
+        "local_payload_present": false,
+        "remote_directory": "/home/zhouzhiyu/code/docker/chapter02-ten-reference-candidates-20261020/cases/ch02-2-4-4-06-heated_obstacle",
+        "reference_qualification": "not_performed",
+        "new_remote_only": true,
+        "recorded_reference_sha256": "5cf366317b591419d01c9df1e319809e4e603574eeb8483640d012d5ed82d1d9",
+        "observed_utc": "2026-10-23T13:10:49.631658+00:00"
+      },
+      {
+        "case_id": "ch02-2-4-4-07-nonuniform_source",
+        "description": "矩形盒；局部体热源、冷却壁；源项空间分布",
+        "state": "unvalidated_candidate",
+        "payload_complete": true,
+        "local_payload_present": false,
+        "remote_directory": "/home/zhouzhiyu/code/docker/chapter02-ten-reference-candidates-20261020/cases/ch02-2-4-4-07-nonuniform_source",
+        "reference_qualification": "not_performed",
+        "new_remote_only": true,
+        "recorded_reference_sha256": "b2639af93eb871b26c7af9c798e0dfd1056bc3b35210599ef04d44afa88a39f8",
+        "observed_utc": "2026-10-23T13:10:49.631658+00:00"
+      },
+      {
+        "case_id": "ch02-2-4-4-09-bulk_viscosity",
+        "description": "矩形盒；独立非零体黏度、壁面驱动及冷热壁；独立体黏度",
+        "state": "unvalidated_candidate",
+        "payload_complete": true,
+        "local_payload_present": false,
+        "remote_directory": "/home/zhouzhiyu/code/docker/chapter02-ten-reference-candidates-20261020/cases/ch02-2-4-4-09-bulk_viscosity",
+        "reference_qualification": "not_performed",
+        "new_remote_only": true,
+        "recorded_reference_sha256": "bd3e9078f68861eaf0804b23dd65dde0c981495fc907e11e0457388239ea7d03",
+        "observed_utc": "2026-10-23T13:10:49.631658+00:00"
+      }
+    ],
+    "format_example": {
+      "seed": 910244,
+      "generator": "numpy.PCG64 uniform[-1,1)",
+      "reference_values_read": false,
+      "output_sha256": "1190a4ebf9c5bed3365531da4115214190138a7b867384d98bc9984987057f0c",
+      "shapes": {
+        "velocity": [
+          1,
+          12648,
+          3
+        ],
+        "pressure": [
+          1,
+          12648,
+          1
+        ],
+        "temperature": [
+          1,
+          12648,
+          1
+        ],
+        "density": [
+          1,
+          12648,
+          1
+        ]
+      }
+    },
+    "verify": {
+      "valid": true,
+      "errors": [],
+      "public_cases": [
+        {
+          "case": "001",
+          "sample": "01",
+          "case_id": "case-f2904ed3902a5f14ee41149c",
+          "sample_kind": "format"
+        }
+      ]
+    },
+    "consumer_checks": [
+      {
+        "case": "001",
+        "input": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "reference": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "self_grade": {
+          "status": "accepted",
+          "score": 1,
+          "checks": {
+            "outputs": {
+              "evaluator": "direct_outputs",
+              "passed": true,
+              "fields": {
+                "velocity": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.01,
+                    "rtol": 0.05
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    },
+                    {
+                      "time_index": 0,
+                      "component_index": 1,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 1
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    },
+                    {
+                      "time_index": 0,
+                      "component_index": 2,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 2
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "velocity",
+                    "unit": "m/s",
+                    "components": [
+                      "x",
+                      "y",
+                      "z"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "pressure": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 2.0,
+                    "rtol": 0.05
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "pressure",
+                    "unit": "Pa",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "temperature": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.2,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "temperature",
+                    "unit": "K",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "density": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.001,
+                    "rtol": 0.05
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "density",
+                    "unit": "kg/m3",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                }
+              }
+            }
+          },
+          "grading_sha256": "950b311069010fc789a4fd94fc8f36f2c9131c047d91a73829ab60485c84274e",
+          "assets": {
+            "grading.json": "18d11165980b120a1b0f6c958b4ddae0c5b8a546e948aa6dabb9065f2c95827a",
+            "reference.h5": "caa28a25f8faed9a225f4c1d5dbad138f9b4e2aa7849e75976a5be871315b7b0"
+          },
+          "evaluator_code_sha256": {
+            "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+            "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+            "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+            "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+            "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+            "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+            "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+            "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+            "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+            "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+            "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+            "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+            "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+            "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+            "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+            "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+            "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+            "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+            "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+            "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+            "extension/caeoj_ext/fluid/thermal_flow/__init__.py": "c0f8cffaa24892219976fe17306b8584c0b5e5c28d19a41ca50e5bbe78ced4d0",
+            "extension/caeoj_ext/fluid/_compat_energy.py": "eccb8c4ef0f94880e5e9a43374053bc6600e6677c0adf7f66684fda38bf67fe9",
+            "extension/caeoj_ext/fluid/turbulence/__init__.py": "fbb57fdcf98307047ea93dfd90ca8e21b561289f4e8f43fce126f4d408ae446b"
+          },
+          "input_assets": {
+            "problem.json": "ffc2f07ed97556ffe8fdbfc292606a7d9a9844cb29e7d06f2d0c91d16bc9d58f",
+            "input.h5": "a806bc13c111cf82cd793465d6544412eacdeff206c4dad8a403775fa312286a",
+            "mesh.msh": "dcc50eb20ec8eda3d5ff499919907df08930c469e8e19b63dafd92204c2a715b"
+          },
+          "runtime_binding_sha256": "d507f6130d784044ab197487eb9790fa66eece9ded9ae9b16eb319072c3fb79a",
+          "dependencies": {
+            "numpy": "2.4.6",
+            "h5py": "3.16.0",
+            "gmsh": "4.15.2",
+            "jsonschema": "4.26.0"
+          },
+          "python": "3.11.9",
+          "evaluation_sha256": "9d012e81c0fe3618be79464a365a7450e071fde0d9ebc036a6a30e5d905f9875"
+        }
+      },
+      {
+        "case": "002",
+        "input": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "reference": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "self_grade": {
+          "status": "accepted",
+          "score": 1,
+          "checks": {
+            "outputs": {
+              "evaluator": "direct_outputs",
+              "passed": true,
+              "fields": {
+                "velocity": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.01,
+                    "rtol": 0.05
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12457
+                    },
+                    {
+                      "time_index": 0,
+                      "component_index": 1,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 1
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12457
+                    },
+                    {
+                      "time_index": 0,
+                      "component_index": 2,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 2
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12457
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "velocity",
+                    "unit": "m/s",
+                    "components": [
+                      "x",
+                      "y",
+                      "z"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "pressure": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 2.0,
+                    "rtol": 0.05
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12457
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "pressure",
+                    "unit": "Pa",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "temperature": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.2,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12457
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "temperature",
+                    "unit": "K",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "density": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.001,
+                    "rtol": 0.05
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12457
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "density",
+                    "unit": "kg/m3",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                }
+              }
+            }
+          },
+          "grading_sha256": "950b311069010fc789a4fd94fc8f36f2c9131c047d91a73829ab60485c84274e",
+          "assets": {
+            "grading.json": "18d11165980b120a1b0f6c958b4ddae0c5b8a546e948aa6dabb9065f2c95827a",
+            "reference.h5": "5cf366317b591419d01c9df1e319809e4e603574eeb8483640d012d5ed82d1d9"
+          },
+          "evaluator_code_sha256": {
+            "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+            "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+            "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+            "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+            "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+            "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+            "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+            "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+            "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+            "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+            "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+            "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+            "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+            "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+            "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+            "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+            "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+            "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+            "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+            "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+            "extension/caeoj_ext/fluid/thermal_flow/__init__.py": "c0f8cffaa24892219976fe17306b8584c0b5e5c28d19a41ca50e5bbe78ced4d0",
+            "extension/caeoj_ext/fluid/_compat_energy.py": "eccb8c4ef0f94880e5e9a43374053bc6600e6677c0adf7f66684fda38bf67fe9",
+            "extension/caeoj_ext/fluid/turbulence/__init__.py": "fbb57fdcf98307047ea93dfd90ca8e21b561289f4e8f43fce126f4d408ae446b"
+          },
+          "input_assets": {
+            "problem.json": "f4a667e5ba1d241b25dfb9b85c75a0e5875079acf1b50ad09ddf491e841e0a4d",
+            "input.h5": "eac26f6eccdfe9ea20e570c1f7f0e5f156f18c7d5523eb5d07d86b4596e240ab",
+            "mesh.msh": "4327372a38517e7f25c44f0c92c26fc7bf1182f99a47bd63d8bfdc1ec25bec76"
+          },
+          "runtime_binding_sha256": "d507f6130d784044ab197487eb9790fa66eece9ded9ae9b16eb319072c3fb79a",
+          "dependencies": {
+            "numpy": "2.4.6",
+            "h5py": "3.16.0",
+            "gmsh": "4.15.2",
+            "jsonschema": "4.26.0"
+          },
+          "python": "3.11.9",
+          "evaluation_sha256": "a1c89c60bad00d9edd70e18ae99436b7ae07072d074bd2b80e8f843db3f1bf27"
+        }
+      },
+      {
+        "case": "003",
+        "input": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "reference": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "self_grade": {
+          "status": "accepted",
+          "score": 1,
+          "checks": {
+            "outputs": {
+              "evaluator": "direct_outputs",
+              "passed": true,
+              "fields": {
+                "velocity": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.01,
+                    "rtol": 0.05
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    },
+                    {
+                      "time_index": 0,
+                      "component_index": 1,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 1
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    },
+                    {
+                      "time_index": 0,
+                      "component_index": 2,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 2
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "velocity",
+                    "unit": "m/s",
+                    "components": [
+                      "x",
+                      "y",
+                      "z"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "pressure": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 2.0,
+                    "rtol": 0.05
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "pressure",
+                    "unit": "Pa",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "temperature": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.2,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "temperature",
+                    "unit": "K",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "density": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.001,
+                    "rtol": 0.05
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "density",
+                    "unit": "kg/m3",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                }
+              }
+            }
+          },
+          "grading_sha256": "950b311069010fc789a4fd94fc8f36f2c9131c047d91a73829ab60485c84274e",
+          "assets": {
+            "grading.json": "18d11165980b120a1b0f6c958b4ddae0c5b8a546e948aa6dabb9065f2c95827a",
+            "reference.h5": "b2639af93eb871b26c7af9c798e0dfd1056bc3b35210599ef04d44afa88a39f8"
+          },
+          "evaluator_code_sha256": {
+            "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+            "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+            "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+            "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+            "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+            "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+            "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+            "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+            "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+            "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+            "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+            "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+            "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+            "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+            "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+            "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+            "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+            "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+            "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+            "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+            "extension/caeoj_ext/fluid/thermal_flow/__init__.py": "c0f8cffaa24892219976fe17306b8584c0b5e5c28d19a41ca50e5bbe78ced4d0",
+            "extension/caeoj_ext/fluid/_compat_energy.py": "eccb8c4ef0f94880e5e9a43374053bc6600e6677c0adf7f66684fda38bf67fe9",
+            "extension/caeoj_ext/fluid/turbulence/__init__.py": "fbb57fdcf98307047ea93dfd90ca8e21b561289f4e8f43fce126f4d408ae446b"
+          },
+          "input_assets": {
+            "problem.json": "1cd8bab73dfc12d3afcbb3b19add97086f627de9a53a7c1592afa851bfb280e1",
+            "input.h5": "034ef47839131858362a8a8a917a20d258458db635ef852e54d4230da157343e",
+            "mesh.msh": "dcc50eb20ec8eda3d5ff499919907df08930c469e8e19b63dafd92204c2a715b"
+          },
+          "runtime_binding_sha256": "d507f6130d784044ab197487eb9790fa66eece9ded9ae9b16eb319072c3fb79a",
+          "dependencies": {
+            "numpy": "2.4.6",
+            "h5py": "3.16.0",
+            "gmsh": "4.15.2",
+            "jsonschema": "4.26.0"
+          },
+          "python": "3.11.9",
+          "evaluation_sha256": "947e86b4821fb130149888be4665d1925812663c84d7ca312f363f26795723bc"
+        }
+      },
+      {
+        "case": "004",
+        "input": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "reference": {
+          "valid": true,
+          "errors": [],
+          "scope": "declared-extensions"
+        },
+        "self_grade": {
+          "status": "accepted",
+          "score": 1,
+          "checks": {
+            "outputs": {
+              "evaluator": "direct_outputs",
+              "passed": true,
+              "fields": {
+                "velocity": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.01,
+                    "rtol": 0.05
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    },
+                    {
+                      "time_index": 0,
+                      "component_index": 1,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 1
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    },
+                    {
+                      "time_index": 0,
+                      "component_index": 2,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 2
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "velocity",
+                    "unit": "m/s",
+                    "components": [
+                      "x",
+                      "y",
+                      "z"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "pressure": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 2.0,
+                    "rtol": 0.05
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "pressure",
+                    "unit": "Pa",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "temperature": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.2,
+                    "rtol": 0.02
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "temperature",
+                    "unit": "K",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                },
+                "density": {
+                  "condition": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0.001,
+                    "rtol": 0.05
+                  },
+                  "passed": true,
+                  "groups": [
+                    {
+                      "time_index": 0,
+                      "component_index": 0,
+                      "worst_location": {
+                        "time_index": 0,
+                        "time": 0.0,
+                        "id": 1,
+                        "component_index": 0
+                      },
+                      "value": 0.0,
+                      "passed": true,
+                      "failed_values": 0,
+                      "total_values": 12648
+                    }
+                  ],
+                  "observation": {
+                    "quantity": "density",
+                    "unit": "kg/m3",
+                    "components": [
+                      "value"
+                    ],
+                    "location": "domain",
+                    "time_axis": "requested"
+                  }
+                }
+              }
+            }
+          },
+          "grading_sha256": "950b311069010fc789a4fd94fc8f36f2c9131c047d91a73829ab60485c84274e",
+          "assets": {
+            "grading.json": "18d11165980b120a1b0f6c958b4ddae0c5b8a546e948aa6dabb9065f2c95827a",
+            "reference.h5": "bd3e9078f68861eaf0804b23dd65dde0c981495fc907e11e0457388239ea7d03"
+          },
+          "evaluator_code_sha256": {
+            "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+            "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+            "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+            "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+            "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+            "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+            "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+            "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+            "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+            "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+            "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+            "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+            "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+            "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+            "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+            "extension/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+            "extension/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+            "extension/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+            "extension/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+            "extension/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+            "extension/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+            "extension/caeoj_ext/fluid/thermal_flow/__init__.py": "c0f8cffaa24892219976fe17306b8584c0b5e5c28d19a41ca50e5bbe78ced4d0",
+            "extension/caeoj_ext/fluid/_compat_energy.py": "eccb8c4ef0f94880e5e9a43374053bc6600e6677c0adf7f66684fda38bf67fe9",
+            "extension/caeoj_ext/fluid/turbulence/__init__.py": "fbb57fdcf98307047ea93dfd90ca8e21b561289f4e8f43fce126f4d408ae446b"
+          },
+          "input_assets": {
+            "problem.json": "9dd4ea25d83ba5ef9bf5ef7af912dd01b0b30901fca29bbd9bacf1b160394fc9",
+            "input.h5": "a806bc13c111cf82cd793465d6544412eacdeff206c4dad8a403775fa312286a",
+            "mesh.msh": "dcc50eb20ec8eda3d5ff499919907df08930c469e8e19b63dafd92204c2a715b"
+          },
+          "runtime_binding_sha256": "d507f6130d784044ab197487eb9790fa66eece9ded9ae9b16eb319072c3fb79a",
+          "dependencies": {
+            "numpy": "2.4.6",
+            "h5py": "3.16.0",
+            "gmsh": "4.15.2",
+            "jsonschema": "4.26.0"
+          },
+          "python": "3.11.9",
+          "evaluation_sha256": "2b1ada052aec88a180ef45eea4e2e404c66a5587a31b30d6e4e8942de386c53b"
+        }
+      }
+    ],
+    "original_document_sha256": {
+      "instruction.md": "561ad0c58087ae830be659cdb8d9e8b61c23455a19334b80c507200c32740e8b",
+      "DATA.md": "304ffc1be000c7dd3aa23442eb7659e3d7bbd8e28f92bdd3c6beee215bf2391a",
+      "judge-config.json": "bc5f6bd646b3b8417f01ac0c5728bed0c68facf2cc4a2a49d8f17eba8404b7e2"
+    }
+  }
+]

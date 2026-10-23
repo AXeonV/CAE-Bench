@@ -202,12 +202,15 @@ def _readme(catalog):
     tasks = catalog['tasks']
     cases = sum(len(t['cases']) for t in tasks)
     samples = sum(len(t['samples']) for t in tasks)
+    notes = ''.join(f'- {note}\n' for note in catalog.get('release_notes', []))
+    notes_section = '\n## 本版范围与资格说明\n\n' + notes if notes else ''
     return f'''# {catalog['release_id']} — 内部候选发行版
 
 本包是选中题目的材料与数据快照，不是完整模型执行器或全部题库正式发行。
 包含{len(tasks)}题、{cases}个正式case角色、{samples}个公开样例角色；正式case与样例可能共享身份，不能相加视为独立工况数。
 另有{len(catalog['excluded'])}项排除记录。逐题身份、选样映射、profile、limitations和排除原因见catalog.json。
 文件存在与摘要通过不代表数值资格、资源校准或模型Benchmark已经通过。
+{notes_section}
 
 ## 材料边界
 
@@ -251,6 +254,9 @@ def build(plan_path, output):
     plan = _json(plan_path)
     if not isinstance(plan.get('tasks'), list) or not plan['tasks']:
         raise ValueError('Release plan must select at least one task')
+    notes = plan.get('release_notes', [])
+    if not isinstance(notes, list) or any(not isinstance(note, str) or not note.strip() for note in notes):
+        raise ValueError('Release notes must be a list of nonempty strings')
     output = Path(output).absolute()
     _unlinked_ancestors(output)
     # A release must not consume itself or overwrite any selected input.
@@ -271,6 +277,7 @@ def build(plan_path, output):
                'stage': plan.get('stage', 'internal_rc'),
                'capabilities': plan.get('capabilities', {'dataset_offline': True, 'model_runner_included': False, 'fast_grading': False, 'repo_patch': False}),
                'qualification': 'Profiles are explicit plan declarations; file integrity is not numerical qualification.',
+               'release_notes': notes,
                'tasks': [], 'excluded': plan.get('excluded', []), 'licenses': []}
     names, prefixes, members, task_ids = set(), set(), set(), set()
     for entry in plan['tasks']:

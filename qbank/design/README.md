@@ -8,7 +8,7 @@
 
 第二章最新Titan逐例观察及“无case不纳入发行”的筛选见[第二章发行筛选检查稿](reviews/titan-inventory-2026-10-23/chapter02-release-review.md)。有完整候选和发行验收通过分别记录。
 
-当前内部RC的实际纳入、排除、交付归档与验证边界见[发行装配验收记录](reviews/release-assembly-2026-10-23/README.md)，操作见[离线发行流程](../maintenance/RELEASE.md)。
+当前内部RC的实际纳入、排除、交付归档与验证边界见[RC2装配与验证记录](reviews/release-assembly-rc2-2026-10-23/README.md)，操作见[离线发行流程](../maintenance/RELEASE.md)。
 
 题库面向 CAE 各领域，统一按章、节、子节组织。第 0 章承担基础链路测试；第 1 章起要求 Agent 生产覆盖公开问题族的可复用求解器。给定 PDE 与通过物理描述定义分析任务，是题目描述与建模责任的区别，不作为两大类目录。
 

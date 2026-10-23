@@ -4,13 +4,13 @@
 
 ## 准备与选择
 
-先按题目目录和资产账本确定纳入项。无可评分case的题不进入发行目录；输入／参考存在但仍待数值核验的候选留在排除清单。对修复题，应记录真实提交接口和运行环境可获取性，不能把旧文件替换接口标成完整仓库patch。
+先按题目目录和资产账本确定纳入项。无可评分case的题不进入发行目录。输入／参考存在但仍待数值核验的候选，可按已确认的范围纳入审阅RC，必须用逐题profile、limitations及发行说明明确资格缺口；不得称为已验收的Benchmark题。未纳入项留在排除清单。对修复题，应记录真实提交接口和运行环境可获取性，不能把旧文件替换接口标成完整仓库patch。
 
 本地已有载荷优先复用。需装配的题使用[数据池工具](DATA-SYNC.md)完成离线assemble与strict verify；不要为了制发行包重新下载相同数据。不同历史工具版本的manifest／format样例应使用匹配的既有运行闭包，不能补造数值参考或静默降级验证。
 
 作者计划JSON包含：
 
-- `release_id`、`stage`及实际`capabilities`；
+- `release_id`、`stage`及实际`capabilities`，可选的`release_notes`为非空字符串列表，直接进入发行README与catalog；
 - `tasks`：每题的`task`、`chapter`、`title`、`source_root`、相对`task_path`、现有`public_archive`、明确的`profile`和`limitations`、实际`license_files`；
 - `excluded`：未纳入的题目身份与具体原因。
 

@@ -16,4 +16,4 @@ description: 制作和维护 CAE-Bench-OJ 的 HF 题内数据池，上传、选�
 
 数据变更后检查受影响契约、样例、参考及评分消费链，报告上传提交、选择、完整性和验证范围。文件一致不等于数值正确；来源寻找及实际参考制作交 [caeoj-source-cases](../caeoj-source-cases/SKILL.md)，题意修订或模型评测交对应流程，不由本技能默认启动。
 
-用户要求组装发行题库时，按[离线发行流程](../../../qbank/maintenance/RELEASE.md)冻结已装配结果：优先本地复用，使用`caeoj-maint release`绑定选样与公开闭包，分别分发考生材料和维护参考。该步骤不替代参考资格，不自动下载HF、重算或启动模型Benchmark；无case及接口／环境未就绪项列明确排除原因。
+用户要求组装发行题库时，按[离线发行流程](../../../qbank/maintenance/RELEASE.md)冻结已装配结果：优先本地复用，使用`caeoj-maint release`绑定选样与公开闭包，分别分发考生材料和维护参考。按已确认范围纳入的未验证候选须在profile、limitations和release_notes说明缺口，不因尚未数值验收擅自删去。该步骤不替代参考资格，不自动下载HF、重算或启动模型Benchmark；无case及接口／环境未就绪项列明确排除原因。

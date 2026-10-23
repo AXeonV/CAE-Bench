@@ -1,8 +1,486 @@
 {
-  "passed": false,
-  "complete": false,
-  "phase": "running-seven-fresh-modes",
+  "passed": true,
+  "complete": true,
+  "image_id": "sha256:ee0e639bd1407297c476355ad792af0d8a0a2e3e47cb472a441d590896e539ee",
   "expected_agent_zip_sha256": "9cd9a7479aaa7973194bfd5099e97fbc60f40c8133cddcce8b2e7552f54c3f39",
   "judge_sha256": "5595500ff6c8612f4682f4eda0cdc6521c5af94343dcba6c825bb3555141180f",
-  "probes": []
+  "probes": [
+    {
+      "mode": "valid",
+      "passed": true,
+      "ldd": "\tlinux-vdso.so.1 (0x00000f4b1c8fc000)\n\tlibmpi_mpifh.so.40 => /lib/x86_64-linux-gnu/libmpi_mpifh.so.40 (0x00000f4b1c70a000)\n\tlibgfortran.so.5 => /lib/x86_64-linux-gnu/libgfortran.so.5 (0x00000f4b1c406000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00000f4b1c316000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00000f4b1c2e9000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00000f4b1c0f3000)\n\tlibmpi.so.40 => /lib/x86_64-linux-gnu/libmpi.so.40 (0x00000f4b1bd26000)\n\tlibopen-pal.so.80 => /lib/x86_64-linux-gnu/libopen-pal.so.80 (0x00000f4b1bbe9000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00000f4b1c8fe000)\n\tlibpsm2.so.2 => /lib/x86_64-linux-gnu/libpsm2.so.2 (0x00000f4b1bb80000)\n\tlibfabric.so.1 => /lib/x86_64-linux-gnu/libfabric.so.1 (0x00000f4b1b9b9000)\n\tlibucp.so.0 => /lib/x86_64-linux-gnu/libucp.so.0 (0x00000f4b1b81e000)\n\tlibucs.so.0 => /lib/x86_64-linux-gnu/libucs.so.0 (0x00000f4b1b7af000)\n\tlibevent_core-2.1.so.7 => /lib/x86_64-linux-gnu/libevent_core-2.1.so.7 (0x00000f4b1b779000)\n\tlibevent_pthreads-2.1.so.7 => /lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7 (0x00000f4b1b774000)\n\tlibhwloc.so.15 => /lib/x86_64-linux-gnu/libhwloc.so.15 (0x00000f4b1b710000)\n\tlibpmix.so.2 => /lib/x86_64-linux-gnu/libpmix.so.2 (0x00000f4b1b4df000)\n\tlibucm.so.0 => /lib/x86_64-linux-gnu/libucm.so.0 (0x00000f4b1b4be000)\n\tlibuct.so.0 => /lib/x86_64-linux-gnu/libuct.so.0 (0x00000f4b1b473000)\n\tlibnl-3.so.200 => /lib/x86_64-linux-gnu/libnl-3.so.200 (0x00000f4b1b450000)\n\tlibnuma.so.1 => /lib/x86_64-linux-gnu/libnuma.so.1 (0x00000f4b1b441000)\n\tlibrdmacm.so.1 => /lib/x86_64-linux-gnu/librdmacm.so.1 (0x00000f4b1b422000)\n\tlibefa.so.1 => /lib/x86_64-linux-gnu/libefa.so.1 (0x00000f4b1b412000)\n\tlibibverbs.so.1 => /lib/x86_64-linux-gnu/libibverbs.so.1 (0x00000f4b1b3f1000)\n\tlibudev.so.1 => /lib/x86_64-linux-gnu/libudev.so.1 (0x00000f4b1b3ac000)\n\tlibmunge.so.2 => /lib/x86_64-linux-gnu/libmunge.so.2 (0x00000f4b1b3a0000)\n\tlibnl-route-3.so.200 => /lib/x86_64-linux-gnu/libnl-route-3.so.200 (0x00000f4b1b30d000)\n\tlibcap.so.2 => /lib/x86_64-linux-gnu/libcap.so.2 (0x00000f4b1b2ff000)\n",
+      "binding": {
+        "uid": 1000,
+        "permissions": {
+          "/tests": {
+            "read": false,
+            "write": false
+          },
+          "/logs/verifier": {
+            "read": false,
+            "write": false
+          },
+          "/probe": {
+            "read": false,
+            "write": false
+          },
+          "/app/submission": {
+            "read": true,
+            "write": false
+          },
+          "/opt/specfem-cmake": {
+            "read": true,
+            "write": false
+          },
+          "/opt/specfem-cmake/CMakeLists.txt": {
+            "read": true,
+            "write": false
+          },
+          "/opt/specfem-repair-build": {
+            "read": true,
+            "write": false
+          },
+          "/opt/specfem-repair-build/upstream": {
+            "read": true,
+            "write": false
+          },
+          "/opt/specfem-repair-build/upstream/src/specfem2D": {
+            "read": true,
+            "write": false
+          },
+          "/opt/specfem-repair-build/upstream/src/specfem2D/get_MPI.F90": {
+            "read": true,
+            "write": false
+          },
+          "/opt/specfem-repair-build/upstream/bin/xmeshfem2D": {
+            "read": true,
+            "write": false
+          },
+          "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/specfem-repair-build/upstream/bin/xspecfem2D": {
+            "read": true,
+            "write": false
+          }
+        },
+        "network": "denied"
+      },
+      "build": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "cmake",
+          "--build",
+          "/opt/specfem-repair-build",
+          "--target",
+          "repair_sources",
+          "--parallel",
+          "4"
+        ],
+        "exit_code": 0,
+        "status": "built",
+        "elapsed_seconds": 2.0977397320020827,
+        "sources_sha256": {
+          "get_MPI.F90": "f8cdb8214e270674ddc8af880812f0f1c86a04c5c740e0ea8eb013a38f59da6e"
+        },
+        "removed_build_artifacts": [
+          "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o",
+          "/opt/specfem-repair-build/upstream/bin/xspecfem2D"
+        ],
+        "built_artifacts_sha256": {
+          "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o": "9c957fae9efcd97903a596f9f21b784d2898e60fe41471bcdab3cd0f48f40f43",
+          "/opt/specfem-repair-build/upstream/bin/xspecfem2D": "c0555ce10d47baa74c4152f76296f7801ab82aec9b877588722ec31f58dba7da"
+        }
+      },
+      "baseline_build": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "cmake",
+          "--build",
+          "/opt/specfem-repair-build",
+          "--target",
+          "repair_sources",
+          "--parallel",
+          "4"
+        ],
+        "exit_code": 0,
+        "status": "built",
+        "elapsed_seconds": 1.07129926700145,
+        "removed_build_artifacts": [
+          "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o",
+          "/opt/specfem-repair-build/upstream/bin/xspecfem2D"
+        ]
+      },
+      "baseline_probe": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "/usr/local/bin/python",
+          "/opt/specfem-baseline-health.py"
+        ],
+        "exit_code": 0,
+        "status": "ready",
+        "elapsed_seconds": 2.462935216997721
+      },
+      "cpu_max": "400000 100000\n",
+      "memory_max": "4294967296\n",
+      "reports": {
+        "baseline-report.json": {
+          "command": [
+            "setpriv",
+            "--reuid=1000",
+            "--regid=1000",
+            "--clear-groups",
+            "--no-new-privs",
+            "cmake",
+            "--build",
+            "/opt/specfem-repair-build",
+            "--target",
+            "repair_sources",
+            "--parallel",
+            "4"
+          ],
+          "exit_code": 0,
+          "status": "built",
+          "elapsed_seconds": 1.07129926700145,
+          "removed_build_artifacts": [
+            "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o",
+            "/opt/specfem-repair-build/upstream/bin/xspecfem2D"
+          ]
+        },
+        "report.json": {
+          "command": [
+            "setpriv",
+            "--reuid=1000",
+            "--regid=1000",
+            "--clear-groups",
+            "--no-new-privs",
+            "cmake",
+            "--build",
+            "/opt/specfem-repair-build",
+            "--target",
+            "repair_sources",
+            "--parallel",
+            "4"
+          ],
+          "exit_code": 0,
+          "status": "built",
+          "elapsed_seconds": 2.0977397320020827,
+          "sources_sha256": {
+            "get_MPI.F90": "f8cdb8214e270674ddc8af880812f0f1c86a04c5c740e0ea8eb013a38f59da6e"
+          },
+          "removed_build_artifacts": [
+            "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o",
+            "/opt/specfem-repair-build/upstream/bin/xspecfem2D"
+          ],
+          "built_artifacts_sha256": {
+            "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o": "9c957fae9efcd97903a596f9f21b784d2898e60fe41471bcdab3cd0f48f40f43",
+            "/opt/specfem-repair-build/upstream/bin/xspecfem2D": "c0555ce10d47baa74c4152f76296f7801ab82aec9b877588722ec31f58dba7da"
+          }
+        },
+        "baseline-probe-report.json": {
+          "command": [
+            "setpriv",
+            "--reuid=1000",
+            "--regid=1000",
+            "--clear-groups",
+            "--no-new-privs",
+            "/usr/local/bin/python",
+            "/opt/specfem-baseline-health.py"
+          ],
+          "exit_code": 0,
+          "status": "ready",
+          "elapsed_seconds": 2.462935216997721
+        }
+      },
+      "stderr_tails": {
+        "candidate-stderr.log": "",
+        "baseline-probe-stderr.log": "",
+        "baseline-stderr.log": ""
+      },
+      "elapsed_seconds": 83.51599999994505
+    },
+    {
+      "mode": "syntax",
+      "passed": true,
+      "classification": "build_error",
+      "reports": {
+        "baseline-report.json": {
+          "command": [
+            "setpriv",
+            "--reuid=1000",
+            "--regid=1000",
+            "--clear-groups",
+            "--no-new-privs",
+            "cmake",
+            "--build",
+            "/opt/specfem-repair-build",
+            "--target",
+            "repair_sources",
+            "--parallel",
+            "4"
+          ],
+          "exit_code": 0,
+          "status": "built",
+          "elapsed_seconds": 1.041678531000798,
+          "removed_build_artifacts": [
+            "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o",
+            "/opt/specfem-repair-build/upstream/bin/xspecfem2D"
+          ]
+        },
+        "report.json": {
+          "command": [
+            "setpriv",
+            "--reuid=1000",
+            "--regid=1000",
+            "--clear-groups",
+            "--no-new-privs",
+            "cmake",
+            "--build",
+            "/opt/specfem-repair-build",
+            "--target",
+            "repair_sources",
+            "--parallel",
+            "4"
+          ],
+          "exit_code": 2,
+          "status": "build_error",
+          "elapsed_seconds": 0.11429287799910526,
+          "sources_sha256": {
+            "get_MPI.F90": "f47adb6c3516b2f5ef750915ffb0c7d3b80a4eb3f0937e3c027631d5b86008bb"
+          },
+          "removed_build_artifacts": [
+            "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o",
+            "/opt/specfem-repair-build/upstream/bin/xspecfem2D"
+          ]
+        },
+        "baseline-probe-report.json": {
+          "command": [
+            "setpriv",
+            "--reuid=1000",
+            "--regid=1000",
+            "--clear-groups",
+            "--no-new-privs",
+            "/usr/local/bin/python",
+            "/opt/specfem-baseline-health.py"
+          ],
+          "exit_code": 0,
+          "status": "ready",
+          "elapsed_seconds": 1.9016537629977392
+        }
+      },
+      "stderr_tails": {
+        "candidate-stderr.log": "src/specfem2D/get_MPI.F90:1:1:\n\n    1 | invalid Fortran !!!\n      | 1\nError: Unclassifiable statement at (1)\nmake[4]: *** [src/specfem2D/rules.mk:359: obj/get_MPI.spec.o] Error 1\ngmake[3]: *** [CMakeFiles/repair_sources.dir/build.make:70: CMakeFiles/repair_sources] Error 2\ngmake[2]: *** [CMakeFiles/Makefile2:87: CMakeFiles/repair_sources.dir/all] Error 2\ngmake[1]: *** [CMakeFiles/Makefile2:94: CMakeFiles/repair_sources.dir/rule] Error 2\ngmake: *** [Makefile:124: repair_sources] Error 2\n",
+        "baseline-probe-stderr.log": "",
+        "baseline-stderr.log": ""
+      },
+      "elapsed_seconds": 43.18700000003446
+    },
+    {
+      "mode": "extra",
+      "passed": true,
+      "classification": "invalid_submission",
+      "reports": {},
+      "stderr_tails": {},
+      "elapsed_seconds": 1.6099999999860302
+    },
+    {
+      "mode": "symlink",
+      "passed": true,
+      "classification": "invalid_submission",
+      "reports": {},
+      "stderr_tails": {},
+      "elapsed_seconds": 2.0
+    },
+    {
+      "mode": "compiler",
+      "passed": true,
+      "classification": "infrastructure_error",
+      "reason": "Trusted baseline build failed: build_error",
+      "reports": {
+        "baseline-report.json": {
+          "command": [
+            "setpriv",
+            "--reuid=1000",
+            "--regid=1000",
+            "--clear-groups",
+            "--no-new-privs",
+            "cmake",
+            "--build",
+            "/opt/specfem-repair-build",
+            "--target",
+            "repair_sources",
+            "--parallel",
+            "4"
+          ],
+          "exit_code": 2,
+          "status": "build_error",
+          "elapsed_seconds": 0.2807564110007661,
+          "removed_build_artifacts": [
+            "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o",
+            "/opt/specfem-repair-build/upstream/bin/xspecfem2D"
+          ]
+        }
+      },
+      "stderr_tails": {
+        "baseline-stderr.log": "--------------------------------------------------------------------------\nThe Open MPI wrapper compiler was unable to find the specified compiler\ngfortran in your PATH.\n\nNote that this compiler was either specified at configure time or in\none of several possible environment variables.\n--------------------------------------------------------------------------\nmake[4]: *** [src/specfem2D/rules.mk:359: obj/get_MPI.spec.o] Error 1\ngmake[3]: *** [CMakeFiles/repair_sources.dir/build.make:70: CMakeFiles/repair_sources] Error 2\ngmake[2]: *** [CMakeFiles/Makefile2:87: CMakeFiles/repair_sources.dir/all] Error 2\ngmake[1]: *** [CMakeFiles/Makefile2:94: CMakeFiles/repair_sources.dir/rule] Error 2\ngmake: *** [Makefile:124: repair_sources] Error 2\n"
+      },
+      "elapsed_seconds": 31.71799999999348
+    },
+    {
+      "mode": "baseline-runtime",
+      "passed": true,
+      "classification": "infrastructure_error",
+      "reason": "Trusted baseline runtime probe failed: probe_error",
+      "reports": {
+        "baseline-report.json": {
+          "command": [
+            "setpriv",
+            "--reuid=1000",
+            "--regid=1000",
+            "--clear-groups",
+            "--no-new-privs",
+            "cmake",
+            "--build",
+            "/opt/specfem-repair-build",
+            "--target",
+            "repair_sources",
+            "--parallel",
+            "4"
+          ],
+          "exit_code": 0,
+          "status": "built",
+          "elapsed_seconds": 1.1846722489972308,
+          "removed_build_artifacts": [
+            "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o",
+            "/opt/specfem-repair-build/upstream/bin/xspecfem2D"
+          ]
+        },
+        "baseline-probe-report.json": {
+          "command": [
+            "setpriv",
+            "--reuid=1000",
+            "--regid=1000",
+            "--clear-groups",
+            "--no-new-privs",
+            "/usr/local/bin/python",
+            "/opt/specfem-baseline-health.py"
+          ],
+          "exit_code": 1,
+          "status": "probe_error",
+          "elapsed_seconds": 0.9355801839992637
+        }
+      },
+      "stderr_tails": {
+        "baseline-probe-stderr.log": "Traceback (most recent call last):\n  File \"/opt/specfem-baseline-health.py\", line 13, in <module>\n    r=subprocess.run([str(adapter.BUILD/'bin'/exe)],cwd=tmp,text=True,capture_output=True)\n  File \"/usr/local/lib/python3.14/subprocess.py\", line 555, in run\n    with Popen(*popenargs, **kwargs) as process:\n         ~~~~~^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.14/subprocess.py\", line 1039, in __init__\n    self._execute_child(args, executable, preexec_fn, close_fds,\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                        pass_fds, cwd, env,\n                        ^^^^^^^^^^^^^^^^^^^\n    ...<5 lines>...\n                        gid, gids, uid, umask,\n                        ^^^^^^^^^^^^^^^^^^^^^^\n                        start_new_session, process_group)\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.14/subprocess.py\", line 1990, in _execute_child\n    raise child_exception_type(errno_num, err_msg, err_filename)\nFileNotFoundError: [Errno 2] No such file or directory: '/opt/specfem-repair-build/upstream/bin/xmeshfem2D'\n",
+        "baseline-stderr.log": ""
+      },
+      "elapsed_seconds": 28.31299999996554
+    },
+    {
+      "mode": "runtime-timeout",
+      "passed": true,
+      "actual_fortran_timeout": true,
+      "rank_pids": [
+        147,
+        148,
+        149
+      ],
+      "tracked_launcher_and_ranks": {
+        "144": "prterun --oversubscribe --bind-to none -np 3 /opt/specfem-repair-build/upstream/bin/xspecfem2D ",
+        "147": "/opt/specfem-repair-build/upstream/bin/xspecfem2D ",
+        "148": "/opt/specfem-repair-build/upstream/bin/xspecfem2D ",
+        "149": "/opt/specfem-repair-build/upstream/bin/xspecfem2D "
+      },
+      "all_absent_including_zombies": true,
+      "unrelated_same_uid_sentinel_survived": true,
+      "reports": {
+        "baseline-report.json": {
+          "command": [
+            "setpriv",
+            "--reuid=1000",
+            "--regid=1000",
+            "--clear-groups",
+            "--no-new-privs",
+            "cmake",
+            "--build",
+            "/opt/specfem-repair-build",
+            "--target",
+            "repair_sources",
+            "--parallel",
+            "4"
+          ],
+          "exit_code": 0,
+          "status": "built",
+          "elapsed_seconds": 3.2564537150028627,
+          "removed_build_artifacts": [
+            "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o",
+            "/opt/specfem-repair-build/upstream/bin/xspecfem2D"
+          ]
+        },
+        "report.json": {
+          "command": [
+            "setpriv",
+            "--reuid=1000",
+            "--regid=1000",
+            "--clear-groups",
+            "--no-new-privs",
+            "cmake",
+            "--build",
+            "/opt/specfem-repair-build",
+            "--target",
+            "repair_sources",
+            "--parallel",
+            "4"
+          ],
+          "exit_code": 0,
+          "status": "built",
+          "elapsed_seconds": 1.5897942280025745,
+          "sources_sha256": {
+            "get_MPI.F90": "3bb8f113c05cee03d59cca8679cb583bede3874f3fe5c95efacf19301e2d48b6"
+          },
+          "removed_build_artifacts": [
+            "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o",
+            "/opt/specfem-repair-build/upstream/bin/xspecfem2D"
+          ],
+          "built_artifacts_sha256": {
+            "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o": "89b9c2bd339f73683d12db4a166395c3f47576ac90aeb22a5fd5407528622fad",
+            "/opt/specfem-repair-build/upstream/bin/xspecfem2D": "fea024b796aafbd961143688d086911164f50769ace1d89265c7628bfcfbeea4"
+          }
+        },
+        "baseline-probe-report.json": {
+          "command": [
+            "setpriv",
+            "--reuid=1000",
+            "--regid=1000",
+            "--clear-groups",
+            "--no-new-privs",
+            "/usr/local/bin/python",
+            "/opt/specfem-baseline-health.py"
+          ],
+          "exit_code": 0,
+          "status": "ready",
+          "elapsed_seconds": 3.724968702001206
+        }
+      },
+      "stderr_tails": {
+        "candidate-stderr.log": "",
+        "baseline-probe-stderr.log": "",
+        "baseline-stderr.log": ""
+      },
+      "elapsed_seconds": 59.20299999997951
+    }
+  ]
 }

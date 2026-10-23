@@ -26,8 +26,12 @@ HF固定提交917ce12944449597f47ca95c1433edbe07134baf，49上传文件；全新
 
 最终闭包SDK为317d0db7083b994e53ed63ecd59c8b6f2bc66a00ab5bff722a0cd19935b9b871。v2 Oracle绑定旧公开ZIP 53ab80e1e927c46b20bc2c12cb161e1b48cac988ec20b8cbb4e6ba25febecaeb，实际8/8、reward1、exception null，全部数组逐位等于reference，见[Oracle v2](data-evidence/oracle-v2.json)。
 
-考生审阅后只改DATA输出支持量误要求及instruction相对命令工作目录；最终公开ZIP为9cd9a7479aaa7973194bfd5099e97fbc60f40c8133cddcce8b2e7552f54c3f39、44文件。[全成员比较](data-evidence/public-doc-only-diff.json)证明仅两份文档及对应MANIFEST哈希变化，源码、SDK、数据、样例、配置无变化。最终包普通离线安装并移走SDK源码后，按新说明进入题目录，两例真实CLI均score1且pip check通过，见[安装证据](data-evidence/public-install.json)。
+考生审阅后只改DATA输出支持量误要求及instruction相对命令工作目录；当时公开ZIP为9cd9a7479aaa7973194bfd5099e97fbc60f40c8133cddcce8b2e7552f54c3f39、44文件。[全成员比较](data-evidence/public-doc-only-diff.json)证明仅两份文档及对应MANIFEST哈希变化，源码、SDK、数据、样例、配置无变化。最终包普通离线安装并移走SDK源码后，按新说明进入题目录，两例真实CLI均score1且pip check通过，见[安装证据](data-evidence/public-install.json)。
 
 旧七模式探针实际前六项通过，第七项真实Fortran超时发现MPI rank逃逸进程组而残留，旧失败日志保留于本任务工作区，不能记为7/7。共享judge改为每例独立Linux subreaper supervisor，仅终止和回收自身后代；[新清理证据](data-evidence/process-cleanup-v3.json)记录原3秒Fortran超时后launcher及三个rank全部消失、同UID无关sentinel存活。真实Linux测试覆盖普通solve.py、direct Python与C++、setsid/双fork及父提前退出，共享Harbor30项测试也通过。
 
-独立盲考生有界复核、全数据/后端审阅及共享后端修正后的新冻结Oracle尚待完成，本题尚未标记验收完成。旧v2prepared与失败证据保留，没有收费模型Benchmark。
+最终公开ZIP为22aa0bcf168c9cabd7853ec8a63e2498838968fb53aa996034cb3e48108144d7。独立全量审计发现旧DATA误写PML外终端为Neumann；真实原生执行体在PML上下外终端把chi、旧chi及一二阶时间量置零，现已公开明确为齐次Dirichlet截断。无PML四壁及PML左右Neumann保持。独立逐成员比较证明相对9cd仅DATA与MANIFEST变化，64项运行/输入/参考资产不变；不得用微小晚时残差冒充对旧边界误写的认证。最终设计和盲考生有界审阅均关闭公开说明缺口，见reviews/design-final和reviews/candidate-final。
+
+正式Oracle-v3使用9cd文档身份及新版559550共享judge，真实8/8、exception null，全部返回数组逐位等于参考；最终22aa仅文档修订，数值/源码/运行证据经独立逐成员证明有界复用，没有伪称22aa运行过新Oracle。原始8份结果、两次构建和真实健康/逐例报告见[data-evidence/oracle-v3](data-evidence/oracle-v3/binding.json)。新7模式探针全部通过，含真实Fortran三rank超时后的完全回收；旧rank残留失败保持原身份。
+
+最终22aa另在断网容器普通pip安装、移走src、离开源码后按公开命令实际运行两个样例，均grade1，pip check有效，见[最终安装](data-evidence/public-install-22aa.json)。独立全数据和后端终审均通过，涵盖全部8例/2样例、全时程独立Green核查、实际MPI数据库与源树/重编产物、真实8例返回结果及7探针，见reviews/data-final和reviews/backend-final。最终冻结见[data-evidence/final-freeze.json](data-evidence/final-freeze.json)。整题验收完成。旧v2prepared与失败证据保留，未运行新增收费模型Benchmark。

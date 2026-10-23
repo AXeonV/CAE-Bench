@@ -1,0 +1,30 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "cmake",
+    "--build",
+    "/opt/specfem-repair-build",
+    "--target",
+    "repair_sources",
+    "--parallel",
+    "4"
+  ],
+  "exit_code": 0,
+  "status": "built",
+  "elapsed_seconds": 1.365977944999031,
+  "sources_sha256": {
+    "get_MPI.F90": "f8cdb8214e270674ddc8af880812f0f1c86a04c5c740e0ea8eb013a38f59da6e"
+  },
+  "removed_build_artifacts": [
+    "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o",
+    "/opt/specfem-repair-build/upstream/bin/xspecfem2D"
+  ],
+  "built_artifacts_sha256": {
+    "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o": "9c957fae9efcd97903a596f9f21b784d2898e60fe41471bcdab3cd0f48f40f43",
+    "/opt/specfem-repair-build/upstream/bin/xspecfem2D": "c0555ce10d47baa74c4152f76296f7801ab82aec9b877588722ec31f58dba7da"
+  }
+}

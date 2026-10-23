@@ -1,0 +1,23 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "cmake",
+    "--build",
+    "/opt/specfem-repair-build",
+    "--target",
+    "repair_sources",
+    "--parallel",
+    "4"
+  ],
+  "exit_code": 0,
+  "status": "built",
+  "elapsed_seconds": 1.9014508580003167,
+  "removed_build_artifacts": [
+    "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o",
+    "/opt/specfem-repair-build/upstream/bin/xspecfem2D"
+  ]
+}

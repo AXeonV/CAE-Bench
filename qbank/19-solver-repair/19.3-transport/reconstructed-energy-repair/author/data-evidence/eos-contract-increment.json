@@ -1,0 +1,84 @@
+{
+  "old_zip": "work/repair-22/su2-2602/frozen-zips/f58f517066bc84d24554c6c5fce429a7d3492b476c46c9ea8795df654ed0738d.zip",
+  "old_sha256": "f58f517066bc84d24554c6c5fce429a7d3492b476c46c9ea8795df654ed0738d",
+  "new_sha256": "00070750f53895a3cf21ae362e7636a9c7c807263aa59a44bd84ec2fda4fa3e2",
+  "changed_zip_members": {
+    "MANIFEST.json": {
+      "old": "3298310846ddc55007ffb8b68f47888f6fb0e0ff408e6529ce11317d9ea8f7d5",
+      "new": "19bdd1cb7954778636f625fabb02d506d23fb35b5bb316a820bb25fd2c411ea6"
+    },
+    "pyproject.toml": {
+      "old": "f2004264bcee77151465db824c4c7339b6e5fa050eff99eeaaac8a8b1faa11cb",
+      "new": "c81f4c0fb124f0c10a0cfa57064ed2d8428388c80e3f2af6f310aa7f2703432a"
+    },
+    "qbank/19-solver-repair/19.3-transport/reconstructed-energy-repair/DATA.md": {
+      "old": "cf1dac351cb28902d42ec342757980cf02ba1a09b532730788a0f910c29ab539",
+      "new": "c2dea7a8ac3cd2afe32c028f3141669b0f167c0ddd90739727f2c71152dd2989"
+    },
+    "src/caeoj_bundle/runtime.json": {
+      "old": "c2d57ceb9a737c603d9140cb79643254c1a04271ba6666dde0575f783675fa5e",
+      "new": "0b8f5ce8992089591a2a7ac2cbb608418cd686b82a7ad427cbfa3028c4f9d24e"
+    },
+    "src/caeoj_task_ext/reconstruction.py": {
+      "old": "469c49923f6c8fb1c2318772351ae73a63e2a457474e296ae7ee1c466c6b4601",
+      "new": "186eaeed8173c0d1fc59ea3ed152d371c91b6e912240b327540291ad338a0e70"
+    }
+  },
+  "instruction_public_driver_source_samples_unchanged": true,
+  "DATA_diff": "--- f58/DATA.md\n+++ EOS/DATA.md\n@@ -37,7 +37,7 @@\n | limiters | primitive_limiter | 1 | ends | T,x,y[,z],p\uff0c\u5747 0\u20261 |\n | displacement | displacement | m | edges | \u5de6\u8282\u70b9\u5230\u53f3\u8282\u70b9\u7684\u4f4d\u79fb x,y[,z]\uff0c\u6bcf\u5206\u91cf -.2\u2026.2 |\n \n-\u68af\u5ea6\u6bcf\u5206\u91cf\u7edd\u5bf9\u503c\u4e0d\u8d85\u8fc7 1e8\u3002\u8f93\u5165\u5bc6\u5ea6\u4e0e\u7406\u60f3\u6c14\u4f53\u72b6\u6001\u4e00\u81f4\uff1b\u8f93\u5165\u603b\u7113\u4ee3\u8868\u975e\u7ebf\u6027\u8fed\u4ee3\u9636\u6bb5\u7684\u5df2\u6709\u72b6\u6001\uff0c\u5141\u8bb8\u504f\u79bb `Cp*T+|u|\u00b2/2`\uff0c\u4e0d\u5f97\u5c06\u8be5\u504f\u5dee\u89c6\u4e3a\u65e0\u6548\u8f93\u5165\u6216\u81ea\u52a8\u62b9\u9664\u3002\u8fd9\u91cc\u53ea\u91cd\u6784 T\u3001\u901f\u5ea6\u3001p\uff1b\u5bc6\u5ea6\u3001\u603b\u7113\u548c\u4fdd\u5b88\u91cf\u5e94\u4fdd\u6301\u76f8\u5e94\u72b6\u6001\u4e00\u81f4\u6027\u3002\u5177\u4f53\u7269\u7406\u7ea6\u5b9a\u4e3a `Cp=gamma*R/(gamma-1)`\uff0c\u4e24\u4fa7\u5404\u81ea\u7684\u603b\u7113\u53d8\u5316\u662f `Cp*(T_new-T_old)+(|u_new|\u00b2-|u_old|\u00b2)/2`\uff0c\u4fdd\u7559\u5df2\u6709\u72b6\u6001\u7684\u504f\u5dee\uff1b\u5bc6\u5ea6\u4f7f\u7528\u91cd\u6784\u540e\u7684 p\u3001T \u548c\u7406\u60f3\u6c14\u4f53 EOS\u3002\u65e0\u91cd\u6784\u6216\u53d1\u751f\u975e\u7269\u7406\u72b6\u6001\u56de\u9000\u65f6\u8fd4\u56de\u539f\u72b6\u6001\u3002\u56de\u9000\u5224\u65ad\u6cbf\u7528\u5e93\u63a5\u53e3\u7ea6\u5b9a\uff0c\u4e0d\u80fd\u5220\u9664\u4fdd\u62a4\u3002\u91cd\u6784\u4fdd\u7559\u6709\u9650\u7684\u6b63\u538b\u3001\u6b63\u5bc6\u5ea6\u6216\u5b8c\u6574\u56de\u9000\uff0c\u4e0d\u8f93\u51fa NaN\u3002\n+\u68af\u5ea6\u6bcf\u5206\u91cf\u7edd\u5bf9\u503c\u4e0d\u8d85\u8fc7 1e8\u3002\u8f93\u5165\u5bc6\u5ea6\u987b\u4e0e\u7406\u60f3\u6c14\u4f53\u72b6\u6001\u4e00\u81f4\uff1a\u9010\u4e2a\u8fb9\u7aef\u70b9\u4ee4 `rho_EOS=p/(R*T)`\uff0c\u8981\u6c42 `abs(rho-rho_EOS) <= 1e-12 kg/m^3 + 1e-12*abs(rho_EOS)`\u3002\u6b64\u4e3a\u8f93\u5165\u6709\u6548\u6027\u5bb9\u5dee\uff0c\u4e0d\u7528\u4e8e\u7ea0\u6b63\u8f93\u5165\u6216\u66ff\u4ee3\u8f93\u51fa\u8bc4\u5206\u5bb9\u5dee\u3002\u8f93\u5165\u603b\u7113\u4ee3\u8868\u975e\u7ebf\u6027\u8fed\u4ee3\u9636\u6bb5\u7684\u5df2\u6709\u72b6\u6001\uff0c\u5141\u8bb8\u504f\u79bb `Cp*T+|u|\u00b2/2`\uff0c\u4e0d\u5f97\u5c06\u8be5\u504f\u5dee\u89c6\u4e3a\u65e0\u6548\u8f93\u5165\u6216\u81ea\u52a8\u62b9\u9664\u3002\u8fd9\u91cc\u53ea\u91cd\u6784 T\u3001\u901f\u5ea6\u3001p\uff1b\u5bc6\u5ea6\u3001\u603b\u7113\u548c\u4fdd\u5b88\u91cf\u5e94\u4fdd\u6301\u76f8\u5e94\u72b6\u6001\u4e00\u81f4\u6027\u3002\u5177\u4f53\u7269\u7406\u7ea6\u5b9a\u4e3a `Cp=gamma*R/(gamma-1)`\uff0c\u4e24\u4fa7\u5404\u81ea\u7684\u603b\u7113\u53d8\u5316\u662f `Cp*(T_new-T_old)+(|u_new|\u00b2-|u_old|\u00b2)/2`\uff0c\u4fdd\u7559\u5df2\u6709\u72b6\u6001\u7684\u504f\u5dee\uff1b\u5bc6\u5ea6\u4f7f\u7528\u91cd\u6784\u540e\u7684 p\u3001T \u548c\u7406\u60f3\u6c14\u4f53 EOS\u3002\u65e0\u91cd\u6784\u6216\u53d1\u751f\u975e\u7269\u7406\u72b6\u6001\u56de\u9000\u65f6\u8fd4\u56de\u539f\u72b6\u6001\u3002\u56de\u9000\u5224\u65ad\u6cbf\u7528\u5e93\u63a5\u53e3\u7ea6\u5b9a\uff0c\u4e0d\u80fd\u5220\u9664\u4fdd\u62a4\u3002\u91cd\u6784\u4fdd\u7559\u6709\u9650\u7684\u6b63\u538b\u3001\u6b63\u5bc6\u5ea6\u6216\u5b8c\u6574\u56de\u9000\uff0c\u4e0d\u8f93\u51fa NaN\u3002\n \n \u8f93\u51fa\u5b57\u6bb5\u4e3a `temperature,velocity,pressure,density,enthalpy`\uff0c\u5176\u63cf\u8ff0\u7b26\u4e0e\u5bf9\u5e94\u8f93\u5165\u4e00\u81f4\u4f46\u65e0 sampling\uff1b\u53e6\u6709 `momentum`\uff08quantity=`momentum_density`\uff0cunit=`kg/(m^2*s)`\uff0cd \u4e2a x,y[,z] \u5206\u91cf\uff09\u548c `energy`\uff08quantity=`total_energy_density`\uff0cunit=`J/m^3`\uff0c\u6807\u91cf\uff09\u3002\u5747\u5728 ends\uff0c\u540e\u4e24\u8005\u4e3a\u8be5\u5e93\u771f\u5b9e\u7684\u53ef\u538b\u7f29\u4fdd\u5b88\u72b6\u6001\u8f6c\u6362\u8f93\u51fa\u3002\n \n",
+  "old_prepared_task_sha256": {
+    "instruction.md": "e595a5dd579d56688a04c4eb5696ad51be7adae7f939e70b4242fcb22c3efa17",
+    "task.toml": "7bd5c7b183ee33c1d39a9d80c798c82beacc2e302f0d1a94702266acc505bf3e",
+    "environment/agent.zip": "f58f517066bc84d24554c6c5fce429a7d3492b476c46c9ea8795df654ed0738d",
+    "environment/Dockerfile": "12e59d2ad42e512633fbd1f6b46e33ff6c16b68feee24ee7abe76d066a6a650c",
+    "environment/requirements.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "solution/common.hpp": "cd702a15ae4cb083ad2ba2896a7d9beb630fb28e45ea90bb9f2ee4f24a38244a",
+    "solution/solve.sh": "3092fadf6ff300a2fc089d39e3c017af0d218b6349b8f7279e92dec0adfb70c8",
+    "tests/agent.zip": "f58f517066bc84d24554c6c5fce429a7d3492b476c46c9ea8795df654ed0738d",
+    "tests/Dockerfile": "fda7350f2d32fe6a6b047fddcb7cd3284b92f1802cc6a125d001ec180389a19a",
+    "tests/judge-config.json": "c9201208d787c710a00dad2708b8918b7aa16fcca5d2dfbb94798ac03eab0d4c",
+    "tests/judge.py": "64dbd215ebdde01aa66bd11d22f681724416287fe65d6e3dd32580326f5df3a7",
+    "tests/requirements.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/selection.json": "432964c1f76d59cd9d11ba27d31d6e2e6dd2660828922835d82a7b55cc9d5570",
+    "tests/source-repair.json": "adb4f2b494aaf813c04b651764bd27d240724041b59e988aeb0d8bb475f1c859",
+    "tests/source_repair.py": "714e3f76ededa181e44861f6ad5257ba8a39be83e9a4588f258a516efa212e75",
+    "tests/test.sh": "b3e4934913c856ca82fb3607a64298447f68fca9e272c7a6b50c636caca81472",
+    "tests/cases/01-unlimited/input.h5": "89fbf03cc5fff735d7e1933f511df9385e5086d333594cd6b30972c9ecd02a43",
+    "tests/cases/01-unlimited/problem.json": "d83a9c7050ea30a9bdcb665deac10bc95ea93764d82446b9c1057d63e3a14ca3",
+    "tests/cases/02-three-dimensional/input.h5": "014ecddc4b100b365b2a954c39037a2090f003aeb9b81d48cb9b967b3b18a13f",
+    "tests/cases/02-three-dimensional/problem.json": "4fd7de3331e0394f7f02cfe1bb4118731e66111244fd4cce1cac9014e95c0df9",
+    "tests/cases/03-edge-limited/input.h5": "af8dee8c7a10964f9a3814222231014d47d7119900fc328425e8bb7bbe1cc00b",
+    "tests/cases/03-edge-limited/problem.json": "8a0bacdea5504a1300bce1fc4553791aa24bbf3acecd504fb99d5e29be0ae25a",
+    "tests/cases/04-point-limited/input.h5": "20141887faa220531e7ee425a693ef65ba74309153e5a36981f6c8fa570a4c07",
+    "tests/cases/04-point-limited/problem.json": "5ee82c5f895d90be3432302b0e906154aad45a179fd1e8d1fb2ab554a532898e",
+    "tests/cases/05-first-order/input.h5": "511a882edce81b5c901cd6b9b6667a1448ef5122415cc3709ece77d39ec6a4d7",
+    "tests/cases/05-first-order/problem.json": "a069a55253d4ea7aaf2d615bf339c60eeaa458fdb1757af2335e6fa0017c379b",
+    "tests/cases/06-fallback/input.h5": "c1c21bf5c48200aac3ffb4414b9e5b5245992da0865a9fc23fd78dc4cdf4b62b",
+    "tests/cases/06-fallback/problem.json": "d83a9c7050ea30a9bdcb665deac10bc95ea93764d82446b9c1057d63e3a14ca3",
+    "tests/cases/07-equilibrium/input.h5": "88e63d1b5a670bca13e70218b342ef1a2067489f186511210fabc35f1872c5b6",
+    "tests/cases/07-equilibrium/problem.json": "5ee82c5f895d90be3432302b0e906154aad45a179fd1e8d1fb2ab554a532898e",
+    "tests/cases/08-flatplate-cfl400/input.h5": "cf498316774dcd17ff9fc00cb6c443f1093bd417966ea39d7e49df39c482b588",
+    "tests/cases/08-flatplate-cfl400/problem.json": "7390afaca65888e483f11ebd324736438a1a7fccd0f82a46b3364be54bdfd5d4",
+    "tests/cases/09-flatplate-cfl300/input.h5": "cf498316774dcd17ff9fc00cb6c443f1093bd417966ea39d7e49df39c482b588",
+    "tests/cases/09-flatplate-cfl300/problem.json": "366c58cb8ae121038ba87c5c722cadbf3a3f7b94ba6f236189b5b2533fd1eddf",
+    "tests/reference/01-unlimited/grading.json": "1f1d7309637789391fd34b4e0d48508eeb2e888ba784280fd2f3fa7a875a0660",
+    "tests/reference/01-unlimited/reference.h5": "024569e338a444b0a93a2f89b9f3059cae614874b66f7e1ab16cea8ed65d54e2",
+    "tests/reference/02-three-dimensional/grading.json": "1f1d7309637789391fd34b4e0d48508eeb2e888ba784280fd2f3fa7a875a0660",
+    "tests/reference/02-three-dimensional/reference.h5": "4dff430366e05f44e6581c19088d152bef93c6f65ef97658a4ce7a36d60aca52",
+    "tests/reference/03-edge-limited/grading.json": "1f1d7309637789391fd34b4e0d48508eeb2e888ba784280fd2f3fa7a875a0660",
+    "tests/reference/03-edge-limited/reference.h5": "dc1ab1fd226a219c7336284eda8a4772cc15db08b1faccf40c7299c1d1a0f6df",
+    "tests/reference/04-point-limited/grading.json": "1f1d7309637789391fd34b4e0d48508eeb2e888ba784280fd2f3fa7a875a0660",
+    "tests/reference/04-point-limited/reference.h5": "3b026e538060b45b4f7d563598eb1afb69857059ce76d0ce7a96f0da5e28a16a",
+    "tests/reference/05-first-order/grading.json": "1f1d7309637789391fd34b4e0d48508eeb2e888ba784280fd2f3fa7a875a0660",
+    "tests/reference/05-first-order/reference.h5": "f3679bdf580c86651602f2699081c3d544513f6c15e3d21e9250dccf8f7dd518",
+    "tests/reference/06-fallback/grading.json": "1f1d7309637789391fd34b4e0d48508eeb2e888ba784280fd2f3fa7a875a0660",
+    "tests/reference/06-fallback/reference.h5": "b86b9778d7b75bff02242a73e781e40c06d3fe243ce7112486b5a671079f434d",
+    "tests/reference/07-equilibrium/grading.json": "1f1d7309637789391fd34b4e0d48508eeb2e888ba784280fd2f3fa7a875a0660",
+    "tests/reference/07-equilibrium/reference.h5": "c3967ffe13bc9c4d7561c54bab4f89a75e7569ff1f27f023311b4a482a138dbf",
+    "tests/reference/08-flatplate-cfl400/grading.json": "1f1d7309637789391fd34b4e0d48508eeb2e888ba784280fd2f3fa7a875a0660",
+    "tests/reference/08-flatplate-cfl400/reference.h5": "b5cf0d48161ab93c93722a509abdd94cdef4b8b4ca077ed742e967b6d83d7af4",
+    "tests/reference/09-flatplate-cfl300/grading.json": "1f1d7309637789391fd34b4e0d48508eeb2e888ba784280fd2f3fa7a875a0660",
+    "tests/reference/09-flatplate-cfl300/reference.h5": "096f7c6f4272d862c94fcd2620335bc8f56e4ba5df4559b2d078c186f825e560"
+  },
+  "scope": "Explicit input EOS validity tolerance and rejecting inconsistent direct input; no numerical driver/source/grading/reference change."
+}

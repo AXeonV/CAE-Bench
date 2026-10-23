@@ -1,0 +1,30 @@
+{
+  "command": [
+    "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+    "run",
+    "--name",
+    "su2-offline-2602-30302f00",
+    "--rm",
+    "--network",
+    "none",
+    "--cpus",
+    "2",
+    "--memory",
+    "4g",
+    "-v",
+    "D:\\Code\\CAE-Bench-OJ\\dist\\reconstructed-energy-repair-agent.zip:/input/agent.zip:ro",
+    "-v",
+    "D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair:/task:ro",
+    "caeoj-su22602-core:trusted-v1",
+    "python",
+    "-c",
+    "import json,sys,subprocess,tempfile,zipfile,pathlib,hashlib,importlib,importlib.metadata\nwith tempfile.TemporaryDirectory() as temp:\n package=pathlib.Path(temp)/'package';zipfile.ZipFile('/input/agent.zip').extractall(package)\n subprocess.run([sys.executable,'-m','pip','install','--no-cache-dir',str(package)],check=True)\n from caeoj.sdk import load_problem,load_result\n from caeoj.validation import ContractError\n from caeoj import runtime\n task=pathlib.Path('/task');rows=[]\n for p in sorted((task/'cases').glob('*/problem.json')):\n  problem=load_problem(p);load_result(problem,task/'reference'/p.parent.name/'reference.h5')\n  rows.append(p.parent.name)\n for p in sorted((task/'samples').glob('*/input/problem.json')):\n  problem=load_problem(p);load_result(problem,p.parent.parent/'output/result.h5')\n sample=next((task/'samples').glob('*/input/problem.json'))\n import shutil\n variant=pathlib.Path(temp)/'variant';shutil.copytree(sample.parent,variant)\n meta=json.loads((variant/'problem.json').read_text());meta['physics']['parameters']['iterations']['value']=float(meta['physics']['parameters']['iterations']['value']);(variant/'problem.json').write_text(json.dumps(meta))\n try:load_problem(variant/'problem.json')\n except ContractError as error:\n  assert 'JSON integer' in str(error.report),error.report\n else:raise AssertionError('Installed SDK accepted float iterations')\n eos_rejected=None\n if 'reconstruction'=='reconstruction':\n  import h5py\n  eos=pathlib.Path(temp)/'eos';shutil.copytree(sample.parent,eos)\n  with h5py.File(eos/'input.h5','r+') as h: h['density'][0,0,0]*=1.01\n  try:load_problem(eos/'problem.json')\n  except ContractError as error:\n   assert 'inconsistent input density' in str(error.report),error.report;eos_rejected=True\n  else:raise AssertionError('Installed SDK accepted inconsistent EOS input')\n module=importlib.import_module('caeoj_task_ext.'+'reconstruction')\n print('OFFLINE_RESULT='+json.dumps({'passed':True,'cases':rows,'samples':2,'iterations_float_rejected':True,'eos_inconsistent_rejected':eos_rejected,'package_version':importlib.metadata.version('cae-bench-oj'),'runtime':runtime.bundle_info(),'installed_checker':module.__file__,'installed_checker_sha256':hashlib.sha256(pathlib.Path(module.__file__).read_bytes()).hexdigest()}))\n"
+  ],
+  "container_name": "su2-offline-2602-30302f00",
+  "zip_sha256": "00070750f53895a3cf21ae362e7636a9c7c807263aa59a44bd84ec2fda4fa3e2",
+  "started_unix": 1792745691.3976989,
+  "status": "completed",
+  "host_cli_pid": 81032,
+  "exit_code": 0,
+  "elapsed_seconds": 29.313168048858643
+}

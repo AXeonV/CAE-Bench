@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/task/public/run_case.py", line 50, in <module>
+    s=argparse.ArgumentParser();s.add_argument('--input',type=Path,required=True);s.add_argument('--output',type=Path,required=True);s.add_argument('--driver',default='/opt/su2-build/bin/reconstruction-driver');s.add_argument('--executable',default='/opt/su2-build/SU2_CFD/src/SU2_CFD');s.add_argument('--artifacts',type=Path);o=s.parse_args();run(o.input,o.output,o.driver,o.executable,o.artifacts)
+                                                                                                                                                                                                                                                                                                                                                        ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/public/run_case.py", line 42, in run
+    if res[0]>-10 or res[3]>-7:raise RuntimeError('Full CFD failed published residual bounds')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Full CFD failed published residual bounds

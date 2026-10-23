@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "base_image": "caeoj-su22602-core:trusted-v1",
+  "replacements": [
+    {
+      "submission": "common.hpp",
+      "target": "/opt/su2-source/SU2_CFD/include/numerics_simd/flow/convection/common.hpp"
+    }
+  ],
+  "build_directory": "/opt/su2-build",
+  "build_target": "repair_sources",
+  "rebuild_files": [
+    "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/.._include_numerics_simd_CNumericsSIMD.cpp.o",
+    "/opt/su2-build/Common/src/libSU2Common.a",
+    "/opt/su2-build/SU2_CFD/src/libSU2core.a",
+    "/opt/su2-build/SU2_CFD/src/SU2_CFD",
+    "/opt/su2-build/bin/reconstruction-driver"
+  ],
+  "baseline_timeout_seconds": 120,
+  "build_timeout_seconds": 300,
+  "max_source_bytes": 1048576,
+  "runner": "/app/qbank/19-solver-repair/19.3-transport/reconstructed-energy-repair/public/run_case.py",
+  "baseline_probe": [
+    "/usr/local/bin/python",
+    "/app/qbank/19-solver-repair/19.3-transport/reconstructed-energy-repair/public/run_case.py",
+    "--input",
+    "/app/qbank/19-solver-repair/19.3-transport/reconstructed-energy-repair/samples/01/input/problem.json",
+    "--output",
+    "/tmp/su2-baseline-probe.h5"
+  ]
+}

@@ -1,0 +1,21 @@
+# 独立有界考生复核：SU2 重构能量最终公开包
+
+模式：exam-materials，限定复核最终 DATA 的 EOS 输入有效性与 SDK 一致性，兼查总焓阶段偏差、iterations 类型、公开样例与运行入口。仅访问指定公开 ZIP 解包所得文件及本轮派生变体，未访问作者目录、隐藏 cases、私有参考、修复或既有审阅。使用 caeoj-candidate-review 技能；没有调用额外考生模型。
+
+结论：本轮限定范围内未发现未决问题；公开样例已检查。此结论不是完整出题设计审计或数值参考认证。
+
+## 固定材料
+
+原 ZIP SHA256：`00070750f53895a3cf21ae362e7636a9c7c807263aa59a44bd84ec2fda4fa3e2`。完整文件 SHA256 见 `sha256.json`。读取 instruction.md、DATA.md、CONTRACT.md、公开 README 与必要 SDK/driver，实际读取样例 01、02 的全部输入、结果、公开 reference 数组共 62 项；逐数组 shape/dtype/finite/min/max/内容摘要见 `all-arrays.json`，未省略大型数组内容读取。
+
+## 复核结果
+
+- DATA 明确对每个边端点使用 `abs(rho-p/(R*T)) <= 1e-12 kg/m^3 + 1e-12*abs(p/(R*T))`，并明确这是输入有效性容差，不纠正输入、不替代输出容差。公开扩展检查实现逐项同一公式，含单位和不等号方向一致。
+- 样例派生合法扰动（0.25 倍容差）被 validate-input 接受；密度增加 EOS 的 1% 被拒，错误定位 `$.fields.density`。总焓各项增加 123 J/kg 保持范围内仍被接受，与阶段焓偏差可独立存在一致。
+- DATA 的 iterations 是整数；2000.0 等浮点 JSON 被拒，整数原样例被接受。公开 run_case 先 load_problem 再执行，所以后续 int 转换不会绕开该输入约束。
+- 两个样例 info/validate-input/validate-output/grade 均成功。grade 仅使用包中明确公开的 reference/grading.json，两个公开输出获得 score=1；这只确认工具链可消费公开材料，不验证软件求解正确性。
+- instruction 交代真实 SU2/MEL 源包、替换 common.hpp、Meson/Ninja 编译和公开模板驱动。公开 run_case 将直接状态转为驱动 token，CFD 分支使用固定公开网格/配置并检查残差、步数、CD 变化。源码归档存在、可枚举，SU2 归档中 common.hpp 与单独公开 common.hpp 摘要相同，证据 `source-inspection.json`。
+
+所有命令及返回码在 `commands.json`，每项 stdout/stderr 分开保存。本轮 Python 3.11 / NumPy 2.4.1 / h5py 3.16.0，直接从解包 public/src 加载 SDK，未修改公开材料。
+
+未执行：原生 SU2/MEL 编译、重构 native 运行、完整 CFD、候选修复、隐藏数据、数值精度认证或 4 CPU / 8 GiB / 900 秒资源验证。

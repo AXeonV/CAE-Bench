@@ -1,0 +1,30 @@
+{
+  "command": [
+    "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+    "run",
+    "--name",
+    "su2-offline-2602-57a7f035",
+    "--rm",
+    "--network",
+    "none",
+    "--cpus",
+    "2",
+    "--memory",
+    "4g",
+    "-v",
+    "D:\\Code\\CAE-Bench-OJ\\dist\\reconstructed-energy-repair-agent.zip:/input/agent.zip:ro",
+    "-v",
+    "D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair:/task:ro",
+    "caeoj-su22602-core:trusted-v1",
+    "python",
+    "-c",
+    "import json,sys,subprocess,tempfile,zipfile,pathlib,hashlib,importlib,importlib.metadata\nwith tempfile.TemporaryDirectory() as temp:\n package=pathlib.Path(temp)/'package';zipfile.ZipFile('/input/agent.zip').extractall(package)\n subprocess.run([sys.executable,'-m','pip','install','--no-cache-dir',str(package)],check=True)\n from caeoj.sdk import load_problem,load_result\n from caeoj.validation import ContractError\n from caeoj import runtime\n task=pathlib.Path('/task');rows=[]\n for p in sorted((task/'cases').glob('*/problem.json')):\n  problem=load_problem(p);load_result(problem,task/'reference'/p.parent.name/'reference.h5')\n  rows.append(p.parent.name)\n for p in sorted((task/'samples').glob('*/input/problem.json')):\n  problem=load_problem(p);load_result(problem,p.parent.parent/'output/result.h5')\n sample=next((task/'samples').glob('*/input/problem.json'))\n import shutil\n variant=pathlib.Path(temp)/'variant';shutil.copytree(sample.parent,variant)\n meta=json.loads((variant/'problem.json').read_text());meta['physics']['parameters']['iterations']['value']=float(meta['physics']['parameters']['iterations']['value']);(variant/'problem.json').write_text(json.dumps(meta))\n try:load_problem(variant/'problem.json')\n except ContractError as error:\n  assert 'JSON integer' in str(error.report),error.report\n else:raise AssertionError('Installed SDK accepted float iterations')\n module=importlib.import_module('caeoj_task_ext.'+'reconstruction')\n print('OFFLINE_RESULT='+json.dumps({'passed':True,'cases':rows,'samples':2,'iterations_float_rejected':True,'package_version':importlib.metadata.version('cae-bench-oj'),'runtime':runtime.bundle_info(),'installed_checker':module.__file__,'installed_checker_sha256':hashlib.sha256(pathlib.Path(module.__file__).read_bytes()).hexdigest()}))\n"
+  ],
+  "container_name": "su2-offline-2602-57a7f035",
+  "zip_sha256": "f58f517066bc84d24554c6c5fce429a7d3492b476c46c9ea8795df654ed0738d",
+  "started_unix": 1792744022.4733684,
+  "status": "completed",
+  "host_cli_pid": 71468,
+  "exit_code": 0,
+  "elapsed_seconds": 63.14984607696533
+}

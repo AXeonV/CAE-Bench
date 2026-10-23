@@ -1,0 +1,1742 @@
+{
+  "issue": "2602",
+  "task": "reconstructed-energy-repair",
+  "final_zip_sha256": "f58f517066bc84d24554c6c5fce429a7d3492b476c46c9ea8795df654ed0738d",
+  "actual_tests": [
+    {
+      "case": "01-unlimited",
+      "reference_score": 1,
+      "evaluation_sha256": "a68ba6a3a40072249d2d4b2eb3169c25deb3960810b8ae6d8eb5e02be89dc268",
+      "outputs": {
+        "temperature": {
+          "quantity": "temperature",
+          "unit": "K",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.2889745448774192e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.3150145150575554e-07
+            }
+          }
+        },
+        "velocity": {
+          "quantity": "velocity",
+          "unit": "m/s",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.0372202297048716e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0581742060367105e-07
+            }
+          }
+        },
+        "pressure": {
+          "quantity": "pressure",
+          "unit": "Pa",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.0178831871598959e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0384464985691011e-05
+            }
+          }
+        },
+        "density": {
+          "quantity": "density",
+          "unit": "kg/m^3",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.911629805792188e-08
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0111864745532273e-07
+            }
+          }
+        },
+        "enthalpy": {
+          "quantity": "specific_total_enthalpy",
+          "unit": "J/kg",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 3.0401628464460373e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 3.101577749475837e-05
+            }
+          }
+        },
+        "momentum": {
+          "quantity": "momentum_density",
+          "unit": "kg/(m^2*s)",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.0454709098439707e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0665915084473454e-07
+            }
+          }
+        },
+        "energy": {
+          "quantity": "total_energy_density",
+          "unit": "J/m^3",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 2.5616463972255588e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 2.613395918160677e-05
+            }
+          }
+        }
+      },
+      "bad_outputs": {
+        "missing": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "nonfinite": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "shape": {
+          "score": 0,
+          "status": "invalid_output"
+        }
+      },
+      "bad_reference": {
+        "score": null,
+        "status": "evaluation_error",
+        "message": "ValueError: Missing or unsafe grading asset: absent.h5"
+      }
+    },
+    {
+      "case": "02-three-dimensional",
+      "reference_score": 1,
+      "evaluation_sha256": "1f1ad1439da1df0d4018ba15b0f9aa06b1a8c6d8adcd4ea4894b4d0f3412f605",
+      "outputs": {
+        "temperature": {
+          "quantity": "temperature",
+          "unit": "K",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.28896601836459e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.3150059885447263e-07
+            }
+          }
+        },
+        "velocity": {
+          "quantity": "velocity",
+          "unit": "m/s",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.0083865831234107e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0287580209933367e-07
+            }
+          }
+        },
+        "pressure": {
+          "quantity": "pressure",
+          "unit": "Pa",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.0178322554565966e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.038394111674279e-05
+            }
+          }
+        },
+        "density": {
+          "quantity": "density",
+          "unit": "kg/m^3",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.911629539338662e-08
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0111864479078747e-07
+            }
+          }
+        },
+        "enthalpy": {
+          "quantity": "specific_total_enthalpy",
+          "unit": "J/kg",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 3.070355160161853e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 3.132381243631244e-05
+            }
+          }
+        },
+        "momentum": {
+          "quantity": "momentum_density",
+          "unit": "kg/(m^2*s)",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.0115987336689614e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.032035079617799e-07
+            }
+          }
+        },
+        "energy": {
+          "quantity": "total_energy_density",
+          "unit": "J/m^3",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 2.597089041955769e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 2.649554517120123e-05
+            }
+          }
+        }
+      },
+      "bad_outputs": {
+        "missing": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "nonfinite": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "shape": {
+          "score": 0,
+          "status": "invalid_output"
+        }
+      },
+      "bad_reference": {
+        "score": null,
+        "status": "evaluation_error",
+        "message": "ValueError: Missing or unsafe grading asset: absent.h5"
+      }
+    },
+    {
+      "case": "03-edge-limited",
+      "reference_score": 1,
+      "evaluation_sha256": "5db5a5ecee1e2a6c137c219d8062d6dda94802c00c233b1459a9e587eaeee9d7",
+      "outputs": {
+        "temperature": {
+          "quantity": "temperature",
+          "unit": "K",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.2893298162452993e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.3153771760698874e-07
+            }
+          }
+        },
+        "velocity": {
+          "quantity": "velocity",
+          "unit": "m/s",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.0631706004460284e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0846488862625847e-07
+            }
+          }
+        },
+        "pressure": {
+          "quantity": "pressure",
+          "unit": "Pa",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.018737384583801e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0393181582912803e-05
+            }
+          }
+        },
+        "density": {
+          "quantity": "density",
+          "unit": "kg/m^3",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.91162583119376e-08
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0111860704320463e-07
+            }
+          }
+        },
+        "enthalpy": {
+          "quantity": "specific_total_enthalpy",
+          "unit": "J/kg",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 3.0738883651793e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 3.135984297841787e-05
+            }
+          }
+        },
+        "momentum": {
+          "quantity": "momentum_density",
+          "unit": "kg/(m^2*s)",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.0759262636383937e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0976621922509366e-07
+            }
+          }
+        },
+        "energy": {
+          "quantity": "total_energy_density",
+          "unit": "J/m^3",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 2.5991874281316996e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 2.6516965590417385e-05
+            }
+          }
+        }
+      },
+      "bad_outputs": {
+        "missing": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "nonfinite": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "shape": {
+          "score": 0,
+          "status": "invalid_output"
+        }
+      },
+      "bad_reference": {
+        "score": null,
+        "status": "evaluation_error",
+        "message": "ValueError: Missing or unsafe grading asset: absent.h5"
+      }
+    },
+    {
+      "case": "04-point-limited",
+      "reference_score": 1,
+      "evaluation_sha256": "ebe59e231ac2051291af5452fc3742cd4978b42ca5fddae7cd5153405f98af12",
+      "outputs": {
+        "temperature": {
+          "quantity": "temperature",
+          "unit": "K",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.2885305977761163e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.3145614730092348e-07
+            }
+          }
+        },
+        "velocity": {
+          "quantity": "velocity",
+          "unit": "m/s",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.0082675672151709e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0286366247669321e-07
+            }
+          }
+        },
+        "pressure": {
+          "quantity": "pressure",
+          "unit": "Pa",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.01698242360726e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0375282727181911e-05
+            }
+          }
+        },
+        "density": {
+          "quantity": "density",
+          "unit": "kg/m^3",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.911636689174941e-08
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0111871784346249e-07
+            }
+          }
+        },
+        "enthalpy": {
+          "quantity": "specific_total_enthalpy",
+          "unit": "J/kg",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 3.0370429158210754e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 3.0983996111899614e-05
+            }
+          }
+        },
+        "momentum": {
+          "quantity": "momentum_density",
+          "unit": "kg/(m^2*s)",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.0114721504805857e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0319059384755747e-07
+            }
+          }
+        },
+        "energy": {
+          "quantity": "total_energy_density",
+          "unit": "J/m^3",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 2.560994471423328e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 2.6127294404432178e-05
+            }
+          }
+        }
+      },
+      "bad_outputs": {
+        "missing": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "nonfinite": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "shape": {
+          "score": 0,
+          "status": "invalid_output"
+        }
+      },
+      "bad_reference": {
+        "score": null,
+        "status": "evaluation_error",
+        "message": "ValueError: Missing or unsafe grading asset: absent.h5"
+      }
+    },
+    {
+      "case": "05-first-order",
+      "reference_score": 1,
+      "evaluation_sha256": "ce72d31032d821695ae0652da6b80ecfeb3dd5e66637d918cde8e76c8293173d",
+      "outputs": {
+        "temperature": {
+          "quantity": "temperature",
+          "unit": "K",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.2869998045061948e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.3129999842931284e-07
+            }
+          }
+        },
+        "velocity": {
+          "quantity": "velocity",
+          "unit": "m/s",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.0529175398232837e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0741885603238188e-07
+            }
+          }
+        },
+        "pressure": {
+          "quantity": "pressure",
+          "unit": "Pa",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.01301702670753e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0334828402847052e-05
+            }
+          }
+        },
+        "density": {
+          "quantity": "density",
+          "unit": "kg/m^3",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.91165061137167e-08
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0111885972996504e-07
+            }
+          }
+        },
+        "enthalpy": {
+          "quantity": "specific_total_enthalpy",
+          "unit": "J/kg",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 3.0400638934224844e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 3.101478796452284e-05
+            }
+          }
+        },
+        "momentum": {
+          "quantity": "momentum_density",
+          "unit": "kg/(m^2*s)",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.0640431469255418e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.085539054201945e-07
+            }
+          }
+        },
+        "energy": {
+          "quantity": "total_energy_density",
+          "unit": "J/m^3",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 2.5727669708430767e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 2.6247435016557574e-05
+            }
+          }
+        }
+      },
+      "bad_outputs": {
+        "missing": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "nonfinite": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "shape": {
+          "score": 0,
+          "status": "invalid_output"
+        }
+      },
+      "bad_reference": {
+        "score": null,
+        "status": "evaluation_error",
+        "message": "ValueError: Missing or unsafe grading asset: absent.h5"
+      }
+    },
+    {
+      "case": "06-fallback",
+      "reference_score": 1,
+      "evaluation_sha256": "8f3cde92033f77d7a888d83fcc87b7a7ed43f82a6a672707766975141c67b638",
+      "outputs": {
+        "temperature": {
+          "quantity": "temperature",
+          "unit": "K",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.2869998045061948e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.3129999842931284e-07
+            }
+          }
+        },
+        "velocity": {
+          "quantity": "velocity",
+          "unit": "m/s",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.014329598092445e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0348211176847144e-07
+            }
+          }
+        },
+        "pressure": {
+          "quantity": "pressure",
+          "unit": "Pa",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.01301702670753e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0334828402847052e-05
+            }
+          }
+        },
+        "density": {
+          "quantity": "density",
+          "unit": "kg/m^3",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.91165061137167e-08
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0111885972996504e-07
+            }
+          }
+        },
+        "enthalpy": {
+          "quantity": "specific_total_enthalpy",
+          "unit": "J/kg",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 3.0063907615840435e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 3.0671246349811554e-05
+            }
+          }
+        },
+        "momentum": {
+          "quantity": "momentum_density",
+          "unit": "kg/(m^2*s)",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.0186317922489252e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0392102112177781e-07
+            }
+          }
+        },
+        "energy": {
+          "quantity": "total_energy_density",
+          "unit": "J/m^3",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 2.533139195293188e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 2.584312460385263e-05
+            }
+          }
+        }
+      },
+      "bad_outputs": {
+        "missing": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "nonfinite": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "shape": {
+          "score": 0,
+          "status": "invalid_output"
+        }
+      },
+      "bad_reference": {
+        "score": null,
+        "status": "evaluation_error",
+        "message": "ValueError: Missing or unsafe grading asset: absent.h5"
+      }
+    },
+    {
+      "case": "07-equilibrium",
+      "reference_score": 1,
+      "evaluation_sha256": "f7f6c2cef248d11fccab76b8d7391f7c4c002ff961eaeef76d647547d9479b4d",
+      "outputs": {
+        "temperature": {
+          "quantity": "temperature",
+          "unit": "K",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.2887176126241684e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.3147518984624185e-07
+            }
+          }
+        },
+        "velocity": {
+          "quantity": "velocity",
+          "unit": "m/s",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.0345937084821344e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.055494607271612e-07
+            }
+          }
+        },
+        "pressure": {
+          "quantity": "pressure",
+          "unit": "Pa",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.0178278898820281e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0383912012912333e-05
+            }
+          }
+        },
+        "density": {
+          "quantity": "density",
+          "unit": "kg/m^3",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.911639176074516e-08
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0111874315654745e-07
+            }
+          }
+        },
+        "enthalpy": {
+          "quantity": "specific_total_enthalpy",
+          "unit": "J/kg",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 3.0345225241035223e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 3.095826832577586e-05
+            }
+          }
+        },
+        "momentum": {
+          "quantity": "momentum_density",
+          "unit": "kg/(m^2*s)",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 1.0424277263609838e-07
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0634868630177152e-07
+            }
+          }
+        },
+        "energy": {
+          "quantity": "total_energy_density",
+          "unit": "J/m^3",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 1e-10
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 2.557947300374508e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 2.6096240617334843e-05
+            }
+          }
+        }
+      },
+      "bad_outputs": {
+        "missing": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "nonfinite": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "shape": {
+          "score": 0,
+          "status": "invalid_output"
+        }
+      },
+      "bad_reference": {
+        "score": null,
+        "status": "evaluation_error",
+        "message": "ValueError: Missing or unsafe grading asset: absent.h5"
+      }
+    },
+    {
+      "case": "08-flatplate-cfl400",
+      "reference_score": 1,
+      "evaluation_sha256": "b3bcfc18115aa13846d0a8baecdaf85c9f02d387f288ee6cdbaac3a89c815d63",
+      "outputs": {
+        "flow_density": {
+          "quantity": "flow_density",
+          "unit": "kg/m^3",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 2e-05
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 3.59964593998896e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 3.67236606000354e-05
+            }
+          }
+        },
+        "flow_momentum": {
+          "quantity": "flow_momentum_density",
+          "unit": "kg/(m^2*s)",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 0.001,
+            "rtol": 2e-05
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.00099
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.00101
+            }
+          }
+        },
+        "flow_energy": {
+          "quantity": "flow_total_energy_density",
+          "unit": "J/m^3",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1.0,
+            "rtol": 2e-05
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 6.679496339987963
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 6.814435660024174
+            }
+          }
+        },
+        "wall_cf": {
+          "quantity": "skin_friction_coefficient",
+          "unit": "1",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 2e-05
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-08
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0099999999999999e-07
+            }
+          }
+        },
+        "residuals": {
+          "quantity": "log10_residual",
+          "unit": "1",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 0.5,
+            "rtol": 0.0
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.4949999999999992
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.5050000000000008
+            },
+            "exact_half_equal": {
+              "score": 1,
+              "actual_delta": 0.5
+            }
+          }
+        }
+      },
+      "bad_outputs": {
+        "missing": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "nonfinite": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "shape": {
+          "score": 0,
+          "status": "invalid_output"
+        }
+      },
+      "bad_reference": {
+        "score": null,
+        "status": "evaluation_error",
+        "message": "ValueError: Missing or unsafe grading asset: absent.h5"
+      }
+    },
+    {
+      "case": "09-flatplate-cfl300",
+      "reference_score": 1,
+      "evaluation_sha256": "8d7b4c4cfca4615bea3871d30938be526840f13fa63b638e43c5c8694cd32f4d",
+      "outputs": {
+        "flow_density": {
+          "quantity": "flow_density",
+          "unit": "kg/m^3",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 2e-05
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 3.59964593998896e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 3.67236606000354e-05
+            }
+          }
+        },
+        "flow_momentum": {
+          "quantity": "flow_momentum_density",
+          "unit": "kg/(m^2*s)",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 0.001,
+            "rtol": 2e-05
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.00099
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.00101
+            }
+          }
+        },
+        "flow_energy": {
+          "quantity": "flow_total_energy_density",
+          "unit": "J/m^3",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1.0,
+            "rtol": 2e-05
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 6.679496339987963
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 6.814435660024174
+            }
+          }
+        },
+        "wall_cf": {
+          "quantity": "skin_friction_coefficient",
+          "unit": "1",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-07,
+            "rtol": 2e-05
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-08
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0099999999999999e-07
+            }
+          }
+        },
+        "residuals": {
+          "quantity": "log10_residual",
+          "unit": "1",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 0.5,
+            "rtol": 0.0
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.4949999999999992
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.5050000000000008
+            },
+            "exact_half_equal": {
+              "score": 1,
+              "actual_delta": 0.5
+            }
+          }
+        }
+      },
+      "bad_outputs": {
+        "missing": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "nonfinite": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "shape": {
+          "score": 0,
+          "status": "invalid_output"
+        }
+      },
+      "bad_reference": {
+        "score": null,
+        "status": "evaluation_error",
+        "message": "ValueError: Missing or unsafe grading asset: absent.h5"
+      }
+    }
+  ],
+  "read_files": {
+    "qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair\\instruction.md": "c2aed2f7b829ab90c43c53d5ec2618255ba958585ea67f5b20a0d0f10d593ccb",
+    "qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair\\DATA.md": "cf1dac351cb28902d42ec342757980cf02ba1a09b532730788a0f910c29ab539",
+    "docs\\CONTRACT.md": "130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063",
+    "qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair\\judge-config.json": "c9201208d787c710a00dad2708b8918b7aa16fcca5d2dfbb94798ac03eab0d4c",
+    "qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair\\author\\CMakeLists.txt": "70746aa89071ac9b988e79ca824d083986fa0fdca43c7712108be98acc29ba0e",
+    "qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair\\public\\run_case.py": "11bb54314a2c081a5a8f64611b8b7ff1fadfb285d5db77909af58505f359fdc7",
+    "qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair\\author\\backend_probe.py": "08d3b20f90781b05ec7852a08d86f95e3f76095c8a1c978b4b97afe7b538ea6e",
+    "src\\utils\\harbor\\tests\\judge.py": "23b20e463770da72422d4d4412acf501005eb9b2da3e687e543658e4f5965cfa",
+    "src\\utils\\harbor\\tests\\source_repair.py": "714e3f76ededa181e44861f6ad5257ba8a39be83e9a4588f258a516efa212e75",
+    "src\\utils\\prepare_harbor.py": "bc17153a3718abb8a6664cb8479a70ba1d75e646f0555be8ab9cdcb0c49d7e7d",
+    "src\\caeoj_tools\\source_repair.py": "45cd322e789c6f12d021e2b75066d67de6be17b8ec832d5558807055fdb05f80",
+    "runs\\harbor\\tasks\\reconstructed-energy-repair\\task.toml": "7bd5c7b183ee33c1d39a9d80c798c82beacc2e302f0d1a94702266acc505bf3e",
+    "qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair\\author\\data-evidence\\backend-contract-increment.json": "dfaff1a410a8dccb0809f34f04eac9c05c0ae37b13e2a4c1fc2c5d06b411efb0",
+    "qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair\\author\\data-evidence\\offline-install-final\\result.json": "11494715f386fa3ed79c739d2a200b9e29f956fdac056beda9e84d458159c448",
+    "qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair\\harbor\\source-repair.json": "adb4f2b494aaf813c04b651764bd27d240724041b59e988aeb0d8bb475f1c859",
+    "qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair\\author\\data-evidence\\header-dependency-closure.json": "efb75604c24e504bbbe1dc28fc85b3e40dd19e07a6db7d7e389797af1537a8c5",
+    "qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair\\author\\data-evidence\\backend-probes-v1\\extra\\stdout.json": "9e52c2a42b43e541fd39a667791bfc9e97fc4b307d737a9d253755af3e6d2122",
+    "qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair\\author\\data-evidence\\backend-probes-v1\\baseline-compiler\\stdout.json": "7662767c481ff7c66c8aa4d153efec92fb9e8bf66cfd66253873a468ff9fde2d",
+    "qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair\\author\\data-evidence\\backend-probes-v1\\baseline-runtime\\stdout.json": "aa532fe7a8722119c575d9b986b6285379c571ce3357aa6b2acb9d2a27bb98da",
+    "qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair\\author\\data-evidence\\backend-probes-v1\\syntax\\stdout.json": "1a522308f208ad03943857fd75274169456e9d2620f337de9c7ab8376000787c",
+    "qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair\\author\\data-evidence\\backend-probes-v1\\valid\\stdout.json": "348429f95ec9892fdf75b69f659d0c2d97f5a9a03ae6e85f3efaa2bb5040e087",
+    "qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair\\author\\data-evidence\\backend-probes-v1\\runtime-timeout\\stdout.json": "209590bc92976ebe24a0c8aa98e8689c32d99c95a4f37c269dee2d52d4e64a13",
+    "runs\\harbor\\tasks\\reconstructed-energy-repair\\tests\\reference\\01-unlimited\\grading.json": "1f1d7309637789391fd34b4e0d48508eeb2e888ba784280fd2f3fa7a875a0660",
+    "runs\\harbor\\tasks\\reconstructed-energy-repair\\tests\\reference\\02-three-dimensional\\grading.json": "1f1d7309637789391fd34b4e0d48508eeb2e888ba784280fd2f3fa7a875a0660",
+    "runs\\harbor\\tasks\\reconstructed-energy-repair\\tests\\reference\\03-edge-limited\\grading.json": "1f1d7309637789391fd34b4e0d48508eeb2e888ba784280fd2f3fa7a875a0660",
+    "runs\\harbor\\tasks\\reconstructed-energy-repair\\tests\\reference\\04-point-limited\\grading.json": "1f1d7309637789391fd34b4e0d48508eeb2e888ba784280fd2f3fa7a875a0660",
+    "runs\\harbor\\tasks\\reconstructed-energy-repair\\tests\\reference\\05-first-order\\grading.json": "1f1d7309637789391fd34b4e0d48508eeb2e888ba784280fd2f3fa7a875a0660",
+    "runs\\harbor\\tasks\\reconstructed-energy-repair\\tests\\reference\\06-fallback\\grading.json": "1f1d7309637789391fd34b4e0d48508eeb2e888ba784280fd2f3fa7a875a0660",
+    "runs\\harbor\\tasks\\reconstructed-energy-repair\\tests\\reference\\07-equilibrium\\grading.json": "1f1d7309637789391fd34b4e0d48508eeb2e888ba784280fd2f3fa7a875a0660",
+    "runs\\harbor\\tasks\\reconstructed-energy-repair\\tests\\reference\\08-flatplate-cfl400\\grading.json": "1f1d7309637789391fd34b4e0d48508eeb2e888ba784280fd2f3fa7a875a0660",
+    "runs\\harbor\\tasks\\reconstructed-energy-repair\\tests\\reference\\09-flatplate-cfl300\\grading.json": "1f1d7309637789391fd34b4e0d48508eeb2e888ba784280fd2f3fa7a875a0660",
+    "runs\\authoring\\repair-22\\repair22-su22602-oracle-v1-watch.json": "649455f8f4d7583abe0cf0e1b47a48140cb60f76beb6f9d568f1e8abd21d5e46",
+    "runs\\authoring\\repair-22\\repair22-su22602-oracle-v1.json": "28e1295b937f0ed48ed2fee34c4793aabc0ddd0e9f2aff452a2137e59978988a",
+    "runs\\harbor\\jobs\\repair22-su22602-oracle-v1\\reconstructed-energy-repair__KiHJo92\\verifier\\report.json": "9c1582cc8718277b85a23245b1aeb6df9ada2680ca7f4943f96ae61c49772343",
+    "runs\\harbor\\jobs\\repair22-su22602-oracle-v1\\reconstructed-energy-repair__KiHJo92\\result.json": "239c409bfdc1037ac25b7c00c64fdf4ab8b52023454c59350bc3d8e1d777f524",
+    "runs\\harbor\\jobs\\repair22-su22602-oracle-v1\\reconstructed-energy-repair__KiHJo92\\verifier\\build\\report.json": "53cb4ceeeff14b3bb5f4cce7382e15d3face707fe8b7484b82d33f3a52a36fb8",
+    "runs\\harbor\\jobs\\repair22-su22602-oracle-v1\\reconstructed-energy-repair__KiHJo92\\verifier\\build\\baseline-report.json": "58f8979995d0680ff5630515b199943d3b7f50e19c82c7d7e82ba594fd8cd09c",
+    "runs\\harbor\\jobs\\repair22-su22602-oracle-v1\\reconstructed-energy-repair__KiHJo92\\verifier\\build\\baseline-probe-report.json": "8853dbd7674dd9f456fdcdf4e6397b177852290f7059edc4eaf23cefe53fda08"
+  },
+  "changed_zip_members": [
+    "MANIFEST.json",
+    "pyproject.toml",
+    "src/caeoj_bundle/runtime.json",
+    "src/caeoj_task_ext/reconstruction.py"
+  ],
+  "changed_prepared_files": [
+    "environment/agent.zip",
+    "tests/agent.zip"
+  ],
+  "forced_object_count": 1,
+  "probe_results": {
+    "extra": {
+      "passed": true,
+      "classification": "invalid_submission",
+      "build_seconds": null,
+      "pid": null,
+      "termination_states": null
+    },
+    "baseline-compiler": {
+      "passed": true,
+      "classification": "infrastructure_error",
+      "build_seconds": null,
+      "pid": null,
+      "termination_states": null
+    },
+    "baseline-runtime": {
+      "passed": true,
+      "classification": "infrastructure_error",
+      "build_seconds": null,
+      "pid": null,
+      "termination_states": null
+    },
+    "syntax": {
+      "passed": true,
+      "classification": "build_error",
+      "build_seconds": null,
+      "pid": null,
+      "termination_states": null
+    },
+    "valid": {
+      "passed": true,
+      "classification": null,
+      "build_seconds": 36.37915859500208,
+      "pid": null,
+      "termination_states": null
+    },
+    "runtime-timeout": {
+      "passed": true,
+      "classification": null,
+      "build_seconds": null,
+      "pid": "128",
+      "termination_states": [
+        "Z"
+      ]
+    }
+  },
+  "sdk_module_files": {
+    "caeoj.case_grading": {
+      "path": "D:\\Code\\CAE-Bench-OJ\\runs\\configure-judge\\repair22-su22602\\runtime\\src\\caeoj\\case_grading.py",
+      "sha256": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e"
+    },
+    "caeoj_task_ext.reconstruction": {
+      "path": "D:\\Code\\CAE-Bench-OJ\\runs\\configure-judge\\repair22-su22602\\runtime\\src\\caeoj_task_ext\\reconstruction.py",
+      "sha256": "469c49923f6c8fb1c2318772351ae73a63e2a457474e296ae7ee1c466c6b4601"
+    }
+  },
+  "damaged_sdk_classifier": {
+    "status": "input_error",
+    "score": null,
+    "message": "Installed materials are incomplete: caeoj_task_ext.reconstruction:check"
+  },
+  "oracle_snapshot": {
+    "watcher_pid": 77840,
+    "started_unix": 1792744551.7682366,
+    "mode": "observe-existing-only",
+    "state_file": "D:\\Code\\CAE-Bench-OJ\\runs\\authoring\\repair-22\\repair22-su22602-oracle-v1.json",
+    "last_observed_unix": 1792745052.392193,
+    "job": "repair22-su22602-oracle-v1",
+    "task": "reconstructed-energy-repair",
+    "harbor_pid": 79308,
+    "runner_phase": "running",
+    "harbor_process": {
+      "alive": false,
+      "query_error": 87
+    },
+    "verifier": {
+      "score": 9,
+      "total_cases": 9,
+      "completed_cases": 9,
+      "complete": true,
+      "reward": 1.0
+    },
+    "container": {
+      "name": "reconstructed-energy-repair__kihjo92__verifier__trial-main-1",
+      "observed_unix": 1792745037.3520937,
+      "ps_exit_code": 0,
+      "ps_stdout": "    PID    PPID COMMAND\n      1       0 sh -c sleep infinity\n      7       1 sleep infinity\n    537       0 ps -eo pid,ppid,args\n",
+      "ps_stderr": ""
+    },
+    "status": "needs_review",
+    "exception_info": {
+      "exception_type": "RuntimeError",
+      "exception_message": "Docker compose command failed for environment reconstructed-energy-repair. Command: docker compose --project-name reconstructed-energy-repair__kihjo92__verifier__trial --project-directory D:\\Code\\CAE-Bench-OJ\\runs\\harbor\\tasks\\reconstructed-energy-repair\\tests -f C:\\AppData\\Local\\Temp\\tmpgdylizzt\\reconstructed-energy-repair__KiHJo92__verifier__trial-docker-compose-resources.json -f D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\environments\\docker\\docker-compose-build.yaml -f C:\\AppData\\Local\\Temp\\tmpil_e0utm\\docker-compose-environment.json -f C:\\AppData\\Local\\Temp\\tmp2shb8yc4\\docker-compose-mounts.json -f D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\environments\\docker\\docker-compose-egress-control.yaml -f C:\\AppData\\Local\\Temp\\tmp9d4or513\\docker-compose-egress-control-services.json exec --no-TTY harbor-docker-egress-control-sidecar network-policy allow-all. Return code: 3221225794. Stdout: None. Stderr: None. ",
+      "exception_traceback": "Traceback (most recent call last):\n  File \"D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\trial\\trial.py\", line 500, in run\n    await self._run()\n  File \"D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\trial\\single_step.py\", line 51, in _run\n    await self._run_verifier()\n  File \"D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\trial\\single_step.py\", line 98, in _run_verifier\n    self.result.verifier_result = await self._run_separate_verifier(\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\trial\\trial.py\", line 960, in _run_separate_verifier\n    async with self._phase_network_policy(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Jim Zhou\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\Lib\\contextlib.py\", line 217, in __aexit__\n    await anext(self.gen)\n  File \"D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\trial\\trial.py\", line 357, in _phase_network_policy\n    await environment.set_network_policy(baseline_policy)\n  File \"D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\environments\\base.py\", line 905, in set_network_policy\n    await self._apply_network_policy(network_policy)\n  File \"D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\environments\\docker\\docker.py\", line 1469, in _apply_network_policy\n    await self._run_docker_compose_command(command)\n  File \"D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\environments\\docker\\docker.py\", line 756, in _run_docker_compose_command\n    raise RuntimeError(\nRuntimeError: Docker compose command failed for environment reconstructed-energy-repair. Command: docker compose --project-name reconstructed-energy-repair__kihjo92__verifier__trial --project-directory D:\\Code\\CAE-Bench-OJ\\runs\\harbor\\tasks\\reconstructed-energy-repair\\tests -f C:\\AppData\\Local\\Temp\\tmpgdylizzt\\reconstructed-energy-repair__KiHJo92__verifier__trial-docker-compose-resources.json -f D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\environments\\docker\\docker-compose-build.yaml -f C:\\AppData\\Local\\Temp\\tmpil_e0utm\\docker-compose-environment.json -f C:\\AppData\\Local\\Temp\\tmp2shb8yc4\\docker-compose-mounts.json -f D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\environments\\docker\\docker-compose-egress-control.yaml -f C:\\AppData\\Local\\Temp\\tmp9d4or513\\docker-compose-egress-control-services.json exec --no-TTY harbor-docker-egress-control-sidecar network-policy allow-all. Return code: 3221225794. Stdout: None. Stderr: None. \n",
+      "occurred_at": "2026-10-23T08:43:53.558379Z"
+    },
+    "original_runner_returncode": null,
+    "finished_unix": 1792745052.4221234
+  },
+  "final_verifier_summary": {
+    "score": 9,
+    "total_cases": 9,
+    "completed_cases": 9,
+    "complete": true,
+    "reward": 1.0
+  },
+  "final_case_runtime_seconds": {
+    "01-unlimited": 1.8698412279991317,
+    "02-three-dimensional": 1.7121827750015655,
+    "03-edge-limited": 1.3066495300008683,
+    "04-point-limited": 1.07226957900275,
+    "05-first-order": 1.000229840999964,
+    "06-fallback": 0.9331487240015122,
+    "07-equilibrium": 0.6970765929982008,
+    "08-flatplate-cfl400": 411.7132471940022,
+    "09-flatplate-cfl300": 473.83070395199684
+  },
+  "final_trial_exception": {
+    "exception_type": "RuntimeError",
+    "exception_message": "Docker compose command failed for environment reconstructed-energy-repair. Command: docker compose --project-name reconstructed-energy-repair__kihjo92__verifier__trial --project-directory D:\\Code\\CAE-Bench-OJ\\runs\\harbor\\tasks\\reconstructed-energy-repair\\tests -f C:\\AppData\\Local\\Temp\\tmpgdylizzt\\reconstructed-energy-repair__KiHJo92__verifier__trial-docker-compose-resources.json -f D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\environments\\docker\\docker-compose-build.yaml -f C:\\AppData\\Local\\Temp\\tmpil_e0utm\\docker-compose-environment.json -f C:\\AppData\\Local\\Temp\\tmp2shb8yc4\\docker-compose-mounts.json -f D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\environments\\docker\\docker-compose-egress-control.yaml -f C:\\AppData\\Local\\Temp\\tmp9d4or513\\docker-compose-egress-control-services.json exec --no-TTY harbor-docker-egress-control-sidecar network-policy allow-all. Return code: 3221225794. Stdout: None. Stderr: None. ",
+    "exception_traceback": "Traceback (most recent call last):\n  File \"D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\trial\\trial.py\", line 500, in run\n    await self._run()\n  File \"D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\trial\\single_step.py\", line 51, in _run\n    await self._run_verifier()\n  File \"D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\trial\\single_step.py\", line 98, in _run_verifier\n    self.result.verifier_result = await self._run_separate_verifier(\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\trial\\trial.py\", line 960, in _run_separate_verifier\n    async with self._phase_network_policy(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Jim Zhou\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\Lib\\contextlib.py\", line 217, in __aexit__\n    await anext(self.gen)\n  File \"D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\trial\\trial.py\", line 357, in _phase_network_policy\n    await environment.set_network_policy(baseline_policy)\n  File \"D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\environments\\base.py\", line 905, in set_network_policy\n    await self._apply_network_policy(network_policy)\n  File \"D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\environments\\docker\\docker.py\", line 1469, in _apply_network_policy\n    await self._run_docker_compose_command(command)\n  File \"D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\environments\\docker\\docker.py\", line 756, in _run_docker_compose_command\n    raise RuntimeError(\nRuntimeError: Docker compose command failed for environment reconstructed-energy-repair. Command: docker compose --project-name reconstructed-energy-repair__kihjo92__verifier__trial --project-directory D:\\Code\\CAE-Bench-OJ\\runs\\harbor\\tasks\\reconstructed-energy-repair\\tests -f C:\\AppData\\Local\\Temp\\tmpgdylizzt\\reconstructed-energy-repair__KiHJo92__verifier__trial-docker-compose-resources.json -f D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\environments\\docker\\docker-compose-build.yaml -f C:\\AppData\\Local\\Temp\\tmpil_e0utm\\docker-compose-environment.json -f C:\\AppData\\Local\\Temp\\tmp2shb8yc4\\docker-compose-mounts.json -f D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Lib\\site-packages\\harbor\\environments\\docker\\docker-compose-egress-control.yaml -f C:\\AppData\\Local\\Temp\\tmp9d4or513\\docker-compose-egress-control-services.json exec --no-TTY harbor-docker-egress-control-sidecar network-policy allow-all. Return code: 3221225794. Stdout: None. Stderr: None. \n",
+    "occurred_at": "2026-10-23T08:43:53.558379Z"
+  },
+  "final_build_report.json": {
+    "command": [
+      "setpriv",
+      "--reuid=1000",
+      "--regid=1000",
+      "--clear-groups",
+      "--no-new-privs",
+      "cmake",
+      "--build",
+      "/opt/su2-build",
+      "--target",
+      "repair_sources",
+      "--parallel",
+      "4"
+    ],
+    "exit_code": 0,
+    "status": "built",
+    "elapsed_seconds": 76.2493922149988,
+    "sources_sha256": {
+      "common.hpp": "cd702a15ae4cb083ad2ba2896a7d9beb630fb28e45ea90bb9f2ee4f24a38244a"
+    },
+    "removed_build_artifacts": [
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/.._include_numerics_simd_CNumericsSIMD.cpp.o",
+      "/opt/su2-build/Common/src/libSU2Common.a",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a",
+      "/opt/su2-build/SU2_CFD/src/SU2_CFD",
+      "/opt/su2-build/bin/reconstruction-driver"
+    ],
+    "built_artifacts_sha256": {
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/.._include_numerics_simd_CNumericsSIMD.cpp.o": "5b17cd3b3cd2857b451b0842c004506856041ffbd20cd42417d8b8b06442a54a",
+      "/opt/su2-build/Common/src/libSU2Common.a": "995bc4b90b4cd58fc4d383f92c8b22503f43009d425289c3cd812011b73884b3",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a": "5a6f75f6fe5267f2240d10bb2082365341c1091d695408981c55d1285a8c92ef",
+      "/opt/su2-build/SU2_CFD/src/SU2_CFD": "0a6bcea8a28db2be2a4aec64ff526549b8f649ad402073b3ab4254538d62fa94",
+      "/opt/su2-build/bin/reconstruction-driver": "fc3be348fa614805e41d33b37568453d22e7f63c8c8a1de70b0e4a1ecaa54aa1"
+    }
+  },
+  "final_build_baseline-report.json": {
+    "command": [
+      "setpriv",
+      "--reuid=1000",
+      "--regid=1000",
+      "--clear-groups",
+      "--no-new-privs",
+      "cmake",
+      "--build",
+      "/opt/su2-build",
+      "--target",
+      "repair_sources",
+      "--parallel",
+      "4"
+    ],
+    "exit_code": 0,
+    "status": "built",
+    "elapsed_seconds": 61.93022878500051,
+    "removed_build_artifacts": [
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/.._include_numerics_simd_CNumericsSIMD.cpp.o",
+      "/opt/su2-build/Common/src/libSU2Common.a",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a",
+      "/opt/su2-build/SU2_CFD/src/SU2_CFD",
+      "/opt/su2-build/bin/reconstruction-driver"
+    ]
+  },
+  "final_build_baseline-probe-report.json": {
+    "command": [
+      "setpriv",
+      "--reuid=1000",
+      "--regid=1000",
+      "--clear-groups",
+      "--no-new-privs",
+      "/usr/local/bin/python",
+      "/app/qbank/19-solver-repair/19.3-transport/reconstructed-energy-repair/public/run_case.py",
+      "--input",
+      "/app/qbank/19-solver-repair/19.3-transport/reconstructed-energy-repair/samples/01/input/problem.json",
+      "--output",
+      "/tmp/su2-baseline-probe.h5"
+    ],
+    "exit_code": 0,
+    "status": "ready",
+    "elapsed_seconds": 1.8021489649981959
+  }
+}

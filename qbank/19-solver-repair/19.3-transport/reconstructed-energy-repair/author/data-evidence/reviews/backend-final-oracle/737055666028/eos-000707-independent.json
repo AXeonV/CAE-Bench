@@ -1,0 +1,308 @@
+{
+  "issue": "2602",
+  "read_files": {
+    "qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair\\author\\data-evidence\\eos-contract-increment.json": "38a41638e9fdfc9b790f79f4e80fc1de76a0de208c36beda57201e9a02204844",
+    "qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair\\author\\data-evidence\\offline-install-eos-final\\result.json": "0c0eb23233a3a936ef5f77a8b910673487f620b59474c9a9bd91dd309f31edf5",
+    "runs\\authoring\\repair-22\\repair22-su22602-oracle-v2-watch.json": "d3d9152fb75bfeb020797faf1a3aaebfe82f4f32e4b41b5ae65232d58285fb5b"
+  },
+  "tests": [
+    {
+      "input": "runs\\harbor\\tasks\\reconstructed-energy-repair\\tests\\cases\\01-unlimited\\problem.json",
+      "valid_input": true,
+      "reference_score": 1,
+      "negative_probes": [
+        {
+          "kind": "float_iterations",
+          "rejected": true,
+          "message": "{\"valid\": false, \"errors\": [{\"code\": \"E_RECONSTRUCTION\", \"path\": \"$.physics.parameters.iterations\", \"expected\": \"JSON integer\", \"actual\": \"2000.0\", \"message\": \"Outside DATA contract.\"}], \"scope\": \"task-contract\"}"
+        },
+        {
+          "kind": "eos_inside",
+          "accepted": true
+        },
+        {
+          "kind": "eos_outside",
+          "accepted": false
+        },
+        {
+          "kind": "density_percent",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "input": "runs\\harbor\\tasks\\reconstructed-energy-repair\\tests\\cases\\02-three-dimensional\\problem.json",
+      "valid_input": true,
+      "reference_score": 1,
+      "negative_probes": [
+        {
+          "kind": "float_iterations",
+          "rejected": true,
+          "message": "{\"valid\": false, \"errors\": [{\"code\": \"E_RECONSTRUCTION\", \"path\": \"$.physics.parameters.iterations\", \"expected\": \"JSON integer\", \"actual\": \"2000.0\", \"message\": \"Outside DATA contract.\"}], \"scope\": \"task-contract\"}"
+        },
+        {
+          "kind": "eos_inside",
+          "accepted": true
+        },
+        {
+          "kind": "eos_outside",
+          "accepted": false
+        },
+        {
+          "kind": "density_percent",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "input": "runs\\harbor\\tasks\\reconstructed-energy-repair\\tests\\cases\\03-edge-limited\\problem.json",
+      "valid_input": true,
+      "reference_score": 1,
+      "negative_probes": [
+        {
+          "kind": "float_iterations",
+          "rejected": true,
+          "message": "{\"valid\": false, \"errors\": [{\"code\": \"E_RECONSTRUCTION\", \"path\": \"$.physics.parameters.iterations\", \"expected\": \"JSON integer\", \"actual\": \"2000.0\", \"message\": \"Outside DATA contract.\"}], \"scope\": \"task-contract\"}"
+        },
+        {
+          "kind": "eos_inside",
+          "accepted": true
+        },
+        {
+          "kind": "eos_outside",
+          "accepted": false
+        },
+        {
+          "kind": "density_percent",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "input": "runs\\harbor\\tasks\\reconstructed-energy-repair\\tests\\cases\\04-point-limited\\problem.json",
+      "valid_input": true,
+      "reference_score": 1,
+      "negative_probes": [
+        {
+          "kind": "float_iterations",
+          "rejected": true,
+          "message": "{\"valid\": false, \"errors\": [{\"code\": \"E_RECONSTRUCTION\", \"path\": \"$.physics.parameters.iterations\", \"expected\": \"JSON integer\", \"actual\": \"2000.0\", \"message\": \"Outside DATA contract.\"}], \"scope\": \"task-contract\"}"
+        },
+        {
+          "kind": "eos_inside",
+          "accepted": true
+        },
+        {
+          "kind": "eos_outside",
+          "accepted": false
+        },
+        {
+          "kind": "density_percent",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "input": "runs\\harbor\\tasks\\reconstructed-energy-repair\\tests\\cases\\05-first-order\\problem.json",
+      "valid_input": true,
+      "reference_score": 1,
+      "negative_probes": [
+        {
+          "kind": "float_iterations",
+          "rejected": true,
+          "message": "{\"valid\": false, \"errors\": [{\"code\": \"E_RECONSTRUCTION\", \"path\": \"$.physics.parameters.iterations\", \"expected\": \"JSON integer\", \"actual\": \"2000.0\", \"message\": \"Outside DATA contract.\"}], \"scope\": \"task-contract\"}"
+        },
+        {
+          "kind": "eos_inside",
+          "accepted": true
+        },
+        {
+          "kind": "eos_outside",
+          "accepted": false
+        },
+        {
+          "kind": "density_percent",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "input": "runs\\harbor\\tasks\\reconstructed-energy-repair\\tests\\cases\\06-fallback\\problem.json",
+      "valid_input": true,
+      "reference_score": 1,
+      "negative_probes": [
+        {
+          "kind": "float_iterations",
+          "rejected": true,
+          "message": "{\"valid\": false, \"errors\": [{\"code\": \"E_RECONSTRUCTION\", \"path\": \"$.physics.parameters.iterations\", \"expected\": \"JSON integer\", \"actual\": \"2000.0\", \"message\": \"Outside DATA contract.\"}], \"scope\": \"task-contract\"}"
+        },
+        {
+          "kind": "eos_inside",
+          "accepted": true
+        },
+        {
+          "kind": "eos_outside",
+          "accepted": false
+        },
+        {
+          "kind": "density_percent",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "input": "runs\\harbor\\tasks\\reconstructed-energy-repair\\tests\\cases\\07-equilibrium\\problem.json",
+      "valid_input": true,
+      "reference_score": 1,
+      "negative_probes": [
+        {
+          "kind": "float_iterations",
+          "rejected": true,
+          "message": "{\"valid\": false, \"errors\": [{\"code\": \"E_RECONSTRUCTION\", \"path\": \"$.physics.parameters.iterations\", \"expected\": \"JSON integer\", \"actual\": \"2000.0\", \"message\": \"Outside DATA contract.\"}], \"scope\": \"task-contract\"}"
+        },
+        {
+          "kind": "eos_inside",
+          "accepted": true
+        },
+        {
+          "kind": "eos_outside",
+          "accepted": false
+        },
+        {
+          "kind": "density_percent",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "input": "runs\\harbor\\tasks\\reconstructed-energy-repair\\tests\\cases\\08-flatplate-cfl400\\problem.json",
+      "valid_input": true,
+      "reference_score": 1,
+      "negative_probes": [
+        {
+          "kind": "float_iterations",
+          "rejected": true,
+          "message": "{\"valid\": false, \"errors\": [{\"code\": \"E_RECONSTRUCTION\", \"path\": \"$.physics.parameters.iterations\", \"expected\": \"JSON integer\", \"actual\": \"2000.0\", \"message\": \"Outside DATA contract.\"}], \"scope\": \"task-contract\"}"
+        }
+      ]
+    },
+    {
+      "input": "runs\\harbor\\tasks\\reconstructed-energy-repair\\tests\\cases\\09-flatplate-cfl300\\problem.json",
+      "valid_input": true,
+      "reference_score": 1,
+      "negative_probes": [
+        {
+          "kind": "float_iterations",
+          "rejected": true,
+          "message": "{\"valid\": false, \"errors\": [{\"code\": \"E_RECONSTRUCTION\", \"path\": \"$.physics.parameters.iterations\", \"expected\": \"JSON integer\", \"actual\": \"2500.0\", \"message\": \"Outside DATA contract.\"}], \"scope\": \"task-contract\"}"
+        }
+      ]
+    },
+    {
+      "input": "qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair\\samples\\01\\input\\problem.json",
+      "valid_input": true,
+      "reference_score": 1,
+      "negative_probes": [
+        {
+          "kind": "float_iterations",
+          "rejected": true,
+          "message": "{\"valid\": false, \"errors\": [{\"code\": \"E_RECONSTRUCTION\", \"path\": \"$.physics.parameters.iterations\", \"expected\": \"JSON integer\", \"actual\": \"2000.0\", \"message\": \"Outside DATA contract.\"}], \"scope\": \"task-contract\"}"
+        },
+        {
+          "kind": "eos_inside",
+          "accepted": true
+        },
+        {
+          "kind": "eos_outside",
+          "accepted": false
+        },
+        {
+          "kind": "density_percent",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "input": "qbank\\19-solver-repair\\19.3-transport\\reconstructed-energy-repair\\samples\\02\\input\\problem.json",
+      "valid_input": true,
+      "reference_score": 1,
+      "negative_probes": [
+        {
+          "kind": "float_iterations",
+          "rejected": true,
+          "message": "{\"valid\": false, \"errors\": [{\"code\": \"E_RECONSTRUCTION\", \"path\": \"$.physics.parameters.iterations\", \"expected\": \"JSON integer\", \"actual\": \"2000.0\", \"message\": \"Outside DATA contract.\"}], \"scope\": \"task-contract\"}"
+        },
+        {
+          "kind": "eos_inside",
+          "accepted": true
+        },
+        {
+          "kind": "eos_outside",
+          "accepted": false
+        },
+        {
+          "kind": "density_percent",
+          "accepted": false
+        }
+      ]
+    }
+  ],
+  "zip_sha256": "00070750f53895a3cf21ae362e7636a9c7c807263aa59a44bd84ec2fda4fa3e2",
+  "changed_zip_members": {
+    "MANIFEST.json": {
+      "old": "3298310846ddc55007ffb8b68f47888f6fb0e0ff408e6529ce11317d9ea8f7d5",
+      "new": "19bdd1cb7954778636f625fabb02d506d23fb35b5bb316a820bb25fd2c411ea6"
+    },
+    "pyproject.toml": {
+      "old": "f2004264bcee77151465db824c4c7339b6e5fa050eff99eeaaac8a8b1faa11cb",
+      "new": "c81f4c0fb124f0c10a0cfa57064ed2d8428388c80e3f2af6f310aa7f2703432a"
+    },
+    "qbank/19-solver-repair/19.3-transport/reconstructed-energy-repair/DATA.md": {
+      "old": "cf1dac351cb28902d42ec342757980cf02ba1a09b532730788a0f910c29ab539",
+      "new": "c2dea7a8ac3cd2afe32c028f3141669b0f167c0ddd90739727f2c71152dd2989"
+    },
+    "src/caeoj_bundle/runtime.json": {
+      "old": "c2d57ceb9a737c603d9140cb79643254c1a04271ba6666dde0575f783675fa5e",
+      "new": "0b8f5ce8992089591a2a7ac2cbb608418cd686b82a7ad427cbfa3028c4f9d24e"
+    },
+    "src/caeoj_task_ext/reconstruction.py": {
+      "old": "469c49923f6c8fb1c2318772351ae73a63e2a457474e296ae7ee1c466c6b4601",
+      "new": "186eaeed8173c0d1fc59ea3ed152d371c91b6e912240b327540291ad338a0e70"
+    }
+  },
+  "checker_diff": "--- \n+++ \n@@ -73,3 +73,6 @@\n             if np.any(a[k]<lo) or np.any(a[k]>hi):fail('$.fields.'+k,f'{lo}..{hi}',a[k])\n         for k in ['gradient_temperature','gradient_velocity','gradient_pressure']:\n             if np.any(abs(a[k])>1e8):fail('$.fields.'+k,'abs <=1e8',a[k])\n+        if values['gas_constant']>0 and np.all(a['temperature']>0):\n+            rho_eos=a['pressure']/(values['gas_constant']*a['temperature'])\n+            if np.any(abs(a['density']-rho_eos)>1e-12+1e-12*abs(rho_eos)):fail('$.fields.density','abs(rho-p/(R*T)) <= 1e-12 kg/m^3 + 1e-12*abs(p/(R*T))','inconsistent input density')\n",
+  "changed_prepared_files": [
+    "environment/agent.zip",
+    "tests/agent.zip"
+  ],
+  "oracle_snapshot": {
+    "watcher_pid": 68816,
+    "started_unix": 1792746022.9497082,
+    "mode": "observe-existing-only",
+    "state_file": "D:\\Code\\CAE-Bench-OJ\\runs\\authoring\\repair-22\\repair22-su22602-oracle-v2.json",
+    "last_observed_unix": 1792746234.0866017,
+    "job": "repair22-su22602-oracle-v2",
+    "task": "reconstructed-energy-repair",
+    "harbor_pid": 25612,
+    "runner_phase": "running",
+    "harbor_process": {
+      "alive": true,
+      "exit_code": null
+    },
+    "container": {
+      "name": "reconstructed-energy-repair__3jufsyi__verifier__trial-main-1",
+      "observed_unix": 1792746204.0563436,
+      "ps_exit_code": 0,
+      "ps_stdout": "    PID    PPID COMMAND\n      1       0 sh -c sleep infinity\n      8       1 sleep infinity\n     58       0 bash -c (/tests/test.sh) > /logs/verifier/test-stdout.txt 2>&1\n     64      58 /bin/bash /tests/test.sh\n     66      64 python /tests/judge.py\n    410      66 python /app/qbank/19-solver-repair/19.3-transport/reconstructed-energy-repair/public/run_case.py --input /tmp/caeoj-1w7plk8j/input/problem.json --output /tmp/caeoj-1w7plk8j/result.h5\n    426     410 /opt/su2-build/SU2_CFD/src/SU2_CFD config.cfg\n    427       0 ps -eo pid,ppid,args\n",
+      "ps_stderr": ""
+    },
+    "status": "watching",
+    "verifier": {
+      "score": 7,
+      "total_cases": 9,
+      "completed_cases": 7,
+      "complete": false,
+      "reward": 0.7777777777777778
+    }
+  }
+}

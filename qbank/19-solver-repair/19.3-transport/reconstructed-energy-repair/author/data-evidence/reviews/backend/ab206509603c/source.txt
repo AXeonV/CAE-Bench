@@ -1,0 +1,43 @@
+# SU2 2602 独立后端审阅
+
+审阅对象：`qbank/19-solver-repair/19.3-transport/reconstructed-energy-repair`；最终公开 ZIP SHA256 `f58f517066bc84d24554c6c5fce429a7d3492b476c46c9ea8795df654ed0738d`。按 configure-judge SKILL 与 repair-question 的 backend.md，只读审阅实现与既有执行证据，并执行有限、无编译/CFD 的评分验证。没有修改题目实现、配置或 Git，没有启动模型评测。
+
+结论：配置、真实编译闭包、冻结、隔离及评分消费链未发现阻断问题。最终 SDK 的全部 9 正式配置已实际加载评分，最终 f58f 包 Oracle 的 verifier 已真实9/9 accepted、complete=true、reward1；本次直接读取原始trial的verifier/report.json并确认Oracle启动冻结SHA表与当前准备目录全部相同。Harbor trial 在评分完成后恢复egress策略时发生基础设施异常，因此必须并列保留“最终verifier数值9/9”和“Harbor收尾异常”，不能宣称整个trial干净成功。
+
+原始证据位于 `runs/harbor/jobs/repair22-su22602-oracle-v1/reconstructed-energy-repair__KiHJo92/`。trial/result.json 的exception_info为恢复allow-all时docker compose exec sidecar失败，返回3221225794，发生于2026-10-23T08:43:53.558379Z；verifier已完成后进程列表仅剩容器sleep及观察ps。该错误归宿主/sidecar收尾基础设施，不能归候选零分或数值错误，不应为消除此记录重跑已完成CFD。
+
+## 证据身份及复用界限
+
+旧六种真实后端探针身份是 ZIP `1915e5399b7ae4a9287a5d9bf4bd8bb3c03935c4d41bb04af93785fe669731dc`，保留在题内 `author/data-evidence/backend-probes-v1/`。本次独立比较旧 ZIP 和最终 ZIP 的全部成员，以及旧冻结准备目录 SHA 表与当前全部文件：成员集合相同，恰有 MANIFEST.json、pyproject.toml、runtime.json、reconstruction.py 四成员变化；准备目录仅 environment/agent.zip 与 tests/agent.zip 两副本变化。原共享 source_repair.py、judge.py、源码、驱动、case、grading、参考、Dockerfile 和资源配置保持字节相同。可有界复用旧探针对执行者的证明，但不得声称探针实际在 f58f 新包上执行；新增整数输入契约检查不由旧探针覆盖。
+
+最终独立离线安装证据 `author/data-evidence/offline-install-final/result.json` 已接受全部 9 formal+2 sample，安装 checker SHA `469c49923f6c8fb1c2318772351ae73a63e2a457474e296ae7ee1c466c6b4601`。本次有限验证从最终 ZIP 单独抽取 src 导入，记录实际模块路径和哈希，未使用工作树中的旧扩展。该验证属于评分与契约消费证据，不替代原生 CFD。
+
+## 公开要求 → 配置 → 消费与实际证据
+
+| 要求 | 实际消费者与证据 |
+|---|---|
+| 只提交 common.hpp、每文件 ≤1 MiB | source-repair.json replacement + max_source_bytes=1048576；prepare 在冻结前精确比对顶层成员，拒绝链接/特殊文件/超限；旧 extra 探针实际 invalid_submission。链接/超限本轮为代码审阅，未新增真实容器探针。 |
+| 真实重编、不能使用陈旧缓存 | rebuild_files 强制删除1个真实上游 TU对象、两静态库、SU2_CFD及模板驱动；依赖闭包记录从287个compiler dependency blocks得到唯一 CNumericsSIMD.cpp TU；author/CMakeLists.txt 每次无条件编译 reconstruction-driver.cpp 这一额外模板消费者。原件重编与候选重编各自删除这些产物。旧 valid 探针先将全部声明产物 mtime 设置为2100年，实际候选编译36.379秒，sourceSHA和5项artifactSHA在执行者内逐一复算相等，真实样例判1。 |
+| 源码冻结及加载 | 候选sourceSHA common.hpp=cd702a15…，实际静态链接两重建库；ldd没有libSU2动态旁路；构建后root拥有并取消solver写权限。此证据证明被测静态链接路径及样例调用，不声称覆盖所有加载场景。 |
+| 基础设施/候选分类 | 缺g++的旧探针触发原件实际重编→infrastructure_error；缺可信driver的baseline-runtime→infrastructure_error；候选语法→build_error；额外文件→invalid_submission。原件健康probe使用UID1000/HOME=/home/solver，限60秒，原件预算120秒、候选300秒独立。 |
+| 4 CPU、8 GiB、隐藏数据、冻结材料及禁网 | 旧容器实际--network none/--cpus4/--memory8g；cgroup cpu.max=400000 100000，memory.max=8589934592；UID1000探针不能读/tests、/logs/verifier、/probe，不能写提交、源码目录/头文件、构建规则、两库、对象和两个可执行文件；对1.1.1.1:80连接失败。有限路径权限及单地址网络探针不构成整个容器安全性证明。 |
+| 每例900秒、运行失败记本例0分、终止后台进程 | judge.execute 独立process session，finally killpg。旧runtime-timeout是真实候选C++死循环，3秒探针预算返回timeout/score0；记录原生主PID128在/proc为Z，证明该主进程已终止，不证明另起session的全部后代或后续case继续执行。 |
+| 输出逐点、全部通过才计例分，算例等权 | 每例reference/grading.json唯一被prepare_case消费；direct_outputs遍历全部声明输出，quantity/unit经resolve_policy绑定。judge.main评分前预检全部正式case、按真实9例分母，全部输出通过才得1；评估错误score=null向外抛infra，不默认为候选0分。 |
+| CFD稳定与收敛 | 不可修改run_case.py实际调用SU2，校验正常退出、iterations+100、rho≤-10/rhoE≤-7、末101条CD极差≤1e-3最终绝对值、有限数据；读取原生VTK和日志。评分另比较完整密度/动量/能量/壁摩擦及6分量残差。 |
+
+题面与实际容差一致：直接7字段 atol1e-7/rtol1e-10；CFD density、momentum、energy、cf 的 atol 分别1e-5/1e-3/1/1e-7，rtol2e-5；残差 atol0.5/rtol0。未另加默认容差或偏置。max_output_bytes=null 被 output_limit 明确消费为不额外限制字节，但结果仍须普通文件且满足完整契约与逻辑shape。
+
+task.toml 实际值：agent2400秒、镜像构建1800秒、verifier9442秒、4CPU/8192MB、独立verifier且no-network。外层预算=1000+9×(900+30+8)=9442秒，覆盖原件120+候选300+健康60+9×(900+30)=8850秒，另有592秒I/O余量；评价超时30秒与求解900秒分开消费。容器CPU/内存实效证据来自旧探针；最终Oracle逐例实际耗时及原件/候选/健康probe构建报告已另存bounded-tests.json，正式9例均在实际限制内完成。
+
+## 本次实际有限验证
+
+命令：`.venv/Scripts/python.exe -X utf8 runs/configure-judge/review_su2_backend.py 2602 reconstructed-energy-repair`。结果见同目录 `bounded-tests.json`（逐例配置/输入/参考/实现SHA、模块路径、探针状态、Oracle时间快照）。
+
+- 全9正式case参考自比均1分；59个输出逐字段只扰动首个值，0.99×容差均接受、1.01×均拒绝，证明没有漏绑定字段或用总体均值掩盖局部误差。
+- 两CFD残差首分量差恰0.5均接受，0.505拒绝；其余数值阈值采用内外点，避免浮点表示影响等号断言。
+- 每case缺字段、NaN、错误shape均invalid_output/score0，共27项；坏参考绑定全部evaluation_error/score=null，共9项。
+- 在临时复制的最终SDK中移除reconstruction.py，再通过grade_case真实加载正式输入，得到input_error/score=null及明确Installed materials incomplete诊断；这是SDK损坏分类的有限工具验证，不冒称重新跑了容器baseline-runtime。
+
+初次有限测试脚本误将int64元数据当浮点注入NaN，已修正为声明输出字段；这是本次验证工具设置错误。历史runtime-timeout-bom-setup-failure仍保留：它在注入时把BOM放进C++中间导致build_error，不能算作系统bug，也不能算真实超时成功；后续实际C++死循环探针才提供PID128证据。未追加候选构建超时、换session后代、后续case继续执行的真实探针，报告仅覆盖已有证据范围。
+
+后续有界复核项：主agent转述独立数据审阅发现当前输入契约尚需补充rho=p/(R*T)一致性检查。该数据检查缺口不由本报告的后端阈值测试覆盖；owner若因此变更SDK/公开ZIP，须保留本次f58f执行身份，再复核新SDK字节差异、坏输入拒绝及正式输入/评分消费，不把当前9/9重新归名为未来ZIP的实际执行。

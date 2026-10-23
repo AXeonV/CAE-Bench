@@ -1,0 +1,59 @@
+# 最终增量复核：通过
+
+最终ZIP SHA256 `00070750f53895a3cf21ae362e7636a9c7c807263aa59a44bd84ec2fda4fa3e2`。**全部9正式+2样例全数据审计通过，输入EOS检查缺口已关闭。** 以下原f58f版记录与发现完整保留，不覆盖旧Oracle/旧版本身份。
+
+独立比较旧f58f冻结ZIP与最终包：成员集合一致，恰5成员变更：MANIFEST、pyproject版本、DATA.md、runtime.json、reconstruction扩展。runtime仅id变化；DATA只增加输入EOS公式与绝对/相对容差说明；extension只在直接族对实际输入rho/p/R/T验证，不改写数组、不碰H、不参与CFD输出转换。instruction、完整public源码/driver/config/mesh、两样例input/reference/output其余成员逐字节不变，详final-zip-diff.json和final-data.diff。
+
+最终SDK重跑107原变体，107/107符合预期（variants-final.json）；另独立60检查全部通过（eos-final.json）：全部11实际输入、7正式直接族×双方向×最近可表示浮点容差内/外与1%偏差42项，以及7个明确合法新增H阶段偏差。边界检查记录实际abs差与阈值，分别接受容差内最近float、拒绝容差外最近float；没有只检远离边界的1%例。全11冻结reference再用最终SDK实际grade均1（final-grade.json），实际数据/参考本身不变。
+
+因此下文独立数学、真实原生输出、源与HF绑定继续适用。该结论是数据与本次SDK增量验收，不冒称新000707版正式Oracle已完成，也不改变旧f58f后端/Harbor异常的实际身份；新后端包身份由独立后端审阅另行闭环。
+
+---
+
+# SU22602 全数据独立审计
+
+结论：**实际数据及数值参考通过；需关闭SDK输入EOS检查缺口后最终通过。** 独立数据审计，只写runs，未改正式实现/输入/参考，未重跑长编译或CFD、未调用付费模型。此次为已读私有材料的独立审阅，不是盲考生审阅。
+
+## 身份和全量覆盖
+
+题目 `qbank/19-solver-repair/19.3-transport/reconstructed-energy-repair`，原审计公开ZIP SHA256 `f58f517066bc84d24554c6c5fce429a7d3492b476c46c9ea8795df654ed0738d`。依据instruction、DATA、CONTRACT，全部9正式case+2samples的JSON、HDF5输入、参考、grading及sample output已完整读取；固定public/flatplate.su2全网格亦实际解析。无正式数组未读，非以作者摘要替全量数据。
+
+正式01无限幅2D、02三维、03边限幅、04点限幅、05一阶、06回退、07平衡态，共7直接族各1边；样例重复01和06。08/09是同一13900点/100壁节点固定平板的CFL400/300、主要2000/2500迭代及额外100观察步。完整记录含所有实际数组、dtype/shape、manifest、参考、原生字段和逐项差异见[all-data.json](all-data.json)、[audit.py](audit.py)。[inventory.json](inventory.json)发现11输入、无材料缺失；结构盘点不是数值结论。
+
+核对所有模型/维数、参数集合value/unit/范围、空几何/mesh/conditions、两类exact locations/fields/outputs、sampling、instant=[0]、float64/int64、连续实体身份、全字段和全部分量。直接族密度实际满足p/(RT)至双精度舍入。固定CFD public网格全部坐标和wall按x排序ID与两输入数组精确一致；native VTK坐标只受ASCII舍入，最大约4.54e−7m，不误作输入坐标改变。两native mesh字节等于public固定mesh，config恰为公开cfg加声明CFL/迭代与输出格式，详[geometry-payload.json](geometry-payload.json)。全部11 grading按quantity逐点/逐时/逐分量规则及公开阈值核对一致；两公开output与reference全数组相等，grade=1。
+
+## 固定HF与真实源码生产链
+
+固定HF `2afd2f16816b223a9cf9444ed7d63c547ebf7fad`。独立直接读freshcache中的9个描述与全部payload，核SHA/size及选择manifest，再逐项核46本地装配文件。sample01→正式01、sample02→正式06的input/reference逐字节对应。证据[bindings.json](bindings.json)，不是只复述stricttrue。
+
+基线SU2 `948a5ea9c72f0625a203b4d592b141e66dfa8b48`，修复来源 `610c66cae8ab1df82fcb8eb4b25b7decd91e45f0`。完整原件archive SHA `0d4e5f61475c5e9513da6c8653621587f4f8544820ae08da90039e3d8169fc59`；固定MEL SHA `e0f7f95ab80d098a2c2bafceefb52e958378302c2150ef7cb9fe2bf4aa81177b`。原archive2521文件+MEL9=2530，全部原始字节hash匹配manifest。又实际启动只读hash检查：baseline镜像5c4ee275…的2530文件全原件；真实producer镜像 `sha256:a5a63bac6c8b9efee7132916f19e724200bb0793eeb71207a43707d90e0a5f8c` 的2530文件恰为原件加common.hpp单一替换，无其它源变化，见[baseline-source-independent.json](baseline-source-independent.json)、[image-independent.json](image-independent.json)。独立记录实际SU2_CFD、两库、host driver-fixed SHA及publicdriver/adapter SHA。
+
+实际读取原始与generated完整common.hpp并保留[actual-source.diff](actual-source.diff)：UMUSCL projection变形代数等价；实质是已有H上加CpΔT与动能增量，保留阶段偏差；密度由重构p/T EOS更新；非物理保护与一阶路径保留。真实public/reconstruction-driver使用CConfig/CNSVariable、reconstructPrimitives与compressibleConservatives，未在driver套答案公式；数学复核脚本不参与生产。
+
+## 七直接族：独立数学与精确原生输出
+
+自行另写逐边/逐侧NumPy核对，未import作者audit_core。对T/u/p的实际梯度投影、kappa与relax混合，分别核NONE、边VanAlbada和点limiter；再核rho=p/(RT)、Hnew=Hold+CpΔT+(|unew|²−|uold|²)/2、momentum=rho*u、energy=rhoH−p。独立算Roe平均焓低于动能或负p/rho的整边回退，05MUSCLoff返回原状态，06实际触发回退，07平衡态不误改。01..06阶段焓偏差分别约+1000/−500J/kg，07约0；这些是明确允许的存储状态，不以平衡焓筛掉。
+
+全部7正式与2sample所有输出逐分量最大差5.82e−11（其余多为0），远小于公开阈值。原件正式直接H5独立grade为01..04=0，05..07=1，区分缺陷检出与回归。
+
+初次直接族外层stdout不保留内部driver JSON，旧families原型不冒充正式输入。为补精确原生输出链，本审阅只用现有固定二进制轻量调用7份正式payload，没有重编译或重跑CFD；每例记录确切命令、镜像、host driver SHA、problem/input SHA、原生JSON/stderr/payload SHA与返回码。独立把原生JSON按公开列布局切为全部七字段，与冻结参考maxabs全部0。见[native-direct.json](native-direct.json)、[native_direct.py](native_direct.py)、native-direct各例raw文件。原生补录是独立回放，不冒称初次制数未留存的raw。
+
+## 两完整CFD：有限、明确的资格
+
+完整加载08/09的原生observed.vtk、wall.vtk所有字段与history.csv全部记录；以原生Density、Momentum、Energy、流向Skin_Friction_Coefficient及末步六残差重构，所有5输出字段与冻结reference逐值0差。逐项核所有有限；完整最终迭代2099/2599即2100/2600步；末101记录确为相邻迭代，CD相对极差均0，rho/energy残差均达≤−10/−7。09的605s作者观察超时与原进程791.477s完成恢复记录保留，不误说重启或掩盖旧超时；生产者08约569.359s、09约791.477s为作者真实证据，不作本轮自己测时。
+
+自行从全部真实节点复核非壁EOS最大相对9.48671e−7、含rho*k的RANS能量恒等最大7.01985e−7，符合VTK有效数字量级；绝热wall原生q=0、无穿透。壁模型阶段存储EOS差约0.132758%、能量差约0.132537%，按DATA明示阶段定义披露，不重算场以强行抹除。全部实际边界line独立梯形inviscid通量估计的质量/能量相对净差约3.06815e−4/3.21322e−4；未纳入开放边界粘性功/扩散热，不能称精确FV守恒证明。
+
+外部TMR SST低y+曲线只作背景。独立读取原始cf_plate_sstv.dat与两套CFL3D/FUN3D数组，在x=.2,.5,1,1.5,1.9插值，实际Cf较它们低约19.5%..24.2%，详[external-context.json](external-context.json)。不同网格/壁函数配置不提供同离散高精度物理参考，本题公开范围明确只比较指定离散的收敛/稳定软件结果；本审阅不升级为一般高精度RANS或NASA摩擦曲线验收。
+
+两CFD原生volume/Cf相同至ASCII精度，末残差不同；这是同一固定几何的两种非线性控制/迭代回归，不声称两套独立物理几何。基线08原生stdout实际NaN且exit1；基线09原生显示Exit Success，但最后残差rho−3.0143、energy+1.30155，适配器依公开门槛拒绝。准确区分原生失败与正常退出但不达标，均非安装故障；不将09说为NaN导致原生退出。
+
+## 针对性变体及待关闭项
+
+[variants.json](variants.json)实际107例，106符合预期；遍历所有参数边界/越界/单位、JSON整数/非法枚举、全部输入数组缺失/范围/梯度、协同EOS合法温度/压力/R、N=2/32合法和0/33非法、固定CFD坐标/ID、3D-CFD非法、sampling/output描述。阶段H偏差及真实fallback合法分支继续接受。
+
+P2：公开DATA要求直接族输入密度与理想气体状态一致，但冻结f58f SDK接受仅一density值×1.01、p/T/R不变的输入。复现 `variants/density-inconsistent/problem.json`；正式数据自身全部满足该条件。已及时报告root和owner，owner拟只补输入一致性检查并在DATA写明rho*=p/(RT)、|rho−rho*|≤1e−12kg/m³+1e−12|rho*|，不修改值、不删阶段H偏差。需等最终包真实107例及容差边界复核后关闭。本报告保留f58f身份，不将未完成的新版本当作已通过。
+
+## 未验范围
+
+本数据结论不替代backend强制重编闭包、资源探针、普通安装或最终Harbor终态验收；Oracle pending是执行状态，不是数据错误。未重跑长编译/CFD、未以数学checker替生产者、未审任意全合法参数空间的收敛与时限。全部9+2实际数据和原生输出已完整核读，没有未验的正式数组。

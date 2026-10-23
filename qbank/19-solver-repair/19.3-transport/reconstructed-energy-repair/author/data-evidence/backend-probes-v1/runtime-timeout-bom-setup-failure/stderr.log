@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/probe/backend_probe.py", line 46, in <module>
+    backend.prepare()
+    ~~~~~~~~~~~~~~~^^
+  File "/tests/source_repair.py", line 109, in prepare
+    raise SubmissionError(status['status'], 'Source compilation failed')
+source_repair.SubmissionError: Source compilation failed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/probe/backend_probe.py", line 49, in <module>
+    assert error.status == expected.get(mode), (mode, error.status)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('runtime-timeout', 'build_error')

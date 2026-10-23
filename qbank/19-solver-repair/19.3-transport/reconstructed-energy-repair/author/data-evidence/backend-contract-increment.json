@@ -1,0 +1,197 @@
+{
+  "passed": true,
+  "old_zip_sha256": "1915e5399b7ae4a9287a5d9bf4bd8bb3c03935c4d41bb04af93785fe669731dc",
+  "new_zip_sha256": "f58f517066bc84d24554c6c5fce429a7d3492b476c46c9ea8795df654ed0738d",
+  "changed_prepared_files": {
+    "environment/agent.zip": {
+      "old": "1915e5399b7ae4a9287a5d9bf4bd8bb3c03935c4d41bb04af93785fe669731dc",
+      "new": "f58f517066bc84d24554c6c5fce429a7d3492b476c46c9ea8795df654ed0738d"
+    },
+    "tests/agent.zip": {
+      "old": "1915e5399b7ae4a9287a5d9bf4bd8bb3c03935c4d41bb04af93785fe669731dc",
+      "new": "f58f517066bc84d24554c6c5fce429a7d3492b476c46c9ea8795df654ed0738d"
+    }
+  },
+  "shared_executor_source_config_and_driver_unchanged": true,
+  "original_probes": {
+    "extra": {
+      "mode": "extra",
+      "passed": true,
+      "classification": "invalid_submission"
+    },
+    "baseline-compiler": {
+      "mode": "baseline-compiler",
+      "passed": true,
+      "classification": "infrastructure_error",
+      "error": "Trusted baseline build failed: build_error"
+    },
+    "baseline-runtime": {
+      "mode": "baseline-runtime",
+      "passed": true,
+      "classification": "infrastructure_error",
+      "error": "Trusted baseline runtime probe failed: probe_error"
+    },
+    "syntax": {
+      "mode": "syntax",
+      "passed": true,
+      "classification": "build_error"
+    },
+    "valid": {
+      "mode": "valid",
+      "passed": true,
+      "ldd": "\tlinux-vdso.so.1 (0x0000741e41ba0000)\n\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x0000741e4181e000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x0000741e4172e000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000741e41701000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x0000741e4150d000)\n\t/lib64/ld-linux-x86-64.so.2 (0x0000741e41ba2000)\n",
+      "binding": {
+        "uid": 1000,
+        "permissions": {
+          "/tests": {
+            "read": false,
+            "write": false
+          },
+          "/logs/verifier": {
+            "read": false,
+            "write": false
+          },
+          "/probe": {
+            "read": false,
+            "write": false
+          },
+          "/app/submission": {
+            "read": true,
+            "write": false
+          },
+          "/opt/su2-source": {
+            "read": true,
+            "write": false
+          },
+          "/opt/su2-source/Common": {
+            "read": true,
+            "write": false
+          },
+          "/opt/su2-source/Common/include": {
+            "read": true,
+            "write": false
+          },
+          "/opt/su2-source/Common/include/CConfig.hpp": {
+            "read": true,
+            "write": false
+          },
+          "/opt/su2-source/SU2_CFD/src": {
+            "read": true,
+            "write": false
+          },
+          "/opt/repair-driver": {
+            "read": true,
+            "write": false
+          },
+          "/opt/repair-driver/CMakeLists.txt": {
+            "read": true,
+            "write": false
+          },
+          "/opt/su2-build/build.ninja": {
+            "read": true,
+            "write": false
+          },
+          "/opt/su2-build/CMakeCache.txt": {
+            "read": true,
+            "write": false
+          },
+          "/opt/su2-source/SU2_CFD/include/numerics_simd/flow/convection/common.hpp": {
+            "read": true,
+            "write": false
+          },
+          "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/.._include_numerics_simd_CNumericsSIMD.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/su2-build/Common/src/libSU2Common.a": {
+            "read": true,
+            "write": false
+          },
+          "/opt/su2-build/SU2_CFD/src/libSU2core.a": {
+            "read": true,
+            "write": false
+          },
+          "/opt/su2-build/SU2_CFD/src/SU2_CFD": {
+            "read": true,
+            "write": false
+          },
+          "/opt/su2-build/bin/reconstruction-driver": {
+            "read": true,
+            "write": false
+          }
+        },
+        "network": "denied"
+      },
+      "build": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "cmake",
+          "--build",
+          "/opt/su2-build",
+          "--target",
+          "repair_sources",
+          "--parallel",
+          "4"
+        ],
+        "exit_code": 0,
+        "status": "built",
+        "elapsed_seconds": 36.37915859500208,
+        "sources_sha256": {
+          "common.hpp": "cd702a15ae4cb083ad2ba2896a7d9beb630fb28e45ea90bb9f2ee4f24a38244a"
+        },
+        "removed_build_artifacts": [
+          "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/.._include_numerics_simd_CNumericsSIMD.cpp.o",
+          "/opt/su2-build/Common/src/libSU2Common.a",
+          "/opt/su2-build/SU2_CFD/src/libSU2core.a",
+          "/opt/su2-build/SU2_CFD/src/SU2_CFD",
+          "/opt/su2-build/bin/reconstruction-driver"
+        ],
+        "built_artifacts_sha256": {
+          "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/.._include_numerics_simd_CNumericsSIMD.cpp.o": "5b17cd3b3cd2857b451b0842c004506856041ffbd20cd42417d8b8b06442a54a",
+          "/opt/su2-build/Common/src/libSU2Common.a": "995bc4b90b4cd58fc4d383f92c8b22503f43009d425289c3cd812011b73884b3",
+          "/opt/su2-build/SU2_CFD/src/libSU2core.a": "5a6f75f6fe5267f2240d10bb2082365341c1091d695408981c55d1285a8c92ef",
+          "/opt/su2-build/SU2_CFD/src/SU2_CFD": "0a6bcea8a28db2be2a4aec64ff526549b8f649ad402073b3ab4254538d62fa94",
+          "/opt/su2-build/bin/reconstruction-driver": "fc3be348fa614805e41d33b37568453d22e7f63c8c8a1de70b0e4a1ecaa54aa1"
+        }
+      },
+      "baseline_probe": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "/usr/local/bin/python",
+          "/app/qbank/19-solver-repair/19.3-transport/reconstructed-energy-repair/public/run_case.py",
+          "--input",
+          "/app/qbank/19-solver-repair/19.3-transport/reconstructed-energy-repair/samples/01/input/problem.json",
+          "--output",
+          "/tmp/su2-baseline-probe.h5"
+        ],
+        "exit_code": 0,
+        "status": "ready",
+        "elapsed_seconds": 0.6852543390014034
+      },
+      "cpu_max": "400000 100000\n",
+      "memory_max": "8589934592\n"
+    },
+    "runtime-timeout": {
+      "mode": "runtime-timeout",
+      "passed": true,
+      "actual_candidate_cpp_timeout": true,
+      "pid": "128",
+      "termination_states": [
+        "Z"
+      ],
+      "status": {
+        "score": 0,
+        "status": "timeout"
+      }
+    }
+  },
+  "reuse_scope": "Old frozen SDK probe executions only. New bundle changes invalid-input contract checks; final new-bundle offline installation and Oracle are separate required evidence."
+}

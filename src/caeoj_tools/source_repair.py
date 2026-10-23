@@ -48,7 +48,7 @@ def configuration(source, root):
     for row in replacements:
         if not isinstance(row, dict) or set(row) != {'submission', 'target'}:
             raise ValueError('Invalid source replacement')
-        if not re.fullmatch(r'[A-Za-z0-9_]+\.(cpp|c|h|hpp|inl|py|f|f90|F|F90)', row['submission']):
+        if not re.fullmatch(r'[A-Za-z0-9_]+\.(cpp|c|C|h|hpp|inl|py|f|f90|F|F90)', row['submission']):
             raise ValueError('Submission must be a plain supported source/header filename')
         target = PurePosixPath(row['target'])
         if not target.is_absolute() or '..' in target.parts or '\\' in row['target']:

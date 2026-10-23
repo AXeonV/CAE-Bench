@@ -1,0 +1,81 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 344B 0.0s done
+#1 DONE 0.1s
+
+#2 [internal] load metadata for docker.io/library/caeoj-bempp20-runtime:base
+#2 DONE 0.1s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/6] FROM docker.io/library/caeoj-bempp20-runtime:base@sha256:253f278524d90ff31134c04d4173965a0dbd256fc9c3a78a98e46206213d1ed6
+#4 resolve docker.io/library/caeoj-bempp20-runtime:base@sha256:253f278524d90ff31134c04d4173965a0dbd256fc9c3a78a98e46206213d1ed6 0.0s done
+#4 DONE 0.1s
+
+#5 [internal] load build context
+#5 transferring context: 53.32MB 5.0s
+#5 transferring context: 81.42MB 7.8s done
+#5 DONE 7.8s
+
+#4 [1/6] FROM docker.io/library/caeoj-bempp20-runtime:base@sha256:253f278524d90ff31134c04d4173965a0dbd256fc9c3a78a98e46206213d1ed6
+#4 CACHED
+
+#6 [2/6] COPY tests/agent.zip /tmp/agent.zip
+#6 DONE 4.2s
+
+#7 [3/6] RUN python -m zipfile -e /tmp/agent.zip /app && python -m pip install --no-cache-dir /app && mkdir -p /app/submission
+#7 1.671 Looking in links: /opt/offline-wheels
+#7 1.676 Processing /app
+#7 1.680   Installing build dependencies: started
+#7 3.209   Installing build dependencies: finished with status 'done'
+#7 3.211   Getting requirements to build wheel: started
+#7 3.632   Getting requirements to build wheel: finished with status 'done'
+#7 3.636   Installing backend dependencies: started
+#7 4.623   Installing backend dependencies: finished with status 'done'
+#7 4.623   Preparing metadata (pyproject.toml): started
+#7 5.199   Preparing metadata (pyproject.toml): finished with status 'done'
+#7 5.208 Requirement already satisfied: attrs==26.1.0 in /usr/local/lib/python3.11/site-packages (from cae-bench-oj==0.3.0+bundle.feb14062301ab307) (26.1.0)
+#7 5.221 Requirement already satisfied: gmsh==4.15.2 in /usr/local/lib/python3.11/site-packages (from cae-bench-oj==0.3.0+bundle.feb14062301ab307) (4.15.2)
+#7 5.221 Requirement already satisfied: h5py==3.16.0 in /usr/local/lib/python3.11/site-packages (from cae-bench-oj==0.3.0+bundle.feb14062301ab307) (3.16.0)
+#7 5.221 Requirement already satisfied: jsonschema==4.26.0 in /usr/local/lib/python3.11/site-packages (from cae-bench-oj==0.3.0+bundle.feb14062301ab307) (4.26.0)
+#7 5.222 Requirement already satisfied: jsonschema-specifications==2025.9.1 in /usr/local/lib/python3.11/site-packages (from cae-bench-oj==0.3.0+bundle.feb14062301ab307) (2025.9.1)
+#7 5.223 Requirement already satisfied: numpy==2.4.6 in /usr/local/lib/python3.11/site-packages (from cae-bench-oj==0.3.0+bundle.feb14062301ab307) (2.4.6)
+#7 5.226 Requirement already satisfied: referencing==0.37.0 in /usr/local/lib/python3.11/site-packages (from cae-bench-oj==0.3.0+bundle.feb14062301ab307) (0.37.0)
+#7 5.228 Requirement already satisfied: rpds-py==2026.9.1 in /usr/local/lib/python3.11/site-packages (from cae-bench-oj==0.3.0+bundle.feb14062301ab307) (2026.9.1)
+#7 5.230 Requirement already satisfied: typing-extensions==4.16.0 in /usr/local/lib/python3.11/site-packages (from cae-bench-oj==0.3.0+bundle.feb14062301ab307) (4.16.0)
+#7 5.283 Building wheels for collected packages: cae-bench-oj
+#7 5.288   Building wheel for cae-bench-oj (pyproject.toml): started
+#7 5.778   Building wheel for cae-bench-oj (pyproject.toml): finished with status 'done'
+#7 5.779   Created wheel for cae-bench-oj: filename=cae_bench_oj-0.3.0+bundle.feb14062301ab307-py3-none-any.whl size=43820 sha256=783d9443ec84c0054e6a623f145cc681ac4f699688c8c1fd83b3f5a80096962d
+#7 5.780   Stored in directory: /tmp/pip-ephem-wheel-cache-oimrzo1z/wheels/57/0f/98/bb57b2b57b95807699b822a35c022f139d38a02c27922f27ce
+#7 5.783 Successfully built cae-bench-oj
+#7 5.904 Installing collected packages: cae-bench-oj
+#7 6.006 Successfully installed cae-bench-oj-0.3.0+bundle.feb14062301ab307
+#7 6.007 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#7 DONE 8.0s
+
+#8 [4/6] COPY tests /tests
+#8 DONE 1.2s
+
+#9 [5/6] COPY exafmm.py fmm_assembler.py helpers.py /probe/
+#9 DONE 0.1s
+
+#10 [6/6] COPY backend_probe.py /opt/backend_probe.py
+#10 DONE 0.1s
+
+#11 exporting to image
+#11 exporting layers
+#11 exporting layers 6.5s done
+#11 exporting manifest sha256:4488b993a3c42951b7a9b62e36e88043d7bc5c461d461b9f02d9381aa4f8fd0b 0.1s done
+#11 exporting config sha256:3fb61798215a3c9808188d5fd456e9ce00e273e2dcf2087f78a8a840262ba54d 0.0s done
+#11 exporting attestation manifest sha256:f476d44926ec567ebad1a17539407d90df25ae2ce38b29c75bd91cef3c6fcb2a 0.0s done
+#11 exporting manifest list sha256:32ba4d0ad21435d9528c43c77ebfcaf3e80e0033c543918dceb722b229da00e0
+#11 exporting manifest list sha256:32ba4d0ad21435d9528c43c77ebfcaf3e80e0033c543918dceb722b229da00e0 0.2s done
+#11 naming to docker.io/library/caeoj-bempp20-probes:v4
+#11 naming to docker.io/library/caeoj-bempp20-probes:v4 0.2s done
+#11 unpacking to docker.io/library/caeoj-bempp20-probes:v4
+#11 unpacking to docker.io/library/caeoj-bempp20-probes:v4 1.8s done
+#11 DONE 9.1s

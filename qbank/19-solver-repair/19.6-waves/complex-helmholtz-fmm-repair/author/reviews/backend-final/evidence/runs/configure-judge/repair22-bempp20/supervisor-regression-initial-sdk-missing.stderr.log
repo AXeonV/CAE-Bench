@@ -1,0 +1,79 @@
+test_direct_compiled_cpp (test_harbor_process_cleanup.ProcessCleanupTests.test_direct_compiled_cpp) ... ERROR
+test_direct_python_success_and_error (test_harbor_process_cleanup.ProcessCleanupTests.test_direct_python_success_and_error) ... ERROR
+test_ordinary_solve_py_copy (test_harbor_process_cleanup.ProcessCleanupTests.test_ordinary_solve_py_copy) ... ERROR
+test_session_escape_on_timeout_and_early_parent_exit (test_harbor_process_cleanup.ProcessCleanupTests.test_session_escape_on_timeout_and_early_parent_exit) ... 
+  test_session_escape_on_timeout_and_early_parent_exit (test_harbor_process_cleanup.ProcessCleanupTests.test_session_escape_on_timeout_and_early_parent_exit) (early=False) ... ERROR
+  test_session_escape_on_timeout_and_early_parent_exit (test_harbor_process_cleanup.ProcessCleanupTests.test_session_escape_on_timeout_and_early_parent_exit) (early=True) ... ERROR
+test_unreapable_child_is_bounded_infrastructure_failure (test_harbor_process_cleanup.ProcessCleanupTests.test_unreapable_child_is_bounded_infrastructure_failure) ... ok
+
+======================================================================
+ERROR: test_direct_compiled_cpp (test_harbor_process_cleanup.ProcessCleanupTests.test_direct_compiled_cpp)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/review/tests/test_harbor_process_cleanup.py", line 86, in test_direct_compiled_cpp
+    self.assertIsNone(self.run_direct([str(binary)]))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/review/tests/test_harbor_process_cleanup.py", line 43, in run_direct
+    result = judge.execute(self.work, timeout, self.logs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/review/src/utils/harbor/tests/judge.py", line 87, in execute
+    raise RuntimeError('Solver process supervision failed')
+RuntimeError: Solver process supervision failed
+
+======================================================================
+ERROR: test_direct_python_success_and_error (test_harbor_process_cleanup.ProcessCleanupTests.test_direct_python_success_and_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/review/tests/test_harbor_process_cleanup.py", line 76, in test_direct_python_success_and_error
+    self.assertIsNone(self.run_direct(['python', '-c', "from pathlib import Path;Path('result.h5').write_text('ok')"]))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/review/tests/test_harbor_process_cleanup.py", line 43, in run_direct
+    result = judge.execute(self.work, timeout, self.logs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/review/src/utils/harbor/tests/judge.py", line 87, in execute
+    raise RuntimeError('Solver process supervision failed')
+RuntimeError: Solver process supervision failed
+
+======================================================================
+ERROR: test_ordinary_solve_py_copy (test_harbor_process_cleanup.ProcessCleanupTests.test_ordinary_solve_py_copy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/review/tests/test_harbor_process_cleanup.py", line 93, in test_ordinary_solve_py_copy
+    self.assertIsNone(judge.execute(self.work, 2, self.logs))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/review/src/utils/harbor/tests/judge.py", line 87, in execute
+    raise RuntimeError('Solver process supervision failed')
+RuntimeError: Solver process supervision failed
+
+======================================================================
+ERROR: test_session_escape_on_timeout_and_early_parent_exit (test_harbor_process_cleanup.ProcessCleanupTests.test_session_escape_on_timeout_and_early_parent_exit) (early=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/review/tests/test_harbor_process_cleanup.py", line 71, in test_session_escape_on_timeout_and_early_parent_exit
+    result = self.run_direct(['python', str(script)], timeout=1)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/review/tests/test_harbor_process_cleanup.py", line 43, in run_direct
+    result = judge.execute(self.work, timeout, self.logs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/review/src/utils/harbor/tests/judge.py", line 87, in execute
+    raise RuntimeError('Solver process supervision failed')
+RuntimeError: Solver process supervision failed
+
+======================================================================
+ERROR: test_session_escape_on_timeout_and_early_parent_exit (test_harbor_process_cleanup.ProcessCleanupTests.test_session_escape_on_timeout_and_early_parent_exit) (early=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/review/tests/test_harbor_process_cleanup.py", line 71, in test_session_escape_on_timeout_and_early_parent_exit
+    result = self.run_direct(['python', str(script)], timeout=1)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/review/tests/test_harbor_process_cleanup.py", line 43, in run_direct
+    result = judge.execute(self.work, timeout, self.logs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/review/src/utils/harbor/tests/judge.py", line 87, in execute
+    raise RuntimeError('Solver process supervision failed')
+RuntimeError: Solver process supervision failed
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.960s
+
+FAILED (errors=5)

@@ -1,0 +1,15 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "/usr/local/bin/python",
+    "-c",
+    "import subprocess,numpy as np,h5py,gmsh,json,tempfile\ngmsh.initialize();gmsh.finalize()\np={'operation':0,'wavenumber_real':1.1,'wavenumber_imag':0.,'sources':[[i*.01,0.,0.] for i in range(32)],'targets':[[2.,1.,1.]],'strength':[[.3,.2]]*32}\nwith tempfile.TemporaryDirectory(prefix='bempp-original-health-') as work:\n result=json.loads(subprocess.check_output(['/opt/bempp-env/bin/python','/opt/repair-driver/driver.py'],input=json.dumps(p),text=True,cwd=work))\nassert set(result)=={'fmm_potential','fmm_gradient','local_potential','local_gradient'}\nfor suffix,cols in [('potential',2),('gradient',6)]:\n fast=np.asarray(result['fmm_'+suffix]);local=np.asarray(result['local_'+suffix])\n assert fast.shape==local.shape==(1,cols) and np.all(np.isfinite(fast)) and np.all(np.isfinite(local))\n assert np.all(abs(fast-local)<=1e-6+1e-5*abs(local)) and np.any(abs(local)>1e-8)\nprint(json.dumps({'actual_original_native_point_and_gradient':'ready','sources':32,'targets':1,'real_wavenumber':1.1}))\n"
+  ],
+  "exit_code": 0,
+  "status": "ready",
+  "elapsed_seconds": 24.263246876998892
+}

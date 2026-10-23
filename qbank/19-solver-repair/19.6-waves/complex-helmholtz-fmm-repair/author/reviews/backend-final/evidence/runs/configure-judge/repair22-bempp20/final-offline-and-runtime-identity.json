@@ -1,0 +1,115 @@
+{
+  "offline_files": [
+    {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/author/data-evidence/offline-install-v2/result.json",
+      "sha256": "d5f8f55863f91f1d41d3adf38c57fd518a6e1f440ed1c04b48a2fcbd48d8b76b",
+      "bytes": 3216
+    },
+    {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/author/data-evidence/offline-install-v2/state.json",
+      "sha256": "8bc9c209684e47497f981585084afacf5ad9d8100cd226dda57bf7a19de2f433",
+      "bytes": 2699
+    },
+    {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/author/data-evidence/offline-install-v2/stderr.log",
+      "sha256": "dcc9222a436f58f9034575d59c4ed29b4b67185d929247d7b6bd57ade91bc928",
+      "bytes": 222
+    },
+    {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/author/data-evidence/offline-install-v2/stdout.log",
+      "sha256": "fa13a350c0ee5da81358eb6848ad6aad2d444250c9f39fde0720418f04cbed9b",
+      "bytes": 5385
+    }
+  ],
+  "state": {
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "4",
+      "--memory",
+      "4g",
+      "-v",
+      "D:\\Code\\CAE-Bench-OJ\\dist\\complex-helmholtz-fmm-repair-agent.zip:/input/agent.zip:ro",
+      "-v",
+      "D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.6-waves\\complex-helmholtz-fmm-repair:/task:ro",
+      "sha256:253f278524d90ff31134c04d4173965a0dbd256fc9c3a78a98e46206213d1ed6",
+      "python",
+      "-c",
+      "import json,sys,subprocess,tempfile,zipfile,pathlib,shutil,hashlib,os\nwith tempfile.TemporaryDirectory() as temp:\n pathlib.Path(temp).chmod(0o755)\n package=pathlib.Path(temp)/'package';zipfile.ZipFile('/input/agent.zip').extractall(package)\n subprocess.run([sys.executable,'-m','pip','install','--no-cache-dir',str(package)],check=True)\n shutil.move(package/'src',pathlib.Path(temp)/'removed-source')\n os.chdir(temp)\n from caeoj.sdk import load_problem,load_result\n from caeoj.case_grading import grade_case\n import caeoj_task_ext.helmholtz as checker\n assert not checker.__file__.startswith(str(package))\n rows=[];task=pathlib.Path('/task')\n for p in sorted((task/'cases').glob('*/problem.json')):\n  problem=load_problem(p);load_result(problem,task/'reference'/p.parent.name/'reference.h5');rows.append(p.parent.name)\n samples=[]\n for sample in sorted((task/'samples').iterdir()):\n  p=sample/'input/problem.json';problem=load_problem(p);load_result(problem,sample/'reference/reference.h5')\n  work=pathlib.Path(temp)/('sample-'+sample.name);work.mkdir();work.chmod(0o777)\n  output=work/'result.h5'\n  cmd=['setpriv','--reuid=1000','--regid=1000','--clear-groups',sys.executable,str(package/'qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/public/run_case.py'),'--input',str(p),'--output',str(output)]\n  proc=subprocess.run(cmd,cwd=work,text=True,capture_output=True,timeout=600)\n  (work/'stdout.log').write_text(proc.stdout);(work/'stderr.log').write_text(proc.stderr)\n  score=grade_case(p,output,sample/'reference/grading.json')['score'] if proc.returncode==0 else 0\n  samples.append(dict(sample=sample.name,command=cmd,returncode=proc.returncode,score=score,stderr=proc.stderr))\n print('OFFLINE_RESULT='+json.dumps(dict(passed=True,cases=rows,samples=samples,installed_checker=checker.__file__,installed_checker_sha256=hashlib.sha256(pathlib.Path(checker.__file__).read_bytes()).hexdigest())))\n"
+    ],
+    "zip_sha256": "3b2f5344125bf5679bd026bef828bbe97a44c9a132cca97a5975a25ed8d319bf",
+    "started_unix": 1792750864.7187839,
+    "pid": 79568,
+    "phase": "finished",
+    "returncode": 0,
+    "elapsed_seconds": 280.0594274997711
+  },
+  "result": {
+    "passed": true,
+    "cases": [
+      "001",
+      "002",
+      "003",
+      "004",
+      "005",
+      "006",
+      "007",
+      "008",
+      "009",
+      "010",
+      "011",
+      "012"
+    ],
+    "samples": [
+      {
+        "sample": "01",
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "/usr/local/bin/python",
+          "/tmp/tmpr3hv0lrh/package/qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/public/run_case.py",
+          "--input",
+          "/task/samples/01/input/problem.json",
+          "--output",
+          "/tmp/tmpr3hv0lrh/sample-01/result.h5"
+        ],
+        "returncode": 1,
+        "score": 0,
+        "stderr": "Traceback (most recent call last):\n  File \"/tmp/tmpr3hv0lrh/package/qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/public/run_case.py\", line 33, in <module>\n    p=argparse.ArgumentParser();p.add_argument('--input',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args();run(a.input,a.output)\n                                                                                                                                                      ^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpr3hv0lrh/package/qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/public/run_case.py\", line 28, in run\n    if process.returncode:raise RuntimeError(f'Actual Bempp driver failed {process.returncode}: {process.stderr}')\n                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: Actual Bempp driver failed 1: Traceback (most recent call last):\n  File \"/opt/repair-driver/driver.py\", line 68, in <module>\n    with contextlib.redirect_stdout(sys.stderr):result=solve(payload)\n                                                       ^^^^^^^^^^^^^^\n  File \"/opt/repair-driver/driver.py\", line 34, in solve\n    api=ExafmmInterface(sources,points,'helmholtz',wavenumber=wave,expansion_order=10,ncrit=16)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/exafmm.py\", line 68, in __init__\n    self._kernel_parameters = _np.array([wavenumber], dtype=\"float64\")\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: float() argument must be a string or a real number, not 'complex'\n\n"
+      },
+      {
+        "sample": "02",
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "/usr/local/bin/python",
+          "/tmp/tmpr3hv0lrh/package/qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/public/run_case.py",
+          "--input",
+          "/task/samples/02/input/problem.json",
+          "--output",
+          "/tmp/tmpr3hv0lrh/sample-02/result.h5"
+        ],
+        "returncode": 0,
+        "score": 0,
+        "stderr": ""
+      }
+    ],
+    "installed_checker": "/usr/local/lib/python3.11/site-packages/caeoj_task_ext/helmholtz.py",
+    "installed_checker_sha256": "bf6ec9c9e2c4cef68d5fce00b86dcac6fa5d49a6e22303dbe2ec20385e74296f"
+  },
+  "check_script": {
+    "path": "work/repair-22/bempp-20/check-offline.py",
+    "sha256": "73939b1fe7c162a78dde36f4ccb07a5a76d1c5db805da9a15857552126c5e9bc",
+    "bytes": 3973
+  },
+  "current_base_image_id": "sha256:253f278524d90ff31134c04d4173965a0dbd256fc9c3a78a98e46206213d1ed6",
+  "matches_preliminary_readonly_image": true
+}

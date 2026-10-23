@@ -1,0 +1,156 @@
+[
+  {
+    "mode": "image-build",
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "build",
+      "--network",
+      "none",
+      "-t",
+      "caeoj-bempp20-probes:v1",
+      "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\bempp-20\\probe-context"
+    ],
+    "returncode": 0,
+    "elapsed_seconds": 26.06718921661377
+  },
+  {
+    "mode": "valid",
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "4",
+      "--memory",
+      "4g",
+      "caeoj-bempp20-probes:v1",
+      "python",
+      "/opt/backend_probe.py",
+      "valid"
+    ],
+    "returncode": 0,
+    "elapsed_seconds": 25.79219365119934
+  },
+  {
+    "mode": "syntax",
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "4",
+      "--memory",
+      "4g",
+      "caeoj-bempp20-probes:v1",
+      "python",
+      "/opt/backend_probe.py",
+      "syntax"
+    ],
+    "returncode": 0,
+    "elapsed_seconds": 5.04803204536438
+  },
+  {
+    "mode": "extra",
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "4",
+      "--memory",
+      "4g",
+      "caeoj-bempp20-probes:v1",
+      "python",
+      "/opt/backend_probe.py",
+      "extra"
+    ],
+    "returncode": 0,
+    "elapsed_seconds": 0.8164315223693848
+  },
+  {
+    "mode": "symlink",
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "4",
+      "--memory",
+      "4g",
+      "caeoj-bempp20-probes:v1",
+      "python",
+      "/opt/backend_probe.py",
+      "symlink"
+    ],
+    "returncode": 0,
+    "elapsed_seconds": 0.981311559677124
+  },
+  {
+    "mode": "compiler",
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "4",
+      "--memory",
+      "4g",
+      "caeoj-bempp20-probes:v1",
+      "python",
+      "/opt/backend_probe.py",
+      "compiler"
+    ],
+    "returncode": 0,
+    "elapsed_seconds": 3.2899253368377686
+  },
+  {
+    "mode": "baseline-runtime",
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "4",
+      "--memory",
+      "4g",
+      "caeoj-bempp20-probes:v1",
+      "python",
+      "/opt/backend_probe.py",
+      "baseline-runtime"
+    ],
+    "returncode": 0,
+    "elapsed_seconds": 3.875084400177002
+  },
+  {
+    "mode": "runtime-timeout",
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "4",
+      "--memory",
+      "4g",
+      "caeoj-bempp20-probes:v1",
+      "python",
+      "/opt/backend_probe.py",
+      "runtime-timeout"
+    ],
+    "returncode": 0,
+    "elapsed_seconds": 11.24977993965149
+  }
+]

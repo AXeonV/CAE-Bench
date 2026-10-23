@@ -1,0 +1,1616 @@
+[
+  {
+    "case": "001",
+    "problem": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/cases/001/problem.json",
+      "sha256": "f0a80147702f008d636b4bd10ca1b3d576fbc0562e5ae9964d81aa712eacd16b",
+      "bytes": 2997
+    },
+    "grading": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/001/grading.json",
+      "sha256": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+      "bytes": 2927
+    },
+    "reference": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/001/reference.h5",
+      "sha256": "e180be5c412a6d240ed3da34e5f1791c57acf2c61b4ea78edd68609c6b02c84b",
+      "bytes": 5088
+    },
+    "bindings": {
+      "fmm_potential": {
+        "quantity": "fmm_helmholtz_potential",
+        "array": "fmm_potential",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1/m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "fmm_gradient": {
+        "quantity": "fmm_helmholtz_target_gradient",
+        "array": "fmm_gradient",
+        "components": [
+          "x_real",
+          "x_imag",
+          "y_real",
+          "y_imag",
+          "z_real",
+          "z_imag"
+        ],
+        "unit": "1/m2",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "local_potential": {
+        "quantity": "local_helmholtz_potential",
+        "array": "local_potential",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1/m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "local_gradient": {
+        "quantity": "local_helmholtz_target_gradient",
+        "array": "local_gradient",
+        "components": [
+          "x_real",
+          "x_imag",
+          "y_real",
+          "y_imag",
+          "z_real",
+          "z_imag"
+        ],
+        "unit": "1/m2",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      }
+    },
+    "preflight_evidence": {
+      "grading_sha256": "11c77c72ab6366d06dfa0bd0c47647fe92ce3112c1b8fc4cd169b3c4ca667703",
+      "assets": {
+        "grading.json": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+        "reference.h5": "e180be5c412a6d240ed3da34e5f1791c57acf2c61b4ea78edd68609c6b02c84b"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558"
+      },
+      "input_assets": {
+        "problem.json": "f0a80147702f008d636b4bd10ca1b3d576fbc0562e5ae9964d81aa712eacd16b",
+        "input.h5": "46d5e39e963e03a18011fc487cad47fa9344463066cacc44c43a2ef2b1c69823"
+      },
+      "runtime_binding_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "ad58879a9076a8fd80decfd8c8f57d7f4556d0f0c898daa697e1cd8bba96c571"
+    }
+  },
+  {
+    "case": "002",
+    "problem": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/cases/002/problem.json",
+      "sha256": "91ef9d49d3dda6438c17121eedd894889f8831f8b9f68012ad6ddc2e4f515dc5",
+      "bytes": 2997
+    },
+    "grading": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/002/grading.json",
+      "sha256": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+      "bytes": 2927
+    },
+    "reference": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/002/reference.h5",
+      "sha256": "a565ed7f5fa522a8068e6cd940076e6abb306f7ee5c2b6a00fe3f62f79e8c595",
+      "bytes": 5088
+    },
+    "bindings": {
+      "fmm_potential": {
+        "quantity": "fmm_helmholtz_potential",
+        "array": "fmm_potential",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1/m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "fmm_gradient": {
+        "quantity": "fmm_helmholtz_target_gradient",
+        "array": "fmm_gradient",
+        "components": [
+          "x_real",
+          "x_imag",
+          "y_real",
+          "y_imag",
+          "z_real",
+          "z_imag"
+        ],
+        "unit": "1/m2",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "local_potential": {
+        "quantity": "local_helmholtz_potential",
+        "array": "local_potential",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1/m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "local_gradient": {
+        "quantity": "local_helmholtz_target_gradient",
+        "array": "local_gradient",
+        "components": [
+          "x_real",
+          "x_imag",
+          "y_real",
+          "y_imag",
+          "z_real",
+          "z_imag"
+        ],
+        "unit": "1/m2",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      }
+    },
+    "preflight_evidence": {
+      "grading_sha256": "11c77c72ab6366d06dfa0bd0c47647fe92ce3112c1b8fc4cd169b3c4ca667703",
+      "assets": {
+        "grading.json": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+        "reference.h5": "a565ed7f5fa522a8068e6cd940076e6abb306f7ee5c2b6a00fe3f62f79e8c595"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558"
+      },
+      "input_assets": {
+        "problem.json": "91ef9d49d3dda6438c17121eedd894889f8831f8b9f68012ad6ddc2e4f515dc5",
+        "input.h5": "5e5a7c3836d877c06e30e07001f0ba9a7866bb598fb03f7e3cc2b084ccd48e15"
+      },
+      "runtime_binding_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "8c2a71e4f23e2ca5116c7f7556903e5cc3578f9300145259a893b9953551df0d"
+    }
+  },
+  {
+    "case": "003",
+    "problem": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/cases/003/problem.json",
+      "sha256": "a82dea0c6b4f4820cd8398cf955262679a2fc0898bfdb4f5a311502effec35fc",
+      "bytes": 2997
+    },
+    "grading": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/003/grading.json",
+      "sha256": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+      "bytes": 2927
+    },
+    "reference": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/003/reference.h5",
+      "sha256": "60d590604202fb59515a17d5752819ebd3cef0bc794019e3a30a55eb5611d959",
+      "bytes": 5088
+    },
+    "bindings": {
+      "fmm_potential": {
+        "quantity": "fmm_helmholtz_potential",
+        "array": "fmm_potential",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1/m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "fmm_gradient": {
+        "quantity": "fmm_helmholtz_target_gradient",
+        "array": "fmm_gradient",
+        "components": [
+          "x_real",
+          "x_imag",
+          "y_real",
+          "y_imag",
+          "z_real",
+          "z_imag"
+        ],
+        "unit": "1/m2",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "local_potential": {
+        "quantity": "local_helmholtz_potential",
+        "array": "local_potential",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1/m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "local_gradient": {
+        "quantity": "local_helmholtz_target_gradient",
+        "array": "local_gradient",
+        "components": [
+          "x_real",
+          "x_imag",
+          "y_real",
+          "y_imag",
+          "z_real",
+          "z_imag"
+        ],
+        "unit": "1/m2",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      }
+    },
+    "preflight_evidence": {
+      "grading_sha256": "11c77c72ab6366d06dfa0bd0c47647fe92ce3112c1b8fc4cd169b3c4ca667703",
+      "assets": {
+        "grading.json": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+        "reference.h5": "60d590604202fb59515a17d5752819ebd3cef0bc794019e3a30a55eb5611d959"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558"
+      },
+      "input_assets": {
+        "problem.json": "a82dea0c6b4f4820cd8398cf955262679a2fc0898bfdb4f5a311502effec35fc",
+        "input.h5": "303a7dbd1552faf5dba03968c6262350987e602e89994e0a70f727d19e44372f"
+      },
+      "runtime_binding_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "b3873eabd82c3ff0aac953f0ff93203881ce5775e341463f0f73496e566375a3"
+    }
+  },
+  {
+    "case": "004",
+    "problem": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/cases/004/problem.json",
+      "sha256": "be52db160e730e084daef8235d1f8dae418c499f0a1b254375a82d4b080448c9",
+      "bytes": 2998
+    },
+    "grading": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/004/grading.json",
+      "sha256": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+      "bytes": 2927
+    },
+    "reference": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/004/reference.h5",
+      "sha256": "3fbd4d430e910a38c422679802006a0fb2b50c777e0c5e1336d3cd0711525105",
+      "bytes": 7680
+    },
+    "bindings": {
+      "fmm_potential": {
+        "quantity": "fmm_helmholtz_potential",
+        "array": "fmm_potential",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1/m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "fmm_gradient": {
+        "quantity": "fmm_helmholtz_target_gradient",
+        "array": "fmm_gradient",
+        "components": [
+          "x_real",
+          "x_imag",
+          "y_real",
+          "y_imag",
+          "z_real",
+          "z_imag"
+        ],
+        "unit": "1/m2",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "local_potential": {
+        "quantity": "local_helmholtz_potential",
+        "array": "local_potential",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1/m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "local_gradient": {
+        "quantity": "local_helmholtz_target_gradient",
+        "array": "local_gradient",
+        "components": [
+          "x_real",
+          "x_imag",
+          "y_real",
+          "y_imag",
+          "z_real",
+          "z_imag"
+        ],
+        "unit": "1/m2",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      }
+    },
+    "preflight_evidence": {
+      "grading_sha256": "11c77c72ab6366d06dfa0bd0c47647fe92ce3112c1b8fc4cd169b3c4ca667703",
+      "assets": {
+        "grading.json": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+        "reference.h5": "3fbd4d430e910a38c422679802006a0fb2b50c777e0c5e1336d3cd0711525105"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558"
+      },
+      "input_assets": {
+        "problem.json": "be52db160e730e084daef8235d1f8dae418c499f0a1b254375a82d4b080448c9",
+        "input.h5": "886a5a40800d0652111e7ff551b48c54863e9d5cf64dfd891c04cff7faf08d08"
+      },
+      "runtime_binding_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "b52cc7b62b16c0e1e7cb0ddd96ba8c181b2ef1e3410121ff5ee3d55c5f84058a"
+    }
+  },
+  {
+    "case": "005",
+    "problem": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/cases/005/problem.json",
+      "sha256": "b1773039d715c2422af81892b964f75b667b1ebc1dd4094792968c6478aad1e8",
+      "bytes": 2997
+    },
+    "grading": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/005/grading.json",
+      "sha256": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+      "bytes": 2927
+    },
+    "reference": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/005/reference.h5",
+      "sha256": "e4e166f2e76816ebf2b60990db98345cc0315c299edd02c4adace09f4880f8b2",
+      "bytes": 5088
+    },
+    "bindings": {
+      "fmm_potential": {
+        "quantity": "fmm_helmholtz_potential",
+        "array": "fmm_potential",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1/m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "fmm_gradient": {
+        "quantity": "fmm_helmholtz_target_gradient",
+        "array": "fmm_gradient",
+        "components": [
+          "x_real",
+          "x_imag",
+          "y_real",
+          "y_imag",
+          "z_real",
+          "z_imag"
+        ],
+        "unit": "1/m2",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "local_potential": {
+        "quantity": "local_helmholtz_potential",
+        "array": "local_potential",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1/m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "local_gradient": {
+        "quantity": "local_helmholtz_target_gradient",
+        "array": "local_gradient",
+        "components": [
+          "x_real",
+          "x_imag",
+          "y_real",
+          "y_imag",
+          "z_real",
+          "z_imag"
+        ],
+        "unit": "1/m2",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      }
+    },
+    "preflight_evidence": {
+      "grading_sha256": "11c77c72ab6366d06dfa0bd0c47647fe92ce3112c1b8fc4cd169b3c4ca667703",
+      "assets": {
+        "grading.json": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+        "reference.h5": "e4e166f2e76816ebf2b60990db98345cc0315c299edd02c4adace09f4880f8b2"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558"
+      },
+      "input_assets": {
+        "problem.json": "b1773039d715c2422af81892b964f75b667b1ebc1dd4094792968c6478aad1e8",
+        "input.h5": "4fb4b733364cdc75628d452fd4d4f3ba888e8fe025a87d04d37ac5898053b6ce"
+      },
+      "runtime_binding_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "43bc8afd1173479296f1e5c20c6e4a6fa3a9cb8e97d50acf4c707c4a1b93d878"
+    }
+  },
+  {
+    "case": "006",
+    "problem": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/cases/006/problem.json",
+      "sha256": "e5b8ecebda1c75da64e2a14a4589b4bf220d29b8c3074b7ec6f903091970bf6e",
+      "bytes": 2997
+    },
+    "grading": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/006/grading.json",
+      "sha256": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+      "bytes": 2927
+    },
+    "reference": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/006/reference.h5",
+      "sha256": "44e68b0c31b964cfb2e0e6430041942ac1f4d832c56be21127aed28afa6ca306",
+      "bytes": 5088
+    },
+    "bindings": {
+      "fmm_potential": {
+        "quantity": "fmm_helmholtz_potential",
+        "array": "fmm_potential",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1/m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "fmm_gradient": {
+        "quantity": "fmm_helmholtz_target_gradient",
+        "array": "fmm_gradient",
+        "components": [
+          "x_real",
+          "x_imag",
+          "y_real",
+          "y_imag",
+          "z_real",
+          "z_imag"
+        ],
+        "unit": "1/m2",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "local_potential": {
+        "quantity": "local_helmholtz_potential",
+        "array": "local_potential",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1/m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "local_gradient": {
+        "quantity": "local_helmholtz_target_gradient",
+        "array": "local_gradient",
+        "components": [
+          "x_real",
+          "x_imag",
+          "y_real",
+          "y_imag",
+          "z_real",
+          "z_imag"
+        ],
+        "unit": "1/m2",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      }
+    },
+    "preflight_evidence": {
+      "grading_sha256": "11c77c72ab6366d06dfa0bd0c47647fe92ce3112c1b8fc4cd169b3c4ca667703",
+      "assets": {
+        "grading.json": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+        "reference.h5": "44e68b0c31b964cfb2e0e6430041942ac1f4d832c56be21127aed28afa6ca306"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558"
+      },
+      "input_assets": {
+        "problem.json": "e5b8ecebda1c75da64e2a14a4589b4bf220d29b8c3074b7ec6f903091970bf6e",
+        "input.h5": "f6f7e31fa0be33124c9dc554cfc4c6103967dc7f9e717d61bc9bbb5c65b610a5"
+      },
+      "runtime_binding_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "0bdad2001afbb270cc426d8c0fe74a99c5ccadad8622d7d9e276ae48c8318119"
+    }
+  },
+  {
+    "case": "007",
+    "problem": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/cases/007/problem.json",
+      "sha256": "67b0c8dace3a1deee648107253eb8af863f9f0295a22ac1037a8f113f43abb74",
+      "bytes": 3370
+    },
+    "grading": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/007/grading.json",
+      "sha256": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+      "bytes": 2927
+    },
+    "reference": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/007/reference.h5",
+      "sha256": "861bdd1f5a0721a2d3717b07c6f99760afdaa73b579c1c53f19166f994f4c66b",
+      "bytes": 5984
+    },
+    "bindings": {
+      "boundary_single_layer": {
+        "quantity": "projected_single_layer",
+        "array": "boundary_single_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "boundary_double_layer": {
+        "quantity": "projected_double_layer",
+        "array": "boundary_double_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "boundary_hypersingular": {
+        "quantity": "projected_hypersingular",
+        "array": "boundary_hypersingular",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1/m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "potential_single_layer": {
+        "quantity": "exterior_single_layer",
+        "array": "potential_single_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "potential_double_layer": {
+        "quantity": "exterior_double_layer",
+        "array": "potential_double_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      }
+    },
+    "preflight_evidence": {
+      "grading_sha256": "11c77c72ab6366d06dfa0bd0c47647fe92ce3112c1b8fc4cd169b3c4ca667703",
+      "assets": {
+        "grading.json": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+        "reference.h5": "861bdd1f5a0721a2d3717b07c6f99760afdaa73b579c1c53f19166f994f4c66b"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558"
+      },
+      "input_assets": {
+        "problem.json": "67b0c8dace3a1deee648107253eb8af863f9f0295a22ac1037a8f113f43abb74",
+        "input.h5": "a76ed11c5c9a8422cc828c4b68353f159ea242c616cf5a099aeb59f89330770b",
+        "surface.msh": "7db5b120fb9885061cd67398240c14b81c4e7d493262d2aed2792700b3b6646a"
+      },
+      "runtime_binding_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "6e0bbb63063670a07697d30c21dfdc5573ff06ea1c4b91ac62d676ada079bb99"
+    }
+  },
+  {
+    "case": "008",
+    "problem": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/cases/008/problem.json",
+      "sha256": "8f3ba0d5d78bec1ca3376ed8c434cc165f8eefe94e379fc13e0fca6a39633695",
+      "bytes": 3370
+    },
+    "grading": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/008/grading.json",
+      "sha256": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+      "bytes": 2927
+    },
+    "reference": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/008/reference.h5",
+      "sha256": "17ac5e64b6645ae7ccc3e2b9646befabc7e481d787d00860bb9bc44b7dad4ebc",
+      "bytes": 5984
+    },
+    "bindings": {
+      "boundary_single_layer": {
+        "quantity": "projected_single_layer",
+        "array": "boundary_single_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "boundary_double_layer": {
+        "quantity": "projected_double_layer",
+        "array": "boundary_double_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "boundary_hypersingular": {
+        "quantity": "projected_hypersingular",
+        "array": "boundary_hypersingular",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1/m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "potential_single_layer": {
+        "quantity": "exterior_single_layer",
+        "array": "potential_single_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "potential_double_layer": {
+        "quantity": "exterior_double_layer",
+        "array": "potential_double_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      }
+    },
+    "preflight_evidence": {
+      "grading_sha256": "11c77c72ab6366d06dfa0bd0c47647fe92ce3112c1b8fc4cd169b3c4ca667703",
+      "assets": {
+        "grading.json": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+        "reference.h5": "17ac5e64b6645ae7ccc3e2b9646befabc7e481d787d00860bb9bc44b7dad4ebc"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558"
+      },
+      "input_assets": {
+        "problem.json": "8f3ba0d5d78bec1ca3376ed8c434cc165f8eefe94e379fc13e0fca6a39633695",
+        "input.h5": "1033a656ea6bd1649908ef22216095858199ddbb90bba1eda69e9c1b2a14ecae",
+        "surface.msh": "2fd47f97a71d64211fc5dd5cfafd998fbb03fd379a3e357df1810bb1ac055504"
+      },
+      "runtime_binding_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "ee7255864d17c376db1d185c7d4a9381a72edf95a7c900178ed41450a37e8dfb"
+    }
+  },
+  {
+    "case": "009",
+    "problem": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/cases/009/problem.json",
+      "sha256": "67b0c8dace3a1deee648107253eb8af863f9f0295a22ac1037a8f113f43abb74",
+      "bytes": 3370
+    },
+    "grading": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/009/grading.json",
+      "sha256": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+      "bytes": 2927
+    },
+    "reference": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/009/reference.h5",
+      "sha256": "1fd9783f79041267c85f095f055865c728dcd21d1adb504ac9555388a0423e68",
+      "bytes": 8448
+    },
+    "bindings": {
+      "boundary_single_layer": {
+        "quantity": "projected_single_layer",
+        "array": "boundary_single_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "boundary_double_layer": {
+        "quantity": "projected_double_layer",
+        "array": "boundary_double_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "boundary_hypersingular": {
+        "quantity": "projected_hypersingular",
+        "array": "boundary_hypersingular",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1/m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "potential_single_layer": {
+        "quantity": "exterior_single_layer",
+        "array": "potential_single_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "potential_double_layer": {
+        "quantity": "exterior_double_layer",
+        "array": "potential_double_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      }
+    },
+    "preflight_evidence": {
+      "grading_sha256": "11c77c72ab6366d06dfa0bd0c47647fe92ce3112c1b8fc4cd169b3c4ca667703",
+      "assets": {
+        "grading.json": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+        "reference.h5": "1fd9783f79041267c85f095f055865c728dcd21d1adb504ac9555388a0423e68"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558"
+      },
+      "input_assets": {
+        "problem.json": "67b0c8dace3a1deee648107253eb8af863f9f0295a22ac1037a8f113f43abb74",
+        "input.h5": "44f36c6a75b2481bc2859af1c84d90fa24f51960e208b518c5c71ce2b1030608",
+        "surface.msh": "e552ddc844c213499bbf0f56699f63576fe34977918f819af2b10e0ad1575ac3"
+      },
+      "runtime_binding_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "1da9fd6563fe7b8c00abc102ef0d242781f02a7accd463bc9ed7f5ffec600f9a"
+    }
+  },
+  {
+    "case": "010",
+    "problem": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/cases/010/problem.json",
+      "sha256": "a21b80bfb511027323c88a4856fd13203ec58a6496586789bb0948acff3965ab",
+      "bytes": 3370
+    },
+    "grading": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/010/grading.json",
+      "sha256": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+      "bytes": 2927
+    },
+    "reference": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/010/reference.h5",
+      "sha256": "16ddc8cf91fac8b335ae580e285842deb1b52b4605cdd439f3961576121d1c94",
+      "bytes": 6528
+    },
+    "bindings": {
+      "boundary_single_layer": {
+        "quantity": "projected_single_layer",
+        "array": "boundary_single_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "boundary_double_layer": {
+        "quantity": "projected_double_layer",
+        "array": "boundary_double_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "boundary_hypersingular": {
+        "quantity": "projected_hypersingular",
+        "array": "boundary_hypersingular",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1/m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "potential_single_layer": {
+        "quantity": "exterior_single_layer",
+        "array": "potential_single_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "potential_double_layer": {
+        "quantity": "exterior_double_layer",
+        "array": "potential_double_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      }
+    },
+    "preflight_evidence": {
+      "grading_sha256": "11c77c72ab6366d06dfa0bd0c47647fe92ce3112c1b8fc4cd169b3c4ca667703",
+      "assets": {
+        "grading.json": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+        "reference.h5": "16ddc8cf91fac8b335ae580e285842deb1b52b4605cdd439f3961576121d1c94"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558"
+      },
+      "input_assets": {
+        "problem.json": "a21b80bfb511027323c88a4856fd13203ec58a6496586789bb0948acff3965ab",
+        "input.h5": "9327e3a4d0fabd89d86ef9b5a2f89cee08bacf89ea18dab588323175a1e85206",
+        "surface.msh": "7389116813dd0c067dca1db6866d663680fbc466b330b2066be632a60d0e499d"
+      },
+      "runtime_binding_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "7273449c137b39cbcb47944e6cb71e4c2d420d730e2034457672b0f8e5dbcaad"
+    }
+  },
+  {
+    "case": "011",
+    "problem": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/cases/011/problem.json",
+      "sha256": "048b370a88186320b6f794d522cfa65251ff4fd2d94116ab5fa10207307fc181",
+      "bytes": 3370
+    },
+    "grading": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/011/grading.json",
+      "sha256": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+      "bytes": 2927
+    },
+    "reference": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/011/reference.h5",
+      "sha256": "7bb513fb8feaf86f4e634fe6b0419d10f9e7f05cbb8280795cfeeef16d92492e",
+      "bytes": 10944
+    },
+    "bindings": {
+      "boundary_single_layer": {
+        "quantity": "projected_single_layer",
+        "array": "boundary_single_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "boundary_double_layer": {
+        "quantity": "projected_double_layer",
+        "array": "boundary_double_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "boundary_hypersingular": {
+        "quantity": "projected_hypersingular",
+        "array": "boundary_hypersingular",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1/m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "potential_single_layer": {
+        "quantity": "exterior_single_layer",
+        "array": "potential_single_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "potential_double_layer": {
+        "quantity": "exterior_double_layer",
+        "array": "potential_double_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      }
+    },
+    "preflight_evidence": {
+      "grading_sha256": "11c77c72ab6366d06dfa0bd0c47647fe92ce3112c1b8fc4cd169b3c4ca667703",
+      "assets": {
+        "grading.json": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+        "reference.h5": "7bb513fb8feaf86f4e634fe6b0419d10f9e7f05cbb8280795cfeeef16d92492e"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558"
+      },
+      "input_assets": {
+        "problem.json": "048b370a88186320b6f794d522cfa65251ff4fd2d94116ab5fa10207307fc181",
+        "input.h5": "87eb0ed99cd460ab34d3d5e1cc9d5369f262f7c1aaf4b0e582face409c6364fe",
+        "surface.msh": "df6e6a834d4eb9c3f8dc86318cfbb791de92b2525a863910a0b0533a00a32ee8"
+      },
+      "runtime_binding_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "0d2a8055e04409214af569ad41bc31eb04bcf06d052e7be053ae8e73e61228d4"
+    }
+  },
+  {
+    "case": "012",
+    "problem": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/cases/012/problem.json",
+      "sha256": "2f4f5694f027db977b88c786d27cde5be14c2ae46b2c29a72bd185cfd4b75786",
+      "bytes": 3371
+    },
+    "grading": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/012/grading.json",
+      "sha256": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+      "bytes": 2927
+    },
+    "reference": {
+      "path": "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/reference/012/reference.h5",
+      "sha256": "9c4f8b05816ae4db80950988b8c7264bf0acfe1ca478b1ed1fb0bde219ebfe49",
+      "bytes": 8448
+    },
+    "bindings": {
+      "boundary_single_layer": {
+        "quantity": "projected_single_layer",
+        "array": "boundary_single_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "boundary_double_layer": {
+        "quantity": "projected_double_layer",
+        "array": "boundary_double_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "boundary_hypersingular": {
+        "quantity": "projected_hypersingular",
+        "array": "boundary_hypersingular",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1/m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "potential_single_layer": {
+        "quantity": "exterior_single_layer",
+        "array": "potential_single_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "m",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "potential_double_layer": {
+        "quantity": "exterior_double_layer",
+        "array": "potential_double_layer",
+        "components": [
+          "real",
+          "imag"
+        ],
+        "unit": "1",
+        "rule": {
+          "metric": "pointwise",
+          "time": "per_time",
+          "components": "per_component",
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      }
+    },
+    "preflight_evidence": {
+      "grading_sha256": "11c77c72ab6366d06dfa0bd0c47647fe92ce3112c1b8fc4cd169b3c4ca667703",
+      "assets": {
+        "grading.json": "4e6bbfabc43d68217eaf46d0c6072232c9882de05d686b5381de48141a7ef20e",
+        "reference.h5": "9c4f8b05816ae4db80950988b8c7264bf0acfe1ca478b1ed1fb0bde219ebfe49"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558"
+      },
+      "input_assets": {
+        "problem.json": "2f4f5694f027db977b88c786d27cde5be14c2ae46b2c29a72bd185cfd4b75786",
+        "input.h5": "e604e9e1064a3f7a8f92f38becb569538402687dd4b5b3597676daae9b842c79",
+        "surface.msh": "878be3dc7d7c115fa7dc0dd01237f7c75cb5bf1cb8543dbeae5c2e74ce6368d0"
+      },
+      "runtime_binding_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.11.9",
+      "evaluation_sha256": "198501622d08a827355882544e5f590693d0bf9d4889392bb81eeb949d6bad59"
+    }
+  }
+]

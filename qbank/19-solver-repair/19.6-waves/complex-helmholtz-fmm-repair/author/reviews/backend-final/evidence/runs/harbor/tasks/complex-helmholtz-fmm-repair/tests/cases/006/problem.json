@@ -1,0 +1,137 @@
+{
+  "task": "complex-helmholtz-fmm-repair",
+  "spatial_dimension": 3,
+  "data_file": "input.h5",
+  "geometries": {},
+  "meshes": {},
+  "conditions": [],
+  "physics": {
+    "model": "complex-helmholtz-operators-v1",
+    "parameters": {
+      "operation": {
+        "value": 0,
+        "unit": "1"
+      },
+      "wavenumber_real": {
+        "value": 2.6,
+        "unit": "1/m"
+      },
+      "wavenumber_imag": {
+        "value": 0.0,
+        "unit": "1/m"
+      }
+    }
+  },
+  "locations": {
+    "sources": {
+      "kind": "points",
+      "ids": "source_ids",
+      "coordinates": "source_coordinates"
+    },
+    "targets": {
+      "kind": "points",
+      "ids": "target_ids",
+      "coordinates": "target_coordinates"
+    }
+  },
+  "time_axes": {
+    "instant": "times"
+  },
+  "fields": {
+    "strength": {
+      "array": "strength",
+      "quantity": "complex_source_strength",
+      "unit": "1",
+      "location": "sources",
+      "time_axis": "instant",
+      "dtype": "float64",
+      "kind": "components",
+      "component_shape": [
+        2
+      ],
+      "components": [
+        "real",
+        "imag"
+      ],
+      "value_kind": "point"
+    }
+  },
+  "outputs": {
+    "fmm_potential": {
+      "array": "fmm_potential",
+      "quantity": "fmm_helmholtz_potential",
+      "unit": "1/m",
+      "location": "targets",
+      "time_axis": "instant",
+      "dtype": "float64",
+      "kind": "components",
+      "component_shape": [
+        2
+      ],
+      "components": [
+        "real",
+        "imag"
+      ],
+      "value_kind": "point"
+    },
+    "fmm_gradient": {
+      "array": "fmm_gradient",
+      "quantity": "fmm_helmholtz_target_gradient",
+      "unit": "1/m2",
+      "location": "targets",
+      "time_axis": "instant",
+      "dtype": "float64",
+      "kind": "components",
+      "component_shape": [
+        6
+      ],
+      "components": [
+        "x_real",
+        "x_imag",
+        "y_real",
+        "y_imag",
+        "z_real",
+        "z_imag"
+      ],
+      "value_kind": "point"
+    },
+    "local_potential": {
+      "array": "local_potential",
+      "quantity": "local_helmholtz_potential",
+      "unit": "1/m",
+      "location": "targets",
+      "time_axis": "instant",
+      "dtype": "float64",
+      "kind": "components",
+      "component_shape": [
+        2
+      ],
+      "components": [
+        "real",
+        "imag"
+      ],
+      "value_kind": "point"
+    },
+    "local_gradient": {
+      "array": "local_gradient",
+      "quantity": "local_helmholtz_target_gradient",
+      "unit": "1/m2",
+      "location": "targets",
+      "time_axis": "instant",
+      "dtype": "float64",
+      "kind": "components",
+      "component_shape": [
+        6
+      ],
+      "components": [
+        "x_real",
+        "x_imag",
+        "y_real",
+        "y_imag",
+        "z_real",
+        "z_imag"
+      ],
+      "value_kind": "point"
+    }
+  }
+}

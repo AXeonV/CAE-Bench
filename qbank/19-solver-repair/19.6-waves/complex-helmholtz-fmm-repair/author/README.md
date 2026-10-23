@@ -22,4 +22,4 @@
 
 ## 阶段与历史边界
 
-最终后端独立收口仍在进行，完成后才在中央清单计数。未运行新增收费模型Benchmark。旧241b包Oracle-v1、最终3b2f旧共享后端Oracle-v3及旧7探针各保留原身份。作者曾在旧任务尚占用目录时准备新任务，v2因目录锁失败于0 trials；72文件已逐SHA恢复，失败单列[setup-v2](data-evidence/harbor-setup-v2-failed)，不算考生成绩。后续准备必须等待已有任务退出或使用实际独立目录。
+最终独立后端审阅通过，整题验收完成；见[独立终审](reviews/backend-final/report.md)及其233份原始材料索引。未运行新增收费模型Benchmark。旧241b包Oracle-v1、最终3b2f旧共享后端Oracle-v3及旧7探针各保留原身份。作者曾在旧任务尚占用目录时准备新任务，v2因目录锁失败于0 trials；72文件已逐SHA恢复，失败单列[setup-v2](data-evidence/harbor-setup-v2-failed)，不算考生成绩。后续准备必须等待已有任务退出或使用实际独立目录。

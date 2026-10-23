@@ -1,0 +1,29 @@
+{
+  "command": [
+    "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "--cpus",
+    "4",
+    "--memory",
+    "4g",
+    "-v",
+    "D:\\Code\\CAE-Bench-OJ:/review:ro",
+    "-e",
+    "PYTHONPATH=/review/src",
+    "-w",
+    "/review",
+    "sha256:253f278524d90ff31134c04d4173965a0dbd256fc9c3a78a98e46206213d1ed6",
+    "python",
+    "-c",
+    "import subprocess,sys,tempfile,zipfile,runpy; p=tempfile.mkdtemp(); zipfile.ZipFile('/review/dist/complex-helmholtz-fmm-repair-agent.zip').extractall(p); subprocess.run([sys.executable,'-m','pip','install','--no-cache-dir',p],check=True); sys.argv=['unittest','discover','-s','tests','-p','test_harbor_process_cleanup.py','-v']; runpy.run_module('unittest',run_name='__main__')"
+  ],
+  "image_id": "sha256:253f278524d90ff31134c04d4173965a0dbd256fc9c3a78a98e46206213d1ed6",
+  "returncode": 0,
+  "test_sha256": "eba62d71a6b943e647f86995d3196e5aa696c2fd84a34734da4e972c1565ecf2",
+  "judge_sha256_lf": "5595500ff6c8612f4682f4eda0cdc6521c5af94343dcba6c825bb3555141180f",
+  "stdout": "Looking in links: /opt/offline-wheels\nProcessing /tmp/tmp5vnvmzx8\n  Installing build dependencies: started\n  Installing build dependencies: finished with status 'done'\n  Getting requirements to build wheel: started\n  Getting requirements to build wheel: finished with status 'done'\n  Installing backend dependencies: started\n  Installing backend dependencies: finished with status 'done'\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nRequirement already satisfied: attrs==26.1.0 in /usr/local/lib/python3.11/site-packages (from cae-bench-oj==0.3.0+bundle.feb14062301ab307) (26.1.0)\nRequirement already satisfied: gmsh==4.15.2 in /usr/local/lib/python3.11/site-packages (from cae-bench-oj==0.3.0+bundle.feb14062301ab307) (4.15.2)\nRequirement already satisfied: h5py==3.16.0 in /usr/local/lib/python3.11/site-packages (from cae-bench-oj==0.3.0+bundle.feb14062301ab307) (3.16.0)\nRequirement already satisfied: jsonschema==4.26.0 in /usr/local/lib/python3.11/site-packages (from cae-bench-oj==0.3.0+bundle.feb14062301ab307) (4.26.0)\nRequirement already satisfied: jsonschema-specifications==2025.9.1 in /usr/local/lib/python3.11/site-packages (from cae-bench-oj==0.3.0+bundle.feb14062301ab307) (2025.9.1)\nRequirement already satisfied: numpy==2.4.6 in /usr/local/lib/python3.11/site-packages (from cae-bench-oj==0.3.0+bundle.feb14062301ab307) (2.4.6)\nRequirement already satisfied: referencing==0.37.0 in /usr/local/lib/python3.11/site-packages (from cae-bench-oj==0.3.0+bundle.feb14062301ab307) (0.37.0)\nRequirement already satisfied: rpds-py==2026.9.1 in /usr/local/lib/python3.11/site-packages (from cae-bench-oj==0.3.0+bundle.feb14062301ab307) (2026.9.1)\nRequirement already satisfied: typing-extensions==4.16.0 in /usr/local/lib/python3.11/site-packages (from cae-bench-oj==0.3.0+bundle.feb14062301ab307) (4.16.0)\nBuilding wheels for collected packages: cae-bench-oj\n  Building wheel for cae-bench-oj (pyproject.toml): started\n  Building wheel for cae-bench-oj (pyproject.toml): finished with status 'done'\n  Created wheel for cae-bench-oj: filename=cae_bench_oj-0.3.0+bundle.feb14062301ab307-py3-none-any.whl size=43820 sha256=cd648fc642638b8d6664ad31e01809913946bce32fc6128910df326ebaae2976\n  Stored in directory: /tmp/pip-ephem-wheel-cache-xonqe9y_/wheels/88/d7/3e/a120a8ac77816443aaec9a08ece0b4b4c58e2f47ec18922207\nSuccessfully built cae-bench-oj\nInstalling collected packages: cae-bench-oj\n  Attempting uninstall: cae-bench-oj\n    Found existing installation: cae-bench-oj 0.3.0\n    Can't uninstall 'cae-bench-oj'. No files were found to uninstall.\nSuccessfully installed cae-bench-oj-0.3.0+bundle.feb14062301ab307\n",
+  "stderr": "WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv\ntest_direct_compiled_cpp (test_harbor_process_cleanup.ProcessCleanupTests.test_direct_compiled_cpp) ... ok\ntest_direct_python_success_and_error (test_harbor_process_cleanup.ProcessCleanupTests.test_direct_python_success_and_error) ... ok\ntest_ordinary_solve_py_copy (test_harbor_process_cleanup.ProcessCleanupTests.test_ordinary_solve_py_copy) ... ok\ntest_session_escape_on_timeout_and_early_parent_exit (test_harbor_process_cleanup.ProcessCleanupTests.test_session_escape_on_timeout_and_early_parent_exit) ... ok\ntest_unreapable_child_is_bounded_infrastructure_failure (test_harbor_process_cleanup.ProcessCleanupTests.test_unreapable_child_is_bounded_infrastructure_failure) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 4.361s\n\nOK\n"
+}

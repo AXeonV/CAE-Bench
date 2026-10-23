@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "base_image": "caeoj-bempp20-runtime:base",
+  "replacements": [
+    {
+      "submission": "exafmm.py",
+      "target": "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/exafmm.py"
+    },
+    {
+      "submission": "fmm_assembler.py",
+      "target": "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/fmm_assembler.py"
+    },
+    {
+      "submission": "helpers.py",
+      "target": "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/helpers.py"
+    }
+  ],
+  "build_directory": "/opt/upstream",
+  "build_target": "repair_sources",
+  "rebuild_files": [
+    "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/__pycache__/exafmm.cpython-311.pyc",
+    "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/__pycache__/fmm_assembler.cpython-311.pyc",
+    "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/__pycache__/helpers.cpython-311.pyc"
+  ],
+  "build_timeout_seconds": 60,
+  "baseline_timeout_seconds": 60,
+  "max_source_bytes": 1048576,
+  "runner": "/app/qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/public/run_case.py",
+  "baseline_probe": [
+    "/usr/local/bin/python",
+    "-c",
+    "import subprocess,numpy as np,h5py,gmsh,json,tempfile\ngmsh.initialize();gmsh.finalize()\np={'operation':0,'wavenumber_real':1.1,'wavenumber_imag':0.,'sources':[[i*.01,0.,0.] for i in range(32)],'targets':[[2.,1.,1.]],'strength':[[.3,.2]]*32}\nwith tempfile.TemporaryDirectory(prefix='bempp-original-health-') as work:\n result=json.loads(subprocess.check_output(['/opt/bempp-env/bin/python','/opt/repair-driver/driver.py'],input=json.dumps(p),text=True,cwd=work))\nassert set(result)=={'fmm_potential','fmm_gradient','local_potential','local_gradient'}\nfor suffix,cols in [('potential',2),('gradient',6)]:\n fast=np.asarray(result['fmm_'+suffix]);local=np.asarray(result['local_'+suffix])\n assert fast.shape==local.shape==(1,cols) and np.all(np.isfinite(fast)) and np.all(np.isfinite(local))\n assert np.all(abs(fast-local)<=1e-6+1e-5*abs(local)) and np.any(abs(local)>1e-8)\nprint(json.dumps({'actual_original_native_point_and_gradient':'ready','sources':32,'targets':1,'real_wavenumber':1.1}))\n"
+  ]
+}

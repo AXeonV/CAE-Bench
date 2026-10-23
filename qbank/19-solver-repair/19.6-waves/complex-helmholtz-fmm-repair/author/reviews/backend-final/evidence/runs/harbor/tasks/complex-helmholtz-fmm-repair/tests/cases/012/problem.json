@@ -1,0 +1,151 @@
+{
+  "task": "complex-helmholtz-fmm-repair",
+  "spatial_dimension": 3,
+  "data_file": "input.h5",
+  "geometries": {},
+  "meshes": {
+    "surface": {
+      "file": "surface.msh"
+    }
+  },
+  "conditions": [],
+  "physics": {
+    "model": "complex-helmholtz-operators-v1",
+    "parameters": {
+      "operation": {
+        "value": 1,
+        "unit": "1"
+      },
+      "wavenumber_real": {
+        "value": 0.75,
+        "unit": "1/m"
+      },
+      "wavenumber_imag": {
+        "value": 0.6,
+        "unit": "1/m"
+      }
+    }
+  },
+  "locations": {
+    "surface_nodes": {
+      "kind": "mesh",
+      "mesh": "surface",
+      "entity": "node",
+      "ids": "node_ids"
+    },
+    "targets": {
+      "kind": "points",
+      "ids": "target_ids",
+      "coordinates": "target_coordinates"
+    }
+  },
+  "time_axes": {
+    "instant": "times"
+  },
+  "fields": {
+    "density": {
+      "array": "density",
+      "quantity": "complex_surface_density",
+      "unit": "1",
+      "location": "surface_nodes",
+      "time_axis": "instant",
+      "dtype": "float64",
+      "kind": "components",
+      "component_shape": [
+        2
+      ],
+      "components": [
+        "real",
+        "imag"
+      ],
+      "value_kind": "point"
+    }
+  },
+  "outputs": {
+    "boundary_single_layer": {
+      "array": "boundary_single_layer",
+      "quantity": "projected_single_layer",
+      "unit": "m",
+      "location": "surface_nodes",
+      "time_axis": "instant",
+      "dtype": "float64",
+      "kind": "components",
+      "component_shape": [
+        2
+      ],
+      "components": [
+        "real",
+        "imag"
+      ],
+      "value_kind": "point"
+    },
+    "boundary_double_layer": {
+      "array": "boundary_double_layer",
+      "quantity": "projected_double_layer",
+      "unit": "1",
+      "location": "surface_nodes",
+      "time_axis": "instant",
+      "dtype": "float64",
+      "kind": "components",
+      "component_shape": [
+        2
+      ],
+      "components": [
+        "real",
+        "imag"
+      ],
+      "value_kind": "point"
+    },
+    "boundary_hypersingular": {
+      "array": "boundary_hypersingular",
+      "quantity": "projected_hypersingular",
+      "unit": "1/m",
+      "location": "surface_nodes",
+      "time_axis": "instant",
+      "dtype": "float64",
+      "kind": "components",
+      "component_shape": [
+        2
+      ],
+      "components": [
+        "real",
+        "imag"
+      ],
+      "value_kind": "point"
+    },
+    "potential_single_layer": {
+      "array": "potential_single_layer",
+      "quantity": "exterior_single_layer",
+      "unit": "m",
+      "location": "targets",
+      "time_axis": "instant",
+      "dtype": "float64",
+      "kind": "components",
+      "component_shape": [
+        2
+      ],
+      "components": [
+        "real",
+        "imag"
+      ],
+      "value_kind": "point"
+    },
+    "potential_double_layer": {
+      "array": "potential_double_layer",
+      "quantity": "exterior_double_layer",
+      "unit": "1",
+      "location": "targets",
+      "time_axis": "instant",
+      "dtype": "float64",
+      "kind": "components",
+      "component_shape": [
+        2
+      ],
+      "components": [
+        "real",
+        "imag"
+      ],
+      "value_kind": "point"
+    }
+  }
+}

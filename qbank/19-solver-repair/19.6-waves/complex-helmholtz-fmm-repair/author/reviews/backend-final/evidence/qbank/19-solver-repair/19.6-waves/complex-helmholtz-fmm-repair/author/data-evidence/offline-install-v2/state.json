@@ -1,0 +1,27 @@
+{
+  "command": [
+    "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "--cpus",
+    "4",
+    "--memory",
+    "4g",
+    "-v",
+    "D:\\Code\\CAE-Bench-OJ\\dist\\complex-helmholtz-fmm-repair-agent.zip:/input/agent.zip:ro",
+    "-v",
+    "D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.6-waves\\complex-helmholtz-fmm-repair:/task:ro",
+    "sha256:253f278524d90ff31134c04d4173965a0dbd256fc9c3a78a98e46206213d1ed6",
+    "python",
+    "-c",
+    "import json,sys,subprocess,tempfile,zipfile,pathlib,shutil,hashlib,os\nwith tempfile.TemporaryDirectory() as temp:\n pathlib.Path(temp).chmod(0o755)\n package=pathlib.Path(temp)/'package';zipfile.ZipFile('/input/agent.zip').extractall(package)\n subprocess.run([sys.executable,'-m','pip','install','--no-cache-dir',str(package)],check=True)\n shutil.move(package/'src',pathlib.Path(temp)/'removed-source')\n os.chdir(temp)\n from caeoj.sdk import load_problem,load_result\n from caeoj.case_grading import grade_case\n import caeoj_task_ext.helmholtz as checker\n assert not checker.__file__.startswith(str(package))\n rows=[];task=pathlib.Path('/task')\n for p in sorted((task/'cases').glob('*/problem.json')):\n  problem=load_problem(p);load_result(problem,task/'reference'/p.parent.name/'reference.h5');rows.append(p.parent.name)\n samples=[]\n for sample in sorted((task/'samples').iterdir()):\n  p=sample/'input/problem.json';problem=load_problem(p);load_result(problem,sample/'reference/reference.h5')\n  work=pathlib.Path(temp)/('sample-'+sample.name);work.mkdir();work.chmod(0o777)\n  output=work/'result.h5'\n  cmd=['setpriv','--reuid=1000','--regid=1000','--clear-groups',sys.executable,str(package/'qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/public/run_case.py'),'--input',str(p),'--output',str(output)]\n  proc=subprocess.run(cmd,cwd=work,text=True,capture_output=True,timeout=600)\n  (work/'stdout.log').write_text(proc.stdout);(work/'stderr.log').write_text(proc.stderr)\n  score=grade_case(p,output,sample/'reference/grading.json')['score'] if proc.returncode==0 else 0\n  samples.append(dict(sample=sample.name,command=cmd,returncode=proc.returncode,score=score,stderr=proc.stderr))\n print('OFFLINE_RESULT='+json.dumps(dict(passed=True,cases=rows,samples=samples,installed_checker=checker.__file__,installed_checker_sha256=hashlib.sha256(pathlib.Path(checker.__file__).read_bytes()).hexdigest())))\n"
+  ],
+  "zip_sha256": "3b2f5344125bf5679bd026bef828bbe97a44c9a132cca97a5975a25ed8d319bf",
+  "started_unix": 1792750864.7187839,
+  "pid": 79568,
+  "phase": "finished",
+  "returncode": 0,
+  "elapsed_seconds": 280.0594274997711
+}

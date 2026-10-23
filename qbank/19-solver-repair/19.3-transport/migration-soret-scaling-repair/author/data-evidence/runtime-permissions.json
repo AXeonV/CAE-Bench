@@ -1,0 +1,59 @@
+{
+  "uid": 1000,
+  "gid": 1000,
+  "groups": [],
+  "paths": {
+    "/app/qbank/19-solver-repair/19.3-transport/migration-soret-scaling-repair/public/run_case.py": {
+      "exists": true,
+      "read": true,
+      "write": false
+    },
+    "/app/qbank/19-solver-repair/19.3-transport/migration-soret-scaling-repair/public/native_result.py": {
+      "exists": true,
+      "read": true,
+      "write": false
+    },
+    "/opt/elmer-build/fem/src/modules/HeatSolve.so": {
+      "exists": true,
+      "read": true,
+      "write": false
+    },
+    "/opt/elmer-build/fem/src/modules/StatCurrentSolve.so": {
+      "exists": true,
+      "read": true,
+      "write": false
+    },
+    "/opt/elmer-source/fem/src/modules/CMakeLists.txt": {
+      "exists": true,
+      "read": true,
+      "write": false
+    },
+    "/usr/local/lib/python3.14/site-packages/caeoj/sdk.py": {
+      "exists": true,
+      "read": true,
+      "write": false
+    },
+    "/usr/local/lib/python3.14/site-packages/caeoj": {
+      "exists": true,
+      "read": true,
+      "write": false
+    }
+  },
+  "image_id": "sha256:3fc749417ba1f098ddbac46ed23ed89f4327c516a799ba4ddf81b4f6edfea08d",
+  "command": [
+    "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "sha256:3fc749417ba1f098ddbac46ed23ed89f4327c516a799ba4ddf81b4f6edfea08d",
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "python",
+    "-c",
+    "import os,json,caeoj\nfrom pathlib import Path\npaths=['/app/qbank/19-solver-repair/19.3-transport/migration-soret-scaling-repair/public/run_case.py','/app/qbank/19-solver-repair/19.3-transport/migration-soret-scaling-repair/public/native_result.py','/opt/elmer-build/fem/src/modules/HeatSolve.so','/opt/elmer-build/fem/src/modules/StatCurrentSolve.so','/opt/elmer-source/fem/src/modules/CMakeLists.txt',str(Path(caeoj.__file__).parent/'sdk.py'),str(Path(caeoj.__file__).parent)]\nprint(json.dumps({'uid':os.geteuid(),'gid':os.getegid(),'groups':os.getgroups(),'paths':{p:{'exists':Path(p).exists(),'read':os.access(p,os.R_OK),'write':os.access(p,os.W_OK)} for p in paths}}))\n"
+  ]
+}

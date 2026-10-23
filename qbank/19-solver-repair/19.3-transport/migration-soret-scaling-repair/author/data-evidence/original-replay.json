@@ -1,0 +1,338 @@
+[
+  {
+    "mode": "baseline",
+    "case": "AdvDiffMigration",
+    "image_id": "sha256:3e60e9e7efa2a3986f65fed8e2565270b75458b3e4c3a658c090de722f9d114f",
+    "elapsed_seconds": 0.515999999945052,
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "2",
+      "--memory",
+      "2g",
+      "--env",
+      "ELMER_HOME=/opt/elmer-source/fem/src",
+      "--mount",
+      "type=bind,source=D:\\Code\\CAE-Bench-OJ\\runs\\authoring\\repair-22\\elmer-870-original-replay\\baseline\\AdvDiffMigration,target=/job",
+      "-w",
+      "/job",
+      "sha256:3e60e9e7efa2a3986f65fed8e2565270b75458b3e4c3a658c090de722f9d114f",
+      "sh",
+      "-c",
+      "/opt/elmer-build/elmergrid/src/ElmerGrid 1 2 strip > grid.log 2>&1 && /opt/elmer-build/fem/src/ElmerSolver case.sif > solver.log 2>&1"
+    ],
+    "upstream_reference_norm_checks": [
+      {
+        "solver": 1,
+        "passed": true,
+        "norm": 0.0289035753,
+        "reference_norm": 0.028903575
+      },
+      {
+        "solver": 2,
+        "passed": false,
+        "norm": 0.0998104269,
+        "reference_norm": 0.44785448
+      }
+    ],
+    "note": "Unmodified upstream original SIF/grd bytes replayed. Upstream norm agreement is not yet our independent full-field correctness proof."
+  },
+  {
+    "mode": "baseline",
+    "case": "AdvDiffMigrationAbsMass",
+    "image_id": "sha256:3e60e9e7efa2a3986f65fed8e2565270b75458b3e4c3a658c090de722f9d114f",
+    "elapsed_seconds": 0.5309999999590218,
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "2",
+      "--memory",
+      "2g",
+      "--env",
+      "ELMER_HOME=/opt/elmer-source/fem/src",
+      "--mount",
+      "type=bind,source=D:\\Code\\CAE-Bench-OJ\\runs\\authoring\\repair-22\\elmer-870-original-replay\\baseline\\AdvDiffMigrationAbsMass,target=/job",
+      "-w",
+      "/job",
+      "sha256:3e60e9e7efa2a3986f65fed8e2565270b75458b3e4c3a658c090de722f9d114f",
+      "sh",
+      "-c",
+      "/opt/elmer-build/elmergrid/src/ElmerGrid 1 2 strip > grid.log 2>&1 && /opt/elmer-build/fem/src/ElmerSolver case.sif > solver.log 2>&1"
+    ],
+    "upstream_reference_norm_checks": [
+      {
+        "solver": 1,
+        "passed": true,
+        "norm": 0.0289035753,
+        "reference_norm": 0.028903575
+      },
+      {
+        "solver": 2,
+        "passed": true,
+        "norm": 0.447854478,
+        "reference_norm": 0.44785448
+      }
+    ],
+    "note": "Unmodified upstream original SIF/grd bytes replayed. Upstream norm agreement is not yet our independent full-field correctness proof."
+  },
+  {
+    "mode": "baseline",
+    "case": "AdvDiffSoret",
+    "image_id": "sha256:3e60e9e7efa2a3986f65fed8e2565270b75458b3e4c3a658c090de722f9d114f",
+    "elapsed_seconds": 0.5790000000270084,
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "2",
+      "--memory",
+      "2g",
+      "--env",
+      "ELMER_HOME=/opt/elmer-source/fem/src",
+      "--mount",
+      "type=bind,source=D:\\Code\\CAE-Bench-OJ\\runs\\authoring\\repair-22\\elmer-870-original-replay\\baseline\\AdvDiffSoret,target=/job",
+      "-w",
+      "/job",
+      "sha256:3e60e9e7efa2a3986f65fed8e2565270b75458b3e4c3a658c090de722f9d114f",
+      "sh",
+      "-c",
+      "/opt/elmer-build/elmergrid/src/ElmerGrid 1 2 strip > grid.log 2>&1 && /opt/elmer-build/fem/src/ElmerSolver case.sif > solver.log 2>&1"
+    ],
+    "upstream_reference_norm_checks": [
+      {
+        "solver": 1,
+        "passed": true,
+        "norm": 351.200323,
+        "reference_norm": 351.20032
+      },
+      {
+        "solver": 2,
+        "passed": true,
+        "norm": 0.76389899,
+        "reference_norm": 0.76389899
+      }
+    ],
+    "note": "Unmodified upstream original SIF/grd bytes replayed. Upstream norm agreement is not yet our independent full-field correctness proof."
+  },
+  {
+    "mode": "baseline",
+    "case": "AdvDiffSoretAbsMass",
+    "image_id": "sha256:3e60e9e7efa2a3986f65fed8e2565270b75458b3e4c3a658c090de722f9d114f",
+    "elapsed_seconds": 1.515999999945052,
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "2",
+      "--memory",
+      "2g",
+      "--env",
+      "ELMER_HOME=/opt/elmer-source/fem/src",
+      "--mount",
+      "type=bind,source=D:\\Code\\CAE-Bench-OJ\\runs\\authoring\\repair-22\\elmer-870-original-replay\\baseline\\AdvDiffSoretAbsMass,target=/job",
+      "-w",
+      "/job",
+      "sha256:3e60e9e7efa2a3986f65fed8e2565270b75458b3e4c3a658c090de722f9d114f",
+      "sh",
+      "-c",
+      "/opt/elmer-build/elmergrid/src/ElmerGrid 1 2 strip > grid.log 2>&1 && /opt/elmer-build/fem/src/ElmerSolver case.sif > solver.log 2>&1"
+    ],
+    "upstream_reference_norm_checks": [
+      {
+        "solver": 1,
+        "passed": true,
+        "norm": 351.200323,
+        "reference_norm": 351.20032
+      },
+      {
+        "solver": 2,
+        "passed": false,
+        "norm": 288.171245,
+        "reference_norm": 0.76389899
+      }
+    ],
+    "note": "Unmodified upstream original SIF/grd bytes replayed. Upstream norm agreement is not yet our independent full-field correctness proof."
+  },
+  {
+    "mode": "fixed",
+    "case": "AdvDiffMigration",
+    "image_id": "sha256:31efebdb09665d7d4fdb6f1bc2346b04374a28c9f6f88cdb69c8477c893d2c23",
+    "elapsed_seconds": 0.5940000000409782,
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "2",
+      "--memory",
+      "2g",
+      "--env",
+      "ELMER_HOME=/opt/elmer-source/fem/src",
+      "--mount",
+      "type=bind,source=D:\\Code\\CAE-Bench-OJ\\runs\\authoring\\repair-22\\elmer-870-original-replay\\fixed\\AdvDiffMigration,target=/job",
+      "-w",
+      "/job",
+      "sha256:31efebdb09665d7d4fdb6f1bc2346b04374a28c9f6f88cdb69c8477c893d2c23",
+      "sh",
+      "-c",
+      "/opt/elmer-build/elmergrid/src/ElmerGrid 1 2 strip > grid.log 2>&1 && /opt/elmer-build/fem/src/ElmerSolver case.sif > solver.log 2>&1"
+    ],
+    "upstream_reference_norm_checks": [
+      {
+        "solver": 1,
+        "passed": true,
+        "norm": 0.0289035753,
+        "reference_norm": 0.028903575
+      },
+      {
+        "solver": 2,
+        "passed": true,
+        "norm": 0.447854478,
+        "reference_norm": 0.44785448
+      }
+    ],
+    "note": "Unmodified upstream original SIF/grd bytes replayed. Upstream norm agreement is not yet our independent full-field correctness proof."
+  },
+  {
+    "mode": "fixed",
+    "case": "AdvDiffMigrationAbsMass",
+    "image_id": "sha256:31efebdb09665d7d4fdb6f1bc2346b04374a28c9f6f88cdb69c8477c893d2c23",
+    "elapsed_seconds": 0.6089999999385327,
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "2",
+      "--memory",
+      "2g",
+      "--env",
+      "ELMER_HOME=/opt/elmer-source/fem/src",
+      "--mount",
+      "type=bind,source=D:\\Code\\CAE-Bench-OJ\\runs\\authoring\\repair-22\\elmer-870-original-replay\\fixed\\AdvDiffMigrationAbsMass,target=/job",
+      "-w",
+      "/job",
+      "sha256:31efebdb09665d7d4fdb6f1bc2346b04374a28c9f6f88cdb69c8477c893d2c23",
+      "sh",
+      "-c",
+      "/opt/elmer-build/elmergrid/src/ElmerGrid 1 2 strip > grid.log 2>&1 && /opt/elmer-build/fem/src/ElmerSolver case.sif > solver.log 2>&1"
+    ],
+    "upstream_reference_norm_checks": [
+      {
+        "solver": 1,
+        "passed": true,
+        "norm": 0.0289035753,
+        "reference_norm": 0.028903575
+      },
+      {
+        "solver": 2,
+        "passed": true,
+        "norm": 0.447854478,
+        "reference_norm": 0.44785448
+      }
+    ],
+    "note": "Unmodified upstream original SIF/grd bytes replayed. Upstream norm agreement is not yet our independent full-field correctness proof."
+  },
+  {
+    "mode": "fixed",
+    "case": "AdvDiffSoret",
+    "image_id": "sha256:31efebdb09665d7d4fdb6f1bc2346b04374a28c9f6f88cdb69c8477c893d2c23",
+    "elapsed_seconds": 0.5779999999795109,
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "2",
+      "--memory",
+      "2g",
+      "--env",
+      "ELMER_HOME=/opt/elmer-source/fem/src",
+      "--mount",
+      "type=bind,source=D:\\Code\\CAE-Bench-OJ\\runs\\authoring\\repair-22\\elmer-870-original-replay\\fixed\\AdvDiffSoret,target=/job",
+      "-w",
+      "/job",
+      "sha256:31efebdb09665d7d4fdb6f1bc2346b04374a28c9f6f88cdb69c8477c893d2c23",
+      "sh",
+      "-c",
+      "/opt/elmer-build/elmergrid/src/ElmerGrid 1 2 strip > grid.log 2>&1 && /opt/elmer-build/fem/src/ElmerSolver case.sif > solver.log 2>&1"
+    ],
+    "upstream_reference_norm_checks": [
+      {
+        "solver": 1,
+        "passed": true,
+        "norm": 351.200323,
+        "reference_norm": 351.20032
+      },
+      {
+        "solver": 2,
+        "passed": true,
+        "norm": 0.76389899,
+        "reference_norm": 0.76389899
+      }
+    ],
+    "note": "Unmodified upstream original SIF/grd bytes replayed. Upstream norm agreement is not yet our independent full-field correctness proof."
+  },
+  {
+    "mode": "fixed",
+    "case": "AdvDiffSoretAbsMass",
+    "image_id": "sha256:31efebdb09665d7d4fdb6f1bc2346b04374a28c9f6f88cdb69c8477c893d2c23",
+    "elapsed_seconds": 0.5320000000065193,
+    "command": [
+      "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--cpus",
+      "2",
+      "--memory",
+      "2g",
+      "--env",
+      "ELMER_HOME=/opt/elmer-source/fem/src",
+      "--mount",
+      "type=bind,source=D:\\Code\\CAE-Bench-OJ\\runs\\authoring\\repair-22\\elmer-870-original-replay\\fixed\\AdvDiffSoretAbsMass,target=/job",
+      "-w",
+      "/job",
+      "sha256:31efebdb09665d7d4fdb6f1bc2346b04374a28c9f6f88cdb69c8477c893d2c23",
+      "sh",
+      "-c",
+      "/opt/elmer-build/elmergrid/src/ElmerGrid 1 2 strip > grid.log 2>&1 && /opt/elmer-build/fem/src/ElmerSolver case.sif > solver.log 2>&1"
+    ],
+    "upstream_reference_norm_checks": [
+      {
+        "solver": 1,
+        "passed": true,
+        "norm": 351.200323,
+        "reference_norm": 351.20032
+      },
+      {
+        "solver": 2,
+        "passed": true,
+        "norm": 0.76389899,
+        "reference_norm": 0.76389899
+      }
+    ],
+    "note": "Unmodified upstream original SIF/grd bytes replayed. Upstream norm agreement is not yet our independent full-field correctness proof."
+  }
+]

@@ -1,0 +1,359 @@
+{
+  "image_id": "sha256:02a78cabde362a80ad7b7b985e7326b2a523d1d398ca95caa467e4c9f160520d",
+  "mode": "defect",
+  "producer": "Actual complete Elmer HeatSolve, StatCurrentSolve and AdvectionDiffusion modules on prescribed 2D QUAD4 mesh.",
+  "hash_semantics": {
+    "native_input_sha256": "SHA256 concatenation of sorted relative native input filenames, NUL, and raw bytes for case.sif plus four mesh files before solver execution; not problem.json or HDF5 bytes.",
+    "result_sha256": "Raw HDF5 bytes written from actual native case.result fields. reference mode: task/reference/<case>/reference.h5; defect mode: authoring replay case directory/result.h5."
+  },
+  "cases": [
+    {
+      "case": "01-migration-relative-public",
+      "nodes": 802,
+      "seconds": 0.9679999999934807,
+      "score": 0,
+      "checks": {
+        "concentration": {
+          "discrete_max_absolute_error": 1.4840206253469814,
+          "continuum_max_absolute_error": 1.4840206328667847,
+          "concentration_scale": 1,
+          "passed": false
+        },
+        "temperature": {
+          "discrete_max_absolute_error": 2.423803380224854e-10,
+          "continuum_max_absolute_error": 2.423803380224854e-10,
+          "concentration_scale": 1,
+          "passed": true
+        },
+        "potential": {
+          "discrete_max_absolute_error": 1.9605844725489874e-14,
+          "continuum_max_absolute_error": 1.9605844725489874e-14,
+          "concentration_scale": 1,
+          "passed": true
+        }
+      },
+      "frames": 2,
+      "native_input_sha256": "ddda7317d438d7fdc4b762cf351b42b0666747e2a6b29ac5de756c2a5b33107d",
+      "result_sha256": "78414962ebec0bdf88915bfe705240890bfca9099df3626e05d146b03f974859"
+    },
+    {
+      "case": "02-soret-absolute-public",
+      "nodes": 802,
+      "seconds": 1.062999999965541,
+      "score": 0,
+      "checks": {
+        "concentration": {
+          "discrete_max_absolute_error": 499.5000000007073,
+          "continuum_max_absolute_error": 499.5000000007073,
+          "concentration_scale": 1000.0,
+          "passed": false
+        },
+        "temperature": {
+          "discrete_max_absolute_error": 2.7557689463719726e-10,
+          "continuum_max_absolute_error": 2.7557689463719726e-10,
+          "concentration_scale": 1,
+          "passed": true
+        },
+        "potential": {
+          "discrete_max_absolute_error": 0.0,
+          "continuum_max_absolute_error": 0.0,
+          "concentration_scale": 1,
+          "passed": true
+        }
+      },
+      "frames": 2,
+      "native_input_sha256": "ad52b8a93fe9b5454491ebcf38a1a8a2ed9182329c888ddce89ca2663a2114ef",
+      "result_sha256": "cb5003c2c52d9e12130471b7c1075ba6db803bfb7828f442ed09e67271b8a34b"
+    },
+    {
+      "case": "03-migration-absolute-pair",
+      "nodes": 802,
+      "seconds": 0.9690000000409782,
+      "score": 1,
+      "checks": {
+        "concentration": {
+          "discrete_max_absolute_error": 3.184368324582465e-10,
+          "continuum_max_absolute_error": 0.0005095166881687874,
+          "concentration_scale": 1200.0,
+          "passed": true
+        },
+        "temperature": {
+          "discrete_max_absolute_error": 2.423803380224854e-10,
+          "continuum_max_absolute_error": 2.423803380224854e-10,
+          "concentration_scale": 1,
+          "passed": true
+        },
+        "potential": {
+          "discrete_max_absolute_error": 1.9605844725489874e-14,
+          "continuum_max_absolute_error": 1.9605844725489874e-14,
+          "concentration_scale": 1,
+          "passed": true
+        }
+      },
+      "frames": 2,
+      "native_input_sha256": "991c23b3b7d9fc82320c25c343938a3746576d6a59750a1542a631c112fa40f4",
+      "result_sha256": "8fc1dd215110aa318d7df9355180b0402d5f106d8f204dfa2c355a4175290972"
+    },
+    {
+      "case": "04-soret-relative-pair",
+      "nodes": 802,
+      "seconds": 1.577999999979511,
+      "score": 1,
+      "checks": {
+        "concentration": {
+          "discrete_max_absolute_error": 2.751271432899216e-15,
+          "continuum_max_absolute_error": 2.751271432899216e-15,
+          "concentration_scale": 1,
+          "passed": true
+        },
+        "temperature": {
+          "discrete_max_absolute_error": 2.7557689463719726e-10,
+          "continuum_max_absolute_error": 2.7557689463719726e-10,
+          "concentration_scale": 1,
+          "passed": true
+        },
+        "potential": {
+          "discrete_max_absolute_error": 0.0,
+          "continuum_max_absolute_error": 0.0,
+          "concentration_scale": 1,
+          "passed": true
+        }
+      },
+      "frames": 2,
+      "native_input_sha256": "e56a745f1fcc0a89420f55e20c9cd81490a0b73f8b3839f1dedb0166b4915025",
+      "result_sha256": "526b405f043a2fc25300912688b158c57c2e7056ac08e76c140f6180db2a3906"
+    },
+    {
+      "case": "05-negative-ion-low-density",
+      "nodes": 963,
+      "seconds": 1.2809999999590218,
+      "score": 0,
+      "checks": {
+        "concentration": {
+          "discrete_max_absolute_error": 0.05072707758772865,
+          "continuum_max_absolute_error": 0.05072702401768314,
+          "concentration_scale": 1,
+          "passed": false
+        },
+        "temperature": {
+          "discrete_max_absolute_error": 2.134470378223341e-10,
+          "continuum_max_absolute_error": 2.134470378223341e-10,
+          "concentration_scale": 1,
+          "passed": true
+        },
+        "potential": {
+          "discrete_max_absolute_error": 3.71508379615193e-14,
+          "continuum_max_absolute_error": 3.71508379615193e-14,
+          "concentration_scale": 1,
+          "passed": true
+        }
+      },
+      "frames": 2,
+      "native_input_sha256": "9f8ee10bd0a956a41157b52a7355868254db6b30971e4d5bdfb181ffc8633355",
+      "result_sha256": "9687766190ab149741b6a21cb28064be8fa27f33a0341a9ae68b4ab71e10d20f"
+    },
+    {
+      "case": "06-unit-density-active-migration",
+      "nodes": 723,
+      "seconds": 1.2810000000754371,
+      "score": 1,
+      "checks": {
+        "concentration": {
+          "discrete_max_absolute_error": 1.4971357487070236e-13,
+          "continuum_max_absolute_error": 7.213349256240953e-07,
+          "concentration_scale": 1.0,
+          "passed": true
+        },
+        "temperature": {
+          "discrete_max_absolute_error": 9.890754881780595e-11,
+          "continuum_max_absolute_error": 9.890754881780595e-11,
+          "concentration_scale": 1,
+          "passed": true
+        },
+        "potential": {
+          "discrete_max_absolute_error": 3.863576125695545e-14,
+          "continuum_max_absolute_error": 3.863576125695545e-14,
+          "concentration_scale": 1,
+          "passed": true
+        }
+      },
+      "frames": 2,
+      "native_input_sha256": "4f0d4f6181f3b50150893866ced1b77468436e71322716b623fd61b8282b2bfa",
+      "result_sha256": "32a6c43f188d68d624bb8264acae0e2c48b4e11d60725d4729a4abbe4cf40d1c"
+    },
+    {
+      "case": "07-negative-soret-cooling",
+      "nodes": 903,
+      "seconds": 1.812999999965541,
+      "score": 1,
+      "checks": {
+        "concentration": {
+          "discrete_max_absolute_error": 1.2007339567077224e-12,
+          "continuum_max_absolute_error": 1.2007339567077224e-12,
+          "concentration_scale": 1,
+          "passed": true
+        },
+        "temperature": {
+          "discrete_max_absolute_error": 2.6545876607997343e-10,
+          "continuum_max_absolute_error": 2.6545876607997343e-10,
+          "concentration_scale": 1,
+          "passed": true
+        },
+        "potential": {
+          "discrete_max_absolute_error": 4.674038933671909e-14,
+          "continuum_max_absolute_error": 4.674038933671909e-14,
+          "concentration_scale": 1,
+          "passed": true
+        }
+      },
+      "frames": 2,
+      "native_input_sha256": "171112dab1f054ddf1ba4e42e6506893c441edf3173f587243ef36d821a38ac9",
+      "result_sha256": "08183f397e68f7b955893019d816dd35dc4ecb5408e173836551723649354eb4"
+    },
+    {
+      "case": "08-negative-soret-warming",
+      "nodes": 1124,
+      "seconds": 1.0940000000409782,
+      "score": 0,
+      "checks": {
+        "concentration": {
+          "discrete_max_absolute_error": 14940.000000013657,
+          "continuum_max_absolute_error": 14940.000000013657,
+          "concentration_scale": 250.0,
+          "passed": false
+        },
+        "temperature": {
+          "discrete_max_absolute_error": 5.860556484549306e-11,
+          "continuum_max_absolute_error": 5.860556484549306e-11,
+          "concentration_scale": 1,
+          "passed": true
+        },
+        "potential": {
+          "discrete_max_absolute_error": 4.125866315263238e-14,
+          "continuum_max_absolute_error": 4.125866315263238e-14,
+          "concentration_scale": 1,
+          "passed": true
+        }
+      },
+      "frames": 2,
+      "native_input_sha256": "ca7e7962385f6427b904aa45184aaa602ac48ee1372b1f1481e3395385d573b3",
+      "result_sha256": "c7a871bfee31b4da61aaedf8757ac5dfce6148a776807187e030cba1fe7bef28"
+    },
+    {
+      "case": "09-zero-ion-diffusion-control",
+      "nodes": 804,
+      "seconds": 1.3440000000409782,
+      "score": 1,
+      "checks": {
+        "concentration": {
+          "discrete_max_absolute_error": 2.1194157540094238e-13,
+          "continuum_max_absolute_error": 2.1194157540094238e-13,
+          "concentration_scale": 3.0,
+          "passed": true
+        },
+        "temperature": {
+          "discrete_max_absolute_error": 6.963318810448982e-11,
+          "continuum_max_absolute_error": 6.963318810448982e-11,
+          "concentration_scale": 1,
+          "passed": true
+        },
+        "potential": {
+          "discrete_max_absolute_error": 3.452793606584237e-14,
+          "continuum_max_absolute_error": 3.452793606584237e-14,
+          "concentration_scale": 1,
+          "passed": true
+        }
+      },
+      "frames": 2,
+      "native_input_sha256": "a5c494d1a998bf7615fd0898cd12bf634e85f46c100b3d42e423809260afbe52",
+      "result_sha256": "e195d3e1abe106677f0ffbd46841b1597f80a9fc40dced35fa6cefdb184a1bb9"
+    },
+    {
+      "case": "10-zero-soret-control",
+      "nodes": 483,
+      "seconds": 1.640999999945052,
+      "score": 1,
+      "checks": {
+        "concentration": {
+          "discrete_max_absolute_error": 2.28872476526476e-13,
+          "continuum_max_absolute_error": 2.28872476526476e-13,
+          "concentration_scale": 1,
+          "passed": true
+        },
+        "temperature": {
+          "discrete_max_absolute_error": 1.233502189279534e-11,
+          "continuum_max_absolute_error": 1.233502189279534e-11,
+          "concentration_scale": 1,
+          "passed": true
+        },
+        "potential": {
+          "discrete_max_absolute_error": 9.603429163007604e-15,
+          "continuum_max_absolute_error": 9.603429163007604e-15,
+          "concentration_scale": 1,
+          "passed": true
+        }
+      },
+      "frames": 2,
+      "native_input_sha256": "c04a1ff1f42331ca990eddb93d9736cbfe88ef8ca4fb36b4273af38778b79543",
+      "result_sha256": "95497b032e62b545f99ad9d836d2a85b9ad79323523b4eb9c53d92320ad08cbc"
+    },
+    {
+      "case": "11-weak-drive-dense-fluid",
+      "nodes": 602,
+      "seconds": 1.2190000000409782,
+      "score": 0,
+      "checks": {
+        "concentration": {
+          "discrete_max_absolute_error": 0.3979384034546106,
+          "continuum_max_absolute_error": 0.3979384034546124,
+          "concentration_scale": 1,
+          "passed": false
+        },
+        "temperature": {
+          "discrete_max_absolute_error": 2.3436541596311145e-10,
+          "continuum_max_absolute_error": 2.3436541596311145e-10,
+          "concentration_scale": 1,
+          "passed": true
+        },
+        "potential": {
+          "discrete_max_absolute_error": 5.902125576467965e-17,
+          "continuum_max_absolute_error": 5.902125576467965e-17,
+          "concentration_scale": 1,
+          "passed": true
+        }
+      },
+      "frames": 2,
+      "native_input_sha256": "71be99a7385337c2e8b5ace8a63d18c5a1d9513a1d7497e487c389f6a136a2b2",
+      "result_sha256": "a0b379f445ffdb394582d80801b1672983df7c67cabc96563898cde6577c5df1"
+    },
+    {
+      "case": "12-low-density-absolute-soret",
+      "nodes": 1604,
+      "seconds": 1.734000000054948,
+      "score": 0,
+      "checks": {
+        "concentration": {
+          "discrete_max_absolute_error": 0.038400000000317555,
+          "continuum_max_absolute_error": 0.038400000000317555,
+          "concentration_scale": 0.2,
+          "passed": false
+        },
+        "temperature": {
+          "discrete_max_absolute_error": 2.785895958368201e-10,
+          "continuum_max_absolute_error": 2.785895958368201e-10,
+          "concentration_scale": 1,
+          "passed": true
+        },
+        "potential": {
+          "discrete_max_absolute_error": 0.0,
+          "continuum_max_absolute_error": 0.0,
+          "concentration_scale": 1,
+          "passed": true
+        }
+      },
+      "frames": 2,
+      "native_input_sha256": "2df344f74bbd4921d16dd455cd52a475786cd9f2e2d2a70aae1b8f570bc0e7ab",
+      "result_sha256": "ed4afb1a644ab961f9e0f693a413ce595a2826a9e9cb416a231a0591bfb8542b"
+    }
+  ]
+}

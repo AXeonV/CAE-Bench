@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "base_image": "caeoj-elmer870-runtime:base",
+  "replacements": [
+    {
+      "submission": "AdvectionDiffusion.F90",
+      "target": "/opt/elmer-source/fem/src/modules/AdvectionDiffusion.F90"
+    }
+  ],
+  "build_directory": "/opt/elmer-build",
+  "build_target": "AdvectionDiffusion",
+  "rebuild_files": [
+    "/opt/elmer-build/fem/src/modules/CMakeFiles/AdvectionDiffusion.dir/AdvectionDiffusion.F90-pp.f90",
+    "/opt/elmer-build/fem/src/modules/CMakeFiles/AdvectionDiffusion.dir/AdvectionDiffusion.F90.o",
+    "/opt/elmer-build/fem/src/modules/AdvectionDiffusion.so"
+  ],
+  "build_timeout_seconds": 180,
+  "max_source_bytes": 1048576,
+  "runner": "/app/qbank/19-solver-repair/19.3-transport/migration-soret-scaling-repair/public/run_case.py",
+  "baseline_probe": [
+    "/usr/local/bin/python",
+    "/app/qbank/19-solver-repair/19.3-transport/migration-soret-scaling-repair/public/run_case.py",
+    "--input",
+    "/app/qbank/19-solver-repair/19.3-transport/migration-soret-scaling-repair/samples/01/input/problem.json",
+    "--output",
+    "/tmp/elmer-baseline-probe.h5"
+  ]
+}

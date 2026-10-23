@@ -1,0 +1,147 @@
+{
+  "image_id": "sha256:3fc749417ba1f098ddbac46ed23ed89f4327c516a799ba4ddf81b4f6edfea08d",
+  "probe_script_sha256": "409cdeedf0410f8708ffed12ded10cca6ca77466c6615713657b636c4bd95a86",
+  "resources": {
+    "cpus": 2,
+    "memory_bytes": 2147483648,
+    "network": "none"
+  },
+  "modes": {
+    "valid": {
+      "mode": "valid",
+      "passed": true,
+      "before_executable_sha256": "6d1fd14609feac4de287bdbe4d06c60d00e4810d87e8b7b66519296f7456b93c",
+      "after_executable_sha256": "88d0384e251823474ef2d06226e8c0d4b3e0843a6b8ef60d88de3f7fb7b60394",
+      "access": {
+        "uid": 1000,
+        "gid": 1000,
+        "groups": [],
+        "access": {
+          "/tests/cases": {
+            "read": false,
+            "write": false
+          },
+          "/tests/reference": {
+            "read": false,
+            "write": false
+          },
+          "/logs/verifier": {
+            "read": false,
+            "write": false
+          },
+          "/opt/elmer-build": {
+            "read": true,
+            "write": false
+          },
+          "/opt/elmer-build/fem/src/modules/AdvectionDiffusion.so": {
+            "read": true,
+            "write": false
+          },
+          "/opt/elmer-build/fem/src/libelmersolver.so": {
+            "read": true,
+            "write": false
+          },
+          "/opt/elmer-source": {
+            "read": true,
+            "write": false
+          },
+          "/opt/elmer-source/fem/src": {
+            "read": true,
+            "write": false
+          },
+          "/opt/elmer-source/fem/src/elements.def": {
+            "read": true,
+            "write": false
+          },
+          "/opt/elmer-source/fem/src/DefUtils.F90": {
+            "read": true,
+            "write": false
+          },
+          "/opt/elmer-source/fem/src/modules/AdvectionDiffusion.F90": {
+            "read": true,
+            "write": false
+          },
+          "/opt/elmer-driver/run_case.py": {
+            "read": true,
+            "write": false
+          },
+          "/opt/elmer-source/CMakeLists.txt": {
+            "read": true,
+            "write": false
+          }
+        },
+        "network": "denied"
+      },
+      "forced_rebuild": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "cmake",
+          "--build",
+          "/opt/elmer-build",
+          "--target",
+          "AdvectionDiffusion",
+          "--parallel",
+          "4"
+        ],
+        "exit_code": 0,
+        "status": "built",
+        "elapsed_seconds": 2.931803110999681,
+        "sources_sha256": {
+          "AdvectionDiffusion.F90": "0f905d9e75ba747c546c849ad381883c8447c0c3a721fbf8ac282253bdd58dad"
+        },
+        "removed_build_artifacts": [
+          "/opt/elmer-build/fem/src/modules/CMakeFiles/AdvectionDiffusion.dir/AdvectionDiffusion.F90-pp.f90",
+          "/opt/elmer-build/fem/src/modules/CMakeFiles/AdvectionDiffusion.dir/AdvectionDiffusion.F90.o",
+          "/opt/elmer-build/fem/src/modules/AdvectionDiffusion.so"
+        ],
+        "built_artifacts_sha256": {
+          "/opt/elmer-build/fem/src/modules/CMakeFiles/AdvectionDiffusion.dir/AdvectionDiffusion.F90-pp.f90": "1f91bee9eaffb6781f9a3b5b3449cc55b837831130276bf765f8cc087497309a",
+          "/opt/elmer-build/fem/src/modules/CMakeFiles/AdvectionDiffusion.dir/AdvectionDiffusion.F90.o": "17d18cb8eb6e58ade759a8b6bc20cb00eae7306a6a3e323c807f90ee83ef24ca",
+          "/opt/elmer-build/fem/src/modules/AdvectionDiffusion.so": "88d0384e251823474ef2d06226e8c0d4b3e0843a6b8ef60d88de3f7fb7b60394"
+        }
+      },
+      "actual_sample_score": 1,
+      "real_advection_diffusion_symbol_present": true,
+      "cpu_max": "200000 100000",
+      "memory_max": "2147483648"
+    },
+    "syntax": {
+      "mode": "syntax",
+      "passed": true,
+      "classification": "build_error"
+    },
+    "compiler": {
+      "mode": "compiler",
+      "passed": true,
+      "classification": "infrastructure_error",
+      "reason": "Trusted baseline build failed: build_error"
+    },
+    "baseline-runtime": {
+      "mode": "baseline-runtime",
+      "passed": true,
+      "classification": "infrastructure_error",
+      "reason": "Trusted baseline runtime probe failed: probe_error"
+    },
+    "baseline-sdk": {
+      "mode": "baseline-sdk",
+      "passed": true,
+      "classification": "infrastructure_error",
+      "reason": "Trusted baseline runtime probe failed: probe_error"
+    },
+    "extra": {
+      "mode": "extra",
+      "passed": true,
+      "classification": "invalid_submission"
+    },
+    "symlink": {
+      "mode": "symlink",
+      "passed": true,
+      "classification": "invalid_submission"
+    }
+  },
+  "scope": "Actual trusted source_repair.prepare chain and public runner sample, UID1000 permission queries and one denied IPv4 TCP connection. Separate formal Harbor Oracle binds job lifecycle."
+}

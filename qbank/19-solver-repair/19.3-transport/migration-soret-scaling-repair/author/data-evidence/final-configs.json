@@ -1,0 +1,14 @@
+{
+  "harbor/source-repair.json": {
+    "sha256": "831f90641118e8fbb4cd0b31ca8dce683f2eebd14a5f8adf786ad06c918ae8a7",
+    "content": "{\n  \"version\": 1,\n  \"base_image\": \"caeoj-elmer870-runtime:base\",\n  \"replacements\": [\n    {\n      \"submission\": \"AdvectionDiffusion.F90\",\n      \"target\": \"/opt/elmer-source/fem/src/modules/AdvectionDiffusion.F90\"\n    }\n  ],\n  \"build_directory\": \"/opt/elmer-build\",\n  \"build_target\": \"AdvectionDiffusion\",\n  \"rebuild_files\": [\n    \"/opt/elmer-build/fem/src/modules/CMakeFiles/AdvectionDiffusion.dir/AdvectionDiffusion.F90-pp.f90\",\n    \"/opt/elmer-build/fem/src/modules/CMakeFiles/AdvectionDiffusion.dir/AdvectionDiffusion.F90.o\",\n    \"/opt/elmer-build/fem/src/modules/AdvectionDiffusion.so\"\n  ],\n  \"build_timeout_seconds\": 180,\n  \"max_source_bytes\": 1048576,\n  \"runner\": \"/app/qbank/19-solver-repair/19.3-transport/migration-soret-scaling-repair/public/run_case.py\",\n  \"baseline_probe\": [\n    \"/usr/local/bin/python\",\n    \"/app/qbank/19-solver-repair/19.3-transport/migration-soret-scaling-repair/public/run_case.py\",\n    \"--input\",\n    \"/app/qbank/19-solver-repair/19.3-transport/migration-soret-scaling-repair/samples/01/input/problem.json\",\n    \"--output\",\n    \"/tmp/elmer-baseline-probe.h5\"\n  ]\n}\n"
+  },
+  "harbor/task.toml": {
+    "sha256": "12c8c613ad2c540d30f5ba077234c2b67904aabfaeda79652fc3f4664ecab44a",
+    "content": "[agent]\ntimeout_sec = 1800\n[environment]\ncpus = 4\nmemory_mb = 4096\nbuild_timeout_sec = 900\n"
+  },
+  "judge-config.json": {
+    "sha256": "c24286cc923b988fe9aff9f9f9afa3f6b5d70c2c8f8e52919e7045e3eeecc370",
+    "content": "{\"timeout_seconds\": 20, \"evaluation_timeout_seconds\": 30, \"max_output_bytes\": null, \"verifier_budget\": {\"base_seconds\": 900, \"per_case_overhead_seconds\": 5}}\n"
+  }
+}

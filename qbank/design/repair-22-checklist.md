@@ -27,7 +27,7 @@
 | 19.1.2 | hysteretic-trial-state-repair／滞回材料试探状态恢复 | OpenSees/OpenSees#1817 | 试探／提交／回滚后的应力与切线；分段本构和状态序列对照 | 已完成；[验收记录](../19-solver-repair/19.1-constraints/hysteretic-trial-state-repair/author/README.md) |
 | 19.2.1 | spatial-beam-transform-repair／空间梁方向变换 | KratosMultiphysics/Kratos#14657 | 局部全局变换、挠度与旋转协变；闭式梁及独立矩阵核对 | 已完成；[验收记录](../19-solver-repair/19.2-operators/spatial-beam-transform-repair/author/README.md) |
 | 19.2.2 | grand-potential-derivatives-repair／巨势烧结材料一致导数 | idaholab/moose#30236 | 材料导数及Jacobian；独立符号／数值微分和残量测试 | 待实施 |
-| 19.3.1 | migration-soret-scaling-repair／电迁移与热扩散密度缩放 | ElmerCSC/elmerfem#870 | 漂移／热扩散弱式、密度缩放；解析稳态与单位一致性 | 待实施 |
+| 19.3.1 | migration-soret-scaling-repair／电迁移与热扩散密度缩放 | ElmerCSC/elmerfem#870 | 漂移／热扩散弱式、密度缩放；解析稳态与单位一致性 | 已完成；[验收记录](../19-solver-repair/19.3-transport/migration-soret-scaling-repair/author/README.md) |
 | 19.3.2 | surface-flow-constraint-repair／表面反应管流物种约束 | Cantera/cantera#1655 | 质量分数代数约束与物种排序；守恒及独立简单反应工况 | 已完成；[验收记录](../19-solver-repair/19.3-transport/surface-flow-constraint-repair/author/README.md) |
 | 19.3.3 | two-temperature-state-repair／双温等离子体状态方程 | Cantera/cantera#1872 | 电子分压及固定密度／压力路径；混合理想气体状态关系 | 已完成；[验收记录](../19-solver-repair/19.3-transport/two-temperature-state-repair/author/README.md) |
 | 19.3.4 | multisite-surface-concentration-repair／多占位表面浓度 | Cantera/cantera#1996 | 多位点占据、浓度与表面反应；位点平衡及独立反应核对，保留两项关联修复范围 | 已完成；[验收记录](../19-solver-repair/19.3-transport/multisite-surface-concentration-repair/author/README.md) |

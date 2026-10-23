@@ -1,0 +1,2418 @@
+{
+  "score": 12,
+  "total_cases": 12,
+  "completed_cases": 12,
+  "complete": true,
+  "reward": 1.0,
+  "cases": [
+    {
+      "case": "01-migration-relative-public",
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "concentration": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-09,
+                "rtol": 1e-08
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 802
+                }
+              ],
+              "observation": {
+                "quantity": "mass_fraction",
+                "unit": "1",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "temperature": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 802
+                }
+              ],
+              "observation": {
+                "quantity": "temperature",
+                "unit": "K",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "potential": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-10,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 802
+                }
+              ],
+              "observation": {
+                "quantity": "electric_potential",
+                "unit": "V",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "01f83ebbe5d62c00b8e99d43a9b9516c8cc99c2f330664f9d608f1f519eec487"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "2959f17370a11d389dcb3802b461d0ef436f405e3b3ff3cf686ac46104f8768c",
+        "input.h5": "9ba8f125d93516d43897cf39a2a6fc5a89e60cd616023c9e9ff7dbb1a9f130af",
+        "mesh.msh": "02865faea276e4c6f356d757cfe0fb8e2ff51a5f16ddf412b0f8498978d23a12"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "3009df8cd7fbae8379a5daeebb5272860d2fea2d6d44542b322c2b607eb09b0d",
+      "elapsed_seconds": 0.5757314679995034,
+      "public_sample": "01"
+    },
+    {
+      "case": "02-soret-absolute-public",
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "concentration": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-07,
+                "rtol": 1e-08
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 802
+                }
+              ],
+              "observation": {
+                "quantity": "mass_concentration",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "temperature": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 802
+                }
+              ],
+              "observation": {
+                "quantity": "temperature",
+                "unit": "K",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "potential": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-10,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 802
+                }
+              ],
+              "observation": {
+                "quantity": "electric_potential",
+                "unit": "V",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "4fb2f460159c6cbdae721582c159da17b57842d0c77826c5e78a2d2b8e69b7ac"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "b9df8a3c20dbf6523d8b585c4c379f529d0299e7fea34ccbe3728284d397491a",
+        "input.h5": "9ba8f125d93516d43897cf39a2a6fc5a89e60cd616023c9e9ff7dbb1a9f130af",
+        "mesh.msh": "02865faea276e4c6f356d757cfe0fb8e2ff51a5f16ddf412b0f8498978d23a12"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "b4995c553550a3003e8175ad4696ed43f6331452b5c02bca9f8fa96b2b94c8af",
+      "elapsed_seconds": 0.5312618099997053,
+      "public_sample": "02"
+    },
+    {
+      "case": "03-migration-absolute-pair",
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "concentration": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-07,
+                "rtol": 1e-08
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 802
+                }
+              ],
+              "observation": {
+                "quantity": "mass_concentration",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "temperature": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 802
+                }
+              ],
+              "observation": {
+                "quantity": "temperature",
+                "unit": "K",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "potential": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-10,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 802
+                }
+              ],
+              "observation": {
+                "quantity": "electric_potential",
+                "unit": "V",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "04990e4970d3d20d8fa8d2cb39fc24aaea0f6d9067bdb374d8892aef36f29ea7"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "0228f98db9826284c576b6e4699f520ef7643af19c20e9ed3c7debb4d5de9fa6",
+        "input.h5": "9ba8f125d93516d43897cf39a2a6fc5a89e60cd616023c9e9ff7dbb1a9f130af",
+        "mesh.msh": "02865faea276e4c6f356d757cfe0fb8e2ff51a5f16ddf412b0f8498978d23a12"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "82e831aa097803f17b4595ee4b050ea8605cfe177dec45c0da25c65d066f143f",
+      "elapsed_seconds": 0.6813934109995898
+    },
+    {
+      "case": "04-soret-relative-pair",
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "concentration": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-09,
+                "rtol": 1e-08
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 802
+                }
+              ],
+              "observation": {
+                "quantity": "mass_fraction",
+                "unit": "1",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "temperature": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 802
+                }
+              ],
+              "observation": {
+                "quantity": "temperature",
+                "unit": "K",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "potential": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-10,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 802
+                }
+              ],
+              "observation": {
+                "quantity": "electric_potential",
+                "unit": "V",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "d9f7ad1abeedb316ef754cf3932f79a9cd482da25c572a317538416c0b664801"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "9237f182bbbbbcaaf39a2bc0d3b87bd4406a6100e9c736cce63328f3fdcc6dd4",
+        "input.h5": "9ba8f125d93516d43897cf39a2a6fc5a89e60cd616023c9e9ff7dbb1a9f130af",
+        "mesh.msh": "02865faea276e4c6f356d757cfe0fb8e2ff51a5f16ddf412b0f8498978d23a12"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "5d66d7f1d3aaa82ad84fe19647c06acf4f7baa262f9e05180343645bca3520f6",
+      "elapsed_seconds": 0.7404877850003686
+    },
+    {
+      "case": "05-negative-ion-low-density",
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "concentration": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-09,
+                "rtol": 1e-08
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 963
+                }
+              ],
+              "observation": {
+                "quantity": "mass_fraction",
+                "unit": "1",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "temperature": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 963
+                }
+              ],
+              "observation": {
+                "quantity": "temperature",
+                "unit": "K",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "potential": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-10,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 963
+                }
+              ],
+              "observation": {
+                "quantity": "electric_potential",
+                "unit": "V",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "39dfc118d48ad9958d8ab494813bd43fdcd446d3b61ebc50155e99bb22700f9f"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "8c87f6cb0b713f19d3774b8cbff69c393b4d4bb9f01d5ca0fd8fb3de2e8b6498",
+        "input.h5": "348c838868716b06ed33c7c8c1530f5efefedfee3e0f1fc3fd39d7faba5bc19a",
+        "mesh.msh": "92d565449f8afb9fd6b744be78c923d4ecf235bd7c327af79a63dc8a7e465b20"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "9278904b76fe81d2dd715a169dde8d2eb4848ea00f2319460c5876f0642d55a2",
+      "elapsed_seconds": 0.6164763919987308
+    },
+    {
+      "case": "06-unit-density-active-migration",
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "concentration": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-07,
+                "rtol": 1e-08
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 723
+                }
+              ],
+              "observation": {
+                "quantity": "mass_concentration",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "temperature": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 723
+                }
+              ],
+              "observation": {
+                "quantity": "temperature",
+                "unit": "K",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "potential": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-10,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 723
+                }
+              ],
+              "observation": {
+                "quantity": "electric_potential",
+                "unit": "V",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "cccc71ae00914fe499d2b0af7618275bdbdd790c13e11975194c0e6fd289b4ee"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "fa7bdf9978e217445eb18fb71b93f8155955c267caf74b4d2b4866d473b8e8b8",
+        "input.h5": "ec38d6b38eaf90ba0c8da91bfc6aa9bd47d906d1016bf572bde7717473fe96e0",
+        "mesh.msh": "05f7f463480f2990006785deac753d3722ced18736603e9e77dfd89712ed4dec"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "abce5773f436670883e6be023073a25c7e5d5103799a1b6f94f50a1ef3221e26",
+      "elapsed_seconds": 0.5796982890005893
+    },
+    {
+      "case": "07-negative-soret-cooling",
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "concentration": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-09,
+                "rtol": 1e-08
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 903
+                }
+              ],
+              "observation": {
+                "quantity": "mass_fraction",
+                "unit": "1",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "temperature": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 903
+                }
+              ],
+              "observation": {
+                "quantity": "temperature",
+                "unit": "K",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "potential": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-10,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 903
+                }
+              ],
+              "observation": {
+                "quantity": "electric_potential",
+                "unit": "V",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "4a60601ddfab002293b23209689144fd81a8cec55cc383bf03c6ce392cc223b8"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "32f38add37f114a564bfa23e03e2a7fd6d0e44b08256a4379c420b556f356995",
+        "input.h5": "87fcdc77896a89fae4718e3870d96425fc89e4846961b4b7aa744dc8cb37dca7",
+        "mesh.msh": "40057e5789ae238d544641d91fc741bd2260a3476e110af0b29f622458a406d1"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "70cc0a30f1f2f76ae4644d060cd323f879f0776036a4a612d09ac5fc18d586f6",
+      "elapsed_seconds": 0.6908597980000195
+    },
+    {
+      "case": "08-negative-soret-warming",
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "concentration": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-07,
+                "rtol": 1e-08
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 1124
+                }
+              ],
+              "observation": {
+                "quantity": "mass_concentration",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "temperature": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 1124
+                }
+              ],
+              "observation": {
+                "quantity": "temperature",
+                "unit": "K",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "potential": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-10,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 1124
+                }
+              ],
+              "observation": {
+                "quantity": "electric_potential",
+                "unit": "V",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "60c64b1820862d382b5b08e586e269d3c8f85d07149f8bd535f04d8517aee800"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "ea6859e9447b453132705cef21bd5c11651d9a69b5c1c93100c2e1c928f12e18",
+        "input.h5": "0738146b2ecb0f64f1a80f8c7e9619ae2c95e0dcedf63660997fd3b4f591e168",
+        "mesh.msh": "01cfb43b7c5d33c9c6b50600df4f21e3a4608393a5543df03d550cd8472c83d6"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "3db9297ed71b427fe51dbfca5e9072ae5cbbc9427fdf0d3f692e9857bd370430",
+      "elapsed_seconds": 0.5873988700004702
+    },
+    {
+      "case": "09-zero-ion-diffusion-control",
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "concentration": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-07,
+                "rtol": 1e-08
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 804
+                }
+              ],
+              "observation": {
+                "quantity": "mass_concentration",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "temperature": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 804
+                }
+              ],
+              "observation": {
+                "quantity": "temperature",
+                "unit": "K",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "potential": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-10,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 804
+                }
+              ],
+              "observation": {
+                "quantity": "electric_potential",
+                "unit": "V",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "a6da93f96aa9d27de1683259c83831a9fd03118216bc21704fd27b54c01b339d"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "8426b24aad889269039600553fc4a12eee659d7c5b1bd62ca43ff78670913d24",
+        "input.h5": "c63135163278dae3054d22b27b7c52b93773fe87377f7f99ba8ea4fa6b227882",
+        "mesh.msh": "7073c7bd8e4a55c77a5f1fe9d7c65b4acc59081ae9b43ee362fbb7e33a5652b5"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "83eca7590afd3cc1c07de567896c8b84ad0b7dbacdd21c675cdff73c3450f37e",
+      "elapsed_seconds": 0.5391433870008768
+    },
+    {
+      "case": "10-zero-soret-control",
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "concentration": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-09,
+                "rtol": 1e-08
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 483
+                }
+              ],
+              "observation": {
+                "quantity": "mass_fraction",
+                "unit": "1",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "temperature": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 483
+                }
+              ],
+              "observation": {
+                "quantity": "temperature",
+                "unit": "K",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "potential": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-10,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 1,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 483
+                }
+              ],
+              "observation": {
+                "quantity": "electric_potential",
+                "unit": "V",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "6bca36e77ab3da81084743cc22e35ffe7b759d0e18eb851d3e226fff041d671a"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "ffc6b2b9dc035daafc81216c31a4c49c1a65bbcfb797d611c8f3841a4797daf0",
+        "input.h5": "d962c31045f72b08199e3417b20ae702ce4cd02810498543f2effa9575a8321f",
+        "mesh.msh": "954dce80261b1ff09bdc90c2a7c92c23f621ae7babbea512b3e86d569606d0cc"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "cd0a913ac0c4b6026bff063b28f0c00f866d6e0cd462793f06de7023b142824d",
+      "elapsed_seconds": 0.5362893769997754
+    },
+    {
+      "case": "11-weak-drive-dense-fluid",
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "concentration": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-09,
+                "rtol": 1e-08
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 101,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 602
+                }
+              ],
+              "observation": {
+                "quantity": "mass_fraction",
+                "unit": "1",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "temperature": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 101,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 602
+                }
+              ],
+              "observation": {
+                "quantity": "temperature",
+                "unit": "K",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "potential": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-10,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 101,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 602
+                }
+              ],
+              "observation": {
+                "quantity": "electric_potential",
+                "unit": "V",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "0791131349223375205070e5355d19f4874971cc539f7401c426655ffb7cb662"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "40938306a3e632e13bc9823f6ec2f3fa5886c4d838bd99a47a14de093ac3426f",
+        "input.h5": "14590abe8a29d4304e0a7f34ba5e0746c35f883db8a8c1adfb4daf33d7b96312",
+        "mesh.msh": "39540b47cfe2cfdf0049a1543161e538dcf2501ae78a76be884c8176cb834bd3"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "97793158ca44622fb5e3a12be40220e3217d8b663685ad3adc81ac4604983d1e",
+      "elapsed_seconds": 0.6876315099998465
+    },
+    {
+      "case": "12-low-density-absolute-soret",
+      "status": "accepted",
+      "score": 1,
+      "checks": {
+        "outputs": {
+          "evaluator": "direct_outputs",
+          "passed": true,
+          "fields": {
+            "concentration": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-07,
+                "rtol": 1e-08
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 7134,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 1604
+                }
+              ],
+              "observation": {
+                "quantity": "mass_concentration",
+                "unit": "kg/m3",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "temperature": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-06,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 4014,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 1604
+                }
+              ],
+              "observation": {
+                "quantity": "temperature",
+                "unit": "K",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            },
+            "potential": {
+              "condition": {
+                "metric": "pointwise",
+                "time": "per_time",
+                "components": "per_component",
+                "atol": 1e-10,
+                "rtol": 1e-09
+              },
+              "passed": true,
+              "groups": [
+                {
+                  "time_index": 0,
+                  "component_index": 0,
+                  "worst_location": {
+                    "time_index": 0,
+                    "time": 0.0,
+                    "id": 101,
+                    "component_index": 0
+                  },
+                  "value": 0.0,
+                  "passed": true,
+                  "failed_values": 0,
+                  "total_values": 1604
+                }
+              ],
+              "observation": {
+                "quantity": "electric_potential",
+                "unit": "V",
+                "components": [
+                  "value"
+                ],
+                "location": "nodes",
+                "time_axis": "instant"
+              }
+            }
+          }
+        }
+      },
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "e24f32f3c36e7b79ade216d8e4bfc6c81b7900405b4bcf687c0ebb086e1eb16c"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "25b8dd3bfaad4b3ae5258391a3d3b86da22c710c433ba3e68a5b2594db906b55",
+        "input.h5": "86e73bc51c22d1838e23df2df327608df35cd562b1663cedc947642512ba3a01",
+        "mesh.msh": "5b3822d9de8880bad34e33511d9c77627f57df81dbdbbc942ae824385f01c546"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "62b17ffb139e2a73d5bcbdfc366e487f75e5ec7e8c6feb3286d2d1af46e9e5b8",
+      "elapsed_seconds": 0.6557452679990092
+    }
+  ],
+  "evaluation_manifest": {
+    "01-migration-relative-public": {
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "01f83ebbe5d62c00b8e99d43a9b9516c8cc99c2f330664f9d608f1f519eec487"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "2959f17370a11d389dcb3802b461d0ef436f405e3b3ff3cf686ac46104f8768c",
+        "input.h5": "9ba8f125d93516d43897cf39a2a6fc5a89e60cd616023c9e9ff7dbb1a9f130af",
+        "mesh.msh": "02865faea276e4c6f356d757cfe0fb8e2ff51a5f16ddf412b0f8498978d23a12"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "3009df8cd7fbae8379a5daeebb5272860d2fea2d6d44542b322c2b607eb09b0d"
+    },
+    "02-soret-absolute-public": {
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "4fb2f460159c6cbdae721582c159da17b57842d0c77826c5e78a2d2b8e69b7ac"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "b9df8a3c20dbf6523d8b585c4c379f529d0299e7fea34ccbe3728284d397491a",
+        "input.h5": "9ba8f125d93516d43897cf39a2a6fc5a89e60cd616023c9e9ff7dbb1a9f130af",
+        "mesh.msh": "02865faea276e4c6f356d757cfe0fb8e2ff51a5f16ddf412b0f8498978d23a12"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "b4995c553550a3003e8175ad4696ed43f6331452b5c02bca9f8fa96b2b94c8af"
+    },
+    "03-migration-absolute-pair": {
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "04990e4970d3d20d8fa8d2cb39fc24aaea0f6d9067bdb374d8892aef36f29ea7"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "0228f98db9826284c576b6e4699f520ef7643af19c20e9ed3c7debb4d5de9fa6",
+        "input.h5": "9ba8f125d93516d43897cf39a2a6fc5a89e60cd616023c9e9ff7dbb1a9f130af",
+        "mesh.msh": "02865faea276e4c6f356d757cfe0fb8e2ff51a5f16ddf412b0f8498978d23a12"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "82e831aa097803f17b4595ee4b050ea8605cfe177dec45c0da25c65d066f143f"
+    },
+    "04-soret-relative-pair": {
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "d9f7ad1abeedb316ef754cf3932f79a9cd482da25c572a317538416c0b664801"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "9237f182bbbbbcaaf39a2bc0d3b87bd4406a6100e9c736cce63328f3fdcc6dd4",
+        "input.h5": "9ba8f125d93516d43897cf39a2a6fc5a89e60cd616023c9e9ff7dbb1a9f130af",
+        "mesh.msh": "02865faea276e4c6f356d757cfe0fb8e2ff51a5f16ddf412b0f8498978d23a12"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "5d66d7f1d3aaa82ad84fe19647c06acf4f7baa262f9e05180343645bca3520f6"
+    },
+    "05-negative-ion-low-density": {
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "39dfc118d48ad9958d8ab494813bd43fdcd446d3b61ebc50155e99bb22700f9f"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "8c87f6cb0b713f19d3774b8cbff69c393b4d4bb9f01d5ca0fd8fb3de2e8b6498",
+        "input.h5": "348c838868716b06ed33c7c8c1530f5efefedfee3e0f1fc3fd39d7faba5bc19a",
+        "mesh.msh": "92d565449f8afb9fd6b744be78c923d4ecf235bd7c327af79a63dc8a7e465b20"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "9278904b76fe81d2dd715a169dde8d2eb4848ea00f2319460c5876f0642d55a2"
+    },
+    "06-unit-density-active-migration": {
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "cccc71ae00914fe499d2b0af7618275bdbdd790c13e11975194c0e6fd289b4ee"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "fa7bdf9978e217445eb18fb71b93f8155955c267caf74b4d2b4866d473b8e8b8",
+        "input.h5": "ec38d6b38eaf90ba0c8da91bfc6aa9bd47d906d1016bf572bde7717473fe96e0",
+        "mesh.msh": "05f7f463480f2990006785deac753d3722ced18736603e9e77dfd89712ed4dec"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "abce5773f436670883e6be023073a25c7e5d5103799a1b6f94f50a1ef3221e26"
+    },
+    "07-negative-soret-cooling": {
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "4a60601ddfab002293b23209689144fd81a8cec55cc383bf03c6ce392cc223b8"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "32f38add37f114a564bfa23e03e2a7fd6d0e44b08256a4379c420b556f356995",
+        "input.h5": "87fcdc77896a89fae4718e3870d96425fc89e4846961b4b7aa744dc8cb37dca7",
+        "mesh.msh": "40057e5789ae238d544641d91fc741bd2260a3476e110af0b29f622458a406d1"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "70cc0a30f1f2f76ae4644d060cd323f879f0776036a4a612d09ac5fc18d586f6"
+    },
+    "08-negative-soret-warming": {
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "60c64b1820862d382b5b08e586e269d3c8f85d07149f8bd535f04d8517aee800"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "ea6859e9447b453132705cef21bd5c11651d9a69b5c1c93100c2e1c928f12e18",
+        "input.h5": "0738146b2ecb0f64f1a80f8c7e9619ae2c95e0dcedf63660997fd3b4f591e168",
+        "mesh.msh": "01cfb43b7c5d33c9c6b50600df4f21e3a4608393a5543df03d550cd8472c83d6"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "3db9297ed71b427fe51dbfca5e9072ae5cbbc9427fdf0d3f692e9857bd370430"
+    },
+    "09-zero-ion-diffusion-control": {
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "a6da93f96aa9d27de1683259c83831a9fd03118216bc21704fd27b54c01b339d"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "8426b24aad889269039600553fc4a12eee659d7c5b1bd62ca43ff78670913d24",
+        "input.h5": "c63135163278dae3054d22b27b7c52b93773fe87377f7f99ba8ea4fa6b227882",
+        "mesh.msh": "7073c7bd8e4a55c77a5f1fe9d7c65b4acc59081ae9b43ee362fbb7e33a5652b5"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "83eca7590afd3cc1c07de567896c8b84ad0b7dbacdd21c675cdff73c3450f37e"
+    },
+    "10-zero-soret-control": {
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "6bca36e77ab3da81084743cc22e35ffe7b759d0e18eb851d3e226fff041d671a"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "ffc6b2b9dc035daafc81216c31a4c49c1a65bbcfb797d611c8f3841a4797daf0",
+        "input.h5": "d962c31045f72b08199e3417b20ae702ce4cd02810498543f2effa9575a8321f",
+        "mesh.msh": "954dce80261b1ff09bdc90c2a7c92c23f621ae7babbea512b3e86d569606d0cc"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "cd0a913ac0c4b6026bff063b28f0c00f866d6e0cd462793f06de7023b142824d"
+    },
+    "11-weak-drive-dense-fluid": {
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "0791131349223375205070e5355d19f4874971cc539f7401c426655ffb7cb662"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "40938306a3e632e13bc9823f6ec2f3fa5886c4d838bd99a47a14de093ac3426f",
+        "input.h5": "14590abe8a29d4304e0a7f34ba5e0746c35f883db8a8c1adfb4daf33d7b96312",
+        "mesh.msh": "39540b47cfe2cfdf0049a1543161e538dcf2501ae78a76be884c8176cb834bd3"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "97793158ca44622fb5e3a12be40220e3217d8b663685ad3adc81ac4604983d1e"
+    },
+    "12-low-density-absolute-soret": {
+      "grading_sha256": "8772404a25bf5cd7a6763923e10cc269a95fb7f59e4396771598392cc7a331b7",
+      "assets": {
+        "grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference.h5": "e24f32f3c36e7b79ade216d8e4bfc6c81b7900405b4bcf687c0ebb086e1eb16c"
+      },
+      "evaluator_code_sha256": {
+        "direct_outputs": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+        "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+        "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+        "core/grading.schema.json": "d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72",
+        "core/grading_metrics.py": "9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529",
+        "core/grading_policy.py": "f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9",
+        "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+        "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+        "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+        "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+        "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+        "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+        "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa",
+        "core/case_grading.py": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e",
+        "core/case-grading.schema.json": "68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558",
+        "extension/caeoj_task_ext/__init__.py": "11425bad05e0bb8f28169386a57387009e44c3a9ac3e4ec92f57b8171c7ad36e",
+        "extension/caeoj_task_ext/transport.py": "a3e3b030b70d14175e601d43cf84e518c0ad9d8ba161541ef571283833f4e25f"
+      },
+      "input_assets": {
+        "problem.json": "25b8dd3bfaad4b3ae5258391a3d3b86da22c710c433ba3e68a5b2594db906b55",
+        "input.h5": "86e73bc51c22d1838e23df2df327608df35cd562b1663cedc947642512ba3a01",
+        "mesh.msh": "5b3822d9de8880bad34e33511d9c77627f57df81dbdbbc942ae824385f01c546"
+      },
+      "runtime_binding_sha256": "82a6df0c4b542bcb9a5e695426a37ec226ed871000aa28da98033a0dbf610fd5",
+      "dependencies": {
+        "numpy": "2.4.6",
+        "h5py": "3.16.0",
+        "gmsh": "4.15.2",
+        "jsonschema": "4.26.0"
+      },
+      "python": "3.14.8",
+      "evaluation_sha256": "62b17ffb139e2a73d5bcbdfc366e487f75e5ec7e8c6feb3286d2d1af46e9e5b8"
+    }
+  },
+  "public_cases": [
+    {
+      "case": "01-migration-relative-public",
+      "sample": "01",
+      "case_id": "case-732aa38a51ed1d370f7b8221"
+    },
+    {
+      "case": "02-soret-absolute-public",
+      "sample": "02",
+      "case_id": "case-edfa259a1c55872cbfe22150"
+    }
+  ],
+  "limits": {
+    "timeout_seconds": 20,
+    "max_output_bytes": null,
+    "evaluation_timeout_seconds": 30
+  }
+}

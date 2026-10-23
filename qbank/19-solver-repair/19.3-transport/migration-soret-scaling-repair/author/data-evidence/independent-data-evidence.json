@@ -1,0 +1,2757 @@
+{
+  "documents": {
+    "instruction.md": "c273ff5c708efd7578852a06c565061205b3b28fd10a0bcf4f489f271cf4f8f6",
+    "DATA.md": "099e93d85614463e91dfc69be52c68f9f2bd7ada09bb7d7235963cdbd433b578",
+    "CONTRACT.md": "130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063",
+    "data-manifest.json": "5e7c54e14513f157c82ab9ffe13667779ab9dce83c7d9f6f994c809d39757a85"
+  },
+  "cases": {
+    "case/01-migration-relative-public": {
+      "parameters": {
+        "mode": 0,
+        "concentration_units": 0,
+        "density": 1200.0,
+        "diffusivity": 1e-09,
+        "soret_diffusivity": 0.0,
+        "ion_charge": 1
+      },
+      "bc": {
+        "temperature@bottom": 298.15,
+        "temperature@top": 298.15,
+        "potential@bottom": 0.0,
+        "potential@top": 0.05,
+        "concentration@bottom": 1.0,
+        "concentration@top": 0.0
+      },
+      "nodes": 802,
+      "nx": 1,
+      "ny": 400,
+      "size": [
+        0.0001,
+        0.001
+      ],
+      "a": 1.9460872248113503,
+      "sparse_node_tags": false,
+      "output_ranges": {
+        "concentration": [
+          0.0,
+          1.0
+        ],
+        "temperature": [
+          298.1499999999999,
+          298.15000000024236
+        ],
+        "potential": [
+          0.0,
+          0.05000000000000001
+        ]
+      },
+      "independent_max_abs_error": {
+        "concentration": 2.2370993946196904e-13,
+        "temperature": 2.423803380224854e-10,
+        "potential": 1.9605844725489874e-14
+      },
+      "max_tolerance_ratio": {
+        "concentration": 7.327482824169802e-05,
+        "temperature": 0.0001867121195720721,
+        "potential": 0.0001529000887632682
+      },
+      "official_grade": 1,
+      "hashes": {
+        "cases\\01-migration-relative-public\\problem.json": "2959f17370a11d389dcb3802b461d0ef436f405e3b3ff3cf686ac46104f8768c",
+        "cases\\01-migration-relative-public\\input.h5": "9ba8f125d93516d43897cf39a2a6fc5a89e60cd616023c9e9ff7dbb1a9f130af",
+        "cases\\01-migration-relative-public\\mesh.msh": "02865faea276e4c6f356d757cfe0fb8e2ff51a5f16ddf412b0f8498978d23a12",
+        "reference\\01-migration-relative-public\\grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference\\01-migration-relative-public\\reference.h5": "01f83ebbe5d62c00b8e99d43a9b9516c8cc99c2f330664f9d608f1f519eec487"
+      },
+      "input_arrays": {
+        "bottom_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "left_ids": {
+          "shape": [
+            400
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            802
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "right_ids": {
+          "shape": [
+            400
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "top_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "all_read": true
+        }
+      },
+      "output_arrays": {
+        "concentration": {
+          "shape": [
+            1,
+            802,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            802
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "potential": {
+          "shape": [
+            1,
+            802,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "temperature": {
+          "shape": [
+            1,
+            802,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        }
+      },
+      "native": {
+        "input_sha256": "ddda7317d438d7fdc4b762cf351b42b0666747e2a6b29ac5de756c2a5b33107d",
+        "all_done": true,
+        "stdout_sha256": "ec6e8d73498f9713e383fbc609042e9f7dd172c16a7666ec0989151e87ec3b95",
+        "result_sha256": "dd0c3207c4f2752ff2d1de7fbabd09454c38e0dee6e0a1a7baf99999e7825633",
+        "frames": 2,
+        "conversion_error": {
+          "concentration": 0.0,
+          "temperature": 0.0,
+          "potential": 0.0
+        }
+      }
+    },
+    "case/02-soret-absolute-public": {
+      "parameters": {
+        "mode": 1,
+        "concentration_units": 1,
+        "density": 1000.0,
+        "diffusivity": 1e-09,
+        "soret_diffusivity": 5.0000000000000005e-12,
+        "ion_charge": 0
+      },
+      "bc": {
+        "temperature@bottom": 300.0,
+        "temperature@top": 400.0,
+        "potential@bottom": 0.0,
+        "potential@top": 0.0,
+        "concentration@bottom": 1.0,
+        "concentration@top": 0.0
+      },
+      "nodes": 802,
+      "nx": 1,
+      "ny": 400,
+      "size": [
+        0.0001,
+        0.001
+      ],
+      "a": 0.0,
+      "sparse_node_tags": false,
+      "output_ranges": {
+        "concentration": [
+          0.5000000000012853,
+          1.0
+        ],
+        "temperature": [
+          300.0,
+          400.0000000000001
+        ],
+        "potential": [
+          0.0,
+          0.0
+        ]
+      },
+      "independent_max_abs_error": {
+        "concentration": 1.3016254740705335e-12,
+        "temperature": 2.7557689463719726e-10,
+        "potential": 0.0
+      },
+      "max_tolerance_ratio": {
+        "concentration": 1.2396433086386033e-05,
+        "temperature": 0.0002058464198970509,
+        "potential": 0.0
+      },
+      "official_grade": 1,
+      "hashes": {
+        "cases\\02-soret-absolute-public\\problem.json": "b9df8a3c20dbf6523d8b585c4c379f529d0299e7fea34ccbe3728284d397491a",
+        "cases\\02-soret-absolute-public\\input.h5": "9ba8f125d93516d43897cf39a2a6fc5a89e60cd616023c9e9ff7dbb1a9f130af",
+        "cases\\02-soret-absolute-public\\mesh.msh": "02865faea276e4c6f356d757cfe0fb8e2ff51a5f16ddf412b0f8498978d23a12",
+        "reference\\02-soret-absolute-public\\grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference\\02-soret-absolute-public\\reference.h5": "4fb2f460159c6cbdae721582c159da17b57842d0c77826c5e78a2d2b8e69b7ac"
+      },
+      "input_arrays": {
+        "bottom_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "left_ids": {
+          "shape": [
+            400
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            802
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "right_ids": {
+          "shape": [
+            400
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "top_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "all_read": true
+        }
+      },
+      "output_arrays": {
+        "concentration": {
+          "shape": [
+            1,
+            802,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            802
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "potential": {
+          "shape": [
+            1,
+            802,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "temperature": {
+          "shape": [
+            1,
+            802,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        }
+      },
+      "native": {
+        "input_sha256": "ad52b8a93fe9b5454491ebcf38a1a8a2ed9182329c888ddce89ca2663a2114ef",
+        "all_done": true,
+        "stdout_sha256": "5a113fd33cd7e9ffd7678f0026cadbd6e4c7ea873dde9308b932dda58d7bc196",
+        "result_sha256": "ad576f58d8d878bd803a234a71b16a1ab79f83d1b142d3e9f00cf28cc98a4c2d",
+        "frames": 2,
+        "conversion_error": {
+          "concentration": 0.0,
+          "temperature": 0.0,
+          "potential": 0.0
+        }
+      }
+    },
+    "case/03-migration-absolute-pair": {
+      "parameters": {
+        "mode": 0,
+        "concentration_units": 1,
+        "density": 1200.0,
+        "diffusivity": 1e-09,
+        "soret_diffusivity": 0.0,
+        "ion_charge": 1
+      },
+      "bc": {
+        "temperature@bottom": 298.15,
+        "temperature@top": 298.15,
+        "potential@bottom": 0.0,
+        "potential@top": 0.05,
+        "concentration@bottom": 1200.0,
+        "concentration@top": 0.0
+      },
+      "nodes": 802,
+      "nx": 1,
+      "ny": 400,
+      "size": [
+        0.0001,
+        0.001
+      ],
+      "a": 1.9460872248113503,
+      "sparse_node_tags": false,
+      "output_ranges": {
+        "concentration": [
+          0.0,
+          1200.0
+        ],
+        "temperature": [
+          298.1499999999999,
+          298.15000000024236
+        ],
+        "potential": [
+          0.0,
+          0.05000000000000001
+        ]
+      },
+      "independent_max_abs_error": {
+        "concentration": 3.184368324582465e-10,
+        "temperature": 2.423803380224854e-10,
+        "potential": 1.9605844725489874e-14
+      },
+      "max_tolerance_ratio": {
+        "concentration": 0.0001417177002571502,
+        "temperature": 0.0001867121195720721,
+        "potential": 0.0001529000887632682
+      },
+      "official_grade": 1,
+      "hashes": {
+        "cases\\03-migration-absolute-pair\\problem.json": "0228f98db9826284c576b6e4699f520ef7643af19c20e9ed3c7debb4d5de9fa6",
+        "cases\\03-migration-absolute-pair\\input.h5": "9ba8f125d93516d43897cf39a2a6fc5a89e60cd616023c9e9ff7dbb1a9f130af",
+        "cases\\03-migration-absolute-pair\\mesh.msh": "02865faea276e4c6f356d757cfe0fb8e2ff51a5f16ddf412b0f8498978d23a12",
+        "reference\\03-migration-absolute-pair\\grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference\\03-migration-absolute-pair\\reference.h5": "04990e4970d3d20d8fa8d2cb39fc24aaea0f6d9067bdb374d8892aef36f29ea7"
+      },
+      "input_arrays": {
+        "bottom_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "left_ids": {
+          "shape": [
+            400
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            802
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "right_ids": {
+          "shape": [
+            400
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "top_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "all_read": true
+        }
+      },
+      "output_arrays": {
+        "concentration": {
+          "shape": [
+            1,
+            802,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            802
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "potential": {
+          "shape": [
+            1,
+            802,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "temperature": {
+          "shape": [
+            1,
+            802,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        }
+      },
+      "native": {
+        "input_sha256": "991c23b3b7d9fc82320c25c343938a3746576d6a59750a1542a631c112fa40f4",
+        "all_done": true,
+        "stdout_sha256": "687700030569625c3cb57b8274f02283be22f3e2cabfcee4c3b29154f94388f0",
+        "result_sha256": "775b0152fa87e0e6e5c2bc7046cd566d27af50b9d4be0ef1267aef1783fd0686",
+        "frames": 2,
+        "conversion_error": {
+          "concentration": 0.0,
+          "temperature": 0.0,
+          "potential": 0.0
+        }
+      }
+    },
+    "case/04-soret-relative-pair": {
+      "parameters": {
+        "mode": 1,
+        "concentration_units": 0,
+        "density": 1000.0,
+        "diffusivity": 1e-09,
+        "soret_diffusivity": 5.000000000000001e-15,
+        "ion_charge": 0
+      },
+      "bc": {
+        "temperature@bottom": 300.0,
+        "temperature@top": 400.0,
+        "potential@bottom": 0.0,
+        "potential@top": 0.0,
+        "concentration@bottom": 0.001,
+        "concentration@top": 0.0
+      },
+      "nodes": 802,
+      "nx": 1,
+      "ny": 400,
+      "size": [
+        0.0001,
+        0.001
+      ],
+      "a": 0.0,
+      "sparse_node_tags": false,
+      "output_ranges": {
+        "concentration": [
+          0.0005000000000027285,
+          0.0009999999999999998
+        ],
+        "temperature": [
+          300.0,
+          400.0000000000001
+        ],
+        "potential": [
+          0.0,
+          0.0
+        ]
+      },
+      "independent_max_abs_error": {
+        "concentration": 2.751271432899216e-15,
+        "temperature": 2.7557689463719726e-10,
+        "potential": 0.0
+      },
+      "max_tolerance_ratio": {
+        "concentration": 2.7375835153226025e-06,
+        "temperature": 0.0002058464198970509,
+        "potential": 0.0
+      },
+      "official_grade": 1,
+      "hashes": {
+        "cases\\04-soret-relative-pair\\problem.json": "9237f182bbbbbcaaf39a2bc0d3b87bd4406a6100e9c736cce63328f3fdcc6dd4",
+        "cases\\04-soret-relative-pair\\input.h5": "9ba8f125d93516d43897cf39a2a6fc5a89e60cd616023c9e9ff7dbb1a9f130af",
+        "cases\\04-soret-relative-pair\\mesh.msh": "02865faea276e4c6f356d757cfe0fb8e2ff51a5f16ddf412b0f8498978d23a12",
+        "reference\\04-soret-relative-pair\\grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference\\04-soret-relative-pair\\reference.h5": "d9f7ad1abeedb316ef754cf3932f79a9cd482da25c572a317538416c0b664801"
+      },
+      "input_arrays": {
+        "bottom_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "left_ids": {
+          "shape": [
+            400
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            802
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "right_ids": {
+          "shape": [
+            400
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "top_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "all_read": true
+        }
+      },
+      "output_arrays": {
+        "concentration": {
+          "shape": [
+            1,
+            802,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            802
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "potential": {
+          "shape": [
+            1,
+            802,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "temperature": {
+          "shape": [
+            1,
+            802,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        }
+      },
+      "native": {
+        "input_sha256": "e56a745f1fcc0a89420f55e20c9cd81490a0b73f8b3839f1dedb0166b4915025",
+        "all_done": true,
+        "stdout_sha256": "51dcae7a3276c23f85a065bbbb1360ed116a2b1f378688f364b0764cc91e1823",
+        "result_sha256": "8711607d06a537b359a00e727db3844b0c13828d68d7dacc4705c4e200b5a4eb",
+        "frames": 2,
+        "conversion_error": {
+          "concentration": 0.0,
+          "temperature": 0.0,
+          "potential": 0.0
+        }
+      }
+    },
+    "case/05-negative-ion-low-density": {
+      "parameters": {
+        "mode": 0,
+        "concentration_units": 0,
+        "density": 0.2,
+        "diffusivity": 3e-09,
+        "soret_diffusivity": 0.0,
+        "ion_charge": -2
+      },
+      "bc": {
+        "temperature@bottom": 450.0,
+        "temperature@top": 450.0,
+        "potential@bottom": 0.1,
+        "potential@top": 0.12,
+        "concentration@bottom": 0.3,
+        "concentration@top": 0.8
+      },
+      "nodes": 963,
+      "nx": 2,
+      "ny": 320,
+      "size": [
+        8.000000000000021e-05,
+        0.0008000000000000021
+      ],
+      "a": -1.0315127219155622,
+      "sparse_node_tags": false,
+      "output_ranges": {
+        "concentration": [
+          0.29999999999999993,
+          0.8000000000000002
+        ],
+        "temperature": [
+          449.9999999999999,
+          450.00000000021345
+        ],
+        "potential": [
+          0.09999999999999999,
+          0.12000000000000001
+        ]
+      },
+      "independent_max_abs_error": {
+        "concentration": 2.6501023597802487e-13,
+        "temperature": 2.134470378223341e-10,
+        "potential": 3.71508379615193e-14
+      },
+      "max_tolerance_ratio": {
+        "concentration": 4.0004914896483414e-05,
+        "temperature": 0.00014720485367057524,
+        "potential": 0.00017914810349132373
+      },
+      "official_grade": 1,
+      "hashes": {
+        "cases\\05-negative-ion-low-density\\problem.json": "8c87f6cb0b713f19d3774b8cbff69c393b4d4bb9f01d5ca0fd8fb3de2e8b6498",
+        "cases\\05-negative-ion-low-density\\input.h5": "348c838868716b06ed33c7c8c1530f5efefedfee3e0f1fc3fd39d7faba5bc19a",
+        "cases\\05-negative-ion-low-density\\mesh.msh": "92d565449f8afb9fd6b744be78c923d4ecf235bd7c327af79a63dc8a7e465b20",
+        "reference\\05-negative-ion-low-density\\grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference\\05-negative-ion-low-density\\reference.h5": "39dfc118d48ad9958d8ab494813bd43fdcd446d3b61ebc50155e99bb22700f9f"
+      },
+      "input_arrays": {
+        "bottom_ids": {
+          "shape": [
+            2
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "left_ids": {
+          "shape": [
+            320
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            963
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "right_ids": {
+          "shape": [
+            320
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "top_ids": {
+          "shape": [
+            2
+          ],
+          "dtype": "int64",
+          "all_read": true
+        }
+      },
+      "output_arrays": {
+        "concentration": {
+          "shape": [
+            1,
+            963,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            963
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "potential": {
+          "shape": [
+            1,
+            963,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "temperature": {
+          "shape": [
+            1,
+            963,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        }
+      },
+      "native": {
+        "input_sha256": "9f8ee10bd0a956a41157b52a7355868254db6b30971e4d5bdfb181ffc8633355",
+        "all_done": true,
+        "stdout_sha256": "f1846d86b5151c1cfdf3a16607f5a25290a29f531b96145f151a8583cbd47a67",
+        "result_sha256": "09063a8911509dfd25015aad4d4d172057140d0c06926c1526a663924e04b096",
+        "frames": 2,
+        "conversion_error": {
+          "concentration": 0.0,
+          "temperature": 0.0,
+          "potential": 0.0
+        }
+      }
+    },
+    "case/06-unit-density-active-migration": {
+      "parameters": {
+        "mode": 0,
+        "concentration_units": 1,
+        "density": 1.0,
+        "diffusivity": 2e-09,
+        "soret_diffusivity": 0.0,
+        "ion_charge": 2
+      },
+      "bc": {
+        "temperature@bottom": 320.0,
+        "temperature@top": 320.0,
+        "potential@bottom": 0.2,
+        "potential@top": 0.17,
+        "concentration@bottom": 0.5,
+        "concentration@top": 0.05
+      },
+      "nodes": 723,
+      "nx": 2,
+      "ny": 240,
+      "size": [
+        0.0002,
+        0.002
+      ],
+      "a": -2.1758471477906403,
+      "sparse_node_tags": false,
+      "output_ranges": {
+        "concentration": [
+          0.05,
+          0.5000000000000001
+        ],
+        "temperature": [
+          319.99999999999994,
+          320.0000000000989
+        ],
+        "potential": [
+          0.17,
+          0.2
+        ]
+      },
+      "independent_max_abs_error": {
+        "concentration": 1.4960255256823984e-13,
+        "temperature": 9.890754881780595e-11,
+        "potential": 3.863576125695545e-14
+      },
+      "max_tolerance_ratio": {
+        "concentration": 1.4586806062520123e-06,
+        "temperature": 7.492996122561056e-05,
+        "potential": 0.00013491317767596822
+      },
+      "official_grade": 1,
+      "hashes": {
+        "cases\\06-unit-density-active-migration\\problem.json": "fa7bdf9978e217445eb18fb71b93f8155955c267caf74b4d2b4866d473b8e8b8",
+        "cases\\06-unit-density-active-migration\\input.h5": "ec38d6b38eaf90ba0c8da91bfc6aa9bd47d906d1016bf572bde7717473fe96e0",
+        "cases\\06-unit-density-active-migration\\mesh.msh": "05f7f463480f2990006785deac753d3722ced18736603e9e77dfd89712ed4dec",
+        "reference\\06-unit-density-active-migration\\grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference\\06-unit-density-active-migration\\reference.h5": "cccc71ae00914fe499d2b0af7618275bdbdd790c13e11975194c0e6fd289b4ee"
+      },
+      "input_arrays": {
+        "bottom_ids": {
+          "shape": [
+            2
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "left_ids": {
+          "shape": [
+            240
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            723
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "right_ids": {
+          "shape": [
+            240
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "top_ids": {
+          "shape": [
+            2
+          ],
+          "dtype": "int64",
+          "all_read": true
+        }
+      },
+      "output_arrays": {
+        "concentration": {
+          "shape": [
+            1,
+            723,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            723
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "potential": {
+          "shape": [
+            1,
+            723,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "temperature": {
+          "shape": [
+            1,
+            723,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        }
+      },
+      "native": {
+        "input_sha256": "4f0d4f6181f3b50150893866ced1b77468436e71322716b623fd61b8282b2bfa",
+        "all_done": true,
+        "stdout_sha256": "ece98b7a7a2eb520b5650fc8e3efbba7373b0f958ce0c63b55eebfe0b709e7d4",
+        "result_sha256": "5e1a16f612614f774775cdf8893b2398f5216f59e542dbf810b2af7715d4be33",
+        "frames": 2,
+        "conversion_error": {
+          "concentration": 0.0,
+          "temperature": 0.0,
+          "potential": 0.0
+        }
+      }
+    },
+    "case/07-negative-soret-cooling": {
+      "parameters": {
+        "mode": 1,
+        "concentration_units": 0,
+        "density": 1.0,
+        "diffusivity": 2e-10,
+        "soret_diffusivity": -8e-13,
+        "ion_charge": 0
+      },
+      "bc": {
+        "temperature@bottom": 400.0,
+        "temperature@top": 360.0,
+        "potential@bottom": 0.1,
+        "potential@top": 0.1,
+        "concentration@bottom": 0.25,
+        "concentration@top": 0.0
+      },
+      "nodes": 903,
+      "nx": 2,
+      "ny": 300,
+      "size": [
+        0.0003,
+        0.003
+      ],
+      "a": 0.0,
+      "sparse_node_tags": false,
+      "output_ranges": {
+        "concentration": [
+          0.09000000000019825,
+          0.25000000000000006
+        ],
+        "temperature": [
+          360.00000000000006,
+          400.0000000000001
+        ],
+        "potential": [
+          0.1,
+          0.10000000000004675
+        ]
+      },
+      "independent_max_abs_error": {
+        "concentration": 1.2007894678589537e-12,
+        "temperature": 2.6545876607997343e-10,
+        "potential": 4.674038933671909e-14
+      },
+      "max_tolerance_ratio": {
+        "concentration": 0.0004390207699316677,
+        "temperature": 0.00019189790319034224,
+        "potential": 0.00023370194668359542
+      },
+      "official_grade": 1,
+      "hashes": {
+        "cases\\07-negative-soret-cooling\\problem.json": "32f38add37f114a564bfa23e03e2a7fd6d0e44b08256a4379c420b556f356995",
+        "cases\\07-negative-soret-cooling\\input.h5": "87fcdc77896a89fae4718e3870d96425fc89e4846961b4b7aa744dc8cb37dca7",
+        "cases\\07-negative-soret-cooling\\mesh.msh": "40057e5789ae238d544641d91fc741bd2260a3476e110af0b29f622458a406d1",
+        "reference\\07-negative-soret-cooling\\grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference\\07-negative-soret-cooling\\reference.h5": "4a60601ddfab002293b23209689144fd81a8cec55cc383bf03c6ce392cc223b8"
+      },
+      "input_arrays": {
+        "bottom_ids": {
+          "shape": [
+            2
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "left_ids": {
+          "shape": [
+            300
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            903
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "right_ids": {
+          "shape": [
+            300
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "top_ids": {
+          "shape": [
+            2
+          ],
+          "dtype": "int64",
+          "all_read": true
+        }
+      },
+      "output_arrays": {
+        "concentration": {
+          "shape": [
+            1,
+            903,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            903
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "potential": {
+          "shape": [
+            1,
+            903,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "temperature": {
+          "shape": [
+            1,
+            903,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        }
+      },
+      "native": {
+        "input_sha256": "171112dab1f054ddf1ba4e42e6506893c441edf3173f587243ef36d821a38ac9",
+        "all_done": true,
+        "stdout_sha256": "100d24236d95466200fcf8f4633bb00c65ccf2f677d03f73a7bbcfea2427ec3d",
+        "result_sha256": "d5256298825e455545377887f1430ae8b53144b54099a646d21f82aaad6edcc9",
+        "frames": 2,
+        "conversion_error": {
+          "concentration": 0.0,
+          "temperature": 0.0,
+          "potential": 0.0
+        }
+      }
+    },
+    "case/08-negative-soret-warming": {
+      "parameters": {
+        "mode": 1,
+        "concentration_units": 1,
+        "density": 250.0,
+        "diffusivity": 3e-09,
+        "soret_diffusivity": -2.25e-09,
+        "ion_charge": 0
+      },
+      "bc": {
+        "temperature@bottom": 300.0,
+        "temperature@top": 380.0,
+        "potential@bottom": -0.1,
+        "potential@top": -0.1,
+        "concentration@bottom": 25.0,
+        "concentration@top": 0.0
+      },
+      "nodes": 1124,
+      "nx": 3,
+      "ny": 280,
+      "size": [
+        0.0006000000000000001,
+        0.006
+      ],
+      "a": 0.0,
+      "sparse_node_tags": false,
+      "output_ranges": {
+        "concentration": [
+          24.999999999999996,
+          85.00000000008505
+        ],
+        "temperature": [
+          299.99999999999994,
+          380.00000000000006
+        ],
+        "potential": [
+          -0.10000000000004126,
+          -0.09999999999999999
+        ]
+      },
+      "independent_max_abs_error": {
+        "concentration": 1.0716405540733831e-10,
+        "temperature": 5.860556484549306e-11,
+        "potential": 4.125866315263238e-14
+      },
+      "max_tolerance_ratio": {
+        "concentration": 0.000148014264161946,
+        "temperature": 4.404998387644541e-05,
+        "potential": 0.00020629331576316187
+      },
+      "official_grade": 1,
+      "hashes": {
+        "cases\\08-negative-soret-warming\\problem.json": "ea6859e9447b453132705cef21bd5c11651d9a69b5c1c93100c2e1c928f12e18",
+        "cases\\08-negative-soret-warming\\input.h5": "0738146b2ecb0f64f1a80f8c7e9619ae2c95e0dcedf63660997fd3b4f591e168",
+        "cases\\08-negative-soret-warming\\mesh.msh": "01cfb43b7c5d33c9c6b50600df4f21e3a4608393a5543df03d550cd8472c83d6",
+        "reference\\08-negative-soret-warming\\grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference\\08-negative-soret-warming\\reference.h5": "60c64b1820862d382b5b08e586e269d3c8f85d07149f8bd535f04d8517aee800"
+      },
+      "input_arrays": {
+        "bottom_ids": {
+          "shape": [
+            3
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "left_ids": {
+          "shape": [
+            280
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            1124
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "right_ids": {
+          "shape": [
+            280
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "top_ids": {
+          "shape": [
+            3
+          ],
+          "dtype": "int64",
+          "all_read": true
+        }
+      },
+      "output_arrays": {
+        "concentration": {
+          "shape": [
+            1,
+            1124,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            1124
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "potential": {
+          "shape": [
+            1,
+            1124,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "temperature": {
+          "shape": [
+            1,
+            1124,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        }
+      },
+      "native": {
+        "input_sha256": "ca7e7962385f6427b904aa45184aaa602ac48ee1372b1f1481e3395385d573b3",
+        "all_done": true,
+        "stdout_sha256": "bbd4027203116bf8464bc8cda025dad46440f16311b7a3c61191a9377108a091",
+        "result_sha256": "b088c8b4e1b0e61ac38ad3678da2375bfde548d6df6a1c9dcccb89b5c3f2e0a1",
+        "frames": 2,
+        "conversion_error": {
+          "concentration": 0.0,
+          "temperature": 0.0,
+          "potential": 0.0
+        }
+      }
+    },
+    "case/09-zero-ion-diffusion-control": {
+      "parameters": {
+        "mode": 0,
+        "concentration_units": 1,
+        "density": 3.0,
+        "diffusivity": 3e-10,
+        "soret_diffusivity": 0.0,
+        "ion_charge": 0
+      },
+      "bc": {
+        "temperature@bottom": 500.0,
+        "temperature@top": 500.0,
+        "potential@bottom": 0.25,
+        "potential@top": 0.3,
+        "concentration@bottom": 0.30000000000000004,
+        "concentration@top": 2.7
+      },
+      "nodes": 804,
+      "nx": 3,
+      "ny": 200,
+      "size": [
+        0.0003999999999999837,
+        0.0040000000000000036
+      ],
+      "a": 0.0,
+      "sparse_node_tags": false,
+      "output_ranges": {
+        "concentration": [
+          0.30000000000000004,
+          2.7000000000000006
+        ],
+        "temperature": [
+          499.9999999999999,
+          500.00000000006963
+        ],
+        "potential": [
+          0.25,
+          0.30000000000000004
+        ]
+      },
+      "independent_max_abs_error": {
+        "concentration": 2.1194157540094238e-13,
+        "temperature": 6.963318810448982e-11,
+        "potential": 3.452793606584237e-14
+      },
+      "max_tolerance_ratio": {
+        "concentration": 1.935893089154499e-06,
+        "temperature": 4.642212540299321e-05,
+        "potential": 9.263027784251686e-05
+      },
+      "official_grade": 1,
+      "hashes": {
+        "cases\\09-zero-ion-diffusion-control\\problem.json": "8426b24aad889269039600553fc4a12eee659d7c5b1bd62ca43ff78670913d24",
+        "cases\\09-zero-ion-diffusion-control\\input.h5": "c63135163278dae3054d22b27b7c52b93773fe87377f7f99ba8ea4fa6b227882",
+        "cases\\09-zero-ion-diffusion-control\\mesh.msh": "7073c7bd8e4a55c77a5f1fe9d7c65b4acc59081ae9b43ee362fbb7e33a5652b5",
+        "reference\\09-zero-ion-diffusion-control\\grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference\\09-zero-ion-diffusion-control\\reference.h5": "a6da93f96aa9d27de1683259c83831a9fd03118216bc21704fd27b54c01b339d"
+      },
+      "input_arrays": {
+        "bottom_ids": {
+          "shape": [
+            3
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "left_ids": {
+          "shape": [
+            200
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            804
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "right_ids": {
+          "shape": [
+            200
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "top_ids": {
+          "shape": [
+            3
+          ],
+          "dtype": "int64",
+          "all_read": true
+        }
+      },
+      "output_arrays": {
+        "concentration": {
+          "shape": [
+            1,
+            804,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            804
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "potential": {
+          "shape": [
+            1,
+            804,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "temperature": {
+          "shape": [
+            1,
+            804,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        }
+      },
+      "native": {
+        "input_sha256": "a5c494d1a998bf7615fd0898cd12bf634e85f46c100b3d42e423809260afbe52",
+        "all_done": true,
+        "stdout_sha256": "40ce033ad9cfe574ccfb13ac2ed4a17b713b7c9dfcf769feeb661e62055f820e",
+        "result_sha256": "011d572e9dae00bc58b60ae040044dff25940c964a972970a859ecfb7d4fb323",
+        "frames": 2,
+        "conversion_error": {
+          "concentration": 0.0,
+          "temperature": 0.0,
+          "potential": 0.0
+        }
+      }
+    },
+    "case/10-zero-soret-control": {
+      "parameters": {
+        "mode": 1,
+        "concentration_units": 0,
+        "density": 0.5,
+        "diffusivity": 5e-10,
+        "soret_diffusivity": 0.0,
+        "ion_charge": 0
+      },
+      "bc": {
+        "temperature@bottom": 290.0,
+        "temperature@top": 350.0,
+        "potential@bottom": 0.2,
+        "potential@top": 0.2,
+        "concentration@bottom": 0.4,
+        "concentration@top": 0.0
+      },
+      "nodes": 483,
+      "nx": 2,
+      "ny": 160,
+      "size": [
+        0.00019999999999999185,
+        0.001999999999999988
+      ],
+      "a": 0.0,
+      "sparse_node_tags": false,
+      "output_ranges": {
+        "concentration": [
+          0.4,
+          0.4000000000002289
+        ],
+        "temperature": [
+          290.0,
+          350.00000000000006
+        ],
+        "potential": [
+          0.19999999999999998,
+          0.20000000000000961
+        ]
+      },
+      "independent_max_abs_error": {
+        "concentration": 2.28872476526476e-13,
+        "temperature": 1.233502189279534e-11,
+        "potential": 9.603429163007604e-15
+      },
+      "max_tolerance_ratio": {
+        "concentration": 4.5774495305295204e-05,
+        "temperature": 9.438562902184713e-06,
+        "potential": 3.201143054335868e-05
+      },
+      "official_grade": 1,
+      "hashes": {
+        "cases\\10-zero-soret-control\\problem.json": "ffc6b2b9dc035daafc81216c31a4c49c1a65bbcfb797d611c8f3841a4797daf0",
+        "cases\\10-zero-soret-control\\input.h5": "d962c31045f72b08199e3417b20ae702ce4cd02810498543f2effa9575a8321f",
+        "cases\\10-zero-soret-control\\mesh.msh": "954dce80261b1ff09bdc90c2a7c92c23f621ae7babbea512b3e86d569606d0cc",
+        "reference\\10-zero-soret-control\\grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference\\10-zero-soret-control\\reference.h5": "6bca36e77ab3da81084743cc22e35ffe7b759d0e18eb851d3e226fff041d671a"
+      },
+      "input_arrays": {
+        "bottom_ids": {
+          "shape": [
+            2
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "left_ids": {
+          "shape": [
+            160
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            483
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "right_ids": {
+          "shape": [
+            160
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "top_ids": {
+          "shape": [
+            2
+          ],
+          "dtype": "int64",
+          "all_read": true
+        }
+      },
+      "output_arrays": {
+        "concentration": {
+          "shape": [
+            1,
+            483,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            483
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "potential": {
+          "shape": [
+            1,
+            483,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "temperature": {
+          "shape": [
+            1,
+            483,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        }
+      },
+      "native": {
+        "input_sha256": "c04a1ff1f42331ca990eddb93d9736cbfe88ef8ca4fb36b4273af38778b79543",
+        "all_done": true,
+        "stdout_sha256": "f1cfbad79c5a721bca81b6be829f4adc248527a644cfce782c47d01f8700f18d",
+        "result_sha256": "42a855f96a175d0de30ea5af3e9411dae5d9407b84551a959cf09a8e29863c38",
+        "frames": 2,
+        "conversion_error": {
+          "concentration": 0.0,
+          "temperature": 0.0,
+          "potential": 0.0
+        }
+      }
+    },
+    "case/11-weak-drive-dense-fluid": {
+      "parameters": {
+        "mode": 0,
+        "concentration_units": 0,
+        "density": 5000.0,
+        "diffusivity": 7e-10,
+        "soret_diffusivity": 0.0,
+        "ion_charge": 1
+      },
+      "bc": {
+        "temperature@bottom": 298.15,
+        "temperature@top": 298.15,
+        "potential@bottom": 0.0,
+        "potential@top": 0.0001,
+        "concentration@bottom": 0.7,
+        "concentration@top": 0.2
+      },
+      "nodes": 602,
+      "nx": 1,
+      "ny": 300,
+      "size": [
+        0.0005000000000000004,
+        0.0050000000000000044
+      ],
+      "a": 0.003892174449622701,
+      "sparse_node_tags": true,
+      "output_ranges": {
+        "concentration": [
+          0.2,
+          0.7000000000000001
+        ],
+        "temperature": [
+          298.15,
+          298.15000000023434
+        ],
+        "potential": [
+          0.0,
+          0.0001
+        ]
+      },
+      "independent_max_abs_error": {
+        "concentration": 2.9243274468626623e-13,
+        "temperature": 2.3436541596311145e-10,
+        "potential": 5.902125576467965e-17
+      },
+      "max_tolerance_ratio": {
+        "concentration": 4.791715135936883e-05,
+        "temperature": 0.0001805380086762789,
+        "potential": 5.898586424613208e-07
+      },
+      "official_grade": 1,
+      "hashes": {
+        "cases\\11-weak-drive-dense-fluid\\problem.json": "40938306a3e632e13bc9823f6ec2f3fa5886c4d838bd99a47a14de093ac3426f",
+        "cases\\11-weak-drive-dense-fluid\\input.h5": "14590abe8a29d4304e0a7f34ba5e0746c35f883db8a8c1adfb4daf33d7b96312",
+        "cases\\11-weak-drive-dense-fluid\\mesh.msh": "39540b47cfe2cfdf0049a1543161e538dcf2501ae78a76be884c8176cb834bd3",
+        "reference\\11-weak-drive-dense-fluid\\grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference\\11-weak-drive-dense-fluid\\reference.h5": "0791131349223375205070e5355d19f4874971cc539f7401c426655ffb7cb662"
+      },
+      "input_arrays": {
+        "bottom_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "left_ids": {
+          "shape": [
+            300
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            602
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "right_ids": {
+          "shape": [
+            300
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "top_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "all_read": true
+        }
+      },
+      "output_arrays": {
+        "concentration": {
+          "shape": [
+            1,
+            602,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            602
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "potential": {
+          "shape": [
+            1,
+            602,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "temperature": {
+          "shape": [
+            1,
+            602,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        }
+      },
+      "native": {
+        "input_sha256": "71be99a7385337c2e8b5ace8a63d18c5a1d9513a1d7497e487c389f6a136a2b2",
+        "all_done": true,
+        "stdout_sha256": "c1d0f2c2eeee43d306d64da3ab1082be4989337e6c0d6e647d1b73beb40ad503",
+        "result_sha256": "0122af01d6cab55937ad996af4b39e24e340c81bed9f58c7770f363b4bc39960",
+        "frames": 2,
+        "conversion_error": {
+          "concentration": 0.0,
+          "temperature": 0.0,
+          "potential": 0.0
+        }
+      }
+    },
+    "case/12-low-density-absolute-soret": {
+      "parameters": {
+        "mode": 1,
+        "concentration_units": 1,
+        "density": 0.2,
+        "diffusivity": 8e-09,
+        "soret_diffusivity": 4.8000000000000005e-12,
+        "ion_charge": 0
+      },
+      "bc": {
+        "temperature@bottom": 280.0,
+        "temperature@top": 360.0,
+        "potential@bottom": 0.0,
+        "potential@top": 0.0,
+        "concentration@bottom": 0.12,
+        "concentration@top": 0.0
+      },
+      "nodes": 1604,
+      "nx": 3,
+      "ny": 400,
+      "size": [
+        0.0012000000000000066,
+        0.011999999999999983
+      ],
+      "a": 0.0,
+      "sparse_node_tags": true,
+      "output_ranges": {
+        "concentration": [
+          0.0720000000002557,
+          0.12000000000000001
+        ],
+        "temperature": [
+          280.0,
+          360.0
+        ],
+        "potential": [
+          0.0,
+          0.0
+        ]
+      },
+      "independent_max_abs_error": {
+        "concentration": 2.5675295223237526e-13,
+        "temperature": 2.785895958368201e-10,
+        "potential": 0.0
+      },
+      "max_tolerance_ratio": {
+        "concentration": 2.5491754590188174e-06,
+        "temperature": 0.0002116298965639851,
+        "potential": 0.0
+      },
+      "official_grade": 1,
+      "hashes": {
+        "cases\\12-low-density-absolute-soret\\problem.json": "25b8dd3bfaad4b3ae5258391a3d3b86da22c710c433ba3e68a5b2594db906b55",
+        "cases\\12-low-density-absolute-soret\\input.h5": "86e73bc51c22d1838e23df2df327608df35cd562b1663cedc947642512ba3a01",
+        "cases\\12-low-density-absolute-soret\\mesh.msh": "5b3822d9de8880bad34e33511d9c77627f57df81dbdbbc942ae824385f01c546",
+        "reference\\12-low-density-absolute-soret\\grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "reference\\12-low-density-absolute-soret\\reference.h5": "e24f32f3c36e7b79ade216d8e4bfc6c81b7900405b4bcf687c0ebb086e1eb16c"
+      },
+      "input_arrays": {
+        "bottom_ids": {
+          "shape": [
+            3
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "left_ids": {
+          "shape": [
+            400
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            1604
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "right_ids": {
+          "shape": [
+            400
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "top_ids": {
+          "shape": [
+            3
+          ],
+          "dtype": "int64",
+          "all_read": true
+        }
+      },
+      "output_arrays": {
+        "concentration": {
+          "shape": [
+            1,
+            1604,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            1604
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "potential": {
+          "shape": [
+            1,
+            1604,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "temperature": {
+          "shape": [
+            1,
+            1604,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        }
+      },
+      "native": {
+        "input_sha256": "2df344f74bbd4921d16dd455cd52a475786cd9f2e2d2a70aae1b8f570bc0e7ab",
+        "all_done": true,
+        "stdout_sha256": "dfae4a06e42f82fd9a017e7c8fba81439fbd078216747988990ef6238194344e",
+        "result_sha256": "992e5b75051d5b8d96069c06b64c0586d74ae66a063942cf78ac2cc0c3127ee7",
+        "frames": 2,
+        "conversion_error": {
+          "concentration": 0.0,
+          "temperature": 0.0,
+          "potential": 0.0
+        }
+      }
+    },
+    "sample/01": {
+      "parameters": {
+        "mode": 0,
+        "concentration_units": 0,
+        "density": 1200.0,
+        "diffusivity": 1e-09,
+        "soret_diffusivity": 0.0,
+        "ion_charge": 1
+      },
+      "bc": {
+        "temperature@bottom": 298.15,
+        "temperature@top": 298.15,
+        "potential@bottom": 0.0,
+        "potential@top": 0.05,
+        "concentration@bottom": 1.0,
+        "concentration@top": 0.0
+      },
+      "nodes": 802,
+      "nx": 1,
+      "ny": 400,
+      "size": [
+        0.0001,
+        0.001
+      ],
+      "a": 1.9460872248113503,
+      "sparse_node_tags": false,
+      "output_ranges": {
+        "concentration": [
+          0.0,
+          1.0
+        ],
+        "temperature": [
+          298.1499999999999,
+          298.15000000024236
+        ],
+        "potential": [
+          0.0,
+          0.05000000000000001
+        ]
+      },
+      "independent_max_abs_error": {
+        "concentration": 2.2370993946196904e-13,
+        "temperature": 2.423803380224854e-10,
+        "potential": 1.9605844725489874e-14
+      },
+      "max_tolerance_ratio": {
+        "concentration": 7.327482824169802e-05,
+        "temperature": 0.0001867121195720721,
+        "potential": 0.0001529000887632682
+      },
+      "official_grade": 1,
+      "hashes": {
+        "samples\\01\\input\\problem.json": "2959f17370a11d389dcb3802b461d0ef436f405e3b3ff3cf686ac46104f8768c",
+        "samples\\01\\input\\input.h5": "9ba8f125d93516d43897cf39a2a6fc5a89e60cd616023c9e9ff7dbb1a9f130af",
+        "samples\\01\\input\\mesh.msh": "02865faea276e4c6f356d757cfe0fb8e2ff51a5f16ddf412b0f8498978d23a12",
+        "samples\\01\\reference\\grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "samples\\01\\reference\\reference.h5": "01f83ebbe5d62c00b8e99d43a9b9516c8cc99c2f330664f9d608f1f519eec487"
+      },
+      "input_arrays": {
+        "bottom_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "left_ids": {
+          "shape": [
+            400
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            802
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "right_ids": {
+          "shape": [
+            400
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "top_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "all_read": true
+        }
+      },
+      "output_arrays": {
+        "concentration": {
+          "shape": [
+            1,
+            802,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            802
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "potential": {
+          "shape": [
+            1,
+            802,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "temperature": {
+          "shape": [
+            1,
+            802,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        }
+      },
+      "native": {}
+    },
+    "sample/02": {
+      "parameters": {
+        "mode": 1,
+        "concentration_units": 1,
+        "density": 1000.0,
+        "diffusivity": 1e-09,
+        "soret_diffusivity": 5.0000000000000005e-12,
+        "ion_charge": 0
+      },
+      "bc": {
+        "temperature@bottom": 300.0,
+        "temperature@top": 400.0,
+        "potential@bottom": 0.0,
+        "potential@top": 0.0,
+        "concentration@bottom": 1.0,
+        "concentration@top": 0.0
+      },
+      "nodes": 802,
+      "nx": 1,
+      "ny": 400,
+      "size": [
+        0.0001,
+        0.001
+      ],
+      "a": 0.0,
+      "sparse_node_tags": false,
+      "output_ranges": {
+        "concentration": [
+          0.5000000000012853,
+          1.0
+        ],
+        "temperature": [
+          300.0,
+          400.0000000000001
+        ],
+        "potential": [
+          0.0,
+          0.0
+        ]
+      },
+      "independent_max_abs_error": {
+        "concentration": 1.3016254740705335e-12,
+        "temperature": 2.7557689463719726e-10,
+        "potential": 0.0
+      },
+      "max_tolerance_ratio": {
+        "concentration": 1.2396433086386033e-05,
+        "temperature": 0.0002058464198970509,
+        "potential": 0.0
+      },
+      "official_grade": 1,
+      "hashes": {
+        "samples\\02\\input\\problem.json": "b9df8a3c20dbf6523d8b585c4c379f529d0299e7fea34ccbe3728284d397491a",
+        "samples\\02\\input\\input.h5": "9ba8f125d93516d43897cf39a2a6fc5a89e60cd616023c9e9ff7dbb1a9f130af",
+        "samples\\02\\input\\mesh.msh": "02865faea276e4c6f356d757cfe0fb8e2ff51a5f16ddf412b0f8498978d23a12",
+        "samples\\02\\reference\\grading.json": "c9f50df339371cd2a0e2e8dcbf887ba28b1c943f47351fbf34cd887385bc3912",
+        "samples\\02\\reference\\reference.h5": "4fb2f460159c6cbdae721582c159da17b57842d0c77826c5e78a2d2b8e69b7ac"
+      },
+      "input_arrays": {
+        "bottom_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "left_ids": {
+          "shape": [
+            400
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            802
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "right_ids": {
+          "shape": [
+            400
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "top_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "all_read": true
+        }
+      },
+      "output_arrays": {
+        "concentration": {
+          "shape": [
+            1,
+            802,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "node_ids": {
+          "shape": [
+            802
+          ],
+          "dtype": "int64",
+          "all_read": true
+        },
+        "potential": {
+          "shape": [
+            1,
+            802,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "temperature": {
+          "shape": [
+            1,
+            802,
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "all_read": true
+        }
+      },
+      "native": {}
+    }
+  },
+  "mutations": [
+    {
+      "name": "rho-zero",
+      "expected_valid": false,
+      "actual_valid": false,
+      "diagnostics": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "E_STRIP_TRANSPORT",
+            "path": "$.physics.parameters",
+            "expected": "density .2..5000, D 1e-12..1e-7, integer charge -3..3 and DATA Soret ratio bound",
+            "actual": "{'mode': {'value': 0, 'unit': '1'}, 'concentration_units': {'value': 0, 'unit': '1'}, 'density': {'value': 0, 'unit': 'kg/m3'}, 'diffusivity': {'value': 1e-09, 'unit': 'm2/s'}, 'soret_diffusivity': {'value': 0.0, 'unit': 'm2/(s.K)'}, 'ion_charge': {'value': 1, 'unit': '1'}}",
+            "message": "Outside the public migration/Soret DATA contract."
+          }
+        ],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "rho-over",
+      "expected_valid": false,
+      "actual_valid": false,
+      "diagnostics": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "E_STRIP_TRANSPORT",
+            "path": "$.physics.parameters",
+            "expected": "density .2..5000, D 1e-12..1e-7, integer charge -3..3 and DATA Soret ratio bound",
+            "actual": "{'mode': {'value': 0, 'unit': '1'}, 'concentration_units': {'value': 0, 'unit': '1'}, 'density': {'value': 5001, 'unit': 'kg/m3'}, 'diffusivity': {'value': 1e-09, 'unit': 'm2/s'}, 'soret_diffusivity': {'value': 0.0, 'unit': 'm2/(s.K)'}, 'ion_charge': {'value': 1, 'unit': '1'}}",
+            "message": "Outside the public migration/Soret DATA contract."
+          }
+        ],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "D-zero",
+      "expected_valid": false,
+      "actual_valid": false,
+      "diagnostics": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "E_STRIP_TRANSPORT",
+            "path": "$.physics.parameters",
+            "expected": "density .2..5000, D 1e-12..1e-7, integer charge -3..3 and DATA Soret ratio bound",
+            "actual": "{'mode': {'value': 0, 'unit': '1'}, 'concentration_units': {'value': 0, 'unit': '1'}, 'density': {'value': 1200.0, 'unit': 'kg/m3'}, 'diffusivity': {'value': 0, 'unit': 'm2/s'}, 'soret_diffusivity': {'value': 0.0, 'unit': 'm2/(s.K)'}, 'ion_charge': {'value': 1, 'unit': '1'}}",
+            "message": "Outside the public migration/Soret DATA contract."
+          }
+        ],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "D-over",
+      "expected_valid": false,
+      "actual_valid": false,
+      "diagnostics": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "E_STRIP_TRANSPORT",
+            "path": "$.physics.parameters",
+            "expected": "density .2..5000, D 1e-12..1e-7, integer charge -3..3 and DATA Soret ratio bound",
+            "actual": "{'mode': {'value': 0, 'unit': '1'}, 'concentration_units': {'value': 0, 'unit': '1'}, 'density': {'value': 1200.0, 'unit': 'kg/m3'}, 'diffusivity': {'value': 1e-06, 'unit': 'm2/s'}, 'soret_diffusivity': {'value': 0.0, 'unit': 'm2/(s.K)'}, 'ion_charge': {'value': 1, 'unit': '1'}}",
+            "message": "Outside the public migration/Soret DATA contract."
+          }
+        ],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "fractional-charge",
+      "expected_valid": false,
+      "actual_valid": false,
+      "diagnostics": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "E_STRIP_TRANSPORT",
+            "path": "$.physics.parameters",
+            "expected": "density .2..5000, D 1e-12..1e-7, integer charge -3..3 and DATA Soret ratio bound",
+            "actual": "{'mode': {'value': 0, 'unit': '1'}, 'concentration_units': {'value': 0, 'unit': '1'}, 'density': {'value': 1200.0, 'unit': 'kg/m3'}, 'diffusivity': {'value': 1e-09, 'unit': 'm2/s'}, 'soret_diffusivity': {'value': 0.0, 'unit': 'm2/(s.K)'}, 'ion_charge': {'value': 0.5, 'unit': '1'}}",
+            "message": "Outside the public migration/Soret DATA contract."
+          }
+        ],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "charge-over",
+      "expected_valid": false,
+      "actual_valid": false,
+      "diagnostics": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "E_STRIP_TRANSPORT",
+            "path": "$.physics.parameters",
+            "expected": "density .2..5000, D 1e-12..1e-7, integer charge -3..3 and DATA Soret ratio bound",
+            "actual": "{'mode': {'value': 0, 'unit': '1'}, 'concentration_units': {'value': 0, 'unit': '1'}, 'density': {'value': 1200.0, 'unit': 'kg/m3'}, 'diffusivity': {'value': 1e-09, 'unit': 'm2/s'}, 'soret_diffusivity': {'value': 0.0, 'unit': 'm2/(s.K)'}, 'ion_charge': {'value': 4, 'unit': '1'}}",
+            "message": "Outside the public migration/Soret DATA contract."
+          }
+        ],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "mode-over",
+      "expected_valid": false,
+      "actual_valid": false,
+      "diagnostics": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "E_STRIP_TRANSPORT",
+            "path": "$.physics.parameters",
+            "expected": "exact DATA options/material parameters",
+            "actual": "{'mode': {'value': 2, 'unit': '1'}, 'concentration_units': {'value': 0, 'unit': '1'}, 'density': {'value': 1200.0, 'unit': 'kg/m3'}, 'diffusivity': {'value': 1e-09, 'unit': 'm2/s'}, 'soret_diffusivity': {'value': 0.0, 'unit': 'm2/(s.K)'}, 'ion_charge': {'value': 1, 'unit': '1'}}",
+            "message": "Outside the public migration/Soret DATA contract."
+          }
+        ],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "units-over",
+      "expected_valid": false,
+      "actual_valid": false,
+      "diagnostics": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "E_STRIP_TRANSPORT",
+            "path": "$.physics.parameters",
+            "expected": "exact DATA options/material parameters",
+            "actual": "{'mode': {'value': 0, 'unit': '1'}, 'concentration_units': {'value': 2, 'unit': '1'}, 'density': {'value': 1200.0, 'unit': 'kg/m3'}, 'diffusivity': {'value': 1e-09, 'unit': 'm2/s'}, 'soret_diffusivity': {'value': 0.0, 'unit': 'm2/(s.K)'}, 'ion_charge': {'value': 1, 'unit': '1'}}",
+            "message": "Outside the public migration/Soret DATA contract."
+          }
+        ],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "migration-DT",
+      "expected_valid": false,
+      "actual_valid": false,
+      "diagnostics": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "E_STRIP_TRANSPORT",
+            "path": "$.conditions",
+            "expected": "isothermal migration, DT=0, |a|<=3 and 0<=end concentrations<=unit scale",
+            "actual": "{('temperature', 'bottom'): 298.15, ('temperature', 'top'): 298.15, ('potential', 'bottom'): 0.0, ('potential', 'top'): 0.05, ('concentration', 'bottom'): 1.0, ('concentration', 'top'): 0.0}",
+            "message": "Outside the public migration/Soret DATA contract."
+          }
+        ],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "negative-Y",
+      "expected_valid": false,
+      "actual_valid": false,
+      "diagnostics": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "E_STRIP_TRANSPORT",
+            "path": "$.conditions",
+            "expected": "DATA temperature/potential bounds and physical concentration range",
+            "actual": "{('temperature', 'bottom'): 298.15, ('temperature', 'top'): 298.15, ('potential', 'bottom'): 0.0, ('potential', 'top'): 0.05, ('concentration', 'bottom'): -0.001, ('concentration', 'top'): 0.0}",
+            "message": "Outside the public migration/Soret DATA contract."
+          }
+        ],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "over-Y",
+      "expected_valid": false,
+      "actual_valid": false,
+      "diagnostics": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "E_STRIP_TRANSPORT",
+            "path": "$.conditions",
+            "expected": "isothermal migration, DT=0, |a|<=3 and 0<=end concentrations<=unit scale",
+            "actual": "{('temperature', 'bottom'): 298.15, ('temperature', 'top'): 298.15, ('potential', 'bottom'): 0.0, ('potential', 'top'): 0.05, ('concentration', 'bottom'): 1.0, ('concentration', 'top'): 1.1}",
+            "message": "Outside the public migration/Soret DATA contract."
+          }
+        ],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "low-T",
+      "expected_valid": false,
+      "actual_valid": false,
+      "diagnostics": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "E_STRIP_TRANSPORT",
+            "path": "$.conditions",
+            "expected": "DATA temperature/potential bounds and physical concentration range",
+            "actual": "{('temperature', 'bottom'): 249, ('temperature', 'top'): 298.15, ('potential', 'bottom'): 0.0, ('potential', 'top'): 0.05, ('concentration', 'bottom'): 1.0, ('concentration', 'top'): 0.0}",
+            "message": "Outside the public migration/Soret DATA contract."
+          }
+        ],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "nonisothermal-migration",
+      "expected_valid": false,
+      "actual_valid": false,
+      "diagnostics": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "E_STRIP_TRANSPORT",
+            "path": "$.conditions",
+            "expected": "isothermal migration, DT=0, |a|<=3 and 0<=end concentrations<=unit scale",
+            "actual": "{('temperature', 'bottom'): 298.15, ('temperature', 'top'): 300, ('potential', 'bottom'): 0.0, ('potential', 'top'): 0.05, ('concentration', 'bottom'): 1.0, ('concentration', 'top'): 0.0}",
+            "message": "Outside the public migration/Soret DATA contract."
+          }
+        ],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "over-potential",
+      "expected_valid": false,
+      "actual_valid": false,
+      "diagnostics": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "E_STRIP_TRANSPORT",
+            "path": "$.conditions",
+            "expected": "DATA temperature/potential bounds and physical concentration range",
+            "actual": "{('temperature', 'bottom'): 298.15, ('temperature', 'top'): 298.15, ('potential', 'bottom'): 1.1, ('potential', 'top'): 0.05, ('concentration', 'bottom'): 1.0, ('concentration', 'top'): 0.0}",
+            "message": "Outside the public migration/Soret DATA contract."
+          }
+        ],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "soret-z",
+      "expected_valid": false,
+      "actual_valid": false,
+      "diagnostics": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "E_STRIP_TRANSPORT",
+            "path": "$.conditions",
+            "expected": "Soret z=0, constant potential, zero total top flux, 0<=profile<=unit scale with roundoff allowance",
+            "actual": "{('temperature', 'bottom'): 300.0, ('temperature', 'top'): 400.0, ('potential', 'bottom'): 0.0, ('potential', 'top'): 0.0, ('concentration', 'bottom'): 1.0, ('concentration', 'top'): 0.0}",
+            "message": "Outside the public migration/Soret DATA contract."
+          }
+        ],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "soret-vary-phi",
+      "expected_valid": false,
+      "actual_valid": false,
+      "diagnostics": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "E_STRIP_TRANSPORT",
+            "path": "$.conditions",
+            "expected": "Soret z=0, constant potential, zero total top flux, 0<=profile<=unit scale with roundoff allowance",
+            "actual": "{('temperature', 'bottom'): 300.0, ('temperature', 'top'): 400.0, ('potential', 'bottom'): 0.0, ('potential', 'top'): 0.01, ('concentration', 'bottom'): 1.0, ('concentration', 'top'): 0.0}",
+            "message": "Outside the public migration/Soret DATA contract."
+          }
+        ],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "nonzero-top-total-flux",
+      "expected_valid": false,
+      "actual_valid": false,
+      "diagnostics": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "E_STRIP_TRANSPORT",
+            "path": "$.conditions",
+            "expected": "Soret z=0, constant potential, zero total top flux, 0<=profile<=unit scale with roundoff allowance",
+            "actual": "{('temperature', 'bottom'): 300.0, ('temperature', 'top'): 400.0, ('potential', 'bottom'): 0.0, ('potential', 'top'): 0.0, ('concentration', 'bottom'): 1.0, ('concentration', 'top'): 1}",
+            "message": "Outside the public migration/Soret DATA contract."
+          }
+        ],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "out-of-range-soret-profile",
+      "expected_valid": false,
+      "actual_valid": false,
+      "diagnostics": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "E_STRIP_TRANSPORT",
+            "path": "$.conditions",
+            "expected": "Soret z=0, constant potential, zero total top flux, 0<=profile<=unit scale with roundoff allowance",
+            "actual": "{('temperature', 'bottom'): 300.0, ('temperature', 'top'): 400.0, ('potential', 'bottom'): 0.0, ('potential', 'top'): 0.0, ('concentration', 'bottom'): 1.0, ('concentration', 'top'): 0.0}",
+            "message": "Outside the public migration/Soret DATA contract."
+          }
+        ],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "zero-Y-and-z",
+      "expected_valid": true,
+      "actual_valid": true,
+      "diagnostics": {
+        "valid": true,
+        "errors": [],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "zero-delta-phi",
+      "expected_valid": true,
+      "actual_valid": true,
+      "diagnostics": {
+        "valid": true,
+        "errors": [],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "rho-lower",
+      "expected_valid": true,
+      "actual_valid": true,
+      "diagnostics": {
+        "valid": true,
+        "errors": [],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "rho-upper",
+      "expected_valid": true,
+      "actual_valid": true,
+      "diagnostics": {
+        "valid": true,
+        "errors": [],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "negative-DT-valid",
+      "expected_valid": true,
+      "actual_valid": true,
+      "diagnostics": {
+        "valid": true,
+        "errors": [],
+        "scope": "task-contract"
+      }
+    },
+    {
+      "name": "zero-DT-valid",
+      "expected_valid": true,
+      "actual_valid": true,
+      "diagnostics": {
+        "valid": true,
+        "errors": [],
+        "scope": "task-contract"
+      }
+    }
+  ],
+  "source": {
+    "packed_baseline_module_sha256": "9758678f1cfd0d274e3dce05c3872aeb122227e07b54f4a27ed3a714efbec313",
+    "closure_hashes_matched": 2468,
+    "pinned_head_url": "https://raw.githubusercontent.com/ElmerCSC/elmerfem/cd35f9d23145519973ed66c62661a0298105bf3a/fem/src/modules/AdvectionDiffusion.F90",
+    "pinned_head_sha256": "0f905d9e75ba747c546c849ad381883c8447c0c3a721fbf8ac282253bdd58dad",
+    "fixed_local_sha256": "0f905d9e75ba747c546c849ad381883c8447c0c3a721fbf8ac282253bdd58dad",
+    "keyword_source_locations": [
+      {
+        "line": 365,
+        "text": "               'Temperature Field Variable', GotIt )"
+      },
+      {
+        "line": 381,
+        "text": "               ' EPotential Field Variable', GotIt )"
+      },
+      {
+        "line": 384,
+        "text": "                 'EPotential Field Variable', GotIt )"
+      },
+      {
+        "line": 641,
+        "text": "!            Density twice. The physical term is Density*Diffusivity*NEConst,"
+      },
+      {
+        "line": 649,
+        "text": "               NEConst(1:n) = NEConst(1:n) / Density(1:n)"
+      }
+    ],
+    "full_patch_recomputed_from_packed_baseline": true,
+    "pinned_baseline_remote_sha256": "9758678f1cfd0d274e3dce05c3872aeb122227e07b54f4a27ed3a714efbec313"
+  },
+  "errors": [],
+  "unit_pairs": {
+    "01-migration-relative-public : 03-migration-absolute-pair": 5.10702591327572e-14,
+    "04-soret-relative-pair : 02-soret-absolute-public": 1.453047751565073e-15
+  },
+  "replay_binding": {
+    "image_id": "sha256:bcf8db84ede5575993809588071cf61d8725d2e7a8b2a96ac7cfe78b6896b6e6",
+    "matched_reference_hashes": 12,
+    "native_conversion_checked": 12
+  },
+  "native_input_regeneration": {
+    "01-migration-relative-public": {
+      "input_digest_matches_production": true,
+      "raw_density": 1200.0,
+      "raw_D": 1e-09,
+      "raw_DT": 0.0,
+      "raw_z": 1,
+      "nondefault_bindings": true,
+      "DT_keyword_present": false,
+      "z_keyword_present": true
+    },
+    "02-soret-absolute-public": {
+      "input_digest_matches_production": true,
+      "raw_density": 1000.0,
+      "raw_D": 1e-09,
+      "raw_DT": 5.0000000000000005e-12,
+      "raw_z": 0,
+      "nondefault_bindings": true,
+      "DT_keyword_present": true,
+      "z_keyword_present": false
+    },
+    "03-migration-absolute-pair": {
+      "input_digest_matches_production": true,
+      "raw_density": 1200.0,
+      "raw_D": 1e-09,
+      "raw_DT": 0.0,
+      "raw_z": 1,
+      "nondefault_bindings": true,
+      "DT_keyword_present": false,
+      "z_keyword_present": true
+    },
+    "04-soret-relative-pair": {
+      "input_digest_matches_production": true,
+      "raw_density": 1000.0,
+      "raw_D": 1e-09,
+      "raw_DT": 5.000000000000001e-15,
+      "raw_z": 0,
+      "nondefault_bindings": true,
+      "DT_keyword_present": true,
+      "z_keyword_present": false
+    },
+    "05-negative-ion-low-density": {
+      "input_digest_matches_production": true,
+      "raw_density": 0.2,
+      "raw_D": 3e-09,
+      "raw_DT": 0.0,
+      "raw_z": -2,
+      "nondefault_bindings": true,
+      "DT_keyword_present": false,
+      "z_keyword_present": true
+    },
+    "06-unit-density-active-migration": {
+      "input_digest_matches_production": true,
+      "raw_density": 1.0,
+      "raw_D": 2e-09,
+      "raw_DT": 0.0,
+      "raw_z": 2,
+      "nondefault_bindings": true,
+      "DT_keyword_present": false,
+      "z_keyword_present": true
+    },
+    "07-negative-soret-cooling": {
+      "input_digest_matches_production": true,
+      "raw_density": 1.0,
+      "raw_D": 2e-10,
+      "raw_DT": -8e-13,
+      "raw_z": 0,
+      "nondefault_bindings": true,
+      "DT_keyword_present": true,
+      "z_keyword_present": false
+    },
+    "08-negative-soret-warming": {
+      "input_digest_matches_production": true,
+      "raw_density": 250.0,
+      "raw_D": 3e-09,
+      "raw_DT": -2.25e-09,
+      "raw_z": 0,
+      "nondefault_bindings": true,
+      "DT_keyword_present": true,
+      "z_keyword_present": false
+    },
+    "09-zero-ion-diffusion-control": {
+      "input_digest_matches_production": true,
+      "raw_density": 3.0,
+      "raw_D": 3e-10,
+      "raw_DT": 0.0,
+      "raw_z": 0,
+      "nondefault_bindings": true,
+      "DT_keyword_present": false,
+      "z_keyword_present": false
+    },
+    "10-zero-soret-control": {
+      "input_digest_matches_production": true,
+      "raw_density": 0.5,
+      "raw_D": 5e-10,
+      "raw_DT": 0.0,
+      "raw_z": 0,
+      "nondefault_bindings": true,
+      "DT_keyword_present": false,
+      "z_keyword_present": false
+    },
+    "11-weak-drive-dense-fluid": {
+      "input_digest_matches_production": true,
+      "raw_density": 5000.0,
+      "raw_D": 7e-10,
+      "raw_DT": 0.0,
+      "raw_z": 1,
+      "nondefault_bindings": true,
+      "DT_keyword_present": false,
+      "z_keyword_present": true
+    },
+    "12-low-density-absolute-soret": {
+      "input_digest_matches_production": true,
+      "raw_density": 0.2,
+      "raw_D": 8e-09,
+      "raw_DT": 4.8000000000000005e-12,
+      "raw_z": 0,
+      "nondefault_bindings": true,
+      "DT_keyword_present": true,
+      "z_keyword_present": false
+    }
+  },
+  "hf_final": {
+    "revision": "4148aa0822f399d96b7d6aca9e24764dcca9b7af",
+    "all_local_payload_sha256_matches_receipt": 70,
+    "receipt_sha256": "6a67c3aecad521c607800762b35a7b7551b7f3ce6afea04147a0e150b4c70481",
+    "official_fixed_assembly_receipt": "436a7f8eca7de5eae7e09bb5d9cf8d3c8f61704293e566fa3ad639884d6203fe",
+    "official_strict_receipt": "858c433d42e324cdc4c64380d495f1c9ace7242fdc1d2e36fda4f233daf064e3",
+    "bounded_recheck_input_reference_documents_unchanged": true
+  }
+}

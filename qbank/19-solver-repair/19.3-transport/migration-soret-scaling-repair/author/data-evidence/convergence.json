@@ -1,0 +1,33 @@
+{
+  "image_id": "sha256:bcf8db84ede5575993809588071cf61d8725d2e7a8b2a96ac7cfe78b6896b6e6",
+  "mechanism": "constant-temperature nonzero-charge electromigration, true 2D QUAD4 mesh nx=1, ny refinement",
+  "independent_discrete_derivation": "For uniform spacing h=L/ny, standard Galerkin gives adjacent difference ratio r=(1-a/(2ny))/(1+a/(2ny)); a_eff=2ny*atanh(a/(2ny)). Boundary-normalized geometric recurrence is independent of Elmer implementation.",
+  "cases": [
+    {
+      "ny": 100,
+      "nodes": 202,
+      "continuum_max_error": 6.7936278104197e-06,
+      "independent_discrete_max_error": 2.525757381022231e-14,
+      "raw_native_result_sha256": "cd61c6f57a0167bfda708a4bccefe37cc2ad42b5b7be7a712083683c20909fcf"
+    },
+    {
+      "ny": 200,
+      "nodes": 402,
+      "continuum_max_error": 1.6983637231016147e-06,
+      "independent_discrete_max_error": 9.203748874142548e-14,
+      "raw_native_result_sha256": "cc63e6594890d5cdfcef6f3c6bd972ea97a0284a87bb7e436c254ddf51f43e06"
+    },
+    {
+      "ny": 400,
+      "nodes": 802,
+      "continuum_max_error": 4.2459728349930614e-07,
+      "independent_discrete_max_error": 2.2359891715950653e-13,
+      "raw_native_result_sha256": "3bc73be8b4b92d1804058936bad0159b5c12ff3c5eacbeb06bae593b96cb1dac"
+    }
+  ],
+  "error_ratios": [
+    4.000101814476422,
+    3.999940152948223
+  ],
+  "passed": true
+}

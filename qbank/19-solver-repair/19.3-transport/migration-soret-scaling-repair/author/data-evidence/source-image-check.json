@@ -1,0 +1,44 @@
+{
+  "command": [
+    "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "-v",
+    "D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.3-transport\\migration-soret-scaling-repair\\public:/audit:ro",
+    "caeoj-elmer870-runtime:base",
+    "python",
+    "-c",
+    "import json,hashlib,tarfile,subprocess\nfrom pathlib import Path\nwith tarfile.open('/audit/elmer-source.tar.gz') as t:expected={m.name:hashlib.sha256(t.extractfile(m).read()).hexdigest() for m in t if m.isfile()}\nroot=Path('/opt/elmer-source');actual={n:hashlib.sha256((root/n).read_bytes()).hexdigest() for n in expected};assert actual==expected\nprint(json.dumps({'matched_source_files':len(expected),'archive_all_files_equal':True,'baseline_module_sha256':actual['fem/src/modules/AdvectionDiffusion.F90'],'auxiliary_linkage':subprocess.check_output(['ldd','/opt/elmer-build/fem/src/modules/AdvectionDiffusion.so'],text=True),'parents':{str(p):{'uid':p.stat().st_uid,'mode':oct(p.stat().st_mode & 0o7777)} for p in [Path('/opt'),root,root/'fem/src/modules',Path('/opt/elmer-driver'),Path('/opt/elmer-build/fem/src/modules')]}}))"
+  ],
+  "returncode": 0,
+  "result": {
+    "matched_source_files": 2468,
+    "archive_all_files_equal": true,
+    "baseline_module_sha256": "9758678f1cfd0d274e3dce05c3872aeb122227e07b54f4a27ed3a714efbec313",
+    "auxiliary_linkage": "\tlinux-vdso.so.1 (0x0000737494da4000)\n\tlibelmersolver.so => /opt/elmer-build/fem/src/libelmersolver.so (0x0000737494493000)\n\tlibgfortran.so.5 => /lib/x86_64-linux-gnu/libgfortran.so.5 (0x000073749418c000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x000073749409c000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x0000737493ea6000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000737493e79000)\n\tlibmpi_stubs.so => /opt/elmer-build/fem/src/libmpi_stubs.so (0x0000737493e74000)\n\tlibmatc.so => /opt/elmer-build/matc/src/libmatc.so (0x0000737493e4a000)\n\tlibfhuti.so => /opt/elmer-build/fhutiter/src/libfhuti.so (0x0000737493e17000)\n\tlibarpack.so => /opt/elmer-build/mathlibs/src/arpack/libarpack.so (0x0000737493dcc000)\n\tliblapack.so.3 => /lib/x86_64-linux-gnu/liblapack.so.3 (0x000073749368a000)\n\tlibblas.so.3 => /lib/x86_64-linux-gnu/libblas.so.3 (0x000073749360e000)\n\t/lib64/ld-linux-x86-64.so.2 (0x0000737494da6000)\n",
+    "parents": {
+      "/opt": {
+        "uid": 0,
+        "mode": "0o755"
+      },
+      "/opt/elmer-source": {
+        "uid": 0,
+        "mode": "0o755"
+      },
+      "/opt/elmer-source/fem/src/modules": {
+        "uid": 0,
+        "mode": "0o755"
+      },
+      "/opt/elmer-driver": {
+        "uid": 0,
+        "mode": "0o755"
+      },
+      "/opt/elmer-build/fem/src/modules": {
+        "uid": 0,
+        "mode": "0o755"
+      }
+    }
+  }
+}

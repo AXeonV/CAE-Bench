@@ -1,0 +1,519 @@
+{
+  "mode": "defect",
+  "image_id": "sha256:783e6987ddadce8097cdbfb472aef30b51817eb87e7fd2b4be82d8ef0a1e10bf",
+  "cases": [
+    {
+      "case": "01-triangle-fallback-public",
+      "queries": 5,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:783e6987ddadce8097cdbfb472aef30b51817eb87e7fd2b4be82d8ef0a1e10bf",
+        "/opt/precice-repair-build/bin/projection-driver"
+      ],
+      "elapsed_seconds": 1.390999999945052,
+      "score": 0,
+      "checks": {
+        "projection": {
+          "max_absolute_error": 0.5,
+          "max_tolerance_fraction": 50000000.0,
+          "passed": false
+        },
+        "distance": {
+          "max_absolute_error": 0.7071067811865475,
+          "max_tolerance_fraction": 61949671.549647704,
+          "passed": false
+        },
+        "weights": {
+          "max_absolute_error": 1.0,
+          "max_tolerance_fraction": 499999999.99999994,
+          "passed": false
+        },
+        "mapped_values": {
+          "max_absolute_error": 0.8958808719882116,
+          "max_tolerance_fraction": 61786187.895322956,
+          "passed": false
+        }
+      },
+      "input_assets": {
+        "problem.json": "00a88bc4a51165c7937ab49ca2c592ab205dca44c940c210714f7b10466f0b0f",
+        "input.h5": "e0dd60420023942521babb0d039c325216a90fae4aa47d8e7454557ba4e5ac37",
+        "source.msh": "00a24a5dd75178b169321d46d1595c93ce60b29eeb33ec5ed545db5e9d8c105b"
+      },
+      "input_payload_sha256": "3083c4b4f8bb2d9dbb991d94f2d43adb6b794e536f1519c1b75590a05ead6577",
+      "output_sha256": "b6e0449d38381f123470b0bab7678b125b006e17550a91c41c65425792f66c6f"
+    },
+    {
+      "case": "02-spatial-cell-public",
+      "queries": 5,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:783e6987ddadce8097cdbfb472aef30b51817eb87e7fd2b4be82d8ef0a1e10bf",
+        "/opt/precice-repair-build/bin/projection-driver"
+      ],
+      "elapsed_seconds": 1.297000000020489,
+      "score": 0,
+      "checks": {
+        "projection": {
+          "max_absolute_error": 2.0,
+          "max_tolerance_fraction": 66666666.66666666,
+          "passed": false
+        },
+        "distance": {
+          "max_absolute_error": 1.983772233983162,
+          "max_tolerance_fraction": 150716485.7938261,
+          "passed": false
+        },
+        "weights": {
+          "max_absolute_error": 1.0,
+          "max_tolerance_fraction": 900000000.0000001,
+          "passed": false
+        },
+        "mapped_values": {
+          "max_absolute_error": 10.35603962163185,
+          "max_tolerance_fraction": 226671273.49458417,
+          "passed": false
+        }
+      },
+      "input_assets": {
+        "problem.json": "caabe52b62016534f77334ff025976ea68b5c050e1100d977a47a27325648edb",
+        "input.h5": "b003f3c2b689027ded5797ca6e33281d386544293d17870b7c318c85f261ebdf",
+        "source.msh": "602842632ebd13784ebb53bdfd868ed5eb412766545e1af5250ba164e8536a21"
+      },
+      "input_payload_sha256": "013fd34e1c52b6a67d513de7b1cfb9e6000a77604d83c1ba1111172c380ac2e9",
+      "output_sha256": "23ba4375478579b7b0a6502a08cd0ac9a581d6befe96b0236ca5e9aa3389ac34"
+    },
+    {
+      "case": "03-isolated-near-vertex",
+      "queries": 4,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:783e6987ddadce8097cdbfb472aef30b51817eb87e7fd2b4be82d8ef0a1e10bf",
+        "/opt/precice-repair-build/bin/projection-driver"
+      ],
+      "elapsed_seconds": 1.0,
+      "score": 0,
+      "checks": {
+        "projection": {
+          "max_absolute_error": 1.0,
+          "max_tolerance_fraction": 50000000.0,
+          "passed": false
+        },
+        "distance": {
+          "max_absolute_error": 1.0,
+          "max_tolerance_fraction": 83333333.33333333,
+          "passed": false
+        },
+        "weights": {
+          "max_absolute_error": 1.0,
+          "max_tolerance_fraction": 499999999.99999994,
+          "passed": false
+        },
+        "mapped_values": {
+          "max_absolute_error": 9.95390704447749,
+          "max_tolerance_fraction": 186717442.65677693,
+          "passed": false
+        }
+      },
+      "input_assets": {
+        "problem.json": "ec55b54c7434e99b9bdaa883b2c61fcd1be2257a98812d71b768e018c0fff7c5",
+        "input.h5": "9156577ba417c2069869c48cf0b0a290f04f4ed65206b14ae719958a46ca6d77",
+        "source.msh": "fddfd8f506bb6ce5fb33a2b70432e7c533e9dae82471bb91f8adef63c83fa57c"
+      },
+      "input_payload_sha256": "d98119fbd5214f77c3042675f0860f6b9c4b00989caea2feaa37e075eddff7bf",
+      "output_sha256": "fd8e8d3cb6df4d9a3d18005cbfedebb2035ccca2ff942e331538c20daf94c373"
+    },
+    {
+      "case": "04-spatial-edge-only",
+      "queries": 4,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:783e6987ddadce8097cdbfb472aef30b51817eb87e7fd2b4be82d8ef0a1e10bf",
+        "/opt/precice-repair-build/bin/projection-driver"
+      ],
+      "elapsed_seconds": 1.0310000000754371,
+      "score": 0,
+      "checks": {
+        "projection": {
+          "max_absolute_error": 2.0,
+          "max_tolerance_fraction": 66666666.66666666,
+          "passed": false
+        },
+        "distance": {
+          "max_absolute_error": 1.656080526314764,
+          "max_tolerance_fraction": 125820209.01491743,
+          "passed": false
+        },
+        "weights": {
+          "max_absolute_error": 1.0,
+          "max_tolerance_fraction": 525000000.0,
+          "passed": false
+        },
+        "mapped_values": {
+          "max_absolute_error": 9.985275846254186,
+          "max_tolerance_fraction": 334198631.8165211,
+          "passed": false
+        }
+      },
+      "input_assets": {
+        "problem.json": "0fc425ac9054b3d4d1e729c422db3fa0b4cea44b51ab0d691a106ad6534fdd52",
+        "input.h5": "c19e761298179dca010885e74cf642e847c16e2f57eba581816d0c44a49c4fea",
+        "source.msh": "6899dbbebc7621fbe2bf0eedc728c3264bd783a0c94c90fa6070fc26b0fc8aab"
+      },
+      "input_payload_sha256": "f41f9fbe7ffd1642775b80eb428e16b95bcdc5035a418e08340bd00f3d9a1e89",
+      "output_sha256": "7f3207c62e61d0ab07da94c34d6dbc5f15034b087fc93e31ffa93d0b648fa880"
+    },
+    {
+      "case": "05-closer-independent-edge",
+      "queries": 4,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:783e6987ddadce8097cdbfb472aef30b51817eb87e7fd2b4be82d8ef0a1e10bf",
+        "/opt/precice-repair-build/bin/projection-driver"
+      ],
+      "elapsed_seconds": 0.6880000000819564,
+      "score": 0,
+      "checks": {
+        "projection": {
+          "max_absolute_error": 5.9399999999999995,
+          "max_tolerance_fraction": 312000000.00000006,
+          "passed": false
+        },
+        "distance": {
+          "max_absolute_error": 6.686057575212837,
+          "max_tolerance_fraction": 507971169.4159248,
+          "passed": false
+        },
+        "weights": {
+          "max_absolute_error": 1.0,
+          "max_tolerance_fraction": 812000000.0,
+          "passed": false
+        },
+        "mapped_values": {
+          "max_absolute_error": 6.230373914360571,
+          "max_tolerance_fraction": 481296364.15932274,
+          "passed": false
+        }
+      },
+      "input_assets": {
+        "problem.json": "88b13b7679dd5ced49a1ff77cbf8d232d80b7809ddc2922208e5c953800bbcb2",
+        "input.h5": "b095c86950e7435b2d940dd3c99e5c9aa0492f3e60c56430b429cb3d05df3cd6",
+        "source.msh": "cd83a3ea4b7c924cfc5e4740f116ab41a5946990433a7deafa62fd233b0368b2"
+      },
+      "input_payload_sha256": "7c20adf97aea4bb71b5e3c861e84fe2c64f287b8fcc60eed73f15bf91762fa18",
+      "output_sha256": "95bea71668c7a2b5a2932933896c30f846deae2007e0d9a4581b768ec22786a6"
+    },
+    {
+      "case": "06-far-face-near-node",
+      "queries": 3,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:783e6987ddadce8097cdbfb472aef30b51817eb87e7fd2b4be82d8ef0a1e10bf",
+        "/opt/precice-repair-build/bin/projection-driver"
+      ],
+      "elapsed_seconds": 1.8910000000614673,
+      "score": 0,
+      "checks": {
+        "projection": {
+          "max_absolute_error": 1.0,
+          "max_tolerance_fraction": 50000000.0,
+          "passed": false
+        },
+        "distance": {
+          "max_absolute_error": 1.0,
+          "max_tolerance_fraction": 83333333.33333333,
+          "passed": false
+        },
+        "weights": {
+          "max_absolute_error": 1.0,
+          "max_tolerance_fraction": 516666666.66666657,
+          "passed": false
+        },
+        "mapped_values": {
+          "max_absolute_error": 4.934777185615875,
+          "max_tolerance_fraction": 337375859.0604392,
+          "passed": false
+        }
+      },
+      "input_assets": {
+        "problem.json": "0fc425ac9054b3d4d1e729c422db3fa0b4cea44b51ab0d691a106ad6534fdd52",
+        "input.h5": "e5de934249db651bdadb8b97fb45c9864e77da2392ed43eec8202ceb91e1dff5",
+        "source.msh": "b7667e001655babed14495eb6c033501e6cad01764910980e74b0b63d92267dc"
+      },
+      "input_payload_sha256": "5bf588c2d45ef92abec134ca64823d15fa48d0e9c50a8fa234e9cabcfbfd66f4",
+      "output_sha256": "f3d7a2f844379cb29d02edb050f464ec1a72309dd2b14599e76a410274b0e771"
+    },
+    {
+      "case": "07-cell-without-triangles",
+      "queries": 4,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:783e6987ddadce8097cdbfb472aef30b51817eb87e7fd2b4be82d8ef0a1e10bf",
+        "/opt/precice-repair-build/bin/projection-driver"
+      ],
+      "elapsed_seconds": 1.75,
+      "score": 1,
+      "checks": {
+        "projection": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 9.738798461624182e-09,
+          "passed": true
+        },
+        "distance": {
+          "max_absolute_error": 8.326672684688674e-17,
+          "max_tolerance_fraction": 7.063173752830898e-09,
+          "passed": true
+        },
+        "weights": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.413528314402513e-08,
+          "passed": true
+        },
+        "mapped_values": {
+          "max_absolute_error": 2.7755575615628914e-16,
+          "max_tolerance_fraction": 2.3748211097888103e-08,
+          "passed": true
+        }
+      },
+      "input_assets": {
+        "problem.json": "f7030bba1604111c35fceafcf02b99522925f810deee42dbe2933c727805f5bb",
+        "input.h5": "f7808eb79d05c244733a508302b38af83150a0e7c98d181fd006959d9593a8c1",
+        "source.msh": "99dfe9cf58b89eecc289e0dc3e77fd7c90a0f834c939e941dc7f93c52a1530c8"
+      },
+      "input_payload_sha256": "5039c76d7851bddf5e3e0a6957c116b9191c773003c13647188112abdbd38cf2",
+      "output_sha256": "8b9434f4010966460c588e4acdc4e9bb225a1b023898bcef3602edb886f16af7"
+    },
+    {
+      "case": "08-cell-without-tetrahedra",
+      "queries": 4,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:783e6987ddadce8097cdbfb472aef30b51817eb87e7fd2b4be82d8ef0a1e10bf",
+        "/opt/precice-repair-build/bin/projection-driver"
+      ],
+      "elapsed_seconds": 2.1410000000614673,
+      "score": 0,
+      "checks": {
+        "projection": {
+          "max_absolute_error": 1.0499999999999998,
+          "max_tolerance_fraction": 104999999.99999999,
+          "passed": false
+        },
+        "distance": {
+          "max_absolute_error": 1.3667341249039535,
+          "max_tolerance_fraction": 96772916.74607727,
+          "passed": false
+        },
+        "weights": {
+          "max_absolute_error": 1.0,
+          "max_tolerance_fraction": 524999999.9999999,
+          "passed": false
+        },
+        "mapped_values": {
+          "max_absolute_error": 13.62501604311413,
+          "max_tolerance_fraction": 125215071.02390213,
+          "passed": false
+        }
+      },
+      "input_assets": {
+        "problem.json": "fedc9555dcb396aa3c3d5c4369082c3eeada0b98f10c97ddac951b3911275e3e",
+        "input.h5": "d9a25cd93b6a19ad89c2c3c8950fa2c4c71a465320e45a0d3a371483ba5f2a0f",
+        "source.msh": "a0b5e0ea32705cb7eb62a9f28b2153f267ce33f9b66f952990383a384477519d"
+      },
+      "input_payload_sha256": "1977ee5f6027474e789d02909be5d0745d8d734ebd64d4cd0038719ab3986950",
+      "output_sha256": "22fc32131a5c2d528a23475678890f71538d69971a9ce22d782a2c5dbc07f0af"
+    },
+    {
+      "case": "09-vertices-only",
+      "queries": 3,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:783e6987ddadce8097cdbfb472aef30b51817eb87e7fd2b4be82d8ef0a1e10bf",
+        "/opt/precice-repair-build/bin/projection-driver"
+      ],
+      "elapsed_seconds": 1.0309999999590218,
+      "score": 1,
+      "checks": {
+        "projection": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "distance": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "weights": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "mapped_values": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        }
+      },
+      "input_assets": {
+        "problem.json": "8b368810b01d340202afcf6ca3503a0af97710fba53068d36293467f76fc6072",
+        "input.h5": "2c9956d3c7910ac6e18f064ce9107f0303c6f28c08e7f17dc3d861e0eb0d485d",
+        "source.msh": "7eb641ca46b7d223afb4ee8eaaa031b312b62c7e5d03a12ff043579d79ff42dc"
+      },
+      "input_payload_sha256": "19f8445bbb42e89b1bc204bd3020e8796e5953f40627cbd32c2884ba6f8ae44b",
+      "output_sha256": "5d554be3ab9418a505f499219d8b46c1b8c94df4ef0a5d773fffe5a1f3410d15"
+    },
+    {
+      "case": "10-nearest-ignores-volume",
+      "queries": 4,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:783e6987ddadce8097cdbfb472aef30b51817eb87e7fd2b4be82d8ef0a1e10bf",
+        "/opt/precice-repair-build/bin/projection-driver"
+      ],
+      "elapsed_seconds": 1.5619999999180436,
+      "score": 1,
+      "checks": {
+        "projection": {
+          "max_absolute_error": 8.326672684688674e-17,
+          "max_tolerance_fraction": 7.240584943207542e-09,
+          "passed": true
+        },
+        "distance": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "weights": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 2.379049338482478e-08,
+          "passed": true
+        },
+        "mapped_values": {
+          "max_absolute_error": 8.881784197001252e-16,
+          "max_tolerance_fraction": 1.8062131361199117e-08,
+          "passed": true
+        }
+      },
+      "input_assets": {
+        "problem.json": "0fc425ac9054b3d4d1e729c422db3fa0b4cea44b51ab0d691a106ad6534fdd52",
+        "input.h5": "2bb6d5e5ebf9b0910237df241b5ee1444f36d926fcdefb1a61bffb18c78d66a2",
+        "source.msh": "f40d28f329cf39b11cd3e970518f364a70894b41b7fdf0665eefe47cea44abc5"
+      },
+      "input_payload_sha256": "3284d972152c88332d8fab14de14193b2e9980ba0b5db804d6b72fbb08da6036",
+      "output_sha256": "21a6b51a56d64e379887210ae51e57b9ed659b80acf13176b2f3179a2ba6f950"
+    }
+  ],
+  "reference_producer": "actual pinned preCICE query::Index; affine enumeration is independent validation only",
+  "input_payload_sha256_definition": "SHA256 of exact UTF8 JSON passed to the real C++ driver",
+  "driver_sha256": "a1229fc2b4f86d47eb48a050ea0ecbdf4ba893324e0993b994fef0b4556cd2e9"
+}

@@ -1,0 +1,809 @@
+{
+  "cases": [
+    {
+      "mode": "valid",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "caeoj-precice1304-probes:preflight",
+        "python",
+        "/opt/backend_probe.py",
+        "valid"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "ldd": "\tlinux-vdso.so.1 (0x00000c755d438000)\n\tlibprecice.so.2 => /opt/precice-repair-build/lib/libprecice.so.2 (0x00000c755d065000)\n\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00000c755cdfb000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00000c755cdce000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00000c755cbda000)\n\tlibboost_log_setup.so.1.83.0 => /lib/x86_64-linux-gnu/libboost_log_setup.so.1.83.0 (0x00000c755cae0000)\n\tlibboost_program_options.so.1.83.0 => /lib/x86_64-linux-gnu/libboost_program_options.so.1.83.0 (0x00000c755ca72000)\n\tlibboost_log.so.1.83.0 => /lib/x86_64-linux-gnu/libboost_log.so.1.83.0 (0x00000c755c98f000)\n\tlibboost_filesystem.so.1.83.0 => /lib/x86_64-linux-gnu/libboost_filesystem.so.1.83.0 (0x00000c755c968000)\n\tlibboost_thread.so.1.83.0 => /lib/x86_64-linux-gnu/libboost_thread.so.1.83.0 (0x00000c755c945000)\n\tlibxml2.so.2 => /lib/x86_64-linux-gnu/libxml2.so.2 (0x00000c755c78b000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00000c755c69b000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00000c755d43a000)\n\tlibz.so.1 => /lib/x86_64-linux-gnu/libz.so.1 (0x00000c755c67b000)\n\tliblzma.so.5 => /lib/x86_64-linux-gnu/liblzma.so.5 (0x00000c755c64a000)\n",
+      "binding": {
+        "uid": 1000,
+        "permissions": {
+          "/tests": {
+            "read": false,
+            "write": false
+          },
+          "/logs/verifier": {
+            "read": false,
+            "write": false
+          },
+          "/probe": {
+            "read": false,
+            "write": false
+          },
+          "/app/submission": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-driver": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-driver/driver.cpp": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-repair-cmake": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-repair-cmake/CMakeLists.txt": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-upstream/precice-c2a06a65631e15a6622f5ecffae194f82ba0bae3": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-upstream/precice-c2a06a65631e15a6622f5ecffae194f82ba0bae3/src/query": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-upstream/precice-c2a06a65631e15a6622f5ecffae194f82ba0bae3/src/query/Index.hpp": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-upstream/precice-c2a06a65631e15a6622f5ecffae194f82ba0bae3/src/mesh/Mesh.hpp": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-upstream/precice-c2a06a65631e15a6622f5ecffae194f82ba0bae3/src/query/Index.cpp": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-repair-build/CMakeFiles/precice_repair.dir/opt/precice-upstream/precice-c2a06a65631e15a6622f5ecffae194f82ba0bae3/src/query/Index.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-repair-build/lib/libprecice.so.2.5.0": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-repair-build/CMakeFiles/projection_driver.dir/opt/precice-driver/driver.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-repair-build/bin/projection-driver": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/logging/LogConfiguration.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/logging/Tracer.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/logging/Logger.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/acceleration/Acceleration.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/acceleration/ConstantRelaxationAcceleration.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/acceleration/MVQNAcceleration.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/acceleration/AitkenAcceleration.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/acceleration/BaseQNAcceleration.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/acceleration/IQNILSAcceleration.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/acceleration/BroydenAcceleration.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/mesh/Mesh.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/mesh/Data.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/mesh/Edge.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/mesh/Vertex.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/mesh/Tetrahedron.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/mesh/Triangle.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/mesh/Utils.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/mesh/BoundingBox.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/mapping/LinearCellInterpolationMapping.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/mapping/Mapping.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/mapping/BarycentricBaseMapping.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/mapping/NearestNeighborMapping.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/mapping/Polation.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/mapping/NearestNeighborBaseMapping.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/mapping/NearestNeighborGradientMapping.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/mapping/NearestProjectionMapping.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/action/ScaleByAreaAction.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/action/ComputeCurvatureAction.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/action/RecorderAction.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/action/SummationAction.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/action/PythonAction.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/io/ExportCSV.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/io/TXTWriter.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/io/ExportVTP.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/io/ExportVTU.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/io/ExportXML.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/io/ExportVTK.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/io/TXTTableWriter.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/io/TXTReader.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/m2n/PointToPointCommunication.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/m2n/PointToPointComFactory.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/m2n/M2N.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/m2n/GatherScatterComFactory.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/m2n/GatherScatterCommunication.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/m2n/BoundM2N.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/math/barycenter.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/math/geometry.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/precice/Tooling.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/precice/SolverInterface.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/time/Time.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/time/Storage.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/time/Waveform.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/cplscheme/MultiCouplingScheme.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/cplscheme/BaseCouplingScheme.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/cplscheme/Constants.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/cplscheme/CouplingScheme.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/cplscheme/SerialCouplingScheme.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/cplscheme/BiCouplingScheme.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/cplscheme/CompositionalCouplingScheme.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/cplscheme/ParallelCouplingScheme.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/cplscheme/CouplingData.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/utils/Dimensions.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/utils/ManageUniqueIDs.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/utils/String.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/utils/stacktrace.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/utils/Helpers.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/utils/TableWriter.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/utils/IntraComm.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/utils/Petsc.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/utils/EventUtils.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/utils/Event.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/utils/EigenHelperFunctions.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/utils/Parallel.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/utils/networking.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/query/Index.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/xml/XMLTag.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/xml/ValueParser.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/xml/ConfigParser.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/xml/Printer.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/com/MPIPortsCommunication.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/com/MPICommunication.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/com/CommunicateMesh.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/com/SocketCommunicationFactory.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/com/ConnectionInfoPublisher.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/com/MPIDirectCommunication.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/com/MPIPortsCommunicationFactory.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/com/MPIRequest.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/com/CommunicateBoundingBox.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/com/SocketCommunication.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/com/SocketSendQueue.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/com/SocketRequest.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/com/Request.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/com/MPISinglePortsCommunicationFactory.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/com/MPISinglePortsCommunication.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/com/Communication.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/partition/Partition.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/partition/ProvidedPartition.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/partition/ReceivedPartition.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/com/config/CommunicationConfiguration.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/cplscheme/impl/AbsoluteConvergenceMeasure.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/cplscheme/impl/Extrapolation.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/cplscheme/impl/ResidualRelativeConvergenceMeasure.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/cplscheme/impl/MinIterationConvergenceMeasure.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/cplscheme/impl/RelativeConvergenceMeasure.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/cplscheme/config/CouplingSchemeConfiguration.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/precice/impl/versions.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/precice/impl/SolverInterfaceImpl.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/precice/impl/WriteDataContext.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/precice/impl/Participant.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/precice/impl/WatchPoint.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/precice/impl/DataContext.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/precice/impl/WatchIntegral.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/precice/impl/ReadDataContext.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/precice/config/ParticipantConfiguration.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/precice/config/SolverInterfaceConfiguration.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/precice/config/Configuration.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/m2n/config/M2NConfiguration.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/io/config/ExportConfiguration.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/action/config/ActionConfiguration.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/mapping/config/MappingConfiguration.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/mesh/config/MeshConfiguration.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/mesh/config/DataConfiguration.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/acceleration/impl/ResidualSumPreconditioner.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/acceleration/impl/ResidualPreconditioner.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/acceleration/impl/ConstantPreconditioner.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/acceleration/impl/QRFactorization.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/acceleration/impl/SVDFactorization.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/acceleration/impl/ValuePreconditioner.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/acceleration/impl/ParallelMatrixOperations.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/acceleration/config/AccelerationConfiguration.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/precice-build/CMakeFiles/precice.dir/src/logging/config/LogConfiguration.cpp.o": {
+            "read": true,
+            "write": false
+          }
+        },
+        "network": "denied"
+      },
+      "build": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "cmake",
+          "--build",
+          "/opt/precice-repair-build",
+          "--target",
+          "repair_sources",
+          "--parallel",
+          "4"
+        ],
+        "exit_code": 0,
+        "status": "built",
+        "elapsed_seconds": 46.709045292000155,
+        "sources_sha256": {
+          "Index.cpp": "1d8c898761637c25c3995b8ac60007f69ba62b7a42f173f9f0d3d37c239dbf45"
+        },
+        "removed_build_artifacts": [
+          "/opt/precice-repair-build/CMakeFiles/precice_repair.dir/opt/precice-upstream/precice-c2a06a65631e15a6622f5ecffae194f82ba0bae3/src/query/Index.cpp.o",
+          "/opt/precice-repair-build/lib/libprecice.so.2.5.0",
+          "/opt/precice-repair-build/CMakeFiles/projection_driver.dir/opt/precice-driver/driver.cpp.o",
+          "/opt/precice-repair-build/bin/projection-driver"
+        ],
+        "built_artifacts_sha256": {
+          "/opt/precice-repair-build/CMakeFiles/precice_repair.dir/opt/precice-upstream/precice-c2a06a65631e15a6622f5ecffae194f82ba0bae3/src/query/Index.cpp.o": "09892d86a7876c7c8bb89ba877b3d1ecef7a3e55eb43ec12756011172fa876ba",
+          "/opt/precice-repair-build/lib/libprecice.so.2.5.0": "01cb3960b3bc5abf6356b27fb74baee16ff70c41e94951aa23ec0c78f4718cf4",
+          "/opt/precice-repair-build/CMakeFiles/projection_driver.dir/opt/precice-driver/driver.cpp.o": "ee2cd9c375f629c9129763ffa724d9d9763692b5903a0132bd2d24e2cc263b82",
+          "/opt/precice-repair-build/bin/projection-driver": "37659b8d0082c54888e0065cdcb64912491d3e7f3054703b0219d94b33486f19"
+        }
+      },
+      "baseline_probe": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "/usr/local/bin/python",
+          "-c",
+          "import json,subprocess,gmsh,numpy,h5py; assert hasattr(gmsh.lib,\"gmshInitialize\"); r=json.loads(subprocess.check_output(['/opt/precice-repair-build/bin/projection-driver'],input='{\"dimension\":2,\"mode\":\"nearest\",\"vertices\":[[0,0],[1,0]],\"values\":[[0,0,0],[1,1,1]],\"edges\":[],\"triangles\":[],\"tetrahedra\":[],\"queries\":[[0,0]]}',text=True)); assert len(r)==1 and r[0]['weights']==[1.,0.] and r[0]['distance']==0; print('actual baseline Index passed')"
+        ],
+        "exit_code": 0,
+        "status": "ready",
+        "elapsed_seconds": 0.6067329100005736
+      },
+      "cpu_max": "400000 100000\n",
+      "memory_max": "8589934592\n"
+    },
+    {
+      "mode": "syntax",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "caeoj-precice1304-probes:preflight",
+        "python",
+        "/opt/backend_probe.py",
+        "syntax"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "classification": "build_error"
+    },
+    {
+      "mode": "extra",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "caeoj-precice1304-probes:preflight",
+        "python",
+        "/opt/backend_probe.py",
+        "extra"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "classification": "invalid_submission"
+    },
+    {
+      "mode": "symlink",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "caeoj-precice1304-probes:preflight",
+        "python",
+        "/opt/backend_probe.py",
+        "symlink"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "classification": "invalid_submission"
+    },
+    {
+      "mode": "compiler",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "caeoj-precice1304-probes:preflight",
+        "python",
+        "/opt/backend_probe.py",
+        "compiler"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "classification": "infrastructure_error",
+      "reason": "Trusted baseline build failed: build_error"
+    },
+    {
+      "mode": "baseline-runtime",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "caeoj-precice1304-probes:preflight",
+        "python",
+        "/opt/backend_probe.py",
+        "baseline-runtime"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "classification": "infrastructure_error",
+      "reason": "Trusted baseline runtime probe failed: probe_error"
+    },
+    {
+      "mode": "runtime-timeout",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "caeoj-precice1304-probes:preflight",
+        "python",
+        "/opt/backend_probe.py",
+        "runtime-timeout"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "actual_cpp_timeout": true,
+      "child_pid": "155",
+      "post_kill_states": [
+        "Z"
+      ],
+      "poll_interval_seconds": 0.1
+    }
+  ],
+  "started_unix": 1792732537.682064,
+  "finished_unix": 1792732833.0388658
+}

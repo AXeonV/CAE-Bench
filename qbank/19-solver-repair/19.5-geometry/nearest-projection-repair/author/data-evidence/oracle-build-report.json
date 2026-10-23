@@ -1,0 +1,34 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "cmake",
+    "--build",
+    "/opt/precice-repair-build",
+    "--target",
+    "repair_sources",
+    "--parallel",
+    "4"
+  ],
+  "exit_code": 0,
+  "status": "built",
+  "elapsed_seconds": 19.303834107999137,
+  "sources_sha256": {
+    "Index.cpp": "1d8c898761637c25c3995b8ac60007f69ba62b7a42f173f9f0d3d37c239dbf45"
+  },
+  "removed_build_artifacts": [
+    "/opt/precice-repair-build/CMakeFiles/precice_repair.dir/opt/precice-upstream/precice-c2a06a65631e15a6622f5ecffae194f82ba0bae3/src/query/Index.cpp.o",
+    "/opt/precice-repair-build/lib/libprecice.so.2.5.0",
+    "/opt/precice-repair-build/CMakeFiles/projection_driver.dir/opt/precice-driver/driver.cpp.o",
+    "/opt/precice-repair-build/bin/projection-driver"
+  ],
+  "built_artifacts_sha256": {
+    "/opt/precice-repair-build/CMakeFiles/precice_repair.dir/opt/precice-upstream/precice-c2a06a65631e15a6622f5ecffae194f82ba0bae3/src/query/Index.cpp.o": "09892d86a7876c7c8bb89ba877b3d1ecef7a3e55eb43ec12756011172fa876ba",
+    "/opt/precice-repair-build/lib/libprecice.so.2.5.0": "01cb3960b3bc5abf6356b27fb74baee16ff70c41e94951aa23ec0c78f4718cf4",
+    "/opt/precice-repair-build/CMakeFiles/projection_driver.dir/opt/precice-driver/driver.cpp.o": "ee2cd9c375f629c9129763ffa724d9d9763692b5903a0132bd2d24e2cc263b82",
+    "/opt/precice-repair-build/bin/projection-driver": "37659b8d0082c54888e0065cdcb64912491d3e7f3054703b0219d94b33486f19"
+  }
+}

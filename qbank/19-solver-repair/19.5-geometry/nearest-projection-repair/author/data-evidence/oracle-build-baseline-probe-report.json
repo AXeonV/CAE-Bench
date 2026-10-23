@@ -1,0 +1,15 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "/usr/local/bin/python",
+    "-c",
+    "import json,subprocess,gmsh,numpy,h5py; assert hasattr(gmsh.lib,\"gmshInitialize\"); r=json.loads(subprocess.check_output(['/opt/precice-repair-build/bin/projection-driver'],input='{\"dimension\":2,\"mode\":\"nearest\",\"vertices\":[[0,0],[1,0]],\"values\":[[0,0,0],[1,1,1]],\"edges\":[],\"triangles\":[],\"tetrahedra\":[],\"queries\":[[0,0]]}',text=True)); assert len(r)==1 and r[0]['weights']==[1.,0.] and r[0]['distance']==0; print('actual baseline Index passed')"
+  ],
+  "exit_code": 0,
+  "status": "ready",
+  "elapsed_seconds": 0.27212302299994917
+}

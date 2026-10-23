@@ -1,0 +1,70 @@
+{
+  "status": "passed",
+  "open_findings": [],
+  "closed_findings": [
+    {
+      "item": "max_source_bytes absent from statement",
+      "resolution": "final instruction explicitly states 1 MiB (1,048,576 bytes), actual configuration unchanged"
+    }
+  ],
+  "zip_sha256": "08223e23aeb1ab6cd9c01b53fd60fbb53dc4d4eacc29f04a6ba88d7d7e895a5c",
+  "formal_oracle": {
+    "job": "repair22-precice-oracle-v2",
+    "passed": 10,
+    "total": 10,
+    "completed": 10,
+    "exception_info": null
+  },
+  "backend_modes": [
+    {
+      "mode": "valid",
+      "passed": true,
+      "returncode": 0
+    },
+    {
+      "mode": "syntax",
+      "passed": true,
+      "returncode": 0
+    },
+    {
+      "mode": "extra",
+      "passed": true,
+      "returncode": 0
+    },
+    {
+      "mode": "symlink",
+      "passed": true,
+      "returncode": 0
+    },
+    {
+      "mode": "compiler",
+      "passed": true,
+      "returncode": 0
+    },
+    {
+      "mode": "baseline-runtime",
+      "passed": true,
+      "returncode": 0
+    },
+    {
+      "mode": "runtime-timeout",
+      "passed": true,
+      "returncode": 0
+    }
+  ],
+  "independent_readonly_checks": {
+    "source_image": "source-image-check.json",
+    "thresholds": "threshold-check.json",
+    "public_delta": "bounded-public-change-evidence.json",
+    "formal_binding": "formal-version-binding.json"
+  },
+  "inl_change": "plain filename suffix only; unchanged runtime executor; regression 29 tests exit 0; does not establish SU2 runtime support",
+  "limitations": [
+    "No paid model benchmark",
+    "No independent repeated full geometry audit; linked existing independent audit",
+    "Resource cgroup evidence from actual identical-configuration probe, not formal Oracle cgroup snapshot",
+    "No real compiler-timeout injection; syntax error, missing compiler, SDK health and runtime native timeout directly exercised",
+    "Finite permission and network probes are not whole-container security proof",
+    "Old e14c ZIP absent; historical text SHA reconstruction and existing audit record, no claimed full binary diff"
+  ]
+}

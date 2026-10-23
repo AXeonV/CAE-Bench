@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "base_image": "caeoj-precice1304-core:base",
+  "replacements": [
+    {
+      "submission": "Index.cpp",
+      "target": "/opt/precice-upstream/precice-c2a06a65631e15a6622f5ecffae194f82ba0bae3/src/query/Index.cpp"
+    }
+  ],
+  "build_directory": "/opt/precice-repair-build",
+  "build_target": "repair_sources",
+  "rebuild_files": [
+    "/opt/precice-repair-build/CMakeFiles/precice_repair.dir/opt/precice-upstream/precice-c2a06a65631e15a6622f5ecffae194f82ba0bae3/src/query/Index.cpp.o",
+    "/opt/precice-repair-build/lib/libprecice.so.2.5.0",
+    "/opt/precice-repair-build/CMakeFiles/projection_driver.dir/opt/precice-driver/driver.cpp.o",
+    "/opt/precice-repair-build/bin/projection-driver"
+  ],
+  "build_timeout_seconds": 180,
+  "max_source_bytes": 1048576,
+  "runner": "/app/qbank/19-solver-repair/19.5-geometry/nearest-projection-repair/public/run_case.py",
+  "baseline_probe": [
+    "/usr/local/bin/python",
+    "-c",
+    "import json,subprocess,gmsh,numpy,h5py; assert hasattr(gmsh.lib,\"gmshInitialize\"); r=json.loads(subprocess.check_output(['/opt/precice-repair-build/bin/projection-driver'],input='{\"dimension\":2,\"mode\":\"nearest\",\"vertices\":[[0,0],[1,0]],\"values\":[[0,0,0],[1,1,1]],\"edges\":[],\"triangles\":[],\"tetrahedra\":[],\"queries\":[[0,0]]}',text=True)); assert len(r)==1 and r[0]['weights']==[1.,0.] and r[0]['distance']==0; print('actual baseline Index passed')"
+  ]
+}

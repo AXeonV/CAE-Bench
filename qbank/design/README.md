@@ -1,5 +1,13 @@
 # 题库总体设计
 
+团队分发、仓库patch题型、既有case回收与快速判分的讨论见[题库与Benchmark发布规划](qbank-release-plan.md)；该稿尚未替代现行协议与执行流程。
+
+四章题目、现有选样及历史来源候选的逐题核对入口见[题目与case检查稿](release-task-case-review.md)，等待用户核定纳入范围，不代表发行资格。
+
+第二章最新Titan逐例观察及“无case不纳入发行”的筛选见[第二章发行筛选检查稿](reviews/titan-inventory-2026-10-23/chapter02-release-review.md)。有完整候选和发行验收通过分别记录。
+
+当前内部RC的实际纳入、排除、交付归档与验证边界见[发行装配验收记录](reviews/release-assembly-2026-10-23/README.md)，操作见[离线发行流程](../maintenance/RELEASE.md)。
+
 题库面向 CAE 各领域，统一按章、节、子节组织。第 0 章承担基础链路测试；第 1 章起要求 Agent 生产覆盖公开问题族的可复用求解器。给定 PDE 与通过物理描述定义分析任务，是题目描述与建模责任的区别，不作为两大类目录。
 
 本文件确定章级规划，后续逐章展开节、子节及具体题目。规划独立于算例来源、数据就绪程度和实施顺序；列入目录不表示已完成题目或参考验证。设计原则见 [PHILOSOPHY.md](../PHILOSOPHY.md)。

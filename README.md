@@ -4,6 +4,8 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 考生阅读本题 `instruction.md`、`DATA.md` 和 [通用数据协议](docs/CONTRACT.md) 即可确定任务与数据规则。维护方可查阅 [题库设计](qbank/design/README.md)、[运行装配](qbank/maintenance/RUNTIME.md)、[评分配置](docs/GRADING.md) 及 [Agent 测试记录](docs/AGENT-RESULTS.md)。
 
+向团队分发已选题目及本地数据，见[离线题库发行流程](qbank/maintenance/RELEASE.md)；既有候选发行版的范围、产物及实际验证见[装配验收记录](qbank/design/reviews/release-assembly-2026-10-23/README.md)。发行目录只包含明确纳入的题目，开发目录不等于可发布任务集。
+
 ## 设计
 
 - **统一数据协议**：Gmsh 存网格，HDF5 存数组，JSON 声明字段和条件；题面与 DATA 明确本题任务及数据语义，求解程序按统一接口读写。

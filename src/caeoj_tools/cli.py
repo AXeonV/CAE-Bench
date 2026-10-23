@@ -2,14 +2,20 @@
 import argparse
 import json
 from pathlib import Path
+import sys
 
 from .author import PROJECT_ROOT, load_author_module
 from .task_paths import task_directory
 
 
 def main(argv=None):
+    argv = list(sys.argv[1:] if argv is None else argv)
+    if argv and argv[0] == 'release':
+        from .release import main as release_main
+        return release_main(argv[1:])
     parser = argparse.ArgumentParser(prog='caeoj-maint')
     commands = parser.add_subparsers(dest='command', required=True)
+    commands.add_parser('release', help='Freeze, inspect, verify or extract an offline question-bank release')
     from .data_pool_cli import configure, run
     configure(commands.add_parser('data', help='Manage HF task pools and local assemblies'))
     make_parser = commands.add_parser('make-cases', help='Generate smoke-test author fixtures')

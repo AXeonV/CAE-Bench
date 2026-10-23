@@ -89,3 +89,11 @@ SoC为无量纲，域坐标ξ∈[0,1]是无量纲扩散长度，表面固定为�
 与19.3.2共用管流约束修复是来源关联，并不替代独立多占位能力。必须分别运行未修、仅表面、仅完整管流和完整修复，证明直接表面输出及联合管流均有辨识力；不得只换机制把单占位题重复。完整Flow同样含作者发现的质量源累加补足，按出处单列。
 
 真实SurfPhase、InterfaceKinetics及FlowReactor/ReactorNet生产参考，独立占位/原子守恒、浓度质量作用律及准稳态管流积分核查全部观测。限定理想简化机制，不声称完整催化工业模型适用性；完整API、来源、独立性复核与执行证据见[本题作者材料](../19-solver-repair/19.3-transport/multisite-surface-concentration-repair/author/README.md)。
+
+## 19.1.2 滞回材料试探状态恢复
+
+来源OpenSees issue1817及PR1818，同时保留真实HystereticMaterial和HystereticSMMaterial，允许对应两个cpp替换件。问题为单轴材料的trial/commit隔离、接近已提交应变重新求值、接受后续加载、显式rollback与reset；不是整个桥梁或模态分析。提交历史沿一侧单调骨架，非提交probe可跨零及越过屈服，可信驱动不在near-return前隐式回滚或以保存快照纠正输出。
+
+两类分别覆盖2/3点与2至7点正负骨架、捏拢和卸载参数；损伤与退化固定关闭。六个公开定义检查点返回应变、应力、切线及API离散累计功密度，后者按已接受步的梯形应力应变功定义，单位Pa=J/m³。计分非零应变远离非零骨架折点，零初态/reset切线按公开正侧初始斜率定义；阈值针对实际float64差，严格小于机器EPS，不混同等于阈值。
+
+真实上游材料类的最小固定修复生产参考，独立路径按单向分段骨架、斜率、提交快照和离散功核对全部计分状态；中间非提交probe响应不是作者另写材料标答。真实内核源码闭包不使用stub，保留COPYRIGHT。数据和源码版本、完整运行与独立审阅见[本题作者材料](../19-solver-repair/19.1-constraints/hysteretic-trial-state-repair/author/README.md)，完成状态由建设清单维护。

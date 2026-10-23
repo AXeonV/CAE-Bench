@@ -1,0 +1,1 @@
+"""Task declaration provider."""

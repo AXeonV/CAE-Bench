@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "base_image": "caeoj-opensees1817-runtime:base",
+  "replacements": [
+    {
+      "submission": "HystereticMaterial.cpp",
+      "target": "/opt/opensees-source/SRC/material/uniaxial/HystereticMaterial.cpp"
+    },
+    {
+      "submission": "HystereticSMMaterial.cpp",
+      "target": "/opt/opensees-source/SRC/material/uniaxial/HystereticSMMaterial.cpp"
+    }
+  ],
+  "build_directory": "/opt/material-build",
+  "build_target": "material_driver",
+  "rebuild_files": [
+    "/opt/material-build/CMakeFiles/material_driver.dir/opt/opensees-source/SRC/material/uniaxial/HystereticMaterial.cpp.o",
+    "/opt/material-build/CMakeFiles/material_driver.dir/opt/opensees-source/SRC/material/uniaxial/HystereticSMMaterial.cpp.o",
+    "/opt/material-build/material_driver"
+  ],
+  "build_timeout_seconds": 120,
+  "max_source_bytes": 1048576,
+  "runner": "/app/qbank/19-solver-repair/19.1-constraints/hysteretic-trial-state-repair/public/run_case.py",
+  "baseline_probe": [
+    "/opt/material-build/material_driver",
+    "/opt/material-driver/probe-input.txt",
+    "/tmp/material-baseline-probe.txt"
+  ]
+}

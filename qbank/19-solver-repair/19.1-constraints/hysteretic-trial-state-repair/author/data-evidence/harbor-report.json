@@ -1,0 +1,33 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "cmake",
+    "--build",
+    "/opt/material-build",
+    "--target",
+    "material_driver",
+    "--parallel",
+    "4"
+  ],
+  "exit_code": 0,
+  "status": "built",
+  "elapsed_seconds": 1.2228024369997001,
+  "sources_sha256": {
+    "HystereticMaterial.cpp": "9b1b9f25d0e18b85345d0cab09c53a43a43b09aa9c1a2b37c20fe90106777ad1",
+    "HystereticSMMaterial.cpp": "53f001b8b9f8298ee4b92ba15f300d73daf19ee1bc7be3d841ec4426331c8d9c"
+  },
+  "removed_build_artifacts": [
+    "/opt/material-build/CMakeFiles/material_driver.dir/opt/opensees-source/SRC/material/uniaxial/HystereticMaterial.cpp.o",
+    "/opt/material-build/CMakeFiles/material_driver.dir/opt/opensees-source/SRC/material/uniaxial/HystereticSMMaterial.cpp.o",
+    "/opt/material-build/material_driver"
+  ],
+  "built_artifacts_sha256": {
+    "/opt/material-build/CMakeFiles/material_driver.dir/opt/opensees-source/SRC/material/uniaxial/HystereticMaterial.cpp.o": "2e943b6d9039b3ccf8b6abbf33fa53b964161029b93a5e35da50cc23ab8827bd",
+    "/opt/material-build/CMakeFiles/material_driver.dir/opt/opensees-source/SRC/material/uniaxial/HystereticSMMaterial.cpp.o": "53e62897942b25b4296f8a0d8166833fe84ee3fb22ec8c4be92883afabaad0d9",
+    "/opt/material-build/material_driver": "9cd69cd704104aa41fb2fc31c751f6b0bc9acc87b1aa652d9e7d502eeffc3d99"
+  }
+}

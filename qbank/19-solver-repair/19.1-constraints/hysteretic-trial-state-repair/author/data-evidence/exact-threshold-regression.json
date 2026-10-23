@@ -1,0 +1,62 @@
+{
+  "category": "author extra boundary regression; not a formal pool case",
+  "reference_image_id": "sha256:211f19d51cd3f4c38548051cf8f53a46743a24963055853b00f04a48525d2e65",
+  "command": [
+    "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "--cpus",
+    "2",
+    "--memory",
+    "2g",
+    "--mount",
+    "type=bind,source=D:\\Code\\CAE-Bench-OJ\\runs\\authoring\\repair-22\\opensees-exact-threshold,target=/job",
+    "sha256:211f19d51cd3f4c38548051cf8f53a46743a24963055853b00f04a48525d2e65",
+    "/opt/material-build/material_driver",
+    "/job/input.txt",
+    "/job/output.txt"
+  ],
+  "programs": [
+    {
+      "kind": 0,
+      "committed": 0.0041,
+      "delta": 2.220446049250313e-16,
+      "actual_difference": 2.220446049250313e-16,
+      "actual_returned_strain": 0.004100000000000222,
+      "strict_equality_is_normal_nontrigger": true
+    },
+    {
+      "kind": 1,
+      "committed": 0.0041,
+      "delta": 2.220446049250313e-16,
+      "actual_difference": 2.220446049250313e-16,
+      "actual_returned_strain": 0.004100000000000222,
+      "strict_equality_is_normal_nontrigger": true
+    },
+    {
+      "kind": 0,
+      "committed": -0.0041,
+      "delta": -2.220446049250313e-16,
+      "actual_difference": -2.220446049250313e-16,
+      "actual_returned_strain": -0.004100000000000222,
+      "strict_equality_is_normal_nontrigger": true
+    },
+    {
+      "kind": 1,
+      "committed": -0.0041,
+      "delta": -2.220446049250313e-16,
+      "actual_difference": -2.220446049250313e-16,
+      "actual_returned_strain": -0.004100000000000222,
+      "strict_equality_is_normal_nontrigger": true
+    }
+  ],
+  "all_output_checks_passed": true,
+  "max_abs_error": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ]
+}

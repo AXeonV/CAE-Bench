@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "base_image": "caeoj-specfem661-runtime:base",
+  "replacements": [
+    {
+      "submission": "get_MPI.F90",
+      "target": "/opt/specfem-repair-build/upstream/src/specfem2D/get_MPI.F90"
+    }
+  ],
+  "build_directory": "/opt/specfem-repair-build",
+  "build_target": "repair_sources",
+  "rebuild_files": [
+    "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o",
+    "/opt/specfem-repair-build/upstream/bin/xspecfem2D"
+  ],
+  "baseline_timeout_seconds": 120,
+  "build_timeout_seconds": 120,
+  "max_source_bytes": 1048576,
+  "runner": "/app/qbank/19-solver-repair/19.6-waves/parallel-pml-reduction-repair/public/run_case.py",
+  "baseline_probe": [
+    "/usr/local/bin/python",
+    "/opt/specfem-baseline-health.py"
+  ]
+}

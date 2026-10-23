@@ -1,0 +1,61 @@
+{
+  "phase": "durable-running-not-yet-complete",
+  "frozen_archive_sha256": "9cd9a7479aaa7973194bfd5099e97fbc60f40c8133cddcce8b2e7552f54c3f39",
+  "frozen_judge_sha256": "5595500ff6c8612f4682f4eda0cdc6521c5af94343dcba6c825bb3555141180f",
+  "old_frozen_v2_path": "runs/harbor/tasks/parallel-pml-reduction-repair-frozen-v2",
+  "oracle": {
+    "job": "repair22-specfem661-oracle-v3",
+    "pid": 80208,
+    "command": [
+      "D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Scripts\\harbor.exe",
+      "run",
+      "--path",
+      "D:\\Code\\CAE-Bench-OJ\\runs\\harbor\\tasks\\parallel-pml-reduction-repair",
+      "--env",
+      "docker",
+      "--agent",
+      "oracle",
+      "--n-attempts",
+      "1",
+      "--n-concurrent",
+      "1",
+      "--max-retries",
+      "0",
+      "--job-name",
+      "repair22-specfem661-oracle-v3",
+      "--jobs-dir",
+      "D:\\Code\\CAE-Bench-OJ\\runs\\harbor\\jobs"
+    ],
+    "started_unix": 1792753326.730911,
+    "phase": "running"
+  },
+  "backend": {
+    "pid": 87816,
+    "started_unix": 1792753327.0435996,
+    "archive_sha256": "9cd9a7479aaa7973194bfd5099e97fbc60f40c8133cddcce8b2e7552f54c3f39",
+    "judge_sha256": "5595500ff6c8612f4682f4eda0cdc6521c5af94343dcba6c825bb3555141180f",
+    "phase": "running-seven-probes",
+    "commands": [
+      [
+        "D:\\Code\\CAE-Bench-OJ\\.venv\\Scripts\\python.exe",
+        "D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.6-waves\\parallel-pml-reduction-repair\\author\\prepare_backend_probes.py",
+        "--tests",
+        "D:\\Code\\CAE-Bench-OJ\\runs\\harbor\\tasks\\parallel-pml-reduction-repair\\tests",
+        "--context",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\specfem-661\\probe-context-v3"
+      ],
+      [
+        "D:\\Code\\CAE-Bench-OJ\\.venv\\Scripts\\python.exe",
+        "D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.6-waves\\parallel-pml-reduction-repair\\author\\run_backend_probes.py",
+        "--logs",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\specfem-661\\probe-evidence-v3",
+        "--expected-archive",
+        "9cd9a7479aaa7973194bfd5099e97fbc60f40c8133cddcce8b2e7552f54c3f39",
+        "--expected-judge",
+        "5595500ff6c8612f4682f4eda0cdc6521c5af94343dcba6c825bb3555141180f"
+      ]
+    ],
+    "last_returncode": 0
+  },
+  "shared_review": "runs/configure-judge/repair22-mpi-cleanup/report.md"
+}

@@ -1,0 +1,129 @@
+{
+  "job": "repair22-specfem661-oracle-v2",
+  "exception_info": null,
+  "reward": 1.0,
+  "passed": 8,
+  "total": 8,
+  "all_returned_arrays_equal": true,
+  "cases": [
+    {
+      "case": "01-connected-sh",
+      "score": 1,
+      "all_arrays_bitwise_equal": true,
+      "returned_file_sha256": "3372c257576536b8d33e0d9b541b2a070840c1af1a751f5042253c012b7c4211"
+    },
+    {
+      "case": "02-isolated-master-sh",
+      "score": 1,
+      "all_arrays_bitwise_equal": true,
+      "returned_file_sha256": "b87ed67320ddc672984eed8fe19fc13a7c01fd927960db7b49bdef42170408b0"
+    },
+    {
+      "case": "03-isolated-last-sh",
+      "score": 1,
+      "all_arrays_bitwise_equal": true,
+      "returned_file_sha256": "e8173c5523d3730e2c9e6b7796f1ab046bb67f67134d852a095b1873a7d9f05a"
+    },
+    {
+      "case": "04-isolated-master-pml",
+      "score": 1,
+      "all_arrays_bitwise_equal": true,
+      "returned_file_sha256": "e730a6ac9f2fc6f8f0ad80c7edec74b105f54eaead2f7d67fc21cd7cb83ed550"
+    },
+    {
+      "case": "05-isolated-last-four-pml",
+      "score": 1,
+      "all_arrays_bitwise_equal": true,
+      "returned_file_sha256": "a96694cfcb9f3d0ab080a53febd4ff481d7e633c6c5d2430ba98873031296388"
+    },
+    {
+      "case": "06-connected-acoustic",
+      "score": 1,
+      "all_arrays_bitwise_equal": true,
+      "returned_file_sha256": "b2146c1ab890b661db6dbf337a217ecc5771ccb99000ee8408223fb40bf35c39"
+    },
+    {
+      "case": "07-serial-sh",
+      "score": 1,
+      "all_arrays_bitwise_equal": true,
+      "returned_file_sha256": "444e38f0ab7ae251c3dd0b48243c0849d325c7659cceace8065b500ce82c7167"
+    },
+    {
+      "case": "08-serial-pml",
+      "score": 1,
+      "all_arrays_bitwise_equal": true,
+      "returned_file_sha256": "c854695ddeab1312de0ec10f88ed4cda6df129f6769c957949c6298c18269890"
+    }
+  ],
+  "build": {
+    "baseline-probe-report.json": {
+      "command": [
+        "setpriv",
+        "--reuid=1000",
+        "--regid=1000",
+        "--clear-groups",
+        "--no-new-privs",
+        "/usr/local/bin/python",
+        "/opt/specfem-baseline-health.py"
+      ],
+      "exit_code": 0,
+      "status": "ready",
+      "elapsed_seconds": 3.564770689998113
+    },
+    "baseline-report.json": {
+      "command": [
+        "setpriv",
+        "--reuid=1000",
+        "--regid=1000",
+        "--clear-groups",
+        "--no-new-privs",
+        "cmake",
+        "--build",
+        "/opt/specfem-repair-build",
+        "--target",
+        "repair_sources",
+        "--parallel",
+        "4"
+      ],
+      "exit_code": 0,
+      "status": "built",
+      "elapsed_seconds": 1.8711460909980815,
+      "removed_build_artifacts": [
+        "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o",
+        "/opt/specfem-repair-build/upstream/bin/xspecfem2D"
+      ]
+    },
+    "report.json": {
+      "command": [
+        "setpriv",
+        "--reuid=1000",
+        "--regid=1000",
+        "--clear-groups",
+        "--no-new-privs",
+        "cmake",
+        "--build",
+        "/opt/specfem-repair-build",
+        "--target",
+        "repair_sources",
+        "--parallel",
+        "4"
+      ],
+      "exit_code": 0,
+      "status": "built",
+      "elapsed_seconds": 1.9657241829991108,
+      "sources_sha256": {
+        "get_MPI.F90": "f8cdb8214e270674ddc8af880812f0f1c86a04c5c740e0ea8eb013a38f59da6e"
+      },
+      "removed_build_artifacts": [
+        "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o",
+        "/opt/specfem-repair-build/upstream/bin/xspecfem2D"
+      ],
+      "built_artifacts_sha256": {
+        "/opt/specfem-repair-build/upstream/obj/get_MPI.spec.o": "9c957fae9efcd97903a596f9f21b784d2898e60fe41471bcdab3cd0f48f40f43",
+        "/opt/specfem-repair-build/upstream/bin/xspecfem2D": "c0555ce10d47baa74c4152f76296f7801ab82aec9b877588722ec31f58dba7da"
+      }
+    }
+  },
+  "configured_source_repair_sha256": "b2457c8edc70aaa9e2a8fd477f79d574f0b784da41f4dc937a032f4621849152",
+  "tested_agent_zip_sha256": "53ab80e1e927c46b20bc2c12cb161e1b48cac988ec20b8cbb4e6ba25febecaeb"
+}

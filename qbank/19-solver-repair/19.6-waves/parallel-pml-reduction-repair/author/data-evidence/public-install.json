@@ -1,0 +1,79 @@
+{
+  "archive_sha256": "9cd9a7479aaa7973194bfd5099e97fbc60f40c8133cddcce8b2e7552f54c3f39",
+  "image": "caeoj-specfem661-reference:production",
+  "command": [
+    "docker",
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "--cpus",
+    "4",
+    "--memory",
+    "4g",
+    "-v",
+    "D:\\Code\\CAE-Bench-OJ\\dist\\parallel-pml-reduction-repair-agent.zip:/audit/exam.zip:ro",
+    "caeoj-specfem661-reference:production",
+    "python",
+    "-c",
+    "import json,subprocess,sys,shutil,zipfile,os\nfrom pathlib import Path\np=Path('/tmp/exam');p.mkdir();zipfile.ZipFile('/audit/exam.zip').extractall(p)\nr=subprocess.run([sys.executable,'-m','pip','install','.'],cwd=p,text=True,capture_output=True);assert r.returncode==0,r.stdout+'\\n'+r.stderr\nshutil.move(p/'src','/tmp/moved-sdk-source');os.chdir('/tmp');import caeoj;assert 'site-packages' in caeoj.__file__,caeoj.__file__\nrows=[];task=p/'qbank/19-solver-repair/19.6-waves/parallel-pml-reduction-repair';os.chdir(task)\nfor sample in sorted((task/'samples').iterdir()):\n output=Path('/tmp')/('sample-'+sample.name+'.h5');command=[sys.executable,'public/run_case.py','--input','samples/'+sample.name+'/input/problem.json','--output',str(output)];r=subprocess.run(command,text=True,capture_output=True);assert r.returncode==0,r.stdout+'\\n'+r.stderr\n grading=[sys.executable,'-m','caeoj','grade','--input','samples/'+sample.name+'/input/problem.json','--output',str(output),'--grading','samples/'+sample.name+'/reference/grading.json'];g=subprocess.run(grading,text=True,capture_output=True);d=json.loads(g.stdout);assert d['score']==1,d;rows.append({'sample':sample.name,'exit_code':r.returncode,'score':d['score'],'working_directory':str(task),'run_command':command,'grade_command':grading})\nr=subprocess.run([sys.executable,'-m','pip','check'],text=True,capture_output=True);assert r.returncode==0,r.stdout+r.stderr\nprint(json.dumps({'ordinary_offline_install':True,'sdk_source_moved':True,'installed_module':caeoj.__file__,'samples':rows,'pip_check':r.stdout.strip()}))\n"
+  ],
+  "ordinary_offline_install": true,
+  "sdk_source_moved": true,
+  "installed_module": "/usr/local/lib/python3.14/site-packages/caeoj/__init__.py",
+  "samples": [
+    {
+      "sample": "01",
+      "exit_code": 0,
+      "score": 1,
+      "working_directory": "/tmp/exam/qbank/19-solver-repair/19.6-waves/parallel-pml-reduction-repair",
+      "run_command": [
+        "/usr/local/bin/python",
+        "public/run_case.py",
+        "--input",
+        "samples/01/input/problem.json",
+        "--output",
+        "/tmp/sample-01.h5"
+      ],
+      "grade_command": [
+        "/usr/local/bin/python",
+        "-m",
+        "caeoj",
+        "grade",
+        "--input",
+        "samples/01/input/problem.json",
+        "--output",
+        "/tmp/sample-01.h5",
+        "--grading",
+        "samples/01/reference/grading.json"
+      ]
+    },
+    {
+      "sample": "02",
+      "exit_code": 0,
+      "score": 1,
+      "working_directory": "/tmp/exam/qbank/19-solver-repair/19.6-waves/parallel-pml-reduction-repair",
+      "run_command": [
+        "/usr/local/bin/python",
+        "public/run_case.py",
+        "--input",
+        "samples/02/input/problem.json",
+        "--output",
+        "/tmp/sample-02.h5"
+      ],
+      "grade_command": [
+        "/usr/local/bin/python",
+        "-m",
+        "caeoj",
+        "grade",
+        "--input",
+        "samples/02/input/problem.json",
+        "--output",
+        "/tmp/sample-02.h5",
+        "--grading",
+        "samples/02/reference/grading.json"
+      ]
+    }
+  ],
+  "pip_check": "No broken requirements found."
+}

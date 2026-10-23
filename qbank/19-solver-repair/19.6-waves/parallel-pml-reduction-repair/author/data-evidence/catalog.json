@@ -1,0 +1,194 @@
+[
+  {
+    "case": "01-connected-sh",
+    "parameters": {
+      "density": 2500.0,
+      "p_speed": 3000.0,
+      "s_speed": 1500.0,
+      "frequency": 20.0,
+      "time_step": 0.00025,
+      "processes": 3,
+      "wave_branch": 0
+    },
+    "rectangles": [
+      [
+        0,
+        1600
+      ]
+    ],
+    "h": 25,
+    "pml": false,
+    "meaning": "connected mesh: all MPI ranks participate; interfering signed loads",
+    "origin": "author topology/physics adaptation to original SPECFEM2D PR660 collective defect; not original BENCHIE input"
+  },
+  {
+    "case": "02-isolated-master-sh",
+    "parameters": {
+      "density": 2500.0,
+      "p_speed": 3000.0,
+      "s_speed": 1500.0,
+      "frequency": 20.0,
+      "time_step": 0.00025,
+      "processes": 3,
+      "wave_branch": 0
+    },
+    "rectangles": [
+      [
+        0,
+        800
+      ],
+      [
+        1600,
+        1600
+      ]
+    ],
+    "h": 25,
+    "pml": false,
+    "meaning": "master rank has no interfaces, others exchange SH wavefield",
+    "origin": "author topology/physics adaptation to original SPECFEM2D PR660 collective defect; not original BENCHIE input"
+  },
+  {
+    "case": "03-isolated-last-sh",
+    "parameters": {
+      "density": 2500.0,
+      "p_speed": 3000.0,
+      "s_speed": 1500.0,
+      "frequency": 20.0,
+      "time_step": 0.000125,
+      "processes": 3,
+      "wave_branch": 0
+    },
+    "rectangles": [
+      [
+        1600,
+        1600
+      ],
+      [
+        0,
+        800
+      ]
+    ],
+    "h": 20,
+    "pml": false,
+    "meaning": "last rank has no interfaces, sign change and refined time/space",
+    "origin": "author topology/physics adaptation to original SPECFEM2D PR660 collective defect; not original BENCHIE input"
+  },
+  {
+    "case": "04-isolated-master-pml",
+    "parameters": {
+      "density": 2500.0,
+      "p_speed": 1500.0,
+      "s_speed": 0.0,
+      "frequency": 20.0,
+      "time_step": 0.00025,
+      "processes": 3,
+      "wave_branch": 1
+    },
+    "rectangles": [
+      [
+        0,
+        800
+      ],
+      [
+        1600,
+        1600
+      ]
+    ],
+    "h": 25,
+    "pml": true,
+    "meaning": "acoustic potential with absorbing top/bottom; master rank isolated",
+    "origin": "author topology/physics adaptation to original SPECFEM2D PR660 collective defect; not original BENCHIE input"
+  },
+  {
+    "case": "05-isolated-last-four-pml",
+    "parameters": {
+      "density": 1000.0,
+      "p_speed": 1500.0,
+      "s_speed": 0.0,
+      "frequency": 20.0,
+      "time_step": 0.00025,
+      "processes": 4,
+      "wave_branch": 1
+    },
+    "rectangles": [
+      [
+        1600,
+        2400
+      ],
+      [
+        0,
+        800
+      ]
+    ],
+    "h": 25,
+    "pml": true,
+    "meaning": "four processes, nonmaster isolated rank and three communicating ranks",
+    "origin": "author topology/physics adaptation to original SPECFEM2D PR660 collective defect; not original BENCHIE input"
+  },
+  {
+    "case": "06-connected-acoustic",
+    "parameters": {
+      "density": 2500.0,
+      "p_speed": 1500.0,
+      "s_speed": 0.0,
+      "frequency": 10.0,
+      "time_step": 0.00025,
+      "processes": 3,
+      "wave_branch": 1
+    },
+    "rectangles": [
+      [
+        0,
+        1600
+      ]
+    ],
+    "h": 25,
+    "pml": false,
+    "meaning": "acoustic reflecting walls, lower source frequency, all ranks connected",
+    "origin": "author topology/physics adaptation to original SPECFEM2D PR660 collective defect; not original BENCHIE input"
+  },
+  {
+    "case": "07-serial-sh",
+    "parameters": {
+      "density": 2800.0,
+      "p_speed": 3000.0,
+      "s_speed": 1500.0,
+      "frequency": 20.0,
+      "time_step": 0.000125,
+      "processes": 1,
+      "wave_branch": 0
+    },
+    "rectangles": [
+      [
+        0,
+        800
+      ]
+    ],
+    "h": 20,
+    "pml": false,
+    "meaning": "serial preservation with different density and orthogonal observation",
+    "origin": "author topology/physics adaptation to original SPECFEM2D PR660 collective defect; not original BENCHIE input"
+  },
+  {
+    "case": "08-serial-pml",
+    "parameters": {
+      "density": 2500.0,
+      "p_speed": 1500.0,
+      "s_speed": 0.0,
+      "frequency": 10.0,
+      "time_step": 0.00025,
+      "processes": 1,
+      "wave_branch": 1
+    },
+    "rectangles": [
+      [
+        0,
+        800
+      ]
+    ],
+    "h": 25,
+    "pml": true,
+    "meaning": "serial PML preservation at changed frequency",
+    "origin": "author topology/physics adaptation to original SPECFEM2D PR660 collective defect; not original BENCHIE input"
+  }
+]

@@ -129,7 +129,7 @@ class HarborTests(unittest.TestCase):
         path.write_text(json.dumps(config))
         with self.assertRaisesRegex(ValueError, 'plain supported'):
             configuration(task, self.root)
-        for suffix in ('py', 'f90', 'hpp', 'inl', 'C'):
+        for suffix in ('py', 'f90', 'hpp', 'inl', 'C', 'cc'):
             config['replacements'] = [{'submission': 'material.' + suffix,
                                        'target': '/opt/source/material.' + suffix}]
             path.write_text(json.dumps(config))

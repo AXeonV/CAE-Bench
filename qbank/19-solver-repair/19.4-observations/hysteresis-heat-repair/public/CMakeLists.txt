@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.20)
+project(hysteresis_source_repair NONE)
+set(SOLVER_PYTHON "/opt/solver-venv/bin/python")
+set(SOURCE_FILE "${CMAKE_BINARY_DIR}/source/src/pybamm/models/submodels/thermal/base_thermal.py")
+add_custom_target(repair_sources ALL COMMAND "${SOLVER_PYTHON}" -m py_compile "${SOURCE_FILE}" VERBATIM)

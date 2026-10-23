@@ -14,9 +14,8 @@ import unittest
 
 import numpy as np
 
-from grading_fixtures import evaluate_arrays
+from grading_fixtures import evaluate_arrays, pointwise_policy
 from caeoj.case_grading import grade_case
-from caeoj.grading_policy import load_policy
 from caeoj.sdk import load_problem, load_result
 from caeoj.validation import check_result, output_support, validate_input
 
@@ -40,7 +39,8 @@ class TransientTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.config = json.loads((TASK/'judge-config.json').read_text(encoding='utf-8'))
-        cls.policy = load_policy(TASK/'author/grading-template.json')
+        # Historical absolute-error physics regression, independent of release score.
+        cls.policy = pointwise_policy(atol=0.02, rtol=0)
         cls.cases = {}
         for path in sorted((TASK/'cases').glob('*/problem.json')):
             p = load_problem(path)

@@ -10,9 +10,8 @@ import numpy as np
 from numpy.polynomial.polynomial import polyval2d
 
 from caeoj.sdk import load_problem, write_result
-from caeoj.grading_policy import load_policy
 from caeoj_tools.format_examples import randomize_example
-from caeoj_tools.grading_policy import materialize_references
+from caeoj_tools.grading_policy import materialize_references, author_case_grading
 from caeoj.validation import GMSH_LOCK, write_json
 from catalog import Case, CASES, SIDES, D, R, N, F, source_coefficients, boundary_coefficients, exact_mean, equation
 
@@ -183,7 +182,7 @@ def generate(destination=TASK_ROOT):
         if all(op in (N, F) for op in case.boundaries):
             descriptions += ["", f"另给定域平均温度 `{record['mean_temperature']:.12g} K`。"]
     (destination / "TEST-CASES.md").write_text("\n".join(descriptions) + "\n", encoding="utf-8")
-    materialize_references(destination, load_policy(TASK_ROOT/'author/grading-template.json'))
+    materialize_references(destination, case_config=author_case_grading(TASK_ROOT))
     publish_sample(destination)
     return len(CASES)
 

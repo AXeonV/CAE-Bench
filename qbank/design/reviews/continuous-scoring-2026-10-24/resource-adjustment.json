@@ -1,0 +1,13 @@
+{
+  "task": "compressible-navier-stokes-3d",
+  "previous_evaluation_timeout_seconds": 60,
+  "new_evaluation_timeout_seconds": 120,
+  "solver_timeout_seconds": 1800,
+  "reason": "Measured real case 001 reference evaluation with newly installed frozen public runtime: 57.391 s, leaving insufficient startup/host-load margin under 60 s. Set 120 s for this task only.",
+  "measurement": "large-preflight.json",
+  "scope": "Representative on this host, not full-case or cross-machine resource qualification.",
+  "previous_verifier_timeout_seconds": 12000,
+  "new_verifier_timeout_seconds": 12180,
+  "formal_case_count": 6,
+  "verifier_budget_formula": "base + case_count*(solver_timeout + evaluation_timeout + per_case_overhead)"
+}

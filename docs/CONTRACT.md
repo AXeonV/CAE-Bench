@@ -454,7 +454,7 @@ python -m caeoj validate-output --input 'problem.json' --output 'result.h5'
 python -m caeoj grade --input problem.json --output result.h5 --grading reference/grading.json
 ```
 
-评分参数不进入 problem.json 物理输入。CLI以0表示通过、1表示候选非法或答案错误、2表示输入／参考／配置／工具错误；基础设施错误不计考生零分。
+评分参数不进入 problem.json 物理输入。判分CLI以0表示满分、1表示未满分（含部分分、候选非法或答案错误）、2表示输入／参考／配置／工具错误；实际分值读取JSON报告中的score，不能把退出码1直接当作零分。基础设施错误不计考生零分。
 
 ## 12. 支持范围与扩展规则
 

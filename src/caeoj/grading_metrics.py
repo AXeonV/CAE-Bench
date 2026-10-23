@@ -104,7 +104,7 @@ def evaluate_observation(actual, expected, tree, *, ids, times, weights=None):
                             sl = slice(cs[0], cs[-1] + 1)
                             yield t, start, actual[t, start:end, sl], expected[t, start:end, sl]
                 scale = ref_scale = 0.0
-                overflow_difference = False
+                overflow_difference = overflow_reference = False
                 for _, _, a, b in chunks():
                     with np.errstate(over='ignore'):
                         delta = np.abs(a - b)
@@ -113,7 +113,13 @@ def evaluate_observation(actual, expected, tree, *, ids, times, weights=None):
                         scale = float(np.finfo(np.float64).max)
                     else:
                         scale = max(scale, float(np.max(delta)))
-                    ref_scale = max(ref_scale, float(np.max(np.abs(b))))
+                    with np.errstate(over='ignore'):
+                        centered = np.abs(b - node.get('reference_offset', 0))
+                    if np.any(np.isinf(centered)):
+                        overflow_reference = True
+                        ref_scale = float(np.finfo(np.float64).max)
+                    else:
+                        ref_scale = max(ref_scale, float(np.max(centered)))
                 scale = scale or 1.0
                 ref_scale = ref_scale or 1.0
                 error_sum = ref_sum = weight_sum = 0.0
@@ -125,7 +131,8 @@ def evaluate_observation(actual, expected, tree, *, ids, times, weights=None):
                         error = np.abs(a / scale - b / scale)
                     else:
                         error = np.abs(a - b) / scale
-                    bn = b / ref_scale
+                    bn = (b / ref_scale - node.get('reference_offset', 0) / ref_scale
+                          if overflow_reference else (b - node.get('reference_offset', 0)) / ref_scale)
                     w = (weights[start:start + len(a)] / weight_scale)[:, None] if weights is not None else np.ones((len(a), 1))
                     error_sum += float(np.sum(w * error**2))
                     ref_sum += float(np.sum(w * bn**2))

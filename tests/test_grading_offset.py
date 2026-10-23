@@ -92,11 +92,23 @@ class ReferenceOffsetTests(unittest.TestCase):
                 if expected>Decimal.from_float(np.finfo(float).max):self.assertEqual(value,'overflow')
                 else:self.assertAlmostEqual(value/float(expected),1.,places=13)
 
+    def test_nrmse_centered_reference_rms_preserves_extreme_finite_scales(self):
+        for actual,reference,offset in ((1.1e308,1e308,-1e308),(1e308,-1e308,1e308),(2.,1.,1e100)):
+            self.set_values(actual,reference)
+            tree=dict(metric='nrmse',time='per_time',components='per_component',
+                      limit=1.,scale_floor=1e-300,reference_offset=offset)
+            value=self.grade(tree)['checks']['outputs']['fields']['velocity']['groups'][0]['value']
+            with localcontext() as ctx:
+                ctx.prec=100
+                a,b,o=map(Decimal.from_float,(actual,reference,offset))
+                expected=abs(a-b)/max(abs(b-o),Decimal.from_float(1e-300))
+            self.assertAlmostEqual(value/float(expected),1.,places=12)
+
     def test_schema_finiteness_allowed_metrics_and_renderer(self):
         for value in (True,'100000',{'field':'pressure_reference'},float('inf'),float('nan')):
             with self.subTest(value=value):
                 with self.assertRaises(ValueError):validate_policy(self.policy(self.leaf(reference_offset=value)))
-        for metric in ('rmse','max_abs','nrmse'):
+        for metric in ('rmse','max_abs'):
             leaf=dict(metric=metric,time='per_time',components='joint',limit=1,reference_offset=1)
             if metric=='nrmse':leaf['scale_floor']=1
             with self.assertRaises(ValueError):validate_policy(self.policy(leaf))

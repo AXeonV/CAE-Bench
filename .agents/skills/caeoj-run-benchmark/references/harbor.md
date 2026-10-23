@@ -38,7 +38,7 @@ Windows 用原生进程工具完成相同验证，后台启动使用隐藏窗口
 
 ## 结果与续作
 
-检查 job 的 `config.json`、`result.json` 和所有 trial；仓库 judge 在 `verifier/report.json` 提供逐例状态与错误，`reward.txt` 为汇总通过比例。缺报告或覆盖不足时不能只凭 reward 判完成。
+检查 job 的 `config.json`、`result.json` 和所有 trial；仓库 judge 在 `verifier/report.json` 提供逐例状态与分值，`reward.txt` 为全部正式case分数的平均值。连续评分下须保留partial_credit及JSON score，不能用满分例数或CLI退出码把部分分归零；第0章二元评分的平均值仍等于通过比例。缺报告或覆盖不足时不能只凭 reward 判完成。
 
 坏输入、参考或配置归基础设施问题；当前 grade 返回退出码 2、score 为 null，Harbor judge 中止，不按 solver 零分处理。具体失败状态仍核对实际报告。
 

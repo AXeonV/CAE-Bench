@@ -7,9 +7,8 @@ import shutil
 
 import numpy as np
 
-from caeoj.grading_policy import load_policy
 from caeoj_tools.format_examples import randomize_example
-from caeoj_tools.grading_policy import materialize_references
+from caeoj_tools.grading_policy import materialize_references, author_case_grading
 from caeoj.sdk import load_problem, write_result
 from caeoj.validation import write_json
 from catalog import CASES, SIDES
@@ -113,7 +112,7 @@ def generate(destination=ROOT, selected=None):
         lines.append(f"| {case.name} | {case.profile} | {' / '.join(case.boundaries)} | {record['nodes']} | "
                      f"{record['triangles']} | {record['output_times_s'][1]:.6g} / {record['output_times_s'][-1]:.6g} |")
     (destination/'TEST-CASES.md').write_text('\n'.join(lines)+'\n', encoding='utf-8')
-    materialize_references(destination, load_policy(ROOT/'author/grading-template.json'))
+    materialize_references(destination, case_config=author_case_grading(ROOT))
     if selected is None:
         publish_samples(destination)
     return len(cases)

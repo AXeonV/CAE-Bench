@@ -10,7 +10,7 @@
 
 ## 试运行评测
 
-仓库已提供 11 题的作者侧 author/grading-template.json（沿用各题 atol/rtol，每时刻每字段允许最多 0.1% 偏差空间点）、judge-config.json 与 Harbor 资源配置，详见 [试运行参数和运行步骤](EVALUATION.md)。baseline 可选，尚未正式校准；转换完成时由作者模板生成正式 case 的 reference/grading.json；运行时仅读取 case 配置。
+仓库已提供11题的唯一完整作者模板author/grading-template.json、judge-config.json与Harbor资源配置。当前使用逐量／分量／时刻最大NRMSE的连续评分，详见[评分与运行步骤](EVALUATION.md)。baseline可选，参考、尺度及资源仍待正式校准；准备流程读取完整作者计划，生成每例reference/grading.json，运行时仅读本例配置。
 
 ## 克隆后使用
 

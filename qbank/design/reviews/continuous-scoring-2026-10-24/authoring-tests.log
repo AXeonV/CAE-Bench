@@ -1,0 +1,181 @@
+..................... [ 67%]
+..........                                                               [100%]
+================================== FAILURES ===================================
+_ ConversionTests.test_frozen_selections_match_current_contracts (task='advection-1d') _
+
+self = <test_pdebench_prepare.ConversionTests testMethod=test_frozen_selections_match_current_contracts>
+
+    def test_frozen_selections_match_current_contracts(self):
+        for model in MODELS:
+            task=task_directory(model.task,ROOT)
+            selection=json.loads((task/'author/data-evidence/reference/selection.json').read_text(encoding='utf-8'))
+            with self.subTest(task=model.task):
+>               self.assertEqual(selection['contract_sha256'],contract_hash(task))
+E               AssertionError: '3a0a0af8efae36e28e79bc4a27cf9b11da1cf57d3abbf3643ac355925eb3339d' != '99fdd3e467eb86fe5f4635f4b700a41aa583bf1907b0603ba987bf2dd8f965cf'
+E               - 3a0a0af8efae36e28e79bc4a27cf9b11da1cf57d3abbf3643ac355925eb3339d
+E               + 99fdd3e467eb86fe5f4635f4b700a41aa583bf1907b0603ba987bf2dd8f965cf
+
+tests\test_pdebench_prepare.py:252: AssertionError
+_ ConversionTests.test_frozen_selections_match_current_contracts (task='burgers-1d') _
+
+self = <test_pdebench_prepare.ConversionTests testMethod=test_frozen_selections_match_current_contracts>
+
+    def test_frozen_selections_match_current_contracts(self):
+        for model in MODELS:
+            task=task_directory(model.task,ROOT)
+            selection=json.loads((task/'author/data-evidence/reference/selection.json').read_text(encoding='utf-8'))
+            with self.subTest(task=model.task):
+>               self.assertEqual(selection['contract_sha256'],contract_hash(task))
+E               AssertionError: 'b5937bd64b8e5163378bcb6077e0316e8497f823c2efac8a8329463b345afb0c' != '57359a10f071c522f7fec649a3e8a7051b5b2d4617a67b1fdac2e17ed502a23b'
+E               - b5937bd64b8e5163378bcb6077e0316e8497f823c2efac8a8329463b345afb0c
+E               + 57359a10f071c522f7fec649a3e8a7051b5b2d4617a67b1fdac2e17ed502a23b
+
+tests\test_pdebench_prepare.py:252: AssertionError
+_ ConversionTests.test_frozen_selections_match_current_contracts (task='reaction-diffusion-1d') _
+
+self = <test_pdebench_prepare.ConversionTests testMethod=test_frozen_selections_match_current_contracts>
+
+    def test_frozen_selections_match_current_contracts(self):
+        for model in MODELS:
+            task=task_directory(model.task,ROOT)
+            selection=json.loads((task/'author/data-evidence/reference/selection.json').read_text(encoding='utf-8'))
+            with self.subTest(task=model.task):
+>               self.assertEqual(selection['contract_sha256'],contract_hash(task))
+E               AssertionError: '03dcc2fede5dd378a887f99b3439a1a90360ebf8860f089104e92092011cbc37' != 'db69e65762b8af5da65f6edfef784d192c01c50fa805407ce2568083861765a5'
+E               - 03dcc2fede5dd378a887f99b3439a1a90360ebf8860f089104e92092011cbc37
+E               + db69e65762b8af5da65f6edfef784d192c01c50fa805407ce2568083861765a5
+
+tests\test_pdebench_prepare.py:252: AssertionError
+_ ConversionTests.test_frozen_selections_match_current_contracts (task='diffusion-sorption-1d') _
+
+self = <test_pdebench_prepare.ConversionTests testMethod=test_frozen_selections_match_current_contracts>
+
+    def test_frozen_selections_match_current_contracts(self):
+        for model in MODELS:
+            task=task_directory(model.task,ROOT)
+            selection=json.loads((task/'author/data-evidence/reference/selection.json').read_text(encoding='utf-8'))
+            with self.subTest(task=model.task):
+>               self.assertEqual(selection['contract_sha256'],contract_hash(task))
+E               AssertionError: '1b8436faf21e3ccd3ecfeb006a075b4dacf0b20f2e1ceb18994ad6c9335f4dba' != 'cdc12d88619d6f674182ea98e91aaba8c0d752a48aa0a6654ccef6b4d946ea9e'
+E               - 1b8436faf21e3ccd3ecfeb006a075b4dacf0b20f2e1ceb18994ad6c9335f4dba
+E               + cdc12d88619d6f674182ea98e91aaba8c0d752a48aa0a6654ccef6b4d946ea9e
+
+tests\test_pdebench_prepare.py:252: AssertionError
+_ ConversionTests.test_frozen_selections_match_current_contracts (task='reaction-diffusion-2d') _
+
+self = <test_pdebench_prepare.ConversionTests testMethod=test_frozen_selections_match_current_contracts>
+
+    def test_frozen_selections_match_current_contracts(self):
+        for model in MODELS:
+            task=task_directory(model.task,ROOT)
+            selection=json.loads((task/'author/data-evidence/reference/selection.json').read_text(encoding='utf-8'))
+            with self.subTest(task=model.task):
+>               self.assertEqual(selection['contract_sha256'],contract_hash(task))
+E               AssertionError: 'a669188b5abccfd77abc5421468836ff1b4c7c1ec3e16cef9b3846b6db9d800b' != 'a47607454d7a4610ae11d808ec5ec86d5650e6d016e5f862e39f6604104b241c'
+E               - a669188b5abccfd77abc5421468836ff1b4c7c1ec3e16cef9b3846b6db9d800b
+E               + a47607454d7a4610ae11d808ec5ec86d5650e6d016e5f862e39f6604104b241c
+
+tests\test_pdebench_prepare.py:252: AssertionError
+_ ConversionTests.test_frozen_selections_match_current_contracts (task='darcy-flow-2d') _
+
+self = <test_pdebench_prepare.ConversionTests testMethod=test_frozen_selections_match_current_contracts>
+
+    def test_frozen_selections_match_current_contracts(self):
+        for model in MODELS:
+            task=task_directory(model.task,ROOT)
+            selection=json.loads((task/'author/data-evidence/reference/selection.json').read_text(encoding='utf-8'))
+            with self.subTest(task=model.task):
+>               self.assertEqual(selection['contract_sha256'],contract_hash(task))
+E               AssertionError: '4b873772fd007367d8a2b5d839ce5b640eb9d54a9fa00fe2634cf9e52070bc14' != '0f601eeaae6e540a7bf0e3cad42277b7bdf446294625e2f302b2b1f2736d86c6'
+E               - 4b873772fd007367d8a2b5d839ce5b640eb9d54a9fa00fe2634cf9e52070bc14
+E               + 0f601eeaae6e540a7bf0e3cad42277b7bdf446294625e2f302b2b1f2736d86c6
+
+tests\test_pdebench_prepare.py:252: AssertionError
+_ ConversionTests.test_frozen_selections_match_current_contracts (task='shallow-water-2d') _
+
+self = <test_pdebench_prepare.ConversionTests testMethod=test_frozen_selections_match_current_contracts>
+
+    def test_frozen_selections_match_current_contracts(self):
+        for model in MODELS:
+            task=task_directory(model.task,ROOT)
+            selection=json.loads((task/'author/data-evidence/reference/selection.json').read_text(encoding='utf-8'))
+            with self.subTest(task=model.task):
+>               self.assertEqual(selection['contract_sha256'],contract_hash(task))
+E               AssertionError: '1af14b86245eb629ffcecbf684713db83ee9bb4f0f3f149f1c11c75d5b3dab4c' != 'c78c6f39bba6fc4b175e9c1dcd65fac404a111dbe1e0c10b9060302b9ef19621'
+E               - 1af14b86245eb629ffcecbf684713db83ee9bb4f0f3f149f1c11c75d5b3dab4c
+E               + c78c6f39bba6fc4b175e9c1dcd65fac404a111dbe1e0c10b9060302b9ef19621
+
+tests\test_pdebench_prepare.py:252: AssertionError
+_ ConversionTests.test_frozen_selections_match_current_contracts (task='compressible-navier-stokes-1d') _
+
+self = <test_pdebench_prepare.ConversionTests testMethod=test_frozen_selections_match_current_contracts>
+
+    def test_frozen_selections_match_current_contracts(self):
+        for model in MODELS:
+            task=task_directory(model.task,ROOT)
+            selection=json.loads((task/'author/data-evidence/reference/selection.json').read_text(encoding='utf-8'))
+            with self.subTest(task=model.task):
+>               self.assertEqual(selection['contract_sha256'],contract_hash(task))
+E               AssertionError: '728acd5134648bf3bf326ffc40aa526b60d46679e3e073240cb5b83f32162155' != 'f5a74ecbe3be6b26ecb26f19cea3e2fc67a1f04e81c63706d473c0a490fad0f1'
+E               - 728acd5134648bf3bf326ffc40aa526b60d46679e3e073240cb5b83f32162155
+E               + f5a74ecbe3be6b26ecb26f19cea3e2fc67a1f04e81c63706d473c0a490fad0f1
+
+tests\test_pdebench_prepare.py:252: AssertionError
+_ ConversionTests.test_frozen_selections_match_current_contracts (task='compressible-navier-stokes-2d') _
+
+self = <test_pdebench_prepare.ConversionTests testMethod=test_frozen_selections_match_current_contracts>
+
+    def test_frozen_selections_match_current_contracts(self):
+        for model in MODELS:
+            task=task_directory(model.task,ROOT)
+            selection=json.loads((task/'author/data-evidence/reference/selection.json').read_text(encoding='utf-8'))
+            with self.subTest(task=model.task):
+>               self.assertEqual(selection['contract_sha256'],contract_hash(task))
+E               AssertionError: 'c260e874c745f2d4870884b002f4278dd4c785eee42e03a733c0aadf553c7d60' != '53abf40e2e3f84193b4008197a607130eadeeab000a9118a068db8c2bd4fccdf'
+E               - c260e874c745f2d4870884b002f4278dd4c785eee42e03a733c0aadf553c7d60
+E               + 53abf40e2e3f84193b4008197a607130eadeeab000a9118a068db8c2bd4fccdf
+
+tests\test_pdebench_prepare.py:252: AssertionError
+_ ConversionTests.test_frozen_selections_match_current_contracts (task='compressible-navier-stokes-3d') _
+
+self = <test_pdebench_prepare.ConversionTests testMethod=test_frozen_selections_match_current_contracts>
+
+    def test_frozen_selections_match_current_contracts(self):
+        for model in MODELS:
+            task=task_directory(model.task,ROOT)
+            selection=json.loads((task/'author/data-evidence/reference/selection.json').read_text(encoding='utf-8'))
+            with self.subTest(task=model.task):
+>               self.assertEqual(selection['contract_sha256'],contract_hash(task))
+E               AssertionError: '86547fd52cd9fb9da4e6c77d98c55eff377aaf97f1b4c12a769e5fb99e42a457' != 'f8a19eef0ac1841d0bdd52ffec2b65910944332948dbb10c718b9b12c622633e'
+E               - 86547fd52cd9fb9da4e6c77d98c55eff377aaf97f1b4c12a769e5fb99e42a457
+E               + f8a19eef0ac1841d0bdd52ffec2b65910944332948dbb10c718b9b12c622633e
+
+tests\test_pdebench_prepare.py:252: AssertionError
+_ ConversionTests.test_frozen_selections_match_current_contracts (task='incompressible-navier-stokes-2d') _
+
+self = <test_pdebench_prepare.ConversionTests testMethod=test_frozen_selections_match_current_contracts>
+
+    def test_frozen_selections_match_current_contracts(self):
+        for model in MODELS:
+            task=task_directory(model.task,ROOT)
+            selection=json.loads((task/'author/data-evidence/reference/selection.json').read_text(encoding='utf-8'))
+            with self.subTest(task=model.task):
+>               self.assertEqual(selection['contract_sha256'],contract_hash(task))
+E               AssertionError: '87bfaba22ff326d6e485087525716bcb7eccdd5c55d558b639a2ba7848f891b4' != '5423e82e27bd935da3f7d8fd42df2065a1ef94d55583b637210be0499e9ad826'
+E               - 87bfaba22ff326d6e485087525716bcb7eccdd5c55d558b639a2ba7848f891b4
+E               + 5423e82e27bd935da3f7d8fd42df2065a1ef94d55583b637210be0499e9ad826
+
+tests\test_pdebench_prepare.py:252: AssertionError
+=========================== short test summary info ===========================
+SUBFAILED(task='advection-1d') tests/test_pdebench_prepare.py::ConversionTests::test_frozen_selections_match_current_contracts
+SUBFAILED(task='burgers-1d') tests/test_pdebench_prepare.py::ConversionTests::test_frozen_selections_match_current_contracts
+SUBFAILED(task='reaction-diffusion-1d') tests/test_pdebench_prepare.py::ConversionTests::test_frozen_selections_match_current_contracts
+SUBFAILED(task='diffusion-sorption-1d') tests/test_pdebench_prepare.py::ConversionTests::test_frozen_selections_match_current_contracts
+SUBFAILED(task='reaction-diffusion-2d') tests/test_pdebench_prepare.py::ConversionTests::test_frozen_selections_match_current_contracts
+SUBFAILED(task='darcy-flow-2d') tests/test_pdebench_prepare.py::ConversionTests::test_frozen_selections_match_current_contracts
+SUBFAILED(task='shallow-water-2d') tests/test_pdebench_prepare.py::ConversionTests::test_frozen_selections_match_current_contracts
+SUBFAILED(task='compressible-navier-stokes-1d') tests/test_pdebench_prepare.py::ConversionTests::test_frozen_selections_match_current_contracts
+SUBFAILED(task='compressible-navier-stokes-2d') tests/test_pdebench_prepare.py::ConversionTests::test_frozen_selections_match_current_contracts
+SUBFAILED(task='compressible-navier-stokes-3d') tests/test_pdebench_prepare.py::ConversionTests::test_frozen_selections_match_current_contracts
+SUBFAILED(task='incompressible-navier-stokes-2d') tests/test_pdebench_prepare.py::ConversionTests::test_frozen_selections_match_current_contracts
+11 failed, 31 passed, 40 subtests passed in 196.97s (0:03:16)

@@ -1,14 +1,30 @@
 {
-  "version": 2,
-  "quantities": {
-    "s": {
-      "unit": "1",
-      "rule": {
-        "metric": "max_abs",
-        "time": "per_time",
-        "components": "per_component",
-        "limit": 0.0001
+  "version": 1,
+  "checks": [
+    {
+      "id": "fields",
+      "evaluator": "direct_outputs",
+      "reference": "reference.h5",
+      "policy": {
+        "version": 2,
+        "quantities": {
+          "s": {
+            "unit": "1",
+            "rule": {
+              "metric": "nrmse",
+              "time": "per_time",
+              "components": "per_component",
+              "scale_floor": 0.0001,
+              "limit": 0.05
+            }
+          }
+        }
       }
     }
+  ],
+  "scoring": {
+    "metric": "max_nrmse",
+    "full_credit": 0.05,
+    "zero_credit": 0.1
   }
 }

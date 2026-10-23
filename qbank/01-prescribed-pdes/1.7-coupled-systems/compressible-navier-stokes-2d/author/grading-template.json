@@ -1,32 +1,41 @@
 {
   "version": 1,
-  "fields": {
-    "density": {
-      "metric": "violation_fraction",
-      "time": "per_time",
-      "components": "joint",
-      "count": "spatial_points",
-      "atol": 0.1,
-      "rtol": 0.2,
-      "limit": 0.001
-    },
-    "velocity": {
-      "metric": "violation_fraction",
-      "time": "per_time",
-      "components": "joint",
-      "count": "spatial_points",
-      "atol": 0.1,
-      "rtol": 0.2,
-      "limit": 0.001
-    },
-    "pressure": {
-      "metric": "violation_fraction",
-      "time": "per_time",
-      "components": "joint",
-      "count": "spatial_points",
-      "atol": 0.1,
-      "rtol": 0.2,
-      "limit": 0.001
+  "checks": [
+    {
+      "id": "outputs",
+      "evaluator": "direct_outputs",
+      "reference": "reference.h5",
+      "policy": {
+        "version": 1,
+        "fields": {
+          "density": {
+            "metric": "nrmse",
+            "time": "per_time",
+            "components": "per_component",
+            "scale_floor": 0.1,
+            "limit": 0.05
+          },
+          "velocity": {
+            "metric": "nrmse",
+            "time": "per_time",
+            "components": "per_component",
+            "scale_floor": 0.1,
+            "limit": 0.05
+          },
+          "pressure": {
+            "metric": "nrmse",
+            "time": "per_time",
+            "components": "per_component",
+            "scale_floor": 0.1,
+            "limit": 0.05
+          }
+        }
+      }
     }
+  ],
+  "scoring": {
+    "metric": "max_nrmse",
+    "full_credit": 0.05,
+    "zero_credit": 0.1
   }
 }

@@ -10,6 +10,7 @@ import json
 import re
 import subprocess
 from pathlib import Path
+from caeoj_tools.grading_policy import author_policy
 
 from scenarios import FAMILIES, family_for
 from coverage import matrix, representation_targets
@@ -184,7 +185,7 @@ def main():
         model = re.findall(r"fluid-[a-z0-9-]+-v1", data)
         dim = 3 if slug.endswith("3d") or slug in ("thermal-generalized-newtonian","transition-gas","free-molecular") else 2
         entries = []
-        grading=__import__('json').loads((task_dir/'author/grading-template.json').read_text(encoding='utf-8'))
+        grading=author_policy(task_dir)
         for i,(key,title,drive,coverage) in enumerate(FAMILIES[family]):
             drive,coverage=resolve_scenario(family,i,slug,kind,drive,coverage)
             entry = {

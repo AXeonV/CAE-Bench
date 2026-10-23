@@ -8,7 +8,7 @@ import numpy as np
 from caeoj.case_grading import grade_case
 from caeoj.sdk import load_problem
 from caeoj.storage import write_hdf5
-from caeoj.validation import output_support, read_hdf5
+from caeoj.validation import output_support, read_hdf5, validate_output
 from caeoj_tools.author import load_author_module
 from caeoj_tools import data_pool as pool
 
@@ -37,12 +37,13 @@ class ChapterZeroGradingTests(unittest.TestCase):
         write_hdf5(self.output,arrays)
         return grade_case(path,self.output,self.source/'reference'/name/'grading.json')
 
-    def test_all_cases_and_samples_have_complete_passing_submissions(self):
+    def test_formal_cases_pass_and_random_samples_only_guarantee_format(self):
         for name,_ in self.generator.CASES:
             with self.subTest(case=name):self.assertEqual(self.grade(name)['score'],1)
         for name,_ in self.generator.SAMPLES:
             sample=self.source/'samples'/name
-            self.assertEqual(grade_case(sample/'input/problem.json',sample/'output/result.h5',sample/'reference/grading.json')['score'],1)
+            self.assertTrue(validate_output(sample/'input/problem.json',sample/'output/result.h5')['valid'])
+            self.assertFalse((sample/'reference').exists())
 
     def test_sparse_reference_is_p1_not_the_bilinear_formula_between_nodes(self):
         path=self.source/'cases/02-x/problem.json'
@@ -97,7 +98,8 @@ class ChapterZeroGradingTests(unittest.TestCase):
         sample=selection['samples']['02']
         item=pool.checked_json(store.get(value['repository']['path']+'/'+sample['case']['path']))
         self.assertEqual(item['example'],'reference/example.h5')
-        self.assertIn('reference/probe-reference.h5',item['reference']['files'])
+        self.assertEqual(item['reference']['files'],['reference/example.h5'])
+        self.assertEqual(sample['kind'],'format')
 
 
 if __name__=='__main__':unittest.main()

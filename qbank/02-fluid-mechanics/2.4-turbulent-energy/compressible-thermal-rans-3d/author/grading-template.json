@@ -1,45 +1,60 @@
 {
-  "version": 2,
-  "quantities": {
-    "velocity": {
-      "unit": "m/s",
-      "rule": {
-        "metric": "pointwise",
-        "time": "per_time",
-        "components": "per_component",
-        "atol": 0.01,
-        "rtol": 0.05
-      }
-    },
-    "pressure": {
-      "unit": "Pa",
-      "rule": {
-        "metric": "pointwise",
-        "time": "per_time",
-        "components": "per_component",
-        "atol": 2.0,
-        "rtol": 0.05
-      }
-    },
-    "temperature": {
-      "unit": "K",
-      "rule": {
-        "metric": "pointwise",
-        "time": "per_time",
-        "components": "per_component",
-        "atol": 0.2,
-        "rtol": 0.02
-      }
-    },
-    "density": {
-      "unit": "kg/m3",
-      "rule": {
-        "metric": "pointwise",
-        "time": "per_time",
-        "components": "per_component",
-        "atol": 0.001,
-        "rtol": 0.05
+  "version": 1,
+  "checks": [
+    {
+      "id": "outputs",
+      "evaluator": "direct_outputs",
+      "reference": "reference.h5",
+      "policy": {
+        "version": 2,
+        "quantities": {
+          "velocity": {
+            "unit": "m/s",
+            "rule": {
+              "metric": "nrmse",
+              "time": "per_time",
+              "components": "per_component",
+              "scale_floor": 0.01,
+              "limit": 0.05
+            }
+          },
+          "pressure": {
+            "unit": "Pa",
+            "rule": {
+              "metric": "nrmse",
+              "time": "per_time",
+              "components": "per_component",
+              "scale_floor": 2.0,
+              "limit": 0.05
+            }
+          },
+          "temperature": {
+            "unit": "K",
+            "rule": {
+              "metric": "nrmse",
+              "time": "per_time",
+              "components": "per_component",
+              "scale_floor": 0.2,
+              "limit": 0.05
+            }
+          },
+          "density": {
+            "unit": "kg/m3",
+            "rule": {
+              "metric": "nrmse",
+              "time": "per_time",
+              "components": "per_component",
+              "scale_floor": 0.001,
+              "limit": 0.05
+            }
+          }
+        }
       }
     }
+  ],
+  "scoring": {
+    "metric": "max_nrmse",
+    "full_credit": 0.05,
+    "zero_credit": 0.1
   }
 }

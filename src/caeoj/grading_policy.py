@@ -156,7 +156,7 @@ def render_policy(policy):
         elif metric == 'max_scaled':
             text = f"max(|误差|/(atol+rtol×{reference_scale})) ≤ {node['limit']}，atol={node['atol']}，rtol={node['rtol']}"
         elif metric == 'nrmse':
-            text = f"RMSE / max(参考 RMS, {node['scale_floor']}) ≤ {node['limit']}"
+            text = f"RMSE / max(√加权平均(({reference_scale})²), {node['scale_floor']}) ≤ {node['limit']}"
         else:
             text = f"{'RMSE' if metric == 'rmse' else '最大绝对误差'} ≤ {node['limit']}"
         weight = f"，按输入字段 {node['weight_field']} 加权" if 'weight_field' in node else '，等采样权重'

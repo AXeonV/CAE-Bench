@@ -58,6 +58,17 @@ class HarborTests(unittest.TestCase):
         publisher.publish(TASK, root=self.root)
         return Path(prepare.prepare(TASK, self.root)['task_directory'])
 
+    def test_partial_scores_are_summed_without_rounding_to_pass_counts(self):
+        logs=self.root/'partial-logs';logs.mkdir()
+        config=dict(timeout_seconds=1)
+        with patch.object(judge,'LOGS',logs):
+            report=judge.save_report(config,[{'score':1.},{'score':.6},{'score':0.}],3,{},[],complete=True)
+        self.assertAlmostEqual(report['score'],1.6)
+        self.assertAlmostEqual(report['reward'],1.6/3)
+        self.assertEqual(report['passed_cases'],1)
+        self.assertEqual(report['partial_cases'],1)
+        self.assertAlmostEqual(float((logs/'reward.txt').read_text()),1.6/3)
+
     def test_explicit_public_assets_are_hashed_and_do_not_include_author_files(self):
         import hashlib
         task = self.root / TASK_PATH
@@ -488,7 +499,8 @@ class HarborTests(unittest.TestCase):
         config.update(stage='provisional', max_output_bytes=2*1024**3)
         policy_path = next((self.root/TASK_PATH/'reference').glob('*/grading.json'))
         policy = json.loads(policy_path.read_text(encoding='utf-8'))
-        policy['checks'][0]['policy']['quantities']['temperature']['rule'].update(atol=0.1, rtol=0.2)
+        policy.pop('scoring',None)
+        policy['checks'][0]['policy']['quantities']['temperature']['rule']=dict(metric='pointwise',time='per_time',components='per_component',atol=.1,rtol=.2)
         policy_path.write_text(json.dumps(policy))
         config_path.write_text(json.dumps(config))
         publisher.publish(TASK, root=self.root)
@@ -602,7 +614,7 @@ class HarborTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Unsupported Harbor config field'):
             prepare.prepare(TASK, self.root)
 
-    def test_actual_grader_aggregates_pass_and_fail(self):
+    def test_actual_grader_aggregates_full_and_partial_credit(self):
         directory = self.prepared()
         private = directory / 'tests'
         config_path = private / 'judge-config.json'
@@ -615,7 +627,9 @@ class HarborTests(unittest.TestCase):
         def execution(work, timeout, case_logs):
             arrays = read_hdf5(private / 'reference' / case_logs.name / 'reference.h5')
             if case_logs.name == names[1]:
-                arrays['temperature'] += 0.02
+                import numpy as np
+                scale=max(float(np.sqrt(np.mean(arrays['temperature']**2))),.01)
+                arrays['temperature'] += .07*scale
             write_hdf5(work / 'result.h5', arrays)
             return None
 
@@ -625,13 +639,16 @@ class HarborTests(unittest.TestCase):
                 patch.object(judge.os, 'chown', create=True):
             judge.main()
         report = json.loads((logs / 'report.json').read_text(encoding='utf-8'))
-        self.assertEqual([row['score'] for row in report['cases']], [1, 0])
-        self.assertEqual(report['score'], 1)
+        self.assertEqual(report['cases'][0]['score'],1.)
+        self.assertAlmostEqual(report['cases'][1]['score'],.6)
+        self.assertAlmostEqual(report['score'],1.6)
+        self.assertEqual(report['passed_cases'],1)
+        self.assertEqual(report['partial_cases'],1)
         self.assertEqual(report['total_cases'], 2)
         self.assertEqual(report['stage'], 'provisional')
         self.assertEqual(report['limits']['timeout_seconds'], config['timeout_seconds'])
         self.assertIsNone(report['limits']['max_output_bytes'])
-        self.assertEqual(float((logs / 'reward.txt').read_text(encoding='utf-8')), 0.5)
+        self.assertAlmostEqual(float((logs / 'reward.txt').read_text(encoding='utf-8')), .8)
 
     def test_evaluation_timeout_is_infrastructure_error_without_reward(self):
         directory = self.prepared()

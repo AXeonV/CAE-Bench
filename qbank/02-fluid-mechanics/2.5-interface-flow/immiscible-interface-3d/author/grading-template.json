@@ -1,38 +1,53 @@
 {
-  "version": 2,
-  "quantities": {
-    "alpha": {
-      "unit": "1",
-      "rule": {
-        "metric": "pointwise",
-        "time": "per_time",
-        "components": "per_component",
-        "atol": 0.005,
-        "rtol": 0.03
-      }
-    },
-    "pressure": {
-      "unit": "Pa",
-      "rule": {
-        "metric": "pointwise",
-        "time": "per_time",
-        "components": "per_component",
-        "atol": 1.0,
-        "rtol": 0.03,
-        "reference_offset": {
-          "parameter": "pressure_reference"
+  "version": 1,
+  "checks": [
+    {
+      "id": "outputs",
+      "evaluator": "direct_outputs",
+      "reference": "reference.h5",
+      "policy": {
+        "version": 2,
+        "quantities": {
+          "alpha": {
+            "unit": "1",
+            "rule": {
+              "metric": "nrmse",
+              "time": "per_time",
+              "components": "per_component",
+              "scale_floor": 0.005,
+              "limit": 0.05
+            }
+          },
+          "pressure": {
+            "unit": "Pa",
+            "rule": {
+              "metric": "nrmse",
+              "time": "per_time",
+              "components": "per_component",
+              "scale_floor": 1.0,
+              "limit": 0.05,
+              "reference_offset": {
+                "parameter": "pressure_reference"
+              }
+            }
+          },
+          "velocity": {
+            "unit": "m/s",
+            "rule": {
+              "metric": "nrmse",
+              "time": "per_time",
+              "components": "per_component",
+              "scale_floor": 0.001,
+              "limit": 0.05
+            }
+          }
         }
       }
-    },
-    "velocity": {
-      "unit": "m/s",
-      "rule": {
-        "metric": "pointwise",
-        "time": "per_time",
-        "components": "per_component",
-        "atol": 0.001,
-        "rtol": 0.03
-      }
     }
+  ],
+  "scoring": {
+    "metric": "max_nrmse",
+    "full_credit": 0.05,
+    "zero_credit": 0.1
   }
 }

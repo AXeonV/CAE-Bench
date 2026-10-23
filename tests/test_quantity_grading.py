@@ -116,42 +116,40 @@ class QuantityPolicyTests(unittest.TestCase):
         actual['region_label'][0, 0, 0] += 1
         self.assertEqual(evaluate_arrays(p, actual, reference, policy=policy)['score'], 0)
 
-    def test_all_chapter_two_configs_grade_requested_quantities_and_exact_boundaries(self):
-        from caeoj.grading_policy import load_policy
-        policies = sorted((ROOT / 'qbank/02-fluid-mechanics').glob('*/*/author/grading-template.json'))
-        self.assertEqual(len(policies), 65)
+    def test_release_chapter_two_quantity_nrmse_binding_and_threshold_sides(self):
+        from caeoj_tools.grading_policy import author_policy
+        scope=json.loads((ROOT/'qbank/design/release-flow-scope.json').read_text(encoding='utf-8'))
+        policies=sorted([ROOT/item['path']/'author/grading-template.json' for item in scope['tasks']]+
+                        list((ROOT/'qbank/02-fluid-mechanics/2.13-cfdcodebench').glob('*/author/grading-template.json')))
+        self.assertEqual(len(policies),67)
         for path in policies:
-            with self.subTest(task=path.parent.name):
-                policy = load_policy(path)
-                outputs = {}
-                reference = {'ids': np.array([7], dtype=np.int64), 'times': np.array([0.], dtype=np.float64)}
-                actual = deepcopy(reference)
-                for i, (quantity, entry) in enumerate(policy['quantities'].items()):
-                    key = f'array_{i}'
-                    outputs[f'observation_{i}'] = dict(array=key, quantity=quantity, location='probe',
-                        time_axis='output', dtype='float64', kind='scalar', component_shape=[1],
-                        components=['value'], unit=entry['unit'], value_kind='point')
-                    rule = entry['rule']
-                    offset = 65536. if isinstance(rule.get('reference_offset'), dict) else 0.
-                    reference[key] = np.full((1, 1, 1), offset)
-                    actual[key] = reference[key] + rule['atol']
-                # Numerical grading fixture only: it is not a physical CAE case,
-                # a reference solver or material released to candidates.
-                manifest = dict(spatial_dimension=2, fields={}, outputs=outputs,
-                    locations={'probe': {'kind': 'points', 'ids': 'ids', 'coordinates': 'coordinates'}},
-                    time_axes={'output': 'times'}, physics={'model': 'identity', 'parameters': {
-                        'pressure_reference': {'value': 65536., 'unit': 'Pa'}}})
-                problem = SimpleNamespace(manifest=manifest, arrays={**reference,
-                    'coordinates': np.array([[0., 0.]])})
-                bound = resolve_policy(policy, problem)
-                def accepted():
-                    return all(evaluate_field(problem, name, actual[spec['array']], reference[spec['array']], bound['fields'][name])['passed'] for name,spec in outputs.items())
-                self.assertTrue(accepted())
-                for key in (s['array'] for s in outputs.values()):
-                    before = actual[key].copy()
-                    actual[key][:] = np.nextafter(actual[key], np.inf)
-                    self.assertFalse(accepted())
-                    actual[key] = before
+            with self.subTest(task=path.parent.parent.name):
+                policy=author_policy(path.parent.parent)
+                outputs={};fields={}
+                reference={'ids':np.array([7],dtype=np.int64),'times':np.array([0.],dtype=np.float64)}
+                scales={}
+                for i,(quantity,entry) in enumerate(policy['quantities'].items()):
+                    key=f'array_{i}';rule=entry['rule']
+                    self.assertEqual(rule['metric'],'nrmse')
+                    self.assertEqual((rule['time'],rule['components']),('per_time','per_component'))
+                    self.assertEqual(rule['limit'],.05)
+                    outputs[f'observation_{i}']=dict(array=key,quantity=quantity,location='probe',time_axis='output',
+                        dtype='float64',kind='scalar',component_shape=[1],components=['value'],unit=entry['unit'],value_kind='point')
+                    offset=65536. if isinstance(rule.get('reference_offset'),dict) else rule.get('reference_offset',0.)
+                    scales[key]=max(rule['scale_floor'],1.)
+                    reference[key]=np.full((1,1,1),offset+scales[key])
+                    if 'weight_field' in rule:
+                        weight=rule['weight_field'];fields[weight]=dict(array=weight,kind='scalar',dtype='float64',location='probe')
+                        reference[weight]=np.ones((1,1,1))
+                manifest=dict(fields=fields,outputs=outputs,locations={'probe':{'ids':'ids'}},time_axes={'output':'times'},
+                    physics={'parameters':{'pressure_reference':{'value':65536.,'unit':'Pa'}}})
+                problem=SimpleNamespace(manifest=manifest,arrays=reference)
+                bound=resolve_policy(policy,problem)
+                for relative,accepted in ((.049,True),(.051,False)):
+                    for name,spec in outputs.items():
+                        key=spec['array'];actual=reference[key]+relative*scales[key]
+                        report=evaluate_field(problem,name,actual,reference[key],bound['fields'][name])
+                        self.assertEqual(report['passed'],accepted)
 
     def test_local_smoke_consumes_its_configured_policy(self):
         from caeoj_tools.author import load_author_module

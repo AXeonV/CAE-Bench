@@ -244,12 +244,27 @@ class ConversionTests(unittest.TestCase):
         np.testing.assert_allclose(actual[1],expected,rtol=0,atol=2e-13)
         np.testing.assert_allclose(burgers_average(np.full(8,2.3),[0.,.1,2.],.001),2.3,atol=1e-12)
 
-    def test_frozen_selections_match_current_contracts(self):
+    def test_historical_source_selections_keep_explicit_identity_and_roles(self):
         for model in MODELS:
             task=task_directory(model.task,ROOT)
             selection=json.loads((task/'author/data-evidence/reference/selection.json').read_text(encoding='utf-8'))
             with self.subTest(task=model.task):
-                self.assertEqual(selection['contract_sha256'],contract_hash(task))
+                self.assertEqual(selection['task'],model.task)
+                self.assertEqual(selection['status'],'frozen')
+                self.assertRegex(selection['identity'],r'^[0-9a-f]{64}$')
+                self.assertRegex(selection['contract_sha256'],r'^[0-9a-f]{64}$')
+                source_ids={s['id'] for s in selection['source_files']}
+                self.assertTrue(source_ids)
+                self.assertTrue(selection['entries'])
+                roles=set()
+                for entry in selection['entries']:
+                    self.assertIn(entry['source_id'],source_ids)
+                    self.assertIn(entry['kind'],{'case','sample'})
+                    self.assertIsInstance(entry['index'],int)
+                    self.assertGreaterEqual(entry['index'],0)
+                    identity=(entry['kind'],entry['id'])
+                    self.assertNotIn(identity,roles)
+                    roles.add(identity)
 
     def test_contract_binding_is_portable_across_line_endings(self):
         with tempfile.TemporaryDirectory(dir=ROOT/'runs') as tmp:
@@ -432,6 +447,21 @@ class PipelineTests(unittest.TestCase):
             self.assertIn('Existing problem definition differs',failed['errors'][0]['error'])
             self.assertEqual(edited.read_text(),changed)
             self.assertEqual(digest(reference),before)
+
+    def test_changed_public_grading_contract_requires_explicit_revision(self):
+        # Historical source freezes remain historical. Changing a current
+        # scoring statement must not silently re-certify the old binding.
+        with tempfile.TemporaryDirectory() as tmp:
+            model,task,local,catalog,cache,stage,budget=self.fixture(Path(tmp))
+            kwargs={'local':local,'max_cases':1}
+            prepare_task(model,catalog,task,cache,stage,budget,**kwargs)
+            frozen=task/'author/data-evidence/reference/selection.json'
+            before=frozen.read_bytes()
+            instruction=task/'instruction.md'
+            instruction.write_text(instruction.read_text(encoding='utf-8')+'\nContinuous score at 5% and 10%.\n',encoding='utf-8')
+            with self.assertRaisesRegex(PreparationError,'Frozen selection'):
+                prepare_task(model,catalog,task,cache,stage,budget,**kwargs)
+            self.assertEqual(frozen.read_bytes(),before)
 
     def test_real_pipeline_disjoint_resume_and_tamper_repair(self):
         with tempfile.TemporaryDirectory() as tmp:

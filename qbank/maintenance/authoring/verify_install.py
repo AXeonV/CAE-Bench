@@ -70,9 +70,8 @@ v={s["array"]:np.zeros((len(p.arrays[m["time_axes"][s["time_axis"]]]),len(p.arra
 write_result(sys.argv[2],p,v);load_result(p,sys.argv[2])
 '''
         subprocess.run([str(python),'-I','-c',script,str(path),str(output)],cwd=work,check=True,capture_output=True,encoding='utf-8',errors='backslashreplace')
-        from caeoj.case_grading import direct_config
-        from caeoj.grading_policy import load_policy
-        config=direct_config(load_policy(task/'author/grading-template.json'))
+        from caeoj_tools.grading_policy import author_case_grading
+        config=author_case_grading(task)
         config['checks'][0]['reference']=output.name
         grading=path.parent/'grading.json';grading.write_text(json.dumps(config))
         commands=[['info','--input',str(path)],['validate-input',str(path)],

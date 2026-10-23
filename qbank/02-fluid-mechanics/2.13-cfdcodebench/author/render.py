@@ -1,6 +1,7 @@
 """Expand source definitions into self-contained candidate materials and runtime facts."""
 import json,tomllib
 from catalog import catalog,SECTION,ROOT,WORK,REVISION
+from caeoj_tools.continuous_scoring import convert_grading, scoring_text
 
 def dumps(value):return json.dumps(value,ensure_ascii=False,indent=2)+'\n'
 
@@ -12,10 +13,10 @@ def grading(c):
     fields={n:rule(c['index']) for n in c['fields']}
     policy=dict(version=2,quantities={n:dict(unit='1',rule=r) for n,r in fields.items()})
     if not c['pressure'] and not c['offset']:
-        return dict(version=1,checks=[dict(id='fields',evaluator='direct_outputs',reference='reference.h5',policy=policy)])
-    return dict(version=1,checks=[dict(id='fields',evaluator='field.normalized_outputs',reference='reference.h5',
+        return convert_grading(dict(version=1,checks=[dict(id='fields',evaluator='direct_outputs',reference='reference.h5',policy=policy)]))
+    return convert_grading(dict(version=1,checks=[dict(id='fields',evaluator='field.normalized_outputs',reference='reference.h5',
         policy=policy,weight_field='weights',transforms={n:dict(offset=c['offset'] if n=='T' else 0,
-        remove_mean=c['pressure'] and n=='p') for n in c['fields']})])
+        remove_mean=c['pressure'] and n=='p') for n in c['fields']})]))
 
 def main():
     rows=[];models={}
@@ -29,11 +30,9 @@ def main():
         resource_note=('已在限定资源的容器中实测现成求解器或解析表示；这不保证任意数值方法都能在限额内完成。' if config.get('stage')=='calibrated' else '此资源设置在实际参考与执行校准完成前不代表正式评测发布；该状态不改变数学要求和评分式。')
         title=f"2.13.{i} {c['title']}";fields='、'.join(c['fields']);pressure=c['pressure']
         models[f'cfdcodebench-c{i:02}-v1']={k:c[k] for k in ('index','task','fields','dimension','domain','time')}
-        score=('增长率绝对误差不超过 0.0001。' if i==23 else
-               '每字段、每请求时刻独立计算正权 NRMSE，要求不超过0.1（NMSE不超过0.01）。'
-               '定义 E=sqrt(sum(w*(a-r)^2)/sum(w))/max(sqrt(sum(w*r^2)/sum(w)),1e-6)。')
         normalization=('压力 p 的候选与参考分别减去全部观测点上的加权均值后评分；允许常数基准差，不拟合比例或相位。' if pressure else '')
         normalization+=f"温度 T 的候选与参考均减去公开固定背景{c['offset']}后计算尺度及误差。" if c['offset'] else ''
+        score=scoring_text(grading(c)['checks'][0]['policy'], normalization=normalization)
         instruction=f'''# {title}
 
 求解 DATA 所定义的固定连续问题，在输入给出的观测位置及终止时刻提交 {fields}。
@@ -56,10 +55,7 @@ python solve.py --input /path/to/problem.json --output /path/to/result.h5
 
 ## 评分
 
-{score} {normalization}
-所有必交字段全部通过才计该 case 1 分，否则0分；多 case 成绩为通过例数除以例数。
-不跨字段取平均，不进行空间/时间平移、滤波或候选尺度拟合。
-非法结构、缺失字段、非有限数值、IDs/时间轴不匹配按无效输出处理。
+{score}
 
 ## 执行资源
 
@@ -73,6 +69,7 @@ python solve.py --input /path/to/problem.json --output /path/to/result.h5
         times='稳态或谱观测标记0，不是迭代时间' if c['time']==0 else f"唯一物理终止时刻 {c['time']!r}；不是内部步长"
         location=('observations 为 entities，恰有一个模态身份；没有伪坐标，s 是该模态族最右实增长率。' if i==23 else
                   'observations 为 points；coordinates 引用 float64[N,D] 的显式坐标。所有二维观测严格位于域内；一维允许端点。圆环坐标为 (r*cos(theta),r*sin(theta))，径向球对称问题的单坐标为 r。')
+        weight_note=('本题只有一个实体观测，评分采用单点等权；输入中的 weights 不影响分值，无需在输出中复制。' if i==23 else '权重为严格正且有限的公开积分/观测权重，只决定公开评分的空间加权；无需提交。')
         dat=f'''# {title}：数据与连续定义
 
 遵循 [CONTRACT](../../../../docs/CONTRACT.md)。task="{c['task']}"，physics.model="cfdcodebench-c{i:02}-v1"，spatial_dimension={c['dimension']}。
@@ -110,7 +107,7 @@ location 对象名为 observations，其 ids 引用非负、唯一、有序身�
 time_axes.output 引用 float64[1]：{times}。所有数组 key 从 manifest 引用读取，不依赖文件中的默认命名。
 
 唯一 fields 对象 weights：quantity="observation_weight"，scalar，float64，[1,N,1]，components=["value"]，component_shape=[1]，unit="1"，location="observations"，time_axis="output"。
-权重为严格正且有限的公开积分/观测权重，只决定公开评分的空间加权；无需提交。
+{weight_note}
 一维/矩形权重可为一致点观测权或正控制体权；圆环权包含径向 Jacobian，球对称径向权包含壳体积。
 输入不含必须使用的计算网格；可以在任意内部离散上求解后重建。
 
@@ -131,8 +128,7 @@ value_kind="point"；{'这是实体身份上的谱标量，不作空间点采样
         if not config_path.exists():config_path.write_text(dumps(config),encoding='utf-8')
         (path/'author').mkdir(exist_ok=True)
         plan=grading(c)
-        (path/'author/grading-template.json').write_text(dumps(plan['checks'][0]['policy']),encoding='utf-8')
-        (path/'author/case-grading-template.json').write_text(dumps(plan),encoding='utf-8')
+        (path/'author/grading-template.json').write_text(dumps(plan),encoding='utf-8')
         rows.append(f"| 2.13.{i} | [{c['title']}]({c['task']}/instruction.md) · [DATA]({c['task']}/DATA.md) | `{c['source_id']}` |")
     (ROOT/'qbank/extensions/caeoj_ext/cfdcodebench/models.json').write_text(dumps(models),encoding='utf-8')
     runtime_path=ROOT/'qbank/extensions/caeoj_bundle/runtime.json';runtime=json.loads(runtime_path.read_text(encoding='utf-8'))

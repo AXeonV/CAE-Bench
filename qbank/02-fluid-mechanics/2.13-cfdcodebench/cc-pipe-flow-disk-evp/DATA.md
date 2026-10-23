@@ -53,7 +53,7 @@ location 对象名为 observations，其 ids 引用非负、唯一、有序身�
 time_axes.output 引用 float64[1]：稳态或谱观测标记0，不是迭代时间。所有数组 key 从 manifest 引用读取，不依赖文件中的默认命名。
 
 唯一 fields 对象 weights：quantity="observation_weight"，scalar，float64，[1,N,1]，components=["value"]，component_shape=[1]，unit="1"，location="observations"，time_axis="output"。
-权重为严格正且有限的公开积分/观测权重，只决定公开评分的空间加权；无需提交。
+权重为严格正且有限的公开积分/观测权重，无需提交。本题只有一个观测点，评分使用等点权重；输入weights不影响本题分值。
 一维/矩形权重可为一致点观测权或正控制体权；圆环权包含径向 Jacobian，球对称径向权包含壳体积。
 输入不含必须使用的计算网格；可以在任意内部离散上求解后重建。
 

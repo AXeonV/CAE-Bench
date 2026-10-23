@@ -9,9 +9,8 @@ import unittest
 
 import numpy as np
 
-from grading_fixtures import evaluate_arrays
+from grading_fixtures import evaluate_arrays, pointwise_policy
 from caeoj.case_grading import grade_case
-from caeoj.grading_policy import load_policy
 from caeoj.sdk import load_problem, load_result, read_constant, read_field
 from caeoj_tools.author import PROJECT_ROOT
 from caeoj.validation import check_result, output_support
@@ -41,7 +40,8 @@ class HeatTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.config = json.loads((TASK / "judge-config.json").read_text(encoding="utf-8"))
-        cls.policy = load_policy(TASK/'author/grading-template.json')
+        # Historical absolute-error physics regression, independent of release score.
+        cls.policy = pointwise_policy(atol=0.01, rtol=0)
         cls.cases = []
         for path in sorted((TASK / "cases").glob("*/problem.json")):
             problem = load_problem(path)
@@ -230,7 +230,7 @@ class HeatTests(unittest.TestCase):
                     problem.manifest["physics"]["parameters"]["mean_temperature"]["value"] += 1
                 self.assertEqual(self.grade(original, baseline.solve(problem), reference)["score"], 0)
 
-    def test_fixed_heat_threshold_inside_and_outside(self):
+    def test_legacy_absolute_heat_threshold_inside_and_outside(self):
         problem, reference, *_ = self.case("25")
         for error, score in ((0.01, 1), (0.010001, 0)):
             candidate = reference["temperature"].copy()

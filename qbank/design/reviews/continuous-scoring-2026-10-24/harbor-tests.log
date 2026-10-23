@@ -1,0 +1,244 @@
+.F.............F
+================================== FAILURES ===================================
+___________ HarborTests.test_actual_grader_aggregates_pass_and_fail ___________
+
+self = <test_harbor.HarborTests testMethod=test_actual_grader_aggregates_pass_and_fail>
+
+    def test_actual_grader_aggregates_pass_and_fail(self):
+        directory = self.prepared()
+        private = directory / 'tests'
+        config_path = private / 'judge-config.json'
+        config = json.loads(config_path.read_text(encoding='utf-8'))
+        config['stage'] = 'provisional'
+        config_path.write_text(json.dumps(config))
+        logs = self.root / 'judge-logs'
+        names = sorted(p.name for p in (private / 'cases').iterdir())
+    
+        def execution(work, timeout, case_logs):
+            arrays = read_hdf5(private / 'reference' / case_logs.name / 'reference.h5')
+            if case_logs.name == names[1]:
+                arrays['temperature'] += 0.02
+            write_hdf5(work / 'result.h5', arrays)
+            return None
+    
+        with patch.object(judge, 'TESTS', private), patch.object(judge, 'LOGS', logs), \
+                patch.object(judge, 'freeze_submission', return_value=True), \
+                patch.object(judge, 'execute', side_effect=execution), \
+                patch.object(judge.os, 'chown', create=True):
+            judge.main()
+        report = json.loads((logs / 'report.json').read_text(encoding='utf-8'))
+>       self.assertEqual([row['score'] for row in report['cases']], [1, 0])
+E       AssertionError: Lists differ: [1.0, 1.0] != [1, 0]
+E       
+E       First differing element 1:
+E       1.0
+E       0
+E       
+E       - [1.0, 1.0]
+E       ?   --  --
+E       
+E       + [1, 0]
+
+tests\test_harbor.py:639: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"score": 2.0, "passed_cases": 2, "partial_cases": 0, "total_cases": 2, "completed_cases": 2, "complete": true, "reward": 1.0, "evaluation_manifest": {"01-constant-dirichlet": {"grading_sha256": "219896ff30c6b08efde17de3f1bb51b45d5f3cab86b54f764e16c3e21cc7f917", "assets": {"grading.json": "ce62b07ef9f6d62f3d7126565f76c879cfe99709cb8a2c725ca86433146977c0", "reference.h5": "87c7a491836800bce5544e9495593ce0973defc9fc61b128cace156c202d48eb"}, "evaluator_code_sha256": {"direct_outputs": "5eabd5938cb450f8570ce011f8b6c990ad803ee97d154257ba51f26e6e69fcb1", "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b", "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea", "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40", "core/grading.schema.json": "0bc8bfdb5debdb1f760a01b4d2ff031bacfd94245edb75f21f3c7bffcd1bae26", "core/grading_metrics.py": "aa1e4cded2b0ec694082b45cbe2963b94ab9e8fbb5eb8ed55dd9e5b1f6a9fa4f", "core/grading_policy.py": "65f3d6756bcb666a0818f48fd2f3093025374bbca95262144ec6b79d6f9361c6", "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c", "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6", "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7", "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329", "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba", "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5", "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa", "core/case_grading.py": "5eabd5938cb450f8570ce011f8b6c990ad803ee97d154257ba51f26e6e69fcb1", "core/case-grading.schema.json": "771a538a957453cca88e9a3859bbb416d3af61069ca64e01048fc6ce04ec0c32"}, "input_assets": {"problem.json": "2f142007c6468a84fd6ff36d21c38d39cbfdc51127e565cae2dd7b85bfee0d26", "input.h5": "960e96a9315b7f450cebfc7245b8b4a5aaaaa5450134bae467e131f9a07ea398", "mesh.msh": "6a063b9aa3caf703af0fbac778e3a3d01bd40f3aae291984727f4e0c4f877353", "mesh.geo": "47deb04b3e7b3205c9750c83657a1de9351e088c3fb4f99ea5cef53a7d8087cc"}, "runtime_binding_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a", "dependencies": {"numpy": "2.4.6", "h5py": "3.16.0", "gmsh": "4.15.2", "jsonschema": "4.26.0"}, "python": "3.11.9", "evaluation_sha256": "9fb5bd94e5ddbfe16c856e72dbfbd1f4aa8c0be898b7fbc14f93b07b409b8695"}, "02-affine-shifted": {"grading_sha256": "219896ff30c6b08efde17de3f1bb51b45d5f3cab86b54f764e16c3e21cc7f917", "assets": {"grading.json": "ce62b07ef9f6d62f3d7126565f76c879cfe99709cb8a2c725ca86433146977c0", "reference.h5": "97637f488e6c892920a94e8d4c81cf3d78a86359173d23fb0c6c74eb8e991f05"}, "evaluator_code_sha256": {"direct_outputs": "5eabd5938cb450f8570ce011f8b6c990ad803ee97d154257ba51f26e6e69fcb1", "core/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b", "core/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea", "core/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40", "core/grading.schema.json": "0bc8bfdb5debdb1f760a01b4d2ff031bacfd94245edb75f21f3c7bffcd1bae26", "core/grading_metrics.py": "aa1e4cded2b0ec694082b45cbe2963b94ab9e8fbb5eb8ed55dd9e5b1f6a9fa4f", "core/grading_policy.py": "65f3d6756bcb666a0818f48fd2f3093025374bbca95262144ec6b79d6f9361c6", "core/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c", "core/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6", "core/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7", "core/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329", "core/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba", "core/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5", "core/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa", "core/case_grading.py": "5eabd5938cb450f8570ce011f8b6c990ad803ee97d154257ba51f26e6e69fcb1", "core/case-grading.schema.json": "771a538a957453cca88e9a3859bbb416d3af61069ca64e01048fc6ce04ec0c32"}, "input_assets": {"problem.json": "55595bf75788c830c12551f9dbad456089f4139e02bcc8ad9300af7ece6766f2", "input.h5": "b7ed2e8e39a0659392b348db712862e1fb33165711234e35e2b93640fd49392e", "mesh.msh": "91903fffc89c655ea601777e19adda7352878476a10bc259c99823118b908eef", "mesh.geo": "4865c3953b0c97ad690ba364e8f826db1141cdb2af181ce92ce7dc77a7751878"}, "runtime_binding_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a", "dependencies": {"numpy": "2.4.6", "h5py": "3.16.0", "gmsh": "4.15.2", "jsonschema": "4.26.0"}, "python": "3.11.9", "evaluation_sha256": "cac198e2c2f125bf5dab8d94b8547c8a5e0475cdf7d6200afc64be3d1f935d6c"}}, "public_cases": [], "stage": "provisional", "limits": {"timeout_seconds": 4, "max_output_bytes": null, "evaluation_timeout_seconds": 60}}
+_ HarborTests.test_no_baseline_task_assembles_and_declares_provisional_limits _
+
+policy = {'version': 2, 'quantities': {'temperature': {'unit': 'K', 'rule': {'metric': 'nrmse', 'time': 'per_time', 'components': 'per_component', 'scale_floor': 0.01, ...}}}}
+problem = Problem(path=WindowsPath('D:/Code/CAE-Bench-OJ/runs/tmp05j_enef/qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-... ],
+       [1. , 0.5, 0. ],
+       [0.5, 1. , 0. ],
+       [0. , 0.5, 0. ],
+       [0.5, 0.5, 0. ]]), 'dimension': 2}})
+
+    def validate_policy(policy, problem=None):
+        schema = json.loads(Path(__file__).with_name('grading.schema.json').read_text(encoding='utf-8'))
+        try:
+>           jsonschema.Draft202012Validator(schema).validate(policy)
+
+src\caeoj\grading_policy.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Draft202012Validator(schema={'$defs': {'input_offset': {'additionalProperties': False, 'properties': {'parameter': {'p...: ['default']}], 'not': {'required': ['fields']}, 'properties': {'version': {'const': 2}}}], ...}, format_checker=None)
+args = ({'version': 2, 'quantities': {'temperature': {'unit': 'K', 'rule': {'metric': 'nrmse', 'time': 'per_time', 'components': 'per_component', 'scale_floor': 0.01, ...}}}},)
+kwargs = {}
+
+    def validate(self, *args, **kwargs):
+        for error in self.iter_errors(*args, **kwargs):
+>           raise error
+E           jsonschema.exceptions.ValidationError: {'metric': 'nrmse', 'time': 'per_time', 'components': 'per_component', 'scale_floor': 0.01, 'limit': 0.05, 'atol': 0.1, 'rtol': 0.2} is not valid under any of the given schemas
+E           
+E           Failed validating 'oneOf' in schema['properties']['quantities']['additionalProperties']['properties']['rule']:
+E               {'oneOf': [{'type': 'object',
+E                           'properties': {'metric': {'const': 'pointwise'},
+E                                          'time': {'enum': ['per_time', 'pooled']},
+E                                          'components': {'enum': ['per_component',
+E                                                                  'joint']},
+E                                          'weight_field': {'type': 'string',
+E                                                           'minLength': 1},
+E                                          'atol': {'type': 'number', 'minimum': 0},
+E                                          'rtol': {'type': 'number', 'minimum': 0},
+E                                          'reference_offset': {'oneOf': [{'type': 'number'},
+E                                                                         {'$ref': '#/$defs/input_offset'}]}},
+E                           'required': ['metric',
+E                                        'time',
+E                                        'components',
+E                                        'atol',
+E                                        'rtol'],
+E                           'additionalProperties': False},
+E                          {'type': 'object',
+E                           'properties': {'metric': {'const': 'rmse'},
+E                                          'time': {'enum': ['per_time', 'pooled']},
+E                                          'components': {'enum': ['per_component',
+E                                                                  'joint']},
+E                                          'weight_field': {'type': 'string',
+E                                                           'minLength': 1},
+E                                          'limit': {'type': 'number', 'minimum': 0}},
+E                           'required': ['metric', 'time', 'components', 'limit'],
+E                           'additionalProperties': False},
+E                          {'type': 'object',
+E                           'properties': {'metric': {'const': 'nrmse'},
+E                                          'time': {'enum': ['per_time', 'pooled']},
+E                                          'components': {'enum': ['per_component',
+E                                                                  'joint']},
+E                                          'weight_field': {'type': 'string',
+E                                                           'minLength': 1},
+E                                          'limit': {'type': 'number', 'minimum': 0},
+E                                          'scale_floor': {'type': 'number',
+E                                                          'exclusiveMinimum': 0},
+E                                          'reference_offset': {'oneOf': [{'type': 'number'},
+E                                                                         {'$ref': '#/$defs/input_offset'}]}},
+E                           'required': ['metric',
+E                                        'time',
+E                                        'components',
+E                                        'limit',
+E                                        'scale_floor'],
+E                           'additionalProperties': False},
+E                          {'type': 'object',
+E                           'properties': {'metric': {'const': 'max_abs'},
+E                                          'time': {'enum': ['per_time', 'pooled']},
+E                                          'components': {'enum': ['per_component',
+E                                                                  'joint']},
+E                                          'weight_field': {'type': 'string',
+E                                                           'minLength': 1},
+E                                          'limit': {'type': 'number', 'minimum': 0}},
+E                           'required': ['metric', 'time', 'components', 'limit'],
+E                           'additionalProperties': False},
+E                          {'type': 'object',
+E                           'properties': {'metric': {'const': 'max_scaled'},
+E                                          'time': {'enum': ['per_time', 'pooled']},
+E                                          'components': {'enum': ['per_component',
+E                                                                  'joint']},
+E                                          'weight_field': {'type': 'string',
+E                                                           'minLength': 1},
+E                                          'atol': {'type': 'number', 'minimum': 0},
+E                                          'rtol': {'type': 'number', 'minimum': 0},
+E                                          'limit': {'type': 'number', 'minimum': 0},
+E                                          'reference_offset': {'oneOf': [{'type': 'number'},
+E                                                                         {'$ref': '#/$defs/input_offset'}]}},
+E                           'required': ['metric',
+E                                        'time',
+E                                        'components',
+E                                        'atol',
+E                                        'rtol',
+E                                        'limit'],
+E                           'additionalProperties': False},
+E                          {'type': 'object',
+E                           'properties': {'metric': {'const': 'violation_fraction'},
+E                                          'time': {'enum': ['per_time', 'pooled']},
+E                                          'components': {'enum': ['per_component',
+E                                                                  'joint']},
+E                                          'weight_field': {'type': 'string',
+E                                                           'minLength': 1},
+E                                          'atol': {'type': 'number', 'minimum': 0},
+E                                          'rtol': {'type': 'number', 'minimum': 0},
+E                                          'limit': {'type': 'number',
+E                                                    'minimum': 0,
+E                                                    'maximum': 1},
+E                                          'count': {'enum': ['scalar_values',
+E                                                             'spatial_points']},
+E                                          'reference_offset': {'oneOf': [{'type': 'number'},
+E                                                                         {'$ref': '#/$defs/input_offset'}]}},
+E                           'required': ['metric',
+E                                        'time',
+E                                        'components',
+E                                        'atol',
+E                                        'rtol',
+E                                        'limit'],
+E                           'additionalProperties': False},
+E                          {'type': 'object',
+E                           'properties': {'all': {'type': 'array',
+E                                                  'minItems': 1,
+E                                                  'items': {'$ref': '#/$defs/node'}}},
+E                           'required': ['all'],
+E                           'additionalProperties': False},
+E                          {'type': 'object',
+E                           'properties': {'any': {'type': 'array',
+E                                                  'minItems': 1,
+E                                                  'items': {'$ref': '#/$defs/node'}}},
+E                           'required': ['any'],
+E                           'additionalProperties': False}]}
+E           
+E           On instance['quantities']['temperature']['rule']:
+E               {'metric': 'nrmse',
+E                'time': 'per_time',
+E                'components': 'per_component',
+E                'scale_floor': 0.01,
+E                'limit': 0.05,
+E                'atol': 0.1,
+E                'rtol': 0.2}
+
+.venv\Lib\site-packages\jsonschema\validators.py:450: ValidationError
+
+The above exception was the direct cause of the following exception:
+
+self = <test_harbor.HarborTests testMethod=test_no_baseline_task_assembles_and_declares_provisional_limits>
+
+    def test_no_baseline_task_assembles_and_declares_provisional_limits(self):
+        (self.root / TASK_PATH / 'author/baseline.py').unlink()
+        config_path = self.root / TASK_PATH / 'judge-config.json'
+        config = json.loads(config_path.read_text(encoding='utf-8'))
+        config.update(stage='provisional', max_output_bytes=2*1024**3)
+        policy_path = next((self.root/TASK_PATH/'reference').glob('*/grading.json'))
+        policy = json.loads(policy_path.read_text(encoding='utf-8'))
+        policy['checks'][0]['policy']['quantities']['temperature']['rule'].update(atol=0.1, rtol=0.2)
+        policy_path.write_text(json.dumps(policy))
+        config_path.write_text(json.dumps(config))
+        publisher.publish(TASK, root=self.root)
+>       result = prepare.prepare(TASK, self.root)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_harbor.py:506: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\utils\prepare_harbor.py:112: in prepare
+    prepare_case(load_problem(path), source/'reference'/path.parent.name/'grading.json')
+src\caeoj\case_grading.py:289: in prepare_case
+    policy = resolve_policy(check['policy'], problem)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\caeoj\grading_policy.py:131: in resolve_policy
+    validate_policy(policy, problem)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+policy = {'version': 2, 'quantities': {'temperature': {'unit': 'K', 'rule': {'metric': 'nrmse', 'time': 'per_time', 'components': 'per_component', 'scale_floor': 0.01, ...}}}}
+problem = Problem(path=WindowsPath('D:/Code/CAE-Bench-OJ/runs/tmp05j_enef/qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-... ],
+       [1. , 0.5, 0. ],
+       [0.5, 1. , 0. ],
+       [0. , 0.5, 0. ],
+       [0.5, 0.5, 0. ]]), 'dimension': 2}})
+
+    def validate_policy(policy, problem=None):
+        schema = json.loads(Path(__file__).with_name('grading.schema.json').read_text(encoding='utf-8'))
+        try:
+            jsonschema.Draft202012Validator(schema).validate(policy)
+        except RecursionError as exc:
+            raise ValueError('Grading condition nesting is too deep') from exc
+        except jsonschema.ValidationError as exc:
+>           raise ValueError(f'Invalid grading policy at {list(exc.absolute_path)}: {exc.message}') from exc
+E           ValueError: Invalid grading policy at ['quantities', 'temperature', 'rule']: {'metric': 'nrmse', 'time': 'per_time', 'components': 'per_component', 'scale_floor': 0.01, 'limit': 0.05, 'atol': 0.1, 'rtol': 0.2} is not valid under any of the given schemas
+
+src\caeoj\grading_policy.py:37: ValueError
+=========================== short test summary info ===========================
+FAILED tests/test_harbor.py::HarborTests::test_actual_grader_aggregates_pass_and_fail
+FAILED tests/test_harbor.py::HarborTests::test_no_baseline_task_assembles_and_declares_provisional_limits
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 2 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+2 failed, 14 passed, 2 subtests passed in 68.92s (0:01:08)

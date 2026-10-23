@@ -7,7 +7,7 @@ description: 将 CAE-Bench-OJ 题面和 DATA 的评分、执行要求映射到�
 
 读取题目 instruction.md、DATA.md 和 CONTRACT，按[配置流程](references/workflow.md)建立“公开要求→配置／实现→实际生效证据”的映射。当前配置消费见[评测维护说明](../../../qbank/maintenance/EVALUATION.md)，源码入口见[定位索引](references/current-backend.md)。
 
-每个case的reference/grading.json是实际判题唯一配置；author/grading-template.json仅用于制数，judge-config.json只拥有执行设置，缺case配置即停止。适用指标的 atol/rtol 来自明确的数值规则，不补默认值或另设容差入口。输出对象名、quantity、评价项及HDF5 key分别绑定，不靠猜测补字段。资源可由模板继承，记录合并后的值及消费者；JSON/TOML 可解析不代表限制或判据实际生效。
+每个case的reference/grading.json是实际判题唯一配置；author/grading-template.json仅用于制数，judge-config.json只拥有执行设置，缺case配置即停止。适用指标的 atol/rtol 或 scale_floor 来自明确的数值规则，不补默认值或另设容差入口。使用连续评分时case配置须显式scoring，公开题面明确逐量／分量／时刻的NRMSE、空间权重、尺度下限与max聚合；作者模板保存完整outer，制数通过author_case_grading/write_case_grading保留评分及变换，不从metric推断连续模式。旧绝对容差迁作scale_floor是评分变化，不是等价容差或数值校准。输出对象名、quantity、评价项及HDF5 key分别绑定，不靠猜测补字段。资源可由模板继承，记录合并后的值及消费者；JSON/TOML 可解析不代表限制或判据实际生效。
 
 框架足够时只改配置；有缺口时按[实现职责](../../../qbank/design/CORE-AND-EXTENSIONS.md)做必要适配。保持公开评分、配置和执行等价，不以放宽阈值、减少输出或取消隔离换取可运行。评分／资源目标缺失反馈出题，字段问题反馈 DATA，实际数据冲突反馈数据审计；不递归扩大任务。
 

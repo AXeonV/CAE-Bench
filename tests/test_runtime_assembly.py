@@ -13,7 +13,7 @@ from caeoj import runtime
 from caeoj.cli import main
 from caeoj.grading_policy import load_policy
 from caeoj.sdk import load_problem
-from caeoj_tools.grading_policy import author_policy
+from caeoj_tools.grading_policy import author_policy, author_case_grading
 from caeoj.validation import schema_errors
 from caeoj_tools.assembly import runtime_materials
 from caeoj_tools.task_paths import task_directory
@@ -39,7 +39,7 @@ class RuntimeAssemblyTests(unittest.TestCase):
     def test_every_task_declares_a_single_scoring_source(self):
         for path in ROOT.glob('qbank/*/*/*/instruction.md'):
             with self.subTest(task=path.parent.name):
-                load_policy(path.parent/'author/grading-template.json')
+                author_case_grading(path.parent)
                 config = json.loads((path.parent/'judge-config.json').read_text(encoding='utf-8'))
                 self.assertFalse({'atol', 'rtol'} & set(config))
 
@@ -49,7 +49,7 @@ class RuntimeAssemblyTests(unittest.TestCase):
             with self.assertRaises(FileNotFoundError):
                 author_policy(task)
             (task/'author').mkdir()
-            (task/'author/grading-template.json').write_text(json.dumps(load_policy(task_directory(TASK, ROOT)/'author/grading-template.json')))
+            (task/'author/grading-template.json').write_text(json.dumps(author_case_grading(task_directory(TASK, ROOT))))
             (task/'judge-config.json').write_text('{"atol": 0.01, "rtol": 0}')
             with self.assertRaisesRegex(ValueError, 'Scoring belongs in case grading.json'):
                 author_policy(task)

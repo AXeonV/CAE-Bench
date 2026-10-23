@@ -1,15 +1,30 @@
 {
-  "version": 2,
-  "quantities": {
-    "temperature": {
-      "unit": "K",
-      "rule": {
-        "metric": "pointwise",
-        "time": "per_time",
-        "components": "per_component",
-        "atol": 0.02,
-        "rtol": 0.0
+  "version": 1,
+  "checks": [
+    {
+      "id": "outputs",
+      "evaluator": "direct_outputs",
+      "reference": "reference.h5",
+      "policy": {
+        "version": 2,
+        "quantities": {
+          "temperature": {
+            "unit": "K",
+            "rule": {
+              "metric": "nrmse",
+              "time": "per_time",
+              "components": "per_component",
+              "scale_floor": 0.02,
+              "limit": 0.05
+            }
+          }
+        }
       }
     }
+  ],
+  "scoring": {
+    "metric": "max_nrmse",
+    "full_credit": 0.05,
+    "zero_credit": 0.1
   }
 }

@@ -1,4 +1,4 @@
-"""Equation tasks allow at most 0.1% outlier spatial points per field and time."""
+"""Release equation policies plus regression coverage of legacy outlier rules."""
 from copy import deepcopy
 import json
 from pathlib import Path
@@ -10,6 +10,7 @@ from grading_fixtures import evaluate_arrays
 from caeoj.grading_policy import load_policy, validate_policy
 from caeoj.sdk import load_problem
 from caeoj_tools.task_paths import task_directory
+from caeoj_tools.grading_policy import author_policy, author_case_grading
 from caeoj.validation import output_support
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,7 +19,7 @@ SMOKE = task_fixture("smoke-test")
 
 
 class EquationPolicyTests(unittest.TestCase):
-    def test_all_families_keep_original_tolerances_and_cover_outputs(self):
+    def test_all_families_inherit_scales_and_cover_outputs(self):
         tolerances = {
             'advection-1d': (.1, .1), 'burgers-1d': (.1, .1),
             'reaction-diffusion-1d': (.05, .1), 'diffusion-sorption-1d': (.02, .2),
@@ -29,13 +30,15 @@ class EquationPolicyTests(unittest.TestCase):
         for family, (atol, rtol) in tolerances.items():
             task = task_directory(family, ROOT)
             with self.subTest(task=task.name):
-                policy = load_policy(task / 'author/grading-template.json')
+                policy = author_policy(task)
+                self.assertEqual(author_case_grading(task)['scoring'],
+                    {'metric':'max_nrmse','full_credit':.05,'zero_credit':.10})
                 from utils.PDEBench.models import BY_TASK
                 fields = {item[0] for item in BY_TASK[family].fields}
                 self.assertEqual(set(policy['fields']), fields)
                 for node in policy['fields'].values():
-                    self.assertEqual(node, {'metric': 'violation_fraction', 'time': 'per_time',
-                        'components': 'joint', 'count': 'spatial_points', 'atol': atol, 'rtol': rtol, 'limit': .001})
+                    self.assertEqual(node, {'metric': 'nrmse', 'time': 'per_time',
+                        'components': 'per_component', 'scale_floor': atol, 'limit': .05})
                 config = json.loads((task / 'judge-config.json').read_text(encoding='utf-8'))
                 self.assertNotIn('atol', config)
                 self.assertNotIn('rtol', config)

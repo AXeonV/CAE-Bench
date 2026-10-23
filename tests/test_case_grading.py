@@ -115,6 +115,105 @@ class CaseGradingTests(unittest.TestCase):
             write_hdf5(self.output,result)
             self.assertEqual(self.grade()['score'],score)
 
+    def continuous(self, offset=0., floor=1e-6):
+        rule=dict(metric='nrmse',time='per_time',components='per_component',limit=.05,
+                  scale_floor=floor,reference_offset=offset)
+        self.config=direct_config({'version':2,'default':rule})
+        self.config['scoring']=dict(metric='max_nrmse',full_credit=.05,zero_credit=.10)
+        write_hdf5(self.work/'reference.h5',self.arrays)
+        self.save()
+
+    def test_continuous_boundaries_and_partial_scores(self):
+        self.arrays['velocity'][:]=0.
+        self.continuous(floor=1.)
+        for error,score,status in [(0.,1.,'accepted'),(.04,1.,'accepted'),(.05,1.,'accepted'),
+                                   (.07,.6,'partial_credit'),(.075,.5,'partial_credit'),
+                                   (.1,0.,'wrong_answer'),(.2,0.,'wrong_answer')]:
+            with self.subTest(error=error):
+                candidate=deepcopy(self.arrays);candidate['velocity']+=error
+                write_hdf5(self.output,candidate);report=self.grade()
+                self.assertAlmostEqual(report['score'],score,places=13)
+                self.assertEqual(report['status'],status)
+                self.assertAlmostEqual(report['total_nrmse'],error,places=13)
+
+    def test_partial_cli_reports_score_and_non_full_exit_code(self):
+        import contextlib,io
+        from caeoj.cli import main
+        self.arrays['velocity'][:]=0.;self.continuous(floor=1.)
+        candidate=deepcopy(self.arrays);candidate['velocity']+=.07
+        write_hdf5(self.output,candidate)
+        output=io.StringIO()
+        with contextlib.redirect_stdout(output):
+            code=main(['grade','--input',str(self.path),'--output',str(self.output),'--grading',str(self.grading)])
+        self.assertEqual(code,1)
+        report=json.loads(output.getvalue());self.assertEqual(report['status'],'partial_credit')
+        self.assertAlmostEqual(report['score'],.6)
+
+    def test_continuous_worst_component_and_scale_floor(self):
+        self.arrays['velocity'][:]=0.
+        self.continuous(floor=2.)
+        candidate=deepcopy(self.arrays);candidate['velocity'][:,:,0]=.04
+        candidate['velocity'][:,:,1]=.14
+        write_hdf5(self.output,candidate);report=self.grade()
+        self.assertAlmostEqual(report['total_nrmse'],.07)
+        self.assertAlmostEqual(report['score'],.6)
+
+    def test_continuous_offset_does_not_center_error(self):
+        self.arrays['velocity'][:]=100010.
+        self.continuous(offset=100000.)
+        candidate=deepcopy(self.arrays);candidate['velocity']+=.7
+        write_hdf5(self.output,candidate);report=self.grade()
+        self.assertAlmostEqual(report['total_nrmse'],.07,places=11)
+        self.assertAlmostEqual(report['score'],.6,places=10)
+
+    def test_continuous_invalid_and_extreme_outputs_are_zero(self):
+        self.arrays['velocity'][:]=0.
+        self.continuous(floor=1e-300)
+        for value in (float('nan'),float('inf'),1e308):
+            candidate=deepcopy(self.arrays);candidate['velocity'][:]=value
+            write_hdf5(self.output,candidate)
+            report=self.grade();self.assertEqual(report['score'],0,report)
+            self.assertNotEqual(report['status'],'evaluation_error')
+
+    def test_nrmse_weights_each_time_and_component_independently(self):
+        from caeoj.grading_metrics import evaluate_observation
+        rule=dict(metric='nrmse',time='per_time',components='per_component',
+                  scale_floor=1.,limit=.05,weight_field='w')
+        expected=np.zeros((2,2,2));actual=np.zeros_like(expected)
+        actual[1,0,1]=.14
+        record=evaluate_observation(actual,expected,rule,ids=np.array([2,9]),
+                 times=np.array([0.,1.]),weights={'w':np.array([1.,3.])})
+        self.assertEqual(len(record['groups']),4)
+        self.assertEqual([g['value'] for g in record['groups'][:3]],[0.,0.,0.])
+        self.assertAlmostEqual(record['groups'][3]['value'],.07)
+        self.assertFalse(record['passed'])
+
+    def test_continuous_integer_and_boolean_guards_remain_exact(self):
+        problem=load_problem(self.root/'cases/08-scalars-and-dtypes/problem.json')
+        keys=output_support(problem)|{s['array'] for s in problem.manifest['outputs'].values()}
+        reference={key:problem.arrays[key].copy() for key in keys}
+        write_hdf5(self.work/'reference.h5',reference)
+        rule=dict(metric='nrmse',time='per_time',components='per_component',limit=.05,scale_floor=1.)
+        cfg=direct_config({'version':2,'default':rule})
+        cfg['scoring']=dict(metric='max_nrmse',full_credit=.05,zero_credit=.10)
+        self.grading.write_text(json.dumps(cfg));plan=prepare_case(problem,self.grading)
+        self.assertEqual(plan.evaluate(reference)['score'],1.)
+        for key in ('mask','region_label'):
+            candidate=deepcopy(reference)
+            candidate[key][0,0,0]=not candidate[key][0,0,0] if key=='mask' else candidate[key][0,0,0]+1
+            self.assertEqual(plan.evaluate(candidate)['score'],0.)
+
+    def test_continuous_bad_policy_is_infrastructure_error(self):
+        self.continuous()
+        for mutate in ('threshold','metric','pool','or'):
+            cfg=deepcopy(self.config)
+            if mutate=='threshold':cfg['scoring']['zero_credit']=.01
+            if mutate=='metric':cfg['checks'][0]['policy']['default']=deepcopy(RULE)
+            if mutate=='pool':cfg['checks'][0]['policy']['default']['time']='pooled'
+            if mutate=='or':cfg['checks'][0]['policy']['default']={'any':[cfg['checks'][0]['policy']['default']]}
+            self.grading.write_text(json.dumps(cfg))
+            self.assertIsNone(self.grade()['score'])
+
     def test_unknown_provider_is_not_imported_from_config(self):
         self.config['checks'][0]['evaluator']='arbitrary.module:prepare';self.save()
         with patch('caeoj.runtime.load_symbol') as load:

@@ -39,9 +39,8 @@ def fixture(root,index):
         ref[name]=(np.array([.3,-.2,.5][:n])+origin)[None,:,None]
     (root/'reference').mkdir()
     write_hdf5(root/'reference/reference.h5',ref)
-    grading=json.loads((SECTION/cfg['task']/'author/case-grading-template.json').read_text(encoding='utf-8'))
-    policy=json.loads((SECTION/cfg['task']/'author/grading-template.json').read_text(encoding='utf-8'))
-    assert grading['checks'][0]['policy']==policy
+    from caeoj_tools.grading_policy import author_case_grading
+    grading=author_case_grading(SECTION/cfg['task'])
     (root/'reference/grading.json').write_text(json.dumps(grading))
     return m,data,ref,grading
 
@@ -83,13 +82,33 @@ class CFDCodeBenchTests(unittest.TestCase):
         path=self.root/'threshold';m,data,ref,config=fixture(path,16)
         ref['T'][:]=2.;write_hdf5(path/'reference/reference.h5',ref)
         plan=prepare_case(load_problem(path/'problem.json'),path/'reference/grading.json')
-        for shift,score in ((.099999,1),(.100001,0)):
+        # Explicit continuous case configuration independently of author defaults.
+        config['scoring']=dict(metric='max_nrmse',full_credit=.05,zero_credit=.10)
+        for entry in config['checks'][0]['policy'].get('quantities',{}).values(): entry['rule']['limit']=.05
+        for rule in config['checks'][0]['policy'].get('fields',{}).values(): rule['limit']=.05
+        (path/'reference/grading.json').write_text(json.dumps(config))
+        plan=prepare_case(load_problem(path/'problem.json'),path/'reference/grading.json')
+        for shift,score in ((.04,1),(.07,.6),(.1,0)):
             actual={k:v.copy() for k,v in ref.items()};actual['T']+=shift
-            self.assertEqual(plan.evaluate(actual)['score'],score)
+            self.assertAlmostEqual(plan.evaluate(actual)['score'],score)
         bad={k:v.copy() for k,v in ref.items()};bad['T'][0,0,0]=np.nan
         write_hdf5(path/'reference/reference.h5',bad);write_hdf5(path/'result.h5',ref)
         result=grade_case(path/'problem.json',path/'result.h5',path/'reference/grading.json')
         self.assertEqual(result['status'],'evaluation_error');self.assertIsNone(result['score'])
+
+    def test_continuous_weighted_gauge_invariant_error_is_not_diluted(self):
+        path=self.root/'continuous-gauge';m,data,ref,config=fixture(path,12)
+        config['scoring']=dict(metric='max_nrmse',full_credit=.05,zero_credit=.10)
+        for entry in config['checks'][0]['policy'].get('quantities',{}).values(): entry['rule']['limit']=.05
+        for rule in config['checks'][0]['policy'].get('fields',{}).values(): rule['limit']=.05
+        (path/'reference/grading.json').write_text(json.dumps(config))
+        plan=prepare_case(load_problem(path/'problem.json'),path/'reference/grading.json')
+        actual={k:v.copy() for k,v in ref.items()}
+        actual['p']=ref['p']*1.07+127.
+        report=plan.evaluate(actual)
+        self.assertAlmostEqual(report['total_nrmse'],.07,places=11)
+        self.assertAlmostEqual(report['score'],.6,places=10)
+        self.assertEqual(report['status'],'partial_credit')
 
     def test_max_finite_pressure_gauge_has_no_rounding_overflow(self):
         w=np.random.default_rng(34).uniform(.1,1,100)
@@ -116,6 +135,9 @@ class CFDCodeBenchTests(unittest.TestCase):
 
     def test_pressure_transform_overflow_is_candidate_failure_not_infrastructure(self):
         path=self.root/'overflow';m,data,ref,config=fixture(path,16)
+        config['scoring']=dict(metric='max_nrmse',full_credit=.05,zero_credit=.10)
+        for entry in config['checks'][0]['policy'].get('quantities',{}).values(): entry['rule']['limit']=.05
+        for rule in config['checks'][0]['policy'].get('fields',{}).values(): rule['limit']=.05
         config['checks'][0]['transforms']['T']['offset']=np.finfo(float).max
         # Reference remains representable, but candidate subtraction cannot.
         (path/'reference/grading.json').write_text(json.dumps(config))

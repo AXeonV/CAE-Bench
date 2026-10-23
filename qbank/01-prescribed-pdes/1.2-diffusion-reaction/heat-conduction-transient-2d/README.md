@@ -46,7 +46,7 @@ python 'qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transien
 
 标答采用连续方程的特征函数级数：对实际分片线性初值数值积分得到展开系数，再在指定节点和正时间求和；零时刻直接复制初始节点值。标答生成检查积分收敛与级数尾界，目标误差为 `1e-8 K`；公式与细节见 DESIGN.md。baseline 独立读取输入求解，不参与生成标答。
 
-每点全部输出时刻、全部节点的绝对误差不超过 0.02 K 得 1 分，否则得 0 分；24 点满分 24。评分配置见 每例 `reference/grading.json`；单点限时 5 秒、内存 1,024 MB，执行配置见 `judge-config.json` 和 `harbor/task.toml`。
+当前评分使用题面定义的连续NRMSE规则，题目reward为正式case得分平均值；规则、尺度和资源见[题面](instruction.md)，实际配置为每例reference/grading.json。
 
 ## 时间策略与基线
 

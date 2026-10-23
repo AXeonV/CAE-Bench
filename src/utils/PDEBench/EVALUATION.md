@@ -1,34 +1,20 @@
-# PDEBench 宽松试运行评测配置
+# PDEBench 试运行评测配置
 
-11 个方程族均已提供作者侧 author/grading-template.json、judge-config.json 和 harbor/task.toml。配置标记 stage=provisional，仅用于初步试运行；连续参考误差、评分阈值和性能预算尚未正式校准。
+11个方程族均提供唯一完整作者模板author/grading-template.json、执行配置judge-config.json和harbor/task.toml。它们仍属于试运行配置；参考数值资格、归一化尺度和性能预算尚未全部校准。
 
-每个 case 独立按墙钟时间限时，同一题的全部 case 共用参数。各字段保留原 atol/rtol：当 |结果−参考| > atol + rtol·|参考| 时，将该采样空间点记为偏差点；向量或张量任一分量超限，该点计一次偏差。每个输出时刻、每个字段分别要求偏差点数 / 总空间点数 ≤ 0.001（0.1%），等于 0.1% 通过。不同字段和时刻之间不平均，不排除边界点，也不自动忽略初始时刻。该规则由制数模板生成至每例 reference/grading.json；配置不能再叠加零偏差点的 AND 条件。
+## 评分与执行来源
 
-数值比较使用字段声明单位，不做单位转换。IDs、时间轴、shape、dtype、有限值及整数／布尔精确比较仍严格执行，运行超时与非法输出不能通过比例规则豁免。共享 atol/rtol 对不同物理量的适用性仍需校准。
+当前数值能力题使用显式max_nrmse连续评分：每个输出量、标量分量及请求时刻分别沿空间计算NRMSE，case取最大值；5%以内满分、10%起零分、中间线性。完整定义见[评分说明](../../../docs/GRADING.md)，考生要求与逐量尺度下限由本题instruction.md说明。
 
-| 方程族 | atol | rtol | 每例秒数 | CPU 配额 | 内存 MB | 输出文件上限 |
-|---|---:|---:|---:|---:|---:|---|
-| 1D_Advection | 0.1 | 0.1 | 120 | 2 | 2048 | 128 MiB |
-| 1D_Burgers | 0.1 | 0.1 | 120 | 2 | 2048 | 128 MiB |
-| 1D_CompressibleNavierStokes | 0.1 | 0.2 | 120 | 2 | 2048 | 128 MiB |
-| 1D_DiffusionSorption | 0.02 | 0.2 | 120 | 2 | 2048 | 128 MiB |
-| 1D_ReactionDiffusion | 0.05 | 0.1 | 120 | 2 | 2048 | 128 MiB |
-| 2D_CompressibleNavierStokes | 0.1 | 0.2 | 600 | 4 | 4096 | 256 MiB |
-| 2D_DarcyFlow | 1e-05 | 0.2 | 600 | 4 | 4096 | 256 MiB |
-| 2D_IncompressibleNavierStokes | 0.1 | 0.2 | 900 | 4 | 8192 | 256 MiB |
-| 2D_ReactionDiffusion | 0.1 | 0.2 | 600 | 4 | 4096 | 256 MiB |
-| 2D_ShallowWater | 0.1 | 0.1 | 600 | 4 | 4096 | 256 MiB |
-| 3D_CompressibleNavierStokes | 0.1 | 0.2 | 1800 | 4 | 8192 | 2048 MiB |
+这11题使用等点空间权重，保留全部请求时刻和观测位置。原绝对容差继承为同单位scale_floor；原相对容差和0.1%偏差点规则已被替换，不能继续用于解释当前分数。继承尺度不是容差等价或科学校准。IDs、时间轴、shape、dtype及有限值仍严格检查。
 
-Darcy 的绝对容限使用较小数值，以免最小源项配置被宽松统一绝对容限吞没；相对容限仍为 20%。吸附浓度的绝对容限也按其量级单独设置。这些选择尚未通过正式区分度与参考误差校准。
+制数通过author_case_grading读取完整作者计划，由write_case_grading写入每例reference/grading.json；运行时只读本例配置，不从模板或指标名称推断评分模式。历史冻结选样、源证书和成绩保留原版本，不重签为当前评分证据。
 
-Agent 时间上限为 3600 秒，三维题为 7200 秒；环境构建上限为 1800 秒。verifier 的整阶段时限覆盖该题全部 case 达到逐例上限，加 600 秒余量，三维加 1200 秒。具体数值以各题 task.toml 为准。
+每例求解墙钟、评价worker预算、输出字节限额由实际judge-config.json维护；Agent、构建、CPU、内存与外层verifier设置由harbor/task.toml维护，见[配置消费流程](../../../qbank/maintenance/EVALUATION.md)。prepare_harbor按正式case数将外层预算至少设为base_seconds + case_count × (timeout_seconds + evaluation_timeout_seconds + per_case_overhead_seconds)，求解与评价分别限时。配置解析不代表容器限额或全部case运行已经验证。
 
-memory_mb 是 Harbor 环境的容器内存上限，不是 judge-config 中逐例进程的单独限制。实际运行仍需 Docker 主机提供相应内存与 CPU；配置不会自动扩大 Docker 虚拟机的内存。二维不可压缩题和三维题均配置 8192 MB，运行前应给 Docker 足够内存并留出系统开销。
+memory_mb是Harbor环境容器限额，不是逐例进程的独立RSS限制。Docker主机须提供相应资源并留出系统开销；配置不会自动扩容Docker虚拟机。
 
-组装后的 Agent 入口 instruction.md 只给出求解与提交要求，以及实际误差容限、0.1% 偏差点比例规则、逐例时限、CPU、可用内存和输出文件大小上限。试运行状态、阈值校准情况及容器资源的实现说明仅保留在维护文档和配置中，不写入 Agent 入口。
-
-评分配置变更后须重新执行 publish_dist.py 与 prepare_harbor.py；旧发布包、旧 Harbor 目录和历史成绩不会自动改写。模板变更后须重新生成各 case 判题配置、打包并显式上传更新；数值数据本身无变化时无需重新下载或转换。
+题面只声明做题所需的任务、评分与资源。校准状态、执行证据和发行资格留在维护记录。评分变更后须重新生成每例配置、重建数据池并真实装配核验，再更新公开包和Harbor任务；旧包及历史成绩不会自动变更。输入和参考数组不变时无需重新下载或求解。需要同步HF时另行显式上传，离线RC装配不以重新上传为前提。
 
 ## 无 baseline 的运行路径
 
@@ -45,7 +31,7 @@ harbor run -p runs/harbor/tasks/advection-1d \
   --ak reasoning_effort=medium -n 1 -o runs/harbor/jobs
 ```
 
-对于其他方程族替换任务名即可；缺少数值文件时先运行数据准备工具。报告仍是每例 0/1，通过率不能直接解释为已校准的正式 Benchmark 能力指标。
+对于其他方程族替换任务名即可；缺少数值文件时先运行数据准备工具。报告保留每例连续分值，题目reward为全部正式case分数的平均；不得把partial_credit或CLI退出1一律归零。成绩不能直接解释为已校准的正式Benchmark能力指标。
 
 ## Apple Silicon 与镜像下载
 

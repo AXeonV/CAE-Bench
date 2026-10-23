@@ -1,0 +1,15 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "/usr/local/bin/python",
+    "-c",
+    "import json,subprocess,numpy,h5py,gmsh; assert hasattr(gmsh.lib,'gmshInitialize'); r=json.loads(subprocess.check_output(['/opt/dolfinx-repair-build/bin/ownership_driver'],input='{\"dimension\":2,\"mode\":2,\"padding\":0,\"vertices\":[[0,0],[1,0],[0,1]],\"cells\":[[0,1,2]],\"cell_ids\":[31],\"queries\":[[0.2,0.2]]}',text=True)); assert r[0]['owned']==1 and r[0]['cell_id']==31 and abs(r[0]['distance'])<1e-8; print('actual baseline ownership and SDK health passed')"
+  ],
+  "exit_code": 0,
+  "status": "ready",
+  "elapsed_seconds": 1.588349814999674
+}

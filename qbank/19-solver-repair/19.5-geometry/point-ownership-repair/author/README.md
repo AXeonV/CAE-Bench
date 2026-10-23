@@ -12,4 +12,8 @@ prepare_source.py验证完整原始DOLFINx456、Basix183与FFCx128文件及审�
 
 数据IDcaeoj-190501，HF固定提交cbcaa0680927b4dcaed80ea18e5e3e5daecbe933，经官方上传、新缓存取回及严格校验。独立考生审阅通过。独立数据审阅发现SDK接受probe_ids=0，与公开正整数要求不符；已补非正检查，新ZIP576823e42c10a91ca840cf6d21325340bf116ffa1582698b0f5f77bed6823a61重新审阅26变体全部通过，原发现与有界版本差分保留在data-review.md。
 
-最终ZIP完成真实断网普通pip install，移走SDK源码后运行两样例及pip check；原件样例分0与1符合预期，见public-install.json。旧ZIP5dae9c7e11e452550ad8b5c074bb9a92ec03a80d787511ed023053cbcc7fe158的Oracle-v1完成12/12、exception_info=null。新ZIP的Oracle-v2在可信原件120s编译时真实超时，保留失败不计通过；实际多题并发造成资源争用，可信原件预算校准至300s，候选公开240s不变。首轮探针误将原件编译超时当成SDK故障的分类检出，已修严断言，必须实际到健康检查失败才通过。新八项后端探针重做中，独立后端审阅尚未完成，因此当前不计入完成清单；不得将旧版本Oracle冒称新包实测。
+最终ZIP完成真实断网普通pip install，移走SDK源码后运行两样例及pip check；原件样例分0与1符合预期，见public-install.json。旧ZIP5dae9c7e11e452550ad8b5c074bb9a92ec03a80d787511ed023053cbcc7fe158的Oracle-v1完成12/12、exception_info=null。新ZIP的Oracle-v2在可信原件120s编译时真实超时，保留失败不计通过；实际多题并发造成资源争用，可信原件预算校准至300s，候选公开240s不变。首轮探针误将原件编译超时当成SDK故障的分类检出，已修严断言，必须实际到健康检查失败才通过。
+
+新版八项探针8/8通过：有效修复/未来缓存时间戳、候选语法错误、额外文件、链接、超大文件、编译器缺失、可信SDK损坏及真实C++无限循环。valid候选编译86.74s，实际UID1000、断网、4CPU/8GiB、源码/驱动/原对象/新产物不可写，隐藏目录不可读，ldd指向新库。超时实测主CPP进程终态Z；共享执行器执行killpg，但未逐个实测所有MPI辅助进程，也未注入真实候选编译超时。
+
+最终repair22-dolfinx-oracle-v3绑定576823公开包及300s原件配置，12/12终态完成、exception_info=null。真实原件重编99.69s、健康检查1.59s、候选重编71.78s；正式容器另存真实4CPU/8GiB快照。独立后端审阅逐份重读12个实际H5，与固定reference所有dataset精确一致，并核76项冻结资产SHA、全部评价绑定、九产物闭包与19项独立边界/非法输出测试，见data-evidence/backend-review.md。全部验收已完成，可计入清单；证据仅覆盖公开单进程一次单纯形范围，不认证高阶/曲面/并行几何或完整有限元应用。旧Oracle的实际版本身份保留，不冒称曾运行新版公开包。

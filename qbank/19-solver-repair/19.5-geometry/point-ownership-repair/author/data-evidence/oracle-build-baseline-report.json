@@ -1,0 +1,30 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "cmake",
+    "--build",
+    "/opt/dolfinx-repair-build",
+    "--target",
+    "repair_sources",
+    "--parallel",
+    "4"
+  ],
+  "exit_code": 0,
+  "status": "built",
+  "elapsed_seconds": 99.69161644999986,
+  "removed_build_artifacts": [
+    "/opt/dolfinx-repair-build/upstream/dolfinx/CMakeFiles/dolfinx.dir/fem/DirichletBC.cpp.o",
+    "/opt/dolfinx-repair-build/upstream/dolfinx/CMakeFiles/dolfinx.dir/fem/DofMap.cpp.o",
+    "/opt/dolfinx-repair-build/upstream/dolfinx/CMakeFiles/dolfinx.dir/fem/utils.cpp.o",
+    "/opt/dolfinx-repair-build/upstream/dolfinx/CMakeFiles/dolfinx.dir/io/VTKFile.cpp.o",
+    "/opt/dolfinx-repair-build/upstream/dolfinx/CMakeFiles/dolfinx.dir/io/XDMFFile.cpp.o",
+    "/opt/dolfinx-repair-build/upstream/dolfinx/CMakeFiles/dolfinx.dir/io/xdmf_function.cpp.o",
+    "/opt/dolfinx-repair-build/CMakeFiles/ownership_driver.dir/opt/ownership-driver/driver.cpp.o",
+    "/opt/dolfinx-repair-build/lib/libdolfinx.so.0.12.0.0",
+    "/opt/dolfinx-repair-build/bin/ownership_driver"
+  ]
+}

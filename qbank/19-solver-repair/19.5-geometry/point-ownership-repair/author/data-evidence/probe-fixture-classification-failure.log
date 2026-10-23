@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/opt/backend_probe.py", line 25, in <module>
+    try:backend.prepare()
+        ~~~~~~~~~~~~~~~^^
+  File "/tests/source_repair.py", line 97, in prepare
+    raise RuntimeError('Trusted baseline runtime probe failed: ' + probe['status'])
+RuntimeError: Trusted baseline runtime probe failed: probe_error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/backend_probe.py", line 30, in <module>
+    assert mode in ['compiler','baseline-runtime'] and ('Trusted baseline runtime probe failed: build_error' in str(exc) if mode=='baseline-runtime' else 'Trusted baseline build failed: build_error' in str(exc)),str(exc)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Trusted baseline runtime probe failed: probe_error

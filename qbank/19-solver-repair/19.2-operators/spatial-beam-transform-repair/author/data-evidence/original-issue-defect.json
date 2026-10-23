@@ -1,0 +1,205 @@
+{
+  "origin": "Original issue text: L=4m, 0.3x0.7m rectangular section, E=200GPa, nu=.3, unit tip forces; J and rho supplied for complete 3D record but not affecting tested transverse/axial displacement comparisons",
+  "mode": "defect",
+  "states": [
+    {
+      "direction": [
+        4,
+        0,
+        0
+      ],
+      "actual_unit_force_tip_responses": [
+        [
+          9.523809523809523e-11,
+          -0.0,
+          0.0,
+          0.0,
+          -0.0,
+          0.0
+        ],
+        [
+          0.0,
+          6.802201058201065e-08,
+          0.0,
+          0.0,
+          -0.0,
+          2.5396825396825426e-08
+        ],
+        [
+          0.0,
+          -0.0,
+          1.2736404275996116e-08,
+          0.0,
+          -4.664723032069971e-09,
+          0.0
+        ]
+      ],
+      "closed_tip_responses": [
+        [
+          9.523809523809523e-11,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          6.802201058201059e-08,
+          0.0,
+          0.0,
+          0.0,
+          2.5396825396825403e-08
+        ],
+        [
+          0.0,
+          0.0,
+          1.2736404275996117e-08,
+          0.0,
+          -4.664723032069972e-09,
+          0.0
+        ]
+      ],
+      "max_stiffness_absolute_error": 2.384185791015625e-07
+    },
+    {
+      "direction": [
+        0,
+        4,
+        0
+      ],
+      "actual_unit_force_tip_responses": [
+        [
+          6.802201058201065e-08,
+          0.0,
+          0.0,
+          -0.0,
+          2.5396825396825426e-08,
+          0.0
+        ],
+        [
+          -0.0,
+          1.2736404275996116e-08,
+          0.0,
+          -4.664723032069971e-09,
+          0.0,
+          0.0
+        ],
+        [
+          -0.0,
+          0.0,
+          9.523809523809523e-11,
+          -0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "closed_tip_responses": [
+        [
+          1.2736404275996117e-08,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -4.664723032069972e-09
+        ],
+        [
+          0.0,
+          9.523809523809523e-11,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          6.802201058201059e-08,
+          2.5396825396825403e-08,
+          0.0,
+          0.0
+        ]
+      ],
+      "max_stiffness_absolute_error": 10441956169.230013
+    },
+    {
+      "direction": [
+        0,
+        0,
+        4
+      ],
+      "actual_unit_force_tip_responses": [
+        [
+          1.2736404275996116e-08,
+          -0.0,
+          0.0,
+          0.0,
+          -4.664723032069971e-09,
+          0.0
+        ],
+        [
+          0.0,
+          6.802201058201065e-08,
+          0.0,
+          2.5396825396825426e-08,
+          -0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -0.0,
+          9.523809523809523e-11,
+          0.0,
+          -0.0,
+          0.0
+        ]
+      ],
+      "closed_tip_responses": [
+        [
+          1.2736404275996117e-08,
+          0.0,
+          0.0,
+          0.0,
+          4.664723032069972e-09,
+          0.0
+        ],
+        [
+          0.0,
+          6.802201058201059e-08,
+          0.0,
+          -2.5396825396825403e-08,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          9.523809523809523e-11,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "max_stiffness_absolute_error": 1174067819.8165302
+    }
+  ],
+  "command": [
+    "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "--cpus",
+    "2",
+    "--memory",
+    "4g",
+    "--user",
+    "1000:1000",
+    "--mount",
+    "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.2-operators\\spatial-beam-transform-repair\\author\\replay\\defect\\original-issue,target=/job",
+    "caeoj-kratos14657-runtime:base",
+    "/opt/beam-build/beam_driver",
+    "/job/input.txt",
+    "/job/output.txt"
+  ]
+}

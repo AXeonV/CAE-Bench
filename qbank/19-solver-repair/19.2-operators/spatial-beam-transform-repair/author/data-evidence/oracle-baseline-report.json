@@ -1,0 +1,23 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "cmake",
+    "--build",
+    "/opt/beam-build",
+    "--target",
+    "beam_repair",
+    "--parallel",
+    "4"
+  ],
+  "exit_code": 0,
+  "status": "built",
+  "elapsed_seconds": 19.246389260999877,
+  "removed_build_artifacts": [
+    "/opt/beam-build/CMakeFiles/beam_repair.dir/opt/kratos-source/applications/StructuralMechanicsApplication/custom_elements/beam_elements/timoshenko_beam_element_3D2N.cpp.o",
+    "/opt/beam-build/libbeam_repair.so"
+  ]
+}

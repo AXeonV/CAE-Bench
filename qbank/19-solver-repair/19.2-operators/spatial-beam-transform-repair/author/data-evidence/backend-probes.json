@@ -1,0 +1,102 @@
+{
+  "passed": 6,
+  "probes": [
+    {
+      "mode": "valid",
+      "passed": true,
+      "before_library_sha256": "d770d3fe8963341101a069b461ec8e3f593a867798d23b917bc1e0364b2da525",
+      "after_library_sha256": "d6143ffabcaa829cab908ed1d9b1c5d606bd00b5347b006e3054d204fbe83f42",
+      "access": {
+        "uid": 1000,
+        "access": {
+          "/tests/cases": {
+            "read": false,
+            "write": false
+          },
+          "/tests/reference": {
+            "read": false,
+            "write": false
+          },
+          "/logs/verifier": {
+            "read": false,
+            "write": false
+          },
+          "/opt/beam-build/libbeam_repair.so": {
+            "read": true,
+            "write": false
+          },
+          "/opt/beam-build/beam_driver": {
+            "read": true,
+            "write": false
+          },
+          "/opt/kratos-source/applications/StructuralMechanicsApplication/custom_elements/beam_elements/timoshenko_beam_element_3D2N.cpp": {
+            "read": true,
+            "write": false
+          }
+        },
+        "network": "denied"
+      },
+      "forced_rebuild": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "cmake",
+          "--build",
+          "/opt/beam-build",
+          "--target",
+          "beam_repair",
+          "--parallel",
+          "4"
+        ],
+        "exit_code": 0,
+        "status": "built",
+        "elapsed_seconds": 11.200519213000007,
+        "sources_sha256": {
+          "timoshenko_beam_element_3D2N.cpp": "2cac9687926d55d52d6331dc33060a49b2e3f3afdffe84ed304813ed95f0b2ee"
+        },
+        "removed_build_artifacts": [
+          "/opt/beam-build/CMakeFiles/beam_repair.dir/opt/kratos-source/applications/StructuralMechanicsApplication/custom_elements/beam_elements/timoshenko_beam_element_3D2N.cpp.o",
+          "/opt/beam-build/libbeam_repair.so"
+        ],
+        "built_artifacts_sha256": {
+          "/opt/beam-build/CMakeFiles/beam_repair.dir/opt/kratos-source/applications/StructuralMechanicsApplication/custom_elements/beam_elements/timoshenko_beam_element_3D2N.cpp.o": "ab46133f2c311848f30d8938c0246da799eaffad086e5eb4e38f2a8a862890d2",
+          "/opt/beam-build/libbeam_repair.so": "d6143ffabcaa829cab908ed1d9b1c5d606bd00b5347b006e3054d204fbe83f42"
+        }
+      },
+      "actual_sample_score": 1,
+      "actual_linked_paths": "\tlinux-vdso.so.1 (0x00007b6184bb3000)\n\tlibbeam_repair.so => /opt/beam-build/libbeam_repair.so (0x00007b61848d4000)\n\tlibKratosCore.so => /opt/kratos-build/kratos/libKratosCore.so (0x00007b61821ce000)\n\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007b6181f65000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007b6181e75000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007b6181e46000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007b6181c52000)\n\tlibz.so.1 => /opt/kratos-build/external_libraries/zlib/libz.so.1 (0x00007b6181c39000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007b6184bb5000)\n",
+      "cpu_max": "400000 100000",
+      "memory_max": "8589934592"
+    },
+    {
+      "mode": "syntax",
+      "passed": true,
+      "classification": "build_error"
+    },
+    {
+      "mode": "compiler",
+      "passed": true,
+      "classification": "infrastructure_error",
+      "reason": "Trusted baseline build failed: build_error"
+    },
+    {
+      "mode": "baseline-runtime",
+      "passed": true,
+      "classification": "infrastructure_error",
+      "reason": "Trusted baseline runtime probe failed: probe_error"
+    },
+    {
+      "mode": "extra",
+      "passed": true,
+      "classification": "invalid_submission"
+    },
+    {
+      "mode": "symlink",
+      "passed": true,
+      "classification": "invalid_submission"
+    }
+  ]
+}

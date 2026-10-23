@@ -1,0 +1,85 @@
+{
+  "uid": 1000,
+  "gid": 1000,
+  "groups": [],
+  "paths": {
+    "/opt/kratos-source": {
+      "read": true,
+      "write": false,
+      "mode": "0o755"
+    },
+    "/opt/kratos-source/applications/StructuralMechanicsApplication/custom_elements/beam_elements": {
+      "read": true,
+      "write": false,
+      "mode": "0o775"
+    },
+    "/opt/kratos-source/applications/StructuralMechanicsApplication/custom_elements/beam_elements/timoshenko_beam_element_3D2N.h": {
+      "read": true,
+      "write": false,
+      "mode": "0o664"
+    },
+    "/opt/kratos-source/applications/StructuralMechanicsApplication/custom_elements/beam_elements/timoshenko_beam_element_2D2N.cpp": {
+      "read": true,
+      "write": false,
+      "mode": "0o664"
+    },
+    "/opt/beam-driver": {
+      "read": true,
+      "write": false,
+      "mode": "0o755"
+    },
+    "/opt/beam-driver/driver.cpp": {
+      "read": true,
+      "write": false,
+      "mode": "0o755"
+    },
+    "/opt/beam-driver/CMakeLists.txt": {
+      "read": true,
+      "write": false,
+      "mode": "0o755"
+    },
+    "/opt/beam-driver/run_case.py": {
+      "read": true,
+      "write": false,
+      "mode": "0o755"
+    },
+    "/opt/kratos-build/kratos": {
+      "read": true,
+      "write": false,
+      "mode": "0o755"
+    },
+    "/opt/kratos-build/kratos/libKratosCore.so": {
+      "read": true,
+      "write": false,
+      "mode": "0o755"
+    },
+    "/opt/kratos-build/external_libraries/zlib": {
+      "read": true,
+      "write": false,
+      "mode": "0o755"
+    },
+    "/opt/kratos-build/external_libraries/zlib/libz.so.1": {
+      "read": true,
+      "write": false,
+      "mode": "0o755"
+    }
+  },
+  "image_id": "sha256:eb655262bed114158d9c474ccb9d723574d958a76db291a8d4e19eec106d1dd1",
+  "phase": "fresh verifier before source backend prepare",
+  "command": [
+    "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "sha256:eb655262bed114158d9c474ccb9d723574d958a76db291a8d4e19eec106d1dd1",
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "python",
+    "-c",
+    "import json,os; paths=['/opt/kratos-source', '/opt/kratos-source/applications/StructuralMechanicsApplication/custom_elements/beam_elements', '/opt/kratos-source/applications/StructuralMechanicsApplication/custom_elements/beam_elements/timoshenko_beam_element_3D2N.h', '/opt/kratos-source/applications/StructuralMechanicsApplication/custom_elements/beam_elements/timoshenko_beam_element_2D2N.cpp', '/opt/beam-driver', '/opt/beam-driver/driver.cpp', '/opt/beam-driver/CMakeLists.txt', '/opt/beam-driver/run_case.py', '/opt/kratos-build/kratos', '/opt/kratos-build/kratos/libKratosCore.so', '/opt/kratos-build/external_libraries/zlib', '/opt/kratos-build/external_libraries/zlib/libz.so.1']; print(json.dumps({\"uid\":os.geteuid(),\"gid\":os.getegid(),\"groups\":os.getgroups(),\"paths\":{p:{\"read\":os.access(p,os.R_OK),\"write\":os.access(p,os.W_OK),\"mode\":oct(os.stat(p).st_mode&0o777)} for p in paths}}))"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "cmake",
+    "--build",
+    "/opt/beam-build",
+    "--target",
+    "beam_repair",
+    "--parallel",
+    "4"
+  ],
+  "exit_code": 0,
+  "status": "built",
+  "elapsed_seconds": 16.598281651000434,
+  "sources_sha256": {
+    "timoshenko_beam_element_3D2N.cpp": "2cac9687926d55d52d6331dc33060a49b2e3f3afdffe84ed304813ed95f0b2ee"
+  },
+  "removed_build_artifacts": [
+    "/opt/beam-build/CMakeFiles/beam_repair.dir/opt/kratos-source/applications/StructuralMechanicsApplication/custom_elements/beam_elements/timoshenko_beam_element_3D2N.cpp.o",
+    "/opt/beam-build/libbeam_repair.so"
+  ],
+  "built_artifacts_sha256": {
+    "/opt/beam-build/CMakeFiles/beam_repair.dir/opt/kratos-source/applications/StructuralMechanicsApplication/custom_elements/beam_elements/timoshenko_beam_element_3D2N.cpp.o": "ab46133f2c311848f30d8938c0246da799eaffad086e5eb4e38f2a8a862890d2",
+    "/opt/beam-build/libbeam_repair.so": "d6143ffabcaa829cab908ed1d9b1c5d606bd00b5347b006e3054d204fbe83f42"
+  }
+}

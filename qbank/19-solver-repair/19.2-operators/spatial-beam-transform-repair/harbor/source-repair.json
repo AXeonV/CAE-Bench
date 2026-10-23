@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "base_image": "caeoj-kratos14657-runtime:base",
+  "replacements": [
+    {
+      "submission": "timoshenko_beam_element_3D2N.cpp",
+      "target": "/opt/kratos-source/applications/StructuralMechanicsApplication/custom_elements/beam_elements/timoshenko_beam_element_3D2N.cpp"
+    }
+  ],
+  "build_directory": "/opt/beam-build",
+  "build_target": "beam_repair",
+  "rebuild_files": [
+    "/opt/beam-build/CMakeFiles/beam_repair.dir/opt/kratos-source/applications/StructuralMechanicsApplication/custom_elements/beam_elements/timoshenko_beam_element_3D2N.cpp.o",
+    "/opt/beam-build/libbeam_repair.so"
+  ],
+  "build_timeout_seconds": 180,
+  "max_source_bytes": 1048576,
+  "runner": "/app/qbank/19-solver-repair/19.2-operators/spatial-beam-transform-repair/public/run_case.py",
+  "baseline_probe": [
+    "/opt/beam-build/beam_driver",
+    "/opt/beam-driver/probe-input.txt",
+    "/tmp/beam-baseline-probe.txt"
+  ]
+}

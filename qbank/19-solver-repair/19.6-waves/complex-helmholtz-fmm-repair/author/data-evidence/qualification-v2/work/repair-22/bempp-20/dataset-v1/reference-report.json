@@ -1,0 +1,67 @@
+{
+  "mode": "reference",
+  "image_id": "sha256:e23990b800639837e80467456a571adf25aa97208c732cbfc0212765a9c487b3",
+  "driver_sha256": "ac18a01fd24e1b65933640864c433841e0e34f42d790ab89d59d2fbe41a291be",
+  "producer": "actual pinned Bempp API plus genuine native ExaFMM; mathematical audit never produces reference",
+  "cases": [
+    {
+      "case": "01-point-real",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "bempp20-d54a19214ec8",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,size=768m",
+        "-e",
+        "HOME=/tmp",
+        "-i",
+        "sha256:e23990b800639837e80467456a571adf25aa97208c732cbfc0212765a9c487b3",
+        "/opt/bempp-env/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "elapsed_seconds": 25.625,
+      "returncode": 0,
+      "input_assets": {
+        "input.h5": "46d5e39e963e03a18011fc487cad47fa9344463066cacc44c43a2ef2b1c69823",
+        "problem.json": "f0a80147702f008d636b4bd10ca1b3d576fbc0562e5ae9964d81aa712eacd16b"
+      },
+      "payload_sha256": "260dea4bb4c1101ea9ea7efdda9cc47b288134285be0d110681e3df81bf6491b",
+      "stdout_sha256": "a378658fce900e4eae71655f2398c331ff73496762754bdc3c80e30242ab4a07",
+      "score": 1,
+      "output_sha256": "03fba87beb62def3473b078d568f2d712279195b3e514a8042e9bbe61fe9a789",
+      "independent_point_audit": {
+        "fmm_potential": {
+          "max_absolute_error": 4.163336342344337e-17,
+          "max_tolerance_fraction": 2.50679743799015e-10,
+          "passed": true
+        },
+        "fmm_gradient": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 2.310475235757954e-10,
+          "passed": true
+        },
+        "local_potential": {
+          "max_absolute_error": 8.326672684688674e-17,
+          "max_tolerance_fraction": 2.561402363187642e-10,
+          "passed": true
+        },
+        "local_gradient": {
+          "max_absolute_error": 6.938893903907228e-17,
+          "max_tolerance_fraction": 2.888094044697443e-10,
+          "passed": true
+        }
+      }
+    }
+  ]
+}

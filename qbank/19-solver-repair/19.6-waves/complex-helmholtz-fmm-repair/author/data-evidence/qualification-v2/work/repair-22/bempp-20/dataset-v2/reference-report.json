@@ -1,0 +1,638 @@
+{
+  "mode": "reference",
+  "image_id": "sha256:feb72f6a43eed3230ad3c66bedd92ea487a66d753d8777fb2bcd9534c90bd664",
+  "driver_sha256": "ed62991327fbfe9411b0631cab7fd06661cecf0e1f96980a18677f6cbb3f368d",
+  "producer": "actual pinned Bempp API plus genuine native ExaFMM; mathematical audit never produces reference",
+  "cases": [
+    {
+      "case": "01-point-real",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "bempp20-1efc976f9561",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,size=256m",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\bempp-20\\dataset-v2\\replay\\reference\\01-point-real\\scratch-6nu1zssu:/scratch",
+        "-w",
+        "/scratch",
+        "-e",
+        "HOME=/tmp",
+        "-i",
+        "sha256:feb72f6a43eed3230ad3c66bedd92ea487a66d753d8777fb2bcd9534c90bd664",
+        "/opt/bempp-env/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "elapsed_seconds": 19.89000000001397,
+      "returncode": 0,
+      "input_assets": {
+        "input.h5": "46d5e39e963e03a18011fc487cad47fa9344463066cacc44c43a2ef2b1c69823",
+        "problem.json": "f0a80147702f008d636b4bd10ca1b3d576fbc0562e5ae9964d81aa712eacd16b"
+      },
+      "payload_sha256": "260dea4bb4c1101ea9ea7efdda9cc47b288134285be0d110681e3df81bf6491b",
+      "stdout_sha256": "a378658fce900e4eae71655f2398c331ff73496762754bdc3c80e30242ab4a07",
+      "score": 1,
+      "output_sha256": "e180be5c412a6d240ed3da34e5f1791c57acf2c61b4ea78edd68609c6b02c84b",
+      "independent_point_audit": {
+        "fmm_potential": {
+          "max_absolute_error": 4.163336342344337e-17,
+          "max_tolerance_fraction": 3.02597966773583e-11,
+          "passed": true
+        },
+        "fmm_gradient": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 3.2628802665430925e-11,
+          "passed": true
+        },
+        "local_potential": {
+          "max_absolute_error": 8.326672684688674e-17,
+          "max_tolerance_fraction": 3.724321193769312e-11,
+          "passed": true
+        },
+        "local_gradient": {
+          "max_absolute_error": 6.938893903907228e-17,
+          "max_tolerance_fraction": 4.078600333178865e-11,
+          "passed": true
+        }
+      }
+    },
+    {
+      "case": "02-point-complex",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "bempp20-edf0bdfd8707",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,size=256m",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\bempp-20\\dataset-v2\\replay\\reference\\02-point-complex\\scratch-lwrhqu0j:/scratch",
+        "-w",
+        "/scratch",
+        "-e",
+        "HOME=/tmp",
+        "-i",
+        "sha256:feb72f6a43eed3230ad3c66bedd92ea487a66d753d8777fb2bcd9534c90bd664",
+        "/opt/bempp-env/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "elapsed_seconds": 36.84400000004098,
+      "returncode": 0,
+      "input_assets": {
+        "input.h5": "5e5a7c3836d877c06e30e07001f0ba9a7866bb598fb03f7e3cc2b084ccd48e15",
+        "problem.json": "91ef9d49d3dda6438c17121eedd894889f8831f8b9f68012ad6ddc2e4f515dc5"
+      },
+      "payload_sha256": "517323b3d6a9a66f139d362362fdf65a3865bbfa8a2699c8eec721d7f4c0629f",
+      "stdout_sha256": "c5928ba281bdaa9d3421007f6cdc438528ac1e39e58529b89a6295a7a8e4006a",
+      "score": 1,
+      "output_sha256": "a565ed7f5fa522a8068e6cd940076e6abb306f7ee5c2b6a00fe3f62f79e8c595",
+      "independent_point_audit": {
+        "fmm_potential": {
+          "max_absolute_error": 1.8248268174314575e-10,
+          "max_tolerance_fraction": 0.00010925276041759305,
+          "passed": true
+        },
+        "fmm_gradient": {
+          "max_absolute_error": 4.0919266863781445e-09,
+          "max_tolerance_fraction": 0.0038509652408164506,
+          "passed": true
+        },
+        "local_potential": {
+          "max_absolute_error": 2.7755575615628914e-17,
+          "max_tolerance_fraction": 1.6617320745290902e-11,
+          "passed": true
+        },
+        "local_gradient": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 2.7092449036532498e-11,
+          "passed": true
+        }
+      }
+    },
+    {
+      "case": "03-attenuated-gradient",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "bempp20-00f1e1db89ef",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,size=256m",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\bempp-20\\dataset-v2\\replay\\reference\\03-attenuated-gradient\\scratch-iy5bn35y:/scratch",
+        "-w",
+        "/scratch",
+        "-e",
+        "HOME=/tmp",
+        "-i",
+        "sha256:feb72f6a43eed3230ad3c66bedd92ea487a66d753d8777fb2bcd9534c90bd664",
+        "/opt/bempp-env/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "elapsed_seconds": 37.64099999994505,
+      "returncode": 0,
+      "input_assets": {
+        "input.h5": "303a7dbd1552faf5dba03968c6262350987e602e89994e0a70f727d19e44372f",
+        "problem.json": "a82dea0c6b4f4820cd8398cf955262679a2fc0898bfdb4f5a311502effec35fc"
+      },
+      "payload_sha256": "4e8219e7c15acf8f8741137f4084c691336cd17740f5089adc6348c439ef19bc",
+      "stdout_sha256": "16b73c28870c45525fea096f3c2258843bc9ba1455896dd863b70656174f9467",
+      "score": 1,
+      "output_sha256": "60d590604202fb59515a17d5752819ebd3cef0bc794019e3a30a55eb5611d959",
+      "independent_point_audit": {
+        "fmm_potential": {
+          "max_absolute_error": 1.0801865478471395e-11,
+          "max_tolerance_fraction": 1.0199115389256235e-05,
+          "passed": true
+        },
+        "fmm_gradient": {
+          "max_absolute_error": 2.710793551435886e-10,
+          "max_tolerance_fraction": 0.00026465899632645106,
+          "passed": true
+        },
+        "local_potential": {
+          "max_absolute_error": 6.071532165918825e-18,
+          "max_tolerance_fraction": 5.734357251991068e-12,
+          "passed": true
+        },
+        "local_gradient": {
+          "max_absolute_error": 1.1275702593849246e-17,
+          "max_tolerance_fraction": 1.0477605681084134e-11,
+          "passed": true
+        }
+      }
+    },
+    {
+      "case": "04-point-far-tree",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "bempp20-dcedece93f83",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,size=256m",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\bempp-20\\dataset-v2\\replay\\reference\\04-point-far-tree\\scratch-eyesuchc:/scratch",
+        "-w",
+        "/scratch",
+        "-e",
+        "HOME=/tmp",
+        "-i",
+        "sha256:feb72f6a43eed3230ad3c66bedd92ea487a66d753d8777fb2bcd9534c90bd664",
+        "/opt/bempp-env/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "elapsed_seconds": 26.188000000081956,
+      "returncode": 0,
+      "input_assets": {
+        "input.h5": "886a5a40800d0652111e7ff551b48c54863e9d5cf64dfd891c04cff7faf08d08",
+        "problem.json": "be52db160e730e084daef8235d1f8dae418c499f0a1b254375a82d4b080448c9"
+      },
+      "payload_sha256": "0065132871e4845ba3074f77df1e209ad75d36712a48989261586a392ecfd297",
+      "stdout_sha256": "10203afc07dcc2ead7534ebcc5138793f8b675961605e1733f9303dc2f45dd97",
+      "score": 1,
+      "output_sha256": "3fbd4d430e910a38c422679802006a0fb2b50c777e0c5e1336d3cd0711525105",
+      "independent_point_audit": {
+        "fmm_potential": {
+          "max_absolute_error": 1.365577159684328e-08,
+          "max_tolerance_fraction": 0.012925180135803526,
+          "passed": true
+        },
+        "fmm_gradient": {
+          "max_absolute_error": 6.657044800684186e-07,
+          "max_tolerance_fraction": 0.41054412937519186,
+          "passed": true
+        },
+        "local_potential": {
+          "max_absolute_error": 5.273559366969494e-16,
+          "max_tolerance_fraction": 2.412584190455116e-10,
+          "passed": true
+        },
+        "local_gradient": {
+          "max_absolute_error": 1.3322676295501878e-15,
+          "max_tolerance_fraction": 3.0725437726469876e-10,
+          "passed": true
+        }
+      }
+    },
+    {
+      "case": "05-point-translated",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "bempp20-65cc368e0d04",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,size=256m",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\bempp-20\\dataset-v2\\replay\\reference\\05-point-translated\\scratch-cafsgoym:/scratch",
+        "-w",
+        "/scratch",
+        "-e",
+        "HOME=/tmp",
+        "-i",
+        "sha256:feb72f6a43eed3230ad3c66bedd92ea487a66d753d8777fb2bcd9534c90bd664",
+        "/opt/bempp-env/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "elapsed_seconds": 25.969000000040978,
+      "returncode": 0,
+      "input_assets": {
+        "input.h5": "4fb4b733364cdc75628d452fd4d4f3ba888e8fe025a87d04d37ac5898053b6ce",
+        "problem.json": "b1773039d715c2422af81892b964f75b667b1ebc1dd4094792968c6478aad1e8"
+      },
+      "payload_sha256": "efd9f60aab81aa07a05d6418af8041afe5b80bc0ccef5875e2732a8f84d07ff0",
+      "stdout_sha256": "0992bf3c6af7d676361f5696948036d0ce097b4c9c61fb24600535b85051c940",
+      "score": 1,
+      "output_sha256": "e4e166f2e76816ebf2b60990db98345cc0315c299edd02c4adace09f4880f8b2",
+      "independent_point_audit": {
+        "fmm_potential": {
+          "max_absolute_error": 1.3145094734934304e-10,
+          "max_tolerance_fraction": 0.00011023724503000037,
+          "passed": true
+        },
+        "fmm_gradient": {
+          "max_absolute_error": 4.559860390315751e-09,
+          "max_tolerance_fraction": 0.004320688616599816,
+          "passed": true
+        },
+        "local_potential": {
+          "max_absolute_error": 1.734723475976807e-17,
+          "max_tolerance_fraction": 1.5361348170194287e-11,
+          "passed": true
+        },
+        "local_gradient": {
+          "max_absolute_error": 2.710505431213761e-17,
+          "max_tolerance_fraction": 2.6700308890138546e-11,
+          "passed": true
+        }
+      }
+    },
+    {
+      "case": "06-point-near-real",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "bempp20-1d98ff85d10b",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,size=256m",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\bempp-20\\dataset-v2\\replay\\reference\\06-point-near-real\\scratch-t7jgddzo:/scratch",
+        "-w",
+        "/scratch",
+        "-e",
+        "HOME=/tmp",
+        "-i",
+        "sha256:feb72f6a43eed3230ad3c66bedd92ea487a66d753d8777fb2bcd9534c90bd664",
+        "/opt/bempp-env/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "elapsed_seconds": 15.577999999979511,
+      "returncode": 0,
+      "input_assets": {
+        "input.h5": "f6f7e31fa0be33124c9dc554cfc4c6103967dc7f9e717d61bc9bbb5c65b610a5",
+        "problem.json": "e5b8ecebda1c75da64e2a14a4589b4bf220d29b8c3074b7ec6f903091970bf6e"
+      },
+      "payload_sha256": "5230e6d855a0c1f464ed391c7f02f82864d862cf48cffe959072bc7a7c1c6484",
+      "stdout_sha256": "02073755f7c9df1d7e521133632fdfe33199efa522a75fa07c6d46c94f62fc4e",
+      "score": 1,
+      "output_sha256": "44e68b0c31b964cfb2e0e6430041942ac1f4d832c56be21127aed28afa6ca306",
+      "independent_point_audit": {
+        "fmm_potential": {
+          "max_absolute_error": 1.6653345369377348e-16,
+          "max_tolerance_fraction": 5.4127282757599795e-11,
+          "passed": true
+        },
+        "fmm_gradient": {
+          "max_absolute_error": 4.440892098500626e-16,
+          "max_tolerance_fraction": 1.5492338875667855e-10,
+          "passed": true
+        },
+        "local_potential": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 1.0825456551519959e-10,
+          "passed": true
+        },
+        "local_gradient": {
+          "max_absolute_error": 7.771561172376096e-16,
+          "max_tolerance_fraction": 1.8053423525996254e-10,
+          "passed": true
+        }
+      }
+    },
+    {
+      "case": "07-boundary-complex",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "bempp20-21827adafeff",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,size=256m",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\bempp-20\\dataset-v2\\replay\\reference\\07-boundary-complex\\scratch-_bmiyuds:/scratch",
+        "-w",
+        "/scratch",
+        "-e",
+        "HOME=/tmp",
+        "-i",
+        "sha256:feb72f6a43eed3230ad3c66bedd92ea487a66d753d8777fb2bcd9534c90bd664",
+        "/opt/bempp-env/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "elapsed_seconds": 116.32799999997951,
+      "returncode": 0,
+      "input_assets": {
+        "input.h5": "a76ed11c5c9a8422cc828c4b68353f159ea242c616cf5a099aeb59f89330770b",
+        "problem.json": "67b0c8dace3a1deee648107253eb8af863f9f0295a22ac1037a8f113f43abb74",
+        "surface.msh": "7db5b120fb9885061cd67398240c14b81c4e7d493262d2aed2792700b3b6646a"
+      },
+      "payload_sha256": "e629e122da29cc82b16cd35a2d9a00feb02997eab3162db4435baafa943b3bd1",
+      "stdout_sha256": "43ee48497ddbe2aeb2a946ad0ded53b4f289796b3b03b7b634efdc0a0386eefe",
+      "score": 1,
+      "output_sha256": "861bdd1f5a0721a2d3717b07c6f99760afdaa73b579c1c53f19166f994f4c66b"
+    },
+    {
+      "case": "08-boundary-real",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "bempp20-171e5fa6446a",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,size=256m",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\bempp-20\\dataset-v2\\replay\\reference\\08-boundary-real\\scratch-3h5hjp9p:/scratch",
+        "-w",
+        "/scratch",
+        "-e",
+        "HOME=/tmp",
+        "-i",
+        "sha256:feb72f6a43eed3230ad3c66bedd92ea487a66d753d8777fb2bcd9534c90bd664",
+        "/opt/bempp-env/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "elapsed_seconds": 109.57799999997951,
+      "returncode": 0,
+      "input_assets": {
+        "input.h5": "1033a656ea6bd1649908ef22216095858199ddbb90bba1eda69e9c1b2a14ecae",
+        "problem.json": "8f3ba0d5d78bec1ca3376ed8c434cc165f8eefe94e379fc13e0fca6a39633695",
+        "surface.msh": "2fd47f97a71d64211fc5dd5cfafd998fbb03fd379a3e357df1810bb1ac055504"
+      },
+      "payload_sha256": "9de0759d6bad380bc63fd071b2741e4fa8a41dffe9f9bf6a77ba512588b74327",
+      "stdout_sha256": "0663f35aa1f608340b55d077e3937e72a1979594415434e37b3ad835a71a5391",
+      "score": 1,
+      "output_sha256": "17ac5e64b6645ae7ccc3e2b9646befabc7e481d787d00860bb9bc44b7dad4ebc"
+    },
+    {
+      "case": "09-boundary-fine",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "bempp20-8311038cb529",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,size=256m",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\bempp-20\\dataset-v2\\replay\\reference\\09-boundary-fine\\scratch-ra5ddgvg:/scratch",
+        "-w",
+        "/scratch",
+        "-e",
+        "HOME=/tmp",
+        "-i",
+        "sha256:feb72f6a43eed3230ad3c66bedd92ea487a66d753d8777fb2bcd9534c90bd664",
+        "/opt/bempp-env/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "elapsed_seconds": 113.64000000001397,
+      "returncode": 0,
+      "input_assets": {
+        "input.h5": "44f36c6a75b2481bc2859af1c84d90fa24f51960e208b518c5c71ce2b1030608",
+        "problem.json": "67b0c8dace3a1deee648107253eb8af863f9f0295a22ac1037a8f113f43abb74",
+        "surface.msh": "e552ddc844c213499bbf0f56699f63576fe34977918f819af2b10e0ad1575ac3"
+      },
+      "payload_sha256": "300680195f744c1c1d5405dbae1b31cf5116e9f8007fae5e99fb5bce7b32d1eb",
+      "stdout_sha256": "b7442b7fb8829f0c0a52b09d3b0bfb72c15fe5a4d6d91570670dd0bec6f77223",
+      "score": 1,
+      "output_sha256": "1fd9783f79041267c85f095f055865c728dcd21d1adb504ac9555388a0423e68"
+    },
+    {
+      "case": "10-affine-surface",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "bempp20-1c9e35984146",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,size=256m",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\bempp-20\\dataset-v2\\replay\\reference\\10-affine-surface\\scratch-99cl74pd:/scratch",
+        "-w",
+        "/scratch",
+        "-e",
+        "HOME=/tmp",
+        "-i",
+        "sha256:feb72f6a43eed3230ad3c66bedd92ea487a66d753d8777fb2bcd9534c90bd664",
+        "/opt/bempp-env/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "elapsed_seconds": 84.67200000002049,
+      "returncode": 0,
+      "input_assets": {
+        "input.h5": "9327e3a4d0fabd89d86ef9b5a2f89cee08bacf89ea18dab588323175a1e85206",
+        "problem.json": "a21b80bfb511027323c88a4856fd13203ec58a6496586789bb0948acff3965ab",
+        "surface.msh": "7389116813dd0c067dca1db6866d663680fbc466b330b2066be632a60d0e499d"
+      },
+      "payload_sha256": "51bebd5b07253432641fcee4c1bb86444ed85ab70f76710b21af6ab21f1f266c",
+      "stdout_sha256": "f33fc801c1d996c9f5a5a806ef9c922e062ef67b7700986a92268fe2daa189fe",
+      "score": 1,
+      "output_sha256": "16ddc8cf91fac8b335ae580e285842deb1b52b4605cdd439f3961576121d1c94"
+    },
+    {
+      "case": "11-boundary-resource",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "bempp20-6d8cfe1b3984",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,size=256m",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\bempp-20\\dataset-v2\\replay\\reference\\11-boundary-resource\\scratch-xujldgsn:/scratch",
+        "-w",
+        "/scratch",
+        "-e",
+        "HOME=/tmp",
+        "-i",
+        "sha256:feb72f6a43eed3230ad3c66bedd92ea487a66d753d8777fb2bcd9534c90bd664",
+        "/opt/bempp-env/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "elapsed_seconds": 126.54700000002049,
+      "returncode": 0,
+      "input_assets": {
+        "input.h5": "87eb0ed99cd460ab34d3d5e1cc9d5369f262f7c1aaf4b0e582face409c6364fe",
+        "problem.json": "048b370a88186320b6f794d522cfa65251ff4fd2d94116ab5fa10207307fc181",
+        "surface.msh": "df6e6a834d4eb9c3f8dc86318cfbb791de92b2525a863910a0b0533a00a32ee8"
+      },
+      "payload_sha256": "1a8d630b70099c15605987f7d2bb0416ace87ed6c40d559fa663728623b9d992",
+      "stdout_sha256": "b495ab7c03b19755b6e85797b7864524cdf9055dcdcbc5eabdee9100bc169d73",
+      "score": 1,
+      "output_sha256": "7bb513fb8feaf86f4e634fe6b0419d10f9e7f05cbb8280795cfeeef16d92492e"
+    },
+    {
+      "case": "12-scaled-surface",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "bempp20-62f192fa7510",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,size=256m",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\bempp-20\\dataset-v2\\replay\\reference\\12-scaled-surface\\scratch-f_qe7opo:/scratch",
+        "-w",
+        "/scratch",
+        "-e",
+        "HOME=/tmp",
+        "-i",
+        "sha256:feb72f6a43eed3230ad3c66bedd92ea487a66d753d8777fb2bcd9534c90bd664",
+        "/opt/bempp-env/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "elapsed_seconds": 125.82799999997951,
+      "returncode": 0,
+      "input_assets": {
+        "input.h5": "e604e9e1064a3f7a8f92f38becb569538402687dd4b5b3597676daae9b842c79",
+        "problem.json": "2f4f5694f027db977b88c786d27cde5be14c2ae46b2c29a72bd185cfd4b75786",
+        "surface.msh": "878be3dc7d7c115fa7dc0dd01237f7c75cb5bf1cb8543dbeae5c2e74ce6368d0"
+      },
+      "payload_sha256": "b1e46ab18e366775c4e02653a7f0bb3bbe7678ba1701a8ac8ee8bc8ceabe68b4",
+      "stdout_sha256": "5058b51b23b9e1051e478b3dd8bd4a075137af54d80b43e20c66565fd15e17ce",
+      "score": 1,
+      "output_sha256": "9c4f8b05816ae4db80950988b8c7264bf0acfe1ca478b1ed1fb0bde219ebfe49"
+    }
+  ]
+}

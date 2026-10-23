@@ -1,0 +1,506 @@
+{
+  "image_id": "sha256:253f278524d90ff31134c04d4173965a0dbd256fc9c3a78a98e46206213d1ed6",
+  "worker_sha256": "6d69a6a4b648230200f1e9e29595f2bf4634c7114959e538b69390988a2c7490",
+  "reference_producer": false,
+  "cases": [
+    {
+      "case": "07-boundary-complex",
+      "dense_command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,size=512m",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\runs\\authoring\\repair-22\\bempp-formal-boundary-audit:/audit:ro",
+        "-e",
+        "HOME=/tmp",
+        "-w",
+        "/tmp",
+        "-i",
+        "sha256:253f278524d90ff31134c04d4173965a0dbd256fc9c3a78a98e46206213d1ed6",
+        "/opt/bempp-env/bin/python",
+        "/audit/dense-weak-worker.py"
+      ],
+      "dense_seconds": 55.07799999997951,
+      "comparisons": {
+        "boundary_single_layer": {
+          "max_absolute_error": 2.683221318744433e-10,
+          "max_tolerance_fraction": 0.00022059670624151897,
+          "passed": true
+        },
+        "boundary_double_layer": {
+          "max_absolute_error": 6.461666285373369e-09,
+          "max_tolerance_fraction": 0.0030489977479786832,
+          "passed": true
+        },
+        "boundary_hypersingular": {
+          "max_absolute_error": 1.2671394489238708e-09,
+          "max_tolerance_fraction": 0.0005576064346145298,
+          "passed": true
+        },
+        "dense_potential_single_layer": {
+          "max_absolute_error": 9.998576966374628e-11,
+          "max_tolerance_fraction": 8.740112648436184e-05,
+          "passed": true
+        },
+        "dense_potential_double_layer": {
+          "max_absolute_error": 3.4450737748659144e-09,
+          "max_tolerance_fraction": 0.0028149503634158513,
+          "passed": true
+        },
+        "quadrature16_potential_single_layer": {
+          "max_absolute_error": 1.2016912239593003e-09,
+          "max_tolerance_fraction": 0.001065443196804018,
+          "passed": true
+        },
+        "quadrature16_potential_double_layer": {
+          "max_absolute_error": 2.8204705064538427e-09,
+          "max_tolerance_fraction": 0.0023045905651105786,
+          "passed": true
+        },
+        "quadrature24_potential_single_layer": {
+          "max_absolute_error": 1.2016911962037247e-09,
+          "max_tolerance_fraction": 0.0010654431721953763,
+          "passed": true
+        },
+        "quadrature24_potential_double_layer": {
+          "max_absolute_error": 2.820470489106608e-09,
+          "max_tolerance_fraction": 0.0023045905509362515,
+          "passed": true
+        }
+      },
+      "mass_condition_number": 3.970824162956057,
+      "quadrature_convergence": {
+        "single_layer": 1.5069396161401184e-16,
+        "double_layer": 6.314488766312915e-17
+      },
+      "passed": true
+    },
+    {
+      "case": "08-boundary-real",
+      "dense_command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,size=512m",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\runs\\authoring\\repair-22\\bempp-formal-boundary-audit:/audit:ro",
+        "-e",
+        "HOME=/tmp",
+        "-w",
+        "/tmp",
+        "-i",
+        "sha256:253f278524d90ff31134c04d4173965a0dbd256fc9c3a78a98e46206213d1ed6",
+        "/opt/bempp-env/bin/python",
+        "/audit/dense-weak-worker.py"
+      ],
+      "dense_seconds": 57.75,
+      "comparisons": {
+        "boundary_single_layer": {
+          "max_absolute_error": 2.0071768969120996e-09,
+          "max_tolerance_fraction": 0.0012288101483037721,
+          "passed": true
+        },
+        "boundary_double_layer": {
+          "max_absolute_error": 3.8233408175547545e-08,
+          "max_tolerance_fraction": 0.03559956614747968,
+          "passed": true
+        },
+        "boundary_hypersingular": {
+          "max_absolute_error": 1.3401744269891935e-08,
+          "max_tolerance_fraction": 0.002167402098549668,
+          "passed": true
+        },
+        "dense_potential_single_layer": {
+          "max_absolute_error": 1.3813122173855774e-10,
+          "max_tolerance_fraction": 0.00011523961197518774,
+          "passed": true
+        },
+        "dense_potential_double_layer": {
+          "max_absolute_error": 3.973362340536912e-09,
+          "max_tolerance_fraction": 0.003113234684397009,
+          "passed": true
+        },
+        "quadrature16_potential_single_layer": {
+          "max_absolute_error": 3.12052743714486e-08,
+          "max_tolerance_fraction": 0.02334116000321678,
+          "passed": true
+        },
+        "quadrature16_potential_double_layer": {
+          "max_absolute_error": 2.1683522297144542e-08,
+          "max_tolerance_fraction": 0.0113246479674224,
+          "passed": true
+        },
+        "quadrature24_potential_single_layer": {
+          "max_absolute_error": 3.1205274454715326e-08,
+          "max_tolerance_fraction": 0.023341159997840224,
+          "passed": true
+        },
+        "quadrature24_potential_double_layer": {
+          "max_absolute_error": 2.1683522394289056e-08,
+          "max_tolerance_fraction": 0.01132464792735703,
+          "passed": true
+        }
+      },
+      "mass_condition_number": 3.970824162956057,
+      "quadrature_convergence": {
+        "single_layer": 2.3956776148459464e-16,
+        "double_layer": 4.575988780618919e-16
+      },
+      "passed": true
+    },
+    {
+      "case": "09-boundary-fine",
+      "dense_command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,size=512m",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\runs\\authoring\\repair-22\\bempp-formal-boundary-audit:/audit:ro",
+        "-e",
+        "HOME=/tmp",
+        "-w",
+        "/tmp",
+        "-i",
+        "sha256:253f278524d90ff31134c04d4173965a0dbd256fc9c3a78a98e46206213d1ed6",
+        "/opt/bempp-env/bin/python",
+        "/audit/dense-weak-worker.py"
+      ],
+      "dense_seconds": 60.64000000001397,
+      "comparisons": {
+        "boundary_single_layer": {
+          "max_absolute_error": 2.2176001313045646e-10,
+          "max_tolerance_fraction": 0.00016620133571832168,
+          "passed": true
+        },
+        "boundary_double_layer": {
+          "max_absolute_error": 7.600914245231571e-09,
+          "max_tolerance_fraction": 0.006302017979640471,
+          "passed": true
+        },
+        "boundary_hypersingular": {
+          "max_absolute_error": 4.570309602991429e-09,
+          "max_tolerance_fraction": 0.0018670232663297306,
+          "passed": true
+        },
+        "dense_potential_single_layer": {
+          "max_absolute_error": 2.6106406446346764e-10,
+          "max_tolerance_fraction": 0.00023789271555565172,
+          "passed": true
+        },
+        "dense_potential_double_layer": {
+          "max_absolute_error": 1.9299606251674262e-08,
+          "max_tolerance_fraction": 0.018290926572411246,
+          "passed": true
+        },
+        "quadrature16_potential_single_layer": {
+          "max_absolute_error": 2.5213377045918417e-10,
+          "max_tolerance_fraction": 0.00022975505060787564,
+          "passed": true
+        },
+        "quadrature16_potential_double_layer": {
+          "max_absolute_error": 1.930692834425929e-08,
+          "max_tolerance_fraction": 0.01829786597996064,
+          "passed": true
+        },
+        "quadrature24_potential_single_layer": {
+          "max_absolute_error": 2.521337409688851e-10,
+          "max_tolerance_fraction": 0.00022975502373505678,
+          "passed": true
+        },
+        "quadrature24_potential_double_layer": {
+          "max_absolute_error": 1.9306928339055118e-08,
+          "max_tolerance_fraction": 0.018297865975028464,
+          "passed": true
+        }
+      },
+      "mass_condition_number": 4.044371452640562,
+      "quadrature_convergence": {
+        "single_layer": 4.780139055406647e-17,
+        "double_layer": 3.81663804877929e-17
+      },
+      "passed": true
+    },
+    {
+      "case": "10-affine-surface",
+      "dense_command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,size=512m",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\runs\\authoring\\repair-22\\bempp-formal-boundary-audit:/audit:ro",
+        "-e",
+        "HOME=/tmp",
+        "-w",
+        "/tmp",
+        "-i",
+        "sha256:253f278524d90ff31134c04d4173965a0dbd256fc9c3a78a98e46206213d1ed6",
+        "/opt/bempp-env/bin/python",
+        "/audit/dense-weak-worker.py"
+      ],
+      "dense_seconds": 70.01500000001397,
+      "comparisons": {
+        "boundary_single_layer": {
+          "max_absolute_error": 2.6215669912676987e-10,
+          "max_tolerance_fraction": 0.00024762079550822466,
+          "passed": true
+        },
+        "boundary_double_layer": {
+          "max_absolute_error": 6.749227718372275e-09,
+          "max_tolerance_fraction": 0.0042310635057848135,
+          "passed": true
+        },
+        "boundary_hypersingular": {
+          "max_absolute_error": 4.453178714669548e-09,
+          "max_tolerance_fraction": 0.0006652138479203108,
+          "passed": true
+        },
+        "dense_potential_single_layer": {
+          "max_absolute_error": 3.6218728819044366e-10,
+          "max_tolerance_fraction": 0.00035822757151340634,
+          "passed": true
+        },
+        "dense_potential_double_layer": {
+          "max_absolute_error": 1.7480569745073442e-09,
+          "max_tolerance_fraction": 0.001743036488411,
+          "passed": true
+        },
+        "quadrature16_potential_single_layer": {
+          "max_absolute_error": 4.1142011260493494e-10,
+          "max_tolerance_fraction": 0.00040692214371967477,
+          "passed": true
+        },
+        "quadrature16_potential_double_layer": {
+          "max_absolute_error": 1.7950893188892723e-09,
+          "max_tolerance_fraction": 0.0017899337549510043,
+          "passed": true
+        },
+        "quadrature24_potential_single_layer": {
+          "max_absolute_error": 4.1142011021969016e-10,
+          "max_tolerance_fraction": 0.00040692214136050733,
+          "passed": true
+        },
+        "quadrature24_potential_double_layer": {
+          "max_absolute_error": 1.7950893081014607e-09,
+          "max_tolerance_fraction": 0.0017899337441941757,
+          "passed": true
+        }
+      },
+      "mass_condition_number": 4.795761193113887,
+      "quadrature_convergence": {
+        "single_layer": 2.2135786979386172e-17,
+        "double_layer": 2.6134670316368835e-17
+      },
+      "passed": true
+    },
+    {
+      "case": "11-boundary-resource",
+      "dense_command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,size=512m",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\runs\\authoring\\repair-22\\bempp-formal-boundary-audit:/audit:ro",
+        "-e",
+        "HOME=/tmp",
+        "-w",
+        "/tmp",
+        "-i",
+        "sha256:253f278524d90ff31134c04d4173965a0dbd256fc9c3a78a98e46206213d1ed6",
+        "/opt/bempp-env/bin/python",
+        "/audit/dense-weak-worker.py"
+      ],
+      "dense_seconds": 100.73499999998603,
+      "comparisons": {
+        "boundary_single_layer": {
+          "max_absolute_error": 4.1519164495351646e-10,
+          "max_tolerance_fraction": 0.00020321694314157757,
+          "passed": true
+        },
+        "boundary_double_layer": {
+          "max_absolute_error": 1.59116553127836e-08,
+          "max_tolerance_fraction": 0.012524695324741817,
+          "passed": true
+        },
+        "boundary_hypersingular": {
+          "max_absolute_error": 9.969061687264968e-09,
+          "max_tolerance_fraction": 0.005733823495815717,
+          "passed": true
+        },
+        "dense_potential_single_layer": {
+          "max_absolute_error": 5.631926210114546e-10,
+          "max_tolerance_fraction": 0.0004851218952301528,
+          "passed": true
+        },
+        "dense_potential_double_layer": {
+          "max_absolute_error": 1.2580892036484492e-08,
+          "max_tolerance_fraction": 0.010735096449904011,
+          "passed": true
+        },
+        "quadrature16_potential_single_layer": {
+          "max_absolute_error": 6.973843516555611e-10,
+          "max_tolerance_fraction": 0.000600711737629561,
+          "passed": true
+        },
+        "quadrature16_potential_double_layer": {
+          "max_absolute_error": 1.2379800407025243e-08,
+          "max_tolerance_fraction": 0.010563507837330706,
+          "passed": true
+        },
+        "quadrature24_potential_single_layer": {
+          "max_absolute_error": 6.97384431452841e-10,
+          "max_tolerance_fraction": 0.0006007118063652048,
+          "passed": true
+        },
+        "quadrature24_potential_double_layer": {
+          "max_absolute_error": 1.2379800483353076e-08,
+          "max_tolerance_fraction": 0.010563507902460153,
+          "passed": true
+        }
+      },
+      "mass_condition_number": 4.130072165598275,
+      "quadrature_convergence": {
+        "single_layer": 1.2436890634664272e-16,
+        "double_layer": 2.9604366152946374e-16
+      },
+      "passed": true
+    },
+    {
+      "case": "12-scaled-surface",
+      "dense_command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,size=512m",
+        "-v",
+        "D:\\Code\\CAE-Bench-OJ\\runs\\authoring\\repair-22\\bempp-formal-boundary-audit:/audit:ro",
+        "-e",
+        "HOME=/tmp",
+        "-w",
+        "/tmp",
+        "-i",
+        "sha256:253f278524d90ff31134c04d4173965a0dbd256fc9c3a78a98e46206213d1ed6",
+        "/opt/bempp-env/bin/python",
+        "/audit/dense-weak-worker.py"
+      ],
+      "dense_seconds": 82.81200000003446,
+      "comparisons": {
+        "boundary_single_layer": {
+          "max_absolute_error": 3.819404167937357e-10,
+          "max_tolerance_fraction": 0.0002779064612860539,
+          "passed": true
+        },
+        "boundary_double_layer": {
+          "max_absolute_error": 1.3959529145471383e-08,
+          "max_tolerance_fraction": 0.012835337298418334,
+          "passed": true
+        },
+        "boundary_hypersingular": {
+          "max_absolute_error": 1.2832476636859269e-08,
+          "max_tolerance_fraction": 0.002812084169315756,
+          "passed": true
+        },
+        "dense_potential_single_layer": {
+          "max_absolute_error": 5.1094176849522666e-11,
+          "max_tolerance_fraction": 5.025937477830271e-05,
+          "passed": true
+        },
+        "dense_potential_double_layer": {
+          "max_absolute_error": 8.116431103599719e-10,
+          "max_tolerance_fraction": 0.0007840976293474413,
+          "passed": true
+        },
+        "quadrature16_potential_single_layer": {
+          "max_absolute_error": 5.038347516972408e-11,
+          "max_tolerance_fraction": 4.734692488700981e-05,
+          "passed": true
+        },
+        "quadrature16_potential_double_layer": {
+          "max_absolute_error": 8.109174928772056e-10,
+          "max_tolerance_fraction": 0.0007813119565298731,
+          "passed": true
+        },
+        "quadrature24_potential_single_layer": {
+          "max_absolute_error": 5.038346042457453e-11,
+          "max_tolerance_fraction": 4.734691103053235e-05,
+          "passed": true
+        },
+        "quadrature24_potential_double_layer": {
+          "max_absolute_error": 8.109175119591638e-10,
+          "max_tolerance_fraction": 0.0007813119447756021,
+          "passed": true
+        }
+      },
+      "mass_condition_number": 4.044371452640563,
+      "quadrature_convergence": {
+        "single_layer": 3.2908527625359737e-17,
+        "double_layer": 4.1215657173704074e-17
+      },
+      "passed": true
+    }
+  ],
+  "passed": true
+}

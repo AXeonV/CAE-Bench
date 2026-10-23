@@ -1,5 +1,9 @@
 """Trusted transport adapter: real Bempp API calls and identity mappings only."""
-import contextlib,json,sys
+import contextlib,json,sys,os,tempfile
+
+# Resource setup only. Numerical calls below retain the original library APIs.
+_cache=tempfile.TemporaryDirectory(prefix='bempp-kernel-cache-')
+os.environ.update(OMP_NUM_THREADS='4',OPENBLAS_NUM_THREADS='1',NUMBA_NUM_THREADS='4',POCL_MAX_PTHREAD_COUNT='4',NUMBA_CACHE_DIR=_cache.name+'/numba',POCL_CACHE_DIR=_cache.name+'/pocl')
 
 with contextlib.redirect_stdout(sys.stderr):
     import numpy as np

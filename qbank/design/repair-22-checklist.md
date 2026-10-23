@@ -44,7 +44,7 @@
 | 19.6.1 | dft-decimation-repair／非线性场频谱采样 | NanoComp/meep#2408 | DFT抽样与混叠；已知频率信号及真实场求解回归 | 已完成；[验收记录](../19-solver-repair/19.6-waves/dft-decimation-repair/author/README.md) |
 | 19.6.2 | cylindrical-field-pml-repair／柱坐标场与PML | NanoComp/meep#2338 | 正负方位模态点源和吸收层；对称性及收敛场／通量 | 已完成；[验收记录](../19-solver-repair/19.6-waves/cylindrical-field-pml-repair/author/README.md) |
 | 19.6.3 | complex-helmholtz-fmm-repair／复波数Helmholtz快速算子 | bempp/bempp-cl#20 | 复数接口与衰减核；独立核函数及稠密／FMM对照 | 制作中，真实参考资格待核；[维护入口](../19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/author/README.md) |
-| 19.6.4 | parallel-pml-reduction-repair／并行吸收层归约 | SPECFEM/specfem2d#661 | 并行归约与PML稳定性；进程数对照及独立波传播参考 | 待实施 |
+| 19.6.4 | parallel-pml-reduction-repair／并行波动接口归约 | SPECFEM/specfem2d#661 | 无接口进程的集体通信参与；连通／多试件分区下SH与声学波形及吸收回归 | 制作中；[范围定义](../19-solver-repair/19.6-waves/parallel-pml-reduction-repair/author/scope.md) |
 
 ## 批次安排与边界
 

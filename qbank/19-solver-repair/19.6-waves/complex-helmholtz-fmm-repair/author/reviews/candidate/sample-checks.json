@@ -1,0 +1,576 @@
+[
+  {
+    "sample": "01",
+    "manifest": {
+      "task": "complex-helmholtz-fmm-repair",
+      "spatial_dimension": 3,
+      "data_file": "input.h5",
+      "geometries": {},
+      "meshes": {},
+      "conditions": [],
+      "physics": {
+        "model": "complex-helmholtz-operators-v1",
+        "parameters": {
+          "operation": {
+            "value": 0,
+            "unit": "1"
+          },
+          "wavenumber_real": {
+            "value": 1.3,
+            "unit": "1/m"
+          },
+          "wavenumber_imag": {
+            "value": 0.4,
+            "unit": "1/m"
+          }
+        }
+      },
+      "locations": {
+        "sources": {
+          "kind": "points",
+          "ids": "source_ids",
+          "coordinates": "source_coordinates"
+        },
+        "targets": {
+          "kind": "points",
+          "ids": "target_ids",
+          "coordinates": "target_coordinates"
+        }
+      },
+      "time_axes": {
+        "instant": "times"
+      },
+      "fields": {
+        "strength": {
+          "array": "strength",
+          "quantity": "complex_source_strength",
+          "unit": "1",
+          "location": "sources",
+          "time_axis": "instant",
+          "dtype": "float64",
+          "kind": "components",
+          "component_shape": [
+            2
+          ],
+          "components": [
+            "real",
+            "imag"
+          ],
+          "value_kind": "point"
+        }
+      },
+      "outputs": {
+        "fmm_potential": {
+          "array": "fmm_potential",
+          "quantity": "fmm_helmholtz_potential",
+          "unit": "1/m",
+          "location": "targets",
+          "time_axis": "instant",
+          "dtype": "float64",
+          "kind": "components",
+          "component_shape": [
+            2
+          ],
+          "components": [
+            "real",
+            "imag"
+          ],
+          "value_kind": "point"
+        },
+        "fmm_gradient": {
+          "array": "fmm_gradient",
+          "quantity": "fmm_helmholtz_target_gradient",
+          "unit": "1/m2",
+          "location": "targets",
+          "time_axis": "instant",
+          "dtype": "float64",
+          "kind": "components",
+          "component_shape": [
+            6
+          ],
+          "components": [
+            "x_real",
+            "x_imag",
+            "y_real",
+            "y_imag",
+            "z_real",
+            "z_imag"
+          ],
+          "value_kind": "point"
+        },
+        "local_potential": {
+          "array": "local_potential",
+          "quantity": "local_helmholtz_potential",
+          "unit": "1/m",
+          "location": "targets",
+          "time_axis": "instant",
+          "dtype": "float64",
+          "kind": "components",
+          "component_shape": [
+            2
+          ],
+          "components": [
+            "real",
+            "imag"
+          ],
+          "value_kind": "point"
+        },
+        "local_gradient": {
+          "array": "local_gradient",
+          "quantity": "local_helmholtz_target_gradient",
+          "unit": "1/m2",
+          "location": "targets",
+          "time_axis": "instant",
+          "dtype": "float64",
+          "kind": "components",
+          "component_shape": [
+            6
+          ],
+          "components": [
+            "x_real",
+            "x_imag",
+            "y_real",
+            "y_imag",
+            "z_real",
+            "z_imag"
+          ],
+          "value_kind": "point"
+        }
+      }
+    },
+    "arrays": {
+      "source_coordinates": {
+        "shape": [
+          64,
+          3
+        ],
+        "dtype": "float64",
+        "minimum": -0.74654012560671,
+        "maximum": 0.7393946019482762,
+        "elements_read": 192
+      },
+      "source_ids": {
+        "shape": [
+          64
+        ],
+        "dtype": "int64",
+        "minimum": 1.0,
+        "maximum": 190.0,
+        "elements_read": 64
+      },
+      "strength": {
+        "shape": [
+          1,
+          64,
+          2
+        ],
+        "dtype": "float64",
+        "minimum": -0.9786916787397373,
+        "maximum": 0.9717532506786475,
+        "elements_read": 128
+      },
+      "target_coordinates": {
+        "shape": [
+          7,
+          3
+        ],
+        "dtype": "float64",
+        "minimum": -3.1503301470636726,
+        "maximum": 2.8285714285714287,
+        "elements_read": 21
+      },
+      "target_ids": {
+        "shape": [
+          7
+        ],
+        "dtype": "int64",
+        "minimum": 2.0,
+        "maximum": 32.0,
+        "elements_read": 7
+      },
+      "times": {
+        "shape": [
+          1
+        ],
+        "dtype": "float64",
+        "minimum": 0.0,
+        "maximum": 0.0,
+        "elements_read": 1
+      }
+    },
+    "reference_arrays": {
+      "fmm_gradient": {
+        "shape": [
+          1,
+          7,
+          6
+        ],
+        "dtype": "float64",
+        "minimum": -0.10489528813266655,
+        "maximum": 0.10459768843250525,
+        "elements_read": 42
+      },
+      "fmm_potential": {
+        "shape": [
+          1,
+          7,
+          2
+        ],
+        "dtype": "float64",
+        "minimum": -0.07717502671128458,
+        "maximum": -0.03436974792565136,
+        "elements_read": 14
+      },
+      "local_gradient": {
+        "shape": [
+          1,
+          7,
+          6
+        ],
+        "dtype": "float64",
+        "minimum": -0.10489528708314423,
+        "maximum": 0.10459768844918846,
+        "elements_read": 42
+      },
+      "local_potential": {
+        "shape": [
+          1,
+          7,
+          2
+        ],
+        "dtype": "float64",
+        "minimum": -0.077175026710073,
+        "maximum": -0.034369747913999465,
+        "elements_read": 14
+      },
+      "target_ids": {
+        "shape": [
+          7
+        ],
+        "dtype": "int64",
+        "minimum": 2.0,
+        "maximum": 32.0,
+        "elements_read": 7
+      },
+      "times": {
+        "shape": [
+          1
+        ],
+        "dtype": "float64",
+        "minimum": 0.0,
+        "maximum": 0.0,
+        "elements_read": 1
+      }
+    },
+    "geometry": {
+      "source_count": 64,
+      "target_count": 7,
+      "source_spacing": 0.08358781033026906,
+      "source_target_distance": 2.337907632446257,
+      "source_aabb_diagonal": 2.4433169415127285
+    }
+  },
+  {
+    "sample": "02",
+    "manifest": {
+      "task": "complex-helmholtz-fmm-repair",
+      "spatial_dimension": 3,
+      "data_file": "input.h5",
+      "geometries": {},
+      "meshes": {
+        "surface": {
+          "file": "surface.msh"
+        }
+      },
+      "conditions": [],
+      "physics": {
+        "model": "complex-helmholtz-operators-v1",
+        "parameters": {
+          "operation": {
+            "value": 1,
+            "unit": "1"
+          },
+          "wavenumber_real": {
+            "value": 1.3,
+            "unit": "1/m"
+          },
+          "wavenumber_imag": {
+            "value": 0.4,
+            "unit": "1/m"
+          }
+        }
+      },
+      "locations": {
+        "surface_nodes": {
+          "kind": "mesh",
+          "mesh": "surface",
+          "entity": "node",
+          "ids": "node_ids"
+        },
+        "targets": {
+          "kind": "points",
+          "ids": "target_ids",
+          "coordinates": "target_coordinates"
+        }
+      },
+      "time_axes": {
+        "instant": "times"
+      },
+      "fields": {
+        "density": {
+          "array": "density",
+          "quantity": "complex_surface_density",
+          "unit": "1",
+          "location": "surface_nodes",
+          "time_axis": "instant",
+          "dtype": "float64",
+          "kind": "components",
+          "component_shape": [
+            2
+          ],
+          "components": [
+            "real",
+            "imag"
+          ],
+          "value_kind": "point"
+        }
+      },
+      "outputs": {
+        "boundary_single_layer": {
+          "array": "boundary_single_layer",
+          "quantity": "projected_single_layer",
+          "unit": "m",
+          "location": "surface_nodes",
+          "time_axis": "instant",
+          "dtype": "float64",
+          "kind": "components",
+          "component_shape": [
+            2
+          ],
+          "components": [
+            "real",
+            "imag"
+          ],
+          "value_kind": "point"
+        },
+        "boundary_double_layer": {
+          "array": "boundary_double_layer",
+          "quantity": "projected_double_layer",
+          "unit": "1",
+          "location": "surface_nodes",
+          "time_axis": "instant",
+          "dtype": "float64",
+          "kind": "components",
+          "component_shape": [
+            2
+          ],
+          "components": [
+            "real",
+            "imag"
+          ],
+          "value_kind": "point"
+        },
+        "boundary_hypersingular": {
+          "array": "boundary_hypersingular",
+          "quantity": "projected_hypersingular",
+          "unit": "1/m",
+          "location": "surface_nodes",
+          "time_axis": "instant",
+          "dtype": "float64",
+          "kind": "components",
+          "component_shape": [
+            2
+          ],
+          "components": [
+            "real",
+            "imag"
+          ],
+          "value_kind": "point"
+        },
+        "potential_single_layer": {
+          "array": "potential_single_layer",
+          "quantity": "exterior_single_layer",
+          "unit": "m",
+          "location": "targets",
+          "time_axis": "instant",
+          "dtype": "float64",
+          "kind": "components",
+          "component_shape": [
+            2
+          ],
+          "components": [
+            "real",
+            "imag"
+          ],
+          "value_kind": "point"
+        },
+        "potential_double_layer": {
+          "array": "potential_double_layer",
+          "quantity": "exterior_double_layer",
+          "unit": "1",
+          "location": "targets",
+          "time_axis": "instant",
+          "dtype": "float64",
+          "kind": "components",
+          "component_shape": [
+            2
+          ],
+          "components": [
+            "real",
+            "imag"
+          ],
+          "value_kind": "point"
+        }
+      }
+    },
+    "arrays": {
+      "density": {
+        "shape": [
+          1,
+          18,
+          2
+        ],
+        "dtype": "float64",
+        "minimum": -0.9484283600170302,
+        "maximum": 0.980977346820207,
+        "elements_read": 36
+      },
+      "node_ids": {
+        "shape": [
+          18
+        ],
+        "dtype": "int64",
+        "minimum": 13.0,
+        "maximum": 132.0,
+        "elements_read": 18
+      },
+      "target_coordinates": {
+        "shape": [
+          12,
+          3
+        ],
+        "dtype": "float64",
+        "minimum": -3.1463676167653265,
+        "maximum": 3.175774982305507,
+        "elements_read": 36
+      },
+      "target_ids": {
+        "shape": [
+          12
+        ],
+        "dtype": "int64",
+        "minimum": 2.0,
+        "maximum": 57.0,
+        "elements_read": 12
+      },
+      "times": {
+        "shape": [
+          1
+        ],
+        "dtype": "float64",
+        "minimum": 0.0,
+        "maximum": 0.0,
+        "elements_read": 1
+      }
+    },
+    "reference_arrays": {
+      "boundary_double_layer": {
+        "shape": [
+          1,
+          18,
+          2
+        ],
+        "dtype": "float64",
+        "minimum": -0.22819329796378238,
+        "maximum": 0.14027695909126633,
+        "elements_read": 36
+      },
+      "boundary_hypersingular": {
+        "shape": [
+          1,
+          18,
+          2
+        ],
+        "dtype": "float64",
+        "minimum": -1.7502111640974365,
+        "maximum": 1.7443360266496162,
+        "elements_read": 36
+      },
+      "boundary_single_layer": {
+        "shape": [
+          1,
+          18,
+          2
+        ],
+        "dtype": "float64",
+        "minimum": -0.2819474352886899,
+        "maximum": 0.310257579765588,
+        "elements_read": 36
+      },
+      "node_ids": {
+        "shape": [
+          18
+        ],
+        "dtype": "int64",
+        "minimum": 13.0,
+        "maximum": 132.0,
+        "elements_read": 18
+      },
+      "potential_double_layer": {
+        "shape": [
+          1,
+          12,
+          2
+        ],
+        "dtype": "float64",
+        "minimum": -0.022384881902795334,
+        "maximum": 0.01346698836542811,
+        "elements_read": 24
+      },
+      "potential_single_layer": {
+        "shape": [
+          1,
+          12,
+          2
+        ],
+        "dtype": "float64",
+        "minimum": -0.023284284162995977,
+        "maximum": 0.0182703376549556,
+        "elements_read": 24
+      },
+      "target_ids": {
+        "shape": [
+          12
+        ],
+        "dtype": "int64",
+        "minimum": 2.0,
+        "maximum": 57.0,
+        "elements_read": 12
+      },
+      "times": {
+        "shape": [
+          1
+        ],
+        "dtype": "float64",
+        "minimum": 0.0,
+        "maximum": 0.0,
+        "elements_read": 1
+      }
+    },
+    "geometry": {
+      "nodes": 18,
+      "triangles": 32,
+      "node_tags": [
+        13,
+        132
+      ],
+      "minimum_area": 0.33734960069018377,
+      "minimum_edge": 0.8001308436928363,
+      "volume": 3.9196072189633306,
+      "maximum_support_plane_offset": 1.1102230246251565e-16,
+      "minimum_target_surface_distance": 2.2047880250777894,
+      "each_target_exterior": true,
+      "source_aabb_diagonal": 3.5381136637806967
+    }
+  }
+]

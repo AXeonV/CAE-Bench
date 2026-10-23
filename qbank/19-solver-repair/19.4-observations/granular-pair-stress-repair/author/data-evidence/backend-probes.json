@@ -1,0 +1,174 @@
+{
+  "probes": [
+    {
+      "mode": "valid",
+      "passed": true,
+      "ldd": "\tlinux-vdso.so.1 (0x000071afccf88000)\n\tliblammps.so.0 => /opt/lammps-build/liblammps.so.0 (0x000071afcbf62000)\n\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x000071afcbcf3000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x000071afcbcc6000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x000071afcbad2000)\n\tlibjpeg.so.62 => /lib/x86_64-linux-gnu/libjpeg.so.62 (0x000071afcba39000)\n\tlibgomp.so.1 => /lib/x86_64-linux-gnu/libgomp.so.1 (0x000071afcb9e4000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x000071afcb8f4000)\n\t/lib64/ld-linux-x86-64.so.2 (0x000071afccf8a000)\n",
+      "binding": {
+        "uid": 1000,
+        "permissions": {
+          "/tests": {
+            "read": false,
+            "write": false
+          },
+          "/logs/verifier": {
+            "read": false,
+            "write": false
+          },
+          "/probe": {
+            "read": false,
+            "write": false
+          },
+          "/app/submission": {
+            "read": true,
+            "write": false
+          },
+          "/opt/lammps-source/src/pair.h": {
+            "read": true,
+            "write": false
+          },
+          "/opt/lammps-source/src": {
+            "read": true,
+            "write": false
+          },
+          "/opt/lammps-source/src/KOKKOS": {
+            "read": true,
+            "write": false
+          },
+          "/opt/lammps-source/cmake/CMakeLists.txt": {
+            "read": true,
+            "write": false
+          },
+          "/opt/lammps-source/src/KOKKOS/pair_gran_hooke_history_kokkos.cpp": {
+            "read": true,
+            "write": false
+          },
+          "/opt/lammps-source/src/KOKKOS/pair_gran_hooke_history_kokkos.h": {
+            "read": true,
+            "write": false
+          },
+          "/opt/lammps-build/CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_gran_hooke_history_kokkos.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/lammps-build/CMakeFiles/lammps.dir/opt/lammps-source/src/force.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/lammps-build/CMakeFiles/lammps.dir/opt/lammps-source/src/lammps.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/lammps-build/CMakeFiles/lmp.dir/opt/lammps-source/src/main.cpp.o": {
+            "read": true,
+            "write": false
+          },
+          "/opt/lammps-build/liblammps.so.0": {
+            "read": true,
+            "write": false
+          },
+          "/opt/lammps-build/lmp": {
+            "read": true,
+            "write": false
+          }
+        },
+        "network": "denied"
+      },
+      "build": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "cmake",
+          "--build",
+          "/opt/lammps-build",
+          "--target",
+          "lmp",
+          "--parallel",
+          "4"
+        ],
+        "exit_code": 0,
+        "status": "built",
+        "elapsed_seconds": 26.68690510400029,
+        "sources_sha256": {
+          "pair_gran_hooke_history_kokkos.cpp": "f840bc1e580497b3b253c918d304ece05217c912e6e02f33db4f6e1fedf77232",
+          "pair_gran_hooke_history_kokkos.h": "e0e9a59df31ad445c3e761484ff5f5c9ee3bac6769a8d59da0499e4c37fe9680"
+        },
+        "removed_build_artifacts": [
+          "/opt/lammps-build/CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_gran_hooke_history_kokkos.cpp.o",
+          "/opt/lammps-build/CMakeFiles/lammps.dir/opt/lammps-source/src/force.cpp.o",
+          "/opt/lammps-build/CMakeFiles/lammps.dir/opt/lammps-source/src/lammps.cpp.o",
+          "/opt/lammps-build/CMakeFiles/lmp.dir/opt/lammps-source/src/main.cpp.o",
+          "/opt/lammps-build/liblammps.so.0",
+          "/opt/lammps-build/lmp"
+        ],
+        "built_artifacts_sha256": {
+          "/opt/lammps-build/CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_gran_hooke_history_kokkos.cpp.o": "337ca5457b1af09c533778e22d1ec583e17170fdd027d614d8ef3d29545c78d2",
+          "/opt/lammps-build/CMakeFiles/lammps.dir/opt/lammps-source/src/force.cpp.o": "08ee3d3c10c47f14faefbb6cf4fe3637e766bd731f8331d42cc176b568e06e20",
+          "/opt/lammps-build/CMakeFiles/lammps.dir/opt/lammps-source/src/lammps.cpp.o": "c48d44afdee587ee8d5251bf48ae998068c0b1334dae33c8d5772d4e5126d08d",
+          "/opt/lammps-build/CMakeFiles/lmp.dir/opt/lammps-source/src/main.cpp.o": "448c4e6304c91868efc1afcb3724ea2ace5d9663b93564d72ddca80ed0a8ae22",
+          "/opt/lammps-build/liblammps.so.0": "bd3d3e7afbe3672fc41236dec63caae0730f7ab5cf4aea8cb25884a8182ba232",
+          "/opt/lammps-build/lmp": "864f0a1cb32c4be50489378acb496a882df28afb9229b71a8809b9c3d5bd2f46"
+        }
+      },
+      "baseline_probe": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "/usr/local/bin/python",
+          "/app/qbank/19-solver-repair/19.4-observations/granular-pair-stress-repair/public/run_case.py",
+          "--input",
+          "/app/qbank/19-solver-repair/19.4-observations/granular-pair-stress-repair/samples/01/input/problem.json",
+          "--output",
+          "/tmp/lammps4219-baseline.h5"
+        ],
+        "exit_code": 0,
+        "status": "ready",
+        "elapsed_seconds": 1.1270979840001019
+      },
+      "cpu_max": "400000 100000\n",
+      "memory_max": "8589934592\n"
+    },
+    {
+      "mode": "syntax",
+      "passed": true,
+      "classification": "build_error"
+    },
+    {
+      "mode": "extra",
+      "passed": true,
+      "classification": "invalid_submission"
+    },
+    {
+      "mode": "baseline-compiler",
+      "passed": true,
+      "classification": "infrastructure_error"
+    },
+    {
+      "mode": "baseline-runtime",
+      "passed": true,
+      "classification": "infrastructure_error"
+    },
+    {
+      "mode": "runtime-timeout",
+      "passed": true,
+      "actual_candidate_cpp_timeout": true,
+      "pid": "797",
+      "termination_states": [
+        "Z"
+      ],
+      "status": {
+        "score": 0,
+        "status": "timeout"
+      }
+    }
+  ],
+  "history": {
+    "timeout_v1": "Correct timeout classification was observed, but immediate child-state assertion failed. The child state was not recorded; do not infer the cause from that alone. Final replay records termination state after at most2seconds observation, observed Z at first poll."
+  }
+}

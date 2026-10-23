@@ -1,0 +1,18 @@
+units si
+atom_style sphere
+boundary f f f
+newton off
+read_data atoms.data
+comm_modify vel yes
+pair_style gran/hooke/history/kk 10000 2000 0 0 .5 1
+pair_coeff * *
+neighbor .1 bin
+neigh_modify delay 0 every 1 check yes
+compute P all pressure NULL pair
+compute S all stress/atom NULL pair
+thermo 1
+thermo_style custom step c_P[1] c_P[2] c_P[3] c_P[4] c_P[5] c_P[6]
+dump D all custom 1 dump.txt id fx fy fz tqx tqy tqz c_S[1] c_S[2] c_S[3] c_S[4] c_S[5] c_S[6]
+dump_modify D sort id format float %.17g
+run 0
+print "$(c_P[1]:%.17g) $(c_P[2]:%.17g) $(c_P[3]:%.17g) $(c_P[4]:%.17g) $(c_P[5]:%.17g) $(c_P[6]:%.17g)" file global.txt screen no

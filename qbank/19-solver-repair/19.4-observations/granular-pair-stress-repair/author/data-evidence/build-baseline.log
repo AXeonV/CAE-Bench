@@ -1,0 +1,751 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 695B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/caeoj-cantera1872-core:offline-sdk
+#2 DONE 0.1s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B 0.0s done
+#3 DONE 0.0s
+
+#4 [1/3] FROM docker.io/library/caeoj-cantera1872-core:offline-sdk@sha256:147e3806650f6e0b90006d3718e8a2c80713e93c07a5c7afeac4d3c1ed80ab67
+#4 resolve docker.io/library/caeoj-cantera1872-core:offline-sdk@sha256:147e3806650f6e0b90006d3718e8a2c80713e93c07a5c7afeac4d3c1ed80ab67 0.0s done
+#4 CACHED
+
+#5 [internal] load build context
+#5 transferring context: 11.13MB 1.0s done
+#5 DONE 1.0s
+
+#6 [2/3] COPY source.tar.gz /tmp/lammps-source.tar.gz
+#6 DONE 0.1s
+
+#7 [3/3] RUN mkdir -p /opt/lammps-source && tar -xzf /tmp/lammps-source.tar.gz -C /opt/lammps-source --strip-components=1 && cmake -S /opt/lammps-source/cmake -B /opt/lammps-build -DCMAKE_BUILD_TYPE=Release -DBUILD_MPI=OFF -DBUILD_SHARED_LIBS=ON -DPKG_GRANULAR=ON -DPKG_KOKKOS=ON -DKokkos_ENABLE_SERIAL=ON -DKokkos_ENABLE_OPENMP=OFF -DCMAKE_CXX_STANDARD=17 && cmake --build /opt/lammps-build --target lammps lmp --parallel 4 && chown -R root:root /opt/lammps-source /opt/lammps-build && chmod -R go-w /opt/lammps-source /opt/lammps-build
+#7 1.027 CMake Deprecation Warning at CMakeLists.txt:18 (cmake_policy):
+#7 1.027   The OLD behavior for policy CMP0109 will be removed from a future version
+#7 1.027   of CMake.
+#7 1.027 
+#7 1.027   The cmake-policies(7) manual explains that the OLD behaviors of all
+#7 1.027   policies are deprecated and that a policy should be set to OLD only under
+#7 1.027   specific short-term circumstances.  Projects should be ported to the NEW
+#7 1.027   behavior and not rely on setting a policy to OLD.
+#7 1.027 
+#7 1.027 
+#7 1.221 -- The CXX compiler identification is GNU 14.2.0
+#7 1.240 -- Detecting CXX compiler ABI info
+#7 1.379 -- Detecting CXX compiler ABI info - done
+#7 1.395 -- Check for working CXX compiler: /usr/bin/c++ - skipped
+#7 1.398 -- Detecting CXX compile features
+#7 1.399 -- Detecting CXX compile features - done
+#7 1.428 -- Found Git: /usr/bin/git (found version "2.47.3")
+#7 1.430 -- Running check for auto-generated files from make-based build system
+#7 2.278 -- Looking for C++ include omp.h
+#7 2.442 -- Looking for C++ include omp.h - found
+#7 2.445 -- Found OpenMP_CXX: -fopenmp (found version "4.5")
+#7 2.445 -- Found OpenMP: TRUE (found version "4.5") found components: CXX
+#7 2.542 -- Found JPEG: /usr/lib/x86_64-linux-gnu/libjpeg.so (found version "62")
+#7 2.574 -- Found GZIP: /usr/bin/gzip
+#7 2.574 -- Could NOT find FFMPEG (missing: FFMPEG_EXECUTABLE) 
+#7 2.580 -- Looking for C++ include cmath
+#7 2.907 -- Looking for C++ include cmath - found
+#7 3.492 -- Setting default Kokkos CXX standard to 17
+#7 3.495 -- Kokkos version: 4.4.1
+#7 3.514 -- The project name is: Kokkos
+#7 3.514 -- Using internal gtest for testing
+#7 3.529 -- Using -std=c++17 for C++17 standard as feature
+#7 3.732 -- Built-in Execution Spaces:
+#7 3.732 --     Device Parallel: NoTypeDefined
+#7 3.732 --     Host Parallel: NoTypeDefined
+#7 3.732 --       Host Serial: SERIAL
+#7 3.732 -- 
+#7 3.732 -- Architectures:
+#7 3.732 -- Atomics: **DISABLED**
+#7 3.739 -- Found TPLLIBDL: /usr/include
+#7 3.747 -- Using internal desul_atomics copy
+#7 3.755 -- Experimental mdspan support is enabled
+#7 3.755 -- Looking for C++ include experimental/mdspan
+#7 3.834 -- Looking for C++ include experimental/mdspan - not found
+#7 3.834 -- Looking for C++ include mdspan
+#7 3.914 -- Looking for C++ include mdspan - not found
+#7 3.915 -- Using internal mdspan directory /opt/lammps-source/lib/kokkos/core/src/../../tpls/mdspan/include
+#7 3.932 -- Kokkos Backends: SERIAL
+#7 3.955 -- Generating style headers...
+#7 4.257 -- Generating package headers...
+#7 4.491 -- Generating lmpinstalledpkgs.h...
+#7 4.737 -- Found Python: /usr/local/bin/python3 (found version "3.14.8") found components: Interpreter
+#7 4.871 -- Found Python3: /usr/local/bin/python3 (found version "3.14.8") found components: Interpreter
+#7 4.874 -- Could NOT find ClangFormat (missing: ClangFormat_EXECUTABLE) (Required is at least version "11.0")
+#7 4.885 -- The following tools and libraries have been found and configured:
+#7 4.885  * OpenMP
+#7 4.885  * JPEG
+#7 4.885  * TPLLIBDL
+#7 4.885  * Python
+#7 4.885  * Python3
+#7 4.885 
+#7 4.885 -- <<< Build configuration >>>
+#7 4.885    LAMMPS Version:   20240829 
+#7 4.885    Operating System: Linux Debian 13
+#7 4.885    CMake Version:    3.31.6
+#7 4.885    Build type:       Release
+#7 4.885    Install path:     /root/.local
+#7 4.885    Generator:        Unix Makefiles using /usr/bin/gmake
+#7 4.885 -- Enabled packages: GRANULAR;KOKKOS
+#7 4.885 -- <<< Compilers and Flags: >>>
+#7 4.885 -- C++ Compiler:     /usr/bin/c++
+#7 4.885       Type:          GNU
+#7 4.885       Version:       14.2.0
+#7 4.885       C++ Standard:  17
+#7 4.885       C++ Flags:     -O3 -DNDEBUG
+#7 4.885       Defines:       LAMMPS_SMALLBIG;LAMMPS_MEMALIGN=64;LAMMPS_OMP_COMPAT=4;LAMMPS_JPEG;LAMMPS_GZIP;$<BUILD_INTERFACE:LMP_KOKKOS>
+#7 4.885 -- <<< Linker flags: >>>
+#7 4.885 -- Executable name:  lmp
+#7 4.888 -- Shared library flags:    
+#7 4.888 -- Kokkos Devices: SERIAL
+#7 4.888 -- Configuring done (3.9s)
+#7 5.026 -- Generating done (0.1s)
+#7 5.026 -- Build files have been written to: /opt/lammps-build
+#7 5.318 [  0%] Building CXX object lib/kokkos/simd/src/CMakeFiles/kokkossimd.dir/Kokkos_SIMD_dummy.cpp.o
+#7 5.318 [  0%] Generating includes/lammps/angle.h
+#7 5.321 -- Git Directory: /opt/lammps-source/.git
+#7 5.321 -- Generating lmpgitversion.h...
+#7 5.329 [  0%] Generating includes/lammps/atom.h
+#7 5.350 [  0%] Built target atom.h
+#7 5.350 [  0%] Built target gitversion
+#7 5.352 [  0%] Linking CXX static library libkokkossimd.a
+#7 5.354 [  0%] Built target angle.h
+#7 5.374 [  0%] Generating includes/lammps/citeme.h
+#7 5.374 [  0%] Generating includes/lammps/bond.h
+#7 5.380 [  0%] Generating includes/lammps/comm.h
+#7 5.394 [  0%] Built target citeme.h
+#7 5.395 [  0%] Built target bond.h
+#7 5.398 [  0%] Built target kokkossimd
+#7 5.403 [  0%] Built target comm.h
+#7 5.419 [  0%] Generating includes/lammps/compute.h
+#7 5.421 [  0%] Generating includes/lammps/command.h
+#7 5.421 [  1%] Generating includes/lammps/dihedral.h
+#7 5.428 [  1%] Generating includes/lammps/domain.h
+#7 5.437 [  1%] Built target command.h
+#7 5.441 [  1%] Built target compute.h
+#7 5.445 [  1%] Built target dihedral.h
+#7 5.448 [  1%] Built target domain.h
+#7 5.459 [  1%] Generating includes/lammps/error.h
+#7 5.466 [  1%] Generating includes/lammps/exceptions.h
+#7 5.472 [  1%] Generating includes/lammps/fix.h
+#7 5.472 [  1%] Generating includes/lammps/force.h
+#7 5.483 [  1%] Built target error.h
+#7 5.487 [  1%] Built target exceptions.h
+#7 5.491 [  1%] Built target fix.h
+#7 5.492 [  1%] Built target force.h
+#7 5.504 [  2%] Generating includes/lammps/group.h
+#7 5.509 [  2%] Generating includes/lammps/improper.h
+#7 5.513 [  3%] Generating includes/lammps/input.h
+#7 5.513 [  3%] Generating includes/lammps/info.h
+#7 5.527 [  3%] Built target group.h
+#7 5.533 [  3%] Built target input.h
+#7 5.533 [  3%] Built target info.h
+#7 5.537 [  3%] Built target improper.h
+#7 5.559 [  3%] Generating includes/lammps/kspace.h
+#7 5.567 [  3%] Generating includes/lammps/library.h
+#7 5.567 [  3%] Generating includes/lammps/lammps.h
+#7 5.567 [  3%] Generating includes/lammps/lattice.h
+#7 5.596 [  3%] Built target library.h
+#7 5.596 [  3%] Built target lattice.h
+#7 5.599 [  3%] Built target kspace.h
+#7 5.603 [  3%] Built target lammps.h
+#7 5.634 [  4%] Generating includes/lammps/lmppython.h
+#7 5.643 [  4%] Generating includes/lammps/lmptype.h
+#7 5.648 [  4%] Generating includes/lammps/modify.h
+#7 5.656 [  4%] Generating includes/lammps/memory.h
+#7 5.670 [  4%] Built target lmppython.h
+#7 5.674 [  4%] Built target lmptype.h
+#7 5.678 [  4%] Built target modify.h
+#7 5.704 [  4%] Built target memory.h
+#7 5.720 [  5%] Generating includes/lammps/neighbor.h
+#7 5.722 [  5%] Generating includes/lammps/neigh_list.h
+#7 5.730 [  5%] Generating includes/lammps/output.h
+#7 5.742 [  5%] Generating includes/lammps/pair.h
+#7 5.749 [  5%] Built target neighbor.h
+#7 5.760 [  5%] Built target neigh_list.h
+#7 5.772 [  5%] Built target output.h
+#7 5.792 [  5%] Built target pair.h
+#7 5.807 [  5%] Generating includes/lammps/platform.h
+#7 5.814 [  6%] Generating includes/lammps/pointers.h
+#7 5.815 [  6%] Generating includes/lammps/region.h
+#7 5.835 [  6%] Generating includes/lammps/timer.h
+#7 5.843 [  6%] Built target region.h
+#7 5.850 [  6%] Built target pointers.h
+#7 5.851 [  6%] Built target platform.h
+#7 5.869 [  6%] Built target timer.h
+#7 5.873 [  6%] Generating includes/lammps/universe.h
+#7 5.887 [  6%] Generating includes/lammps/update.h
+#7 5.894 [  6%] Generating includes/lammps/utils.h
+#7 5.899 [  6%] Built target universe.h
+#7 5.908 [  7%] Generating includes/lammps/variable.h
+#7 5.925 [  7%] Built target update.h
+#7 5.925 [  7%] Generating includes/lammps/fmt/core.h
+#7 5.932 [  7%] Built target utils.h
+#7 5.938 [  7%] Built target variable.h
+#7 5.955 [  7%] Built target fmt_core.h
+#7 5.961 [  7%] Generating includes/lammps/fmt/format.h
+#7 5.966 [  7%] Building CXX object lib/kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_Abort.cpp.o
+#7 5.992 [  8%] Building CXX object lib/kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_CPUDiscovery.cpp.o
+#7 5.995 [  8%] Built target fmt_format.h
+#7 5.995 [  8%] Building CXX object lib/kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_Command_Line_Parsing.cpp.o
+#7 6.012 [  8%] Building CXX object lib/kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_Core.cpp.o
+#7 6.571 [  8%] Building CXX object lib/kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_Error.cpp.o
+#7 6.811 [  8%] Building CXX object lib/kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_ExecPolicy.cpp.o
+#7 9.067 [  8%] Building CXX object lib/kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_HostBarrier.cpp.o
+#7 9.262 [  9%] Building CXX object lib/kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_HostSpace.cpp.o
+#7 9.281 [  9%] Building CXX object lib/kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_HostSpace_deepcopy.cpp.o
+#7 10.33 [  9%] Building CXX object lib/kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_HostThreadTeam.cpp.o
+#7 10.79 [  9%] Building CXX object lib/kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_MemoryPool.cpp.o
+#7 11.23 [  9%] Building CXX object lib/kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_Profiling.cpp.o
+#7 11.28 [ 10%] Building CXX object lib/kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_SharedAlloc.cpp.o
+#7 13.54 [ 10%] Building CXX object lib/kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_Stacktrace.cpp.o
+#7 14.37 [ 10%] Building CXX object lib/kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_hwloc.cpp.o
+#7 14.89 [ 10%] Building CXX object lib/kokkos/core/src/CMakeFiles/kokkoscore.dir/Serial/Kokkos_Serial.cpp.o
+#7 16.21 [ 10%] Building CXX object lib/kokkos/core/src/CMakeFiles/kokkoscore.dir/Serial/Kokkos_Serial_Task.cpp.o
+#7 18.35 [ 11%] Linking CXX static library libkokkoscore.a
+#7 18.43 [ 11%] Built target kokkoscore
+#7 18.46 [ 11%] Building CXX object lib/kokkos/containers/src/CMakeFiles/kokkoscontainers.dir/impl/Kokkos_UnorderedMap_impl.cpp.o
+#7 20.08 [ 11%] Linking CXX static library libkokkoscontainers.a
+#7 20.12 [ 11%] Built target kokkoscontainers
+#7 20.17 [ 12%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/angle_hybrid.cpp.o
+#7 20.17 [ 12%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/angle_write.cpp.o
+#7 20.17 [ 12%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/angle.cpp.o
+#7 20.17 [ 12%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/angle_deprecated.cpp.o
+#7 20.76 [ 12%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/angle_zero.cpp.o
+#7 21.00 [ 12%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/arg_info.cpp.o
+#7 21.27 [ 12%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/atom.cpp.o
+#7 21.28 [ 13%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/atom_map.cpp.o
+#7 21.47 [ 13%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/atom_vec.cpp.o
+#7 21.56 [ 13%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/atom_vec_atomic.cpp.o
+#7 22.00 [ 13%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/atom_vec_body.cpp.o
+#7 22.32 [ 13%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/atom_vec_charge.cpp.o
+#7 23.45 [ 14%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/atom_vec_ellipsoid.cpp.o
+#7 23.47 [ 14%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/atom_vec_hybrid.cpp.o
+#7 25.58 [ 14%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/atom_vec_line.cpp.o
+#7 25.65 /opt/lammps-source/src/atom_vec.cpp: In member function 'virtual void LAMMPS_NS::AtomVec::write_data_restricted_to_general()':
+#7 25.65 /opt/lammps-source/src/atom_vec.cpp:2293:29: warning: 'void* memcpy(void*, const void*, size_t)' specified bound between 18446744056529682432 and 18446744073709551592 exceeds maximum object size 9223372036854775807 [-Wstringop-overflow=]
+#7 25.65  2293 |           if (nlocal) memcpy(&v_hold[0][0],&v[0][0],3*nlocal*sizeof(double));
+#7 25.65       |                       ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#7 25.65 /opt/lammps-source/src/atom_vec.cpp:2298:29: warning: 'void* memcpy(void*, const void*, size_t)' specified bound between 18446744056529682432 and 18446744073709551592 exceeds maximum object size 9223372036854775807 [-Wstringop-overflow=]
+#7 25.65  2298 |           if (nlocal) memcpy(&omega_hold[0][0],&omega[0][0],3*nlocal*sizeof(double));
+#7 25.65       |                       ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#7 25.65 /opt/lammps-source/src/atom_vec.cpp:2303:29: warning: 'void* memcpy(void*, const void*, size_t)' specified bound between 18446744056529682432 and 18446744073709551592 exceeds maximum object size 9223372036854775807 [-Wstringop-overflow=]
+#7 25.65  2303 |           if (nlocal) memcpy(&angmom_hold[0][0],&angmom[0][0],3*nlocal*sizeof(double));
+#7 25.65       |                       ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#7 25.65 /opt/lammps-source/src/atom_vec.cpp:2272:21: warning: 'void* memcpy(void*, const void*, size_t)' specified bound between 18446744056529682432 and 18446744073709551592 exceeds maximum object size 9223372036854775807 [-Wstringop-overflow=]
+#7 25.65  2272 |   if (nlocal) memcpy(&x_hold[0][0],&x[0][0],3*nlocal*sizeof(double));
+#7 25.65       |               ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#7 26.06 [ 14%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/atom_vec_sphere.cpp.o
+#7 26.37 [ 14%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/atom_vec_tri.cpp.o
+#7 27.12 [ 14%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/balance.cpp.o
+#7 27.65 [ 15%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/body.cpp.o
+#7 27.88 [ 15%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/bond.cpp.o
+#7 28.23 [ 15%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/bond_deprecated.cpp.o
+#7 28.86 [ 15%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/bond_hybrid.cpp.o
+#7 28.95 [ 15%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/bond_zero.cpp.o
+#7 29.19 [ 16%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/change_box.cpp.o
+#7 29.93 [ 16%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/citeme.cpp.o
+#7 30.01 [ 16%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/comm.cpp.o
+#7 30.54 [ 16%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/comm_brick.cpp.o
+#7 30.98 [ 16%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/comm_tiled.cpp.o
+#7 31.05 [ 17%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute.cpp.o
+#7 31.89 [ 17%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_aggregate_atom.cpp.o
+#7 32.31 [ 17%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_angle.cpp.o
+#7 32.71 [ 17%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_angle_local.cpp.o
+#7 33.12 [ 17%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_angmom_chunk.cpp.o
+#7 33.95 [ 17%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_bond.cpp.o
+#7 34.03 [ 18%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_bond_local.cpp.o
+#7 34.04 [ 18%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_centro_atom.cpp.o
+#7 34.60 [ 18%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_centroid_stress_atom.cpp.o
+#7 34.63 [ 18%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_chunk.cpp.o
+#7 35.03 [ 18%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_chunk_atom.cpp.o
+#7 35.21 [ 19%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_chunk_spread_atom.cpp.o
+#7 35.38 [ 19%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_cluster_atom.cpp.o
+#7 35.62 [ 19%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_cna_atom.cpp.o
+#7 36.16 [ 19%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_com.cpp.o
+#7 36.25 [ 19%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_com_chunk.cpp.o
+#7 36.68 [ 20%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_coord_atom.cpp.o
+#7 36.76 [ 20%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_count_type.cpp.o
+#7 36.99 [ 20%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_deprecated.cpp.o
+#7 37.10 [ 20%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_dihedral.cpp.o
+#7 37.64 [ 20%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_dihedral_local.cpp.o
+#7 37.65 [ 20%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_dipole.cpp.o
+#7 37.73 [ 21%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_dipole_chunk.cpp.o
+#7 37.84 [ 21%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_displace_atom.cpp.o
+#7 38.45 [ 21%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_erotate_sphere.cpp.o
+#7 38.65 [ 21%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_erotate_sphere_atom.cpp.o
+#7 38.71 [ 21%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_fragment_atom.cpp.o
+#7 38.93 [ 22%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_global_atom.cpp.o
+#7 39.30 [ 22%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_group_group.cpp.o
+#7 39.62 [ 22%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_gyration.cpp.o
+#7 39.75 [ 22%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_gyration_chunk.cpp.o
+#7 40.28 [ 22%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_heat_flux.cpp.o
+#7 40.28 [ 23%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_improper.cpp.o
+#7 40.35 [ 23%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_improper_local.cpp.o
+#7 40.56 [ 23%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_inertia_chunk.cpp.o
+#7 40.87 [ 23%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_ke.cpp.o
+#7 41.01 [ 23%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_ke_atom.cpp.o
+#7 41.24 [ 23%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_msd.cpp.o
+#7 41.34 [ 24%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_msd_chunk.cpp.o
+#7 41.50 [ 24%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_omega_chunk.cpp.o
+#7 41.70 [ 24%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_orientorder_atom.cpp.o
+#7 42.12 [ 24%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_pair.cpp.o
+#7 42.18 [ 24%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_pair_local.cpp.o
+#7 42.35 [ 25%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_pe.cpp.o
+#7 42.82 [ 25%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_pe_atom.cpp.o
+#7 42.83 [ 25%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_pressure.cpp.o
+#7 43.04 [ 25%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_property_atom.cpp.o
+#7 43.11 [ 25%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_property_chunk.cpp.o
+#7 43.57 [ 26%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_property_grid.cpp.o
+#7 43.90 [ 26%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_property_local.cpp.o
+#7 43.97 [ 26%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_rdf.cpp.o
+#7 45.14 [ 26%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_reduce.cpp.o
+#7 45.32 [ 26%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_reduce_chunk.cpp.o
+#7 45.53 [ 26%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_reduce_region.cpp.o
+#7 45.76 [ 27%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_slice.cpp.o
+#7 46.32 [ 27%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_stress_atom.cpp.o
+#7 46.43 [ 27%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_temp.cpp.o
+#7 46.69 [ 27%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_temp_chunk.cpp.o
+#7 47.17 [ 27%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_temp_com.cpp.o
+#7 47.37 [ 28%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_temp_deform.cpp.o
+#7 47.39 [ 28%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_temp_partial.cpp.o
+#7 48.09 [ 28%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_temp_profile.cpp.o
+#7 48.22 [ 28%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_temp_ramp.cpp.o
+#7 48.37 [ 28%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_temp_region.cpp.o
+#7 48.37 [ 29%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_temp_sphere.cpp.o
+#7 49.21 [ 29%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_torque_chunk.cpp.o
+#7 49.28 [ 29%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_vacf.cpp.o
+#7 49.31 [ 29%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/compute_vcm_chunk.cpp.o
+#7 49.33 [ 29%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/create_atoms.cpp.o
+#7 50.11 [ 29%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/create_bonds.cpp.o
+#7 50.11 [ 30%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/create_box.cpp.o
+#7 50.18 [ 30%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/delete_atoms.cpp.o
+#7 51.82 [ 30%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/delete_bonds.cpp.o
+#7 51.89 [ 30%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/deprecated.cpp.o
+#7 52.80 [ 30%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/dihedral.cpp.o
+#7 52.96 [ 31%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/dihedral_deprecated.cpp.o
+#7 53.93 [ 31%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/dihedral_hybrid.cpp.o
+#7 53.93 [ 31%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/dihedral_write.cpp.o
+#7 54.07 [ 31%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/dihedral_zero.cpp.o
+#7 55.23 [ 31%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/displace_atoms.cpp.o
+#7 55.59 [ 32%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/domain.cpp.o
+#7 56.16 [ 32%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/dump.cpp.o
+#7 56.30 [ 32%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/dump_atom.cpp.o
+#7 56.97 [ 32%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/dump_cfg.cpp.o
+#7 58.99 [ 32%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/dump_custom.cpp.o
+#7 59.54 [ 32%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/dump_deprecated.cpp.o
+#7 59.86 [ 33%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/dump_grid.cpp.o
+#7 60.52 [ 33%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/dump_grid_vtk.cpp.o
+#7 61.65 [ 33%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/dump_image.cpp.o
+#7 64.45 [ 33%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/dump_local.cpp.o
+#7 65.19 [ 33%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/dump_movie.cpp.o
+#7 65.64 [ 34%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/dump_xyz.cpp.o
+#7 66.05 [ 34%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/error.cpp.o
+#7 66.95 [ 34%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/finish.cpp.o
+#7 67.31 [ 34%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix.cpp.o
+#7 68.21 [ 34%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_adapt.cpp.o
+#7 68.83 [ 35%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_addforce.cpp.o
+#7 70.89 [ 35%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_ave_atom.cpp.o
+#7 71.33 [ 35%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_ave_chunk.cpp.o
+#7 71.41 [ 35%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_ave_correlate.cpp.o
+#7 72.39 [ 35%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_ave_grid.cpp.o
+#7 72.73 [ 35%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_ave_histo.cpp.o
+#7 73.50 [ 36%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_ave_histo_weight.cpp.o
+#7 74.31 [ 36%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_ave_time.cpp.o
+#7 74.82 [ 36%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_aveforce.cpp.o
+#7 75.56 [ 36%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_balance.cpp.o
+#7 76.30 [ 36%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_bond_history.cpp.o
+#7 76.37 [ 37%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_box_relax.cpp.o
+#7 76.95 [ 37%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_deform.cpp.o
+#7 77.75 [ 37%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_deposit.cpp.o
+#7 77.85 [ 37%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_deprecated.cpp.o
+#7 78.59 [ 37%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_dt_reset.cpp.o
+#7 78.62 [ 38%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_dummy.cpp.o
+#7 79.39 [ 38%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_efield.cpp.o
+#7 79.73 [ 38%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_enforce2d.cpp.o
+#7 79.75 [ 38%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_evaporate.cpp.o
+#7 81.31 [ 38%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_external.cpp.o
+#7 81.44 [ 39%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_group.cpp.o
+#7 81.44 [ 39%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_gravity.cpp.o
+#7 81.53 [ 39%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_halt.cpp.o
+#7 82.32 [ 39%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_heat.cpp.o
+#7 82.58 [ 39%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_indent.cpp.o
+#7 82.65 [ 39%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_langevin.cpp.o
+#7 82.67 [ 40%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_lineforce.cpp.o
+#7 83.44 [ 40%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_minimize.cpp.o
+#7 83.46 [ 40%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_momentum.cpp.o
+#7 84.35 [ 40%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_move.cpp.o
+#7 84.45 [ 40%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_neigh_history.cpp.o
+#7 84.49 [ 41%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_nh.cpp.o
+#7 86.09 [ 41%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_nh_sphere.cpp.o
+#7 87.39 [ 41%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_nph.cpp.o
+#7 87.62 [ 41%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_nph_sphere.cpp.o
+#7 88.75 [ 41%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_npt.cpp.o
+#7 88.77 [ 41%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_npt_sphere.cpp.o
+#7 88.81 [ 42%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_nve.cpp.o
+#7 89.06 [ 42%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_nve_limit.cpp.o
+#7 89.57 [ 42%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_nve_noforce.cpp.o
+#7 89.57 [ 42%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_nve_sphere.cpp.o
+#7 89.72 [ 42%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_nvt.cpp.o
+#7 89.91 [ 43%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_nvt_sllod.cpp.o
+#7 90.40 [ 43%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_nvt_sphere.cpp.o
+#7 90.46 [ 43%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_pair.cpp.o
+#7 90.71 [ 43%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_planeforce.cpp.o
+#7 91.07 [ 43%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_press_berendsen.cpp.o
+#7 91.69 [ 44%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_press_langevin.cpp.o
+#7 91.90 [ 44%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_print.cpp.o
+#7 92.37 [ 44%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_property_atom.cpp.o
+#7 93.03 [ 44%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_read_restart.cpp.o
+#7 93.51 [ 44%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_recenter.cpp.o
+#7 94.15 [ 44%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_respa.cpp.o
+#7 95.13 [ 45%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_restrain.cpp.o
+#7 95.16 [ 45%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_setforce.cpp.o
+#7 95.63 [ 45%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_spring.cpp.o
+#7 95.66 [ 45%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_spring_chunk.cpp.o
+#7 96.42 [ 45%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_spring_self.cpp.o
+#7 96.66 [ 46%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_store_atom.cpp.o
+#7 96.78 [ 46%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_store_force.cpp.o
+#7 97.06 [ 46%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_store_global.cpp.o
+#7 97.91 [ 46%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_store_local.cpp.o
+#7 98.12 [ 46%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_store_state.cpp.o
+#7 98.20 [ 47%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_temp_berendsen.cpp.o
+#7 98.44 [ 47%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_temp_rescale.cpp.o
+#7 99.08 [ 47%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_thermal_conductivity.cpp.o
+#7 99.93 [ 47%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_vector.cpp.o
+#7 100.0 [ 47%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_viscous.cpp.o
+#7 100.5 [ 47%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_wall.cpp.o
+#7 101.0 [ 48%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_wall_harmonic.cpp.o
+#7 101.0 [ 48%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_wall_lj1043.cpp.o
+#7 101.3 [ 48%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_wall_lj126.cpp.o
+#7 102.0 [ 48%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_wall_morse.cpp.o
+#7 102.0 [ 48%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_wall_lj93.cpp.o
+#7 102.5 [ 50%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_wall_reflect.cpp.o
+#7 102.6 [ 50%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_wall_region.cpp.o
+#7 103.1 [ 50%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fix_wall_table.cpp.o
+#7 103.1 [ 50%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fmtlib_format.cpp.o
+#7 104.3 [ 50%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/fmtlib_os.cpp.o
+#7 104.7 [ 51%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/force.cpp.o
+#7 105.2 [ 51%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/grid2d.cpp.o
+#7 105.3 [ 51%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/grid3d.cpp.o
+#7 107.5 [ 51%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/group.cpp.o
+#7 107.8 [ 51%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/hashlittle.cpp.o
+#7 108.0 [ 51%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/image.cpp.o
+#7 110.0 [ 52%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/imbalance.cpp.o
+#7 110.6 [ 52%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/imbalance_group.cpp.o
+#7 111.2 [ 52%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/imbalance_neigh.cpp.o
+#7 111.8 [ 52%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/imbalance_store.cpp.o
+#7 112.0 [ 52%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/imbalance_time.cpp.o
+#7 112.9 [ 53%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/imbalance_var.cpp.o
+#7 113.1 [ 53%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/improper.cpp.o
+#7 113.8 [ 53%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/improper_deprecated.cpp.o
+#7 114.2 [ 53%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/improper_hybrid.cpp.o
+#7 114.2 [ 53%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/improper_zero.cpp.o
+#7 114.7 [ 54%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/info.cpp.o
+#7 115.2 [ 54%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/input.cpp.o
+#7 115.8 [ 54%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/integrate.cpp.o
+#7 116.5 [ 54%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/irregular.cpp.o
+#7 117.4 [ 54%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/kspace.cpp.o
+#7 118.6 [ 54%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/kspace_deprecated.cpp.o
+#7 119.1 [ 55%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/label_map.cpp.o
+#7 119.4 [ 55%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/lammps.cpp.o
+#7 121.1 [ 55%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/lattice.cpp.o
+#7 122.7 [ 55%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/library.cpp.o
+#7 123.3 [ 55%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/lmppython.cpp.o
+#7 124.1 [ 56%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/math_eigen.cpp.o
+#7 125.3 [ 56%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/math_extra.cpp.o
+#7 125.5 [ 56%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/math_special.cpp.o
+#7 125.7 [ 56%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/memory.cpp.o
+#7 125.8 [ 56%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/min.cpp.o
+#7 126.3 [ 57%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/min_cg.cpp.o
+#7 127.1 [ 57%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/min_deprecated.cpp.o
+#7 127.1 [ 57%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/min_fire.cpp.o
+#7 127.8 [ 57%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/min_hftn.cpp.o
+#7 128.2 [ 57%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/min_linesearch.cpp.o
+#7 129.1 [ 57%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/min_quickmin.cpp.o
+#7 129.1 [ 58%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/min_sd.cpp.o
+#7 129.5 [ 58%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/minimize.cpp.o
+#7 129.6 [ 58%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/modify.cpp.o
+#7 129.8 [ 58%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/molecule.cpp.o
+#7 129.8 [ 58%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/my_page.cpp.o
+#7 130.3 [ 59%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/my_pool_chunk.cpp.o
+#7 130.4 [ 59%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/nbin.cpp.o
+#7 130.5 [ 59%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/nbin_multi.cpp.o
+#7 131.2 [ 59%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/nbin_standard.cpp.o
+#7 131.5 [ 59%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/neigh_list.cpp.o
+#7 132.0 [ 60%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/neigh_request.cpp.o
+#7 132.2 [ 60%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/neighbor.cpp.o
+#7 132.7 [ 60%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/npair.cpp.o
+#7 133.8 [ 60%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/npair_bin.cpp.o
+#7 133.9 [ 60%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/npair_bin_ghost.cpp.o
+#7 134.9 [ 60%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/npair_copy.cpp.o
+#7 135.5 [ 61%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/npair_halffull.cpp.o
+#7 136.0 [ 61%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/npair_multi.cpp.o
+#7 136.5 [ 61%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/npair_multi_old.cpp.o
+#7 137.2 [ 61%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/npair_nsq.cpp.o
+#7 137.9 [ 61%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/npair_nsq_ghost.cpp.o
+#7 138.2 [ 62%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/npair_respa_bin.cpp.o
+#7 138.6 [ 62%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/npair_respa_nsq.cpp.o
+#7 138.8 [ 62%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/npair_skip.cpp.o
+#7 139.1 [ 62%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/npair_skip_respa.cpp.o
+#7 139.4 [ 62%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/npair_skip_size_off2on.cpp.o
+#7 139.5 [ 63%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/npair_skip_size_off2on_oneside.cpp.o
+#7 139.8 [ 63%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/npair_trim.cpp.o
+#7 139.9 [ 63%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/nstencil.cpp.o
+#7 140.1 [ 63%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/nstencil_bin.cpp.o
+#7 140.3 [ 63%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/nstencil_ghost_bin.cpp.o
+#7 140.6 [ 63%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/nstencil_multi.cpp.o
+#7 141.0 [ 64%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/nstencil_multi_old.cpp.o
+#7 141.2 [ 64%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/ntopo.cpp.o
+#7 141.4 [ 64%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/ntopo_angle_all.cpp.o
+#7 142.1 [ 64%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/ntopo_angle_partial.cpp.o
+#7 142.2 [ 64%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/ntopo_angle_template.cpp.o
+#7 142.2 [ 65%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/ntopo_bond_all.cpp.o
+#7 142.3 [ 65%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/ntopo_bond_partial.cpp.o
+#7 142.9 [ 65%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/ntopo_bond_template.cpp.o
+#7 142.9 [ 65%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/ntopo_dihedral_all.cpp.o
+#7 142.9 [ 65%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/ntopo_dihedral_partial.cpp.o
+#7 143.0 [ 66%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/ntopo_dihedral_template.cpp.o
+#7 143.5 [ 66%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/ntopo_improper_all.cpp.o
+#7 143.6 [ 66%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/ntopo_improper_partial.cpp.o
+#7 143.6 [ 66%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/ntopo_improper_template.cpp.o
+#7 143.8 [ 66%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/output.cpp.o
+#7 144.4 [ 66%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair.cpp.o
+#7 144.4 [ 67%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_born.cpp.o
+#7 144.4 [ 67%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_buck.cpp.o
+#7 145.5 [ 67%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_buck_coul_cut.cpp.o
+#7 145.5 [ 67%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_coul_cut.cpp.o
+#7 145.9 [ 67%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_coul_debye.cpp.o
+#7 146.7 [ 68%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_coul_dsf.cpp.o
+#7 146.8 [ 68%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_coul_wolf.cpp.o
+#7 147.0 [ 68%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_deprecated.cpp.o
+#7 147.1 [ 68%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_hybrid.cpp.o
+#7 147.8 [ 68%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_hybrid_molecular.cpp.o
+#7 147.8 [ 69%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_hybrid_overlay.cpp.o
+#7 147.8 [ 69%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_hybrid_scaled.cpp.o
+#7 148.4 [ 69%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_lj_cut.cpp.o
+#7 148.5 [ 69%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_lj_cut_coul_cut.cpp.o
+#7 149.1 [ 69%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_lj_expand.cpp.o
+#7 149.2 [ 69%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_morse.cpp.o
+#7 149.5 [ 70%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_soft.cpp.o
+#7 149.6 [ 70%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_table.cpp.o
+#7 150.1 [ 70%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_yukawa.cpp.o
+#7 150.2 [ 70%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_zbl.cpp.o
+#7 150.4 [ 70%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/pair_zero.cpp.o
+#7 150.9 [ 71%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/platform.cpp.o
+#7 151.0 [ 71%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/potential_file_reader.cpp.o
+#7 151.1 [ 71%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/procmap.cpp.o
+#7 151.2 [ 71%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/random_mars.cpp.o
+#7 151.9 [ 71%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/random_park.cpp.o
+#7 151.9 [ 72%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/rcb.cpp.o
+#7 152.8 [ 72%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/read_data.cpp.o
+#7 152.8 [ 72%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/read_dump.cpp.o
+#7 152.9 [ 72%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/read_restart.cpp.o
+#7 153.3 [ 72%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/reader.cpp.o
+#7 154.1 [ 72%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/reader_native.cpp.o
+#7 155.0 [ 73%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/reader_xyz.cpp.o
+#7 155.4 [ 73%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/region.cpp.o
+#7 155.7 [ 73%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/region_block.cpp.o
+#7 155.9 [ 73%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/region_cone.cpp.o
+#7 156.7 [ 73%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/region_cylinder.cpp.o
+#7 157.0 [ 74%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/region_deprecated.cpp.o
+#7 157.4 [ 74%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/region_ellipsoid.cpp.o
+#7 157.8 [ 74%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/region_intersect.cpp.o
+#7 158.0 [ 74%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/region_plane.cpp.o
+#7 158.5 [ 74%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/region_prism.cpp.o
+#7 158.7 [ 75%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/region_sphere.cpp.o
+#7 158.8 [ 75%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/region_union.cpp.o
+#7 158.9 [ 75%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/replicate.cpp.o
+#7 159.4 [ 75%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/rerun.cpp.o
+#7 159.4 [ 75%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/reset_atoms_id.cpp.o
+#7 159.6 [ 75%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/reset_atoms_image.cpp.o
+#7 160.3 [ 76%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/reset_atoms_mol.cpp.o
+#7 160.5 [ 76%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/respa.cpp.o
+#7 160.5 [ 76%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/run.cpp.o
+#7 161.2 [ 76%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/set.cpp.o
+#7 161.5 [ 76%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/special.cpp.o
+#7 162.1 [ 77%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/table_file_reader.cpp.o
+#7 162.6 [ 77%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/tabular_function.cpp.o
+#7 162.9 [ 77%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/text_file_reader.cpp.o
+#7 162.9 [ 77%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/thermo.cpp.o
+#7 163.6 [ 77%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/timer.cpp.o
+#7 164.9 [ 78%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/tokenizer.cpp.o
+#7 165.8 [ 78%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/universe.cpp.o
+#7 166.0 [ 78%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/update.cpp.o
+#7 166.5 [ 78%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/utils.cpp.o
+#7 166.6 [ 78%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/variable.cpp.o
+#7 168.2 [ 78%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/velocity.cpp.o
+#7 169.5 [ 79%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/verlet.cpp.o
+#7 170.3 [ 79%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/write_coeff.cpp.o
+#7 170.4 [ 79%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/write_data.cpp.o
+#7 170.9 [ 79%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/write_dump.cpp.o
+#7 171.0 [ 79%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/write_restart.cpp.o
+#7 171.5 [ 80%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/STUBS/mpi.cpp.o
+#7 171.5 [ 80%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/compute_contact_atom.cpp.o
+#7 171.8 [ 80%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/compute_fabric.cpp.o
+#7 172.1 [ 80%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/fix_add_heat.cpp.o
+#7 172.2 [ 80%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/fix_damping_cundall.cpp.o
+#7 172.7 [ 81%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/fix_freeze.cpp.o
+#7 172.8 [ 81%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/fix_heat_flow.cpp.o
+#7 173.0 [ 81%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/fix_pour.cpp.o
+#7 173.3 [ 81%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/fix_wall_gran.cpp.o
+#7 173.5 [ 81%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/fix_wall_gran_region.cpp.o
+#7 174.7 [ 81%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/gran_sub_mod.cpp.o
+#7 174.7 [ 82%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/gran_sub_mod_damping.cpp.o
+#7 174.9 [ 82%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/gran_sub_mod_heat.cpp.o
+#7 175.3 [ 82%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/gran_sub_mod_normal.cpp.o
+#7 175.4 [ 82%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/gran_sub_mod_rolling.cpp.o
+#7 175.6 [ 82%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/gran_sub_mod_tangential.cpp.o
+#7 176.1 [ 83%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/gran_sub_mod_twisting.cpp.o
+#7 176.1 [ 83%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/granular_model.cpp.o
+#7 176.4 [ 83%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/pair_gran_hertz_history.cpp.o
+#7 176.6 [ 83%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/pair_gran_hooke.cpp.o
+#7 176.8 [ 83%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/pair_gran_hooke_history.cpp.o
+#7 177.0 [ 84%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/GRANULAR/pair_granular.cpp.o
+#7 177.1 [ 84%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/kokkos.cpp.o
+#7 177.2 [ 84%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/atom_kokkos.cpp.o
+#7 177.9 [ 84%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/atom_map_kokkos.cpp.o
+#7 178.1 [ 84%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/atom_vec_kokkos.cpp.o
+#7 180.5 [ 84%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/comm_kokkos.cpp.o
+#7 183.9 [ 85%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/comm_tiled_kokkos.cpp.o
+#7 185.1 [ 85%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/min_kokkos.cpp.o
+#7 185.3 [ 85%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/min_linesearch_kokkos.cpp.o
+#7 188.2 [ 85%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/neighbor_kokkos.cpp.o
+#7 189.1 [ 85%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/neigh_list_kokkos.cpp.o
+#7 189.5 [ 86%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/neigh_bond_kokkos.cpp.o
+#7 191.6 [ 86%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_nh_kokkos.cpp.o
+#7 193.1 [ 86%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/nbin_kokkos.cpp.o
+#7 194.3 [ 86%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/npair_kokkos.cpp.o
+#7 195.8 [ 86%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/npair_halffull_kokkos.cpp.o
+#7 197.5 [ 87%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/domain_kokkos.cpp.o
+#7 198.3 [ 87%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/modify_kokkos.cpp.o
+#7 199.7 [ 87%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_wall_gran_old.cpp.o
+#7 200.9 [ 87%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/angle_hybrid_kokkos.cpp.o
+#7 201.2 [ 87%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/atom_vec_atomic_kokkos.cpp.o
+#7 202.1 [ 87%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/atom_vec_charge_kokkos.cpp.o
+#7 205.6 [ 88%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/atom_vec_hybrid_kokkos.cpp.o
+#7 205.8 [ 88%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/atom_vec_sphere_kokkos.cpp.o
+#7 207.7 [ 88%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/bond_hybrid_kokkos.cpp.o
+#7 208.1 [ 88%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/compute_coord_atom_kokkos.cpp.o
+#7 209.3 [ 88%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/compute_erotate_sphere_kokkos.cpp.o
+#7 212.0 [ 89%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/compute_orientorder_atom_kokkos.cpp.o
+#7 212.2 [ 89%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/compute_temp_kokkos.cpp.o
+#7 212.6 [ 89%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/compute_temp_deform_kokkos.cpp.o
+#7 217.4 [ 89%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/dihedral_hybrid_kokkos.cpp.o
+#7 217.9 [ 89%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_deform_kokkos.cpp.o
+#7 218.8 [ 90%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_dt_reset_kokkos.cpp.o
+#7 219.3 [ 90%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_efield_kokkos.cpp.o
+#7 220.6 [ 90%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_enforce2d_kokkos.cpp.o
+#7 224.1 [ 90%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_gravity_kokkos.cpp.o
+#7 224.2 [ 90%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_langevin_kokkos.cpp.o
+#7 225.7 [ 90%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_minimize_kokkos.cpp.o
+#7 228.8 [ 91%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_momentum_kokkos.cpp.o
+#7 229.5 [ 91%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_neigh_history_kokkos.cpp.o
+#7 233.3 [ 91%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_nph_kokkos.cpp.o
+#7 233.5 [ 91%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_npt_kokkos.cpp.o
+#7 235.5 [ 91%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_nve_kokkos.cpp.o
+#7 235.8 [ 92%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_nve_sphere_kokkos.cpp.o
+#7 240.0 [ 92%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_nvt_kokkos.cpp.o
+#7 240.1 [ 92%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_nvt_sllod_kokkos.cpp.o
+#7 240.3 [ 92%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_property_atom_kokkos.cpp.o
+#7 241.5 [ 92%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_setforce_kokkos.cpp.o
+#7 242.1 [ 93%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_spring_self_kokkos.cpp.o
+#7 243.7 [ 93%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_temp_berendsen_kokkos.cpp.o
+#7 246.3 [ 93%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_temp_rescale_kokkos.cpp.o
+#7 246.6 [ 93%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_viscous_kokkos.cpp.o
+#7 246.7 [ 93%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_wall_lj93_kokkos.cpp.o
+#7 248.1 [ 93%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_wall_reflect_kokkos.cpp.o
+#7 249.7 [ 94%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_freeze_kokkos.cpp.o
+#7 250.9 [ 94%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/fix_wall_gran_kokkos.cpp.o
+#7 251.5 [ 94%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/improper_hybrid_kokkos.cpp.o
+#7 251.8 [ 94%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/verlet_kokkos.cpp.o
+#7 252.5 [ 94%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/min_cg_kokkos.cpp.o
+#7 256.6 [ 95%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/npair_copy_kokkos.cpp.o
+#7 257.2 [ 95%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/npair_skip_kokkos.cpp.o
+#7 257.3 [ 95%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/npair_trim_kokkos.cpp.o
+#7 257.3 [ 95%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_buck_kokkos.cpp.o
+#7 259.3 [ 95%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_buck_coul_cut_kokkos.cpp.o
+#7 261.3 [ 96%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_coul_cut_kokkos.cpp.o
+#7 263.1 [ 96%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_coul_debye_kokkos.cpp.o
+#7 269.1 [ 96%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_coul_dsf_kokkos.cpp.o
+#7 272.4 [ 96%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_coul_wolf_kokkos.cpp.o
+#7 273.1 [ 96%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_hybrid_kokkos.cpp.o
+#7 274.9 [ 96%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_hybrid_overlay_kokkos.cpp.o
+#7 275.6 [ 97%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_lj_cut_kokkos.cpp.o
+#7 275.8 [ 97%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_lj_cut_coul_cut_kokkos.cpp.o
+#7 277.3 [ 97%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_lj_expand_kokkos.cpp.o
+#7 278.8 [ 97%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_morse_kokkos.cpp.o
+#7 288.0 [ 97%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_soft_kokkos.cpp.o
+#7 289.1 [ 98%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_table_kokkos.cpp.o
+#7 289.5 [ 98%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_yukawa_kokkos.cpp.o
+#7 290.9 [ 98%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_zbl_kokkos.cpp.o
+#7 301.6 [ 98%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_gran_hooke_history_kokkos.cpp.o
+#7 303.1 [ 98%] Building CXX object CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/region_block_kokkos.cpp.o
+#7 313.3 [100%] Linking CXX shared library liblammps.so
+#7 314.1 [100%] Built target lammps
+#7 314.3 -- Git Directory: /opt/lammps-source/.git
+#7 314.3 -- Generating lmpgitversion.h...
+#7 314.3 [  0%] Built target angle.h
+#7 314.3 [  0%] Built target atom.h
+#7 314.3 [  0%] Built target kokkossimd
+#7 314.3 [  0%] Built target gitversion
+#7 314.3 [  0%] Built target citeme.h
+#7 314.3 [  0%] Built target bond.h
+#7 314.3 [  0%] Built target comm.h
+#7 314.3 [  0%] Built target command.h
+#7 314.3 [  0%] Built target compute.h
+#7 314.3 [  1%] Built target dihedral.h
+#7 314.3 [  1%] Built target domain.h
+#7 314.3 [  1%] Built target exceptions.h
+#7 314.3 [  1%] Built target fix.h
+#7 314.3 [  1%] Built target error.h
+#7 314.3 [  1%] Built target force.h
+#7 314.3 [  2%] Built target group.h
+#7 314.3 [  2%] Built target improper.h
+#7 314.4 [  3%] Built target input.h
+#7 314.4 [  3%] Built target info.h
+#7 314.4 [  3%] Built target kspace.h
+#7 314.4 [  3%] Built target lammps.h
+#7 314.4 [  3%] Built target lattice.h
+#7 314.4 [  3%] Built target library.h
+#7 314.4 [  4%] Built target lmppython.h
+#7 314.4 [  4%] Built target lmptype.h
+#7 314.4 [  4%] Built target modify.h
+#7 314.4 [  4%] Built target memory.h
+#7 314.4 [  5%] Built target neighbor.h
+#7 314.4 [  5%] Built target neigh_list.h
+#7 314.4 [  5%] Built target pair.h
+#7 314.4 [  5%] Built target output.h
+#7 314.4 [  5%] Built target platform.h
+#7 314.4 [  5%] Built target pointers.h
+#7 314.4 [  6%] Built target region.h
+#7 314.4 [  6%] Built target timer.h
+#7 314.5 [  6%] Built target update.h
+#7 314.5 [  6%] Built target universe.h
+#7 314.5 [  6%] Built target utils.h
+#7 314.5 [  7%] Built target variable.h
+#7 314.5 [  7%] Built target fmt_core.h
+#7 314.5 [  7%] Built target fmt_format.h
+#7 314.5 [ 11%] Built target kokkoscore
+#7 314.5 [ 11%] Built target kokkoscontainers
+#7 314.9 [100%] Built target lammps
+#7 314.9 [100%] Building CXX object CMakeFiles/lmp.dir/opt/lammps-source/src/main.cpp.o
+#7 315.3 [100%] Linking CXX executable lmp
+#7 315.4 [100%] Built target lmp
+#7 DONE 315.8s
+
+#8 exporting to image
+#8 exporting layers
+#8 exporting layers 4.1s done
+#8 exporting manifest sha256:7669a585c3b2e950bae5acde05d8017604b92e0b31ad95991f2f46e5bf00bcc1 0.0s done
+#8 exporting config sha256:72b2a6697a98881bb5c6bdcce28fe8c37863109caab5f06678a7e51a5e60f6b5 done
+#8 exporting attestation manifest sha256:8bbd493ab5c381c4c777af600c82c6a1112a61cb3ef85bbddf9e839f7b0ed808 0.0s done
+#8 exporting manifest list sha256:dcd82959dade602cf5d15cb2df3af4381a061432e2e1713bd572767b34646b11 0.0s done
+#8 naming to docker.io/library/caeoj-lammps4219-core:base done
+#8 unpacking to docker.io/library/caeoj-lammps4219-core:base
+#8 unpacking to docker.io/library/caeoj-lammps4219-core:base 1.2s done
+#8 DONE 5.4s

@@ -1,0 +1,51 @@
+LAMMPS (29 Aug 2024 - Development)
+KOKKOS mode with Kokkos version 4.4.1 is enabled (src/KOKKOS/kokkos.cpp:72)
+  using 1 OpenMP thread(s) per MPI task
+Reading data file ...
+  orthogonal box = (-4 -4 -4) to (4 4 4)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  4 atoms
+  reading velocities ...
+  4 velocities
+  read_data CPU = 0.002 seconds
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Your simulation uses code contributions which should be cited:
+- Type Label Framework: https://doi.org/10.1021/acs.jpcb.3c08419
+The log file lists these citations in BibTeX format.
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+WARNING: No fixes with time integration, atoms won't move (src/verlet.cpp:60)
+Generated 0 of 0 mixed pair_coeff terms from geometric mixing rule
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 1.05
+  ghost atom cutoff = 1.05
+  binsize = 0.525, bins = 16 16 16
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair gran/hooke/history/kk, perpetual
+      attributes: half, newton on, size, history, kokkos_device
+      pair build: half/bin/newton/size/kk/device
+      stencil: half/bin/3d
+      bin: kk/device
+Setting up Verlet run ...
+  Unit style    : si
+  Current step  : 0
+  Time step     : 1e-08
+Per MPI rank memory allocation (min/avg/max) = 15.01 | 15.01 | 15.01 Mbytes
+   Step         c_P[1]         c_P[2]         c_P[3]         c_P[4]         c_P[5]         c_P[6]    
+         0   6.2843185      7.8407342      2.4157134      2.3348313     -2.4234522     -0.7794519    
+ERROR: Fix neigh/history/kk requires newton 'off' for exchange communication (src/KOKKOS/fix_neigh_history_kokkos.cpp:93)
+Last command: run 0
+Traceback (most recent call last):
+  File "/task/public/run_case.py", line 38, in <module>
+    p=argparse.ArgumentParser();p.add_argument('--input',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--executable',default='/opt/lammps-build/lmp');a=p.parse_args();run(a.input,a.output,a.executable)
+                                                                                                                                                                                                                     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/public/run_case.py", line 28, in run
+    if r.returncode:sys.stderr.write(r.stdout+r.stderr);raise RuntimeError(f'LAMMPS exited {r.returncode}')
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: LAMMPS exited 1

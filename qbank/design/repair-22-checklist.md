@@ -36,7 +36,7 @@
 | 19.4.1 | graded-electrode-inventory-repair／梯度电极锂库存 | pybamm-team/PyBaMM#5810 | 空间加权积分与电极库存观测；独立积分，区分观测和演化误差 | 已完成；[验收记录](../19-solver-repair/19.4-observations/graded-electrode-inventory-repair/author/README.md) |
 | 19.4.2 | diffusion-element-heat-repair／扩散元件电压与耗散 | pybamm-team/PyBaMM#5859 | 扩散过电势和不可逆热；独立能量账本与电路极限 | 已完成；[验收记录](../19-solver-repair/19.4-observations/diffusion-element-heat-repair/author/README.md) |
 | 19.4.3 | hysteresis-heat-repair／开路电势滞回热源 | pybamm-team/PyBaMM#3867 | 平衡与分支OCP的能量差；明确参数语义及独立循环功核对 | 已完成；[验收记录](../19-solver-repair/19.4-observations/hysteresis-heat-repair/author/README.md) |
-| 19.4.4 | granular-pair-stress-repair／颗粒成对力应力统计 | lammps/lammps#4219 | 成对贡献与累计力的区别；独立virial及小颗粒系统 | 待实施 |
+| 19.4.4 | granular-pair-stress-repair／颗粒成对力应力统计 | lammps/lammps#4219 | 成对贡献与累计力的区别；独立virial及小颗粒系统 | 已完成；[验收记录](../19-solver-repair/19.4-observations/granular-pair-stress-repair/author/README.md) |
 | 19.4.5 | wall-heat-flux-repair／近壁热流离散与观测 | su2code/SU2#2347 | 边界和后处理热流一致；解析温度梯度与能量平衡 | 待实施 |
 | 19.4.6 | solid-fluid-energy-observation-repair／固流传热能量统计 | idaholab/moose#22074 | 固／流分区体积分与能量观测；独立积分与瞬态／稳态范围核对 | 待实施 |
 | 19.5.1 | point-ownership-repair／域外点归属与外推 | FEniCS/dolfinx#4450 | 单元内外归属与可选外推；精确几何分类及多单元回归 | 待实施 |

@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "base_image": "caeoj-lammps4219-core:base",
+  "replacements": [
+    {
+      "submission": "pair_gran_hooke_history_kokkos.cpp",
+      "target": "/opt/lammps-source/src/KOKKOS/pair_gran_hooke_history_kokkos.cpp"
+    },
+    {
+      "submission": "pair_gran_hooke_history_kokkos.h",
+      "target": "/opt/lammps-source/src/KOKKOS/pair_gran_hooke_history_kokkos.h"
+    }
+  ],
+  "build_directory": "/opt/lammps-build",
+  "build_target": "lmp",
+  "rebuild_files": [
+    "/opt/lammps-build/CMakeFiles/lammps.dir/opt/lammps-source/src/KOKKOS/pair_gran_hooke_history_kokkos.cpp.o",
+    "/opt/lammps-build/CMakeFiles/lammps.dir/opt/lammps-source/src/force.cpp.o",
+    "/opt/lammps-build/CMakeFiles/lammps.dir/opt/lammps-source/src/lammps.cpp.o",
+    "/opt/lammps-build/CMakeFiles/lmp.dir/opt/lammps-source/src/main.cpp.o",
+    "/opt/lammps-build/liblammps.so.0",
+    "/opt/lammps-build/lmp"
+  ],
+  "build_timeout_seconds": 300,
+  "max_source_bytes": 1048576,
+  "runner": "/app/qbank/19-solver-repair/19.4-observations/granular-pair-stress-repair/public/run_case.py",
+  "baseline_probe": [
+    "/usr/local/bin/python",
+    "/app/qbank/19-solver-repair/19.4-observations/granular-pair-stress-repair/public/run_case.py",
+    "--input",
+    "/app/qbank/19-solver-repair/19.4-observations/granular-pair-stress-repair/samples/01/input/problem.json",
+    "--output",
+    "/tmp/lammps4219-baseline.h5"
+  ]
+}

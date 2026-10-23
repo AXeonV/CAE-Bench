@@ -1,0 +1,413 @@
+{
+  "origin_zip": {
+    "path": "work/repair-22/bempp-20/probe-context/tests/agent.zip",
+    "sha256": "241b6bad4d344139e034dd798638a0cb62d0a364ae28c9b999a41a7bb9e18e27",
+    "bytes": 81018158
+  },
+  "fixture": {
+    "path": "work/repair-22/bempp-20/backend_probe.py",
+    "sha256": "4ad4918e08def9765decd34f257d78659aa42dfb99ac0b0c225ff9f52f17001b",
+    "bytes": 4688
+  },
+  "probe_context_fixture": {
+    "path": "work/repair-22/bempp-20/probe-context/backend_probe.py",
+    "sha256": "4ad4918e08def9765decd34f257d78659aa42dfb99ac0b0c225ff9f52f17001b",
+    "bytes": 4688
+  },
+  "results": [
+    {
+      "mode": "valid",
+      "run": {
+        "mode": "valid",
+        "command": [
+          "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+          "run",
+          "--rm",
+          "--network",
+          "none",
+          "--cpus",
+          "4",
+          "--memory",
+          "4g",
+          "caeoj-bempp20-probes:v1",
+          "python",
+          "/opt/backend_probe.py",
+          "valid"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 25.79219365119934
+      },
+      "result": {
+        "mode": "valid",
+        "passed": true,
+        "binding": {
+          "uid": 1000,
+          "network": "denied",
+          "binding": {
+            "exafmm": {
+              "source": "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/exafmm.py",
+              "cache": "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/__pycache__/exafmm.cpython-311.pyc",
+              "source_sha256": "151d3652f8e9c14b643262d2387fe888f91fee9e2b670a7801eaec0b0ba2dba5",
+              "pyc_sha256": "fd8f6617abafa0b0c54dc2c3452f58d6a2b78420ec02473ed6745c2d80cd33bf"
+            },
+            "fmm_assembler": {
+              "source": "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/fmm_assembler.py",
+              "cache": "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/__pycache__/fmm_assembler.cpython-311.pyc",
+              "source_sha256": "d5f708bb604b25b0d93fbf40ac3ee457d03df865daae234af63e2a7835bb4549",
+              "pyc_sha256": "3b37a8207e69a6fa5985aae72f3e48117fa83c9dba37dfa63024f12380aa87fa"
+            },
+            "helpers": {
+              "source": "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/helpers.py",
+              "cache": "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/__pycache__/helpers.cpython-311.pyc",
+              "source_sha256": "999f77439b333ac3cc5cac580c65497078b9b4a96e72b27163a36123808ba29c",
+              "pyc_sha256": "41c02dab71abfb0dc29603ae61612606bf9a71a0399eec8ea5d22519fb5fc608"
+            }
+          },
+          "permissions": {
+            "/tests": {
+              "read": false,
+              "write": false
+            },
+            "/tests/cases": {
+              "read": false,
+              "write": false
+            },
+            "/tests/reference": {
+              "read": false,
+              "write": false
+            },
+            "/logs/verifier": {
+              "read": false,
+              "write": false
+            },
+            "/probe": {
+              "read": false,
+              "write": false
+            },
+            "/app/submission": {
+              "read": true,
+              "write": false
+            },
+            "/opt/repair-driver/driver.py": {
+              "read": true,
+              "write": false
+            },
+            "/opt/bempp-repair-cmake/CMakeLists.txt": {
+              "read": true,
+              "write": false
+            },
+            "/opt/upstream": {
+              "read": true,
+              "write": false
+            },
+            "/opt/bempp-env/bin/python": {
+              "read": true,
+              "write": false
+            },
+            "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/exafmm.py": {
+              "read": true,
+              "write": false
+            },
+            "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/__pycache__/exafmm.cpython-311.pyc": {
+              "read": true,
+              "write": false
+            },
+            "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/fmm_assembler.py": {
+              "read": true,
+              "write": false
+            },
+            "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/__pycache__/fmm_assembler.cpython-311.pyc": {
+              "read": true,
+              "write": false
+            },
+            "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/helpers.py": {
+              "read": true,
+              "write": false
+            },
+            "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/__pycache__/helpers.cpython-311.pyc": {
+              "read": true,
+              "write": false
+            }
+          }
+        },
+        "build": {
+          "command": [
+            "setpriv",
+            "--reuid=1000",
+            "--regid=1000",
+            "--clear-groups",
+            "--no-new-privs",
+            "cmake",
+            "--build",
+            "/opt/upstream",
+            "--target",
+            "repair_sources",
+            "--parallel",
+            "4"
+          ],
+          "exit_code": 0,
+          "status": "built",
+          "elapsed_seconds": 0.2683275509989471,
+          "sources_sha256": {
+            "exafmm.py": "151d3652f8e9c14b643262d2387fe888f91fee9e2b670a7801eaec0b0ba2dba5",
+            "fmm_assembler.py": "d5f708bb604b25b0d93fbf40ac3ee457d03df865daae234af63e2a7835bb4549",
+            "helpers.py": "999f77439b333ac3cc5cac580c65497078b9b4a96e72b27163a36123808ba29c"
+          },
+          "removed_build_artifacts": [
+            "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/__pycache__/exafmm.cpython-311.pyc",
+            "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/__pycache__/fmm_assembler.cpython-311.pyc",
+            "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/__pycache__/helpers.cpython-311.pyc"
+          ],
+          "built_artifacts_sha256": {
+            "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/__pycache__/exafmm.cpython-311.pyc": "fd8f6617abafa0b0c54dc2c3452f58d6a2b78420ec02473ed6745c2d80cd33bf",
+            "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/__pycache__/fmm_assembler.cpython-311.pyc": "3b37a8207e69a6fa5985aae72f3e48117fa83c9dba37dfa63024f12380aa87fa",
+            "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/__pycache__/helpers.cpython-311.pyc": "41c02dab71abfb0dc29603ae61612606bf9a71a0399eec8ea5d22519fb5fc608"
+          }
+        },
+        "cpu_max": "400000 100000\n",
+        "memory_max": "4294967296\n"
+      },
+      "stdout": {
+        "path": "runs/authoring/repair-22/bempp-backend-probes-v1/valid.stdout.log",
+        "sha256": "3ec965c6336782b8f9d574fcd9a13ea43637d2884866c849421a5c49f8f99b4b",
+        "bytes": 4284
+      },
+      "stderr": {
+        "path": "runs/authoring/repair-22/bempp-backend-probes-v1/valid.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "mode": "syntax",
+      "run": {
+        "mode": "syntax",
+        "command": [
+          "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+          "run",
+          "--rm",
+          "--network",
+          "none",
+          "--cpus",
+          "4",
+          "--memory",
+          "4g",
+          "caeoj-bempp20-probes:v1",
+          "python",
+          "/opt/backend_probe.py",
+          "syntax"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 5.04803204536438
+      },
+      "result": {
+        "mode": "syntax",
+        "passed": true,
+        "classification": "build_error"
+      },
+      "stdout": {
+        "path": "runs/authoring/repair-22/bempp-backend-probes-v1/syntax.stdout.log",
+        "sha256": "1a522308f208ad03943857fd75274169456e9d2620f337de9c7ab8376000787c",
+        "bytes": 68
+      },
+      "stderr": {
+        "path": "runs/authoring/repair-22/bempp-backend-probes-v1/syntax.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "mode": "extra",
+      "run": {
+        "mode": "extra",
+        "command": [
+          "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+          "run",
+          "--rm",
+          "--network",
+          "none",
+          "--cpus",
+          "4",
+          "--memory",
+          "4g",
+          "caeoj-bempp20-probes:v1",
+          "python",
+          "/opt/backend_probe.py",
+          "extra"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 0.8164315223693848
+      },
+      "result": {
+        "mode": "extra",
+        "passed": true,
+        "classification": "invalid_submission"
+      },
+      "stdout": {
+        "path": "runs/authoring/repair-22/bempp-backend-probes-v1/extra.stdout.log",
+        "sha256": "9e52c2a42b43e541fd39a667791bfc9e97fc4b307d737a9d253755af3e6d2122",
+        "bytes": 74
+      },
+      "stderr": {
+        "path": "runs/authoring/repair-22/bempp-backend-probes-v1/extra.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "mode": "symlink",
+      "run": {
+        "mode": "symlink",
+        "command": [
+          "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+          "run",
+          "--rm",
+          "--network",
+          "none",
+          "--cpus",
+          "4",
+          "--memory",
+          "4g",
+          "caeoj-bempp20-probes:v1",
+          "python",
+          "/opt/backend_probe.py",
+          "symlink"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 0.981311559677124
+      },
+      "result": {
+        "mode": "symlink",
+        "passed": true,
+        "classification": "invalid_submission"
+      },
+      "stdout": {
+        "path": "runs/authoring/repair-22/bempp-backend-probes-v1/symlink.stdout.log",
+        "sha256": "2d250f990a78f69261d63cf7db149253e3f2ac71075e1d3ec9450fb3f95ae8e0",
+        "bytes": 76
+      },
+      "stderr": {
+        "path": "runs/authoring/repair-22/bempp-backend-probes-v1/symlink.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "mode": "compiler",
+      "run": {
+        "mode": "compiler",
+        "command": [
+          "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+          "run",
+          "--rm",
+          "--network",
+          "none",
+          "--cpus",
+          "4",
+          "--memory",
+          "4g",
+          "caeoj-bempp20-probes:v1",
+          "python",
+          "/opt/backend_probe.py",
+          "compiler"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 3.2899253368377686
+      },
+      "result": {
+        "mode": "compiler",
+        "passed": true,
+        "classification": "infrastructure_error",
+        "error": "Trusted baseline build failed: build_error"
+      },
+      "stdout": {
+        "path": "runs/authoring/repair-22/bempp-backend-probes-v1/compiler.stdout.log",
+        "sha256": "648a49378a9c168e9d499cbb84673776a9214cbd2154f691f4a456c9288eb13c",
+        "bytes": 134
+      },
+      "stderr": {
+        "path": "runs/authoring/repair-22/bempp-backend-probes-v1/compiler.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "mode": "baseline-runtime",
+      "run": {
+        "mode": "baseline-runtime",
+        "command": [
+          "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+          "run",
+          "--rm",
+          "--network",
+          "none",
+          "--cpus",
+          "4",
+          "--memory",
+          "4g",
+          "caeoj-bempp20-probes:v1",
+          "python",
+          "/opt/backend_probe.py",
+          "baseline-runtime"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 3.875084400177002
+      },
+      "result": {
+        "mode": "baseline-runtime",
+        "passed": true,
+        "classification": "infrastructure_error",
+        "error": "Trusted baseline runtime probe failed: probe_error"
+      },
+      "stdout": {
+        "path": "runs/authoring/repair-22/bempp-backend-probes-v1/baseline-runtime.stdout.log",
+        "sha256": "aa532fe7a8722119c575d9b986b6285379c571ce3357aa6b2acb9d2a27bb98da",
+        "bytes": 150
+      },
+      "stderr": {
+        "path": "runs/authoring/repair-22/bempp-backend-probes-v1/baseline-runtime.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "mode": "runtime-timeout",
+      "run": {
+        "mode": "runtime-timeout",
+        "command": [
+          "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+          "run",
+          "--rm",
+          "--network",
+          "none",
+          "--cpus",
+          "4",
+          "--memory",
+          "4g",
+          "caeoj-bempp20-probes:v1",
+          "python",
+          "/opt/backend_probe.py",
+          "runtime-timeout"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 11.24977993965149
+      },
+      "result": {
+        "mode": "runtime-timeout",
+        "passed": true,
+        "actual_pid": "61",
+        "process_stopped": true
+      },
+      "stdout": {
+        "path": "runs/authoring/repair-22/bempp-backend-probes-v1/runtime-timeout.stdout.log",
+        "sha256": "1b89390f97dd125e9d3e68f78c4116fbf70cfc4347007f9e31cbba168af6441b",
+        "bytes": 89
+      },
+      "stderr": {
+        "path": "runs/authoring/repair-22/bempp-backend-probes-v1/runtime-timeout.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    }
+  ]
+}

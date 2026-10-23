@@ -1,0 +1,55 @@
+{
+  "image_id": "sha256:253f278524d90ff31134c04d4173965a0dbd256fc9c3a78a98e46206213d1ed6",
+  "command": [
+    "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "--cpus",
+    "4",
+    "--memory",
+    "4g",
+    "--user",
+    "1000:1000",
+    "--read-only",
+    "sha256:253f278524d90ff31134c04d4173965a0dbd256fc9c3a78a98e46206213d1ed6",
+    "/opt/bempp-env/bin/python",
+    "-I",
+    "-c",
+    "from pathlib import Path\nimport os,json,hashlib,struct,shutil\nroot=Path('/opt/bempp-env')\nfiles=list(root.rglob('*'))\nwritable=[str(p) for p in [root,*files] if os.access(p,os.W_OK)]\nmode_writable=[]\nfor p in [root,*files]:\n s=p.stat();mask=0o200 if s.st_uid==os.geteuid() else (0o020 if s.st_gid in [os.getegid(),*os.getgroups()] else 0o002)\n if s.st_mode & mask:mode_writable.append(str(p))\nnative=[p for p in files if p.is_file() and p.name.endswith('.so') and 'exafmm' in str(p)]\nsources=Path('/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm')\npycs={}\nfor name in ['exafmm','fmm_assembler','helpers']:\n p=sources/'__pycache__'/(name+'.cpython-311.pyc')\n pycs[str(p)]={'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'flags':struct.unpack('<I',p.read_bytes()[4:8])[0]}\nassert all(v['flags']==3 for v in pycs.values())\nassert native and not writable and not mode_writable\nprint(json.dumps({'uid':os.geteuid(),'venv_entries_checked':len(files)+1,'venv_writable':writable,'venv_mode_writable':mode_writable,'native_exafmm':[{'path':str(p),'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'writable':os.access(p,os.W_OK),'mode':oct(p.stat().st_mode & 0o777),'uid':p.stat().st_uid,'gid':p.stat().st_gid} for p in native],'base_pyc':pycs,'disk_free_tmp':shutil.disk_usage('/tmp').free}))\n"
+  ],
+  "returncode": 0,
+  "stderr": "",
+  "result": {
+    "uid": 1000,
+    "venv_entries_checked": 8726,
+    "venv_writable": [],
+    "venv_mode_writable": [],
+    "native_exafmm": [
+      {
+        "path": "/opt/bempp-env/lib/python3.11/site-packages/exafmm.cpython-311-x86_64-linux-gnu.so",
+        "sha256": "9732e560b1cb42155b7a310af6156a7d1526b1e5379acd8791ead1550c165689",
+        "writable": false,
+        "mode": "0o755",
+        "uid": 0,
+        "gid": 0
+      }
+    ],
+    "base_pyc": {
+      "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/__pycache__/exafmm.cpython-311.pyc": {
+        "sha256": "66482ff8b251c69e54ffd5e0122b16e81176a20b405075d5021986cb95504f01",
+        "flags": 3
+      },
+      "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/__pycache__/fmm_assembler.cpython-311.pyc": {
+        "sha256": "adf8e76e5bbf475275d605057ab65a14868a490c7e2d5be621e8ca164986ab70",
+        "flags": 3
+      },
+      "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/__pycache__/helpers.cpython-311.pyc": {
+        "sha256": "40a30eec1ffd04215198fdd882fbbe44aea527b21c4f6dbe3fa75f8ce9968160",
+        "flags": 3
+      }
+    },
+    "disk_free_tmp": 903579340800
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "cmake",
+    "--build",
+    "/opt/cantera-source/build",
+    "--target",
+    "repair_sources",
+    "--parallel",
+    "4"
+  ],
+  "exit_code": 0,
+  "status": "built",
+  "elapsed_seconds": 13.785913989000164,
+  "removed_build_artifacts": [
+    "/opt/cantera-source/build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/kinetics/ElectronCollisionPlasmaRate.cpp.o",
+    "/opt/cantera-source/build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/kinetics/ReactionRateFactory.cpp.o",
+    "/opt/cantera-source/build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/thermo/PlasmaPhase.cpp.o",
+    "/opt/cantera-source/build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/thermo/ThermoFactory.cpp.o",
+    "/opt/cantera-source/build/lib/libcantera_shared.so.3.1.0",
+    "/opt/cantera-source/build/CMakeFiles/plasma_driver.dir/opt/repair-driver/driver.cpp.o",
+    "/opt/cantera-source/build/bin/plasma-driver"
+  ]
+}

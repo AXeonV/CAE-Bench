@@ -1,0 +1,17 @@
+phases:
+- name: plasma
+  thermo: plasma
+  elements: [O, E]
+  species: [O2, O, E]
+  kinetics: none
+  state: {T: 300, P: 101325, X: {O2: 0.99, E: 0.01}}
+species:
+- name: O2
+  composition: {O: 2}
+  thermo: {model: constant-cp, T0: 298.15, h0: 0, s0: 0, cp0: 29100}
+- name: O
+  composition: {O: 1}
+  thermo: {model: constant-cp, T0: 298.15, h0: 0, s0: 0, cp0: 20800}
+- name: E
+  composition: {E: 1}
+  thermo: {model: constant-cp, T0: 298.15, h0: 0, s0: 0, cp0: 20786.156545383}

@@ -29,7 +29,7 @@
 | 19.2.2 | grand-potential-derivatives-repair／巨势烧结材料一致导数 | idaholab/moose#30236 | 材料导数及Jacobian；独立符号／数值微分和残量测试 | 待实施 |
 | 19.3.1 | migration-soret-scaling-repair／电迁移与热扩散密度缩放 | ElmerCSC/elmerfem#870 | 漂移／热扩散弱式、密度缩放；解析稳态与单位一致性 | 待实施 |
 | 19.3.2 | surface-flow-constraint-repair／表面反应管流物种约束 | Cantera/cantera#1655 | 质量分数代数约束与物种排序；守恒及独立简单反应工况 | 待实施 |
-| 19.3.3 | two-temperature-state-repair／双温等离子体状态方程 | Cantera/cantera#1872 | 电子分压及固定密度／压力路径；混合理想气体状态关系 | 制作中；最终镜像与可信后端复核中 |
+| 19.3.3 | two-temperature-state-repair／双温等离子体状态方程 | Cantera/cantera#1872 | 电子分压及固定密度／压力路径；混合理想气体状态关系 | 已完成；[验收记录](../19-solver-repair/19.3-transport/two-temperature-state-repair/author/README.md) |
 | 19.3.4 | multisite-surface-concentration-repair／多占位表面浓度 | Cantera/cantera#1996 | 多位点占据、浓度与表面反应；位点平衡及独立反应核对，保留两项关联修复范围 | 待实施 |
 | 19.3.5 | reconstructed-energy-repair／可压缩流能量重构 | su2code/SU2#2602 | 重构一致性与稳定性；状态恒等关系及收敛流场，十步回归不作物理参考 | 待实施 |
 | 19.3.6 | deformed-tangential-boundary-repair／变形边界切向约束 | geodynamics/aspect#6818 | 当前几何法向与切向速度；解析几何／流场，公开限制AMG支持范围 | 待实施 |

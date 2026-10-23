@@ -1,0 +1,40 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "cmake",
+    "--build",
+    "/opt/cantera-source/build",
+    "--target",
+    "repair_sources",
+    "--parallel",
+    "4"
+  ],
+  "exit_code": 0,
+  "status": "built",
+  "elapsed_seconds": 29.22687549500006,
+  "sources_sha256": {
+    "PlasmaPhase.h": "92dce971460d46ce4b52daf3b2db4e9eb8396c936d9481b544a5d877c25e269a"
+  },
+  "removed_build_artifacts": [
+    "/opt/cantera-source/build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/kinetics/ElectronCollisionPlasmaRate.cpp.o",
+    "/opt/cantera-source/build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/kinetics/ReactionRateFactory.cpp.o",
+    "/opt/cantera-source/build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/thermo/PlasmaPhase.cpp.o",
+    "/opt/cantera-source/build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/thermo/ThermoFactory.cpp.o",
+    "/opt/cantera-source/build/lib/libcantera_shared.so.3.1.0",
+    "/opt/cantera-source/build/CMakeFiles/plasma_driver.dir/opt/repair-driver/driver.cpp.o",
+    "/opt/cantera-source/build/bin/plasma-driver"
+  ],
+  "built_artifacts_sha256": {
+    "/opt/cantera-source/build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/kinetics/ElectronCollisionPlasmaRate.cpp.o": "4f3b82ca219950eafea818dc6146ef93ec5651bf3ea1080be15481a0c3e032af",
+    "/opt/cantera-source/build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/kinetics/ReactionRateFactory.cpp.o": "f83fd937ae124fe9313d2985efcdec5c36e384c2d471d7b795909218eac50e7c",
+    "/opt/cantera-source/build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/thermo/PlasmaPhase.cpp.o": "d57c657d088650f9d6b1cd7172b08ecf44eb0663878045f5c79f1de6a66d2354",
+    "/opt/cantera-source/build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/thermo/ThermoFactory.cpp.o": "dab8290c9f63703cf6ddc91d9f8008d365c46b4f9860644a096fb7588082aa4d",
+    "/opt/cantera-source/build/lib/libcantera_shared.so.3.1.0": "c71e27ad6bd587fd1275c5a149e04f0ea13e252b7ff85e76c30e8bbbd91138bd",
+    "/opt/cantera-source/build/CMakeFiles/plasma_driver.dir/opt/repair-driver/driver.cpp.o": "f6e2bade47fc173621b28d30edeb47063752d0e9108089be1f8d143752eef73f",
+    "/opt/cantera-source/build/bin/plasma-driver": "4c452320ee06eab8863ddc747f1a210965d7eff598cb4243925354ddc4b564c3"
+  }
+}

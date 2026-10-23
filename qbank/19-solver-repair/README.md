@@ -6,6 +6,7 @@
 |---|---|---|
 | 19.1.1 | [双边距离约束系统的加速度与反力求值](19.1-constraints/constrained-assembly-repair/instruction.md) | 修复指定状态求值，并保持位置/速度装配行为 |
 
+| 19.3.3 | [双温等离子体状态方程修复](19.3-transport/two-temperature-state-repair/instruction.md) | 修复电子温度对总压及约束设置路径的影响 |
 | 19.4.1 | [梯度电极的锂库存观测修复](19.4-observations/graded-electrode-inventory-repair/instruction.md) | 修复辅助域相关的跨尺度平均与库存 |
 | 19.4.2 | [扩散元件电压与热功率](19.4-observations/diffusion-element-heat-repair/instruction.md) | 修复扩散过电势及不可逆热观测 |
 

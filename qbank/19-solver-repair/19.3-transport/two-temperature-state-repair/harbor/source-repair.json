@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "base_image": "caeoj-cantera1872-core:offline-sdk",
+  "replacements": [
+    {
+      "submission": "PlasmaPhase.h",
+      "target": "/opt/cantera-source/include/cantera/thermo/PlasmaPhase.h"
+    }
+  ],
+  "build_directory": "/opt/cantera-source/build",
+  "build_target": "repair_sources",
+  "rebuild_files": [
+    "/opt/cantera-source/build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/kinetics/ElectronCollisionPlasmaRate.cpp.o",
+    "/opt/cantera-source/build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/kinetics/ReactionRateFactory.cpp.o",
+    "/opt/cantera-source/build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/thermo/PlasmaPhase.cpp.o",
+    "/opt/cantera-source/build/CMakeFiles/cantera_repair.dir/opt/cantera-source/src/thermo/ThermoFactory.cpp.o",
+    "/opt/cantera-source/build/lib/libcantera_shared.so.3.1.0",
+    "/opt/cantera-source/build/CMakeFiles/plasma_driver.dir/opt/repair-driver/driver.cpp.o",
+    "/opt/cantera-source/build/bin/plasma-driver"
+  ],
+  "build_timeout_seconds": 900,
+  "max_source_bytes": 1048576,
+  "runner": "/app/qbank/19-solver-repair/19.3-transport/two-temperature-state-repair/public/run_case.py"
+}

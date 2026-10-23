@@ -1,0 +1,269 @@
+{
+  "cases": [
+    {
+      "mode": "valid",
+      "returncode": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "caeoj-repair22-hysteresis-probes:preflight",
+        "python",
+        "/opt/backend_probe.py",
+        "valid"
+      ],
+      "passed": true,
+      "sdk_numpy": "2.4.6",
+      "binding": {
+        "uid": 1000,
+        "solver_numpy": "1.26.4",
+        "cache_tag": "cpython-311",
+        "modules": {
+          "base_thermal": {
+            "source": "/opt/pybamm-build/source/src/pybamm/models/submodels/thermal/base_thermal.py",
+            "cache": "/opt/pybamm-build/source/src/pybamm/models/submodels/thermal/__pycache__/base_thermal.cpython-311.pyc",
+            "source_sha256": "316ba29de5564d39d286b28e4810818a59bd955737f7759fce5ff1c9b51cc53f",
+            "pyc_sha256": "60914ae2450052550786960747f4b053848e46843bd9e4c842ce8cd1b188df44"
+          }
+        },
+        "permissions": {
+          "/tests": {
+            "read": false,
+            "write": false
+          },
+          "/tests/cases": {
+            "read": false,
+            "write": false
+          },
+          "/tests/reference": {
+            "read": false,
+            "write": false
+          },
+          "/logs/verifier": {
+            "read": false,
+            "write": false
+          },
+          "/probe": {
+            "read": false,
+            "write": false
+          },
+          "/app/submission": {
+            "read": true,
+            "write": false
+          },
+          "/opt/repair-driver/driver.py": {
+            "read": true,
+            "write": false
+          },
+          "/opt/pybamm-build/source/src/pybamm/models/submodels/thermal/base_thermal.py": {
+            "read": true,
+            "write": false
+          },
+          "/opt/pybamm-build/source/src/pybamm/models/submodels/thermal/__pycache__/base_thermal.cpython-311.pyc": {
+            "read": true,
+            "write": false
+          },
+          "/opt/repair-driver": {
+            "read": true,
+            "write": false
+          },
+          "/opt/repair-cmake": {
+            "read": true,
+            "write": false
+          },
+          "/opt/repair-cmake/CMakeLists.txt": {
+            "read": true,
+            "write": false
+          },
+          "/opt/solver-venv": {
+            "read": true,
+            "write": false
+          },
+          "/opt/solver-venv/pyvenv.cfg": {
+            "read": true,
+            "write": false
+          },
+          "/opt/solver-venv/bin/python": {
+            "read": true,
+            "write": false
+          },
+          "/opt/solver-venv/lib/python3.11/site-packages/numpy/__init__.py": {
+            "read": true,
+            "write": false
+          },
+          "/app/qbank/19-solver-repair/19.4-observations/hysteresis-heat-repair/public/run_case.py": {
+            "read": true,
+            "write": false
+          },
+          "/opt/solver-venv/lib/python3.11/site-packages/_editable_impl_pybamm.pth": {
+            "read": true,
+            "write": false
+          },
+          "/opt/solver-venv/lib/python3.11/site-packages/distutils-precedence.pth": {
+            "read": true,
+            "write": false
+          }
+        },
+        "network": "denied"
+      },
+      "build": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "cmake",
+          "--build",
+          "/opt/pybamm-build",
+          "--target",
+          "repair_sources",
+          "--parallel",
+          "4"
+        ],
+        "exit_code": 0,
+        "status": "built",
+        "elapsed_seconds": 0.11477742799979751,
+        "sources_sha256": {
+          "base_thermal.py": "316ba29de5564d39d286b28e4810818a59bd955737f7759fce5ff1c9b51cc53f"
+        },
+        "removed_build_artifacts": [
+          "/opt/pybamm-build/source/src/pybamm/models/submodels/thermal/__pycache__/base_thermal.cpython-311.pyc"
+        ],
+        "built_artifacts_sha256": {
+          "/opt/pybamm-build/source/src/pybamm/models/submodels/thermal/__pycache__/base_thermal.cpython-311.pyc": "60914ae2450052550786960747f4b053848e46843bd9e4c842ce8cd1b188df44"
+        }
+      },
+      "baseline_probe": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "/usr/local/bin/python",
+          "-c",
+          "import json,subprocess,math,gmsh,numpy; assert hasattr(gmsh.lib,'gmshInitialize'); assert numpy.__version__.startswith('2.'); v=json.loads(subprocess.check_output(['/opt/solver-venv/bin/python','/opt/repair-driver/driver.py'],input=json.dumps({'phases_n': 1, 'phases_p': 1, 'mask_n': 1, 'mask_p': 1, 'pairs': 1, 'states': [{'temperature': 300.0, 'length_n': 0.0001, 'length_p': 0.0001, 'length_s': 2e-05, 'length_cn': 1e-05, 'length_cp': 1e-05, 'area': 0.1, 'volume': 0.0001, 'current_n': [0.0], 'eta_n': [0.0], 'entropy_n': [0.0], 'ocp_n': [0.2], 'equilibrium_n': [0.2], 'current_p': [0.0], 'eta_p': [0.0], 'entropy_p': [0.0], 'ocp_p': [0.2], 'equilibrium_p': [0.2]}]}),text=True)); assert len(v)==5; assert all(math.isfinite(z) and abs(z)<1e-12 for a in v.values() for row in a for z in row); print('root SDK NumPy2 and isolated actual solver passed')"
+        ],
+        "exit_code": 0,
+        "status": "ready",
+        "elapsed_seconds": 2.8858923670004515
+      },
+      "cpu_max": "400000 100000",
+      "memory_max": "8589934592"
+    },
+    {
+      "mode": "syntax",
+      "returncode": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "caeoj-repair22-hysteresis-probes:preflight",
+        "python",
+        "/opt/backend_probe.py",
+        "syntax"
+      ],
+      "passed": true,
+      "classification": "build_error"
+    },
+    {
+      "mode": "extra",
+      "returncode": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "caeoj-repair22-hysteresis-probes:preflight",
+        "python",
+        "/opt/backend_probe.py",
+        "extra"
+      ],
+      "passed": true,
+      "classification": "invalid_submission"
+    },
+    {
+      "mode": "symlink",
+      "returncode": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "caeoj-repair22-hysteresis-probes:preflight",
+        "python",
+        "/opt/backend_probe.py",
+        "symlink"
+      ],
+      "passed": true,
+      "classification": "invalid_submission"
+    },
+    {
+      "mode": "baseline-runtime",
+      "returncode": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "caeoj-repair22-hysteresis-probes:preflight",
+        "python",
+        "/opt/backend_probe.py",
+        "baseline-runtime"
+      ],
+      "passed": true,
+      "classification": "infrastructure_error"
+    },
+    {
+      "mode": "runtime-timeout",
+      "returncode": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "caeoj-repair22-hysteresis-probes:preflight",
+        "python",
+        "/opt/backend_probe.py",
+        "runtime-timeout"
+      ],
+      "passed": true,
+      "actual_candidate_import_timeout": true
+    }
+  ],
+  "started_unix": 1792727869.2946217,
+  "completed_unix": 1792728201.1351993
+}

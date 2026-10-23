@@ -1,0 +1,752 @@
+{
+  "mode": "defect",
+  "image_id": "sha256:279259b9b58ac04e9b521ddab91adad1ae2a32d67cc825f10d310f21d592742d",
+  "cases": [
+    {
+      "case": "01-both-hysteretic-public",
+      "elapsed_seconds": 3.875,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\hysteresis-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:279259b9b58ac04e9b521ddab91adad1ae2a32d67cc825f10d310f21d592742d",
+        "/opt/solver-venv/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "heat_negative": {
+          "max_absolute_error": 8005.428408170641,
+          "max_tolerance_fraction": 53533929.35729608,
+          "passed": false
+        },
+        "heat_positive": {
+          "max_absolute_error": 9843.426891869429,
+          "max_tolerance_fraction": 85075404.8914748,
+          "passed": false
+        },
+        "area_heat": {
+          "max_absolute_error": 2.2729721217450374,
+          "max_tolerance_fraction": 33881180.35185504,
+          "passed": false
+        },
+        "cell_heat": {
+          "max_absolute_error": 0.4007801893919295,
+          "max_tolerance_fraction": 36218082.322479405,
+          "passed": false
+        },
+        "volume_heat": {
+          "max_absolute_error": 4125.928885193498,
+          "max_tolerance_fraction": 49968878.22762882,
+          "passed": false
+        }
+      },
+      "input_sha256": "23b6e10dce3f7a7bfc3cce1b986697860c02862a51d635acb226c0e846548b24",
+      "output_sha256": "676fc052ef33e64ea1e9397c6517ff7b4e6c3498b951f59fdf1e8b3555ee144b"
+    },
+    {
+      "case": "02-no-hysteresis-public",
+      "elapsed_seconds": 2.422000000020489,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\hysteresis-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:279259b9b58ac04e9b521ddab91adad1ae2a32d67cc825f10d310f21d592742d",
+        "/opt/solver-venv/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "heat_negative": {
+          "max_absolute_error": 2.2737367544323206e-13,
+          "max_tolerance_fraction": 4.0967582486943756e-08,
+          "passed": true
+        },
+        "heat_positive": {
+          "max_absolute_error": 4.547473508864641e-13,
+          "max_tolerance_fraction": 1.7698761326941978e-08,
+          "passed": true
+        },
+        "area_heat": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 1.1191910728831317e-08,
+          "passed": true
+        },
+        "cell_heat": {
+          "max_absolute_error": 1.3877787807814457e-17,
+          "max_tolerance_fraction": 9.40648408540099e-09,
+          "passed": true
+        },
+        "volume_heat": {
+          "max_absolute_error": 3.410605131648481e-13,
+          "max_tolerance_fraction": 3.318501236928938e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "bc0dcf42d04f45fc21784b40179cc499bcf024938f79d65ee34efcc4631ae613",
+      "output_sha256": "0ac2544d2440698fd4273d95fd3f59761d7f28fcfe32d2a84254cf1c00c5d72c"
+    },
+    {
+      "case": "03-negative-only",
+      "elapsed_seconds": 4.703000000095926,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\hysteresis-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:279259b9b58ac04e9b521ddab91adad1ae2a32d67cc825f10d310f21d592742d",
+        "/opt/solver-venv/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "heat_negative": {
+          "max_absolute_error": 6055.478062956139,
+          "max_tolerance_fraction": 45632404.6064055,
+          "passed": false
+        },
+        "heat_positive": {
+          "max_absolute_error": 4.547473508864641e-13,
+          "max_tolerance_fraction": 1.9980265244173287e-08,
+          "passed": true
+        },
+        "area_heat": {
+          "max_absolute_error": 0.7834248764015643,
+          "max_tolerance_fraction": 22866706.29912742,
+          "passed": false
+        },
+        "cell_heat": {
+          "max_absolute_error": 0.10160946016313874,
+          "max_tolerance_fraction": 29305677.9497557,
+          "passed": false
+        },
+        "volume_heat": {
+          "max_absolute_error": 2828.187444277326,
+          "max_tolerance_fraction": 42224872.34991095,
+          "passed": false
+        }
+      },
+      "input_sha256": "08af2175f88c3d0679c73e6c37ca8478d10d9816c628fd3993c3e164165e4475",
+      "output_sha256": "ec8a575a29e342115ef345e65c881945024384c2905d335d57a9315dd67beb36"
+    },
+    {
+      "case": "04-positive-only",
+      "elapsed_seconds": 5.702999999979511,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\hysteresis-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:279259b9b58ac04e9b521ddab91adad1ae2a32d67cc825f10d310f21d592742d",
+        "/opt/solver-venv/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "heat_negative": {
+          "max_absolute_error": 1.8189894035458565e-12,
+          "max_tolerance_fraction": 1.3214079248072019e-08,
+          "passed": true
+        },
+        "heat_positive": {
+          "max_absolute_error": 6632.835766434133,
+          "max_tolerance_fraction": 52395022.009331375,
+          "passed": false
+        },
+        "area_heat": {
+          "max_absolute_error": 0.7130480230970602,
+          "max_tolerance_fraction": 23177205.890370946,
+          "passed": false
+        },
+        "cell_heat": {
+          "max_absolute_error": 0.3272174533016484,
+          "max_tolerance_fraction": 30874868.358997524,
+          "passed": false
+        },
+        "volume_heat": {
+          "max_absolute_error": 26120.565315661785,
+          "max_tolerance_fraction": 34047172.74680631,
+          "passed": false
+        }
+      },
+      "input_sha256": "c9e0107ef491f698597ee994a84b9739c913950d9dd2be665e3720105a1689c2",
+      "output_sha256": "b72b091f852c383364195f6f6d83366709af33d027e6ad2e48f1b8cc5015ddcd"
+    },
+    {
+      "case": "05-two-negative-phases",
+      "elapsed_seconds": 6.85999999998603,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\hysteresis-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:279259b9b58ac04e9b521ddab91adad1ae2a32d67cc825f10d310f21d592742d",
+        "/opt/solver-venv/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "heat_negative": {
+          "max_absolute_error": 10690.80860773705,
+          "max_tolerance_fraction": 67912797.16621609,
+          "passed": false
+        },
+        "heat_positive": {
+          "max_absolute_error": 5171.021463587623,
+          "max_tolerance_fraction": 68211132.57271014,
+          "passed": false
+        },
+        "area_heat": {
+          "max_absolute_error": 2.563133945049847,
+          "max_tolerance_fraction": 53156458.34439785,
+          "passed": false
+        },
+        "cell_heat": {
+          "max_absolute_error": 0.4904610463039148,
+          "max_tolerance_fraction": 59281071.27390927,
+          "passed": false
+        },
+        "volume_heat": {
+          "max_absolute_error": 12350.513326189097,
+          "max_tolerance_fraction": 67065206.74360559,
+          "passed": false
+        }
+      },
+      "input_sha256": "68eb9b7a99deaf238d1d501c9565d53823bd5a1196559ecb1da80dbf53c61ac2",
+      "output_sha256": "a213d0eccf0142733050e42e8d4ad333b1e927dc57c5aced668de821131ea8f7"
+    },
+    {
+      "case": "06-two-positive-phases",
+      "elapsed_seconds": 5.234000000054948,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\hysteresis-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:279259b9b58ac04e9b521ddab91adad1ae2a32d67cc825f10d310f21d592742d",
+        "/opt/solver-venv/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "heat_negative": {
+          "max_absolute_error": 8547.076050911575,
+          "max_tolerance_fraction": 68921814.04520747,
+          "passed": false
+        },
+        "heat_positive": {
+          "max_absolute_error": 16500.22375387368,
+          "max_tolerance_fraction": 74657377.24077117,
+          "passed": false
+        },
+        "area_heat": {
+          "max_absolute_error": 3.5585257240685384,
+          "max_tolerance_fraction": 52138956.49901796,
+          "passed": false
+        },
+        "cell_heat": {
+          "max_absolute_error": 0.7736384702036594,
+          "max_tolerance_fraction": 56618864.54675785,
+          "passed": false
+        },
+        "volume_heat": {
+          "max_absolute_error": 13725.998379496188,
+          "max_tolerance_fraction": 60718474.52798507,
+          "passed": false
+        }
+      },
+      "input_sha256": "59cfcf00429b293a76a7a8239e542b35ba398787f1e7be17e379b3941f50b2a9",
+      "output_sha256": "dd08e49ba80b7b789520aa7b6c1cde31bd49b61a9957293b88a1321a7fafb042"
+    },
+    {
+      "case": "07-mixed-phase-switches",
+      "elapsed_seconds": 7.26500000001397,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\hysteresis-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:279259b9b58ac04e9b521ddab91adad1ae2a32d67cc825f10d310f21d592742d",
+        "/opt/solver-venv/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "heat_negative": {
+          "max_absolute_error": 2705.9412101588223,
+          "max_tolerance_fraction": 28892784.914126784,
+          "passed": false
+        },
+        "heat_positive": {
+          "max_absolute_error": 5576.620344979538,
+          "max_tolerance_fraction": 81153800.98890059,
+          "passed": false
+        },
+        "area_heat": {
+          "max_absolute_error": 0.6627232210610954,
+          "max_tolerance_fraction": 16353526.996018985,
+          "passed": false
+        },
+        "cell_heat": {
+          "max_absolute_error": 0.2723823458938933,
+          "max_tolerance_fraction": 20805709.994123362,
+          "passed": false
+        },
+        "volume_heat": {
+          "max_absolute_error": 4423.027024620562,
+          "max_tolerance_fraction": 24880175.557846293,
+          "passed": false
+        }
+      },
+      "input_sha256": "ecbc2aabb9d0a56e28f11a93517d28d63a120051112ad91c2c0a06fb534d5c52",
+      "output_sha256": "f09557628164bf12d16179f07b7e79ddec5092831bb28ddc59cb1e7fbd97b8bb"
+    },
+    {
+      "case": "08-all-phases",
+      "elapsed_seconds": 5.937999999965541,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\hysteresis-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:279259b9b58ac04e9b521ddab91adad1ae2a32d67cc825f10d310f21d592742d",
+        "/opt/solver-venv/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "heat_negative": {
+          "max_absolute_error": 9604.484295330456,
+          "max_tolerance_fraction": 53379733.11593096,
+          "passed": false
+        },
+        "heat_positive": {
+          "max_absolute_error": 8656.82846766405,
+          "max_tolerance_fraction": 62720576.61883463,
+          "passed": false
+        },
+        "area_heat": {
+          "max_absolute_error": 1.7437505125772814,
+          "max_tolerance_fraction": 38017060.919729784,
+          "passed": false
+        },
+        "cell_heat": {
+          "max_absolute_error": 0.42846358157411535,
+          "max_tolerance_fraction": 43662144.85958031,
+          "passed": false
+        },
+        "volume_heat": {
+          "max_absolute_error": 24564.44565410913,
+          "max_tolerance_fraction": 48257700.013658665,
+          "passed": false
+        }
+      },
+      "input_sha256": "5d182869bf14a18afd535bcaf702d50ad91f77b54ecc92e7f35074ad99061766",
+      "output_sha256": "da9e97c61ed32306a96c32883580a4e7e6a27769001ef367c69f2b2f5b5416c4"
+    },
+    {
+      "case": "09-zero-current",
+      "elapsed_seconds": 7.547000000020489,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\hysteresis-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:279259b9b58ac04e9b521ddab91adad1ae2a32d67cc825f10d310f21d592742d",
+        "/opt/solver-venv/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "heat_negative": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "heat_positive": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "area_heat": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "cell_heat": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "volume_heat": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        }
+      },
+      "input_sha256": "abf170f7b242c4cfe91377418b3c012fd20281380641dbd810f27228b6a6d31d",
+      "output_sha256": "171b63ae8e76da9853dfe8a5daf2fcf9346247d4cbfe4b019f2f86d7098c0da2"
+    },
+    {
+      "case": "10-zero-gap",
+      "elapsed_seconds": 5.75,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\hysteresis-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:279259b9b58ac04e9b521ddab91adad1ae2a32d67cc825f10d310f21d592742d",
+        "/opt/solver-venv/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "heat_negative": {
+          "max_absolute_error": 1.8189894035458565e-12,
+          "max_tolerance_fraction": 2.083574060795213e-08,
+          "passed": true
+        },
+        "heat_positive": {
+          "max_absolute_error": 4.547473508864641e-13,
+          "max_tolerance_fraction": 1.319522544836436e-08,
+          "passed": true
+        },
+        "area_heat": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 9.477133339691002e-09,
+          "passed": true
+        },
+        "cell_heat": {
+          "max_absolute_error": 1.3877787807814457e-17,
+          "max_tolerance_fraction": 8.382592915915126e-09,
+          "passed": true
+        },
+        "volume_heat": {
+          "max_absolute_error": 2.2737367544323206e-13,
+          "max_tolerance_fraction": 2.4023579651155647e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "0dd5f4c7603236225a4fa5c05aea2716ff5836192a1f335c50536307ee1ac34d",
+      "output_sha256": "ab72db108cd3cc25bd835dd353321c45a45229881f9a1e350d661da6a48d624d"
+    },
+    {
+      "case": "11-isolated-hysteresis",
+      "elapsed_seconds": 7.10999999998603,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\hysteresis-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:279259b9b58ac04e9b521ddab91adad1ae2a32d67cc825f10d310f21d592742d",
+        "/opt/solver-venv/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "heat_negative": {
+          "max_absolute_error": 8762.959068087834,
+          "max_tolerance_fraction": 98871708.65585895,
+          "passed": false
+        },
+        "heat_positive": {
+          "max_absolute_error": 14067.35275963547,
+          "max_tolerance_fraction": 99294151.8313505,
+          "passed": false
+        },
+        "area_heat": {
+          "max_absolute_error": 2.8072575181736665,
+          "max_tolerance_fraction": 73734374.54055648,
+          "passed": false
+        },
+        "cell_heat": {
+          "max_absolute_error": 0.4624080966800171,
+          "max_tolerance_fraction": 82219317.14882562,
+          "passed": false
+        },
+        "volume_heat": {
+          "max_absolute_error": 9852.942751954335,
+          "max_tolerance_fraction": 98995272.02665398,
+          "passed": false
+        }
+      },
+      "input_sha256": "988aff81344e97c975cc21db56390249e886fbb06635b5a6685ab0aecf01732b",
+      "output_sha256": "171b63ae8e76da9853dfe8a5daf2fcf9346247d4cbfe4b019f2f86d7098c0da2"
+    },
+    {
+      "case": "12-negative-instant",
+      "elapsed_seconds": 7.312999999965541,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\hysteresis-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:279259b9b58ac04e9b521ddab91adad1ae2a32d67cc825f10d310f21d592742d",
+        "/opt/solver-venv/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "heat_negative": {
+          "max_absolute_error": 10766.262471507755,
+          "max_tolerance_fraction": 1110037650.8849697,
+          "passed": false
+        },
+        "heat_positive": {
+          "max_absolute_error": 10421.38569552821,
+          "max_tolerance_fraction": 138600405.50866157,
+          "passed": false
+        },
+        "area_heat": {
+          "max_absolute_error": 1.8186725407477304,
+          "max_tolerance_fraction": 95742534.20688975,
+          "passed": false
+        },
+        "cell_heat": {
+          "max_absolute_error": 0.5360603975774861,
+          "max_tolerance_fraction": 178548256.77845412,
+          "passed": false
+        },
+        "volume_heat": {
+          "max_absolute_error": 6338.718752706735,
+          "max_tolerance_fraction": 417886456.8086698,
+          "passed": false
+        }
+      },
+      "input_sha256": "820b4e23a2bcdea76d9dc0bc8a07816b5f7a0509a4a46b55b2c1f660b6c9ff9f",
+      "output_sha256": "9fdc0f60b43ba4f80ef7a5d9121938867cf268abc9bc52a5f48d7f3fee00b9ae"
+    },
+    {
+      "case": "13-loop-states",
+      "elapsed_seconds": 6.891000000061467,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\hysteresis-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:279259b9b58ac04e9b521ddab91adad1ae2a32d67cc825f10d310f21d592742d",
+        "/opt/solver-venv/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "heat_negative": {
+          "max_absolute_error": 1600.0,
+          "max_tolerance_fraction": 94117647.05882353,
+          "passed": false
+        },
+        "heat_positive": {
+          "max_absolute_error": 1870.562379614793,
+          "max_tolerance_fraction": 94925306.55032863,
+          "passed": false
+        },
+        "area_heat": {
+          "max_absolute_error": 0.5697156783886901,
+          "max_tolerance_fraction": 36294195.58155283,
+          "passed": false
+        },
+        "cell_heat": {
+          "max_absolute_error": 0.14376561867770524,
+          "max_tolerance_fraction": 58976987.59060233,
+          "passed": false
+        },
+        "volume_heat": {
+          "max_absolute_error": 2005.0396234332052,
+          "max_tolerance_fraction": 95249495.5968142,
+          "passed": false
+        }
+      },
+      "input_sha256": "99f9bd3d58706f8ddc552ceaedf4fba6aa51ae9c679e669d5d258f29c6c8a02f",
+      "output_sha256": "171b63ae8e76da9853dfe8a5daf2fcf9346247d4cbfe4b019f2f86d7098c0da2"
+    },
+    {
+      "case": "14-geometry-scales",
+      "elapsed_seconds": 5.26500000001397,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\hysteresis-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:279259b9b58ac04e9b521ddab91adad1ae2a32d67cc825f10d310f21d592742d",
+        "/opt/solver-venv/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "heat_negative": {
+          "max_absolute_error": 12793.285807042628,
+          "max_tolerance_fraction": 61982102.05269562,
+          "passed": false
+        },
+        "heat_positive": {
+          "max_absolute_error": 9979.006253704683,
+          "max_tolerance_fraction": 71415591.83890545,
+          "passed": false
+        },
+        "area_heat": {
+          "max_absolute_error": 217.91922409417165,
+          "max_tolerance_fraction": 56018058.822206646,
+          "passed": false
+        },
+        "cell_heat": {
+          "max_absolute_error": 69734.15171013493,
+          "max_tolerance_fraction": 56162384.068809755,
+          "passed": false
+        },
+        "volume_heat": {
+          "max_absolute_error": 535859.5899586752,
+          "max_tolerance_fraction": 59159562.40961542,
+          "passed": false
+        }
+      },
+      "input_sha256": "7f3c49195f5580ea30db5a3e7cd0c835ca0486e65eef9881d8d4681cea07aecc",
+      "output_sha256": "367fd57a0f7d864c2dc74858d94d9aeaf967a3ecb199665cfc1db16c25b738ef"
+    }
+  ],
+  "reference_producer": "actual pinned PyBaMM submodels, not author independent algebra",
+  "driver_sha256": "673f8c75a6527a77024d58f0c214c661c5894553de894ca0c870e81f8e5fae86",
+  "source_overlays_sha256": {},
+  "input_sha256_definition": "SHA256 of UTF-8 JSON payload serialized by public/run_case.py and passed unchanged to the actual solver driver; not the raw input.h5 file digest"
+}

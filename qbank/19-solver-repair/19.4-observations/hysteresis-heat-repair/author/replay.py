@@ -37,6 +37,7 @@ if __name__=='__main__':
     report_path=args.dataset/(args.mode+'-report.json')
     prior=json.loads(report_path.read_text('utf-8')) if args.case and report_path.exists() else None
     report={'mode':args.mode,'image_id':image,'cases':[],
+            'input_sha256_definition':'SHA256 of UTF-8 JSON payload serialized by public/run_case.py and passed unchanged to the actual solver driver; not the raw input.h5 file digest',
             'reference_producer':'actual pinned PyBaMM submodels, not author independent algebra',
             'driver_sha256':hashlib.sha256((TASK/'public/driver.py').read_bytes()).hexdigest(),
             'source_overlays_sha256':{}}

@@ -1,0 +1,15 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "/usr/local/bin/python",
+    "-c",
+    "import json,subprocess,math,gmsh,numpy; assert hasattr(gmsh.lib,'gmshInitialize'); assert numpy.__version__.startswith('2.'); v=json.loads(subprocess.check_output(['/opt/solver-venv/bin/python','/opt/repair-driver/driver.py'],input=json.dumps({'phases_n': 1, 'phases_p': 1, 'mask_n': 1, 'mask_p': 1, 'pairs': 1, 'states': [{'temperature': 300.0, 'length_n': 0.0001, 'length_p': 0.0001, 'length_s': 2e-05, 'length_cn': 1e-05, 'length_cp': 1e-05, 'area': 0.1, 'volume': 0.0001, 'current_n': [0.0], 'eta_n': [0.0], 'entropy_n': [0.0], 'ocp_n': [0.2], 'equilibrium_n': [0.2], 'current_p': [0.0], 'eta_p': [0.0], 'entropy_p': [0.0], 'ocp_p': [0.2], 'equilibrium_p': [0.2]}]}),text=True)); assert len(v)==5; assert all(math.isfinite(z) and abs(z)<1e-12 for a in v.values() for row in a for z in row); print('root SDK NumPy2 and isolated actual solver passed')"
+  ],
+  "exit_code": 0,
+  "status": "ready",
+  "elapsed_seconds": 1.7596086490002563
+}

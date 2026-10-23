@@ -1,0 +1,28 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "cmake",
+    "--build",
+    "/opt/pybamm-build",
+    "--target",
+    "repair_sources",
+    "--parallel",
+    "4"
+  ],
+  "exit_code": 0,
+  "status": "built",
+  "elapsed_seconds": 0.0690922670000873,
+  "sources_sha256": {
+    "base_thermal.py": "316ba29de5564d39d286b28e4810818a59bd955737f7759fce5ff1c9b51cc53f"
+  },
+  "removed_build_artifacts": [
+    "/opt/pybamm-build/source/src/pybamm/models/submodels/thermal/__pycache__/base_thermal.cpython-311.pyc"
+  ],
+  "built_artifacts_sha256": {
+    "/opt/pybamm-build/source/src/pybamm/models/submodels/thermal/__pycache__/base_thermal.cpython-311.pyc": "23901c071baa9b28ffbbf976ea23857abcf41c3126c1466445af4fcc5df524ce"
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "stage": "original three-point issue replay only; formal problem family not complete",
+  "images": {
+    "baseline": "sha256:89822efecdaee66aab5c61ee9b6ad96aac9841b53a9ad41b326825aaef640261",
+    "reference": "sha256:57ce9b52d5e1a60103ecae2f736e9ea26f12d9f44559e09e17f70bae90224f83"
+  },
+  "pristine_source_trees": {
+    "dolfinx-2d6d22a8c2cc9d3488f8910238e9740c6247f83b": {
+      "files": 456,
+      "tree_manifest_sha256": "b53b4c1c6c8be90f7a13d3ad4c8548a1df4355d196fd3a313227516bcd91ca85"
+    },
+    "basix-0005e60fe56c8ff6e7436dc6c7ddba677e408b43": {
+      "files": 183,
+      "tree_manifest_sha256": "ea4e538687c4bc702c551625d2fe0488ddae881946cadac3a5bcef08c8babde1"
+    },
+    "ffcx-76744fe1e6de4aad30f8d3db3dd5f57562472924": {
+      "files": 128,
+      "tree_manifest_sha256": "2c4bac446e73911986e9caaafabf90762602e77dc2f86c09f7e1375bfd22cdd8"
+    }
+  },
+  "actual_rebuild": {
+    "original_header_sha256": "6035e24b27014a25a66cf5325807bb80eace12a26de0ee2b72eb3e056223f132",
+    "fixed_header_sha256": "44cee2d91b2400ce193c6a93879884cdf6aaec06c343b3c36718590b6fb7b4eb",
+    "actual_dependency_closure": [
+      "/opt/dolfinx-build/dolfinx/CMakeFiles/dolfinx.dir/fem/DirichletBC.cpp.o",
+      "/opt/dolfinx-build/dolfinx/CMakeFiles/dolfinx.dir/fem/DofMap.cpp.o",
+      "/opt/dolfinx-build/dolfinx/CMakeFiles/dolfinx.dir/fem/utils.cpp.o",
+      "/opt/dolfinx-build/dolfinx/CMakeFiles/dolfinx.dir/io/VTKFile.cpp.o",
+      "/opt/dolfinx-build/dolfinx/CMakeFiles/dolfinx.dir/io/XDMFFile.cpp.o",
+      "/opt/dolfinx-build/dolfinx/CMakeFiles/dolfinx.dir/io/xdmf_function.cpp.o"
+    ],
+    "removed_artifacts": [
+      "/opt/dolfinx-build/dolfinx/CMakeFiles/dolfinx.dir/fem/DirichletBC.cpp.o",
+      "/opt/dolfinx-build/dolfinx/CMakeFiles/dolfinx.dir/fem/DofMap.cpp.o",
+      "/opt/dolfinx-build/dolfinx/CMakeFiles/dolfinx.dir/fem/utils.cpp.o",
+      "/opt/dolfinx-build/dolfinx/CMakeFiles/dolfinx.dir/io/VTKFile.cpp.o",
+      "/opt/dolfinx-build/dolfinx/CMakeFiles/dolfinx.dir/io/XDMFFile.cpp.o",
+      "/opt/dolfinx-build/dolfinx/CMakeFiles/dolfinx.dir/io/xdmf_function.cpp.o",
+      "/opt/dolfinx-build/dolfinx/libdolfinx.so.0.12.0.0"
+    ],
+    "elapsed_seconds": 34.87336724300076
+  },
+  "input": {
+    "vertices": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "cells": [
+      [
+        0,
+        1,
+        2,
+        3
+      ]
+    ],
+    "queries": [
+      [
+        0.1,
+        0.1,
+        0.1
+      ],
+      [
+        0.5,
+        0.5,
+        0.5
+      ],
+      [
+        1.1,
+        1.1,
+        1.1
+      ]
+    ],
+    "padding": 0
+  },
+  "independent_geometry": "Positive tetrahedral barycentric coordinates and sum(x)<=1; second point sum=1.5, third has no bounding box candidate",
+  "expected_owners": [
+    [
+      0,
+      -1,
+      -1
+    ],
+    [
+      0,
+      0,
+      -1
+    ]
+  ],
+  "results": {
+    "baseline": {
+      "owners": [
+        [
+          0,
+          0,
+          -1
+        ],
+        [
+          0,
+          0,
+          -1
+        ]
+      ],
+      "raw_stdout_sha256": "d7b99696810d17f356289b8f01dbb4493269dea0c60795a2a10e5eb20f6cbead"
+    },
+    "reference": {
+      "owners": [
+        [
+          0,
+          -1,
+          -1
+        ],
+        [
+          0,
+          0,
+          -1
+        ]
+      ],
+      "raw_stdout_sha256": "51142a77975da62fb216c68bd73f88a2d99bad53b7a2b64e89f749150a959ae7"
+    }
+  },
+  "limitations": [
+    "No formal dataset/Oracle/HF/exam readiness yet",
+    "Configured 4CPU/8GiB native run; no in-container cgroup snapshot saved in this prototype"
+  ]
+}

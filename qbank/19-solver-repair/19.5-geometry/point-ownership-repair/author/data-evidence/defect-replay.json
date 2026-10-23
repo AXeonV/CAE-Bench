@@ -1,0 +1,1288 @@
+{
+  "mode": "defect",
+  "image_id": "sha256:54dcbb09b756e7a7aab5411c307a9394fa90cfadb87b775b8c3e1ff1e85dae4e",
+  "cases": [
+    {
+      "case": "01-tetra-strict-public",
+      "queries": 7,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:54dcbb09b756e7a7aab5411c307a9394fa90cfadb87b775b8c3e1ff1e85dae4e",
+        "/opt/dolfinx-repair-build/bin/ownership_driver"
+      ],
+      "elapsed_seconds": 1.515999999945052,
+      "score": 0,
+      "checks": {
+        "owned": {
+          "max_absolute_error": 1.0,
+          "exact": true,
+          "passed": false
+        },
+        "cell_id": {
+          "max_absolute_error": 32.0,
+          "exact": true,
+          "passed": false
+        },
+        "distance": {
+          "max_absolute_error": 1.2886751345948129,
+          "max_tolerance_fraction": 64433756.72974064,
+          "passed": false
+        }
+      },
+      "independent_geometry": [
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.28867513459481287
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [],
+          "all_cell_distances": [
+            1.3279056191361394
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [],
+          "all_cell_distances": [
+            0.1
+          ]
+        }
+      ],
+      "input_assets": {
+        "problem.json": "fd178515b1f082452690ae783daec49383804adb3e2b5b8e4bc60b8c51c443c7",
+        "input.h5": "fbb22f9b4e2faf2054493a4933c7b8a377a342015c8c3e603d26a0723dcb1a7f",
+        "source.msh": "29a1d2e0e030ea6a4f8d92e7559a531aa0cb53fbf254338ca98ac0d2c2378fcb"
+      },
+      "input_payload_sha256": "f6576f7e62015726474db5483683156c558e685ffbfa826fc1205840b4f59b8e",
+      "output_sha256": "044f914a3bf7676b3218f3508d12210071f6df97ddacea5c7a8e9d0b294f588e"
+    },
+    {
+      "case": "02-triangle-extrapolation-public",
+      "queries": 7,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:54dcbb09b756e7a7aab5411c307a9394fa90cfadb87b775b8c3e1ff1e85dae4e",
+        "/opt/dolfinx-repair-build/bin/ownership_driver"
+      ],
+      "elapsed_seconds": 1.0780000000959262,
+      "score": 1,
+      "checks": {
+        "owned": {
+          "max_absolute_error": 0.0,
+          "exact": true,
+          "passed": true
+        },
+        "cell_id": {
+          "max_absolute_error": 0.0,
+          "exact": true,
+          "passed": true
+        },
+        "distance": {
+          "max_absolute_error": 3.601633495001436e-20,
+          "max_tolerance_fraction": 3.601633495001436e-12,
+          "passed": true
+        }
+      },
+      "independent_geometry": [
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.6260990336999411
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.360555127546399
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.223606797749979
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [],
+          "all_cell_distances": [
+            3.1304951684997055
+          ]
+        }
+      ],
+      "input_assets": {
+        "problem.json": "eec72479d4949673ac93b04e83ebab6bac271ab3001fa35d80b73db867820927",
+        "input.h5": "679191ada91f98ac9040e4d4614ee87082cb7d189aeed99ad710870bd8c09d7e",
+        "source.msh": "5fa6f3ccfd1eed08698c1ab5192258803114f1197151ccac3d14e364a326bb77"
+      },
+      "input_payload_sha256": "692efef56bb70a7ce6530f11a99685f446e4bdb15df14088ba06ace95f119628",
+      "output_sha256": "1dc3f3731613c58831de57546d81774ee28859272731cd1eb7c4071826e22765"
+    },
+    {
+      "case": "03-strict-ignores-padding",
+      "queries": 7,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:54dcbb09b756e7a7aab5411c307a9394fa90cfadb87b775b8c3e1ff1e85dae4e",
+        "/opt/dolfinx-repair-build/bin/ownership_driver"
+      ],
+      "elapsed_seconds": 1.172000000020489,
+      "score": 0,
+      "checks": {
+        "owned": {
+          "max_absolute_error": 1.0,
+          "exact": true,
+          "passed": false
+        },
+        "cell_id": {
+          "max_absolute_error": 32.0,
+          "exact": true,
+          "passed": false
+        },
+        "distance": {
+          "max_absolute_error": 1.626099033699941,
+          "max_tolerance_fraction": 81304951.68499705,
+          "passed": false
+        }
+      },
+      "independent_geometry": [
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.6260990336999411
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.360555127546399
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.223606797749979
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [],
+          "all_cell_distances": [
+            3.1304951684997055
+          ]
+        }
+      ],
+      "input_assets": {
+        "problem.json": "0c72ec49ccf4b322580c8ef9a7d0902ceeaa5ed993ffa340602ba2d4a5e36c79",
+        "input.h5": "679191ada91f98ac9040e4d4614ee87082cb7d189aeed99ad710870bd8c09d7e",
+        "source.msh": "5fa6f3ccfd1eed08698c1ab5192258803114f1197151ccac3d14e364a326bb77"
+      },
+      "input_payload_sha256": "e551e28669639eb3801af644a58f09af0b19a54f848bd0be4e2ab73cbf2fb6e1",
+      "output_sha256": "1dc3f3731613c58831de57546d81774ee28859272731cd1eb7c4071826e22765"
+    },
+    {
+      "case": "04-tetra-padding-bounds",
+      "queries": 4,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:54dcbb09b756e7a7aab5411c307a9394fa90cfadb87b775b8c3e1ff1e85dae4e",
+        "/opt/dolfinx-repair-build/bin/ownership_driver"
+      ],
+      "elapsed_seconds": 1.3900000000139698,
+      "score": 1,
+      "checks": {
+        "owned": {
+          "max_absolute_error": 0.0,
+          "exact": true,
+          "passed": true
+        },
+        "cell_id": {
+          "max_absolute_error": 0.0,
+          "exact": true,
+          "passed": true
+        },
+        "distance": {
+          "max_absolute_error": 9.122824036074549e-21,
+          "max_tolerance_fraction": 9.122824036074548e-13,
+          "passed": true
+        }
+      },
+      "independent_geometry": [
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.2
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [],
+          "all_cell_distances": [
+            0.42426406871192845
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            1.6743157806499147
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        }
+      ],
+      "input_assets": {
+        "problem.json": "44658b0bdb9593b5cb64a8f82f05310df48a2e5ebfed6940c463a11e849cf3a3",
+        "input.h5": "cec7c4dbda5cb468a9bca41e7c9899811dfcbbf3456dbfd0bc721771371418c1",
+        "source.msh": "0f92c88d3ae506a31a81ac8d896d6e5a52ce1ad8d374d9039bd42fd1596a46b7"
+      },
+      "input_payload_sha256": "da55ed94a887c151e5c96d0c2c1b4e48c65a3aabb9ee20a8f9eb1640995612a1",
+      "output_sha256": "06754b2586cf460f279b6ec4dd6524f8a7437f7c07a4a2b94cd23dbf944e6760"
+    },
+    {
+      "case": "05-default-tetra-regression",
+      "queries": 7,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:54dcbb09b756e7a7aab5411c307a9394fa90cfadb87b775b8c3e1ff1e85dae4e",
+        "/opt/dolfinx-repair-build/bin/ownership_driver"
+      ],
+      "elapsed_seconds": 1.8439999999245629,
+      "score": 1,
+      "checks": {
+        "owned": {
+          "max_absolute_error": 0.0,
+          "exact": true,
+          "passed": true
+        },
+        "cell_id": {
+          "max_absolute_error": 0.0,
+          "exact": true,
+          "passed": true
+        },
+        "distance": {
+          "max_absolute_error": 2.7755575615628914e-17,
+          "max_tolerance_fraction": 2.60856152234581e-09,
+          "passed": true
+        }
+      },
+      "independent_geometry": [
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.06401843996644802
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [],
+          "all_cell_distances": [
+            1.0627061034430367
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [],
+          "all_cell_distances": [
+            0.1
+          ]
+        }
+      ],
+      "input_assets": {
+        "problem.json": "567d8eac3926d0be988c59890dd201e32b9145c1dd2a682008afec0f00482ff9",
+        "input.h5": "fbb22f9b4e2faf2054493a4933c7b8a377a342015c8c3e603d26a0723dcb1a7f",
+        "source.msh": "e5df4cb8c4b683e964a000359029eaada4b83d0fcf315f610c98e2adb2de302b"
+      },
+      "input_payload_sha256": "f6a5a3980b6cd045b466a890c527e92a6ff33ecfef391f1023669e2f831a605f",
+      "output_sha256": "b28d93dd5c9136c7655ce22f3ffba085c403a5c8ca17bf9da14317bc7f04aacd"
+    },
+    {
+      "case": "06-disconnected-triangles-strict",
+      "queries": 5,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:54dcbb09b756e7a7aab5411c307a9394fa90cfadb87b775b8c3e1ff1e85dae4e",
+        "/opt/dolfinx-repair-build/bin/ownership_driver"
+      ],
+      "elapsed_seconds": 1.6560000000754371,
+      "score": 0,
+      "checks": {
+        "owned": {
+          "max_absolute_error": 1.0,
+          "exact": true,
+          "passed": false
+        },
+        "cell_id": {
+          "max_absolute_error": 61.0,
+          "exact": true,
+          "passed": false
+        },
+        "distance": {
+          "max_absolute_error": 1.565685424949238,
+          "max_tolerance_fraction": 78284271.2474619,
+          "passed": false
+        }
+      },
+      "independent_geometry": [
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            60
+          ],
+          "all_cell_distances": [
+            1.4422205101855958,
+            0.42426406871192857
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.5656854249492381,
+            1.4212670403551897
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            4.449557262054371e-16,
+            1.8110770276274832
+          ]
+        },
+        {
+          "containing_cells": [
+            60
+          ],
+          "bbox_candidates": [
+            60
+          ],
+          "all_cell_distances": [
+            2.23606797749979,
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [],
+          "all_cell_distances": [
+            0.7071067811865475,
+            0.7071067811865476
+          ]
+        }
+      ],
+      "input_assets": {
+        "problem.json": "53300a4b7352eebdf66a9427d12d9649797275483ae51ffa154ef78aece84b58",
+        "input.h5": "4061638a7f6ad4cfac0afe059fdf3c91b999f177f8fb0d8cd857c0419e10fc34",
+        "source.msh": "79d1d0c551895339c88ce973474b841fd06be48a96cdaabe3443078f15cbe242"
+      },
+      "input_payload_sha256": "15865ef5876661837642d6d75a6890b462b6753f120c4602f8545ee223d37214",
+      "output_sha256": "5e9dba19ba6cb1014559922ea63ba4b7471b45ff020b8789c69fa669812f9fb9"
+    },
+    {
+      "case": "07-two-candidate-triangles",
+      "queries": 5,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:54dcbb09b756e7a7aab5411c307a9394fa90cfadb87b775b8c3e1ff1e85dae4e",
+        "/opt/dolfinx-repair-build/bin/ownership_driver"
+      ],
+      "elapsed_seconds": 1.5,
+      "score": 1,
+      "checks": {
+        "owned": {
+          "max_absolute_error": 0.0,
+          "exact": true,
+          "passed": true
+        },
+        "cell_id": {
+          "max_absolute_error": 0.0,
+          "exact": true,
+          "passed": true
+        },
+        "distance": {
+          "max_absolute_error": 3.3881317890172014e-21,
+          "max_tolerance_fraction": 3.3881317890172014e-13,
+          "passed": true
+        }
+      },
+      "independent_geometry": [
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31,
+            60
+          ],
+          "all_cell_distances": [
+            0.5656854249492381,
+            0.5
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31,
+            60
+          ],
+          "all_cell_distances": [
+            0.35355339059327373,
+            0.6000000000000001
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [],
+          "all_cell_distances": [
+            3.0364452901377956,
+            1.3038404810405297
+          ]
+        },
+        {
+          "containing_cells": [
+            60
+          ],
+          "bbox_candidates": [
+            31,
+            60
+          ],
+          "all_cell_distances": [
+            1.077032961426901,
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0,
+            1.8110770276274835
+          ]
+        }
+      ],
+      "input_assets": {
+        "problem.json": "4d04ebe8f504f476faf2afaee81ac8edcbdd91dfe5c3df02d0ebc29bafe48b6e",
+        "input.h5": "e5985174d5767d31356dbd7220771190d32618adeb1b2518ba455bd343e1974d",
+        "source.msh": "274894f060dd167d38fa910d50900d343742740657218b818669e6b6798eed48"
+      },
+      "input_payload_sha256": "0d87fee0260b207d57d29501daf8dc9aaecd0d12e3085f546845c0889c6c36c5",
+      "output_sha256": "52f8422788b284e5007768040cac3402a134e54d74f2dcfa5eef9222d9a3de4c"
+    },
+    {
+      "case": "08-disconnected-tetra-strict",
+      "queries": 5,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:54dcbb09b756e7a7aab5411c307a9394fa90cfadb87b775b8c3e1ff1e85dae4e",
+        "/opt/dolfinx-repair-build/bin/ownership_driver"
+      ],
+      "elapsed_seconds": 3.0780000000959262,
+      "score": 0,
+      "checks": {
+        "owned": {
+          "max_absolute_error": 1.0,
+          "exact": true,
+          "passed": false
+        },
+        "cell_id": {
+          "max_absolute_error": 61.0,
+          "exact": true,
+          "passed": false
+        },
+        "distance": {
+          "max_absolute_error": 1.8082903768654761,
+          "max_tolerance_fraction": 90414518.8432738,
+          "passed": false
+        }
+      },
+      "independent_geometry": [
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.8082903768654761,
+            1.2165525060596438
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            60
+          ],
+          "all_cell_distances": [
+            2.7349588662354685,
+            0.8082903768654759
+          ]
+        },
+        {
+          "containing_cells": [
+            60
+          ],
+          "bbox_candidates": [
+            60
+          ],
+          "all_cell_distances": [
+            1.5842979517754858,
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [],
+          "all_cell_distances": [
+            0.754983443527075,
+            0.7810249675906654
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0,
+            2.244994432064365
+          ]
+        }
+      ],
+      "input_assets": {
+        "problem.json": "ed0fa304509d92db42202ba581bc370dd282a8659a32c9ced49e790ce8333f30",
+        "input.h5": "660d6c8cf3eee9416ba5378ce466ecce107f8b765b58b412baec90cba5f62411",
+        "source.msh": "8af0d336d0d7c27f6be283a06cb8df653e209c56d663b1cca224145968391e88"
+      },
+      "input_payload_sha256": "3ee740869e2773284fe0c087ec354e7dde4d4c34cdb503ef3398f6faa1ccf9dc",
+      "output_sha256": "50defc4fcfe1c8c78aa34dc9bb878a74aa7a2a1dac0a128cd299e4f939d2cf9c"
+    },
+    {
+      "case": "09-rotated-tetra-strict",
+      "queries": 7,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:54dcbb09b756e7a7aab5411c307a9394fa90cfadb87b775b8c3e1ff1e85dae4e",
+        "/opt/dolfinx-repair-build/bin/ownership_driver"
+      ],
+      "elapsed_seconds": 1.875,
+      "score": 0,
+      "checks": {
+        "owned": {
+          "max_absolute_error": 1.0,
+          "exact": true,
+          "passed": false
+        },
+        "cell_id": {
+          "max_absolute_error": 32.0,
+          "exact": true,
+          "passed": false
+        },
+        "distance": {
+          "max_absolute_error": 1.2886751345948129,
+          "max_tolerance_fraction": 64433756.72974064,
+          "passed": false
+        }
+      },
+      "independent_geometry": [
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            6.280369834735101e-16
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.28867513459481303
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [],
+          "all_cell_distances": [
+            1.3279056191361391
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.09999999999999952
+          ]
+        }
+      ],
+      "input_assets": {
+        "problem.json": "e241416664ae6d905a255c59b12275ffca1e8097c9399ccd06ca3d048ef61831",
+        "input.h5": "34a21500decd9a883f468a98e2ab4995d5561f74efe71e10df9d7d3d064831eb",
+        "source.msh": "299023660487d1041cac777d138f57ea9cf06cbe92cbb5b52f3756dbf9180408"
+      },
+      "input_payload_sha256": "717bd40750573f7cdb7afa738743652f4fb6b5c4b3eed77517cfc84325ca1d8e",
+      "output_sha256": "97438a77c01e329f7ae9febce4cd1eaf9c2e5dc561e836666951a08bcc0dfdf5"
+    },
+    {
+      "case": "10-small-translated-tetra",
+      "queries": 7,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:54dcbb09b756e7a7aab5411c307a9394fa90cfadb87b775b8c3e1ff1e85dae4e",
+        "/opt/dolfinx-repair-build/bin/ownership_driver"
+      ],
+      "elapsed_seconds": 5.656000000075437,
+      "score": 0,
+      "checks": {
+        "owned": {
+          "max_absolute_error": 1.0,
+          "exact": true,
+          "passed": false
+        },
+        "cell_id": {
+          "max_absolute_error": 32.0,
+          "exact": true,
+          "passed": false
+        },
+        "distance": {
+          "max_absolute_error": 1.0265581123827214,
+          "max_tolerance_fraction": 51327905.61913607,
+          "passed": false
+        }
+      },
+      "independent_geometry": [
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            3.66205343881779e-15
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.00577350269189716
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.026558112382719348
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            3.66205343881779e-15
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0020000000000024443
+          ]
+        }
+      ],
+      "input_assets": {
+        "problem.json": "0d24cdbd16b6cb3216297ad05a08e18076f2c28e29f618b56472b01c464e9a64",
+        "input.h5": "4c2e832782850ffecdd2f8cf5f35ec358c64d1e28e282a2871c12df518ecd84e",
+        "source.msh": "0e7af6f646f7a64435fb0a7668d1abf12fdd18ab7f3449e369010232d84b2ca0"
+      },
+      "input_payload_sha256": "a64689c4c84864762f008b78ff40fcc8f93d4e30f5d613c3e264e0c3c48aaea5",
+      "output_sha256": "470cafac398d10510b45795716cf2c97bbc2a510a0d3704d8d7bc572290fa185"
+    },
+    {
+      "case": "11-default-no-global-search",
+      "queries": 5,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:54dcbb09b756e7a7aab5411c307a9394fa90cfadb87b775b8c3e1ff1e85dae4e",
+        "/opt/dolfinx-repair-build/bin/ownership_driver"
+      ],
+      "elapsed_seconds": 4.905999999959022,
+      "score": 1,
+      "checks": {
+        "owned": {
+          "max_absolute_error": 0.0,
+          "exact": true,
+          "passed": true
+        },
+        "cell_id": {
+          "max_absolute_error": 0.0,
+          "exact": true,
+          "passed": true
+        },
+        "distance": {
+          "max_absolute_error": 3.601633495001436e-20,
+          "max_tolerance_fraction": 3.601633495001436e-12,
+          "passed": true
+        }
+      },
+      "independent_geometry": [
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.6260990336999411
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [],
+          "all_cell_distances": [
+            0.360555127546399
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [],
+          "all_cell_distances": [
+            0.223606797749979
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0
+          ]
+        }
+      ],
+      "input_assets": {
+        "problem.json": "2b36e091026f261ac20e17ed59b009cb71285debece144194f899cad1309b8e6",
+        "input.h5": "7daba680a7ecc10b038a593139e10d88c7712e3f2465545c4f1f8f230f62c167",
+        "source.msh": "5fa6f3ccfd1eed08698c1ab5192258803114f1197151ccac3d14e364a326bb77"
+      },
+      "input_payload_sha256": "ea1a418d52a87dafd4ec5fee6fdd8364f814f58ea1f5196b14d4b94a09d1aa4a",
+      "output_sha256": "f9717b21567efceb26ce6e3a567b3704f87d80904ef7240580d87c311aee170b"
+    },
+    {
+      "case": "12-two-candidate-tetra",
+      "queries": 5,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-i",
+        "sha256:54dcbb09b756e7a7aab5411c307a9394fa90cfadb87b775b8c3e1ff1e85dae4e",
+        "/opt/dolfinx-repair-build/bin/ownership_driver"
+      ],
+      "elapsed_seconds": 4.483999999938533,
+      "score": 1,
+      "checks": {
+        "owned": {
+          "max_absolute_error": 0.0,
+          "exact": true,
+          "passed": true
+        },
+        "cell_id": {
+          "max_absolute_error": 0.0,
+          "exact": true,
+          "passed": true
+        },
+        "distance": {
+          "max_absolute_error": 5.929230630780102e-21,
+          "max_tolerance_fraction": 5.929230630780102e-13,
+          "passed": true
+        }
+      },
+      "independent_geometry": [
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31,
+            60
+          ],
+          "all_cell_distances": [
+            0.406201920231798,
+            0.40000000000000013
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [
+            31,
+            60
+          ],
+          "all_cell_distances": [
+            0.17320508075688779,
+            0.5099019513592785
+          ]
+        },
+        {
+          "containing_cells": [],
+          "bbox_candidates": [],
+          "all_cell_distances": [
+            2.6038433132583076,
+            1.004987562112089
+          ]
+        },
+        {
+          "containing_cells": [
+            60
+          ],
+          "bbox_candidates": [
+            31,
+            60
+          ],
+          "all_cell_distances": [
+            0.7874007874011811,
+            0.0
+          ]
+        },
+        {
+          "containing_cells": [
+            31
+          ],
+          "bbox_candidates": [
+            31
+          ],
+          "all_cell_distances": [
+            0.0,
+            1.6155494421403513
+          ]
+        }
+      ],
+      "input_assets": {
+        "problem.json": "e710891ea8b1af1aad9bb56dab20f769ca35857bddf61c39298cf21f544b2e66",
+        "input.h5": "41cb5022dc75737aa737a3c2af36eb825df032ba3b155f3f429351a5816a14db",
+        "source.msh": "98da7c8fccc18b2e13a3649228a1067fab763db85e57dfa51050e75f7ed8a8b6"
+      },
+      "input_payload_sha256": "64bc0471fbc5cb67002482ad4539925b27a8a50743ed0a9b366f6e6247c70e42",
+      "output_sha256": "51be94005695983e4c70a8c4e6eef5e0e507967163b875b60649c922615561ec"
+    }
+  ],
+  "reference_producer": "Actual fixed DOLFINx determine_point_ownership and shortest_vector; independent affine checker only validates",
+  "input_payload_sha256_definition": "SHA256 of exact UTF8 JSON passed to the actual C++ driver",
+  "driver_sha256": "8c67a575c85f6920d9a566a33afa32ad1719787fdd5d3818e00c41f8e6ca819a"
+}

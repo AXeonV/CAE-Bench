@@ -1,0 +1,107 @@
+{
+  "checks": [
+    {
+      "sample": "01",
+      "args": [
+        "validate-input",
+        "qbank/19-solver-repair/19.5-geometry/point-ownership-repair/samples/01/input/problem.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"valid\": true,\n  \"errors\": [],\n  \"scope\": \"task-contract\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "sample": "01",
+      "args": [
+        "validate-output",
+        "--input",
+        "qbank/19-solver-repair/19.5-geometry/point-ownership-repair/samples/01/input/problem.json",
+        "--output",
+        "qbank/19-solver-repair/19.5-geometry/point-ownership-repair/samples/01/output/result.h5"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"valid\": true,\n  \"errors\": [],\n  \"scope\": \"task-contract\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "sample": "01",
+      "args": [
+        "validate-output",
+        "--input",
+        "qbank/19-solver-repair/19.5-geometry/point-ownership-repair/samples/01/input/problem.json",
+        "--output",
+        "qbank/19-solver-repair/19.5-geometry/point-ownership-repair/samples/01/reference/reference.h5"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"valid\": true,\n  \"errors\": [],\n  \"scope\": \"task-contract\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "sample": "01",
+      "args": [
+        "grade",
+        "--input",
+        "qbank/19-solver-repair/19.5-geometry/point-ownership-repair/samples/01/input/problem.json",
+        "--output",
+        "qbank/19-solver-repair/19.5-geometry/point-ownership-repair/samples/01/output/result.h5",
+        "--grading",
+        "qbank/19-solver-repair/19.5-geometry/point-ownership-repair/samples/01/reference/grading.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"status\": \"accepted\",\n  \"score\": 1,\n  \"checks\": {\n    \"outputs\": {\n      \"evaluator\": \"direct_outputs\",\n      \"passed\": true,\n      \"fields\": {\n        \"owned\": {\n          \"condition\": {\n            \"metric\": \"pointwise\",\n            \"time\": \"per_time\",\n            \"components\": \"per_component\",\n            \"atol\": 0,\n            \"rtol\": 0\n          },\n          \"passed\": true,\n          \"groups\": [\n            {\n              \"time_index\": 0,\n              \"component_index\": 0,\n              \"worst_location\": {\n                \"time_index\": 0,\n                \"time\": 0.0,\n                \"id\": 3,\n                \"component_index\": 0\n              },\n              \"value\": 0.0,\n              \"passed\": true,\n              \"failed_values\": 0,\n              \"total_values\": 7\n            }\n          ],\n          \"observation\": {\n            \"quantity\": \"point_owned\",\n            \"unit\": \"1\",\n            \"components\": [\n              \"value\"\n            ],\n            \"location\": \"probes\",\n            \"time_axis\": \"instant\"\n          }\n        },\n        \"cell_id\": {\n          \"condition\": {\n            \"metric\": \"pointwise\",\n            \"time\": \"per_time\",\n            \"components\": \"per_component\",\n            \"atol\": 0,\n            \"rtol\": 0\n          },\n          \"passed\": true,\n          \"groups\": [\n            {\n              \"time_index\": 0,\n              \"component_index\": 0,\n              \"worst_location\": {\n                \"time_index\": 0,\n                \"time\": 0.0,\n                \"id\": 3,\n                \"component_index\": 0\n              },\n              \"value\": 0.0,\n              \"passed\": true,\n              \"failed_values\": 0,\n              \"total_values\": 7\n            }\n          ],\n          \"observation\": {\n            \"quantity\": \"owning_cell_id\",\n            \"unit\": \"1\",\n            \"components\": [\n              \"value\"\n            ],\n            \"location\": \"probes\",\n            \"time_axis\": \"instant\"\n          }\n        },\n        \"distance\": {\n          \"condition\": {\n            \"metric\": \"pointwise\",\n            \"time\": \"per_time\",\n            \"components\": \"per_component\",\n            \"atol\": 1e-08,\n            \"rtol\": 1e-08\n          },\n          \"passed\": true,\n          \"groups\": [\n            {\n              \"time_index\": 0,\n              \"component_index\": 0,\n              \"worst_location\": {\n                \"time_index\": 0,\n                \"time\": 0.0,\n                \"id\": 3,\n                \"component_index\": 0\n              },\n              \"value\": 0.0,\n              \"passed\": true,\n              \"failed_values\": 0,\n              \"total_values\": 7\n            }\n          ],\n          \"observation\": {\n            \"quantity\": \"cell_distance\",\n            \"unit\": \"m\",\n            \"components\": [\n              \"value\"\n            ],\n            \"location\": \"probes\",\n            \"time_axis\": \"instant\"\n          }\n        }\n      }\n    }\n  },\n  \"grading_sha256\": \"4792297617d70448ae9cc50b9fd1138bcd0e600b62f19442751643c9280310ee\",\n  \"assets\": {\n    \"grading.json\": \"2effe57d4d5e8377c2693d8ba868bc0740a83903e83199d92cbf34cd304cc1ce\",\n    \"reference.h5\": \"e65e94b6ffbc165a0311ffbdb6fedd0fad48aff594487a5757b08be5b26b51e3\"\n  },\n  \"evaluator_code_sha256\": {\n    \"direct_outputs\": \"441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e\",\n    \"core/__init__.py\": \"93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b\",\n    \"core/__main__.py\": \"482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea\",\n    \"core/cli.py\": \"5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40\",\n    \"core/grading.schema.json\": \"d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72\",\n    \"core/grading_metrics.py\": \"9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529\",\n    \"core/grading_policy.py\": \"f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9\",\n    \"core/mesh_geometry.py\": \"cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c\",\n    \"core/problem.schema.json\": \"0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6\",\n    \"core/public-runtime.json\": \"f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7\",\n    \"core/runtime.py\": \"f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329\",\n    \"core/sdk.py\": \"3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba\",\n    \"core/storage.py\": \"7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5\",\n    \"core/validation.py\": \"60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa\",\n    \"core/case_grading.py\": \"441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e\",\n    \"core/case-grading.schema.json\": \"68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558\",\n    \"extension/caeoj_task_ext/__init__.py\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\n    \"extension/caeoj_task_ext/ownership.py\": \"e05b73aff673ab1cd0cad1cc725ef97baefbcb346ecb20c5639e1d34afe05998\"\n  },\n  \"input_assets\": {\n    \"problem.json\": \"fd178515b1f082452690ae783daec49383804adb3e2b5b8e4bc60b8c51c443c7\",\n    \"input.h5\": \"fbb22f9b4e2faf2054493a4933c7b8a377a342015c8c3e603d26a0723dcb1a7f\",\n    \"source.msh\": \"29a1d2e0e030ea6a4f8d92e7559a531aa0cb53fbf254338ca98ac0d2c2378fcb\"\n  },\n  \"runtime_binding_sha256\": \"61b0901c71a4f12af40ce64abda47ac43df54f03f85df28cd2617490f7102a90\",\n  \"dependencies\": {\n    \"numpy\": \"2.4.1\",\n    \"h5py\": \"3.16.0\",\n    \"gmsh\": \"4.15.2\",\n    \"jsonschema\": \"4.26.0\"\n  },\n  \"python\": \"3.11.9\",\n  \"evaluation_sha256\": \"ba99b6b25e62b24d1e79fba5d9963e344a896bd0b35391ed68c120c50fb15b1a\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "sample": "02",
+      "args": [
+        "validate-input",
+        "qbank/19-solver-repair/19.5-geometry/point-ownership-repair/samples/02/input/problem.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"valid\": true,\n  \"errors\": [],\n  \"scope\": \"task-contract\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "sample": "02",
+      "args": [
+        "validate-output",
+        "--input",
+        "qbank/19-solver-repair/19.5-geometry/point-ownership-repair/samples/02/input/problem.json",
+        "--output",
+        "qbank/19-solver-repair/19.5-geometry/point-ownership-repair/samples/02/output/result.h5"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"valid\": true,\n  \"errors\": [],\n  \"scope\": \"task-contract\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "sample": "02",
+      "args": [
+        "validate-output",
+        "--input",
+        "qbank/19-solver-repair/19.5-geometry/point-ownership-repair/samples/02/input/problem.json",
+        "--output",
+        "qbank/19-solver-repair/19.5-geometry/point-ownership-repair/samples/02/reference/reference.h5"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"valid\": true,\n  \"errors\": [],\n  \"scope\": \"task-contract\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "sample": "02",
+      "args": [
+        "grade",
+        "--input",
+        "qbank/19-solver-repair/19.5-geometry/point-ownership-repair/samples/02/input/problem.json",
+        "--output",
+        "qbank/19-solver-repair/19.5-geometry/point-ownership-repair/samples/02/output/result.h5",
+        "--grading",
+        "qbank/19-solver-repair/19.5-geometry/point-ownership-repair/samples/02/reference/grading.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"status\": \"accepted\",\n  \"score\": 1,\n  \"checks\": {\n    \"outputs\": {\n      \"evaluator\": \"direct_outputs\",\n      \"passed\": true,\n      \"fields\": {\n        \"owned\": {\n          \"condition\": {\n            \"metric\": \"pointwise\",\n            \"time\": \"per_time\",\n            \"components\": \"per_component\",\n            \"atol\": 0,\n            \"rtol\": 0\n          },\n          \"passed\": true,\n          \"groups\": [\n            {\n              \"time_index\": 0,\n              \"component_index\": 0,\n              \"worst_location\": {\n                \"time_index\": 0,\n                \"time\": 0.0,\n                \"id\": 3,\n                \"component_index\": 0\n              },\n              \"value\": 0.0,\n              \"passed\": true,\n              \"failed_values\": 0,\n              \"total_values\": 7\n            }\n          ],\n          \"observation\": {\n            \"quantity\": \"point_owned\",\n            \"unit\": \"1\",\n            \"components\": [\n              \"value\"\n            ],\n            \"location\": \"probes\",\n            \"time_axis\": \"instant\"\n          }\n        },\n        \"cell_id\": {\n          \"condition\": {\n            \"metric\": \"pointwise\",\n            \"time\": \"per_time\",\n            \"components\": \"per_component\",\n            \"atol\": 0,\n            \"rtol\": 0\n          },\n          \"passed\": true,\n          \"groups\": [\n            {\n              \"time_index\": 0,\n              \"component_index\": 0,\n              \"worst_location\": {\n                \"time_index\": 0,\n                \"time\": 0.0,\n                \"id\": 3,\n                \"component_index\": 0\n              },\n              \"value\": 0.0,\n              \"passed\": true,\n              \"failed_values\": 0,\n              \"total_values\": 7\n            }\n          ],\n          \"observation\": {\n            \"quantity\": \"owning_cell_id\",\n            \"unit\": \"1\",\n            \"components\": [\n              \"value\"\n            ],\n            \"location\": \"probes\",\n            \"time_axis\": \"instant\"\n          }\n        },\n        \"distance\": {\n          \"condition\": {\n            \"metric\": \"pointwise\",\n            \"time\": \"per_time\",\n            \"components\": \"per_component\",\n            \"atol\": 1e-08,\n            \"rtol\": 1e-08\n          },\n          \"passed\": true,\n          \"groups\": [\n            {\n              \"time_index\": 0,\n              \"component_index\": 0,\n              \"worst_location\": {\n                \"time_index\": 0,\n                \"time\": 0.0,\n                \"id\": 3,\n                \"component_index\": 0\n              },\n              \"value\": 0.0,\n              \"passed\": true,\n              \"failed_values\": 0,\n              \"total_values\": 7\n            }\n          ],\n          \"observation\": {\n            \"quantity\": \"cell_distance\",\n            \"unit\": \"m\",\n            \"components\": [\n              \"value\"\n            ],\n            \"location\": \"probes\",\n            \"time_axis\": \"instant\"\n          }\n        }\n      }\n    }\n  },\n  \"grading_sha256\": \"4792297617d70448ae9cc50b9fd1138bcd0e600b62f19442751643c9280310ee\",\n  \"assets\": {\n    \"grading.json\": \"2effe57d4d5e8377c2693d8ba868bc0740a83903e83199d92cbf34cd304cc1ce\",\n    \"reference.h5\": \"1dc3f3731613c58831de57546d81774ee28859272731cd1eb7c4071826e22765\"\n  },\n  \"evaluator_code_sha256\": {\n    \"direct_outputs\": \"441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e\",\n    \"core/__init__.py\": \"93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b\",\n    \"core/__main__.py\": \"482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea\",\n    \"core/cli.py\": \"5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40\",\n    \"core/grading.schema.json\": \"d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72\",\n    \"core/grading_metrics.py\": \"9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529\",\n    \"core/grading_policy.py\": \"f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9\",\n    \"core/mesh_geometry.py\": \"cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c\",\n    \"core/problem.schema.json\": \"0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6\",\n    \"core/public-runtime.json\": \"f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7\",\n    \"core/runtime.py\": \"f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329\",\n    \"core/sdk.py\": \"3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba\",\n    \"core/storage.py\": \"7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5\",\n    \"core/validation.py\": \"60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa\",\n    \"core/case_grading.py\": \"441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e\",\n    \"core/case-grading.schema.json\": \"68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558\",\n    \"extension/caeoj_task_ext/__init__.py\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\n    \"extension/caeoj_task_ext/ownership.py\": \"e05b73aff673ab1cd0cad1cc725ef97baefbcb346ecb20c5639e1d34afe05998\"\n  },\n  \"input_assets\": {\n    \"problem.json\": \"eec72479d4949673ac93b04e83ebab6bac271ab3001fa35d80b73db867820927\",\n    \"input.h5\": \"679191ada91f98ac9040e4d4614ee87082cb7d189aeed99ad710870bd8c09d7e\",\n    \"source.msh\": \"5fa6f3ccfd1eed08698c1ab5192258803114f1197151ccac3d14e364a326bb77\"\n  },\n  \"runtime_binding_sha256\": \"61b0901c71a4f12af40ce64abda47ac43df54f03f85df28cd2617490f7102a90\",\n  \"dependencies\": {\n    \"numpy\": \"2.4.1\",\n    \"h5py\": \"3.16.0\",\n    \"gmsh\": \"4.15.2\",\n    \"jsonschema\": \"4.26.0\"\n  },\n  \"python\": \"3.11.9\",\n  \"evaluation_sha256\": \"bfb28364e4aec55e0f2021a7e69fb6d0ba8f1f8b7a76cf6be9260c43af48b8ff\"\n}\n",
+      "stderr": ""
+    }
+  ],
+  "manifest_mismatches": []
+}

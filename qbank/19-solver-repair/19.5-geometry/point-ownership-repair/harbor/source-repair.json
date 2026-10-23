@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "base_image": "caeoj-dolfinx4450-core:base",
+  "replacements": [
+    {
+      "submission": "utils.h",
+      "target": "/opt/upstream/dolfinx-2d6d22a8c2cc9d3488f8910238e9740c6247f83b/cpp/dolfinx/geometry/utils.h"
+    }
+  ],
+  "build_directory": "/opt/dolfinx-repair-build",
+  "build_target": "repair_sources",
+  "rebuild_files": [
+    "/opt/dolfinx-repair-build/upstream/dolfinx/CMakeFiles/dolfinx.dir/fem/DirichletBC.cpp.o",
+    "/opt/dolfinx-repair-build/upstream/dolfinx/CMakeFiles/dolfinx.dir/fem/DofMap.cpp.o",
+    "/opt/dolfinx-repair-build/upstream/dolfinx/CMakeFiles/dolfinx.dir/fem/utils.cpp.o",
+    "/opt/dolfinx-repair-build/upstream/dolfinx/CMakeFiles/dolfinx.dir/io/VTKFile.cpp.o",
+    "/opt/dolfinx-repair-build/upstream/dolfinx/CMakeFiles/dolfinx.dir/io/XDMFFile.cpp.o",
+    "/opt/dolfinx-repair-build/upstream/dolfinx/CMakeFiles/dolfinx.dir/io/xdmf_function.cpp.o",
+    "/opt/dolfinx-repair-build/CMakeFiles/ownership_driver.dir/opt/ownership-driver/driver.cpp.o",
+    "/opt/dolfinx-repair-build/lib/libdolfinx.so.0.12.0.0",
+    "/opt/dolfinx-repair-build/bin/ownership_driver"
+  ],
+  "baseline_timeout_seconds": 300,
+  "build_timeout_seconds": 240,
+  "max_source_bytes": 1048576,
+  "runner": "/app/qbank/19-solver-repair/19.5-geometry/point-ownership-repair/public/run_case.py",
+  "baseline_probe": [
+    "/usr/local/bin/python",
+    "-c",
+    "import json,subprocess,numpy,h5py,gmsh; assert hasattr(gmsh.lib,'gmshInitialize'); r=json.loads(subprocess.check_output(['/opt/dolfinx-repair-build/bin/ownership_driver'],input='{\"dimension\":2,\"mode\":2,\"padding\":0,\"vertices\":[[0,0],[1,0],[0,1]],\"cells\":[[0,1,2]],\"cell_ids\":[31],\"queries\":[[0.2,0.2]]}',text=True)); assert r[0]['owned']==1 and r[0]['cell_id']==31 and abs(r[0]['distance'])<1e-8; print('actual baseline ownership and SDK health passed')"
+  ]
+}

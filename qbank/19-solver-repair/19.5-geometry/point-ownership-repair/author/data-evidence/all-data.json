@@ -1,0 +1,8173 @@
+{
+  "cases": [
+    {
+      "scope": "cases",
+      "name": "01-tetra-strict-public",
+      "mode": 0,
+      "padding": 0,
+      "dimension": 3,
+      "manifest": {
+        "task": "point-ownership-repair",
+        "spatial_dimension": 3,
+        "data_file": "input.h5",
+        "geometries": {},
+        "meshes": {
+          "source": {
+            "file": "source.msh"
+          }
+        },
+        "conditions": [],
+        "physics": {
+          "model": "simplex-ownership-v1",
+          "parameters": {
+            "mode": {
+              "value": 0,
+              "unit": "1"
+            },
+            "padding": {
+              "value": 0,
+              "unit": "m"
+            }
+          }
+        },
+        "locations": {
+          "nodes": {
+            "kind": "mesh",
+            "mesh": "source",
+            "entity": "node",
+            "ids": "node_ids"
+          },
+          "probes": {
+            "kind": "points",
+            "ids": "probe_ids",
+            "coordinates": "probe_coordinates"
+          }
+        },
+        "time_axes": {
+          "instant": "times"
+        },
+        "fields": {},
+        "outputs": {
+          "owned": {
+            "array": "owned",
+            "quantity": "point_owned",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "cell_id": {
+            "array": "cell_id",
+            "quantity": "owning_cell_id",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "distance": {
+            "array": "distance",
+            "quantity": "cell_distance",
+            "unit": "m",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          }
+        }
+      },
+      "raw_msh": "$MeshFormat\n4.1 0 8\n$EndMeshFormat\n$Entities\n1 0 0 1\n10 0 0 0 0 \n20 0 0 0 1 1 1 0 0 \n$EndEntities\n$Nodes\n2 4 7 58\n0 10 0 4\n58\n24\n7\n41\n0 0 0\n1 0 0\n0 1 0\n0 0 1\n3 20 0 0\n$EndNodes\n$Elements\n2 5 31 1004\n0 10 15 4\n1001 58 \n1002 24 \n1003 7 \n1004 41 \n3 20 4 1\n31 58 24 7 41 \n$EndElements\n",
+      "quality": {
+        "31": 1.0
+      },
+      "input_arrays": {
+        "node_ids": {
+          "dtype": "int64",
+          "shape": [
+            4
+          ],
+          "values": [
+            7,
+            24,
+            41,
+            58
+          ]
+        },
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            7,
+            3
+          ],
+          "values": [
+            [
+              0.1,
+              0.1,
+              0.1
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ],
+            [
+              1.1,
+              1.1,
+              1.1
+            ],
+            [
+              0.2,
+              0.3,
+              0.5
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.3,
+              0.0,
+              0.0
+            ],
+            [
+              -0.1,
+              0.1,
+              0.1
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            7
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79,
+            98,
+            117
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "reference_arrays": {
+        "cell_id": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "distance": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                9.122824036074549e-21
+              ],
+              [
+                -1.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                3.965706584841596e-20
+              ],
+              [
+                0.0
+              ],
+              [
+                0.0
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "owned": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                1.0
+              ],
+              [
+                0.0
+              ],
+              [
+                0.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                0.0
+              ]
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            7
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79,
+            98,
+            117
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "grading": {
+        "version": 1,
+        "checks": [
+          {
+            "id": "outputs",
+            "evaluator": "direct_outputs",
+            "reference": "reference.h5",
+            "policy": {
+              "version": 2,
+              "quantities": {
+                "point_owned": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "owning_cell_id": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "cell_distance": {
+                  "unit": "m",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 1e-08,
+                    "rtol": 1e-08
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "queries": [
+        {
+          "probe_id": 3,
+          "point": [
+            0.1,
+            0.1,
+            0.1
+          ],
+          "barycentric": {
+            "31": [
+              0.7,
+              0.1,
+              0.1,
+              0.1
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 9.122824036074549e-21
+          }
+        },
+        {
+          "probe_id": 22,
+          "point": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "barycentric": {
+            "31": [
+              -0.5,
+              0.5,
+              0.5,
+              0.5
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.28867513459481287
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 41,
+          "point": [
+            1.1,
+            1.1,
+            1.1
+          ],
+          "barycentric": {
+            "31": [
+              -2.3000000000000003,
+              1.1,
+              1.1,
+              1.1
+            ]
+          },
+          "contained": [],
+          "candidates": [],
+          "distances": {
+            "31": 1.3279056191361394
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 60,
+          "point": [
+            0.2,
+            0.3,
+            0.5
+          ],
+          "barycentric": {
+            "31": [
+              0.0,
+              0.2,
+              0.3,
+              0.5
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 3.965706584841596e-20
+          }
+        },
+        {
+          "probe_id": 79,
+          "point": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "barycentric": {
+            "31": [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 98,
+          "point": [
+            0.3,
+            0.0,
+            0.0
+          ],
+          "barycentric": {
+            "31": [
+              0.7,
+              0.3,
+              0.0,
+              0.0
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 117,
+          "point": [
+            -0.1,
+            0.1,
+            0.1
+          ],
+          "barycentric": {
+            "31": [
+              0.9,
+              -0.1,
+              0.1,
+              0.1
+            ]
+          },
+          "contained": [],
+          "candidates": [],
+          "distances": {
+            "31": 0.1
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        }
+      ],
+      "reference_self_grade": 1,
+      "assets": {
+        "cases\\01-tetra-strict-public\\problem.json": "fd178515b1f082452690ae783daec49383804adb3e2b5b8e4bc60b8c51c443c7",
+        "cases\\01-tetra-strict-public\\input.h5": "fbb22f9b4e2faf2054493a4933c7b8a377a342015c8c3e603d26a0723dcb1a7f",
+        "cases\\01-tetra-strict-public\\source.msh": "29a1d2e0e030ea6a4f8d92e7559a531aa0cb53fbf254338ca98ac0d2c2378fcb",
+        "reference\\01-tetra-strict-public\\reference.h5": "e65e94b6ffbc165a0311ffbdb6fedd0fad48aff594487a5757b08be5b26b51e3",
+        "reference\\01-tetra-strict-public\\grading.json": "2effe57d4d5e8377c2693d8ba868bc0740a83903e83199d92cbf34cd304cc1ce"
+      },
+      "reference_raw_score": 1,
+      "defect_raw_score": 0
+    },
+    {
+      "scope": "cases",
+      "name": "02-triangle-extrapolation-public",
+      "mode": 1,
+      "padding": 0.25,
+      "dimension": 2,
+      "manifest": {
+        "task": "point-ownership-repair",
+        "spatial_dimension": 2,
+        "data_file": "input.h5",
+        "geometries": {},
+        "meshes": {
+          "source": {
+            "file": "source.msh"
+          }
+        },
+        "conditions": [],
+        "physics": {
+          "model": "simplex-ownership-v1",
+          "parameters": {
+            "mode": {
+              "value": 1,
+              "unit": "1"
+            },
+            "padding": {
+              "value": 0.25,
+              "unit": "m"
+            }
+          }
+        },
+        "locations": {
+          "nodes": {
+            "kind": "mesh",
+            "mesh": "source",
+            "entity": "node",
+            "ids": "node_ids"
+          },
+          "probes": {
+            "kind": "points",
+            "ids": "probe_ids",
+            "coordinates": "probe_coordinates"
+          }
+        },
+        "time_axes": {
+          "instant": "times"
+        },
+        "fields": {},
+        "outputs": {
+          "owned": {
+            "array": "owned",
+            "quantity": "point_owned",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "cell_id": {
+            "array": "cell_id",
+            "quantity": "owning_cell_id",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "distance": {
+            "array": "distance",
+            "quantity": "cell_distance",
+            "unit": "m",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          }
+        }
+      },
+      "raw_msh": "$MeshFormat\n4.1 0 8\n$EndMeshFormat\n$Entities\n1 0 1 0\n10 0 0 0 0 \n20 0 0 0 2 1 0 0 0 \n$EndEntities\n$Nodes\n2 3 7 41\n0 10 0 3\n24\n7\n41\n0 0 0\n2 0 0\n0 1 0\n2 20 0 0\n$EndNodes\n$Elements\n2 4 31 1003\n0 10 15 3\n1001 24 \n1002 7 \n1003 41 \n2 20 2 1\n31 24 7 41 \n$EndElements\n",
+      "quality": {
+        "31": 0.5
+      },
+      "input_arrays": {
+        "node_ids": {
+          "dtype": "int64",
+          "shape": [
+            3
+          ],
+          "values": [
+            7,
+            24,
+            41
+          ]
+        },
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            7,
+            2
+          ],
+          "values": [
+            [
+              0.2,
+              0.2
+            ],
+            [
+              1.8,
+              0.8
+            ],
+            [
+              2.2,
+              0.3
+            ],
+            [
+              -0.2,
+              -0.1
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.5
+            ],
+            [
+              3.0,
+              3.0
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            7
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79,
+            98,
+            117
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "reference_arrays": {
+        "cell_id": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "distance": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                3.601633495001436e-20
+              ],
+              [
+                0.6260990336999411
+              ],
+              [
+                0.360555127546399
+              ],
+              [
+                0.223606797749979
+              ],
+              [
+                0.0
+              ],
+              [
+                0.0
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "owned": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                0.0
+              ]
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            7
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79,
+            98,
+            117
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "grading": {
+        "version": 1,
+        "checks": [
+          {
+            "id": "outputs",
+            "evaluator": "direct_outputs",
+            "reference": "reference.h5",
+            "policy": {
+              "version": 2,
+              "quantities": {
+                "point_owned": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "owning_cell_id": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "cell_distance": {
+                  "unit": "m",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 1e-08,
+                    "rtol": 1e-08
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "queries": [
+        {
+          "probe_id": 3,
+          "point": [
+            0.2,
+            0.2
+          ],
+          "barycentric": {
+            "31": [
+              0.7,
+              0.1,
+              0.2
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 3.601633495001436e-20
+          }
+        },
+        {
+          "probe_id": 22,
+          "point": [
+            1.8,
+            0.8
+          ],
+          "barycentric": {
+            "31": [
+              -0.7000000000000002,
+              0.9,
+              0.8
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.6260990336999411
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.6260990336999411
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 41,
+          "point": [
+            2.2,
+            0.3
+          ],
+          "barycentric": {
+            "31": [
+              -0.40000000000000013,
+              1.1,
+              0.3
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.360555127546399
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.360555127546399
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 60,
+          "point": [
+            -0.2,
+            -0.1
+          ],
+          "barycentric": {
+            "31": [
+              1.2,
+              -0.1,
+              -0.1
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.223606797749979
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.223606797749979
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 79,
+          "point": [
+            0.0,
+            0.0
+          ],
+          "barycentric": {
+            "31": [
+              1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 98,
+          "point": [
+            1.0,
+            0.5
+          ],
+          "barycentric": {
+            "31": [
+              0.0,
+              0.5,
+              0.5
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 117,
+          "point": [
+            3.0,
+            3.0
+          ],
+          "barycentric": {
+            "31": [
+              -3.5,
+              1.5,
+              3.0
+            ]
+          },
+          "contained": [],
+          "candidates": [],
+          "distances": {
+            "31": 3.1304951684997055
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        }
+      ],
+      "reference_self_grade": 1,
+      "assets": {
+        "cases\\02-triangle-extrapolation-public\\problem.json": "eec72479d4949673ac93b04e83ebab6bac271ab3001fa35d80b73db867820927",
+        "cases\\02-triangle-extrapolation-public\\input.h5": "679191ada91f98ac9040e4d4614ee87082cb7d189aeed99ad710870bd8c09d7e",
+        "cases\\02-triangle-extrapolation-public\\source.msh": "5fa6f3ccfd1eed08698c1ab5192258803114f1197151ccac3d14e364a326bb77",
+        "reference\\02-triangle-extrapolation-public\\reference.h5": "1dc3f3731613c58831de57546d81774ee28859272731cd1eb7c4071826e22765",
+        "reference\\02-triangle-extrapolation-public\\grading.json": "2effe57d4d5e8377c2693d8ba868bc0740a83903e83199d92cbf34cd304cc1ce"
+      },
+      "reference_raw_score": 1,
+      "defect_raw_score": 1
+    },
+    {
+      "scope": "cases",
+      "name": "03-strict-ignores-padding",
+      "mode": 0,
+      "padding": 0.5,
+      "dimension": 2,
+      "manifest": {
+        "task": "point-ownership-repair",
+        "spatial_dimension": 2,
+        "data_file": "input.h5",
+        "geometries": {},
+        "meshes": {
+          "source": {
+            "file": "source.msh"
+          }
+        },
+        "conditions": [],
+        "physics": {
+          "model": "simplex-ownership-v1",
+          "parameters": {
+            "mode": {
+              "value": 0,
+              "unit": "1"
+            },
+            "padding": {
+              "value": 0.5,
+              "unit": "m"
+            }
+          }
+        },
+        "locations": {
+          "nodes": {
+            "kind": "mesh",
+            "mesh": "source",
+            "entity": "node",
+            "ids": "node_ids"
+          },
+          "probes": {
+            "kind": "points",
+            "ids": "probe_ids",
+            "coordinates": "probe_coordinates"
+          }
+        },
+        "time_axes": {
+          "instant": "times"
+        },
+        "fields": {},
+        "outputs": {
+          "owned": {
+            "array": "owned",
+            "quantity": "point_owned",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "cell_id": {
+            "array": "cell_id",
+            "quantity": "owning_cell_id",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "distance": {
+            "array": "distance",
+            "quantity": "cell_distance",
+            "unit": "m",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          }
+        }
+      },
+      "raw_msh": "$MeshFormat\n4.1 0 8\n$EndMeshFormat\n$Entities\n1 0 1 0\n10 0 0 0 0 \n20 0 0 0 2 1 0 0 0 \n$EndEntities\n$Nodes\n2 3 7 41\n0 10 0 3\n24\n7\n41\n0 0 0\n2 0 0\n0 1 0\n2 20 0 0\n$EndNodes\n$Elements\n2 4 31 1003\n0 10 15 3\n1001 24 \n1002 7 \n1003 41 \n2 20 2 1\n31 24 7 41 \n$EndElements\n",
+      "quality": {
+        "31": 0.5
+      },
+      "input_arrays": {
+        "node_ids": {
+          "dtype": "int64",
+          "shape": [
+            3
+          ],
+          "values": [
+            7,
+            24,
+            41
+          ]
+        },
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            7,
+            2
+          ],
+          "values": [
+            [
+              0.2,
+              0.2
+            ],
+            [
+              1.8,
+              0.8
+            ],
+            [
+              2.2,
+              0.3
+            ],
+            [
+              -0.2,
+              -0.1
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.5
+            ],
+            [
+              3.0,
+              3.0
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            7
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79,
+            98,
+            117
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "reference_arrays": {
+        "cell_id": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "distance": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                3.601633495001436e-20
+              ],
+              [
+                -1.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                0.0
+              ],
+              [
+                0.0
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "owned": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                1.0
+              ],
+              [
+                0.0
+              ],
+              [
+                0.0
+              ],
+              [
+                0.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                0.0
+              ]
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            7
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79,
+            98,
+            117
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "grading": {
+        "version": 1,
+        "checks": [
+          {
+            "id": "outputs",
+            "evaluator": "direct_outputs",
+            "reference": "reference.h5",
+            "policy": {
+              "version": 2,
+              "quantities": {
+                "point_owned": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "owning_cell_id": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "cell_distance": {
+                  "unit": "m",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 1e-08,
+                    "rtol": 1e-08
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "queries": [
+        {
+          "probe_id": 3,
+          "point": [
+            0.2,
+            0.2
+          ],
+          "barycentric": {
+            "31": [
+              0.7,
+              0.1,
+              0.2
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 3.601633495001436e-20
+          }
+        },
+        {
+          "probe_id": 22,
+          "point": [
+            1.8,
+            0.8
+          ],
+          "barycentric": {
+            "31": [
+              -0.7000000000000002,
+              0.9,
+              0.8
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.6260990336999411
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 41,
+          "point": [
+            2.2,
+            0.3
+          ],
+          "barycentric": {
+            "31": [
+              -0.40000000000000013,
+              1.1,
+              0.3
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.360555127546399
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 60,
+          "point": [
+            -0.2,
+            -0.1
+          ],
+          "barycentric": {
+            "31": [
+              1.2,
+              -0.1,
+              -0.1
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.223606797749979
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 79,
+          "point": [
+            0.0,
+            0.0
+          ],
+          "barycentric": {
+            "31": [
+              1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 98,
+          "point": [
+            1.0,
+            0.5
+          ],
+          "barycentric": {
+            "31": [
+              0.0,
+              0.5,
+              0.5
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 117,
+          "point": [
+            3.0,
+            3.0
+          ],
+          "barycentric": {
+            "31": [
+              -3.5,
+              1.5,
+              3.0
+            ]
+          },
+          "contained": [],
+          "candidates": [],
+          "distances": {
+            "31": 3.1304951684997055
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        }
+      ],
+      "reference_self_grade": 1,
+      "assets": {
+        "cases\\03-strict-ignores-padding\\problem.json": "0c72ec49ccf4b322580c8ef9a7d0902ceeaa5ed993ffa340602ba2d4a5e36c79",
+        "cases\\03-strict-ignores-padding\\input.h5": "679191ada91f98ac9040e4d4614ee87082cb7d189aeed99ad710870bd8c09d7e",
+        "cases\\03-strict-ignores-padding\\source.msh": "5fa6f3ccfd1eed08698c1ab5192258803114f1197151ccac3d14e364a326bb77",
+        "reference\\03-strict-ignores-padding\\reference.h5": "7aca2565194a33dd52df6cba405fccfa291651598cb28842f32856cb2dc3b142",
+        "reference\\03-strict-ignores-padding\\grading.json": "2effe57d4d5e8377c2693d8ba868bc0740a83903e83199d92cbf34cd304cc1ce"
+      },
+      "reference_raw_score": 1,
+      "defect_raw_score": 0
+    },
+    {
+      "scope": "cases",
+      "name": "04-tetra-padding-bounds",
+      "mode": 1,
+      "padding": 0.3,
+      "dimension": 3,
+      "manifest": {
+        "task": "point-ownership-repair",
+        "spatial_dimension": 3,
+        "data_file": "input.h5",
+        "geometries": {},
+        "meshes": {
+          "source": {
+            "file": "source.msh"
+          }
+        },
+        "conditions": [],
+        "physics": {
+          "model": "simplex-ownership-v1",
+          "parameters": {
+            "mode": {
+              "value": 1,
+              "unit": "1"
+            },
+            "padding": {
+              "value": 0.3,
+              "unit": "m"
+            }
+          }
+        },
+        "locations": {
+          "nodes": {
+            "kind": "mesh",
+            "mesh": "source",
+            "entity": "node",
+            "ids": "node_ids"
+          },
+          "probes": {
+            "kind": "points",
+            "ids": "probe_ids",
+            "coordinates": "probe_coordinates"
+          }
+        },
+        "time_axes": {
+          "instant": "times"
+        },
+        "fields": {},
+        "outputs": {
+          "owned": {
+            "array": "owned",
+            "quantity": "point_owned",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "cell_id": {
+            "array": "cell_id",
+            "quantity": "owning_cell_id",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "distance": {
+            "array": "distance",
+            "quantity": "cell_distance",
+            "unit": "m",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          }
+        }
+      },
+      "raw_msh": "$MeshFormat\n4.1 0 8\n$EndMeshFormat\n$Entities\n1 0 0 1\n10 0 0 0 0 \n20 0 0 0 1 1 1 0 0 \n$EndEntities\n$Nodes\n2 4 7 58\n0 10 0 4\n24\n58\n41\n7\n0 0 0\n1 0 0\n0 1 0\n0 0 1\n3 20 0 0\n$EndNodes\n$Elements\n2 5 31 1004\n0 10 15 4\n1001 24 \n1002 58 \n1003 41 \n1004 7 \n3 20 4 1\n31 24 58 41 7 \n$EndElements\n",
+      "quality": {
+        "31": 1.0
+      },
+      "input_arrays": {
+        "node_ids": {
+          "dtype": "int64",
+          "shape": [
+            4
+          ],
+          "values": [
+            7,
+            24,
+            41,
+            58
+          ]
+        },
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            4,
+            3
+          ],
+          "values": [
+            [
+              -0.2,
+              0.1,
+              0.1
+            ],
+            [
+              1.4,
+              0.1,
+              0.1
+            ],
+            [
+              1.3,
+              1.3,
+              1.3
+            ],
+            [
+              0.1,
+              0.1,
+              0.1
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            4
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "reference_arrays": {
+        "cell_id": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            4,
+            1
+          ],
+          "values": [
+            [
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ]
+            ]
+          ]
+        },
+        "distance": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            4,
+            1
+          ],
+          "values": [
+            [
+              [
+                0.2
+              ],
+              [
+                -1.0
+              ],
+              [
+                1.6743157806499147
+              ],
+              [
+                9.122824036074549e-21
+              ]
+            ]
+          ]
+        },
+        "owned": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            4,
+            1
+          ],
+          "values": [
+            [
+              [
+                1.0
+              ],
+              [
+                0.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ]
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            4
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "grading": {
+        "version": 1,
+        "checks": [
+          {
+            "id": "outputs",
+            "evaluator": "direct_outputs",
+            "reference": "reference.h5",
+            "policy": {
+              "version": 2,
+              "quantities": {
+                "point_owned": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "owning_cell_id": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "cell_distance": {
+                  "unit": "m",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 1e-08,
+                    "rtol": 1e-08
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "queries": [
+        {
+          "probe_id": 3,
+          "point": [
+            -0.2,
+            0.1,
+            0.1
+          ],
+          "barycentric": {
+            "31": [
+              1.0,
+              -0.2,
+              0.1,
+              0.1
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.2
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.2
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 22,
+          "point": [
+            1.4,
+            0.1,
+            0.1
+          ],
+          "barycentric": {
+            "31": [
+              -0.6000000000000001,
+              1.4,
+              0.1,
+              0.1
+            ]
+          },
+          "contained": [],
+          "candidates": [],
+          "distances": {
+            "31": 0.42426406871192845
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 41,
+          "point": [
+            1.3,
+            1.3,
+            1.3
+          ],
+          "barycentric": {
+            "31": [
+              -2.9000000000000004,
+              1.3,
+              1.3,
+              1.3
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 1.6743157806499147
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 1.6743157806499147
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 60,
+          "point": [
+            0.1,
+            0.1,
+            0.1
+          ],
+          "barycentric": {
+            "31": [
+              0.7,
+              0.1,
+              0.1,
+              0.1
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 9.122824036074549e-21
+          }
+        }
+      ],
+      "reference_self_grade": 1,
+      "assets": {
+        "cases\\04-tetra-padding-bounds\\problem.json": "44658b0bdb9593b5cb64a8f82f05310df48a2e5ebfed6940c463a11e849cf3a3",
+        "cases\\04-tetra-padding-bounds\\input.h5": "cec7c4dbda5cb468a9bca41e7c9899811dfcbbf3456dbfd0bc721771371418c1",
+        "cases\\04-tetra-padding-bounds\\source.msh": "0f92c88d3ae506a31a81ac8d896d6e5a52ce1ad8d374d9039bd42fd1596a46b7",
+        "reference\\04-tetra-padding-bounds\\reference.h5": "06754b2586cf460f279b6ec4dd6524f8a7437f7c07a4a2b94cd23dbf944e6760",
+        "reference\\04-tetra-padding-bounds\\grading.json": "2effe57d4d5e8377c2693d8ba868bc0740a83903e83199d92cbf34cd304cc1ce"
+      },
+      "reference_raw_score": 1,
+      "defect_raw_score": 1
+    },
+    {
+      "scope": "cases",
+      "name": "05-default-tetra-regression",
+      "mode": 2,
+      "padding": 0,
+      "dimension": 3,
+      "manifest": {
+        "task": "point-ownership-repair",
+        "spatial_dimension": 3,
+        "data_file": "input.h5",
+        "geometries": {},
+        "meshes": {
+          "source": {
+            "file": "source.msh"
+          }
+        },
+        "conditions": [],
+        "physics": {
+          "model": "simplex-ownership-v1",
+          "parameters": {
+            "mode": {
+              "value": 2,
+              "unit": "1"
+            },
+            "padding": {
+              "value": 0,
+              "unit": "m"
+            }
+          }
+        },
+        "locations": {
+          "nodes": {
+            "kind": "mesh",
+            "mesh": "source",
+            "entity": "node",
+            "ids": "node_ids"
+          },
+          "probes": {
+            "kind": "points",
+            "ids": "probe_ids",
+            "coordinates": "probe_coordinates"
+          }
+        },
+        "time_axes": {
+          "instant": "times"
+        },
+        "fields": {},
+        "outputs": {
+          "owned": {
+            "array": "owned",
+            "quantity": "point_owned",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "cell_id": {
+            "array": "cell_id",
+            "quantity": "owning_cell_id",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "distance": {
+            "array": "distance",
+            "quantity": "cell_distance",
+            "unit": "m",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          }
+        }
+      },
+      "raw_msh": "$MeshFormat\n4.1 0 8\n$EndMeshFormat\n$Entities\n1 0 0 1\n10 0 0 0 0 \n20 0 0 0 1 1.5 2 0 0 \n$EndEntities\n$Nodes\n2 4 7 58\n0 10 0 4\n7\n58\n24\n41\n0 0 0\n1 0 0\n0 1.5 0\n0 0 2\n3 20 0 0\n$EndNodes\n$Elements\n2 5 31 1004\n0 10 15 4\n1001 7 \n1002 58 \n1003 24 \n1004 41 \n3 20 4 1\n31 7 58 24 41 \n$EndElements\n",
+      "quality": {
+        "31": 0.5
+      },
+      "input_arrays": {
+        "node_ids": {
+          "dtype": "int64",
+          "shape": [
+            4
+          ],
+          "values": [
+            7,
+            24,
+            41,
+            58
+          ]
+        },
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            7,
+            3
+          ],
+          "values": [
+            [
+              0.1,
+              0.1,
+              0.1
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ],
+            [
+              1.1,
+              1.1,
+              1.1
+            ],
+            [
+              0.2,
+              0.3,
+              0.5
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.3,
+              0.0,
+              0.0
+            ],
+            [
+              -0.1,
+              0.1,
+              0.1
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            7
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79,
+            98,
+            117
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "reference_arrays": {
+        "cell_id": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "distance": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                1.3258162744698266e-20
+              ],
+              [
+                0.06401843996644799
+              ],
+              [
+                -1.0
+              ],
+              [
+                7.576092996970438e-21
+              ],
+              [
+                0.0
+              ],
+              [
+                0.0
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "owned": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                0.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                0.0
+              ]
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            7
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79,
+            98,
+            117
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "grading": {
+        "version": 1,
+        "checks": [
+          {
+            "id": "outputs",
+            "evaluator": "direct_outputs",
+            "reference": "reference.h5",
+            "policy": {
+              "version": 2,
+              "quantities": {
+                "point_owned": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "owning_cell_id": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "cell_distance": {
+                  "unit": "m",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 1e-08,
+                    "rtol": 1e-08
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "queries": [
+        {
+          "probe_id": 3,
+          "point": [
+            0.1,
+            0.1,
+            0.1
+          ],
+          "barycentric": {
+            "31": [
+              0.7833333333333333,
+              0.1,
+              0.06666666666666667,
+              0.05
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 1.3258162744698266e-20
+          }
+        },
+        {
+          "probe_id": 22,
+          "point": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "barycentric": {
+            "31": [
+              -0.08333333333333326,
+              0.5,
+              0.3333333333333333,
+              0.25
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.06401843996644802
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.06401843996644802
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 2.7755575615628914e-17
+          }
+        },
+        {
+          "probe_id": 41,
+          "point": [
+            1.1,
+            1.1,
+            1.1
+          ],
+          "barycentric": {
+            "31": [
+              -1.3833333333333337,
+              1.1,
+              0.7333333333333334,
+              0.55
+            ]
+          },
+          "contained": [],
+          "candidates": [],
+          "distances": {
+            "31": 1.0627061034430367
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 60,
+          "point": [
+            0.2,
+            0.3,
+            0.5
+          ],
+          "barycentric": {
+            "31": [
+              0.35,
+              0.2,
+              0.19999999999999998,
+              0.25
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 7.576092996970438e-21
+          }
+        },
+        {
+          "probe_id": 79,
+          "point": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "barycentric": {
+            "31": [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 98,
+          "point": [
+            0.3,
+            0.0,
+            0.0
+          ],
+          "barycentric": {
+            "31": [
+              0.7,
+              0.3,
+              0.0,
+              0.0
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 117,
+          "point": [
+            -0.1,
+            0.1,
+            0.1
+          ],
+          "barycentric": {
+            "31": [
+              0.9833333333333334,
+              -0.1,
+              0.06666666666666667,
+              0.05
+            ]
+          },
+          "contained": [],
+          "candidates": [],
+          "distances": {
+            "31": 0.1
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        }
+      ],
+      "reference_self_grade": 1,
+      "assets": {
+        "cases\\05-default-tetra-regression\\problem.json": "567d8eac3926d0be988c59890dd201e32b9145c1dd2a682008afec0f00482ff9",
+        "cases\\05-default-tetra-regression\\input.h5": "fbb22f9b4e2faf2054493a4933c7b8a377a342015c8c3e603d26a0723dcb1a7f",
+        "cases\\05-default-tetra-regression\\source.msh": "e5df4cb8c4b683e964a000359029eaada4b83d0fcf315f610c98e2adb2de302b",
+        "reference\\05-default-tetra-regression\\reference.h5": "b28d93dd5c9136c7655ce22f3ffba085c403a5c8ca17bf9da14317bc7f04aacd",
+        "reference\\05-default-tetra-regression\\grading.json": "2effe57d4d5e8377c2693d8ba868bc0740a83903e83199d92cbf34cd304cc1ce"
+      },
+      "reference_raw_score": 1,
+      "defect_raw_score": 1
+    },
+    {
+      "scope": "cases",
+      "name": "06-disconnected-triangles-strict",
+      "mode": 0,
+      "padding": 0.1,
+      "dimension": 2,
+      "manifest": {
+        "task": "point-ownership-repair",
+        "spatial_dimension": 2,
+        "data_file": "input.h5",
+        "geometries": {},
+        "meshes": {
+          "source": {
+            "file": "source.msh"
+          }
+        },
+        "conditions": [],
+        "physics": {
+          "model": "simplex-ownership-v1",
+          "parameters": {
+            "mode": {
+              "value": 0,
+              "unit": "1"
+            },
+            "padding": {
+              "value": 0.1,
+              "unit": "m"
+            }
+          }
+        },
+        "locations": {
+          "nodes": {
+            "kind": "mesh",
+            "mesh": "source",
+            "entity": "node",
+            "ids": "node_ids"
+          },
+          "probes": {
+            "kind": "points",
+            "ids": "probe_ids",
+            "coordinates": "probe_coordinates"
+          }
+        },
+        "time_axes": {
+          "instant": "times"
+        },
+        "fields": {},
+        "outputs": {
+          "owned": {
+            "array": "owned",
+            "quantity": "point_owned",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "cell_id": {
+            "array": "cell_id",
+            "quantity": "owning_cell_id",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "distance": {
+            "array": "distance",
+            "quantity": "cell_distance",
+            "unit": "m",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          }
+        }
+      },
+      "raw_msh": "$MeshFormat\n4.1 0 8\n$EndMeshFormat\n$Entities\n1 0 1 0\n10 0 0 0 0 \n20 0 0 0 3 1 0 0 0 \n$EndEntities\n$Nodes\n2 6 7 92\n0 10 0 6\n75\n92\n41\n24\n7\n58\n0 0 0\n1 0 0\n0 1 0\n2 0 0\n3 0 0\n3 1 0\n2 20 0 0\n$EndNodes\n$Elements\n2 8 31 1006\n0 10 15 6\n1001 75 \n1002 92 \n1003 41 \n1004 24 \n1005 7 \n1006 58 \n2 20 2 2\n60 75 92 41 \n31 24 7 58 \n$EndElements\n",
+      "quality": {
+        "60": 1.0,
+        "31": 0.3819660112501051
+      },
+      "input_arrays": {
+        "node_ids": {
+          "dtype": "int64",
+          "shape": [
+            6
+          ],
+          "values": [
+            7,
+            24,
+            41,
+            58,
+            75,
+            92
+          ]
+        },
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            2
+          ],
+          "values": [
+            [
+              0.8,
+              0.8
+            ],
+            [
+              2.1,
+              0.9
+            ],
+            [
+              2.8,
+              0.2
+            ],
+            [
+              0.0,
+              1.0
+            ],
+            [
+              1.5,
+              0.5
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            5
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "reference_arrays": {
+        "cell_id": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            5,
+            1
+          ],
+          "values": [
+            [
+              [
+                -1.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                31.0
+              ],
+              [
+                60.0
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "distance": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            5,
+            1
+          ],
+          "values": [
+            [
+              [
+                -1.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                6.776263578034403e-21
+              ],
+              [
+                0.0
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "owned": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            5,
+            1
+          ],
+          "values": [
+            [
+              [
+                0.0
+              ],
+              [
+                0.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                0.0
+              ]
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            5
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "grading": {
+        "version": 1,
+        "checks": [
+          {
+            "id": "outputs",
+            "evaluator": "direct_outputs",
+            "reference": "reference.h5",
+            "policy": {
+              "version": 2,
+              "quantities": {
+                "point_owned": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "owning_cell_id": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "cell_distance": {
+                  "unit": "m",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 1e-08,
+                    "rtol": 1e-08
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "queries": [
+        {
+          "probe_id": 3,
+          "point": [
+            0.8,
+            0.8
+          ],
+          "barycentric": {
+            "60": [
+              -0.6000000000000001,
+              0.8,
+              0.8
+            ],
+            "31": [
+              2.2,
+              -2.0,
+              0.8
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            60
+          ],
+          "distances": {
+            "60": 0.42426406871192857,
+            "31": 1.4422205101855958
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 22,
+          "point": [
+            2.1,
+            0.9
+          ],
+          "barycentric": {
+            "60": [
+              -2.0,
+              2.1,
+              0.9
+            ],
+            "31": [
+              0.8999999999999999,
+              -0.7999999999999999,
+              0.9
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "60": 1.4212670403551897,
+            "31": 0.5656854249492381
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 41,
+          "point": [
+            2.8,
+            0.2
+          ],
+          "barycentric": {
+            "60": [
+              -2.0,
+              2.8,
+              0.2
+            ],
+            "31": [
+              0.20000000000000018,
+              0.5999999999999999,
+              0.2
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "60": 1.8110770276274832,
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 6.776263578034403e-21
+          }
+        },
+        {
+          "probe_id": 60,
+          "point": [
+            0.0,
+            1.0
+          ],
+          "barycentric": {
+            "60": [
+              0.0,
+              0.0,
+              1.0
+            ],
+            "31": [
+              3.0,
+              -3.0,
+              1.0
+            ]
+          },
+          "contained": [
+            60
+          ],
+          "candidates": [
+            60
+          ],
+          "distances": {
+            "60": 0.0,
+            "31": 2.23606797749979
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 60.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 79,
+          "point": [
+            1.5,
+            0.5
+          ],
+          "barycentric": {
+            "60": [
+              -1.0,
+              1.5,
+              0.5
+            ],
+            "31": [
+              1.5,
+              -1.0,
+              0.5
+            ]
+          },
+          "contained": [],
+          "candidates": [],
+          "distances": {
+            "60": 0.7071067811865476,
+            "31": 0.7071067811865475
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        }
+      ],
+      "reference_self_grade": 1,
+      "assets": {
+        "cases\\06-disconnected-triangles-strict\\problem.json": "53300a4b7352eebdf66a9427d12d9649797275483ae51ffa154ef78aece84b58",
+        "cases\\06-disconnected-triangles-strict\\input.h5": "4061638a7f6ad4cfac0afe059fdf3c91b999f177f8fb0d8cd857c0419e10fc34",
+        "cases\\06-disconnected-triangles-strict\\source.msh": "79d1d0c551895339c88ce973474b841fd06be48a96cdaabe3443078f15cbe242",
+        "reference\\06-disconnected-triangles-strict\\reference.h5": "fa89dc39469a5b4c2ae32eb77f4bf0ccf901601566f53f5ca476b51204148a18",
+        "reference\\06-disconnected-triangles-strict\\grading.json": "2effe57d4d5e8377c2693d8ba868bc0740a83903e83199d92cbf34cd304cc1ce"
+      },
+      "reference_raw_score": 1,
+      "defect_raw_score": 0
+    },
+    {
+      "scope": "cases",
+      "name": "07-two-candidate-triangles",
+      "mode": 1,
+      "padding": 1,
+      "dimension": 2,
+      "manifest": {
+        "task": "point-ownership-repair",
+        "spatial_dimension": 2,
+        "data_file": "input.h5",
+        "geometries": {},
+        "meshes": {
+          "source": {
+            "file": "source.msh"
+          }
+        },
+        "conditions": [],
+        "physics": {
+          "model": "simplex-ownership-v1",
+          "parameters": {
+            "mode": {
+              "value": 1,
+              "unit": "1"
+            },
+            "padding": {
+              "value": 1,
+              "unit": "m"
+            }
+          }
+        },
+        "locations": {
+          "nodes": {
+            "kind": "mesh",
+            "mesh": "source",
+            "entity": "node",
+            "ids": "node_ids"
+          },
+          "probes": {
+            "kind": "points",
+            "ids": "probe_ids",
+            "coordinates": "probe_coordinates"
+          }
+        },
+        "time_axes": {
+          "instant": "times"
+        },
+        "fields": {},
+        "outputs": {
+          "owned": {
+            "array": "owned",
+            "quantity": "point_owned",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "cell_id": {
+            "array": "cell_id",
+            "quantity": "owning_cell_id",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "distance": {
+            "array": "distance",
+            "quantity": "cell_distance",
+            "unit": "m",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          }
+        }
+      },
+      "raw_msh": "$MeshFormat\n4.1 0 8\n$EndMeshFormat\n$Entities\n1 0 1 0\n10 0 0 0 0 \n20 0 0 0 2.8 1.2 0 0 0 \n$EndEntities\n$Nodes\n2 6 7 92\n0 10 0 6\n41\n92\n58\n75\n7\n24\n0 0 0\n1 0 0\n0 1 0\n1.8 0.2 0\n2.8 0.2 0\n1.8 1.2 0\n2 20 0 0\n$EndNodes\n$Elements\n2 8 31 1006\n0 10 15 6\n1001 41 \n1002 92 \n1003 58 \n1004 75 \n1005 7 \n1006 24 \n2 20 2 2\n31 41 92 58 \n60 75 7 24 \n$EndElements\n",
+      "quality": {
+        "31": 1.0,
+        "60": 0.9999999999999998
+      },
+      "input_arrays": {
+        "node_ids": {
+          "dtype": "int64",
+          "shape": [
+            6
+          ],
+          "values": [
+            7,
+            24,
+            41,
+            58,
+            75,
+            92
+          ]
+        },
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            2
+          ],
+          "values": [
+            [
+              1.3,
+              0.5
+            ],
+            [
+              1.2,
+              0.3
+            ],
+            [
+              3.9,
+              0.9
+            ],
+            [
+              2.0,
+              0.4
+            ],
+            [
+              0.0,
+              0.0
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            5
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "reference_arrays": {
+        "cell_id": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            5,
+            1
+          ],
+          "values": [
+            [
+              [
+                60.0
+              ],
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                60.0
+              ],
+              [
+                31.0
+              ]
+            ]
+          ]
+        },
+        "distance": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            5,
+            1
+          ],
+          "values": [
+            [
+              [
+                0.5
+              ],
+              [
+                0.35355339059327373
+              ],
+              [
+                -1.0
+              ],
+              [
+                3.3881317890172014e-21
+              ],
+              [
+                0.0
+              ]
+            ]
+          ]
+        },
+        "owned": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            5,
+            1
+          ],
+          "values": [
+            [
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                0.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ]
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            5
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "grading": {
+        "version": 1,
+        "checks": [
+          {
+            "id": "outputs",
+            "evaluator": "direct_outputs",
+            "reference": "reference.h5",
+            "policy": {
+              "version": 2,
+              "quantities": {
+                "point_owned": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "owning_cell_id": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "cell_distance": {
+                  "unit": "m",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 1e-08,
+                    "rtol": 1e-08
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "queries": [
+        {
+          "probe_id": 3,
+          "point": [
+            1.3,
+            0.5
+          ],
+          "barycentric": {
+            "31": [
+              -0.8,
+              1.3,
+              0.5
+            ],
+            "60": [
+              1.2000000000000002,
+              -0.5000000000000001,
+              0.3
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31,
+            60
+          ],
+          "distances": {
+            "31": 0.5656854249492381,
+            "60": 0.5
+          },
+          "nearest_gap": 0.06568542494923812,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 60.0,
+            "distance": 0.5
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 22,
+          "point": [
+            1.2,
+            0.3
+          ],
+          "barycentric": {
+            "31": [
+              -0.5,
+              1.2,
+              0.3
+            ],
+            "60": [
+              1.5000000000000002,
+              -0.6000000000000002,
+              0.09999999999999998
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31,
+            60
+          ],
+          "distances": {
+            "31": 0.35355339059327373,
+            "60": 0.6000000000000001
+          },
+          "nearest_gap": 0.24644660940672636,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.35355339059327373
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 41,
+          "point": [
+            3.9,
+            0.9
+          ],
+          "barycentric": {
+            "31": [
+              -3.8,
+              3.9,
+              0.9
+            ],
+            "60": [
+              -1.7999999999999998,
+              2.1,
+              0.7
+            ]
+          },
+          "contained": [],
+          "candidates": [],
+          "distances": {
+            "31": 3.0364452901377956,
+            "60": 1.3038404810405297
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 60,
+          "point": [
+            2.0,
+            0.4
+          ],
+          "barycentric": {
+            "31": [
+              -1.4,
+              2.0,
+              0.4
+            ],
+            "60": [
+              0.6,
+              0.2,
+              0.2
+            ]
+          },
+          "contained": [
+            60
+          ],
+          "candidates": [
+            31,
+            60
+          ],
+          "distances": {
+            "31": 1.077032961426901,
+            "60": 0.0
+          },
+          "nearest_gap": 1.077032961426901,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 60.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 3.3881317890172014e-21
+          }
+        },
+        {
+          "probe_id": 79,
+          "point": [
+            0.0,
+            0.0
+          ],
+          "barycentric": {
+            "31": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "60": [
+              3.0000000000000004,
+              -1.8000000000000005,
+              -0.2
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0,
+            "60": 1.8110770276274835
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        }
+      ],
+      "reference_self_grade": 1,
+      "assets": {
+        "cases\\07-two-candidate-triangles\\problem.json": "4d04ebe8f504f476faf2afaee81ac8edcbdd91dfe5c3df02d0ebc29bafe48b6e",
+        "cases\\07-two-candidate-triangles\\input.h5": "e5985174d5767d31356dbd7220771190d32618adeb1b2518ba455bd343e1974d",
+        "cases\\07-two-candidate-triangles\\source.msh": "274894f060dd167d38fa910d50900d343742740657218b818669e6b6798eed48",
+        "reference\\07-two-candidate-triangles\\reference.h5": "52f8422788b284e5007768040cac3402a134e54d74f2dcfa5eef9222d9a3de4c",
+        "reference\\07-two-candidate-triangles\\grading.json": "2effe57d4d5e8377c2693d8ba868bc0740a83903e83199d92cbf34cd304cc1ce"
+      },
+      "reference_raw_score": 1,
+      "defect_raw_score": 1
+    },
+    {
+      "scope": "cases",
+      "name": "08-disconnected-tetra-strict",
+      "mode": 0,
+      "padding": 0.4,
+      "dimension": 3,
+      "manifest": {
+        "task": "point-ownership-repair",
+        "spatial_dimension": 3,
+        "data_file": "input.h5",
+        "geometries": {},
+        "meshes": {
+          "source": {
+            "file": "source.msh"
+          }
+        },
+        "conditions": [],
+        "physics": {
+          "model": "simplex-ownership-v1",
+          "parameters": {
+            "mode": {
+              "value": 0,
+              "unit": "1"
+            },
+            "padding": {
+              "value": 0.4,
+              "unit": "m"
+            }
+          }
+        },
+        "locations": {
+          "nodes": {
+            "kind": "mesh",
+            "mesh": "source",
+            "entity": "node",
+            "ids": "node_ids"
+          },
+          "probes": {
+            "kind": "points",
+            "ids": "probe_ids",
+            "coordinates": "probe_coordinates"
+          }
+        },
+        "time_axes": {
+          "instant": "times"
+        },
+        "fields": {},
+        "outputs": {
+          "owned": {
+            "array": "owned",
+            "quantity": "point_owned",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "cell_id": {
+            "array": "cell_id",
+            "quantity": "owning_cell_id",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "distance": {
+            "array": "distance",
+            "quantity": "cell_distance",
+            "unit": "m",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          }
+        }
+      },
+      "raw_msh": "$MeshFormat\n4.1 0 8\n$EndMeshFormat\n$Entities\n1 0 0 1\n10 0 0 0 0 \n20 0 0 0 3 2 1.2 0 0 \n$EndEntities\n$Nodes\n2 8 7 126\n0 10 0 8\n7\n109\n126\n24\n58\n92\n41\n75\n0 0 0\n1 0 0\n0 1 0\n0 0 1\n2 1 0.2\n3 1 0.2\n2 2 0.2\n2 1 1.2\n3 20 0 0\n$EndNodes\n$Elements\n2 10 31 1008\n0 10 15 8\n1001 7 \n1002 109 \n1003 126 \n1004 24 \n1005 58 \n1006 92 \n1007 41 \n1008 75 \n3 20 4 2\n31 7 109 126 24 \n60 58 92 41 75 \n$EndElements\n",
+      "quality": {
+        "31": 1.0,
+        "60": 1.0
+      },
+      "input_arrays": {
+        "node_ids": {
+          "dtype": "int64",
+          "shape": [
+            8
+          ],
+          "values": [
+            7,
+            24,
+            41,
+            58,
+            75,
+            92,
+            109,
+            126
+          ]
+        },
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            3
+          ],
+          "values": [
+            [
+              0.8,
+              0.8,
+              0.8
+            ],
+            [
+              2.8,
+              1.8,
+              1.0
+            ],
+            [
+              2.1,
+              1.1,
+              0.3
+            ],
+            [
+              1.5,
+              0.4,
+              0.4
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            5
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "reference_arrays": {
+        "cell_id": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            5,
+            1
+          ],
+          "values": [
+            [
+              [
+                -1.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                60.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                31.0
+              ]
+            ]
+          ]
+        },
+        "distance": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            5,
+            1
+          ],
+          "values": [
+            [
+              [
+                -1.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                1.3814689299920048e-20
+              ],
+              [
+                -1.0
+              ],
+              [
+                0.0
+              ]
+            ]
+          ]
+        },
+        "owned": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            5,
+            1
+          ],
+          "values": [
+            [
+              [
+                0.0
+              ],
+              [
+                0.0
+              ],
+              [
+                1.0
+              ],
+              [
+                0.0
+              ],
+              [
+                1.0
+              ]
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            5
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "grading": {
+        "version": 1,
+        "checks": [
+          {
+            "id": "outputs",
+            "evaluator": "direct_outputs",
+            "reference": "reference.h5",
+            "policy": {
+              "version": 2,
+              "quantities": {
+                "point_owned": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "owning_cell_id": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "cell_distance": {
+                  "unit": "m",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 1e-08,
+                    "rtol": 1e-08
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "queries": [
+        {
+          "probe_id": 3,
+          "point": [
+            0.8,
+            0.8,
+            0.8
+          ],
+          "barycentric": {
+            "31": [
+              -1.4000000000000004,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "60": [
+              1.7999999999999998,
+              -1.2,
+              -0.19999999999999996,
+              0.6000000000000001
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.8082903768654761,
+            "60": 1.2165525060596438
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 22,
+          "point": [
+            2.8,
+            1.8,
+            1.0
+          ],
+          "barycentric": {
+            "31": [
+              -4.6,
+              2.8,
+              1.8,
+              1.0
+            ],
+            "60": [
+              -1.4,
+              0.7999999999999998,
+              0.8,
+              0.8
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            60
+          ],
+          "distances": {
+            "31": 2.7349588662354685,
+            "60": 0.8082903768654759
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 41,
+          "point": [
+            2.1,
+            1.1,
+            0.3
+          ],
+          "barycentric": {
+            "31": [
+              -2.5,
+              2.1,
+              1.1,
+              0.3
+            ],
+            "60": [
+              0.6999999999999998,
+              0.10000000000000009,
+              0.10000000000000009,
+              0.09999999999999998
+            ]
+          },
+          "contained": [
+            60
+          ],
+          "candidates": [
+            60
+          ],
+          "distances": {
+            "31": 1.5842979517754858,
+            "60": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 60.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 1.3814689299920048e-20
+          }
+        },
+        {
+          "probe_id": 60,
+          "point": [
+            1.5,
+            0.4,
+            0.4
+          ],
+          "barycentric": {
+            "31": [
+              -1.2999999999999998,
+              1.5,
+              0.4,
+              0.4
+            ],
+            "60": [
+              1.9000000000000001,
+              -0.5,
+              -0.6,
+              0.2
+            ]
+          },
+          "contained": [],
+          "candidates": [],
+          "distances": {
+            "31": 0.754983443527075,
+            "60": 0.7810249675906654
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 79,
+          "point": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "barycentric": {
+            "31": [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "60": [
+              4.2,
+              -2.0,
+              -1.0,
+              -0.2
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0,
+            "60": 2.244994432064365
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        }
+      ],
+      "reference_self_grade": 1,
+      "assets": {
+        "cases\\08-disconnected-tetra-strict\\problem.json": "ed0fa304509d92db42202ba581bc370dd282a8659a32c9ced49e790ce8333f30",
+        "cases\\08-disconnected-tetra-strict\\input.h5": "660d6c8cf3eee9416ba5378ce466ecce107f8b765b58b412baec90cba5f62411",
+        "cases\\08-disconnected-tetra-strict\\source.msh": "8af0d336d0d7c27f6be283a06cb8df653e209c56d663b1cca224145968391e88",
+        "reference\\08-disconnected-tetra-strict\\reference.h5": "8a19ec6a6cb880874c99bd33a3fdfa782cda0fd203711ea0f36be208303254d6",
+        "reference\\08-disconnected-tetra-strict\\grading.json": "2effe57d4d5e8377c2693d8ba868bc0740a83903e83199d92cbf34cd304cc1ce"
+      },
+      "reference_raw_score": 1,
+      "defect_raw_score": 0
+    },
+    {
+      "scope": "cases",
+      "name": "09-rotated-tetra-strict",
+      "mode": 0,
+      "padding": 0.1,
+      "dimension": 3,
+      "manifest": {
+        "task": "point-ownership-repair",
+        "spatial_dimension": 3,
+        "data_file": "input.h5",
+        "geometries": {},
+        "meshes": {
+          "source": {
+            "file": "source.msh"
+          }
+        },
+        "conditions": [],
+        "physics": {
+          "model": "simplex-ownership-v1",
+          "parameters": {
+            "mode": {
+              "value": 0,
+              "unit": "1"
+            },
+            "padding": {
+              "value": 0.1,
+              "unit": "m"
+            }
+          }
+        },
+        "locations": {
+          "nodes": {
+            "kind": "mesh",
+            "mesh": "source",
+            "entity": "node",
+            "ids": "node_ids"
+          },
+          "probes": {
+            "kind": "points",
+            "ids": "probe_ids",
+            "coordinates": "probe_coordinates"
+          }
+        },
+        "time_axes": {
+          "instant": "times"
+        },
+        "fields": {},
+        "outputs": {
+          "owned": {
+            "array": "owned",
+            "quantity": "point_owned",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "cell_id": {
+            "array": "cell_id",
+            "quantity": "owning_cell_id",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "distance": {
+            "array": "distance",
+            "quantity": "cell_distance",
+            "unit": "m",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          }
+        }
+      },
+      "raw_msh": "$MeshFormat\n4.1 0 8\n$EndMeshFormat\n$Entities\n1 0 0 1\n10 3 -4 2 0 \n20 2.52 -4 1.52 3.8 -3.2 2.64 0 0 \n$EndEntities\n$Nodes\n2 4 7 58\n0 10 0 4\n58\n7\n41\n24\n3 -4 2\n3.36 -3.2 1.52\n2.52 -3.4 2.64\n3.8 -4 2.6\n3 20 0 0\n$EndNodes\n$Elements\n2 5 31 1004\n0 10 15 4\n1001 58 \n1002 7 \n1003 41 \n1004 24 \n3 20 4 1\n31 58 7 41 24 \n$EndElements\n",
+      "quality": {
+        "31": 0.9999999999999998
+      },
+      "input_arrays": {
+        "node_ids": {
+          "dtype": "int64",
+          "shape": [
+            4
+          ],
+          "values": [
+            7,
+            24,
+            41,
+            58
+          ]
+        },
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            7,
+            3
+          ],
+          "values": [
+            [
+              3.068,
+              -3.86,
+              2.076
+            ],
+            [
+              3.34,
+              -3.3,
+              2.38
+            ],
+            [
+              3.748,
+              -2.46,
+              2.8360000000000003
+            ],
+            [
+              3.328,
+              -3.66,
+              2.396
+            ],
+            [
+              3.0,
+              -4.0,
+              2.0
+            ],
+            [
+              3.108,
+              -3.76,
+              1.856
+            ],
+            [
+              2.996,
+              -4.02,
+              2.172
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            7
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79,
+            98,
+            117
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "reference_arrays": {
+        "cell_id": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "distance": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                1.3657995884130278e-20
+              ],
+              [
+                -1.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                7.774728970010164e-21
+              ],
+              [
+                0.0
+              ],
+              [
+                5.650298713864904e-21
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "owned": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                1.0
+              ],
+              [
+                0.0
+              ],
+              [
+                0.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                0.0
+              ]
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            7
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79,
+            98,
+            117
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "grading": {
+        "version": 1,
+        "checks": [
+          {
+            "id": "outputs",
+            "evaluator": "direct_outputs",
+            "reference": "reference.h5",
+            "policy": {
+              "version": 2,
+              "quantities": {
+                "point_owned": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "owning_cell_id": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "cell_distance": {
+                  "unit": "m",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 1e-08,
+                    "rtol": 1e-08
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "queries": [
+        {
+          "probe_id": 3,
+          "point": [
+            3.068,
+            -3.86,
+            2.076
+          ],
+          "barycentric": {
+            "31": [
+              0.6999999999999997,
+              0.10000000000000012,
+              0.10000000000000006,
+              0.10000000000000009
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 1.3657995884130278e-20
+          }
+        },
+        {
+          "probe_id": 22,
+          "point": [
+            3.34,
+            -3.3,
+            2.38
+          ],
+          "barycentric": {
+            "31": [
+              -0.5,
+              0.5000000000000003,
+              0.4999999999999999,
+              0.4999999999999999
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.2886751345948128
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 41,
+          "point": [
+            3.748,
+            -2.46,
+            2.8360000000000003
+          ],
+          "barycentric": {
+            "31": [
+              -2.3000000000000007,
+              1.1000000000000003,
+              1.0999999999999999,
+              1.1000000000000003
+            ]
+          },
+          "contained": [],
+          "candidates": [],
+          "distances": {
+            "31": 1.3279056191361396
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 60,
+          "point": [
+            3.328,
+            -3.66,
+            2.396
+          ],
+          "barycentric": {
+            "31": [
+              3.3306690738754696e-16,
+              0.19999999999999998,
+              0.2999999999999998,
+              0.4999999999999999
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 7.774728970010164e-21
+          }
+        },
+        {
+          "probe_id": 79,
+          "point": [
+            3.0,
+            -4.0,
+            2.0
+          ],
+          "barycentric": {
+            "31": [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 98,
+          "point": [
+            3.108,
+            -3.76,
+            1.856
+          ],
+          "barycentric": {
+            "31": [
+              0.6999999999999995,
+              0.3000000000000002,
+              1.4654943925052062e-16,
+              1.7208456881689924e-16
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 5.650298713864904e-21
+          }
+        },
+        {
+          "probe_id": 117,
+          "point": [
+            2.996,
+            -4.02,
+            2.172
+          ],
+          "barycentric": {
+            "31": [
+              0.8999999999999994,
+              -0.09999999999999977,
+              0.10000000000000034,
+              0.10000000000000009
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.09999999999999973
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        }
+      ],
+      "reference_self_grade": 1,
+      "assets": {
+        "cases\\09-rotated-tetra-strict\\problem.json": "e241416664ae6d905a255c59b12275ffca1e8097c9399ccd06ca3d048ef61831",
+        "cases\\09-rotated-tetra-strict\\input.h5": "34a21500decd9a883f468a98e2ab4995d5561f74efe71e10df9d7d3d064831eb",
+        "cases\\09-rotated-tetra-strict\\source.msh": "299023660487d1041cac777d138f57ea9cf06cbe92cbb5b52f3756dbf9180408",
+        "reference\\09-rotated-tetra-strict\\reference.h5": "96054ac6983e50cae0859048b4bfb0b239441e462de07d55312c5c69d3b1a933",
+        "reference\\09-rotated-tetra-strict\\grading.json": "2effe57d4d5e8377c2693d8ba868bc0740a83903e83199d92cbf34cd304cc1ce"
+      },
+      "reference_raw_score": 1,
+      "defect_raw_score": 0
+    },
+    {
+      "scope": "cases",
+      "name": "10-small-translated-tetra",
+      "mode": 0,
+      "padding": 0.01,
+      "dimension": 3,
+      "manifest": {
+        "task": "point-ownership-repair",
+        "spatial_dimension": 3,
+        "data_file": "input.h5",
+        "geometries": {},
+        "meshes": {
+          "source": {
+            "file": "source.msh"
+          }
+        },
+        "conditions": [],
+        "physics": {
+          "model": "simplex-ownership-v1",
+          "parameters": {
+            "mode": {
+              "value": 0,
+              "unit": "1"
+            },
+            "padding": {
+              "value": 0.01,
+              "unit": "m"
+            }
+          }
+        },
+        "locations": {
+          "nodes": {
+            "kind": "mesh",
+            "mesh": "source",
+            "entity": "node",
+            "ids": "node_ids"
+          },
+          "probes": {
+            "kind": "points",
+            "ids": "probe_ids",
+            "coordinates": "probe_coordinates"
+          }
+        },
+        "time_axes": {
+          "instant": "times"
+        },
+        "fields": {},
+        "outputs": {
+          "owned": {
+            "array": "owned",
+            "quantity": "point_owned",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "cell_id": {
+            "array": "cell_id",
+            "quantity": "owning_cell_id",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "distance": {
+            "array": "distance",
+            "quantity": "cell_distance",
+            "unit": "m",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          }
+        }
+      },
+      "raw_msh": "$MeshFormat\n4.1 0 8\n$EndMeshFormat\n$Entities\n1 0 0 1\n10 17 24 -6 0 \n20 17 24 -6 17.02 24.02 -5.98 0 0 \n$EndEntities\n$Nodes\n2 4 7 58\n0 10 0 4\n58\n7\n24\n41\n17 24 -6\n17.02 24 -6\n17 24.02 -6\n17 24 -5.98\n3 20 0 0\n$EndNodes\n$Elements\n2 5 31 1004\n0 10 15 4\n1001 58 \n1002 7 \n1003 24 \n1004 41 \n3 20 4 1\n31 58 7 24 41 \n$EndElements\n",
+      "quality": {
+        "31": 1.0
+      },
+      "input_arrays": {
+        "node_ids": {
+          "dtype": "int64",
+          "shape": [
+            4
+          ],
+          "values": [
+            7,
+            24,
+            41,
+            58
+          ]
+        },
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            7,
+            3
+          ],
+          "values": [
+            [
+              17.002,
+              24.002,
+              -5.998
+            ],
+            [
+              17.01,
+              24.01,
+              -5.99
+            ],
+            [
+              17.022,
+              24.022,
+              -5.978
+            ],
+            [
+              17.004,
+              24.006,
+              -5.99
+            ],
+            [
+              17.0,
+              24.0,
+              -6.0
+            ],
+            [
+              17.006,
+              24.0,
+              -6.0
+            ],
+            [
+              16.998,
+              24.002,
+              -5.998
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            7
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79,
+            98,
+            117
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "reference_arrays": {
+        "cell_id": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "distance": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                2.2770165388072663e-22
+              ],
+              [
+                -1.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                1.0255800382752408e-15
+              ],
+              [
+                0.0
+              ],
+              [
+                4.235164736271502e-22
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "owned": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                1.0
+              ],
+              [
+                0.0
+              ],
+              [
+                0.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                0.0
+              ]
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            7
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79,
+            98,
+            117
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "grading": {
+        "version": 1,
+        "checks": [
+          {
+            "id": "outputs",
+            "evaluator": "direct_outputs",
+            "reference": "reference.h5",
+            "policy": {
+              "version": 2,
+              "quantities": {
+                "point_owned": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "owning_cell_id": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "cell_distance": {
+                  "unit": "m",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 1e-08,
+                    "rtol": 1e-08
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "queries": [
+        {
+          "probe_id": 3,
+          "point": [
+            17.002,
+            24.002,
+            -5.998
+          ],
+          "barycentric": {
+            "31": [
+              0.7000000000001154,
+              0.09999999999994671,
+              0.09999999999994671,
+              0.09999999999999112
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 2.2770165388072663e-22
+          }
+        },
+        {
+          "probe_id": 22,
+          "point": [
+            17.01,
+            24.01,
+            -5.99
+          ],
+          "barycentric": {
+            "31": [
+              -0.5000000000001776,
+              0.5000000000000888,
+              0.5000000000000888,
+              0.5
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.005773502691897673
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 41,
+          "point": [
+            17.022,
+            24.022,
+            -5.978
+          ],
+          "barycentric": {
+            "31": [
+              -2.299999999999929,
+              1.0999999999999468,
+              1.0999999999999468,
+              1.1000000000000356
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.026558112382721398
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 60,
+          "point": [
+            17.004,
+            24.006,
+            -5.99
+          ],
+          "barycentric": {
+            "31": [
+              -8.881784197001252e-14,
+              0.20000000000007107,
+              0.30000000000001775,
+              0.5
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 1.0255800382752408e-15
+          }
+        },
+        {
+          "probe_id": 79,
+          "point": [
+            17.0,
+            24.0,
+            -6.0
+          ],
+          "barycentric": {
+            "31": [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 98,
+          "point": [
+            17.006,
+            24.0,
+            -6.0
+          ],
+          "barycentric": {
+            "31": [
+              0.6999999999999822,
+              0.30000000000001775,
+              0.0,
+              0.0
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 4.235164736271502e-22
+          }
+        },
+        {
+          "probe_id": 117,
+          "point": [
+            16.998,
+            24.002,
+            -5.998
+          ],
+          "barycentric": {
+            "31": [
+              0.9000000000000089,
+              -0.09999999999994671,
+              0.09999999999994671,
+              0.09999999999999112
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0019999999999988916
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        }
+      ],
+      "reference_self_grade": 1,
+      "assets": {
+        "cases\\10-small-translated-tetra\\problem.json": "0d24cdbd16b6cb3216297ad05a08e18076f2c28e29f618b56472b01c464e9a64",
+        "cases\\10-small-translated-tetra\\input.h5": "4c2e832782850ffecdd2f8cf5f35ec358c64d1e28e282a2871c12df518ecd84e",
+        "cases\\10-small-translated-tetra\\source.msh": "0e7af6f646f7a64435fb0a7668d1abf12fdd18ab7f3449e369010232d84b2ca0",
+        "reference\\10-small-translated-tetra\\reference.h5": "eab7b0bca6130197fa8e68dbdd40bf6c616f8bbb011d15fbd6b9860adfd95ba2",
+        "reference\\10-small-translated-tetra\\grading.json": "2effe57d4d5e8377c2693d8ba868bc0740a83903e83199d92cbf34cd304cc1ce"
+      },
+      "reference_raw_score": 1,
+      "defect_raw_score": 0
+    },
+    {
+      "scope": "cases",
+      "name": "11-default-no-global-search",
+      "mode": 2,
+      "padding": 0,
+      "dimension": 2,
+      "manifest": {
+        "task": "point-ownership-repair",
+        "spatial_dimension": 2,
+        "data_file": "input.h5",
+        "geometries": {},
+        "meshes": {
+          "source": {
+            "file": "source.msh"
+          }
+        },
+        "conditions": [],
+        "physics": {
+          "model": "simplex-ownership-v1",
+          "parameters": {
+            "mode": {
+              "value": 2,
+              "unit": "1"
+            },
+            "padding": {
+              "value": 0,
+              "unit": "m"
+            }
+          }
+        },
+        "locations": {
+          "nodes": {
+            "kind": "mesh",
+            "mesh": "source",
+            "entity": "node",
+            "ids": "node_ids"
+          },
+          "probes": {
+            "kind": "points",
+            "ids": "probe_ids",
+            "coordinates": "probe_coordinates"
+          }
+        },
+        "time_axes": {
+          "instant": "times"
+        },
+        "fields": {},
+        "outputs": {
+          "owned": {
+            "array": "owned",
+            "quantity": "point_owned",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "cell_id": {
+            "array": "cell_id",
+            "quantity": "owning_cell_id",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "distance": {
+            "array": "distance",
+            "quantity": "cell_distance",
+            "unit": "m",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          }
+        }
+      },
+      "raw_msh": "$MeshFormat\n4.1 0 8\n$EndMeshFormat\n$Entities\n1 0 1 0\n10 0 0 0 0 \n20 0 0 0 2 1 0 0 0 \n$EndEntities\n$Nodes\n2 3 7 41\n0 10 0 3\n24\n7\n41\n0 0 0\n2 0 0\n0 1 0\n2 20 0 0\n$EndNodes\n$Elements\n2 4 31 1003\n0 10 15 3\n1001 24 \n1002 7 \n1003 41 \n2 20 2 1\n31 24 7 41 \n$EndElements\n",
+      "quality": {
+        "31": 0.5
+      },
+      "input_arrays": {
+        "node_ids": {
+          "dtype": "int64",
+          "shape": [
+            3
+          ],
+          "values": [
+            7,
+            24,
+            41
+          ]
+        },
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            2
+          ],
+          "values": [
+            [
+              0.2,
+              0.2
+            ],
+            [
+              1.8,
+              0.8
+            ],
+            [
+              2.2,
+              0.3
+            ],
+            [
+              -0.2,
+              -0.1
+            ],
+            [
+              0.0,
+              0.0
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            5
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "reference_arrays": {
+        "cell_id": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            5,
+            1
+          ],
+          "values": [
+            [
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                31.0
+              ]
+            ]
+          ]
+        },
+        "distance": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            5,
+            1
+          ],
+          "values": [
+            [
+              [
+                3.601633495001436e-20
+              ],
+              [
+                0.6260990336999411
+              ],
+              [
+                -1.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                0.0
+              ]
+            ]
+          ]
+        },
+        "owned": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            5,
+            1
+          ],
+          "values": [
+            [
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                0.0
+              ],
+              [
+                0.0
+              ],
+              [
+                1.0
+              ]
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            5
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "grading": {
+        "version": 1,
+        "checks": [
+          {
+            "id": "outputs",
+            "evaluator": "direct_outputs",
+            "reference": "reference.h5",
+            "policy": {
+              "version": 2,
+              "quantities": {
+                "point_owned": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "owning_cell_id": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "cell_distance": {
+                  "unit": "m",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 1e-08,
+                    "rtol": 1e-08
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "queries": [
+        {
+          "probe_id": 3,
+          "point": [
+            0.2,
+            0.2
+          ],
+          "barycentric": {
+            "31": [
+              0.7,
+              0.1,
+              0.2
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 3.601633495001436e-20
+          }
+        },
+        {
+          "probe_id": 22,
+          "point": [
+            1.8,
+            0.8
+          ],
+          "barycentric": {
+            "31": [
+              -0.7000000000000002,
+              0.9,
+              0.8
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.6260990336999411
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.6260990336999411
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 41,
+          "point": [
+            2.2,
+            0.3
+          ],
+          "barycentric": {
+            "31": [
+              -0.40000000000000013,
+              1.1,
+              0.3
+            ]
+          },
+          "contained": [],
+          "candidates": [],
+          "distances": {
+            "31": 0.360555127546399
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 60,
+          "point": [
+            -0.2,
+            -0.1
+          ],
+          "barycentric": {
+            "31": [
+              1.2,
+              -0.1,
+              -0.1
+            ]
+          },
+          "contained": [],
+          "candidates": [],
+          "distances": {
+            "31": 0.223606797749979
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 79,
+          "point": [
+            0.0,
+            0.0
+          ],
+          "barycentric": {
+            "31": [
+              1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        }
+      ],
+      "reference_self_grade": 1,
+      "assets": {
+        "cases\\11-default-no-global-search\\problem.json": "2b36e091026f261ac20e17ed59b009cb71285debece144194f899cad1309b8e6",
+        "cases\\11-default-no-global-search\\input.h5": "7daba680a7ecc10b038a593139e10d88c7712e3f2465545c4f1f8f230f62c167",
+        "cases\\11-default-no-global-search\\source.msh": "5fa6f3ccfd1eed08698c1ab5192258803114f1197151ccac3d14e364a326bb77",
+        "reference\\11-default-no-global-search\\reference.h5": "f9717b21567efceb26ce6e3a567b3704f87d80904ef7240580d87c311aee170b",
+        "reference\\11-default-no-global-search\\grading.json": "2effe57d4d5e8377c2693d8ba868bc0740a83903e83199d92cbf34cd304cc1ce"
+      },
+      "reference_raw_score": 1,
+      "defect_raw_score": 1
+    },
+    {
+      "scope": "cases",
+      "name": "12-two-candidate-tetra",
+      "mode": 1,
+      "padding": 0.8,
+      "dimension": 3,
+      "manifest": {
+        "task": "point-ownership-repair",
+        "spatial_dimension": 3,
+        "data_file": "input.h5",
+        "geometries": {},
+        "meshes": {
+          "source": {
+            "file": "source.msh"
+          }
+        },
+        "conditions": [],
+        "physics": {
+          "model": "simplex-ownership-v1",
+          "parameters": {
+            "mode": {
+              "value": 1,
+              "unit": "1"
+            },
+            "padding": {
+              "value": 0.8,
+              "unit": "m"
+            }
+          }
+        },
+        "locations": {
+          "nodes": {
+            "kind": "mesh",
+            "mesh": "source",
+            "entity": "node",
+            "ids": "node_ids"
+          },
+          "probes": {
+            "kind": "points",
+            "ids": "probe_ids",
+            "coordinates": "probe_coordinates"
+          }
+        },
+        "time_axes": {
+          "instant": "times"
+        },
+        "fields": {},
+        "outputs": {
+          "owned": {
+            "array": "owned",
+            "quantity": "point_owned",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "cell_id": {
+            "array": "cell_id",
+            "quantity": "owning_cell_id",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "distance": {
+            "array": "distance",
+            "quantity": "cell_distance",
+            "unit": "m",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          }
+        }
+      },
+      "raw_msh": "$MeshFormat\n4.1 0 8\n$EndMeshFormat\n$Entities\n1 0 0 1\n10 0 0 0 0 \n20 0 0 0 2.6 1.2 1.1 0 0 \n$EndEntities\n$Nodes\n2 8 7 126\n0 10 0 8\n7\n41\n109\n92\n75\n126\n58\n24\n0 0 0\n1 0 0\n0 1 0\n0 0 1\n1.6 0.2 0.1\n2.6 0.2 0.1\n1.6 1.2 0.1\n1.6 0.2 1.1\n3 20 0 0\n$EndNodes\n$Elements\n2 10 31 1008\n0 10 15 8\n1001 7 \n1002 41 \n1003 109 \n1004 92 \n1005 75 \n1006 126 \n1007 58 \n1008 24 \n3 20 4 2\n31 7 41 109 92 \n60 75 126 58 24 \n$EndElements\n",
+      "quality": {
+        "31": 1.0,
+        "60": 1.0
+      },
+      "input_arrays": {
+        "node_ids": {
+          "dtype": "int64",
+          "shape": [
+            8
+          ],
+          "values": [
+            7,
+            24,
+            41,
+            58,
+            75,
+            92,
+            109,
+            126
+          ]
+        },
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            5,
+            3
+          ],
+          "values": [
+            [
+              1.2,
+              0.3,
+              0.2
+            ],
+            [
+              1.1,
+              0.1,
+              0.1
+            ],
+            [
+              3.6,
+              0.1,
+              0.1
+            ],
+            [
+              1.7,
+              0.3,
+              0.2
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            5
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "reference_arrays": {
+        "cell_id": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            5,
+            1
+          ],
+          "values": [
+            [
+              [
+                60.0
+              ],
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                60.0
+              ],
+              [
+                31.0
+              ]
+            ]
+          ]
+        },
+        "distance": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            5,
+            1
+          ],
+          "values": [
+            [
+              [
+                0.40000000000000013
+              ],
+              [
+                0.17320508075688779
+              ],
+              [
+                -1.0
+              ],
+              [
+                5.929230630780102e-21
+              ],
+              [
+                0.0
+              ]
+            ]
+          ]
+        },
+        "owned": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            5,
+            1
+          ],
+          "values": [
+            [
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                0.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ]
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            5
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "grading": {
+        "version": 1,
+        "checks": [
+          {
+            "id": "outputs",
+            "evaluator": "direct_outputs",
+            "reference": "reference.h5",
+            "policy": {
+              "version": 2,
+              "quantities": {
+                "point_owned": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "owning_cell_id": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "cell_distance": {
+                  "unit": "m",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 1e-08,
+                    "rtol": 1e-08
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "queries": [
+        {
+          "probe_id": 3,
+          "point": [
+            1.2,
+            0.3,
+            0.2
+          ],
+          "barycentric": {
+            "31": [
+              -0.7,
+              1.2,
+              0.3,
+              0.2
+            ],
+            "60": [
+              1.2000000000000002,
+              -0.40000000000000013,
+              0.09999999999999998,
+              0.1
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31,
+            60
+          ],
+          "distances": {
+            "31": 0.406201920231798,
+            "60": 0.40000000000000013
+          },
+          "nearest_gap": 0.006201920231797886,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 60.0,
+            "distance": 0.40000000000000013
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 22,
+          "point": [
+            1.1,
+            0.1,
+            0.1
+          ],
+          "barycentric": {
+            "31": [
+              -0.30000000000000027,
+              1.1,
+              0.1,
+              0.1
+            ],
+            "60": [
+              1.6,
+              -0.5,
+              -0.1,
+              0.0
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31,
+            60
+          ],
+          "distances": {
+            "31": 0.17320508075688779,
+            "60": 0.5099019513592785
+          },
+          "nearest_gap": 0.33669687060239073,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.17320508075688779
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 41,
+          "point": [
+            3.6,
+            0.1,
+            0.1
+          ],
+          "barycentric": {
+            "31": [
+              -2.8000000000000003,
+              3.6,
+              0.1,
+              0.1
+            ],
+            "60": [
+              -0.8999999999999999,
+              2.0,
+              -0.1,
+              0.0
+            ]
+          },
+          "contained": [],
+          "candidates": [],
+          "distances": {
+            "31": 2.6038433132583076,
+            "60": 1.004987562112089
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 60,
+          "point": [
+            1.7,
+            0.3,
+            0.2
+          ],
+          "barycentric": {
+            "31": [
+              -1.2000000000000002,
+              1.7,
+              0.3,
+              0.2
+            ],
+            "60": [
+              0.7000000000000002,
+              0.09999999999999987,
+              0.09999999999999998,
+              0.1
+            ]
+          },
+          "contained": [
+            60
+          ],
+          "candidates": [
+            31,
+            60
+          ],
+          "distances": {
+            "31": 0.7874007874011811,
+            "60": 0.0
+          },
+          "nearest_gap": 0.7874007874011811,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 60.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 5.929230630780102e-21
+          }
+        },
+        {
+          "probe_id": 79,
+          "point": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "barycentric": {
+            "31": [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "60": [
+              2.9000000000000004,
+              -1.6,
+              -0.2,
+              -0.1
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0,
+            "60": 1.6155494421403513
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        }
+      ],
+      "reference_self_grade": 1,
+      "assets": {
+        "cases\\12-two-candidate-tetra\\problem.json": "e710891ea8b1af1aad9bb56dab20f769ca35857bddf61c39298cf21f544b2e66",
+        "cases\\12-two-candidate-tetra\\input.h5": "41cb5022dc75737aa737a3c2af36eb825df032ba3b155f3f429351a5816a14db",
+        "cases\\12-two-candidate-tetra\\source.msh": "98da7c8fccc18b2e13a3649228a1067fab763db85e57dfa51050e75f7ed8a8b6",
+        "reference\\12-two-candidate-tetra\\reference.h5": "51be94005695983e4c70a8c4e6eef5e0e507967163b875b60649c922615561ec",
+        "reference\\12-two-candidate-tetra\\grading.json": "2effe57d4d5e8377c2693d8ba868bc0740a83903e83199d92cbf34cd304cc1ce"
+      },
+      "reference_raw_score": 1,
+      "defect_raw_score": 1
+    },
+    {
+      "scope": "samples",
+      "name": "01",
+      "mode": 0,
+      "padding": 0,
+      "dimension": 3,
+      "manifest": {
+        "task": "point-ownership-repair",
+        "spatial_dimension": 3,
+        "data_file": "input.h5",
+        "geometries": {},
+        "meshes": {
+          "source": {
+            "file": "source.msh"
+          }
+        },
+        "conditions": [],
+        "physics": {
+          "model": "simplex-ownership-v1",
+          "parameters": {
+            "mode": {
+              "value": 0,
+              "unit": "1"
+            },
+            "padding": {
+              "value": 0,
+              "unit": "m"
+            }
+          }
+        },
+        "locations": {
+          "nodes": {
+            "kind": "mesh",
+            "mesh": "source",
+            "entity": "node",
+            "ids": "node_ids"
+          },
+          "probes": {
+            "kind": "points",
+            "ids": "probe_ids",
+            "coordinates": "probe_coordinates"
+          }
+        },
+        "time_axes": {
+          "instant": "times"
+        },
+        "fields": {},
+        "outputs": {
+          "owned": {
+            "array": "owned",
+            "quantity": "point_owned",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "cell_id": {
+            "array": "cell_id",
+            "quantity": "owning_cell_id",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "distance": {
+            "array": "distance",
+            "quantity": "cell_distance",
+            "unit": "m",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          }
+        }
+      },
+      "raw_msh": "$MeshFormat\n4.1 0 8\n$EndMeshFormat\n$Entities\n1 0 0 1\n10 0 0 0 0 \n20 0 0 0 1 1 1 0 0 \n$EndEntities\n$Nodes\n2 4 7 58\n0 10 0 4\n58\n24\n7\n41\n0 0 0\n1 0 0\n0 1 0\n0 0 1\n3 20 0 0\n$EndNodes\n$Elements\n2 5 31 1004\n0 10 15 4\n1001 58 \n1002 24 \n1003 7 \n1004 41 \n3 20 4 1\n31 58 24 7 41 \n$EndElements\n",
+      "quality": {
+        "31": 1.0
+      },
+      "input_arrays": {
+        "node_ids": {
+          "dtype": "int64",
+          "shape": [
+            4
+          ],
+          "values": [
+            7,
+            24,
+            41,
+            58
+          ]
+        },
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            7,
+            3
+          ],
+          "values": [
+            [
+              0.1,
+              0.1,
+              0.1
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ],
+            [
+              1.1,
+              1.1,
+              1.1
+            ],
+            [
+              0.2,
+              0.3,
+              0.5
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.3,
+              0.0,
+              0.0
+            ],
+            [
+              -0.1,
+              0.1,
+              0.1
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            7
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79,
+            98,
+            117
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "reference_arrays": {
+        "cell_id": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "distance": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                9.122824036074549e-21
+              ],
+              [
+                -1.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                3.965706584841596e-20
+              ],
+              [
+                0.0
+              ],
+              [
+                0.0
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "owned": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                1.0
+              ],
+              [
+                0.0
+              ],
+              [
+                0.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                0.0
+              ]
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            7
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79,
+            98,
+            117
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "grading": {
+        "version": 1,
+        "checks": [
+          {
+            "id": "outputs",
+            "evaluator": "direct_outputs",
+            "reference": "reference.h5",
+            "policy": {
+              "version": 2,
+              "quantities": {
+                "point_owned": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "owning_cell_id": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "cell_distance": {
+                  "unit": "m",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 1e-08,
+                    "rtol": 1e-08
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "queries": [
+        {
+          "probe_id": 3,
+          "point": [
+            0.1,
+            0.1,
+            0.1
+          ],
+          "barycentric": {
+            "31": [
+              0.7,
+              0.1,
+              0.1,
+              0.1
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 9.122824036074549e-21
+          }
+        },
+        {
+          "probe_id": 22,
+          "point": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "barycentric": {
+            "31": [
+              -0.5,
+              0.5,
+              0.5,
+              0.5
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.28867513459481287
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 41,
+          "point": [
+            1.1,
+            1.1,
+            1.1
+          ],
+          "barycentric": {
+            "31": [
+              -2.3000000000000003,
+              1.1,
+              1.1,
+              1.1
+            ]
+          },
+          "contained": [],
+          "candidates": [],
+          "distances": {
+            "31": 1.3279056191361394
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 60,
+          "point": [
+            0.2,
+            0.3,
+            0.5
+          ],
+          "barycentric": {
+            "31": [
+              0.0,
+              0.2,
+              0.3,
+              0.5
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 3.965706584841596e-20
+          }
+        },
+        {
+          "probe_id": 79,
+          "point": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "barycentric": {
+            "31": [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 98,
+          "point": [
+            0.3,
+            0.0,
+            0.0
+          ],
+          "barycentric": {
+            "31": [
+              0.7,
+              0.3,
+              0.0,
+              0.0
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 117,
+          "point": [
+            -0.1,
+            0.1,
+            0.1
+          ],
+          "barycentric": {
+            "31": [
+              0.9,
+              -0.1,
+              0.1,
+              0.1
+            ]
+          },
+          "contained": [],
+          "candidates": [],
+          "distances": {
+            "31": 0.1
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        }
+      ],
+      "reference_self_grade": 1,
+      "assets": {
+        "samples\\01\\input\\problem.json": "fd178515b1f082452690ae783daec49383804adb3e2b5b8e4bc60b8c51c443c7",
+        "samples\\01\\input\\input.h5": "fbb22f9b4e2faf2054493a4933c7b8a377a342015c8c3e603d26a0723dcb1a7f",
+        "samples\\01\\input\\source.msh": "29a1d2e0e030ea6a4f8d92e7559a531aa0cb53fbf254338ca98ac0d2c2378fcb",
+        "samples\\01\\reference\\reference.h5": "e65e94b6ffbc165a0311ffbdb6fedd0fad48aff594487a5757b08be5b26b51e3",
+        "samples\\01\\reference\\grading.json": "2effe57d4d5e8377c2693d8ba868bc0740a83903e83199d92cbf34cd304cc1ce"
+      },
+      "output_arrays": {
+        "cell_id": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "distance": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                9.122824036074549e-21
+              ],
+              [
+                -1.0
+              ],
+              [
+                -1.0
+              ],
+              [
+                3.965706584841596e-20
+              ],
+              [
+                0.0
+              ],
+              [
+                0.0
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "owned": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                1.0
+              ],
+              [
+                0.0
+              ],
+              [
+                0.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                0.0
+              ]
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            7
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79,
+            98,
+            117
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "output_sha256": "e65e94b6ffbc165a0311ffbdb6fedd0fad48aff594487a5757b08be5b26b51e3",
+      "sample_grade": 1
+    },
+    {
+      "scope": "samples",
+      "name": "02",
+      "mode": 1,
+      "padding": 0.25,
+      "dimension": 2,
+      "manifest": {
+        "task": "point-ownership-repair",
+        "spatial_dimension": 2,
+        "data_file": "input.h5",
+        "geometries": {},
+        "meshes": {
+          "source": {
+            "file": "source.msh"
+          }
+        },
+        "conditions": [],
+        "physics": {
+          "model": "simplex-ownership-v1",
+          "parameters": {
+            "mode": {
+              "value": 1,
+              "unit": "1"
+            },
+            "padding": {
+              "value": 0.25,
+              "unit": "m"
+            }
+          }
+        },
+        "locations": {
+          "nodes": {
+            "kind": "mesh",
+            "mesh": "source",
+            "entity": "node",
+            "ids": "node_ids"
+          },
+          "probes": {
+            "kind": "points",
+            "ids": "probe_ids",
+            "coordinates": "probe_coordinates"
+          }
+        },
+        "time_axes": {
+          "instant": "times"
+        },
+        "fields": {},
+        "outputs": {
+          "owned": {
+            "array": "owned",
+            "quantity": "point_owned",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "cell_id": {
+            "array": "cell_id",
+            "quantity": "owning_cell_id",
+            "unit": "1",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          },
+          "distance": {
+            "array": "distance",
+            "quantity": "cell_distance",
+            "unit": "m",
+            "location": "probes",
+            "time_axis": "instant",
+            "dtype": "float64",
+            "kind": "scalar",
+            "component_shape": [
+              1
+            ],
+            "components": [
+              "value"
+            ],
+            "value_kind": "point"
+          }
+        }
+      },
+      "raw_msh": "$MeshFormat\n4.1 0 8\n$EndMeshFormat\n$Entities\n1 0 1 0\n10 0 0 0 0 \n20 0 0 0 2 1 0 0 0 \n$EndEntities\n$Nodes\n2 3 7 41\n0 10 0 3\n24\n7\n41\n0 0 0\n2 0 0\n0 1 0\n2 20 0 0\n$EndNodes\n$Elements\n2 4 31 1003\n0 10 15 3\n1001 24 \n1002 7 \n1003 41 \n2 20 2 1\n31 24 7 41 \n$EndElements\n",
+      "quality": {
+        "31": 0.5
+      },
+      "input_arrays": {
+        "node_ids": {
+          "dtype": "int64",
+          "shape": [
+            3
+          ],
+          "values": [
+            7,
+            24,
+            41
+          ]
+        },
+        "probe_coordinates": {
+          "dtype": "float64",
+          "shape": [
+            7,
+            2
+          ],
+          "values": [
+            [
+              0.2,
+              0.2
+            ],
+            [
+              1.8,
+              0.8
+            ],
+            [
+              2.2,
+              0.3
+            ],
+            [
+              -0.2,
+              -0.1
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.5
+            ],
+            [
+              3.0,
+              3.0
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            7
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79,
+            98,
+            117
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "reference_arrays": {
+        "cell_id": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "distance": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                3.601633495001436e-20
+              ],
+              [
+                0.6260990336999411
+              ],
+              [
+                0.360555127546399
+              ],
+              [
+                0.223606797749979
+              ],
+              [
+                0.0
+              ],
+              [
+                0.0
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "owned": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                0.0
+              ]
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            7
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79,
+            98,
+            117
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "grading": {
+        "version": 1,
+        "checks": [
+          {
+            "id": "outputs",
+            "evaluator": "direct_outputs",
+            "reference": "reference.h5",
+            "policy": {
+              "version": 2,
+              "quantities": {
+                "point_owned": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "owning_cell_id": {
+                  "unit": "1",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 0,
+                    "rtol": 0
+                  }
+                },
+                "cell_distance": {
+                  "unit": "m",
+                  "rule": {
+                    "metric": "pointwise",
+                    "time": "per_time",
+                    "components": "per_component",
+                    "atol": 1e-08,
+                    "rtol": 1e-08
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "queries": [
+        {
+          "probe_id": 3,
+          "point": [
+            0.2,
+            0.2
+          ],
+          "barycentric": {
+            "31": [
+              0.7,
+              0.1,
+              0.2
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 3.601633495001436e-20
+          }
+        },
+        {
+          "probe_id": 22,
+          "point": [
+            1.8,
+            0.8
+          ],
+          "barycentric": {
+            "31": [
+              -0.7000000000000002,
+              0.9,
+              0.8
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.6260990336999411
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.6260990336999411
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 41,
+          "point": [
+            2.2,
+            0.3
+          ],
+          "barycentric": {
+            "31": [
+              -0.40000000000000013,
+              1.1,
+              0.3
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.360555127546399
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.360555127546399
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 60,
+          "point": [
+            -0.2,
+            -0.1
+          ],
+          "barycentric": {
+            "31": [
+              1.2,
+              -0.1,
+              -0.1
+            ]
+          },
+          "contained": [],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.223606797749979
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.223606797749979
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 79,
+          "point": [
+            0.0,
+            0.0
+          ],
+          "barycentric": {
+            "31": [
+              1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 98,
+          "point": [
+            1.0,
+            0.5
+          ],
+          "barycentric": {
+            "31": [
+              0.0,
+              0.5,
+              0.5
+            ]
+          },
+          "contained": [
+            31
+          ],
+          "candidates": [
+            31
+          ],
+          "distances": {
+            "31": 0.0
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 1.0,
+            "cell_id": 31.0,
+            "distance": 0.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        },
+        {
+          "probe_id": 117,
+          "point": [
+            3.0,
+            3.0
+          ],
+          "barycentric": {
+            "31": [
+              -3.5,
+              1.5,
+              3.0
+            ]
+          },
+          "contained": [],
+          "candidates": [],
+          "distances": {
+            "31": 3.1304951684997055
+          },
+          "nearest_gap": null,
+          "expected": {
+            "owned": 0.0,
+            "cell_id": -1.0,
+            "distance": -1.0
+          },
+          "reference_error": {
+            "owned": 0.0,
+            "cell_id": 0.0,
+            "distance": 0.0
+          }
+        }
+      ],
+      "reference_self_grade": 1,
+      "assets": {
+        "samples\\02\\input\\problem.json": "eec72479d4949673ac93b04e83ebab6bac271ab3001fa35d80b73db867820927",
+        "samples\\02\\input\\input.h5": "679191ada91f98ac9040e4d4614ee87082cb7d189aeed99ad710870bd8c09d7e",
+        "samples\\02\\input\\source.msh": "5fa6f3ccfd1eed08698c1ab5192258803114f1197151ccac3d14e364a326bb77",
+        "samples\\02\\reference\\reference.h5": "1dc3f3731613c58831de57546d81774ee28859272731cd1eb7c4071826e22765",
+        "samples\\02\\reference\\grading.json": "2effe57d4d5e8377c2693d8ba868bc0740a83903e83199d92cbf34cd304cc1ce"
+      },
+      "output_arrays": {
+        "cell_id": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                31.0
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "distance": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                3.601633495001436e-20
+              ],
+              [
+                0.6260990336999411
+              ],
+              [
+                0.360555127546399
+              ],
+              [
+                0.223606797749979
+              ],
+              [
+                0.0
+              ],
+              [
+                0.0
+              ],
+              [
+                -1.0
+              ]
+            ]
+          ]
+        },
+        "owned": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            7,
+            1
+          ],
+          "values": [
+            [
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                1.0
+              ],
+              [
+                0.0
+              ]
+            ]
+          ]
+        },
+        "probe_ids": {
+          "dtype": "int64",
+          "shape": [
+            7
+          ],
+          "values": [
+            3,
+            22,
+            41,
+            60,
+            79,
+            98,
+            117
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        }
+      },
+      "output_sha256": "1dc3f3731613c58831de57546d81774ee28859272731cd1eb7c4071826e22765",
+      "sample_grade": 1
+    }
+  ],
+  "coverage": {
+    "queries": 71,
+    "contained": 33,
+    "candidate": 57,
+    "outside": 38,
+    "strict_reject_candidate": 13,
+    "no_candidate": 14,
+    "closed_boundary": 20,
+    "extrapolated": 11,
+    "multiple_candidates": 6,
+    "contains_priority": 2
+  },
+  "errors": []
+}

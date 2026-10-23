@@ -127,7 +127,16 @@ class HarborTests(unittest.TestCase):
         config['base_image'] = 'repair:test'
         config['replacements'] = [{'submission': '../a.cpp', 'target': '/opt/a.cpp'}]
         path.write_text(json.dumps(config))
-        with self.assertRaisesRegex(ValueError, r'plain C\+\+'):
+        with self.assertRaisesRegex(ValueError, 'plain supported'):
+            configuration(task, self.root)
+        for suffix in ('py', 'f90', 'hpp'):
+            config['replacements'] = [{'submission': 'material.' + suffix,
+                                       'target': '/opt/source/material.' + suffix}]
+            path.write_text(json.dumps(config))
+            self.assertEqual(configuration(task, self.root)['replacements'], config['replacements'])
+        config['replacements'] = [{'submission': 'material.py.sh', 'target': '/opt/source/material.py.sh'}]
+        path.write_text(json.dumps(config))
+        with self.assertRaisesRegex(ValueError, 'plain supported'):
             configuration(task, self.root)
 
     def test_instruction_lists_only_published_sample_assets(self):

@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "base_image": "caeoj-pybamm5859-core:offline-sdk",
+  "replacements": [
+    {
+      "submission": "diffusion_element.py",
+      "target": "/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/diffusion_element.py"
+    },
+    {
+      "submission": "thermal.py",
+      "target": "/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/thermal.py"
+    }
+  ],
+  "build_directory": "/opt/pybamm-build",
+  "build_target": "repair_sources",
+  "build_timeout_seconds": 60,
+  "max_source_bytes": 1048576,
+  "runner": "/app/qbank/19-solver-repair/19.4-observations/diffusion-element-heat-repair/public/run_case.py",
+  "rebuild_files": [
+    "/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/__pycache__/diffusion_element.cpython-314.pyc",
+    "/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/__pycache__/thermal.cpython-314.pyc"
+  ],
+  "baseline_probe": [
+    "/usr/local/bin/python",
+    "-c",
+    "import runpy, json, math, gmsh; assert hasattr(gmsh.lib, 'gmshInitialize'); d=runpy.run_path('/opt/repair-driver/driver.py'); v=d['run']({'grid_count': 4, 'rc_count': 0, 'states': [{'current': 0.0, 'average_soc': 0.5, 'diffusion_enabled': False, 'soc_profile': [0.5, 0.5, 0.5, 0.5], 'ocv_coefficients': [3.0, 1.0, 0.0, 0.0], 'element_heat': [0.0], 'reversible_heat': 0.0}]}); assert set(v)=={'surface_soc','diffusion_overpotential','irreversible_heat','total_heat'}; assert all(math.isfinite(z[0]) for a in v.values() for z in a); import pybamm; print(pybamm.__file__)"
+  ]
+}

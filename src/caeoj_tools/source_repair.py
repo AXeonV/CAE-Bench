@@ -12,8 +12,14 @@ def configuration(source, root):
     config = json.loads(read_public_file(root, path))
     required = {'version', 'base_image', 'replacements', 'build_directory', 'build_target',
                 'build_timeout_seconds', 'max_source_bytes', 'runner', 'rebuild_files'}
-    if set(config) != required or config['version'] != 1:
+    if set(config) - required - {'baseline_probe'} or required - set(config) or config['version'] != 1:
         raise ValueError('Invalid source-repair configuration keys')
+    if 'baseline_probe' in config:
+        probe = config['baseline_probe']
+        if (not isinstance(probe, list) or not probe or len(probe) > 16
+                or any(not isinstance(arg, str) or '\0' in arg for arg in probe)
+                or not PurePosixPath(probe[0]).is_absolute()):
+            raise ValueError('Invalid trusted baseline probe command')
     if not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9._:/@-]*', config['base_image']):
         raise ValueError('Invalid source-repair base image')
     if not re.fullmatch(r'[A-Za-z0-9_-]+', config['build_target']):
@@ -39,8 +45,8 @@ def configuration(source, root):
     for row in replacements:
         if not isinstance(row, dict) or set(row) != {'submission', 'target'}:
             raise ValueError('Invalid source replacement')
-        if not re.fullmatch(r'[A-Za-z0-9_]+\.(cpp|h)', row['submission']):
-            raise ValueError('Submission must be a plain C++ source/header filename')
+        if not re.fullmatch(r'[A-Za-z0-9_]+\.(cpp|c|h|hpp|py|f|f90|F|F90)', row['submission']):
+            raise ValueError('Submission must be a plain supported source/header filename')
         target = PurePosixPath(row['target'])
         if not target.is_absolute() or '..' in target.parts or '\\' in row['target']:
             raise ValueError('Invalid source replacement target')

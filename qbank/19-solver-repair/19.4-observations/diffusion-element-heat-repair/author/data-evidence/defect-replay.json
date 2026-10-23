@@ -1,0 +1,777 @@
+{
+  "mode": "defect",
+  "image_id": "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+  "cases": [
+    {
+      "case": "01-discharge-public",
+      "elapsed_seconds": 1.812999999965541,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.1732952420755277e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 0.3414890733674607,
+          "max_tolerance_fraction": 126129626.67696242,
+          "passed": false
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 11.451216729605342,
+          "max_tolerance_fraction": 38291209.9994275,
+          "passed": false
+        },
+        "total_heat": {
+          "max_absolute_error": 11.451216729605342,
+          "max_tolerance_fraction": 48640770.84828114,
+          "passed": false
+        }
+      },
+      "input_sha256": "e7babc3564c3b2d934fdacfe0161ac7fc0316f19053bb00d9546d3b127b061ba",
+      "output_sha256": "49d30ceb6f538334470a9c30839e2781338c86ca4b6da1c31b968bf37c16a7fa"
+    },
+    {
+      "case": "02-disabled-public",
+      "elapsed_seconds": 1.702999999979511,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "total_heat": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        }
+      },
+      "input_sha256": "f5e2bbf21d1a5697b9eac64a7491afa5a41472c0d9f7945eb00084311eea904c",
+      "output_sha256": "9eaf5118a8e6a3e94cd1315736d39273afcdc16de3f3753fe08bb258df213b2a"
+    },
+    {
+      "case": "03-charge",
+      "elapsed_seconds": 1.672000000020489,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.1164309422133698e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 0.3225231383369209,
+          "max_tolerance_fraction": 123448366.08133484,
+          "passed": false
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 9.925648746523311,
+          "max_tolerance_fraction": 61217942.48158067,
+          "passed": false
+        },
+        "total_heat": {
+          "max_absolute_error": 9.925648746523311,
+          "max_tolerance_fraction": 184576931.53376916,
+          "passed": false
+        }
+      },
+      "input_sha256": "1df1255e8edfa565b671bf7ea0506f811984f8f419ccd9fc1f3e6dd344d6a5c0",
+      "output_sha256": "056193176bac77baeb006e88d15610ea22efc44786ea34f12104a42b8f5ea366"
+    },
+    {
+      "case": "04-reversed-current",
+      "elapsed_seconds": 1.952999999979511,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 3.293714306281531e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 0.34212680015390795,
+          "max_tolerance_fraction": 126216523.53537193,
+          "passed": false
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 8.595260004385965,
+          "max_tolerance_fraction": 302824751.35358983,
+          "passed": false
+        },
+        "total_heat": {
+          "max_absolute_error": 8.595260004385965,
+          "max_tolerance_fraction": 185735272.13384157,
+          "passed": false
+        }
+      },
+      "input_sha256": "bb6f31048c5a8a823a7f1f2640f043f05ed99be263ad0b5f0f4dfda96b365a5e",
+      "output_sha256": "c4d3fce802272805757a129b9faa0871fc944058bcbbc201525c270b172ebe70"
+    },
+    {
+      "case": "05-nonlinear-ocv",
+      "elapsed_seconds": 1.7190000000409782,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 1.8457853314322192e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 0.43934048417130267,
+          "max_tolerance_fraction": 137435527.7190885,
+          "passed": false
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 16.835264070110757,
+          "max_tolerance_fraction": 602713088.7981791,
+          "passed": false
+        },
+        "total_heat": {
+          "max_absolute_error": 16.835264070110757,
+          "max_tolerance_fraction": 142130290.74086943,
+          "passed": false
+        }
+      },
+      "input_sha256": "a79ad33ad462ed96d949dec5f92d2c097425ff08d82d3a20e86ebdcd94831cdd",
+      "output_sha256": "ca6d7bea1b7e995fe58809904c5798628e3f693aad211b6d844e79edbda002dd"
+    },
+    {
+      "case": "06-linear-ocv",
+      "elapsed_seconds": 2.0630000000819564,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 3.031391610325623e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 0.4932551659911777,
+          "max_tolerance_fraction": 142301187.2651389,
+          "passed": false
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 13.370514891093048,
+          "max_tolerance_fraction": 41056750.30219911,
+          "passed": false
+        },
+        "total_heat": {
+          "max_absolute_error": 13.370514891093048,
+          "max_tolerance_fraction": 121207443.90088196,
+          "passed": false
+        }
+      },
+      "input_sha256": "482b2fda66fc1fa046860b39dbeddf75f9745a6204e75fe0bd533f858aed555f",
+      "output_sha256": "3e9481d688347ab4cb332ebc473a44f2fcf54a74d9c226e4f71d283399bf67e4"
+    },
+    {
+      "case": "07-zero-current",
+      "elapsed_seconds": 2.2969999999040738,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 3.2041260686797335e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 0.3578130076253725,
+          "max_tolerance_fraction": 128291381.78350976,
+          "passed": false
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "total_heat": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        }
+      },
+      "input_sha256": "0aaf90bc9e501f3bef1e441e9d63127b4d49f98b9a8f8d1ae6dab1d65ccfa5c9",
+      "output_sha256": "346e965919f5a0d47eab5a2ca05e8a33c158a45b5ea17334501436067759f8d5"
+    },
+    {
+      "case": "08-uniform-profile",
+      "elapsed_seconds": 1.625,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 1.8734498697279376e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 4.440892098500626e-16,
+          "max_tolerance_fraction": 4.4408920985006256e-07,
+          "passed": true
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "total_heat": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        }
+      },
+      "input_sha256": "bfa573a633c0767edb6519bf042ca513baed9c84e5ec0c4377b3098f6e22dcb6",
+      "output_sha256": "db455d05184d5457cb65ff3ebf357de1e5a90766daa1eb75c0b5b48b8e1ef716"
+    },
+    {
+      "case": "09-no-other-heat",
+      "elapsed_seconds": 1.984000000054948,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 4.160615681729452e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 0.49036300528465393,
+          "max_tolerance_fraction": 142059467.70930028,
+          "passed": false
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 12.433640252777103,
+          "max_tolerance_fraction": 92556001.34302187,
+          "passed": false
+        },
+        "total_heat": {
+          "max_absolute_error": 12.433640252777103,
+          "max_tolerance_fraction": 271508239.92067343,
+          "passed": false
+        }
+      },
+      "input_sha256": "d8a5b846ab3638f8bca31306718193ab3a9e1b4bff82af7270ebad6fc8de4263",
+      "output_sha256": "ecd059f68779f8ecc39744541f1b74ced017cf125a5733b1302a6c51e0e8878a"
+    },
+    {
+      "case": "10-no-reversible-heat",
+      "elapsed_seconds": 1.859000000054948,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.1342615153967294e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 0.37685520407122297,
+          "max_tolerance_fraction": 130658508.89842837,
+          "passed": false
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 11.2548913861337,
+          "max_tolerance_fraction": 24821570.199341062,
+          "passed": false
+        },
+        "total_heat": {
+          "max_absolute_error": 11.2548913861337,
+          "max_tolerance_fraction": 24821570.199341062,
+          "passed": false
+        }
+      },
+      "input_sha256": "498ebda715f55251a561c25d5cbb0c56dc874e1322b54b18a47a158fa75f097a",
+      "output_sha256": "1c7163ddbf637a876df372fa1eccf0939daca2ace057d73ba3928d9da6d7301e"
+    },
+    {
+      "case": "11-four-elements",
+      "elapsed_seconds": 1.812999999965541,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 3.8357548064083244e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 0.4721853936631568,
+          "max_tolerance_fraction": 140492607.5795621,
+          "passed": false
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 11.445202195500869,
+          "max_tolerance_fraction": 20951136.76835494,
+          "passed": false
+        },
+        "total_heat": {
+          "max_absolute_error": 11.445202195500869,
+          "max_tolerance_fraction": 35939590.64992704,
+          "passed": false
+        }
+      },
+      "input_sha256": "39643a4747e25f1b5e8a63a3083a54b7c3e6d5e27b540f59e5264fb8e50428be",
+      "output_sha256": "997f0b410c218748a7827ae35b20dc98d1925e43ed49e8b5fca63dae112d05ad"
+    },
+    {
+      "case": "12-two-elements",
+      "elapsed_seconds": 2.047000000020489,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.05649214848302e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 0.43802053452763623,
+          "max_tolerance_fraction": 137306093.08740458,
+          "passed": false
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 17.29159120044573,
+          "max_tolerance_fraction": 45355416.25599749,
+          "passed": false
+        },
+        "total_heat": {
+          "max_absolute_error": 17.29159120044573,
+          "max_tolerance_fraction": 61391111.611950025,
+          "passed": false
+        }
+      },
+      "input_sha256": "e3c9aa439ebb3a029ccca795057f341418cce848b7e2aeae1db3b8a9fa6e6b3d",
+      "output_sha256": "e3156ea6baae47bed2a92d58b387ddba45f93268531c332fcc4b078fe953bf47"
+    },
+    {
+      "case": "13-coarse-grid",
+      "elapsed_seconds": 1.7809999999590218,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.522546052280643e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 0.4330388735128814,
+          "max_tolerance_fraction": 136812727.18998975,
+          "passed": false
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 9.640882132555426,
+          "max_tolerance_fraction": 17915994.97476433,
+          "passed": false
+        },
+        "total_heat": {
+          "max_absolute_error": 9.640882132555433,
+          "max_tolerance_fraction": 55607358.682861306,
+          "passed": false
+        }
+      },
+      "input_sha256": "1b5ac876f0eca0d86697fe288149fd1025cce5f627772cc9a94a47e66a163038",
+      "output_sha256": "2772d6982dfc59b890381816e1dc023bfd84613a94ad73283c1300d398734e8b"
+    },
+    {
+      "case": "14-fine-grid",
+      "elapsed_seconds": 1.7190000000409782,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.0586709437319846e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 0.33210972955711515,
+          "max_tolerance_fraction": 124827535.04001373,
+          "passed": false
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 10.43319527486404,
+          "max_tolerance_fraction": 43865249.74504546,
+          "passed": false
+        },
+        "total_heat": {
+          "max_absolute_error": 10.43319527486404,
+          "max_tolerance_fraction": 35979156.17045017,
+          "passed": false
+        }
+      },
+      "input_sha256": "df11ee2ebb3687d85686dd9a8b3a54fd51817748cf475e607894fc33757c5808",
+      "output_sha256": "e2f0650cd43c4a73f91a9ec9ce2ee9bc406ef244dcf72acbbebb5387ef28405d"
+    },
+    {
+      "case": "15-disabled-rc",
+      "elapsed_seconds": 2.702999999979511,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "total_heat": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        }
+      },
+      "input_sha256": "b932c2b3231951efb8ce40feb56c2d7b17b5a64bba01a9634ce45854641beeaa",
+      "output_sha256": "5809a2aaec2e81dbdc0eaa3398cc4f1ba0a7f061332eb75204a9e2b99a956f9a"
+    },
+    {
+      "case": "16-mixed-states",
+      "elapsed_seconds": 1.7349999999860302,
+      "score": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 3.1571128030137915e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 0.3248857925416111,
+          "max_tolerance_fraction": 123792945.87816656,
+          "passed": false
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 11.49251433506332,
+          "max_tolerance_fraction": 23107201.246899437,
+          "passed": false
+        },
+        "total_heat": {
+          "max_absolute_error": 11.492514335063316,
+          "max_tolerance_fraction": 35427136.96374816,
+          "passed": false
+        }
+      },
+      "input_sha256": "5558ca21882f2b5517a9b5898fe94b47e89043fdd1175b99d168cc20c3369322",
+      "output_sha256": "2c839f6b749ef7589bb84f59796429c240b2715f49001ad9a3650b6709e161ee"
+    }
+  ],
+  "reference_producer": "actual pinned PyBaMM submodels, not author independent algebra",
+  "driver_sha256": "ad853e5150d1ea59133437e0670bdb3edf34320fb3b8b4fbf4e3601d0f916f24",
+  "source_overlays_sha256": {}
+}

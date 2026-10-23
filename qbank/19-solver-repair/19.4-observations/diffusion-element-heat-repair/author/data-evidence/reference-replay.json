@@ -1,0 +1,844 @@
+{
+  "mode": "reference",
+  "image_id": "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+  "cases": [
+    {
+      "case": "01-discharge-public",
+      "elapsed_seconds": 5.26500000001397,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\diffusion_element.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/diffusion_element.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\thermal.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/thermal.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.1732952420755277e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 4.440892098500626e-16,
+          "max_tolerance_fraction": 2.498665404922394e-07,
+          "passed": true
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 1.0658141036401503e-14,
+          "max_tolerance_fraction": 5.448021809469366e-08,
+          "passed": true
+        },
+        "total_heat": {
+          "max_absolute_error": 1.0658141036401503e-14,
+          "max_tolerance_fraction": 4.5358502959889436e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "e7babc3564c3b2d934fdacfe0161ac7fc0316f19053bb00d9546d3b127b061ba",
+      "output_sha256": "493916db20e5ae07a45e8fdee0e108660e6612f6653b7bd9af235182dd45e2d8"
+    },
+    {
+      "case": "02-disabled-public",
+      "elapsed_seconds": 1.952999999979511,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\diffusion_element.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/diffusion_element.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\thermal.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/thermal.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "total_heat": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        }
+      },
+      "input_sha256": "f5e2bbf21d1a5697b9eac64a7491afa5a41472c0d9f7945eb00084311eea904c",
+      "output_sha256": "9eaf5118a8e6a3e94cd1315736d39273afcdc16de3f3753fe08bb258df213b2a"
+    },
+    {
+      "case": "03-charge",
+      "elapsed_seconds": 2.047000000020489,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\diffusion_element.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/diffusion_element.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\thermal.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/thermal.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.1164309422133698e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 8.881784197001252e-16,
+          "max_tolerance_fraction": 4.4456627856388774e-07,
+          "passed": true
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 4.618527782440651e-14,
+          "max_tolerance_fraction": 1.9450683175389366e-07,
+          "passed": true
+        },
+        "total_heat": {
+          "max_absolute_error": 4.263256414560601e-14,
+          "max_tolerance_fraction": 1.0987747801872811e-07,
+          "passed": true
+        }
+      },
+      "input_sha256": "1df1255e8edfa565b671bf7ea0506f811984f8f419ccd9fc1f3e6dd344d6a5c0",
+      "output_sha256": "7425a975e9d2f362ab5a74131a8e9ec5d0bad8ef83f350755e7c27dc0a58762a"
+    },
+    {
+      "case": "04-reversed-current",
+      "elapsed_seconds": 1.827999999979511,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\diffusion_element.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/diffusion_element.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\thermal.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/thermal.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 3.293714306281531e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 4.440892098500626e-16,
+          "max_tolerance_fraction": 1.7301431483640347e-07,
+          "passed": true
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 7.105427357601002e-15,
+          "max_tolerance_fraction": 2.7450593681290342e-08,
+          "passed": true
+        },
+        "total_heat": {
+          "max_absolute_error": 7.105427357601002e-15,
+          "max_tolerance_fraction": 5.020484591625442e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "bb6f31048c5a8a823a7f1f2640f043f05ed99be263ad0b5f0f4dfda96b365a5e",
+      "output_sha256": "5969ff10a6e05740e6be0e3d963b00abff8db15355ca8966d708c9793e800369"
+    },
+    {
+      "case": "05-nonlinear-ocv",
+      "elapsed_seconds": 2.202999999979511,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\diffusion_element.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/diffusion_element.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\thermal.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/thermal.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 1.8457853314322192e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 8.881784197001252e-16,
+          "max_tolerance_fraction": 2.889614862478074e-07,
+          "passed": true
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 7.105427357601002e-14,
+          "max_tolerance_fraction": 3.3128279345912993e-07,
+          "passed": true
+        },
+        "total_heat": {
+          "max_absolute_error": 6.927791673660977e-14,
+          "max_tolerance_fraction": 5.374162075954934e-07,
+          "passed": true
+        }
+      },
+      "input_sha256": "a79ad33ad462ed96d949dec5f92d2c097425ff08d82d3a20e86ebdcd94831cdd",
+      "output_sha256": "f27d5f5f73e20d3790a66aaff01d651682e25589e253b072bff06fa3851d8517"
+    },
+    {
+      "case": "06-linear-ocv",
+      "elapsed_seconds": 1.7190000000409782,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\diffusion_element.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/diffusion_element.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\thermal.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/thermal.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 3.031391610325623e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "total_heat": {
+          "max_absolute_error": 7.105427357601002e-15,
+          "max_tolerance_fraction": 1.982519814766106e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "482b2fda66fc1fa046860b39dbeddf75f9745a6204e75fe0bd533f858aed555f",
+      "output_sha256": "fbbb3658f1a464ac92e59af7adf93004d41509e221fe481192171b860c7a85e8"
+    },
+    {
+      "case": "07-zero-current",
+      "elapsed_seconds": 1.8429999999934807,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\diffusion_element.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/diffusion_element.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\thermal.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/thermal.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 3.2041260686797335e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 8.881784197001252e-16,
+          "max_tolerance_fraction": 3.7534698122537465e-07,
+          "passed": true
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "total_heat": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        }
+      },
+      "input_sha256": "0aaf90bc9e501f3bef1e441e9d63127b4d49f98b9a8f8d1ae6dab1d65ccfa5c9",
+      "output_sha256": "fa2d8da88c5535fddc90cb54d773dcd0497745455a318c470f51ca90bd81c257"
+    },
+    {
+      "case": "08-uniform-profile",
+      "elapsed_seconds": 1.7189999999245629,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\diffusion_element.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/diffusion_element.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\thermal.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/thermal.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 1.8734498697279376e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 4.440892098500626e-16,
+          "max_tolerance_fraction": 4.4408920985006256e-07,
+          "passed": true
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 2.842170943040401e-14,
+          "max_tolerance_fraction": 2.981938897213691e-08,
+          "passed": true
+        },
+        "total_heat": {
+          "max_absolute_error": 2.842170943040401e-14,
+          "max_tolerance_fraction": 3.002496565923331e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "bfa573a633c0767edb6519bf042ca513baed9c84e5ec0c4377b3098f6e22dcb6",
+      "output_sha256": "d8c95cfd958f644b22add5caa32fe8fda3e5e4f93faafa83c1e1d78978fbd945"
+    },
+    {
+      "case": "09-no-other-heat",
+      "elapsed_seconds": 2.0469999999040738,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\diffusion_element.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/diffusion_element.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\thermal.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/thermal.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 4.160615681729452e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 4.440892098500626e-16,
+          "max_tolerance_fraction": 1.4969900510483588e-07,
+          "passed": true
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 2.842170943040401e-14,
+          "max_tolerance_fraction": 2.1157116682894985e-07,
+          "passed": true
+        },
+        "total_heat": {
+          "max_absolute_error": 2.842170943040401e-14,
+          "max_tolerance_fraction": 6.206330685224897e-07,
+          "passed": true
+        }
+      },
+      "input_sha256": "d8a5b846ab3638f8bca31306718193ab3a9e1b4bff82af7270ebad6fc8de4263",
+      "output_sha256": "d965eb3470efd16e3a957d4d0588127a92d2ac15c6ad8b1694a98149d4b61d2f"
+    },
+    {
+      "case": "10-no-reversible-heat",
+      "elapsed_seconds": 2.077999999979511,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\diffusion_element.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/diffusion_element.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\thermal.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/thermal.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.1342615153967294e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 8.881784197001252e-16,
+          "max_tolerance_fraction": 3.794436368670727e-07,
+          "passed": true
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 2.842170943040401e-14,
+          "max_tolerance_fraction": 4.275963199570172e-08,
+          "passed": true
+        },
+        "total_heat": {
+          "max_absolute_error": 2.842170943040401e-14,
+          "max_tolerance_fraction": 4.275963199570172e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "498ebda715f55251a561c25d5cbb0c56dc874e1322b54b18a47a158fa75f097a",
+      "output_sha256": "8c604a240b803d5b0cc1af821a47ff56bca75ba70ff1bb9eae714985e0709aec"
+    },
+    {
+      "case": "11-four-elements",
+      "elapsed_seconds": 2.344000000040978,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\diffusion_element.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/diffusion_element.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\thermal.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/thermal.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 3.8357548064083244e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 8.881784197001252e-16,
+          "max_tolerance_fraction": 3.8726744756822104e-07,
+          "passed": true
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 6.394884621840902e-14,
+          "max_tolerance_fraction": 1.4998037000914874e-07,
+          "passed": true
+        },
+        "total_heat": {
+          "max_absolute_error": 6.394884621840902e-14,
+          "max_tolerance_fraction": 2.572764028630144e-07,
+          "passed": true
+        }
+      },
+      "input_sha256": "39643a4747e25f1b5e8a63a3083a54b7c3e6d5e27b540f59e5264fb8e50428be",
+      "output_sha256": "f257a02e86b838bf622db7e7ca0aa06078fcd30b0e530dd66436dc9ab2fa0c4f"
+    },
+    {
+      "case": "12-two-elements",
+      "elapsed_seconds": 1.875,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\diffusion_element.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/diffusion_element.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\thermal.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/thermal.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.05649214848302e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "total_heat": {
+          "max_absolute_error": 3.552713678800501e-15,
+          "max_tolerance_fraction": 1.6662891928831974e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "e3c9aa439ebb3a029ccca795057f341418cce848b7e2aeae1db3b8a9fa6e6b3d",
+      "output_sha256": "c6fdd54e7c3dd48bfd893c5fa9ea1597160598ad9cfcd0825ba7b8e621969d1f"
+    },
+    {
+      "case": "13-coarse-grid",
+      "elapsed_seconds": 2.125,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\diffusion_element.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/diffusion_element.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\thermal.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/thermal.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.522546052280643e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "total_heat": {
+          "max_absolute_error": 1.4210854715202004e-14,
+          "max_tolerance_fraction": 4.186878769601704e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "1b5ac876f0eca0d86697fe288149fd1025cce5f627772cc9a94a47e66a163038",
+      "output_sha256": "33e9a015914e013ffd3534703eda59f0115908def4435182e0765082205f3626"
+    },
+    {
+      "case": "14-fine-grid",
+      "elapsed_seconds": 2.3589999999385327,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\diffusion_element.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/diffusion_element.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\thermal.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/thermal.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.0586709437319846e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 8.881784197001252e-16,
+          "max_tolerance_fraction": 5.654857007762129e-07,
+          "passed": true
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 7.105427357601002e-14,
+          "max_tolerance_fraction": 1.5254125139055098e-07,
+          "passed": true
+        },
+        "total_heat": {
+          "max_absolute_error": 7.105427357601002e-14,
+          "max_tolerance_fraction": 1.8996551200463952e-07,
+          "passed": true
+        }
+      },
+      "input_sha256": "df11ee2ebb3687d85686dd9a8b3a54fd51817748cf475e607894fc33757c5808",
+      "output_sha256": "3869db96a6a06f13551518189f5b7fbed0f0a80558f301ef1d5e69f7e43b6ce1"
+    },
+    {
+      "case": "15-disabled-rc",
+      "elapsed_seconds": 2.0780000000959262,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\diffusion_element.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/diffusion_element.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\thermal.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/thermal.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "total_heat": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        }
+      },
+      "input_sha256": "b932c2b3231951efb8ce40feb56c2d7b17b5a64bba01a9634ce45854641beeaa",
+      "output_sha256": "5809a2aaec2e81dbdc0eaa3398cc4f1ba0a7f061332eb75204a9e2b99a956f9a"
+    },
+    {
+      "case": "16-mixed-states",
+      "elapsed_seconds": 1.7189999999245629,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\diffusion_element.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/diffusion_element.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\diffusion-element-heat-repair\\author\\generated\\thermal.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/thermal.py,readonly",
+        "-i",
+        "sha256:aa628cd5945eddb52348ae9c603e978c3b57dd8ed673dab6f70620e261e45f38",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "surface_soc": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 3.1571128030137915e-08,
+          "passed": true
+        },
+        "diffusion_overpotential": {
+          "max_absolute_error": 4.440892098500626e-16,
+          "max_tolerance_fraction": 1.7200234451116155e-07,
+          "passed": true
+        },
+        "irreversible_heat": {
+          "max_absolute_error": 3.552713678800501e-14,
+          "max_tolerance_fraction": 7.143194914118271e-08,
+          "passed": true
+        },
+        "total_heat": {
+          "max_absolute_error": 3.907985046680551e-14,
+          "max_tolerance_fraction": 1.2046860892627187e-07,
+          "passed": true
+        }
+      },
+      "input_sha256": "5558ca21882f2b5517a9b5898fe94b47e89043fdd1175b99d168cc20c3369322",
+      "output_sha256": "06d65dcae9593c92d528dde9c38b7cd68cc2605271092ec1d5149ec30b73b2c9"
+    }
+  ],
+  "reference_producer": "actual pinned PyBaMM submodels, not author independent algebra",
+  "driver_sha256": "ad853e5150d1ea59133437e0670bdb3edf34320fb3b8b4fbf4e3601d0f916f24",
+  "source_overlays_sha256": {
+    "diffusion_element.py": "ec81979d3b93655fac046b3a71ad0df46311a3b6db2c0f396aedf6b7ea58b95f",
+    "thermal.py": "bc7722064926f68a1f8b08c90132e219b3fc6d1c4fdfd2ceb2c6aff5a90762d8"
+  }
+}

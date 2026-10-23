@@ -73,7 +73,8 @@ def execute(directory, timeout, logs):
     env = {'PATH': '/usr/local/bin:/usr/bin:/bin', 'HOME': '/home/solver',
            'PYTHONDONTWRITEBYTECODE': '1'}
     if SOURCE_REPAIR:
-        env['LD_LIBRARY_PATH'] = '/opt/chrono-build/lib'
+        repair = json.loads((TESTS / 'source-repair.json').read_text())
+        env['LD_LIBRARY_PATH'] = str(Path(repair['build_directory']) / 'lib')
     with (logs / 'stdout.log').open('wb') as out, (logs / 'stderr.log').open('wb') as err:
         process = subprocess.Popen(command, cwd=directory, env=env, stdout=out,
                                    stderr=err, start_new_session=True)

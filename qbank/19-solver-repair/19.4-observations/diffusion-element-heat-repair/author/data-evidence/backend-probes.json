@@ -1,0 +1,184 @@
+{
+  "passed": 6,
+  "expected": 6,
+  "results": [
+    {
+      "mode": "valid",
+      "exit_code": 0,
+      "elapsed_seconds": 9.922000000020489,
+      "passed": true,
+      "result": {
+        "mode": "valid",
+        "passed": true,
+        "binding": {
+          "uid": 1000,
+          "cache_tag": "cpython-314",
+          "modules": {
+            "diffusion_element": {
+              "source": "/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/diffusion_element.py",
+              "cache": "/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/__pycache__/diffusion_element.cpython-314.pyc",
+              "source_sha256": "ec81979d3b93655fac046b3a71ad0df46311a3b6db2c0f396aedf6b7ea58b95f",
+              "pyc_sha256": "64695fc9ed4b58ea89a9bdf7bc1b442aafa2888e45df543105568a07bdba601f"
+            },
+            "thermal": {
+              "source": "/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/thermal.py",
+              "cache": "/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/__pycache__/thermal.cpython-314.pyc",
+              "source_sha256": "bc7722064926f68a1f8b08c90132e219b3fc6d1c4fdfd2ceb2c6aff5a90762d8",
+              "pyc_sha256": "422a5731d47d3d09c56d4f4d933a9ada4858c6d2488107493c34fa3279fc6015"
+            }
+          },
+          "permissions": {
+            "/tests": {
+              "read": false,
+              "write": false
+            },
+            "/tests/cases": {
+              "read": false,
+              "write": false
+            },
+            "/tests/reference": {
+              "read": false,
+              "write": false
+            },
+            "/logs/verifier": {
+              "read": false,
+              "write": false
+            },
+            "/probe": {
+              "read": false,
+              "write": false
+            },
+            "/app/submission": {
+              "read": true,
+              "write": false
+            },
+            "/opt/repair-driver/driver.py": {
+              "read": true,
+              "write": false
+            },
+            "/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/diffusion_element.py": {
+              "read": true,
+              "write": false
+            },
+            "/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/__pycache__/diffusion_element.cpython-314.pyc": {
+              "read": true,
+              "write": false
+            },
+            "/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/thermal.py": {
+              "read": true,
+              "write": false
+            },
+            "/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/__pycache__/thermal.cpython-314.pyc": {
+              "read": true,
+              "write": false
+            }
+          },
+          "network": "denied"
+        },
+        "build": {
+          "command": [
+            "setpriv",
+            "--reuid=1000",
+            "--regid=1000",
+            "--clear-groups",
+            "--no-new-privs",
+            "cmake",
+            "--build",
+            "/opt/pybamm-build",
+            "--target",
+            "repair_sources",
+            "--parallel",
+            "4"
+          ],
+          "exit_code": 0,
+          "status": "built",
+          "elapsed_seconds": 0.06434858000011445,
+          "sources_sha256": {
+            "diffusion_element.py": "ec81979d3b93655fac046b3a71ad0df46311a3b6db2c0f396aedf6b7ea58b95f",
+            "thermal.py": "bc7722064926f68a1f8b08c90132e219b3fc6d1c4fdfd2ceb2c6aff5a90762d8"
+          },
+          "removed_build_artifacts": [
+            "/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/__pycache__/diffusion_element.cpython-314.pyc",
+            "/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/__pycache__/thermal.cpython-314.pyc"
+          ],
+          "built_artifacts_sha256": {
+            "/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/__pycache__/diffusion_element.cpython-314.pyc": "64695fc9ed4b58ea89a9bdf7bc1b442aafa2888e45df543105568a07bdba601f",
+            "/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/__pycache__/thermal.cpython-314.pyc": "422a5731d47d3d09c56d4f4d933a9ada4858c6d2488107493c34fa3279fc6015"
+          }
+        },
+        "baseline_probe": {
+          "command": [
+            "setpriv",
+            "--reuid=1000",
+            "--regid=1000",
+            "--clear-groups",
+            "--no-new-privs",
+            "/usr/local/bin/python",
+            "-c",
+            "import runpy, json, math, gmsh; assert hasattr(gmsh.lib, 'gmshInitialize'); d=runpy.run_path('/opt/repair-driver/driver.py'); v=d['run']({'grid_count': 4, 'rc_count': 0, 'states': [{'current': 0.0, 'average_soc': 0.5, 'diffusion_enabled': False, 'soc_profile': [0.5, 0.5, 0.5, 0.5], 'ocv_coefficients': [3.0, 1.0, 0.0, 0.0], 'element_heat': [0.0], 'reversible_heat': 0.0}]}); assert set(v)=={'surface_soc','diffusion_overpotential','irreversible_heat','total_heat'}; assert all(math.isfinite(z[0]) for a in v.values() for z in a); import pybamm; print(pybamm.__file__)"
+          ],
+          "exit_code": 0,
+          "status": "ready",
+          "elapsed_seconds": 2.8906205160001264
+        },
+        "cpu_max": "400000 100000",
+        "memory_max": "8589934592"
+      }
+    },
+    {
+      "mode": "syntax",
+      "exit_code": 0,
+      "elapsed_seconds": 4.359000000054948,
+      "passed": true,
+      "result": {
+        "mode": "syntax",
+        "passed": true,
+        "classification": "build_error"
+      }
+    },
+    {
+      "mode": "extra",
+      "exit_code": 0,
+      "elapsed_seconds": 0.3279999999795109,
+      "passed": true,
+      "result": {
+        "mode": "extra",
+        "passed": true,
+        "classification": "invalid_submission"
+      }
+    },
+    {
+      "mode": "symlink",
+      "exit_code": 0,
+      "elapsed_seconds": 0.31299999996554106,
+      "passed": true,
+      "result": {
+        "mode": "symlink",
+        "passed": true,
+        "classification": "invalid_submission"
+      }
+    },
+    {
+      "mode": "baseline-runtime",
+      "exit_code": 0,
+      "elapsed_seconds": 2.687000000034459,
+      "passed": true,
+      "result": {
+        "mode": "baseline-runtime",
+        "passed": true,
+        "classification": "infrastructure_error"
+      }
+    },
+    {
+      "mode": "runtime-timeout",
+      "exit_code": 0,
+      "elapsed_seconds": 9.358999999938533,
+      "passed": true,
+      "result": {
+        "mode": "runtime-timeout",
+        "passed": true,
+        "actual_candidate_import_timeout": true
+      }
+    }
+  ]
+}

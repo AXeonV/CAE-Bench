@@ -18,19 +18,22 @@ class SubmissionError(ValueError):
         super().__init__(message)
 
 
-def compile_source(config, label, timeout):
+def compile_source(config, label, timeout, command_override=None):
     build = Path(config['build_directory'])
     command = ['setpriv', '--reuid=1000', '--regid=1000', '--clear-groups', '--no-new-privs',
                'cmake', '--build', str(build), '--target', config['build_target'], '--parallel', '4']
+    if command_override:
+        command = ['setpriv', '--reuid=1000', '--regid=1000', '--clear-groups', '--no-new-privs', *command_override]
     env = {'PATH': '/usr/local/bin:/usr/bin:/bin', 'HOME': '/home/solver',
-           'LD_LIBRARY_PATH': '/opt/chrono-build/lib'}
+           'LD_LIBRARY_PATH': str(build / 'lib')}
     started = time.monotonic()
     status = {'command': command}
     with (LOGS / (label + '-stdout.log')).open('wb') as out, (LOGS / (label + '-stderr.log')).open('wb') as err:
         process = subprocess.Popen(command, env=env, stdout=out, stderr=err, start_new_session=True)
         try:
             code = process.wait(timeout=timeout)
-            status.update(exit_code=code, status='built' if code == 0 else 'build_error')
+            status.update(exit_code=code, status=('ready' if code == 0 else 'probe_error') if command_override
+                          else ('built' if code == 0 else 'build_error'))
         except subprocess.TimeoutExpired:
             status['status'] = 'build_timeout'
         finally:
@@ -85,6 +88,12 @@ def prepare():
     (LOGS / 'baseline-report.json').write_text(json.dumps(baseline, indent=2) + '\n')
     if baseline['status'] != 'built':
         raise RuntimeError('Trusted baseline build failed: ' + baseline['status'])
+    if config.get('baseline_probe'):
+        probe = compile_source(config, 'baseline-probe', min(60, config['build_timeout_seconds']),
+                               command_override=config['baseline_probe'])
+        (LOGS / 'baseline-probe-report.json').write_text(json.dumps(probe, indent=2) + '\n')
+        if probe['status'] != 'ready':
+            raise RuntimeError('Trusted baseline runtime probe failed: ' + probe['status'])
     for target, data in replacements:
         target.write_bytes(data)
         os.utime(target, None)

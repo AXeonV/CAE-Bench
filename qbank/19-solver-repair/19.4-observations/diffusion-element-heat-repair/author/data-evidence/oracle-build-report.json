@@ -1,0 +1,31 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "cmake",
+    "--build",
+    "/opt/pybamm-build",
+    "--target",
+    "repair_sources",
+    "--parallel",
+    "4"
+  ],
+  "exit_code": 0,
+  "status": "built",
+  "elapsed_seconds": 0.06996672700006457,
+  "sources_sha256": {
+    "diffusion_element.py": "ec81979d3b93655fac046b3a71ad0df46311a3b6db2c0f396aedf6b7ea58b95f",
+    "thermal.py": "bc7722064926f68a1f8b08c90132e219b3fc6d1c4fdfd2ceb2c6aff5a90762d8"
+  },
+  "removed_build_artifacts": [
+    "/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/__pycache__/diffusion_element.cpython-314.pyc",
+    "/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/__pycache__/thermal.cpython-314.pyc"
+  ],
+  "built_artifacts_sha256": {
+    "/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/__pycache__/diffusion_element.cpython-314.pyc": "f68bd75736005c5b50806b967ef6f30a7dd688618593fcf04aae1748ab84a1b3",
+    "/opt/pybamm-build/source/packages/pybamm/src/pybamm/models/submodels/equivalent_circuit_elements/__pycache__/thermal.cpython-314.pyc": "98ec7757f91137e3e6a6073d787f5aaabd5380a01406ba6d44e4582d324c76f4"
+  }
+}

@@ -137,6 +137,8 @@ def prepare(task, root=PROJECT_ROOT):
     if repair:
         minimum = repair['build_timeout_seconds'] + 60 + len(cases) * (
             judge_config['timeout_seconds'] + judge_config.get('evaluation_timeout_seconds', 60))
+        if repair.get('baseline_probe'):
+            minimum += min(60, repair['build_timeout_seconds'])
         if resources['verifier']['timeout_sec'] < minimum:
             raise ValueError('Verifier budget cannot cover source build, baseline check and all cases')
     instruction += f"公开样例判分：python -m caeoj grade --input /app/{task_path}/samples/{manifest['public_samples'][0]}/input/problem.json --output /app/sample-result.h5 --grading /app/{task_path}/samples/{manifest['public_samples'][0]}/reference/grading.json\n"

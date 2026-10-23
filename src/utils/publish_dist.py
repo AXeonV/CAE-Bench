@@ -40,7 +40,7 @@ def agent_readme(task_path, sample, *, include_install=True, source_repair=False
 
 {installation}
 
-本题提交题面指定的 C++ 源码替换文件，编译与数据驱动由固定环境提供。按题面操作修改源码、编译，再用以下命令运行和检查样例：
+本题提交题面指定的源码替换文件，构建与数据驱动由固定环境提供。按题面操作修改源码、完成构建或语法检查，再用以下命令运行和检查样例：
 
 ```text
 python {task_path}/public/run_case.py --input {task_path}/samples/{sample}/input/problem.json --output result.h5

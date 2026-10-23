@@ -1,0 +1,137 @@
+┌───────────────────── Traceback (most recent call last) ─────────────────────┐
+│ D:\Code\CAE-Bench-OJ\work\benchmark-env\Lib\site-packages\harbor\cli\jobs.p │
+│ y:1947 in start                                                             │
+│                                                                             │
+│   1944 │   options.apply_defaults()                                         │
+│   1945 │   try:                                                             │
+│   1946 │   │   config = build_job_config(**options.arguments)               │
+│ > 1947 │   │   return _execute_job(                                         │
+│   1948 │   │   │   config,                                                  │
+│   1949 │   │   │   diff_sources=options.arguments["diff_sources"],          │
+│   1950 │   │   │   print_config=options.arguments["print_config"],          │
+│                                                                             │
+│ D:\Code\CAE-Bench-OJ\work\benchmark-env\Lib\site-packages\harbor\cli\jobs.p │
+│ y:2266 in _execute_job                                                      │
+│                                                                             │
+│   2263 │   # (when --upload is set) so everything stays on one event loop.  │
+│        See                                                                  │
+│   2264 │   # the long comment in `HarborHubUploadPlugin.on_job_end` for why │
+│        this matters.                                                        │
+│   2265 │   try:                                                             │
+│ > 2266 │   │   job, job_result = run_async(_run_job())                      │
+│   2267 │   except DATASET_RESOLUTION_ERRORS as exc:                         │
+│   2268 │   │   abort_dataset_resolution(console, exc, "No job was           │
+│        started.")                                                           │
+│   2269                                                                      │
+│                                                                             │
+│ D:\Code\CAE-Bench-OJ\work\benchmark-env\Lib\site-packages\harbor\cli\utils. │
+│ py:108 in run_async                                                         │
+│                                                                             │
+│   105 │   Requires Python 3.12+ (which is the minimum version for this      │
+│       project).                                                             │
+│   106 │   """                                                               │
+│   107 │   if sys.platform == "win32":                                       │
+│ > 108 │   │   return asyncio.run(                                           │
+│   109 │   │   │   with_async_cleanup(coro),                                 │
+│       loop_factory=asyncio.ProactorEventLoop                                │
+│   110 │   │   )                                                             │
+│   111 │   return asyncio.run(with_async_cleanup(coro))                      │
+│                                                                             │
+│ C:\Users\Jim                                                                │
+│ Zhou\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio │
+│ \runners.py:195 in run                                                      │
+│                                                                             │
+│   192 │   │   │   "asyncio.run() cannot be called from a running event      │
+│       loop")                                                                │
+│   193 │                                                                     │
+│   194 │   with Runner(debug=debug, loop_factory=loop_factory) as runner:    │
+│ > 195 │   │   return runner.run(main)                                       │
+│   196                                                                       │
+│   197                                                                       │
+│   198 def _cancel_all_tasks(loop):                                          │
+│                                                                             │
+│ C:\Users\Jim                                                                │
+│ Zhou\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio │
+│ \runners.py:118 in run                                                      │
+│                                                                             │
+│   115 │   │                                                                 │
+│   116 │   │   self._interrupt_count = 0                                     │
+│   117 │   │   try:                                                          │
+│ > 118 │   │   │   return self._loop.run_until_complete(task)                │
+│   119 │   │   except exceptions.CancelledError:                             │
+│   120 │   │   │   if self._interrupt_count > 0:                             │
+│   121 │   │   │   │   uncancel = getattr(task, "uncancel", None)            │
+│                                                                             │
+│ C:\Users\Jim                                                                │
+│ Zhou\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio │
+│ \base_events.py:691 in run_until_complete                                   │
+│                                                                             │
+│    688 │   │   if not future.done():                                        │
+│    689 │   │   │   raise RuntimeError('Event loop stopped before Future     │
+│        completed.')                                                         │
+│    690 │   │                                                                │
+│ >  691 │   │   return future.result()                                       │
+│    692 │                                                                    │
+│    693 │   def stop(self):                                                  │
+│    694 │   │   """Stop running the event loop.                              │
+│                                                                             │
+│ D:\Code\CAE-Bench-OJ\work\benchmark-env\Lib\site-packages\harbor\utils\asyn │
+│ c_cleanup.py:20 in with_async_cleanup                                       │
+│                                                                             │
+│   17 │   async with AsyncExitStack() as stack:                              │
+│   18 │   │   token = _exit_stack.set(stack)                                 │
+│   19 │   │   try:                                                           │
+│ > 20 │   │   │   return await coro                                          │
+│   21 │   │   finally:                                                       │
+│   22 │   │   │   _exit_stack.reset(token)                                   │
+│   23                                                                        │
+│                                                                             │
+│ D:\Code\CAE-Bench-OJ\work\benchmark-env\Lib\site-packages\harbor\cli\jobs.p │
+│ y:2196 in _run_job                                                          │
+│                                                                             │
+│   2193 │   │   │   if upload                                                │
+│   2194 │   │   │   else False                                               │
+│   2195 │   │   )                                                            │
+│ > 2196 │   │   job = await Job.create(config)                               │
+│   2197 │   │   _confirm_host_env_access(                                    │
+│   2198 │   │   │   job,                                                     │
+│   2199 │   │   │   console,                                                 │
+│                                                                             │
+│ D:\Code\CAE-Bench-OJ\work\benchmark-env\Lib\site-packages\harbor\job.py:150 │
+│ in create                                                                   │
+│                                                                             │
+│    147 │   │   │   AgentFactory.run_preflight(agent)                        │
+│    148 │   │   if config.user_agent is not None:                            │
+│    149 │   │   │   AgentFactory.run_preflight(config.user_agent)            │
+│ >  150 │   │   task_configs = await cls._resolve_task_configs(config)       │
+│    151 │   │                                                                │
+│        EnvironmentFactory.validate_resource_policies(config.environment)    │
+│    152 │   │   metrics, datasets = await cls._resolve_metrics(config,       │
+│        task_configs)                                                        │
+│    153                                                                      │
+│                                                                             │
+│ D:\Code\CAE-Bench-OJ\work\benchmark-env\Lib\site-packages\harbor\job.py:406 │
+│ in _resolve_task_configs                                                    │
+│                                                                             │
+│    403 │                                                                    │
+│    404 │   @staticmethod                                                    │
+│    405 │   async def _resolve_task_configs(config: JobConfig) ->            │
+│        list[TaskConfig]:                                                    │
+│ >  406 │   │   return await JobPlan.resolve_task_configs(config)            │
+│    407 │                                                                    │
+│    408 │   def _init_trial_configs(self):                                   │
+│    409 │   │   if self.config.is_regrade:                                   │
+│                                                                             │
+│ D:\Code\CAE-Bench-OJ\work\benchmark-env\Lib\site-packages\harbor\job_plan.p │
+│ y:135 in resolve_task_configs                                               │
+│                                                                             │
+│   132 │   │   │   )                                                         │
+│   133 │   │                                                                 │
+│   134 │   │   if not task_configs:                                          │
+│ > 135 │   │   │   raise ValueError("Either datasets or tasks must be        │
+│       provided.")                                                           │
+│   136 │   │                                                                 │
+│   137 │   │   return task_configs                                           │
+│   138                                                                       │
+└─────────────────────────────────────────────────────────────────────────────┘
+ValueError: Either datasets or tasks must be provided.

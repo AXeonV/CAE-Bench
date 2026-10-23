@@ -10,6 +10,6 @@
 
 环境提供4 CPU、4 GiB内存，无外网；源码字节编译限60秒，每例执行限600秒、评分限30秒。判题先检查原始源码可字节编译和运行环境可用，再强制删除三文件的字节码，以提交件重新编译并实际导入运行。原件和环境故障属于基础设施错误；非法提交、候选编译失败、运行失败和数值错误分别处理。
 
-`public/bempp-source.tar.gz` 与 `public/exafmm-source.tar.gz` 保存完整原始来源和许可证；`public/driver.py`、`CMakeLists.txt`、`run_case.py` 是固定调用工具。考试包根目录支持普通离线 `python -m pip install .`。安装后可用 `python public/run_case.py --input samples/01/input/problem.json --output /tmp/result.h5` 调用当前库，再用 `python -m caeoj grade --input samples/01/input/problem.json --output /tmp/result.h5 --grading samples/01/reference/grading.json` 检查样例。
+`public/bempp-source.tar.gz` 与 `public/exafmm-source.tar.gz` 保存完整原始来源和许可证；`public/driver.py`、`CMakeLists.txt`、`run_case.py` 是固定调用工具。考试包根目录支持普通离线 `python -m pip install .`。安装后先切换到考试包中的 qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/ 目录，再用 `python public/run_case.py --input samples/01/input/problem.json --output /tmp/result.h5` 调用当前库，再用 `python -m caeoj grade --input samples/01/input/problem.json --output /tmp/result.h5 --grading samples/01/reference/grading.json` 检查样例。
 
 运行库使用 `/opt/bempp-env/bin/python`，与格式工具的Python环境隔离。固定源码根目录为 `/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26`，构建目录为 `/opt/upstream`。本地改源后，删除该源码 `bempp/api/fmm/__pycache__/` 下三个同名 `*.cpython-311.pyc`，再执行 `cmake --build /opt/upstream --target repair_sources`；不要仅依赖文件时间决定是否重编。正式判题自动完成规定的删除和重建。每例在独立的可写磁盘工作目录运行，可用临时磁盘至少8 GiB；原生FMM会写入GiB级预计算缓存，不能用小容量内存盘代替。工作目录在该例结束后回收，固定源码和字节码保持只读。

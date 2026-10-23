@@ -1,0 +1,471 @@
+[
+  {
+    "name": "point-zero",
+    "expected_valid": true,
+    "actual_valid": true,
+    "passed": true,
+    "errors": []
+  },
+  {
+    "name": "surface-zero",
+    "expected_valid": true,
+    "actual_valid": true,
+    "passed": true,
+    "errors": []
+  },
+  {
+    "name": "kreal-0.5",
+    "expected_valid": true,
+    "actual_valid": true,
+    "passed": true,
+    "errors": []
+  },
+  {
+    "name": "kreal-3.0",
+    "expected_valid": true,
+    "actual_valid": true,
+    "passed": true,
+    "errors": []
+  },
+  {
+    "name": "kimag-0",
+    "expected_valid": true,
+    "actual_valid": true,
+    "passed": true,
+    "errors": []
+  },
+  {
+    "name": "kimag-1.2",
+    "expected_valid": true,
+    "actual_valid": true,
+    "passed": true,
+    "errors": []
+  },
+  {
+    "name": "filename-mismatch",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_HELMHOLTZ",
+        "path": "$.data_file",
+        "expected": "input.h5",
+        "actual": "other.h5",
+        "message": "Outside the public complex Helmholtz DATA contract."
+      }
+    ]
+  },
+  {
+    "name": "negative-source-id",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_ID",
+        "path": "$.locations.sources.ids",
+        "expected": "nonnegative strictly increasing int64 IDs",
+        "actual": [
+          -1,
+          4,
+          7,
+          10,
+          13,
+          16,
+          19,
+          22,
+          "..."
+        ],
+        "message": "IDs must be unique and in the prescribed order."
+      }
+    ]
+  },
+  {
+    "name": "unsorted-source-id",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_ID",
+        "path": "$.locations.sources.ids",
+        "expected": "nonnegative strictly increasing int64 IDs",
+        "actual": [
+          5,
+          4,
+          7,
+          10,
+          13,
+          16,
+          19,
+          22,
+          "..."
+        ],
+        "message": "IDs must be unique and in the prescribed order."
+      }
+    ]
+  },
+  {
+    "name": "wrong-source-dtype",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_DTYPE",
+        "path": "$.locations.sources.ids",
+        "expected": "int64",
+        "actual": "int32",
+        "message": "Array dtype mismatch; no casting."
+      },
+      {
+        "code": "E_ARRAYS",
+        "path": "$.data_file",
+        "expected": [
+          "source_ids",
+          "strength",
+          "target_coordinates",
+          "target_ids",
+          "times"
+        ],
+        "actual": [
+          "source_coordinates",
+          "source_ids",
+          "strength",
+          "target_coordinates",
+          "target_ids",
+          "times"
+        ],
+        "message": "Does not match the declared contract."
+      }
+    ]
+  },
+  {
+    "name": "wrong-strength-shape",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_SHAPE",
+        "path": "$.fields.strength.array",
+        "expected": [
+          1,
+          32,
+          2
+        ],
+        "actual": [
+          32,
+          2
+        ],
+        "message": "Does not match the declared contract."
+      }
+    ]
+  },
+  {
+    "name": "nan-strength",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_FINITE",
+        "path": "$.fields.strength.array",
+        "expected": "finite array entries",
+        "actual": "NaN or Inf",
+        "message": "Nonfinite payload value."
+      }
+    ]
+  },
+  {
+    "name": "nan-target",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_FINITE",
+        "path": "$.locations.targets.coordinates",
+        "expected": "finite array entries",
+        "actual": "NaN or Inf",
+        "message": "Nonfinite payload value."
+      }
+    ]
+  },
+  {
+    "name": "nonzero-time",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_HELMHOLTZ",
+        "path": "$.locations",
+        "expected": "exact locations and static label",
+        "actual": {
+          "sources": {
+            "kind": "points",
+            "ids": "source_ids",
+            "coordinates": "source_coordinates"
+          },
+          "targets": {
+            "kind": "points",
+            "ids": "target_ids",
+            "coordinates": "target_coordinates"
+          }
+        },
+        "message": "Outside the public complex Helmholtz DATA contract."
+      }
+    ]
+  },
+  {
+    "name": "extra-dataset",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_ARRAYS",
+        "path": "$.data_file",
+        "expected": [
+          "source_coordinates",
+          "source_ids",
+          "strength",
+          "target_coordinates",
+          "target_ids",
+          "times"
+        ],
+        "actual": [
+          "extra",
+          "source_coordinates",
+          "source_ids",
+          "strength",
+          "target_coordinates",
+          "target_ids",
+          "times"
+        ],
+        "message": "Does not match the declared contract."
+      }
+    ]
+  },
+  {
+    "name": "missing-field",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_ARRAY",
+        "path": "$.fields.strength.array",
+        "expected": "strength",
+        "actual": "missing",
+        "message": "Referenced array is missing."
+      },
+      {
+        "code": "E_ARRAYS",
+        "path": "$.data_file",
+        "expected": [
+          "source_coordinates",
+          "source_ids",
+          "strength",
+          "target_coordinates",
+          "target_ids",
+          "times"
+        ],
+        "actual": [
+          "source_coordinates",
+          "source_ids",
+          "target_coordinates",
+          "target_ids",
+          "times"
+        ],
+        "message": "Does not match the declared contract."
+      }
+    ]
+  },
+  {
+    "name": "too-large-charge",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_HELMHOLTZ",
+        "path": "$.fields",
+        "expected": "each real and imaginary part <=2",
+        "actual": 2.01,
+        "message": "Outside the public complex Helmholtz DATA contract."
+      }
+    ]
+  },
+  {
+    "name": "wave-bool",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_SCHEMA",
+        "path": "$.physics.parameters.wavenumber_real.value",
+        "expected": {
+          "type": "number"
+        },
+        "actual": true,
+        "message": "True is not of type 'number'"
+      }
+    ]
+  },
+  {
+    "name": "op-float",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_HELMHOLTZ",
+        "path": "$.physics.parameters.operation",
+        "expected": "JSON integer 0 or 1",
+        "actual": 0.0,
+        "message": "Outside the public complex Helmholtz DATA contract."
+      }
+    ]
+  },
+  {
+    "name": "source-target-collision",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_HELMHOLTZ",
+        "path": "$.locations",
+        "expected": "source spacing >=.001m and source-target distance >=.2m",
+        "actual": "too close",
+        "message": "Outside the public complex Helmholtz DATA contract."
+      }
+    ]
+  },
+  {
+    "name": "source-source-collision",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_HELMHOLTZ",
+        "path": "$.locations",
+        "expected": "source spacing >=.001m and source-target distance >=.2m",
+        "actual": "too close",
+        "message": "Outside the public complex Helmholtz DATA contract."
+      }
+    ]
+  },
+  {
+    "name": "target-target-collision",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_HELMHOLTZ",
+        "path": "$.locations.targets",
+        "expected": "distinct target spacing >=.001m",
+        "actual": "too close",
+        "message": "Outside the public complex Helmholtz DATA contract."
+      }
+    ]
+  },
+  {
+    "name": "nonnegative-zero-source-id",
+    "expected_valid": true,
+    "actual_valid": true,
+    "passed": true,
+    "errors": []
+  },
+  {
+    "name": "interior-target",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_HELMHOLTZ",
+        "path": "$.locations.targets",
+        "expected": "exterior points at least .3m from triangles",
+        "actual": "inside/near boundary",
+        "message": "Outside the public complex Helmholtz DATA contract."
+      }
+    ]
+  },
+  {
+    "name": "density-too-large",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_HELMHOLTZ",
+        "path": "$.fields",
+        "expected": "each real and imaginary part <=2",
+        "actual": 2.01,
+        "message": "Outside the public complex Helmholtz DATA contract."
+      }
+    ]
+  },
+  {
+    "name": "node-identity-mismatch",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_REFERENCE",
+        "path": "$.locations.surface_nodes.ids",
+        "expected": "tags of the declared entity table",
+        "actual": [
+          1,
+          20,
+          27,
+          34,
+          41,
+          48,
+          55,
+          62,
+          "..."
+        ],
+        "message": "Selection references unknown mesh tags."
+      }
+    ]
+  },
+  {
+    "name": "inward-surface",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_HELMHOLTZ",
+        "path": "$.meshes.surface",
+        "expected": "outward convex face support planes",
+        "actual": "nonconvex/inward",
+        "message": "Outside the public complex Helmholtz DATA contract."
+      }
+    ]
+  },
+  {
+    "name": "inconsistent-orientation",
+    "expected_valid": false,
+    "actual_valid": false,
+    "passed": true,
+    "errors": [
+      {
+        "code": "E_HELMHOLTZ",
+        "path": "$.meshes.surface",
+        "expected": "unique oriented closed triangular manifold",
+        "actual": "invalid topology",
+        "message": "Outside the public complex Helmholtz DATA contract."
+      }
+    ]
+  }
+]

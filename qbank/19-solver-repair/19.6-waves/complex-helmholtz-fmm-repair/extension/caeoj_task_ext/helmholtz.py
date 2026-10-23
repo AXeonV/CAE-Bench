@@ -53,6 +53,8 @@ def check(problem,errors):
     from caeoj.validation import issue,read_mesh,resolve_file
     m=problem.manifest;a=problem.arrays
     def fail(path,want,got):errors.append(issue('E_HELMHOLTZ',path,want,got,'Outside the public complex Helmholtz DATA contract.'))
+    if m.get('data_file')!='input.h5':
+        fail('$.data_file','input.h5',m.get('data_file'));return
     physics=m.get('physics',{});par=physics.get('parameters',{})
     if m.get('task')!=TASK or m['spatial_dimension']!=3 or physics.get('model')!=MODEL or set(par)!={'operation','wavenumber_real','wavenumber_imag'}:
         fail('$.physics','exact model and three parameters',physics);return

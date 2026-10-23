@@ -23,3 +23,5 @@ data-manifest.json是本题选样唯一归属；固定HF回下载及strictverify
 独立设计范围审阅、考生题面/考试材料审阅、独立后端审阅的最终记录须归档后才宣称全部交付完成。实际付费考生Benchmark不在本轮授权验收内，Oracle只验证真实构建、执行和判分，不构成模型成绩。
 
 最终验收：独立范围设计、三文件及实际公开考试材料审阅均通过，最终后端独立审阅已关闭头文件依赖闭包和非替换头文件权限缺口。最终只读镜像Oracle12/12、4种后端实际probe通过；此前SCons和未完成权限修复的旧镜像结果不替代本次证据。HF固定提交为ffd36ebc2f604ccb6b37889f8a27275bee803376，官方远端assemble complete与严格valid已核实；12例中公开2、隐藏10。全部细节及有限探针边界见对应data-evidence文件。
+
+公开限制补明：现行公开包已明确此前后端一直执行的每文件1 MiB上限；当前/原包摘要及逐项差分见[source-size-clarification.json](data-evidence/source-size-clarification.json)。独立[有界变更复核](../../../../design/reviews/repair-source-size-clarifications.md)通过，源码、SDK、输入、参考、评分和驱动载荷均未变。上述Oracle、安装和考生/数据审阅记录保留各自历史冻结包身份；本轮未把它们改称运行新包，也未无故重复相同数值计算。当前公开版本由新包摘要与该有界复核单独绑定。

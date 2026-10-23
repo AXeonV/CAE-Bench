@@ -21,3 +21,5 @@
 Harbor job `runs/harbor/jobs/repair22-lammps4219-oracle-final` 的独立verifier为12/12，exception=null，baseline真正重编并通过实际样例运行probe，候选完整依赖闭包重编。六模式后端探针覆盖valid未来mtime/产物哈希与ldd绑定/低UID权限和网络、语法错误、额外文件、缺编译器、缺运行时入口、实际候选C++死循环超时及子进程终止。超时v1正确判timeout但即时/proc断言未过，原件历史保留；最终最多2秒观察的重放首个状态为Z。不能用有限路径探针外推全容器安全，也不能从未记录的v1状态断言根因。
 
 最终独立设计、考生题面与考试材料、全数据来源和数值审计、可信后端审阅均通过，分别归档于design-review.md、candidate-review.md、data-review.md、backend-review.md。考生与全数据审阅的诊断资产保留原runs维护路径；归档报告仅改诊断路径，不改结论。作者自审和Oracle不代替这些独立审阅。主协调者维护正式提交与完成计数。
+
+公开限制补明：现行公开包已明确此前后端一直执行的每文件1 MiB上限；当前/原包摘要及逐项差分见[source-size-clarification.json](data-evidence/source-size-clarification.json)。独立[有界变更复核](../../../../design/reviews/repair-source-size-clarifications.md)通过，源码、SDK、输入、参考、评分和驱动载荷均未变。上述Oracle、安装和考生/数据审阅记录保留各自历史冻结包身份；本轮未把它们改称运行新包，也未无故重复相同数值计算。当前公开版本由新包摘要与该有界复核单独绑定。

@@ -27,3 +27,5 @@ prepare_runtime.py --output <工作目录> --docker <docker可执行>先对共�
 HF固定提交`3dc6f98310bbb04871ac5c51d5dcdd544fa2687a`，已用空缓存独立回取装配并严格verify通过。公开ZIP SHA256 `79ace2ad25027a9bd9c45af41846ebacb7f7665e0e5572b3d7b2ff672b6fd8bc`；题面/DATA/CONTRACT及公开样例白名单见public-materials-freeze.json。最终Harbor原始job为runs/harbor/jobs/repair22-cantera1655-oracle-final，独立verifier真实9/9，exception=null。五模式可信后端探针各通过，保留有限路径与条件边界。
 
 独立设计报告design-review.md、考生题面与考试材料报告candidate-review.md、全部实际数据审计data-review.md、后端审阅backend-review.md均已归档。后三项为两题同批报告，本题部分按报告中的题名与路径识别；同批保存不意味着互相代替逐题证据。主整合者维护正式完成计数，本题维护材料不重复中央进度。公开冻结三文件与ZIP未因归档更改。
+
+公开限制补明：现行公开包已明确此前后端一直执行的每文件1 MiB上限；当前/原包摘要及逐项差分见[source-size-clarification.json](data-evidence/source-size-clarification.json)。独立[有界变更复核](../../../../design/reviews/repair-source-size-clarifications.md)通过，源码、SDK、输入、参考、评分和驱动载荷均未变。上述Oracle、安装和考生/数据审阅记录保留各自历史冻结包身份；本轮未把它们改称运行新包，也未无故重复相同数值计算。当前公开版本由新包摘要与该有界复核单独绑定。

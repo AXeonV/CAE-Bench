@@ -25,3 +25,5 @@ HF官方upload提交为05a921e30ad641028ec7f07b1cfb403f5995d8c0，51文件；重
 依次运行 author/prepare_source.py（需要时用--proxy）、pack_source.py、generate.py。build_runtime.py以--work指定空目录、--offline-wheels指定setuptools/wheel离线wheel目录，复用记录的GCC14.2/SDK依赖基础镜像；依赖COPY及go-w规范化在runtime.Dockerfile中。build_reference.py以--work指定空目录，reference镜像仅在基线运行镜像内替换author/generated两cpp并真实重编译，不能把修复源码放进基线公开包。运行replay.py --mode reference/defect --image相应固定镜像，随后按项目数据池流程pack/upload/fixed assemble/strict verify，再publish_dist和prepare_harbor。
 
 独立公开SDK安装后运行audit_data.py；audit_source.py核对固定基线镜像闭包；verify_public.py运行断网安装及公开.h5命令。正式Oracle入口使用 runs/authoring/repair-22/run_oracle.py，任务名hysteretic-trial-state-repair，必须用新job名且运行中保持prepared task冻结。author/generated、public源码tar、数据池装配、SDK缓存和执行日志属于忽略产物；维护源码、固定选择和作者证据入库，不提交本地H5。
+
+公开限制补明：现行公开包已明确此前后端一直执行的每文件1 MiB上限；当前/原包摘要及逐项差分见[source-size-clarification.json](data-evidence/source-size-clarification.json)。独立[有界变更复核](../../../../design/reviews/repair-source-size-clarifications.md)通过，源码、SDK、输入、参考、评分和驱动载荷均未变。上述Oracle、安装和考生/数据审阅记录保留各自历史冻结包身份；本轮未把它们改称运行新包，也未无故重复相同数值计算。当前公开版本由新包摘要与该有界复核单独绑定。

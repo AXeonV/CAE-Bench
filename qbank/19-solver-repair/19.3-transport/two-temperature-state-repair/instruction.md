@@ -9,3 +9,5 @@ O2、O 和 E 的摩尔分数给定，重粒子共享温度 T，电子温度为 T
 环境提供 `/opt/cantera-source`、`/opt/cantera-source/build` 和编译依赖。开发时替换头文件，执行 `cmake --build /opt/cantera-source/build --target repair_sources`；以 `python public/run_case.py --input samples/01/input/problem.json --output /tmp/result.h5` 执行样例。最终判题只接收该头文件并从可信源码重新编译；提交中现有二进制、驱动和构建缓存不参与判题。
 
 逐例比较全部状态的四项输出，点值误差满足 `abs(actual-reference) <= atol + 1e-10*abs(reference)`。总压与电子分压 atol 为1e-7 Pa，密度1e-12 kg/m³，摩尔浓度1e-14 kmol/m³；该例全部输出通过才记通过，所有计分例等权。非有限数、缺输出、运行失败或候选编译失败均未通过。单例执行30秒，候选重编译900秒，环境4 CPU、8 GiB内存。此范围不要求电子分布、化学势、平衡、热容或任意复合状态反演的正确性。
+
+每个提交文件不超过1 MiB（1,048,576字节）。

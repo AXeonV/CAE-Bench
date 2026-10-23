@@ -11,3 +11,5 @@
 环境已提供真实源码和依赖。修改源文件后执行 `cmake --build /opt/cantera1996-build --target repair_sources`；以 `python public/run_case.py --input samples/01/input/problem.json --output /tmp/result.h5` 运行样例。可信运行器负责HDF5写回，考生仅提交规定源码。最终判题冻结源码，从可信基线强制重新编译实现与driver，提交中的二进制和驱动不参与判题。
 
 每例比较全部状态的全部输出，点值误差满足 `abs(actual-reference) <= atol + rtol*abs(reference)`，所有输出通过才记该例通过，计分例等权。质量分数和覆盖率(atol,rtol)=(3e-7,1e-6)，压力(0.02 Pa,1e-8)，密度(1e-8 kg/m³,1e-7)，速度(1e-8 m/s,1e-7)。表面摩尔浓度(1e-13 kmol/m²,1e-6)，质量面密度(1e-12 kg/m²,1e-8)，反应进度率(1e-12 kmol/(m²s),1e-8)。非有限数、缺少输出、运行失败或候选编译失败均未通过。每例执行60秒，候选重编译300秒，环境4 CPU、8 GiB内存。本题只评价公开指定的理想气体与表面机制，不承诺完整工业催化机理、非等摩尔质量气体、摩擦、能量演化或多相沉积预测。
+
+每个提交文件不超过1 MiB（1,048,576字节）。

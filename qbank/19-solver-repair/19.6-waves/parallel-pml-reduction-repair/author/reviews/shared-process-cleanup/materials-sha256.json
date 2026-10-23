@@ -1,0 +1,178 @@
+{
+  "review_date": "2026-10-23",
+  "verdict": "allow_integration_at_reviewed_identity_with_report_conditions",
+  "findings": [],
+  "judge_source_sha256": "5141c3a50bbae52169ea3dd1b2466fb5363cb3ebd33116df6f73b6d14deef16d",
+  "judge_staged_lf_sha256": "5595500ff6c8612f4682f4eda0cdc6521c5af94343dcba6c825bb3555141180f",
+  "linux_image_id": "sha256:107542dd83e647813e4a530a27f0d10e895b4ef71db9f7f010723d51c67cafba",
+  "actual_checks": [
+    {
+      "name": "shared-unittest",
+      "passed": true,
+      "count": 30,
+      "seconds": 111.223,
+      "log": "shared-tests.log"
+    },
+    {
+      "name": "linux-process-tests",
+      "passed": true,
+      "count": 5,
+      "seconds": 13.958,
+      "log": "process-tests.log"
+    },
+    {
+      "name": "reviewer-linux-checks",
+      "passed": true,
+      "count": 3,
+      "seconds": 3.258,
+      "log": "reviewer-checks.log"
+    },
+    {
+      "name": "real-fortran-mpi-timeout",
+      "passed": true,
+      "rank_pids": [
+        146,
+        147,
+        148
+      ],
+      "tracked_launcher_pids": [
+        131,
+        143
+      ],
+      "all_absent_including_zombies": true,
+      "same_uid_sentinel_survived": true,
+      "log": "real-fortran-timeout.log"
+    },
+    {
+      "name": "real-fixture-prepare-copy-digest",
+      "passed": true,
+      "log": "assembly-check.log"
+    }
+  ],
+  "materials": {
+    ".agents/skills/caeoj-configure-judge/SKILL.md": {
+      "sha256": "249ff492000a2a3fe7fea2a0a08a3c21497f51371edc864c6d9a226d96274f15",
+      "bytes": 2282
+    },
+    ".agents/skills/caeoj-configure-judge/references/workflow.md": {
+      "sha256": "39633c3748efa92053646b9218fa5e6b4eca6c7c23cccff45bcdf719698387d1",
+      "bytes": 3810
+    },
+    "src/utils/harbor/tests/judge.py": {
+      "sha256": "5141c3a50bbae52169ea3dd1b2466fb5363cb3ebd33116df6f73b6d14deef16d",
+      "bytes": 11671
+    },
+    "src/utils/harbor/tests/source_repair.py": {
+      "sha256": "714e3f76ededa181e44861f6ad5257ba8a39be83e9a4588f258a516efa212e75",
+      "bytes": 5738
+    },
+    "src/utils/harbor/tests/test.sh": {
+      "sha256": "d1dc0539bd5fbe3fc60fd8e5f8cef4efb5cbb6a8a7c7908e79b6a1b03cf4f0d7",
+      "bytes": 170
+    },
+    "src/utils/prepare_harbor.py": {
+      "sha256": "bc17153a3718abb8a6664cb8479a70ba1d75e646f0555be8ab9cdcb0c49d7e7d",
+      "bytes": 14572
+    },
+    "tests/test_harbor.py": {
+      "sha256": "12a6e8f77bd129c3579ee2f1f4f836f7366d947a9f90044f6fadcbb6051c364a",
+      "bytes": 40354
+    },
+    "tests/test_harbor_process_cleanup.py": {
+      "sha256": "eba62d71a6b943e647f86995d3196e5aa696c2fd84a34734da4e972c1565ecf2",
+      "bytes": 5866
+    },
+    "qbank/maintenance/EVALUATION.md": {
+      "sha256": "447ad8c89375bbfc10137cd97e6b612a20e4433795241391f8b20526dcf53c2a",
+      "bytes": 2909
+    },
+    "qbank/19-solver-repair/19.6-waves/parallel-pml-reduction-repair/author/backend_probe.py": {
+      "sha256": "a9aae02cd3e5468e0ea22548091e2399e538172ed4eedae4f0bbdc3fa380bfaf",
+      "bytes": 6580
+    },
+    "qbank/19-solver-repair/19.6-waves/parallel-pml-reduction-repair/author/data-evidence/process-cleanup-v3.json": {
+      "sha256": "e649451c2360db69fcf2b5839903b36bd21ed236eab59816dc7f72d536fb1832",
+      "bytes": 4855
+    },
+    "qbank/19-solver-repair/19.6-waves/parallel-pml-reduction-repair/author/data-evidence/process-cleanup-linux-tests.log": {
+      "sha256": "52ee03f080e73149a4037335c7d6efeea06047a9b28fcfa2bda7cc3b5cb48b85",
+      "bytes": 686
+    },
+    "qbank/19-solver-repair/19.6-waves/parallel-pml-reduction-repair/judge-config.json": {
+      "sha256": "1438a5611b038d507c7ebc5685724f74d61ef1a30b7b310903a5df4158d54e99",
+      "bytes": 152
+    },
+    "qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/judge-config.json": {
+      "sha256": "11d695542fdc6f969e63a439e80c74c524db93fd30dc59f1ac7a6a218de7b869",
+      "bytes": 149
+    },
+    "work/repair-22/specfem-661/probe-evidence-v2/runtime-timeout.stderr.log": {
+      "sha256": "9778d30e00de74d87b9749be835aa80fff85b8be6e788bfcac5717e5c8f59ae0",
+      "bytes": 302
+    },
+    "work/repair-22/specfem-661/probe-context/backend_probe.py": {
+      "sha256": "0a68ff77668d9c74ba972fe17fbe22b736a95fa7259f9e1693ac474c5ee9de43",
+      "bytes": 5523
+    },
+    "work/repair-22/specfem-661/cleanup-v3/complete.json": {
+      "sha256": "bb3b228a8a03f90ecb28b3e257f840c512a548c5480f80a67c0e5e26752d257c",
+      "bytes": 1501
+    },
+    "work/repair-22/specfem-661/cleanup-v3/process-tests.stderr.log": {
+      "sha256": "52ee03f080e73149a4037335c7d6efeea06047a9b28fcfa2bda7cc3b5cb48b85",
+      "bytes": 686
+    },
+    "work/repair-22/specfem-661/cleanup-v3/process-tests.stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "work/repair-22/specfem-661/cleanup-v3/real-fortran-timeout.stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "work/repair-22/specfem-661/cleanup-v3/real-fortran-timeout.stdout.log": {
+      "sha256": "2a622239f64cc0d381f26b360f855161f2d77123359af58926686e0ce1ba4f07",
+      "bytes": 2114
+    },
+    "work/repair-22/specfem-661/cleanup-v3/status.json": {
+      "sha256": "3abf32ecf8ee4cfb99684d670a6270eacac91c1105efa637bdb1c73a62dca107",
+      "bytes": 1412
+    },
+    "runs/configure-judge/repair22-mpi-cleanup/assembly-check.log": {
+      "sha256": "58f1b862b76b782c3b2a9d91e399b824ae4b3a80fde93053c1949dcef75147ce",
+      "bytes": 268
+    },
+    "runs/configure-judge/repair22-mpi-cleanup/assembly_check.py": {
+      "sha256": "3d50a99db0a2c5991fb39402cd5cb3b69f9f9f59676cda9643eb701a67c850fc",
+      "bytes": 852
+    },
+    "runs/configure-judge/repair22-mpi-cleanup/freeze_review.py": {
+      "sha256": "c141a72f69948fdb791d34b7983f079f12e72a5a94229a507cbc26ef26ff5156",
+      "bytes": 2928
+    },
+    "runs/configure-judge/repair22-mpi-cleanup/process-tests.log": {
+      "sha256": "94f1c28d992be91121c3fdb50b80121df214797d93566509b8544506d288c997",
+      "bytes": 697
+    },
+    "runs/configure-judge/repair22-mpi-cleanup/real-fortran-timeout.log": {
+      "sha256": "00399989468caf34309dc14c9c116f8edf19da386ace29ce791b0491483d0e26",
+      "bytes": 2219
+    },
+    "runs/configure-judge/repair22-mpi-cleanup/report.md": {
+      "sha256": "0107730cab5594f6269495865917edcf3199c8d593ac91647cab827971560630",
+      "bytes": 8317
+    },
+    "runs/configure-judge/repair22-mpi-cleanup/reviewer-checks.log": {
+      "sha256": "df294539be264e2742fcc44a5088f0c38bbd34318698451625e0f1d78b056b53",
+      "bytes": 537
+    },
+    "runs/configure-judge/repair22-mpi-cleanup/reviewer_checks.py": {
+      "sha256": "ca45f047134fedb2f8981b695e533e167de088a1fe8305d8efe224176bc40889",
+      "bytes": 4945
+    },
+    "runs/configure-judge/repair22-mpi-cleanup/shared-tests.log": {
+      "sha256": "bfe42b79598e4111a51bc2d2aa214718c78cb14703a03ab8ae4b0e3d0a0123a8",
+      "bytes": 20509
+    }
+  }
+}

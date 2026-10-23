@@ -576,17 +576,16 @@ class HarborTests(unittest.TestCase):
                 logs = self.root / f'logs-{index}'
                 work.mkdir(); logs.mkdir()
                 def spawn(command, **kwargs):
-                    self.assertEqual(command[6], str(work / 'submission/solve.py'))
+                    arguments = json.loads(command[-1])
+                    self.assertEqual(arguments[6], str(work / 'submission/solve.py'))
                     self.assertEqual((work / 'submission/solve.py').read_text(encoding='utf-8'), 'original source')
                     (work / 'submission/solve.py').write_text('runtime change')
                     (work / 'submission/core.so').write_text('runtime compiled helper')
                     from unittest.mock import Mock
-                    process = Mock(pid=12345)
-                    process.wait.return_value = 0
+                    Path(command[3]).write_text('null\n')
+                    process = Mock(returncode=0)
                     return process
-                with patch.object(judge.subprocess, 'Popen', side_effect=spawn), \
-                        patch.object(judge.os, 'killpg', create=True), \
-                        patch.object(judge.signal, 'SIGKILL', 9, create=True):
+                with patch.object(judge.subprocess, 'run', side_effect=spawn):
                     self.assertIsNone(judge.execute(work, 1, logs))
                 self.assertEqual((submission / 'solve.py').read_text(encoding='utf-8'), 'original source')
                 self.assertFalse((submission / 'core.so').exists())

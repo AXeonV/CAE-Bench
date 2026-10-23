@@ -76,21 +76,64 @@ def execute(directory, timeout, logs):
         repair = json.loads((TESTS / 'source-repair.json').read_text())
         env['LD_LIBRARY_PATH'] = str(Path(repair['build_directory']) / 'lib')
     with (logs / 'stdout.log').open('wb') as out, (logs / 'stderr.log').open('wb') as err:
-        process = subprocess.Popen(command, cwd=directory, env=env, stdout=out,
-                                   stderr=err, start_new_session=True)
+        # A separate root supervisor owns only this invocation's descendants.
+        # MPI launchers may create sessions, so process groups are insufficient.
+        receipt = logs / 'execution.json'
+        process = subprocess.run(
+            [sys.executable, str(Path(__file__).resolve()), '--supervise',
+             str(receipt.resolve()), str(timeout), json.dumps(command)],
+            cwd=directory, env=env, stdout=out, stderr=err, check=False)
+        if process.returncode:
+            raise RuntimeError('Solver process supervision failed')
+    return json.loads(receipt.read_text())
+
+
+def supervise(receipt, timeout, command):
+    """Linux subreaper: collect escaped sessions as well as ordinary children."""
+    import ctypes
+    libc = ctypes.CDLL(None, use_errno=True)
+    if libc.prctl(36, 1, 0, 0, 0):  # PR_SET_CHILD_SUBREAPER
+        raise OSError(ctypes.get_errno(), 'Cannot enable child subreaper')
+    process = subprocess.Popen(command, start_new_session=True)
+    try:
         try:
             code = process.wait(timeout=timeout)
             result = {'score': 0, 'status': 'runtime_error', 'exit_code': code} if code else None
         except subprocess.TimeoutExpired:
             result = {'score': 0, 'status': 'timeout'}
-        finally:
-            # End descendants as well; no background solver may change later outputs.
+    finally:
+        # Kill parents before children to stop further spawning. Orphaned
+        # descendants are adopted here even when they called setsid/double-fork.
+        def children(pid):
             try:
-                os.killpg(process.pid, signal.SIGKILL)
-            except ProcessLookupError:
-                pass
-            process.wait()
-    return result
+                return [int(p) for p in Path(f'/proc/{pid}/task/{pid}/children').read_text().split()]
+            except FileNotFoundError:
+                return []
+
+        cleanup_deadline = time.monotonic() + 5
+        while True:
+            # Only direct children are signalled. Their PIDs cannot be reused
+            # until this supervisor reaps them; deeper descendants are adopted
+            # after their parent dies and handled by the next iteration.
+            for pid in children(os.getpid()):
+                try:
+                    os.kill(pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
+            try:
+                while os.waitpid(-1, os.WNOHANG)[0]:
+                    pass
+            except ChildProcessError:
+                break
+            if time.monotonic() >= cleanup_deadline:
+                remaining = children(os.getpid())
+                Path(receipt).write_text(json.dumps({
+                    'infrastructure_error': 'Solver descendants could not be reaped',
+                    'remaining_pids': remaining, 'cleanup_timeout_seconds': 5}) + '\n')
+                raise RuntimeError(f'Solver cleanup exceeded 5 seconds; remaining PIDs: {remaining}')
+            time.sleep(.01)
+        process.returncode = process.poll()
+    Path(receipt).write_text(json.dumps(result) + '\n')
 
 
 def save_report(config, results, total, evaluation_manifest, public_cases, *, complete=False):
@@ -186,4 +229,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) == 5 and sys.argv[1] == '--supervise':
+        supervise(sys.argv[2], float(sys.argv[3]), json.loads(sys.argv[4]))
+    else:
+        main()

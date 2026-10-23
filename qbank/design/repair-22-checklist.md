@@ -43,7 +43,7 @@
 | 19.5.2 | nearest-projection-repair／单元插值最近投影回退 | precice/precice#1304 | 边面顶点选择及插值；精确最近点与重心坐标 | 已完成；[验收记录](../19-solver-repair/19.5-geometry/nearest-projection-repair/author/README.md) |
 | 19.6.1 | dft-decimation-repair／非线性场频谱采样 | NanoComp/meep#2408 | DFT抽样与混叠；已知频率信号及真实场求解回归 | 已完成；[验收记录](../19-solver-repair/19.6-waves/dft-decimation-repair/author/README.md) |
 | 19.6.2 | cylindrical-field-pml-repair／柱坐标场与PML | NanoComp/meep#2338 | 正负方位模态点源和吸收层；对称性及收敛场／通量 | 已完成；[验收记录](../19-solver-repair/19.6-waves/cylindrical-field-pml-repair/author/README.md) |
-| 19.6.3 | complex-helmholtz-fmm-repair／复波数Helmholtz快速算子 | bempp/bempp-cl#20 | 复数接口与衰减核；独立核函数及稠密／FMM对照 | 待实施 |
+| 19.6.3 | complex-helmholtz-fmm-repair／复波数Helmholtz快速算子 | bempp/bempp-cl#20 | 复数接口与衰减核；独立核函数及稠密／FMM对照 | 制作中，真实参考资格待核；[维护入口](../19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/author/README.md) |
 | 19.6.4 | parallel-pml-reduction-repair／并行吸收层归约 | SPECFEM/specfem2d#661 | 并行归约与PML稳定性；进程数对照及独立波传播参考 | 待实施 |
 
 ## 批次安排与边界

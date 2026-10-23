@@ -21,7 +21,7 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def verify_tree(archive, target):
+def verify_tree(archive, target, reviewed_links=None):
     expected = {}
     documentation_links = {}
     with tarfile.open(archive) as source:
@@ -33,8 +33,12 @@ def verify_tree(archive, target):
                 expected[relative] = hashlib.sha256(source.extractfile(member).read()).hexdigest()
             elif member.issym() and member.name.startswith(prefix):
                 relative = member.name[len(prefix):]
-                if relative not in {'.cursorrules', '.github/copilot-instructions.md', 'CLAUDE.md', 'GEMINI.md', 'QWEN.md'}:
+                allowed = ({'.cursorrules', '.github/copilot-instructions.md', 'CLAUDE.md', 'GEMINI.md', 'QWEN.md'}
+                           if reviewed_links is None else reviewed_links)
+                if relative not in allowed:
                     raise ValueError('Unreviewed upstream symlink: ' + relative)
+                if reviewed_links is not None and member.linkname != reviewed_links[relative]:
+                    raise ValueError('Changed reviewed upstream link: ' + relative)
                 resolved = posixpath.normpath(posixpath.join(posixpath.dirname(member.name), member.linkname))
                 if resolved not in regular or not resolved.startswith(prefix):
                     raise ValueError('Invalid upstream documentation link')

@@ -198,14 +198,21 @@ def validate_public_runtime(files):
             target = root/str(_relative(name))
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(data)
-        script = '''import sys
+        script = '''import sys,json
 from pathlib import Path
 sys.path.insert(0, str(Path(sys.argv[1])/'src'))
 from caeoj.sdk import load_problem, load_result
 from caeoj.case_grading import prepare_case
 root=Path(sys.argv[1])
+manifest=json.loads((root/'MANIFEST.json').read_text()) if (root/'MANIFEST.json').exists() else {}
 for path in root.glob('qbank/*/*/*/samples/*/input/problem.json'):
     problem=load_problem(path)
+    task=path.parents[3].name
+    kinds=manifest.get('sample_kinds',{})
+    if 'tasks' in manifest:kinds=kinds.get(task,{})
+    if kinds.get(path.parent.parent.name)=='format':
+        load_result(problem,path.parent.parent/'output/result.h5')
+        continue
     prepared=prepare_case(problem, path.parent.parent/'reference/grading.json')
     if (path.parent.parent/'output/result.h5').is_file():
         arrays=load_result(problem, path.parent.parent/'output/result.h5')

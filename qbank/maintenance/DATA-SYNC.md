@@ -40,6 +40,8 @@ python -m caeoj_tools.cli data select --task heat-conduction-steady-2d --case '0
 
 参数可重复，格式为 `[本地编号=]case-id`；省略编号则依次为 001、002 等。命令生成完整选择集合，未列的角色/条目不保留。默认写回本题清单，建议先用 `--output` 审核，再保存为题目 `data-manifest.json`。
 
+普通数值样例用`--sample`；已声明格式输出的条目用`--format-sample '01=<case-id>'`，二者不能混用来绕过参考完整性。制池时格式样例目录以`example.json`的`{"kind":"format"}`声明角色，并提供`output/result.h5`。该输出只展示结构，公开题面也须说明随机数值不是正确答案；发布及Harbor只为普通样例提供本地数值判分命令。
+
 选择绑定 case 描述摘要，检查输入/参考完整性及输入/来源轨迹重复。仅开发用途可加 `--allow-incomplete`，正式消费仍阻断缺失参考。选样不下载数值载荷，不支持附件或跨case依赖声明。
 
 ## 下载与装配

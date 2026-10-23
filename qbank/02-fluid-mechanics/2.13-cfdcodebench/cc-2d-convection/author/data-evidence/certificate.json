@@ -1,0 +1,132 @@
+{
+  "source_id": "CFDCodeBench:e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2:2D_Convection",
+  "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_problem": "2D_Convection",
+  "development_case_id": "C07-base",
+  "input_files": {
+    "input.h5": "1bf8c167847c2ba2471e7994fa8f1072f4562293d9da357e5385e423ea7aff8e",
+    "problem.json": "6d1d378c12f8fe0dd6248e5ca4472cd674788b9ea4076f07e22a5ca631daf436"
+  },
+  "reference_files": {
+    "grading.json": "a2911a08ada98e313fdb8c452def0a42d53e8593c75c364708997c648bea91ba",
+    "reference.h5": "7278ebc8df64393ae2487db6de9fcb33260c5d7ea49fd2bfe778d1a48f66030f"
+  },
+  "contract_sha256": "130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063",
+  "numerical_validation_sha256": "c4e855fcd85faff3b9c880d7130a602cc1f625219f0eda6c86881ee94a5d56a9",
+  "numerical_validation": {
+    "index": 7,
+    "task": "cc-2d-convection",
+    "case_id": "C07-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [],
+    "checks": {
+      "truncation_64_128": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 1.0801688553300424,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        },
+        "v": {
+          "rmse": 0.0,
+          "reference_rms": 1.0801688553300424,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "truncation_128_256": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 1.0801688553300424,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        },
+        "v": {
+          "rmse": 0.0,
+          "reference_rms": 1.0801688553300424,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "independent_representation": {
+        "u": {
+          "rmse": 1.7557299871357934e-16,
+          "reference_rms": 1.0801688553300424,
+          "nrmse": 1.6254217833371389e-16,
+          "nmse": 2.641995973746885e-32,
+          "max_abs": 2.220446049250313e-16
+        },
+        "v": {
+          "rmse": 1.7557299871357934e-16,
+          "reference_rms": 1.0801688553300424,
+          "nrmse": 1.6254217833371389e-16,
+          "nmse": 2.641995973746885e-32,
+          "max_abs": 2.220446049250313e-16
+        }
+      }
+    },
+    "reference_sha256": "7278ebc8df64393ae2487db6de9fcb33260c5d7ea49fd2bfe778d1a48f66030f",
+    "resource_status": "provisional"
+  },
+  "reference_production": {
+    "index": 7,
+    "task": "cc-2d-convection",
+    "case_id": "C07-base",
+    "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+    "input_contract": "passed",
+    "reference_status": "formula-evaluated-needs-independent-audit",
+    "comparisons": {
+      "truncation_64_128": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 1.0801688553300424,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        },
+        "v": {
+          "rmse": 0.0,
+          "reference_rms": 1.0801688553300424,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "truncation_128_256": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 1.0801688553300424,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        },
+        "v": {
+          "rmse": 0.0,
+          "reference_rms": 1.0801688553300424,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      }
+    },
+    "producer": "published representation; see formula audit",
+    "reference_self_grade": "passed",
+    "reference_sha256": "7278ebc8df64393ae2487db6de9fcb33260c5d7ea49fd2bfe778d1a48f66030f",
+    "production_sources": [
+      {
+        "file": "qbank\\02-fluid-mechanics\\2.13-cfdcodebench\\author\\analytic.py",
+        "sha256": "b86207a33d547f35ad53aaa4307a61b769a2527ca32b8392f8ca60cd396dd692",
+        "base": "repository"
+      }
+    ]
+  },
+  "conversion_tool_sha256": "30675f2817ab349d9c769bea4f8ca60829513342e9b82e03cb65c8196e724926",
+  "resource_status": "provisional",
+  "hf_uploaded": false
+}

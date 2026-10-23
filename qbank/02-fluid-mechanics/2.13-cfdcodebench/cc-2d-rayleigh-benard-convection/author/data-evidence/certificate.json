@@ -1,0 +1,260 @@
+{
+  "source_id": "CFDCodeBench:e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2:2D_Rayleigh_Benard_Convection",
+  "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_problem": "2D_Rayleigh_Benard_Convection",
+  "development_case_id": "C21-base",
+  "input_files": {
+    "input.h5": "613ffe28072d907b7ee97c87f0a2ddc4c5c9c82627e5dc7be3a9798e2c8c8663",
+    "problem.json": "62f888c89d5b20f89ea450602f86874f469b26b0bd8f9f108e9a420db5e9155b"
+  },
+  "reference_files": {
+    "grading.json": "ebd0ceff894295c577082bc06fc8a8c286787e36e2b7232db044d6d67dd465a2",
+    "reference.h5": "53978861e84f933f4e762b2b35139913678d9abf3f548796d612fe32c522b43e"
+  },
+  "contract_sha256": "130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063",
+  "numerical_validation_sha256": "a079f77413971563c878a898f0565df496f4533bd2e2daa268fabbe119ff1de1",
+  "numerical_validation": {
+    "index": 21,
+    "task": "cc-2d-rayleigh-benard-convection",
+    "case_id": "C21-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [
+      "Space/time checks use the same Dedalus engine and equation configuration; not an independent solver cross-validation"
+    ],
+    "checks": {
+      "space_L0_L1": {
+        "u": {
+          "rmse": 0.0031462457237999195,
+          "reference_rms": 0.20259284027234906,
+          "nrmse": 0.015529895921150852,
+          "nmse": 0.00024117766732177786,
+          "max_abs": 0.010085757066423506
+        },
+        "w": {
+          "rmse": 0.002765856747220188,
+          "reference_rms": 0.19688409295176537,
+          "nrmse": 0.014048147342699725,
+          "nmse": 0.00019735044376220136,
+          "max_abs": 0.00995322350480482
+        },
+        "b": {
+          "rmse": 0.005939609572474377,
+          "reference_rms": 0.5182872243204023,
+          "nrmse": 0.011460073283231353,
+          "nmse": 0.00013133327965703304,
+          "max_abs": 0.010299952201776486
+        },
+        "p": {
+          "rmse": 0.0014100060878538569,
+          "reference_rms": 0.1491981331991419,
+          "nrmse": 0.009450561194166244,
+          "nmse": 8.931310688468089e-05,
+          "max_abs": 0.002885952950106435
+        }
+      },
+      "space_L1_L2": {
+        "u": {
+          "rmse": 0.00040414487707123454,
+          "reference_rms": 0.20282618097317323,
+          "nrmse": 0.0019925676021316434,
+          "nmse": 3.970325649064647e-06,
+          "max_abs": 0.0010853591389289874
+        },
+        "w": {
+          "rmse": 0.00037633806359418497,
+          "reference_rms": 0.19711383392793866,
+          "nrmse": 0.0019092422692755676,
+          "nmse": 3.645206042788519e-06,
+          "max_abs": 0.0008307045301639421
+        },
+        "b": {
+          "rmse": 0.0005602467516189171,
+          "reference_rms": 0.5183149112678804,
+          "nrmse": 0.0010809003164668073,
+          "nmse": 1.168345494138044e-06,
+          "max_abs": 0.0012909622135746646
+        },
+        "p": {
+          "rmse": 0.0001712927549588543,
+          "reference_rms": 0.14923104420348277,
+          "nrmse": 0.0011478359336901073,
+          "nmse": 1.3175273306702404e-06,
+          "max_abs": 0.0003766205060263955
+        }
+      },
+      "half_dt": {
+        "u": {
+          "rmse": 5.9316960400091024e-05,
+          "reference_rms": 0.20286074456722175,
+          "nrmse": 0.0002924023596908135,
+          "nmse": 8.549913995275589e-08,
+          "max_abs": 0.0001594432538877255
+        },
+        "w": {
+          "rmse": 5.46725225111829e-05,
+          "reference_rms": 0.19714796458983497,
+          "nrmse": 0.00027731720499843214,
+          "nmse": 7.690483218814244e-08,
+          "max_abs": 0.00011823231633950604
+        },
+        "b": {
+          "rmse": 7.801454149366612e-05,
+          "reference_rms": 0.5183186296891418,
+          "nrmse": 0.00015051463911388798,
+          "nmse": 2.265465658758394e-08,
+          "max_abs": 0.0001837708897792223
+        },
+        "p": {
+          "rmse": 2.9391049454037894e-05,
+          "reference_rms": 0.14923689539524376,
+          "nrmse": 0.0001969422465952384,
+          "nmse": 3.878624849397969e-08,
+          "max_abs": 6.628178513212735e-05
+        }
+      }
+    },
+    "reference_sha256": "53978861e84f933f4e762b2b35139913678d9abf3f548796d612fe32c522b43e",
+    "resource_status": "provisional"
+  },
+  "reference_production": {
+    "index": 21,
+    "task": "cc-2d-rayleigh-benard-convection",
+    "case_id": "C21-base",
+    "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+    "input_contract": "passed",
+    "reference_status": "computed-needs-independent-audit",
+    "comparisons": {
+      "space_L0_L1": {
+        "u": {
+          "rmse": 0.0031462457237999195,
+          "reference_rms": 0.20259284027234906,
+          "nrmse": 0.015529895921150852,
+          "nmse": 0.00024117766732177786,
+          "max_abs": 0.010085757066423506
+        },
+        "w": {
+          "rmse": 0.002765856747220188,
+          "reference_rms": 0.19688409295176537,
+          "nrmse": 0.014048147342699725,
+          "nmse": 0.00019735044376220136,
+          "max_abs": 0.00995322350480482
+        },
+        "b": {
+          "rmse": 0.005939609572474377,
+          "reference_rms": 0.5182872243204023,
+          "nrmse": 0.011460073283231353,
+          "nmse": 0.00013133327965703304,
+          "max_abs": 0.010299952201776486
+        },
+        "p": {
+          "rmse": 0.0014100060878538569,
+          "reference_rms": 0.1491981331991419,
+          "nrmse": 0.009450561194166244,
+          "nmse": 8.931310688468089e-05,
+          "max_abs": 0.002885952950106435
+        }
+      },
+      "space_L1_L2": {
+        "u": {
+          "rmse": 0.00040414487707123454,
+          "reference_rms": 0.20282618097317323,
+          "nrmse": 0.0019925676021316434,
+          "nmse": 3.970325649064647e-06,
+          "max_abs": 0.0010853591389289874
+        },
+        "w": {
+          "rmse": 0.00037633806359418497,
+          "reference_rms": 0.19711383392793866,
+          "nrmse": 0.0019092422692755676,
+          "nmse": 3.645206042788519e-06,
+          "max_abs": 0.0008307045301639421
+        },
+        "b": {
+          "rmse": 0.0005602467516189171,
+          "reference_rms": 0.5183149112678804,
+          "nrmse": 0.0010809003164668073,
+          "nmse": 1.168345494138044e-06,
+          "max_abs": 0.0012909622135746646
+        },
+        "p": {
+          "rmse": 0.0001712927549588543,
+          "reference_rms": 0.14923104420348277,
+          "nrmse": 0.0011478359336901073,
+          "nmse": 1.3175273306702404e-06,
+          "max_abs": 0.0003766205060263955
+        }
+      },
+      "half_dt": {
+        "u": {
+          "rmse": 5.9316960400091024e-05,
+          "reference_rms": 0.20286074456722175,
+          "nrmse": 0.0002924023596908135,
+          "nmse": 8.549913995275589e-08,
+          "max_abs": 0.0001594432538877255
+        },
+        "w": {
+          "rmse": 5.46725225111829e-05,
+          "reference_rms": 0.19714796458983497,
+          "nrmse": 0.00027731720499843214,
+          "nmse": 7.690483218814244e-08,
+          "max_abs": 0.00011823231633950604
+        },
+        "b": {
+          "rmse": 7.801454149366612e-05,
+          "reference_rms": 0.5183186296891418,
+          "nrmse": 0.00015051463911388798,
+          "nmse": 2.265465658758394e-08,
+          "max_abs": 0.0001837708897792223
+        },
+        "p": {
+          "rmse": 2.9391049454037894e-05,
+          "reference_rms": 0.14923689539524376,
+          "nrmse": 0.0001969422465952384,
+          "nmse": 3.878624849397969e-08,
+          "max_abs": 6.628178513212735e-05
+        }
+      }
+    },
+    "reference_self_grade": "passed",
+    "production_sources": [
+      {
+        "file": "spectral/2D_Rayleigh_Benard_Convection/L0-dt1/process.json",
+        "sha256": "b9a61afa8787edf1edf73cb1fa484099a0a0e79f2a28f2eb5b77d6ecd0be09af"
+      },
+      {
+        "file": "spectral/2D_Rayleigh_Benard_Convection/L0-dt1/native.npz",
+        "sha256": "75b5f18810685ae6314aa7279323a7fabc8261a05cc479e8b76de201c8e87007"
+      },
+      {
+        "file": "spectral/2D_Rayleigh_Benard_Convection/L1-dt1/process.json",
+        "sha256": "e199ddc067826bf60e2edd3f37debeafceed906df9483dc138ad47a0859cbeb1"
+      },
+      {
+        "file": "spectral/2D_Rayleigh_Benard_Convection/L1-dt1/native.npz",
+        "sha256": "c1840f5cde9a6f545b8ec9c34ae7881e20fb14c98e4762d7b909dc895068e1fc"
+      },
+      {
+        "file": "spectral/2D_Rayleigh_Benard_Convection/L2-dt1/process.json",
+        "sha256": "fdf1380ff679987f7cdc803f2dad7cb074fa50b68a856ad9d4fe39c5df4b0cb7"
+      },
+      {
+        "file": "spectral/2D_Rayleigh_Benard_Convection/L2-dt1/native.npz",
+        "sha256": "a299d6ac1f4b0b9b9128b84c5965136c74b37f633906ea4cb0189574b3231712"
+      },
+      {
+        "file": "spectral/2D_Rayleigh_Benard_Convection/L2-dt2/process.json",
+        "sha256": "ad1cc8d4839ced37c7965bc4592c1aa654cb2f75e5a06007c4efce42e19da89e"
+      },
+      {
+        "file": "spectral/2D_Rayleigh_Benard_Convection/L2-dt2/native.npz",
+        "sha256": "978dcff88268cbf6566aa25dd276d4768c3d4259ee603f1cb0b4e2d431468975"
+      }
+    ],
+    "reference_sha256": "53978861e84f933f4e762b2b35139913678d9abf3f548796d612fe32c522b43e"
+  },
+  "conversion_tool_sha256": "30675f2817ab349d9c769bea4f8ca60829513342e9b82e03cb65c8196e724926",
+  "resource_status": "provisional",
+  "hf_uploaded": false
+}

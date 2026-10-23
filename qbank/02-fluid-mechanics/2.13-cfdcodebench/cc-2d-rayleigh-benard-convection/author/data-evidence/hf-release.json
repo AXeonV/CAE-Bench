@@ -1,0 +1,152 @@
+{
+  "index": 21,
+  "task": "cc-2d-rayleigh-benard-convection",
+  "task_id": "caeoj-000026",
+  "pool_case_id": "case-98e927bc60fb44792c1ad75b",
+  "bundle": "D:\\Code\\CAE-Bench-OJ\\runs\\benchmarks\\cfdcodebench-24-20261020\\release\\bundles\\cc-2d-rayleigh-benard-convection",
+  "reference_sha256": "1de912b495ad711ef564c7479d06564dace52335fed735fbbe63090557d6f91d",
+  "hf_branch": "cases/cfdcodebench-24-20261020",
+  "hf_commit": "dc2be55e268aa078897da29de693491d3abf1e03",
+  "manifest_sha256": "b1ff6dd621ad7716339e2dd530c676b9e4231d41968e7d62665fd600adb58186",
+  "descriptor_sha256": "6c620af93d77120fd669fb2bb48a3c96bf7e7eea3a24f38eab90c876e8ec4811",
+  "samples": 1,
+  "sample_kind": "format",
+  "sample_seed": 2026102021,
+  "sample_output_sha256": "e5a91d07d45ca8d762b9938ad86631024febcb086bc0f8753117b52359e01f2f",
+  "strict_integrity": {
+    "valid": true,
+    "errors": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-98e927bc60fb44792c1ad75b",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "assembly_report": {
+    "revision": "dc2be55e268aa078897da29de693491d3abf1e03",
+    "files": 8,
+    "changed": 3,
+    "removed": 0,
+    "complete": true,
+    "incomplete": [],
+    "overlaps": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-98e927bc60fb44792c1ad75b",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "numerical_validation": {
+    "index": 21,
+    "task": "cc-2d-rayleigh-benard-convection",
+    "case_id": "C21-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [
+      "Space/time checks use the same Dedalus engine and equation configuration; not an independent solver cross-validation"
+    ],
+    "checks": {
+      "space_L0_L1": {
+        "u": {
+          "rmse": 0.00314624572379992,
+          "reference_rms": 0.20259284027234906,
+          "nrmse": 0.015529895921150854,
+          "nmse": 0.0002411776673217779,
+          "max_abs": 0.01008575706642345
+        },
+        "w": {
+          "rmse": 0.00276585674722019,
+          "reference_rms": 0.19688409295176537,
+          "nrmse": 0.014048147342699734,
+          "nmse": 0.0001973504437622016,
+          "max_abs": 0.009953223504804543
+        },
+        "b": {
+          "rmse": 0.005939609572474391,
+          "reference_rms": 0.5182872243204023,
+          "nrmse": 0.011460073283231379,
+          "nmse": 0.00013133327965703364,
+          "max_abs": 0.010299952201776597
+        },
+        "p": {
+          "rmse": 0.001410006087853857,
+          "reference_rms": 0.14919813319914188,
+          "nrmse": 0.009450561194166247,
+          "nmse": 8.931310688468096e-05,
+          "max_abs": 0.0028859529501063796
+        }
+      },
+      "space_L1_L2": {
+        "u": {
+          "rmse": 0.00040414487707124235,
+          "reference_rms": 0.2028261809731732,
+          "nrmse": 0.001992567602131682,
+          "nmse": 3.970325649064801e-06,
+          "max_abs": 0.0010853591389289319
+        },
+        "w": {
+          "rmse": 0.00037633806359418974,
+          "reference_rms": 0.19711383392793866,
+          "nrmse": 0.0019092422692755919,
+          "nmse": 3.6452060427886118e-06,
+          "max_abs": 0.0008307045301639282
+        },
+        "b": {
+          "rmse": 0.0005602467516189164,
+          "reference_rms": 0.5183149112678805,
+          "nrmse": 0.0010809003164668058,
+          "nmse": 1.168345494138041e-06,
+          "max_abs": 0.0012909622135745535
+        },
+        "p": {
+          "rmse": 0.0001712927549588533,
+          "reference_rms": 0.1492310442034827,
+          "nrmse": 0.001147835933690101,
+          "nmse": 1.317527330670226e-06,
+          "max_abs": 0.0003766205060263539
+        }
+      },
+      "half_dt": {
+        "u": {
+          "rmse": 5.931696040009361e-05,
+          "reference_rms": 0.20286074456722175,
+          "nrmse": 0.0002924023596908263,
+          "nmse": 8.549913995276336e-08,
+          "max_abs": 0.0001594432538877255
+        },
+        "w": {
+          "rmse": 5.46725225111877e-05,
+          "reference_rms": 0.19714796458983497,
+          "nrmse": 0.0002773172049984565,
+          "nmse": 7.690483218815594e-08,
+          "max_abs": 0.0001182323163395893
+        },
+        "b": {
+          "rmse": 7.801454149367275e-05,
+          "reference_rms": 0.5183186296891417,
+          "nrmse": 0.0001505146391139008,
+          "nmse": 2.2654656587587797e-08,
+          "max_abs": 0.0001837708897793333
+        },
+        "p": {
+          "rmse": 2.9391049454039463e-05,
+          "reference_rms": 0.14923689539524373,
+          "nrmse": 0.00019694224659524894,
+          "nmse": 3.8786248493983845e-08,
+          "max_abs": 6.628178513207184e-05
+        }
+      }
+    },
+    "reference_sha256": "1de912b495ad711ef564c7479d06564dace52335fed735fbbe63090557d6f91d",
+    "resource_status": "provisional"
+  },
+  "resource_status": "awaiting_calibration",
+  "installed_consumption": "passed"
+}

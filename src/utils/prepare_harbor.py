@@ -22,7 +22,7 @@ RESOURCE_FIELDS = {'agent': ('timeout_sec',),
                    'verifier': ('timeout_sec', 'network_mode')}
 
 
-def sample_materials(task_path, samples, files):
+def sample_materials(task_path, samples, files, kinds=None):
     """Describe only assets present in the verified public archive."""
     lines = ['公开样例材料：', '']
     for sample in samples:
@@ -30,10 +30,14 @@ def sample_materials(task_path, samples, files):
         lines.append(f'- 样例 `{sample}`：`/app/{prefix}`。')
         lines.append(f'  - 输入：`/app/{prefix}input/problem.json`。')
         references = sorted(name for name in files if name.startswith(prefix + 'reference/'))
-        lines.append('  - 参考与判分材料：' + '、'.join(f'`/app/{name}`' for name in references) + '。')
+        if references:
+            lines.append('  - 参考与判分材料：' + '、'.join(f'`/app/{name}`' for name in references) + '。')
         example = prefix + 'output/result.h5'
         if example in files:
-            lines.append(f'  - 完整提交示例：`/app/{example}`。')
+            if (kinds or {}).get(sample) == 'format':
+                lines.append(f'  - 随机数值的格式示例：`/app/{example}`；仅说明输出格式，不是正确提交或数值参考。')
+            else:
+                lines.append(f'  - 完整提交示例：`/app/{example}`。')
     return '\n'.join(lines) + '\n'
 
 
@@ -124,15 +128,17 @@ def prepare(task, root=PROJECT_ROOT):
     judge_config = json.loads(read_public_file(root, source / 'judge-config.json'))
     rendered_config = task_config(read_public_file(root, template / 'task.toml').decode('utf-8'), overrides,
                                   judge_config=judge_config, case_count=len(cases))
+    graded = [name for name in manifest['public_samples'] if manifest.get('sample_kinds', {}).get(name) != 'format']
+    command_sample = graded[0] if graded else manifest['public_samples'][0]
     instruction = Template(read_public_file(root, template / 'instruction.md').decode('utf-8')).substitute(
-        task=task, task_path=task_path, sample=manifest['public_samples'][0], timeout_seconds=judge_config['timeout_seconds'],
-        sample_materials=sample_materials(task_path, manifest['public_samples'], names))
+        task=task, task_path=task_path, sample=command_sample, timeout_seconds=judge_config['timeout_seconds'],
+        sample_materials=sample_materials(task_path, manifest['public_samples'], names, manifest.get('sample_kinds', {})))
     if repair:
         instruction = (f'# 修复求解器\n\n阅读 `/app/{task_path}/instruction.md`、该目录的 DATA.md 和 '
                        '`/app/docs/CONTRACT.md`。按题面修复指定源码并提交到 `/app/submission/`。'
                        '仅此目录传入独立 verifier；最终提交只包含题面列出的源码替换文件。'
                        '不提交 solve.py。编译和调用由可信后端执行。\n\n'
-                       + sample_materials(task_path, manifest['public_samples'], names))
+                       + sample_materials(task_path, manifest['public_samples'], names, manifest.get('sample_kinds', {})))
     resources = tomllib.loads(rendered_config)
     if repair:
         minimum = repair['build_timeout_seconds'] + repair.get('baseline_timeout_seconds', 60) + len(cases) * (
@@ -141,7 +147,8 @@ def prepare(task, root=PROJECT_ROOT):
             minimum += min(60, repair['build_timeout_seconds'])
         if resources['verifier']['timeout_sec'] < minimum:
             raise ValueError('Verifier budget cannot cover source build, baseline check and all cases')
-    instruction += f"公开样例判分：python -m caeoj grade --input /app/{task_path}/samples/{manifest['public_samples'][0]}/input/problem.json --output /app/sample-result.h5 --grading /app/{task_path}/samples/{manifest['public_samples'][0]}/reference/grading.json\n"
+    if graded:
+        instruction += f"公开样例判分：python -m caeoj grade --input /app/{task_path}/samples/{graded[0]}/input/problem.json --output /app/sample-result.h5 --grading /app/{task_path}/samples/{graded[0]}/reference/grading.json\n"
     environment = resources['environment']
     if 'cpus' in environment:
         instruction += f"本次环境 CPU 配额：{environment['cpus']} 核。\n"

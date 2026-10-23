@@ -2,7 +2,7 @@
 
 本章每道题的考生材料仅由本题 instruction.md、DATA.md 和通用 docs/CONTRACT.md 组成：instruction.md 给出任务、方法要求、资源和评分；DATA.md 就地定义该题全部物理参数、条件、采样与输出。无需阅读章节共享文件、领域协议、其他题目或维护记录。各节目录只承担导航作用。
 
-65题的评分模板、judge及Harbor配置已按题面补齐，采用逐例quantity绑定；正式输入、参考及执行校准仍待建设。维护方流程与状态见[评测配置说明](../maintenance/EVALUATION.md)。
+核心65题的评分模板、judge及Harbor配置采用逐例quantity绑定；另保留24道固定问题兼容题。配置、case装配、参考资格和发行验收分别记录，不能由目录存在推断就绪。维护流程见[评测配置说明](../maintenance/EVALUATION.md)，本次纳入范围与验证见[RC2记录](../design/reviews/release-assembly-rc2-2026-10-23/README.md)。
 
 | 节 | 目录 | 题数 |
 |---|---|---:|
@@ -17,7 +17,8 @@
 | 2.9 | [浅水与深度平均流动](2.9-shallow-water/README.md) | 4 |
 | 2.10 | [稀薄气体](2.10-rarefied-gas/README.md) | 4 |
 | 2.11 | [记忆与结构演化非牛顿流动](2.11-memory-fluids/README.md) | 5 |
+| 2.13 | [CFDCodeBench固定问题兼容专题](2.13-cfdcodebench/README.md) | 24 |
 
-共计 **65 题**。规划与维护状态见[逐题实施清单](../design/chapter-02-task-plan.md)及[章级进度与审阅证据](../design/reviews/chapter-02-progress.md)。本页是题库维护索引；正式提供考生材料时仅选择相应题目的完整公开依赖。
+核心 **65题**，固定问题兼容专题 **24题**。核心规划见[逐题实施清单](../design/chapter-02-task-plan.md)，兼容专题单独报告成绩，不将其固定问题成绩外推为问题族泛化能力。本页是维护索引，开发目录和发行纳入范围分别管理。
 
-数据与评测未发布：examples、references、cases 仅保留目录占位。公开协议的最小测试 fixture 置于临时目录，不属于正式算例或参考答案。所有新增题目的资源和精度均为待真实数据校准的设计目标。
+实际选样以逐题data-manifest.json与装配回执为准，资格与未决项保留在对应维护证据。临时测试fixture不属于正式算例；格式样例只说明结构，不能作为数值参考。

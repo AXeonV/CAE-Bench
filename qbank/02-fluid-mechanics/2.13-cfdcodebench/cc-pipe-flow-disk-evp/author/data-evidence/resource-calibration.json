@@ -1,0 +1,44 @@
+{
+  "index": 23,
+  "task": "cc-pipe-flow-disk-evp",
+  "hf_commit": "dc2be55e268aa078897da29de693491d3abf1e03",
+  "actual_solve_measurement": {
+    "index": 23,
+    "level": 32,
+    "wall_seconds": 0.0245717870000135,
+    "peak_rss_kib": 118808,
+    "cpu_max": "400000 100000",
+    "memory_max": "8589934592",
+    "producer_binding": {
+      "producer": "independent_ode_evp.pipe",
+      "order": 32
+    },
+    "python": "3.12.15 (main, Oct 13 2026, 16:52:04) [GCC 15.3.0]",
+    "environment_scope": "Existing sourced scientific environment Python3.12; protocol and actual candidate image measured separately",
+    "actual_solve": true,
+    "score": 1,
+    "resource_limits": {
+      "cpus": 4,
+      "memory_mb": 8192
+    },
+    "producer_selection": {
+      "index": 23,
+      "task": "cc-pipe-flow-disk-evp",
+      "method": "Galerkin",
+      "level": 32,
+      "selection_score": 1,
+      "attempts": [
+        {
+          "level": 32,
+          "score": 1
+        }
+      ]
+    },
+    "measurement_sha256": "f39897eca1ca6c27e66430e3b63ba5b121341d0e9778ed26bc6cd83282562d98"
+  },
+  "rule": "solver wall=max300,ceil((4*measured_wall+30)/60)*60;4CPU and8192MiB, all processes/threads share;agent3600 or5400 for heavier modelling tasks",
+  "scope": "Scientific Python3.12 producer environment in actual Docker resource limits; candidate Python3.14 protocol image separately validated. Measurements do not guarantee every numerical method fits. No reference replay used for solving cost.",
+  "judge_config_sha256": "a4dad798ef070202ab482eac2def814a8a326a74b4dc390238e85b9266c5db21",
+  "harbor_config_sha256": "d35509c8dafc23dc1c6b0a467919e104954116a9031bbaa0b6f5b17833c86208",
+  "measurement_report": "runs/benchmarks/cfdcodebench-24-20261020/calibration/C23/measurement.json"
+}

@@ -1,0 +1,156 @@
+{
+  "index": 6,
+  "task": "cc-2d-burgers-equation",
+  "task_id": "caeoj-000011",
+  "pool_case_id": "case-fc80694115ec194556222d1c",
+  "bundle": "D:\\Code\\CAE-Bench-OJ\\runs\\benchmarks\\cfdcodebench-24-20261020\\release\\bundles\\cc-2d-burgers-equation",
+  "reference_sha256": "579dfa3cc1b52f73cddb29c5b3e6f7960991953a97baf0aea3fce4016ae72033",
+  "hf_branch": "cases/cfdcodebench-24-20261020",
+  "hf_commit": "dc2be55e268aa078897da29de693491d3abf1e03",
+  "manifest_sha256": "528b64f327f7a1bc111fded8cbd81191bfd12a1c537eaac08be6f273b82a5238",
+  "descriptor_sha256": "97818cdb9fad211b988dfd311eb58fda3e0a52d3c5b448142afae22ddda17103",
+  "samples": 1,
+  "sample_kind": "format",
+  "sample_seed": 2026102006,
+  "sample_output_sha256": "054d42486e86dc32d2c5c63a66276431a29cc7f3da62fa18c85252c430170266",
+  "strict_integrity": {
+    "valid": true,
+    "errors": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-fc80694115ec194556222d1c",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "assembly_report": {
+    "revision": "dc2be55e268aa078897da29de693491d3abf1e03",
+    "files": 8,
+    "changed": 2,
+    "removed": 0,
+    "complete": true,
+    "incomplete": [],
+    "overlaps": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-fc80694115ec194556222d1c",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "numerical_validation": {
+    "index": 6,
+    "task": "cc-2d-burgers-equation",
+    "case_id": "C06-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [],
+    "checks": {
+      "space_L0_L1": {
+        "u": {
+          "rmse": 0.012621081174174138,
+          "reference_rms": 1.0879267339211496,
+          "nrmse": 0.011601039647849011,
+          "nmse": 0.0001345841209109647,
+          "max_abs": 0.08821962524885985
+        },
+        "v": {
+          "rmse": 0.012621081174174138,
+          "reference_rms": 1.0879267339211496,
+          "nrmse": 0.011601039647849011,
+          "nmse": 0.0001345841209109647,
+          "max_abs": 0.08821962524885985
+        }
+      },
+      "space_L1_L2": {
+        "u": {
+          "rmse": 0.007146243664967466,
+          "reference_rms": 1.0869963194218046,
+          "nrmse": 0.006574303461090556,
+          "nmse": 4.322146599850726e-05,
+          "max_abs": 0.047747336048388656
+        },
+        "v": {
+          "rmse": 0.007146243664967466,
+          "reference_rms": 1.0869963194218046,
+          "nrmse": 0.006574303461090556,
+          "nmse": 4.322146599850726e-05,
+          "max_abs": 0.047747336048388656
+        }
+      },
+      "half_dt": {
+        "u": {
+          "rmse": 2.935668410600993e-06,
+          "reference_rms": 1.086996361634912,
+          "nrmse": 2.7007159492103174e-06,
+          "nmse": 7.293866638318986e-12,
+          "max_abs": 2.5672822030919917e-05
+        },
+        "v": {
+          "rmse": 2.935668410600993e-06,
+          "reference_rms": 1.086996361634912,
+          "nrmse": 2.7007159492103174e-06,
+          "nmse": 7.293866638318986e-12,
+          "max_abs": 2.5672822030919917e-05
+        }
+      },
+      "independent_FEM_L0": {
+        "u": {
+          "rmse": 0.011400692269173635,
+          "reference_rms": 1.086996361634912,
+          "nrmse": 0.010488252464825425,
+          "nmse": 0.00011000343976591659,
+          "max_abs": 0.13976061178391985
+        },
+        "v": {
+          "rmse": 0.011400692269173635,
+          "reference_rms": 1.086996361634912,
+          "nrmse": 0.010488252464825425,
+          "nmse": 0.00011000343976591659,
+          "max_abs": 0.13976061178391985
+        }
+      },
+      "independent_FEM_L1": {
+        "u": {
+          "rmse": 0.010195686660276612,
+          "reference_rms": 1.086996361634912,
+          "nrmse": 0.009379687936527817,
+          "nmse": 8.797854578664544e-05,
+          "max_abs": 0.06844772411511757
+        },
+        "v": {
+          "rmse": 0.010195686660276612,
+          "reference_rms": 1.086996361634912,
+          "nrmse": 0.009379687936527817,
+          "nmse": 8.797854578664544e-05,
+          "max_abs": 0.06844772411511757
+        }
+      },
+      "independent_FEM_L2": {
+        "u": {
+          "rmse": 0.008964264533096865,
+          "reference_rms": 1.086996361634912,
+          "nrmse": 0.008246821102155334,
+          "nmse": 6.801005829095452e-05,
+          "max_abs": 0.06233747690220959
+        },
+        "v": {
+          "rmse": 0.008964264533096865,
+          "reference_rms": 1.086996361634912,
+          "nrmse": 0.008246821102155334,
+          "nmse": 6.801005829095452e-05,
+          "max_abs": 0.06233747690220959
+        }
+      }
+    },
+    "reference_sha256": "579dfa3cc1b52f73cddb29c5b3e6f7960991953a97baf0aea3fce4016ae72033",
+    "resource_status": "provisional"
+  },
+  "resource_status": "awaiting_calibration",
+  "installed_consumption": "passed"
+}

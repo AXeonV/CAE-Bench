@@ -115,8 +115,11 @@ def manifest(path):
                 raise PoolError('Selection names must be single path segments')
             if not isinstance(selection, dict) or not re.fullmatch(r'[\w-]+', selection.get('case_id', '')):
                 raise PoolError('Invalid case ID')
-            if set(selection) != {'case_id', 'case'}:
+            allowed = {'case_id', 'case'} | ({'kind'} if role == 'samples' else set())
+            if set(selection) - allowed or not {'case_id', 'case'} <= set(selection):
                 raise PoolError('Selection must bind one case descriptor, without attachments')
+            if 'kind' in selection and selection['kind'] != 'format':
+                raise PoolError('The optional sample kind must be format')
     return value
 
 
@@ -171,8 +174,11 @@ def bound(store, prefix, binding, descriptors=None):
 
 def item_files(store, prefix, binding, item, descriptors):
     """A case is self-contained: there are no cross-directory data references."""
-    if set(item) != {'schema_version', 'case_id', 'origin', 'files', 'input', 'reference', 'example'}:
+    required = {'schema_version', 'case_id', 'origin', 'files', 'input', 'reference', 'example'}
+    if not required <= set(item) or set(item) - required - {'example_kind'}:
         raise PoolError('Case descriptor has unsupported fields')
+    if 'example_kind' in item and (item['example_kind'] != 'format' or item['example'] is None):
+        raise PoolError('A format example requires an explicit output asset')
     base = f"pool/cases/{item['case_id']}"
     if binding['path'] != base + '/case.json':
         raise PoolError('Case descriptor must be pool/cases/<case-id>/case.json')
@@ -214,24 +220,33 @@ def plan(value, store, cases=None, samples=None):
         result['scope'][role] = names
         for name in names:
             selection = value[role][name]
+            format_only = role == 'samples' and selection.get('kind') == 'format'
             item = bound(store, prefix, selection['case'], result['descriptors'])
             if item.get('case_id') != selection['case_id']:
                 raise PoolError('Selection case ID differs from bound descriptor')
             files = item_files(store, prefix, selection['case'], item, result['descriptors'])
+            if format_only and item.get('example_kind') != 'format':
+                raise PoolError('Format selection requires a declared format example')
+            if role == 'samples' and not format_only and item.get('example_kind') == 'format':
+                raise PoolError('Select a format example with --format-sample, not --sample')
             signature = {}
             for kind, group_prefix in (('input', 'input/'), ('reference', 'reference/')):
                 group = item.get(kind, {})
                 names_in_group = group.get('files')
                 if type(group.get('complete')) is not bool or not isinstance(names_in_group, list):
                     raise PoolError(f'Invalid {kind} group')
-                if group['complete'] and group_prefix + ('problem.json' if kind == 'input' else 'grading.json') not in names_in_group:
+                if group['complete'] and not (format_only and kind == 'reference') and group_prefix + ('problem.json' if kind == 'input' else 'grading.json') not in names_in_group:
                     raise PoolError(f'Complete {kind} lacks its entry point')
-                if not group['complete']:
+                if not group['complete'] and not (format_only and kind == 'reference'):
                     result['incomplete'].append(f'{role}/{name}/{kind}')
                 for logical in names_in_group:
                     if logical not in files or not logical.startswith(group_prefix):
                         raise PoolError('Group references missing or misplaced file')
                     leaf = logical.removeprefix(group_prefix)
+                    if format_only and kind == 'reference':
+                        if logical == item['example']:
+                            add(f'samples/{name}/output/result.h5', files[logical])
+                        continue
                     if kind == 'input':
                         signature[leaf] = files[logical]['sha256']
                         target = f'cases/{name}/{leaf}' if role == 'cases' else f'samples/{name}/input/{leaf}'
@@ -253,11 +268,13 @@ def plan(value, store, cases=None, samples=None):
             prior = {entry[0]: entry for key in keys for entry in fingerprints.get(key, [])}
             identity = f'{role}/{name}'
             for previous, previous_role, previous_name, previous_selection in prior.values():
-                if (previous_role != role and previous_selection == selection):
+                if (previous_role != role and all(previous_selection.get(k) == selection.get(k) for k in ('case_id', 'case'))):
                     case_name = name if role == 'cases' else previous_name
                     sample_name = name if role == 'samples' else previous_name
-                    result['public_cases'].append({'case': case_name, 'sample': sample_name,
-                                                   'case_id': selection['case_id']})
+                    exposed = {'case': case_name, 'sample': sample_name, 'case_id': selection['case_id']}
+                    if selection.get('kind') == 'format' or previous_selection.get('kind') == 'format':
+                        exposed['sample_kind'] = 'format'
+                    result['public_cases'].append(exposed)
                 else:
                     result['overlaps'].append([previous, identity])
             for key in keys:
@@ -291,8 +308,14 @@ def fetch(value, store, **options):
                             destination = task/category/target.removeprefix(prefix)
                             destination.parent.mkdir(parents=True, exist_ok=True)
                             shutil.copyfile(store.get(value['repository']['path']+'/'+entry['source']), destination)
-                prepared = prepare_case(load_problem(task/'input/problem.json'), task/'reference/grading.json')
                 example_key = f'samples/{name}/output/result.h5'
+                if role == 'samples' and value[role][name].get('kind') == 'format':
+                    from caeoj.sdk import load_result
+                    if example_key not in result['files']: raise PoolError('Missing format example output')
+                    example = store.get(value['repository']['path']+'/'+result['files'][example_key]['source'])
+                    load_result(load_problem(task/'input/problem.json'), example)
+                    continue
+                prepared = prepare_case(load_problem(task/'input/problem.json'), task/'reference/grading.json')
                 if role == 'samples' and example_key in result['files']:
                     from caeoj.sdk import load_result
                     example = store.get(value['repository']['path']+'/'+result['files'][example_key]['source'])
@@ -426,6 +449,10 @@ def verify(task, *, strict=False, samples_only=False):
                 if errors or any(v.startswith(f'{role}/{name}/') for v in current['incomplete']): continue
                 input_path = task/'cases'/name/'problem.json' if role == 'cases' else task/'samples'/name/'input/problem.json'
                 reference_path = task/'reference'/name/'grading.json' if role == 'cases' else task/'samples'/name/'reference/grading.json'
+                if role == 'samples' and value[role][name].get('kind') == 'format':
+                    from caeoj.sdk import load_result
+                    load_result(load_problem(input_path), task/'samples'/name/'output/result.h5')
+                    continue
                 prepared = prepare_case(load_problem(input_path), reference_path)
                 example = task/'samples'/name/'output/result.h5'
                 if role == 'samples' and example.is_file():
@@ -451,14 +478,16 @@ def verify(task, *, strict=False, samples_only=False):
     return {'valid': not errors, 'errors': errors, 'public_cases': public_cases}
 
 
-def select(value, store, cases, samples, *, allow_incomplete=False):
+def select(value, store, cases, samples, *, allow_incomplete=False, format_samples=()):
     prefix = value['repository']['path']
     index = checked_json(store.get(prefix + '/' + relative(value['pool']['index'])))
     if index.get('schema_version') != 3 or not isinstance(index.get('cases'), dict):
         raise PoolError('Invalid pool index')
     selected = {**value, 'cases': {}, 'samples': {}}
     for role, choices in (('cases', cases), ('samples', samples)):
-        for number, choice in enumerate(choices, 1):
+        entries = [(choice, False) for choice in choices]
+        if role == 'samples': entries += [(choice, True) for choice in format_samples]
+        for number, (choice, format_only) in enumerate(entries, 1):
             name, case_id = choice.split('=', 1) if '=' in choice else (f'{number:03d}', choice)
             if '/' in relative(name) or name in selected[role]:
                 raise PoolError('Invalid or repeated local selection name')
@@ -466,6 +495,7 @@ def select(value, store, cases, samples, *, allow_incomplete=False):
                 raise PoolError(f'Unknown pool case ID: {case_id}')
             binding = {k: index['cases'][case_id][k] for k in ('path', 'sha256')}
             selected[role][name] = {'case_id': case_id, 'case': binding}
+            if format_only: selected[role][name]['kind'] = 'format'
     result = plan(selected, store)
     if result['overlaps']:
         raise PoolError('Selections contain duplicate inputs: ' + str(result['overlaps']))
@@ -521,6 +551,12 @@ def pack(source, output, value):
             if not directory.is_dir():
                 raise PoolError('Case/sample roots must contain named directories')
             name = relative(directory.name)
+            format_only = False
+            marker = directory/'example.json'
+            if role == 'samples' and marker.is_file():
+                if checked_json(marker) != {'kind': 'format'}:
+                    raise PoolError('example.json must explicitly declare kind=format')
+                format_only = True
             inputs = inventory(directory if role == 'cases' else directory/'input')
             if not inputs:
                 raise PoolError(f'Empty input: {role}/{name}')
@@ -580,11 +616,17 @@ def pack(source, output, value):
                                  if item['files'][key] == identity(example)), None)
                 key = existing or 'reference/example.h5'
                 if not existing:
+                    if key in item['files'] and item['files'][key] != identity(example):
+                        raise PoolError('Conflicting examples for identical input')
                     item['files'][key] = put(example, base + key)
                     item['reference']['files'].append(key)
                 consumed.add(example.relative_to(source).as_posix())
                 item['example'] = key
+                if format_only: item['example_kind'] = 'format'
+            elif format_only:
+                raise PoolError('Format sample requires output/result.h5')
             choice = {'case_id': case_id}
+            if format_only: choice['kind'] = 'format'
             selections[role][name] = choice
     if not items:
         raise PoolError('No case/sample inputs found')
@@ -625,6 +667,19 @@ def pack(source, output, value):
     return {'bundle': str(output), 'selection': str(output/'selection.json'), 'cases': len(items), 'evidence': str(evidence)}
 
 
+def indexed_selection(value, store, index):
+    """Validate every item using its declared numerical or format-only role."""
+    selected = {**value, 'cases': {}, 'samples': {}}
+    for number, (case_id, binding) in enumerate(index.get('cases', {}).items()):
+        item = bound(store, value['repository']['path'], binding)
+        choice = {'case_id': case_id, 'case': {k: binding[k] for k in ('path', 'sha256')}}
+        if item['reference']['complete'] or item.get('example') is None:
+            selected['cases'][str(number)] = choice
+        if item.get('example') is not None:
+            selected['samples'][str(number)] = {**choice, **({'kind': 'format'} if item.get('example_kind') == 'format' else {})}
+    return selected
+
+
 def validate_bundle(bundle):
     bundle = Path(bundle)
     value = manifest(bundle/'selection.json')
@@ -632,11 +687,10 @@ def validate_bundle(bundle):
     prefix = value['repository']['path']
     index_path = prefix + '/' + value['pool']['index']
     index = checked_json(store.get(index_path))
-    all_items = {**value, 'cases': {}, 'samples': {}}
+    all_items = indexed_selection(value, store, index)
     allowed = {index_path}
     descriptors = {}
     for number, (case_id, binding) in enumerate(index.get('cases', {}).items()):
-        all_items['cases'][str(number)] = {'case_id': case_id, 'case': binding}
         item = bound(store, prefix, binding, descriptors)
         if (binding.get('input_complete') != item['input']['complete']
                 or binding.get('reference_complete') != item['reference']['complete']):
@@ -646,7 +700,7 @@ def validate_bundle(bundle):
             allowed.add(prefix + '/' + entry['source'])
             if not matches(store.get(prefix + '/' + entry['source']), entry):
                 raise PoolError('Bundle contains corrupt payload or attachment')
-    if not all_items['cases']:
+    if not all_items['cases'] and not all_items['samples']:
         raise PoolError('Cannot upload an empty pool index')
     for result in (fetch(all_items, store), fetch(value, store)):
         descriptors.update(result['descriptors'])
@@ -723,7 +777,6 @@ def upload(bundle, *, update=False, revision='main'):
     verified = HubStore(repo['repo_id'], commit.oid)
     fetch(value, verified)
     # Validate every index item in the bundle, not just the default selection.
-    all_items = {**value, 'cases': {str(n): {'case_id': cid, 'case': b}
-                 for n, (cid, b) in enumerate(index['cases'].items())}, 'samples': {}}
+    all_items = indexed_selection(value, verified, index)
     fetch(all_items, verified)
     return {'revision': commit.oid, 'uploaded_files': len(operations)}

@@ -1,0 +1,60 @@
+# wall-heat-flux-repair 独立考生审阅：exam-materials
+
+题面结论：**本轮未发现未决问题**。样例状态：**已检查全部两公开样例及所有数组、完整网格和承诺公开输出**。
+
+冻结ZIP：`dist/wall-heat-flux-repair-agent.zip`，SHA256 `79c8a30b60a515b29ad6c5aecc2697764821d8cf8b37240c82c4abb91560af06`，45文件；MANIFEST明确public_samples=[01,02]，全部44个列入资产的摘要吻合。包内三文件与工作树逐字节一致。
+
+| 三文件 | SHA256 |
+|---|---|
+| `qbank/19-solver-repair/19.4-observations/wall-heat-flux-repair/instruction.md` | `7c43ca66a3331655122046be99d19eefa63979c5b3dc486e8fb243d04c910874` |
+| `qbank/19-solver-repair/19.4-observations/wall-heat-flux-repair/DATA.md` | `bf0558edadea8e21f6d2af0992d0e73c7021c7cc8444a445636a34fa503beea0` |
+| `docs/CONTRACT.md` | `130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063` |
+
+## 独立性与公开定义覆盖
+
+遵循仓库根AGENTS.md及caeoj-candidate-review技能/workflow；未读本题或SU2相关author、隐藏cases/reference、设计/修复/生产者证据；没有运行收费模型，没有实现修复。源码归档及待替换文件只核存在和哈希，没有从实际求解实现推定题意。公开run_case与中性扩展只用于确认公开流程与检查可用性，不把工具当作额外物理定义。
+
+- 任务是修复真实SU2壁面能量离散/热流报告，恰提交三份指定源码，各≤1MiB。替换路径、保留接口/其余受支持行为、可信驱动不可修改、禁止独立输出和按身份硬编码均明确。
+- 二维定常常物性层流、真实INC_NAVIER_STOKES+能量、静止导热/非零均匀速度对流扩散，以及恒温/规定热流混合边界的支持与排除范围明确；运动壁只沿+x切向滑动，网格静止。不是只按导热解析式求解。
+- DATA定义矩形物理边界、坐标m、z=0、MSH4.1、线性quad/line、5组Physical Group、全节点及边/壁/入口身份；L/H由实际坐标确定，无需反推网格生成公式。
+- 入口温度为左边界节点线性插值，非零流动时端点与两壁连续；零速时忽略该场，左右为绝热对称。两壁速度、右端零表压/原生温度流出、无重力/体热源、初温及参考量纲均清楚。下壁热流模式只允许零速、参数温度被忽略；各常物性/边界参数和CFL/迭代值域列全。
+- FDS、一阶对流、WLS梯度、隐式Euler、FGMRES/ILU、线性阈值与迭代上限及温度日志rms[T]≤-8明确。真实离散结果是比较目标；解析/收敛/平衡用于参考核查，不要求考生用连续解替换原生输出。
+- 全部HDF5量为float64、身份int64、稳态times=[0]且保留时间/分量轴；7输出覆盖温度、两分量速度、压力、壁热流、两壁积分、残差。位置/quantity/unit/value_kind等可从三文件唯一确定，输出按原tag排序并仅复制所需输出身份与时间。
+- 热流是流体外法向正，输入下壁f对应报告-f；积分二维单位深度1m。原生Heat_Flux和HF(hot)/HF(cold)各自比较，不能以点值积分替代原生热率。压力为出口零表压。残差是原生日志rms[T]的log值，不是时间轴。
+- 全量点值与热率容差atol1e-5/rtol1e-7，残差绝对差0.5且须真实达到-8；每例全输出/收敛同时通过、等权。4CPU/8GiB、600s构建、180s单例明确。Linux Meson/Ninja配置及依赖归档和附加include路径提供足够操作入口。
+
+## 发现
+
+本轮未发现需要修订的题意歧义或公开样例读取阻碍。结论不等于真实修复正确、全场物理资格或运行预算认证。
+
+## 实际公开材料与检查
+
+完整读取README、MANIFEST、两problem.json/mesh.msh、input.h5、reference/grading.json/reference.h5、output/result.h5；公开扩展与run_case流程已读，未读取求解算法文件或真实源码归档内容。全部文件哈希见 inventory.json（`runs/candidate-review/repair22-su22347-exam/inventory.json`）。全部样例JSON、原MSH文本、每个HDF5 dataset的dtype/shape/所有值、属性及汇总见 all-sample-arrays.json（`runs/candidate-review/repair22-su22347-exam/all-sample-arrays.json`），没有仅阅读摘要而漏掉的大数组部分。
+
+两sample的节点/壁/入口/边身份均有序且与实际Physical Group关联；只有线性quad/line、平面z=0。输入有10个根dataset：node_ids、wall_ids、inlet_ids、bottom_edge_ids、top_edge_ids、bottom_observation_id、top_observation_id、diagnostic_ids、times、inlet_temperature。输出含7字段及node_ids/wall_ids/两个observation_id/diagnostic_ids/times；没有复制不被输出引用的边/入口IDs。全部位置、dtype和[1,N,c]结构通过中性校验，根与dataset无属性。两公开output与对应reference逐数组精确相同。
+
+| sample | 实际输入 | 实际输出概要 |
+|---|---|---|
+| 01 | 矩形2m×1m，425节点/384四边形，50壁节点、17入口节点、上下各24边；velocity0，mode0，两壁400/300K，k10，CFL10，iterations30000；入口17值线性400→300但零速忽略 | 温度约300..400K；速度/压力全0；下壁热流约-1000W/m²，上壁+1000W/m²；两壁积分约-2000.00000056503/+2000.00000056432W；rms[T]=-8.007444390431 |
+| 02 | 同2m×1m矩形，561节点/512四边形，66壁节点、17入口节点、上下各32边；velocity.1m/s、mode0，两壁400/300K、k10、CFL5、iterations20000；17入口温度是明确非线性节点序列，端点400/300，节点间线性 | 温度约300.0003..400.0493K，速度x=.1/y=0、表压0；下壁热流-888.52..-395.75，上壁1111.48..1604.25W/m²；两壁原生积分-1432.15172381138/+2567.84827618862W；rms[T]=-8.00278893605362 |
+
+sample01导热结果的符号与量纲符合外法向定义，温度/热流/单位深度积分一致。sample02保留原生离散输出，不以连续边界解析值逐点认证其参考精度；其温度/热流样例内容需由作者侧真实求解与物理资格流程另行认证，此轮不读取该私有证据。两残差均达到公开-8门槛。
+
+在独立snapshot的包内src运行每sample四项：validate-input、validate-output(reference)、validate-output(public output)、grade(public output)，合计8项全部exit0，两grade accepted/score1，日志见 neutral-checks.json（`runs/candidate-review/repair22-su22347-exam/neutral-checks.json`）。评分配置7输出完整，温度/速度/压力/热流/热率使用声明容差，残差绝对差.5；真实门槛由公开固定runner在写出前执行。SDK数据接口可用，没有发现额外模型插件缺失。
+
+## 未验证与覆盖缺口
+
+公开samples两例均boundary_mode0，无给定热流混合边界样例；三文件已完整定义mode1语义，因此是样例覆盖缺口，不作为歧义。没有读取隐藏数据，也不据此猜测其覆盖。
+
+没有构建SU2、执行真实CFD/候选替换、独立pip安装、验证离线依赖闭包或评测600s/180s预算。中性工具采用本机Python3.11.9，实际依赖版本由neutral-checks的grade回执记录，NumPy2.4.1不同于包声明2.4.6；不把此次工具调用冒称锁定Linux环境安装验收。没有重做收敛/网格收敛/完整对流扩散解析解比对，不认证参考全场物理资格。没有读取或引用作者Oracle结果。
+
+
+## 候选构建预算修订的有界复核
+
+修订版本ZIP SHA256 `638026c8158d232aea0100c0a37d117a9face22fe5e6f55dc982aebd2cf3ae78`，相对本报告原冻结 `79c8a30b60a515b29ad6c5aecc2697764821d8cf8b37240c82c4abb91560af06`，独立逐文件比较45文件：没有增删，仅instruction.md的候选构建预算600→900秒及MANIFEST中该文件摘要变更。DATA、全部公开输入/参考/输出、driver、源码归档、SDK/扩展、单位/评分及单例180秒限额逐字节未变；MANIFEST全部资产摘要匹配。差异清单见exam目录 budget-revision-diff.json（`runs/candidate-review/repair22-su22347-exam/budget-revision-diff.json`）。因此前轮对题意、SDK和全部样例的结论可绑定不变文件复用；新instruction SHA256 `b1bc52b07527f5d9f73fe8672d66dcf6e48b003ffcaf5d4fcf99a6f9a9dbdc2e`。
+
+本次只对这一预算变更作有界复核，不冒充新一轮盲考生审阅。为核对修订背景，后续读取了私有执行配置和资源记录；此前真正盲审材料边界与其原SHA结论仍保留。当前私有source-repair配置baseline600/candidate900，judge-config的verifier **base_seconds=2200**（不是整个verifier总时限）；10case合并后4380秒，覆盖600+900+健康probe60+10*(180+30)=3660秒并留余量。共享消费者分别使用baseline和candidate预算，公开900秒与候选消费者一致。
+
+旧formal-v1实际baseline-report为build_timeout，耗时300.141394729s，Harbor无reward/exception非空；这是可信原件构建基础设施失败，不能记候选0分。scope保留旧独立102秒与并发约350秒的作者资源记录作为扩预算背景；本轮没有重新测量编译，也未以scope声明代替实际新预算校准。
+
+有界结论：**本轮未发现该公开预算修订造成的新未决问题**。新ZIP的完整真实Oracle/后端验收仍待formal-v2，未声称通过；此次未重跑真实SU2构建/求解，也不把旧版本Oracle或前轮中性SDK成绩冒称新Oracle结果。

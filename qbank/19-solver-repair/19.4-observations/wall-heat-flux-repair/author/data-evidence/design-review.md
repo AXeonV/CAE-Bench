@@ -1,0 +1,59 @@
+# 独立设计审阅：19.4.5 壁面热流离散和后处理一致性
+
+结论：**本轮未发现未决问题（规划设计范围）**。现行变形网格静止导热、平滑入口非零对流及规定通量回归联合范围成立。不能退为HEAT_EQUATION，不能删除非零对流或把仅报告修复当完整能力；两类必要修改的设计可区分性已由新增温和倾斜平滑对流有界复核支持；细网格物理收敛与正式参考仍未验收。
+
+本人未参与本题实现，仅审范围卡、必要真实边界/后处理源码和原型证据。正式instruction/DATA、完整数据、后端和数值参考尚未冻结，本报告不代替这些验收。
+
+## 能力定位与来源子集
+
+[PR2394](https://github.com/su2code/SU2/pull/2394)要求报告热流与边界施加一致，而非直接把通用节点温度梯度当壁热流。本题包含同一热边界链中的两种相关但可分失误：斜邻点的欧氏距离代替法向距离会改变能量残差/温度场；报告使用通用梯度而非同一壁面状态会使报告q与施加方式不一致。将两者放一题有物理和接口关系，不是机械拼两个不相干补丁。
+
+只承诺不可压缩常物性单相层流INC_NS+energy时，保留geometry_toolbox.hpp、CFVMFlowSolverBase.inl、CIncNSSolver.cpp是足够的来源子集；不应用CNSSolver.cpp压缩流分支并不偷换所承诺范围。共享FVM模板可能影响别的模型，但本题不能因此声称已认证NEMO/压缩/共轭等分支。与2602的可压缩状态重构区别明确。
+
+## 两个有实质区别的工况族
+
+静止导热极限仍通过真实INC_NAVIER_STOKES+INC_ENERGY_EQUATION求速度/压力/温度，矩形边界不变而首层/内部网格倾斜，解析线性温度和法向热流可独立成立。把导热改用专门HEAT_EQUATION会跳过目标CIncNSSolver路径，不能作为实现捷径。倾斜方向、首层距离与冷热反转有能力依据，不只是数字换名。
+
+仅线性导热可能使旧梯度报告偶然正确。初版正交平滑对流也出现三种不完整修复都通过的实际反例，说明“非零对流”本身仍不足以保证检出报告缺陷。修订后的现行范围加入真实收敛的温和倾斜平滑非零对流，保留正交网格作物理收敛/软件回归，两壁/入口同速、无压差，加与壁连续的Tlin+A sin入口，形成互补目标。A≠0与U≠0使温度不再是固定线性剖面；任何只把q写成±kΔT/H或只修边界距离的实现都不应普遍通过。
+
+## 入口与连续参考边界
+
+本轮从固定原始SU2 archive读CIncEulerSolver::BC_Inlet：VELOCITY_INLET构造入口温度state，并同时装配对流、黏性通量。源码注释称Dirichlet，实际是数值边界通量中的state施加，不应承诺有限网格入口节点温度与profile逐点机器精度相等。当前卡把参考匹配称给定离散软件输出、连续解用于独立误差/收敛核对，与此相容。旧Danckwerts/常温不连续入口候选不再作为现行题意。
+
+现行解析X满足alpha X''-UX'-alpha k²X=0、X(0)=1、X'(L)=0，保留轴向导热；与非零流动、同温差线性基底及平滑入口一致。移动壁只是切向速度，几何不动；恒定速度无剪切耗散，常物性无浮力限定使温度输运与均匀流动的数学核查可分。正式材料仍要明确实际离散边界施加语义，不能把入口profile列成未解释文件。
+
+## 评价资格和证据限制
+
+读到的33×17/65×33原型温度RMS .14930→.07469K、壁q误差约减半、总能量后处理残差32.78→16.46W，支持一阶离散向所用连续问题收敛，但两级数据不证明高阶精度、全部网格域或机器精度守恒。本轮没有重算作者解析脚本或实际CFD，不把这些记录称独立全数据认证。
+
+逐壁点真实报告q、原生壁积分、全场T/u/p与残差联合评分是必要的；只核两端热率总和可能掩盖抵消，只核规定通量字面输出可能绕过残差缺陷。规定热流的符号、每面积/积分、2D单位深度与壁入/出流约定须在最终DATA中唯一公开，且不得由driver重算q后覆盖SU2报告。
+
+参考可以匹配固定离散实际修复结果，同时用精确导热、完整对流扩散解、能量平衡与网格收敛支持物理资格；reference匹配容差与连续离散误差必须分开。现有变形静止导热的近机器精度不能外推给对流族。旧斜网格非零对流不收敛实验保留为失败记录，现行卡没有把它列成已认证参考。
+
+发现与关闭历史：初版只有线性倾斜导热与正交平滑对流，前者boundary-only可通过，后者三种不完整修复均可通过；这构成“两类缺陷都必要”的实际覆盖反例，曾导致设计证据不足。owner随后将温和倾斜平滑对流加入scope，本轮重新读取更新scope、partial-matrix-audit.json和真实CSV/日志，独立按PointID排序核对同一节点/坐标后复算全部节点温度及所有壁点q差，结果如下：baseline温度差1.3337283K、q差53.924991W/m²；boundary-only温度差0、q差7.9173389W/m²；report-only温度差1.3337283K、q差173.81784W/m²。三份日志均Exit Success。CSV复算及原文件SHA记录于matrix-bounded-review.json。
+
+这证明新工况在给定离散上可分别检出只修一项，修复了上述设计缺口；正交回归仍保留并明确其不检出缺陷，未用它冒充两修复必要性的证据。新增skew=.2 full原型有2128步温度残差<-8的记录。相应65×33细网格仍运行中，未以该差异矩阵认证物理精度或容差。正式冻结前必须完成此倾斜对流族的连续误差/网格收敛和能量积分审计，不能用构建成功或三版失败反推full数值正确。
+
+62TU完整依赖闭包与candidate600秒仍需真实后端消费/加载/Oracle证明，设计审阅不替它过关。当前未发现改变非零流动+两类缺陷设计的阻断。
+
+## 实际材料与版本
+
+基线HEAD：`6da63a4203b144fc22fbbc0a598a59f33b960e46`。范围卡与work证据未由该提交绑定，以实际SHA为准；git status --short未给出这三张runs卡的跟踪条目（忽略的工作证据）。关键材料如下，其余逐文件SHA见同目录materials.json。
+
+| 材料 | SHA256 |
+|---|---|
+| runs/authoring/repair-22/su2-2347-scope.md | 39236b99773f80453fddc40961d56872231cbbc231820c47f43f3459714bf518 |
+| work/repair-22/su2-2347/pr.json | d10a492cf033bcbfc86bc1710867a474414d30ed626f38aab3a847243b016c08 |
+| work/repair-22/su2-2347/SU2_CFD__include__solvers__CFVMFlowSolverBase.inl.patch | f05c3fef4bba8f50085d4f40df3509658e2d878660c7d44689c351d5e3b11802 |
+| work/repair-22/su2-2347/SU2_CFD__src__solvers__CIncNSSolver.cpp.patch | 96987b4e7d0dd5298df78c44102e49cd91197ac152fd42564e640a3fb6d842b0 |
+| work/repair-22/su2-2347/conduction-feasibility.json | 558efd8d05e0c0b45fca593d40f696ee20e64154c4701eeed59a847bf9fccd5c |
+| work/repair-22/su2-2347/smooth-advective-audit.json | a3d56342d32528f582cdbcbc1ddfea6f0a777a47efe2946325a0adac392e83af |
+| work/repair-22/su2-2347/audit_smooth.py | a15c1735dba76e10c107623be0f978d2740d4653a8dfcb2b90e724bfcc111752 |
+| work/repair-22/su2-2347/run_smooth_flow.py | 9fc4738b4d248cb180488c3b1955d43ebb9ce2c2129147e410ede78f50ca6ceb |
+| work/repair-22/su2-2347/flow-smooth-fine/config.cfg | b802ea63c6c1bbb320f2f4c13b09aa68c1599f7cd02aedb5de8def221d5a110b |
+| work/repair-22/su2-2347/partial-boundary-only/build-result.json | a496f76dcece80b9bd218c797e521e1669c710333d3f694282e4e675b0e5147e |
+| work/repair-22/su2-2347/partial-report-only/build-result.json | 213f2138c2f98f73f5a8a23ff56a711b0a8af0842a5e7573c998c2dae712a724 |
+
+已读取PHILOSOPHY、章规划、CONTRACT和架构职责。没有用已有父级批准替代判断；没有实施或修改题目，也没有新运行求解器/编译。对公开参数域、完整数据和资源均仅给阶段性边界，后续冻结变化需复核。
+
+有界修订材料：partial-matrix-audit.json SHA `4514bf77ef6cb9f2e9657c2c2aa319f390425f84b053802bda3f38820f0d3432`；smooth-skew-audit.json SHA `f75e4593718070604edf551f38479aebd5679f9f2cc1add5af53969015e1f46e`。旧scope SHA `815ce1920c6c11728c461dcad32bed780c4d4501e23d2b6e6cd4f364e481c573`保留在materials.json:bounded_review_history，报告主表绑定当前scope。

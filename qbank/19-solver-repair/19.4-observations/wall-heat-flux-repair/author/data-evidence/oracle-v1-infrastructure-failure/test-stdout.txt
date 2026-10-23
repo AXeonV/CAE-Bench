@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/tests/judge.py", line 189, in <module>
+    main()
+    ~~~~^^
+  File "/tests/judge.py", line 134, in main
+    submitted = freeze_submission()
+  File "/tests/judge.py", line 43, in freeze_submission
+    return source_repair.prepare()
+           ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tests/source_repair.py", line 91, in prepare
+    raise RuntimeError('Trusted baseline build failed: ' + baseline['status'])
+RuntimeError: Trusted baseline build failed: build_timeout

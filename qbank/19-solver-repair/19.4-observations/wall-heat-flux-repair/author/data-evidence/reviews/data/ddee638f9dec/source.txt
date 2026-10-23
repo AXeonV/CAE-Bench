@@ -1,0 +1,62 @@
+# 最终有界复核：通过
+
+最终 ZIP SHA256 `d041bdf1db275794789a233b138bbc029deb768f22971a9787c0b9316156df8d`。保留下文638026版本原始发现与结果；当前最终结论为**全数据审计通过，三个SDK缺口均关闭**。新包重新实际调用全部79原变体，预期接受/拒绝79/79；原有76正确分支不回退。见variants-final.json、geometry-variants-final.json。
+
+独立按ZIP成员逐字节比较旧638026原存档与新包，成员列表一致，只有MANIFEST.json、pyproject.toml、src/caeoj_bundle/runtime.json、src/caeoj_task_ext/wall_energy.py改变，其余公开题面/DATA/CONTRACT、driver/public、两样例所有文件字节不变，详final-zip-diff.json。扩展实际type(iterations)isint；拒绝非quad区域/非line边界；只有U>0时按真实mesh坐标找上下入口端点并检查与壁温连续，U=0忽略入口分支继续接受。
+
+runtime的geometry:true通过validation.read_mesh(...,geometry=runtime.needs_geometry(m))真实消费。对最终SDK重新load_problem全部10+2输入，并断言每个实际mesh含完整node_coordinates与connectivity，均通过，证据geometry-consumption-final.json。三处非法变体分别在预期JSON整数/端点连续/单元类型检查路径拒绝；没有仅靠作者摘要关闭。
+
+最终包未改任何输入、参考、原生数值驱动或真实producer，因此下文完整数据、独立数学、HF/source/rawCSV证据继续适用。本结论不冒称d041版新Oracle完成、也不替代后端全门验收；作者普通离线安装证据是独立证据类别，本轮未重跑长编译或CFD。
+
+---
+
+# SU22347 全数据独立审计
+
+结论：**需修订（SDK 三处输入检查）；全部实际数据与数值参考审计通过。** 本报告不是盲考生审阅，不代替独立后端验收。审阅只写 runs，未改实现、正式数据或参考，未重跑长编译/CFD。
+
+## 冻结身份与全量范围
+
+题目 `qbank/19-solver-repair/19.4-observations/wall-heat-flux-repair`，公开 ZIP SHA256 `638026c8158d232aea0100c0a37d117a9face22fe5e6f55dc982aebd2cf3ae78`；变体针对该冻结 SDK。已读 instruction、DATA、CONTRACT，完整加载正式 10 例与公开 2 样例全部 JSON、MSH、input/reference/output HDF5 数组，非抽样。10 例共 8588 节点，静止 6、非零 U=.1 流动 4，恒温/恒温 8、热流/恒温 2。完整数组与原始网格、文件 SHA、逐例数学误差在 [all-data.json](all-data.json)，复核脚本 [audit.py](audit.py)。盘点12输入无缺失见 [inventory.json](inventory.json)。
+
+各例检查全部参数 value/unit、模型、维数、mesh/locations/fields/outputs 精确描述、steady=[0]、float64 量值/int64 严增 ID、完整节点、边界与积分身份。实际网格均仅一阶 quad+line、z=0、矩形四边且Physical Groups正确；节点坐标、连接与所有原始tag实际读取。所有flow inlet上下端点连续。实际各输出均finite，rms[T]≤−8。
+
+## 来源、装配与真实生产者
+
+固定 HF `00ce8b1176746fe7aa3ccf9e1c184402ec805121`，直接核 fresh cache 每个描述与payload的实际字节、SHA/size，再核本地62装配文件及10描述与选择manifest逐项对应；样例01逐字节映射正式01，样例02映射正式07；两sample output与reference全数组相等，实际grade=1。详见 [bindings.json](bindings.json)、[bindings.py](bindings.py)。没有把装配文件数当作独立输入数。
+
+SU2基线 `fbf39d37d2850ed38ef75f5add8d333d22d8b519`；源archive SHA `49dd8b62a30aaa79fe252bb3cc21d73d1f2788ab41c4291f5158828aa8534f14`。完整archive2470源文件加固定MEL9文件，独立逐文件hash与2479源manifest完全一致。MELarchive SHA `e0f7f95ab80d098a2c2bafceefb52e958378302c2150ef7cb9fe2bf4aa81177b`。实际producer镜像 `sha256:d9d8dc085ca7d2c2c3f682a64f13f13b6afd85a2424fdd0e3e9e23bbb0e46362` 中又独立读取2479实际文件，恰原件加3份generated替换全部SHA匹配；真实SU2_CFD及两静态库实际hash与记录一致，详见 [image-independent.json](image-independent.json)。三替换对应geometry_toolbox.hpp、CFVMFlowSolverBase.inl、CIncNSSolver.cpp；不借未纳入的可压缩分支证明本题。
+
+实际原生CFD而非数学检查器生成参考。初次formal临时目录已清理，初次空外层stdout不能称为原生CSV，旧prototype也不能替正式输入证据。本审阅发现该资料缺口后，作者以同一冻结producer可执行与不变publicdriver，对10正式输入做仅观察补录。独立读取补录的每例 restart/surface/history CSV、config、mesh、flow inlet、stdout/stderr，核全部raw文件SHA。按PointID→原始Gmsh排序ID重构温度×300、速度/压力、原生Heat_Flux、HF(hot/cold)、rms[T]全部7字段匹配冻结参考；config与实际参数完全一致，mesh.su2连接/节点序/tag映射、inlet.dat全量载荷逐行一致。补录未覆盖参考。实际producer静态三产物hash同时等于归档Oracle-v2 build/report.json的实际built_artifacts_sha256，不靠合并史认定生产者。
+
+## 独立数学与物理资格
+
+静止恒温：独立使用 T(y)=Tb+(Tt−Tb)y/H、外向下壁q=k(Tt−Tb)/H、上壁反号与单位深度积分。热流模式：Tb有效值=Tt+fH/k，下壁−f、上壁f；忽略输入Tb。6静止例温度RMS最大8.773e−8 K、非零热流相对L2最大2.537e−9；零热流/等温精确零。实际斜网格无碍该闭式解。
+
+非零flow：未直接复用作者结论，另由实际分段线性入口减去线性壁温，精确积分其2048个Fourier sine系数；解 αX''−UX'−αkn²X=0、X(0)=1、X'(L)=0，稳定两实根组合，复算全节点T、壁法向导数、壁积分及入口/出口能量通量。解析只是独立核查，不用于生成离散reference。
+
+| 实例 | 温度RMS误差 K | 壁热流相对L2误差 |
+|---|---:|---:|
+|05 正交粗|0.139231|0.00747108|
+|06 正交细|0.0751688|0.00362873|
+|07 斜网格粗|0.162618|0.00958062|
+|08 斜网格细|0.0843112|0.00446140|
+
+四例实际速度全场=.1、横向0、表压0；该流场保留非零温度对流。独立连续能量平衡残差≤4.55e−13 W，真实native壁积分与由节点二阶导数估计的开口通量总误差相对量级粗0.82%/1.03%→细0.41%/0.525%，呈细化收敛。后者是独立离散估计，不能声称原生有限体积严格守恒。两种网格温度与热流误差均约减半，支持一阶对流离散资格；连续误差不与判题1e−5容差混用。
+
+独立重新grade真实H5：reference10/10，baseline3/10（05/06/10）；两个单边partial均07/08=0/2。boundary-only在07/08温度完全相同却壁q最大差7.91734/4.33221，积分差9.44158/5.16164W；report-only温度最大差1.33373/.693086K，q差173.818/200.597。故真实斜网格粗细joint同时拒绝两种partial；没有把正交flow或静止线性单独称作缺陷检出。
+
+## 变体与未关闭问题
+
+[variants.json](variants.json)覆盖77个输入变体，外加[geometry-variants.json](geometry-variants.json)2个，共79。逐参数上下界/越界/单位、静止忽略入口、mixed条件、缺字段/缺array、ID倒序/诊断身份、steady时刻、NaN、sampling/输出描述及拓扑坐标均实际调用冻结SDK。
+
+三处P2，均为公开DATA明确禁止而冻结SDK接受；正式数据自身未触发：
+
+1. iterations=30000.0被接受，DATA要求JSON整数。复现 `variants/iterations-float`。
+2. 非零flow inlet端点温度加1K（仍在温度范围）导致与壁端点不连续，SDK接受。复现 `variants/flow-inlet-endpoint-discontinuity`。
+3. 区域quad全部改为合法MSH triangle，SDK接受；driver实际write_su2会报Expected quadrilaterals。复现 `variants/mesh-triangles`。
+
+其余76符合预期，包括off-xy-plane被通用检查正确拒绝。已向作者与root及时反馈，作者已开始统一extension修订；需要最终新ZIP与差异绑定后有界复核，当前不得把638026版写为SDK全部通过。
+
+## 边界
+
+正式Oracle-v2 10/10和旧300s构建infra失败是作者运行证据；本次独立核数值/HF/实际producer与输出，未自行重跑CFD、编译或付费模型。当前backend七探针另行审阅，不据本报告提前判后端通过。未完整验证任意合法网格的几何质量或全合法参数空间的CFD收敛时限；本次全部12实际输入已全量数值/契约审计，无未读正式数组。

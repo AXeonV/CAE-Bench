@@ -1,0 +1,1 @@
+The buildx historical-log retrieval failed after the successful trusted-reference image build. The retrieval stderr is preserved separately; it is not a compilation log. Formal Oracle-v2 baseline/candidate stdout and reports provide the complete forced-rebuild evidence.

@@ -1,0 +1,1393 @@
+{
+  "issue": "2347",
+  "read_files": {
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\author\\data-evidence\\oracle-v3-d041\\archive.json": "4ace58c0867533c3b63d4f73240ac041a090b20a23ed77b9b2c3a5221d4156ac",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\author\\data-evidence\\oracle-v3-d041\\repair22-su22347-oracle-v3.json": "e18b7f61e4910c05889bcc67700202d9c8d3757faed636853a0ebcd12e68ea5f",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\author\\data-evidence\\oracle-v3-d041\\trial-result.json": "fe76a9106774b555407c43c3e6eee9755a22d185cbe19db5c1617b944cec2d8e",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\author\\data-evidence\\oracle-v3-d041\\repair22-su22347-oracle-v3-watch.json": "9ae1df420b4cafcbca6ab8f774a9e5e376f04dfa51d500aecec4705b858ad822",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\author\\data-evidence\\oracle-v3-d041\\verifier\\report.json": "f63e95399ebfc314e0130c32f07bd23b2c280d8b083cdb7bc4a05eb6412c2f06",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\author\\data-evidence\\oracle-v3-d041\\verifier\\build\\report.json": "1c60234442ab8474f464a16e2536c9bda3b7d30e3f7bbbfc13dba686b1f6da8e",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\author\\data-evidence\\oracle-v3-d041\\verifier\\build\\baseline-report.json": "5f3812cf4ee13d66f72dcc27896ff07b8ee4edcc52b9fcb25608df4e366d8c94",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\author\\data-evidence\\oracle-v3-d041\\verifier\\build\\baseline-probe-report.json": "a6d326489945e8b9474c99e9b07605df4ddc2810ac67dc7563bc04e33858cbe1",
+    "runs\\harbor\\tasks\\wall-heat-flux-repair\\tests\\source-repair.json": "2c36b0ac54fbe1e5d4df597008eafe78c8860926e451b40ac68ba7bff05d6775"
+  },
+  "tests": [
+    {
+      "case": "01-skew-conduction",
+      "actual_sha256": "8d42e1b7738cf7eb35c20dbb4354a1a5593e46f3953fa5d0c8bc61789b215313",
+      "reference_sha256": "73d3886f050ce9b321d2a7371fb20652930fd09cf7799c45128c030d49a5b7c3",
+      "array_comparison": {
+        "bottom_heat_rate": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "bottom_observation_id": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "diagnostic_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "node_ids": {
+          "shape": [
+            425
+          ],
+          "dtype": "int64",
+          "count": 425,
+          "max_abs_difference": 0.0
+        },
+        "pressure": {
+          "shape": [
+            1,
+            425,
+            1
+          ],
+          "dtype": "float64",
+          "count": 425,
+          "max_abs_difference": 0.0
+        },
+        "temperature": {
+          "shape": [
+            1,
+            425,
+            1
+          ],
+          "dtype": "float64",
+          "count": 425,
+          "max_abs_difference": 0.0
+        },
+        "temperature_residual": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "top_heat_rate": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "top_observation_id": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "velocity": {
+          "shape": [
+            1,
+            425,
+            2
+          ],
+          "dtype": "float64",
+          "count": 850,
+          "max_abs_difference": 0.0
+        },
+        "wall_heat_flux": {
+          "shape": [
+            1,
+            50,
+            1
+          ],
+          "dtype": "float64",
+          "count": 50,
+          "max_abs_difference": 0.0
+        },
+        "wall_ids": {
+          "shape": [
+            50
+          ],
+          "dtype": "int64",
+          "count": 50,
+          "max_abs_difference": 0.0
+        }
+      },
+      "status": "accepted",
+      "elapsed_seconds": 2.523353002998192
+    },
+    {
+      "case": "02-reverse",
+      "actual_sha256": "c530c94467d5c5d9c86d1792372ac45586b061ac1cdf5e13ca4199bc4d132952",
+      "reference_sha256": "4a4afd4c0c42ea0b9ab1645f78734357002098cddb70ad647c1a7a183abacb33",
+      "array_comparison": {
+        "bottom_heat_rate": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "bottom_observation_id": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "diagnostic_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "node_ids": {
+          "shape": [
+            551
+          ],
+          "dtype": "int64",
+          "count": 551,
+          "max_abs_difference": 0.0
+        },
+        "pressure": {
+          "shape": [
+            1,
+            551,
+            1
+          ],
+          "dtype": "float64",
+          "count": 551,
+          "max_abs_difference": 0.0
+        },
+        "temperature": {
+          "shape": [
+            1,
+            551,
+            1
+          ],
+          "dtype": "float64",
+          "count": 551,
+          "max_abs_difference": 0.0
+        },
+        "temperature_residual": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "top_heat_rate": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "top_observation_id": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "velocity": {
+          "shape": [
+            1,
+            551,
+            2
+          ],
+          "dtype": "float64",
+          "count": 1102,
+          "max_abs_difference": 0.0
+        },
+        "wall_heat_flux": {
+          "shape": [
+            1,
+            58,
+            1
+          ],
+          "dtype": "float64",
+          "count": 58,
+          "max_abs_difference": 0.0
+        },
+        "wall_ids": {
+          "shape": [
+            58
+          ],
+          "dtype": "int64",
+          "count": 58,
+          "max_abs_difference": 0.0
+        }
+      },
+      "status": "accepted",
+      "elapsed_seconds": 2.6311041259978083
+    },
+    {
+      "case": "03-scaled",
+      "actual_sha256": "87d68914ee7da212e7f9631fb72e3a19c7b3a985e01702630aec168f60e27a05",
+      "reference_sha256": "af055b82f7f884ae4e141f89347aa65f6c4ec3d14f6226d9947163c601c9bc58",
+      "array_comparison": {
+        "bottom_heat_rate": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "bottom_observation_id": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "diagnostic_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "node_ids": {
+          "shape": [
+            525
+          ],
+          "dtype": "int64",
+          "count": 525,
+          "max_abs_difference": 0.0
+        },
+        "pressure": {
+          "shape": [
+            1,
+            525,
+            1
+          ],
+          "dtype": "float64",
+          "count": 525,
+          "max_abs_difference": 0.0
+        },
+        "temperature": {
+          "shape": [
+            1,
+            525,
+            1
+          ],
+          "dtype": "float64",
+          "count": 525,
+          "max_abs_difference": 0.0
+        },
+        "temperature_residual": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "top_heat_rate": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "top_observation_id": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "velocity": {
+          "shape": [
+            1,
+            525,
+            2
+          ],
+          "dtype": "float64",
+          "count": 1050,
+          "max_abs_difference": 0.0
+        },
+        "wall_heat_flux": {
+          "shape": [
+            1,
+            50,
+            1
+          ],
+          "dtype": "float64",
+          "count": 50,
+          "max_abs_difference": 0.0
+        },
+        "wall_ids": {
+          "shape": [
+            50
+          ],
+          "dtype": "int64",
+          "count": 50,
+          "max_abs_difference": 0.0
+        }
+      },
+      "status": "accepted",
+      "elapsed_seconds": 1.8283952890014916
+    },
+    {
+      "case": "04-thin-layer",
+      "actual_sha256": "bd3b03616eb80134052042b1c5d03eccb6a4e605b394709898df73066ea50ccc",
+      "reference_sha256": "2f15cf68a8190bfbac32d7375f543c798a0eb89d1c52c7c56755c9ab314d3f51",
+      "array_comparison": {
+        "bottom_heat_rate": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "bottom_observation_id": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "diagnostic_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "node_ids": {
+          "shape": [
+            825
+          ],
+          "dtype": "int64",
+          "count": 825,
+          "max_abs_difference": 0.0
+        },
+        "pressure": {
+          "shape": [
+            1,
+            825,
+            1
+          ],
+          "dtype": "float64",
+          "count": 825,
+          "max_abs_difference": 0.0
+        },
+        "temperature": {
+          "shape": [
+            1,
+            825,
+            1
+          ],
+          "dtype": "float64",
+          "count": 825,
+          "max_abs_difference": 0.0
+        },
+        "temperature_residual": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "top_heat_rate": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "top_observation_id": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "velocity": {
+          "shape": [
+            1,
+            825,
+            2
+          ],
+          "dtype": "float64",
+          "count": 1650,
+          "max_abs_difference": 0.0
+        },
+        "wall_heat_flux": {
+          "shape": [
+            1,
+            66,
+            1
+          ],
+          "dtype": "float64",
+          "count": 66,
+          "max_abs_difference": 0.0
+        },
+        "wall_ids": {
+          "shape": [
+            66
+          ],
+          "dtype": "int64",
+          "count": 66,
+          "max_abs_difference": 0.0
+        }
+      },
+      "status": "accepted",
+      "elapsed_seconds": 3.3798801449993334
+    },
+    {
+      "case": "05-orthogonal-flow-coarse",
+      "actual_sha256": "c5366458bf2616eb19e9998c78ff5f11b5a0c93dfc1b4d78b4170e56a10f1923",
+      "reference_sha256": "f2723357a95f8bf177f47e445cc2a672d4c3f63f0506b660b567c1e990caadcf",
+      "array_comparison": {
+        "bottom_heat_rate": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "bottom_observation_id": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "diagnostic_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "node_ids": {
+          "shape": [
+            561
+          ],
+          "dtype": "int64",
+          "count": 561,
+          "max_abs_difference": 0.0
+        },
+        "pressure": {
+          "shape": [
+            1,
+            561,
+            1
+          ],
+          "dtype": "float64",
+          "count": 561,
+          "max_abs_difference": 0.0
+        },
+        "temperature": {
+          "shape": [
+            1,
+            561,
+            1
+          ],
+          "dtype": "float64",
+          "count": 561,
+          "max_abs_difference": 0.0
+        },
+        "temperature_residual": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "top_heat_rate": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "top_observation_id": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "velocity": {
+          "shape": [
+            1,
+            561,
+            2
+          ],
+          "dtype": "float64",
+          "count": 1122,
+          "max_abs_difference": 0.0
+        },
+        "wall_heat_flux": {
+          "shape": [
+            1,
+            66,
+            1
+          ],
+          "dtype": "float64",
+          "count": 66,
+          "max_abs_difference": 0.0
+        },
+        "wall_ids": {
+          "shape": [
+            66
+          ],
+          "dtype": "int64",
+          "count": 66,
+          "max_abs_difference": 0.0
+        }
+      },
+      "status": "accepted",
+      "elapsed_seconds": 1.6090423929999815
+    },
+    {
+      "case": "06-orthogonal-flow-fine",
+      "actual_sha256": "162b3f7400e503da338fda12e15a060e803b3e5e0c9020d068999b6f1db892cc",
+      "reference_sha256": "3a295206cb19209a6239cedeb33a79b82846f44c53f51717f3d7d325fb9a9673",
+      "array_comparison": {
+        "bottom_heat_rate": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "bottom_observation_id": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "diagnostic_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "node_ids": {
+          "shape": [
+            2145
+          ],
+          "dtype": "int64",
+          "count": 2145,
+          "max_abs_difference": 0.0
+        },
+        "pressure": {
+          "shape": [
+            1,
+            2145,
+            1
+          ],
+          "dtype": "float64",
+          "count": 2145,
+          "max_abs_difference": 0.0
+        },
+        "temperature": {
+          "shape": [
+            1,
+            2145,
+            1
+          ],
+          "dtype": "float64",
+          "count": 2145,
+          "max_abs_difference": 0.0
+        },
+        "temperature_residual": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "top_heat_rate": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "top_observation_id": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "velocity": {
+          "shape": [
+            1,
+            2145,
+            2
+          ],
+          "dtype": "float64",
+          "count": 4290,
+          "max_abs_difference": 0.0
+        },
+        "wall_heat_flux": {
+          "shape": [
+            1,
+            130,
+            1
+          ],
+          "dtype": "float64",
+          "count": 130,
+          "max_abs_difference": 0.0
+        },
+        "wall_ids": {
+          "shape": [
+            130
+          ],
+          "dtype": "int64",
+          "count": 130,
+          "max_abs_difference": 0.0
+        }
+      },
+      "status": "accepted",
+      "elapsed_seconds": 11.475670150997757
+    },
+    {
+      "case": "07-skew-flow-coarse",
+      "actual_sha256": "3b9757384eff83b3e79069678c92f6c874fa512deb4a65db1c15e307a9da81b7",
+      "reference_sha256": "13e25f03f5719849f555a4bed99a4583be8d9fe87088662bf536b5ee5b4e47a7",
+      "array_comparison": {
+        "bottom_heat_rate": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "bottom_observation_id": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "diagnostic_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "node_ids": {
+          "shape": [
+            561
+          ],
+          "dtype": "int64",
+          "count": 561,
+          "max_abs_difference": 0.0
+        },
+        "pressure": {
+          "shape": [
+            1,
+            561,
+            1
+          ],
+          "dtype": "float64",
+          "count": 561,
+          "max_abs_difference": 0.0
+        },
+        "temperature": {
+          "shape": [
+            1,
+            561,
+            1
+          ],
+          "dtype": "float64",
+          "count": 561,
+          "max_abs_difference": 0.0
+        },
+        "temperature_residual": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "top_heat_rate": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "top_observation_id": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "velocity": {
+          "shape": [
+            1,
+            561,
+            2
+          ],
+          "dtype": "float64",
+          "count": 1122,
+          "max_abs_difference": 0.0
+        },
+        "wall_heat_flux": {
+          "shape": [
+            1,
+            66,
+            1
+          ],
+          "dtype": "float64",
+          "count": 66,
+          "max_abs_difference": 0.0
+        },
+        "wall_ids": {
+          "shape": [
+            66
+          ],
+          "dtype": "int64",
+          "count": 66,
+          "max_abs_difference": 0.0
+        }
+      },
+      "status": "accepted",
+      "elapsed_seconds": 2.7507063209995977
+    },
+    {
+      "case": "08-skew-flow-fine",
+      "actual_sha256": "c7a13aea38c165f7326e9df772b45be3e39bec29a8926d332265ea518e082ba0",
+      "reference_sha256": "65a1ea8378bfd850addd688da80948cdd43f183b4eec32f3d931c484dd199c97",
+      "array_comparison": {
+        "bottom_heat_rate": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "bottom_observation_id": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "diagnostic_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "node_ids": {
+          "shape": [
+            2145
+          ],
+          "dtype": "int64",
+          "count": 2145,
+          "max_abs_difference": 0.0
+        },
+        "pressure": {
+          "shape": [
+            1,
+            2145,
+            1
+          ],
+          "dtype": "float64",
+          "count": 2145,
+          "max_abs_difference": 0.0
+        },
+        "temperature": {
+          "shape": [
+            1,
+            2145,
+            1
+          ],
+          "dtype": "float64",
+          "count": 2145,
+          "max_abs_difference": 0.0
+        },
+        "temperature_residual": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "top_heat_rate": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "top_observation_id": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "velocity": {
+          "shape": [
+            1,
+            2145,
+            2
+          ],
+          "dtype": "float64",
+          "count": 4290,
+          "max_abs_difference": 0.0
+        },
+        "wall_heat_flux": {
+          "shape": [
+            1,
+            130,
+            1
+          ],
+          "dtype": "float64",
+          "count": 130,
+          "max_abs_difference": 0.0
+        },
+        "wall_ids": {
+          "shape": [
+            130
+          ],
+          "dtype": "int64",
+          "count": 130,
+          "max_abs_difference": 0.0
+        }
+      },
+      "status": "accepted",
+      "elapsed_seconds": 49.04753473399978
+    },
+    {
+      "case": "09-prescribed-flux",
+      "actual_sha256": "427303d1202102226efaf0e29b8ca73402a15a4ee1d43e6156359e1a66328325",
+      "reference_sha256": "3d5eeaa6bac6594d114762e6ae9f9b63dfcd3b9f249e5b13f38685f69cf4e870",
+      "array_comparison": {
+        "bottom_heat_rate": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "bottom_observation_id": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "diagnostic_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "node_ids": {
+          "shape": [
+            425
+          ],
+          "dtype": "int64",
+          "count": 425,
+          "max_abs_difference": 0.0
+        },
+        "pressure": {
+          "shape": [
+            1,
+            425,
+            1
+          ],
+          "dtype": "float64",
+          "count": 425,
+          "max_abs_difference": 0.0
+        },
+        "temperature": {
+          "shape": [
+            1,
+            425,
+            1
+          ],
+          "dtype": "float64",
+          "count": 425,
+          "max_abs_difference": 0.0
+        },
+        "temperature_residual": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "top_heat_rate": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "top_observation_id": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "velocity": {
+          "shape": [
+            1,
+            425,
+            2
+          ],
+          "dtype": "float64",
+          "count": 850,
+          "max_abs_difference": 0.0
+        },
+        "wall_heat_flux": {
+          "shape": [
+            1,
+            50,
+            1
+          ],
+          "dtype": "float64",
+          "count": 50,
+          "max_abs_difference": 0.0
+        },
+        "wall_ids": {
+          "shape": [
+            50
+          ],
+          "dtype": "int64",
+          "count": 50,
+          "max_abs_difference": 0.0
+        }
+      },
+      "status": "accepted",
+      "elapsed_seconds": 7.4985104280021915
+    },
+    {
+      "case": "10-zero-flux",
+      "actual_sha256": "7368256222746fc16161c571c3f3770d2f79e27304803b1cfa4b9d8f3a68dfc3",
+      "reference_sha256": "33747e8f9bce69cd1ff4b3132279b941add1093758fa610c60e95eceb04d227d",
+      "array_comparison": {
+        "bottom_heat_rate": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "bottom_observation_id": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "diagnostic_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "node_ids": {
+          "shape": [
+            425
+          ],
+          "dtype": "int64",
+          "count": 425,
+          "max_abs_difference": 0.0
+        },
+        "pressure": {
+          "shape": [
+            1,
+            425,
+            1
+          ],
+          "dtype": "float64",
+          "count": 425,
+          "max_abs_difference": 0.0
+        },
+        "temperature": {
+          "shape": [
+            1,
+            425,
+            1
+          ],
+          "dtype": "float64",
+          "count": 425,
+          "max_abs_difference": 0.0
+        },
+        "temperature_residual": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "times": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "top_heat_rate": {
+          "shape": [
+            1,
+            1,
+            1
+          ],
+          "dtype": "float64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "top_observation_id": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "count": 1,
+          "max_abs_difference": 0.0
+        },
+        "velocity": {
+          "shape": [
+            1,
+            425,
+            2
+          ],
+          "dtype": "float64",
+          "count": 850,
+          "max_abs_difference": 0.0
+        },
+        "wall_heat_flux": {
+          "shape": [
+            1,
+            50,
+            1
+          ],
+          "dtype": "float64",
+          "count": 50,
+          "max_abs_difference": 0.0
+        },
+        "wall_ids": {
+          "shape": [
+            50
+          ],
+          "dtype": "int64",
+          "count": 50,
+          "max_abs_difference": 0.0
+        }
+      },
+      "status": "accepted",
+      "elapsed_seconds": 0.8269944799976656
+    }
+  ],
+  "zip_sha256": "d041bdf1db275794789a233b138bbc029deb768f22971a9787c0b9316156df8d",
+  "frozen_prepared_files": 68,
+  "build_summary": {
+    "baseline_seconds": 145.9803592040007,
+    "candidate_seconds": 142.194314417,
+    "probe_seconds": 1.3326068579990533,
+    "source_hashes": {
+      "geometry_toolbox.hpp": "3d6dbe85d3ccde891674dce5f29ce7a5e46d4f32f6eed1dbf7abf040ed99ab71",
+      "CFVMFlowSolverBase.inl": "4a728c5f6dc8c9a895c9ce263c4aa55ceb6d7c8dea6826628c12db96e995469c",
+      "CIncNSSolver.cpp": "2635cbe1197dd3da283fe4028c02bd16c1bccc0a1e9d1c9f9afbf1c627fff0e0"
+    },
+    "artifact_hashes": {
+      "/opt/su2-build/Common/src/libSU2Common.a.p/geometry_CGeometry.cpp.o": "f3db14bd27bf62208a4dd0c4ce23997df672a477c5b9dc28e697e5af13bb934c",
+      "/opt/su2-build/Common/src/libSU2Common.a.p/geometry_CMultiGridGeometry.cpp.o": "a0867407f445b19f12e8a32c46878f223eca2c15368d322b7f851fdbd492fc07",
+      "/opt/su2-build/Common/src/libSU2Common.a.p/geometry_elements_CTETRA1.cpp.o": "02de7f248ba1bd90f1e60fab63d21f1bb0747d63ab8bb8da7d20b96cd2cf456f",
+      "/opt/su2-build/Common/src/libSU2Common.a.p/geometry_elements_CTETRA4.cpp.o": "65f2fb097156d4130b5637ec5df969a32fae36fbd54f65e73abe876b8790ab18",
+      "/opt/su2-build/Common/src/libSU2Common.a.p/geometry_CPhysicalGeometry.cpp.o": "232911453af0e042d2ade3d312138dc333df742055aa134dcda2a32b96530840",
+      "/opt/su2-build/Common/src/libSU2Common.a.p/geometry_dual_grid_CEdge.cpp.o": "f4bb3d6386b0edfcc20dff69d190c7a8b4e7d8962b113581809134df1c9ea43d",
+      "/opt/su2-build/Common/src/libSU2Common.a.p/geometry_dual_grid_CVertex.cpp.o": "226e0ad654bd49a1537ede3984a3a6475e3382c1c97eb36622a222b6efab2dc8",
+      "/opt/su2-build/Common/src/libSU2Common.a.p/interface_interpolation_CSlidingMesh.cpp.o": "ff020f68b6b9cbdb35072f54d65b2820339812f5b9a32b3b2b1ec5f211415400",
+      "/opt/su2-build/Common/src/libSU2Common.a.p/interface_interpolation_CIsoparametric.cpp.o": "922b2fb9d9a1a7ad35b942a993c7022f397dad524910d4857c8b90cb7362c388",
+      "/opt/su2-build/Common/src/libSU2Common.a.p/interface_interpolation_CNearestNeighbor.cpp.o": "a1d97a3a9dedfc90997b9121284b8a1b7767a42ed39e4f1a6ff2584ca4648a80",
+      "/opt/su2-build/Common/src/libSU2Common.a.p/interface_interpolation_CRadialBasisFunction.cpp.o": "2fcdb6f1ce37dd6fb6fca163819d84bfdebf00f193890a2914515a53f1a103a7",
+      "/opt/su2-build/Common/src/libSU2Common.a.p/grid_movement_CFreeFormDefBox.cpp.o": "cb8b8ddc6b93b2bd98fe120e6e65ed444c6e3b0472bc99d9863ded089fa69043",
+      "/opt/su2-build/Common/src/libSU2Common.a.p/grid_movement_CVolumetricMovement.cpp.o": "20b0e620346dce1d31c0e29c5400c75ffddf3148eb4d6a349d71eb3cc845ef1c",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/python_wrapper_structure.cpp.o": "def6f2efbf30df3d97490eee5cc06d42efab281fa38512365123c8a001624619",
+      "/opt/su2-build/Common/src/libSU2Common.a.p/grid_movement_CSurfaceMovement.cpp.o": "72126991f61a2d612ae093ddd557e79f5c3bf82847a84bcd4c01e30199dcd393",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/fluid_CNEMOGas.cpp.o": "aafa74318140bcfe056361b2c7dd0f40889a102aeecb519642c4b4d2a179d907",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/output_CFlowOutput.cpp.o": "45618814055d5ae5fb856c3cfdbdfa5a9cf97bb943b5271f70172c6d471db9d9",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/variables_CNEMONSVariable.cpp.o": "4a0f1e83104f5498fcdd7b544b8196489519f600a7a237857ac5118324a793ca",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/variables_CNEMOEulerVariable.cpp.o": "80f45ce92f09eeadbac39673cce4c9d35fe07491c735f3a6e47ef247139373a4",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CSolverFactory.cpp.o": "4141e4de40d0b1c047c7292fd5726163408590849071546c3a849c0edd7db27b",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CAdjNSSolver.cpp.o": "2e359731c8930c3e701437cbedb53c37f16f5602a7f861b4b11fc0aa4a79a2bb",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CAdjEulerSolver.cpp.o": "7707f07d5b1140f5edc9ce9fa26c1a1b699d5478608fe93cf8c510e6875f9485",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CRadP1Solver.cpp.o": "c30609db0b6d6b9ab9e03a34e3942814b68cab1865cc0a0e084f077eb068faab",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CDiscAdjSolver.cpp.o": "85a51c49b7793d0a5b66c7b6c82dde19226b60a76afdfe515a75068c37295351",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CFEASolver.cpp.o": "87aa50b0a4ff939c13b67404cb9a96919339575b4deae9bf4d7c1c6c394eedf0",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CHeatSolver.cpp.o": "a497bf03bc17b3f3f3a2aa0ef2bdc0cc8af1e6bd953fe765f3f0e1801eafc056",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CEulerSolver.cpp.o": "f3e4bc040a888a09e82be4baf6e7bb44f5b3be2072af29e2829af3acc0423e62",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CIncEulerSolver.cpp.o": "29a8abdb3af79a5189c04e5d33989ccbe823a28fba47a0b4b2bde814802de720",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CMeshSolver.cpp.o": "606cffca4ada173adbcbcd0b6201817caed2cb4df72735d138be692894b4ea33",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CNEMOEulerSolver.cpp.o": "ee4a957c28cc41b0e6fb314b99bee6dcecb72522ff27e80a05b7d2187281234b",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CIncNSSolver.cpp.o": "e0e800adc8079870c11bf430e8f364b2d6c9df997cf5105bf573a6b4c0f10d6e",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CNEMONSSolver.cpp.o": "6d716acbedf594bfe1186698bc70c51e2614dbe427958a4a0bb2bf3e82e33fcc",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CNSSolver.cpp.o": "0058e47184ce8b734f87641c61e30e188eb19d0e556a269470ca1e3f9e363249",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CSpeciesSolver.cpp.o": "6852b8d2785385eb72cf1521e75bc4ab56b6959a2df0e6bdf4c0849187208765",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CSpeciesFlameletSolver.cpp.o": "c574ceff3a34a18f0f5acc035e66ada351f1881aeb7b7ff0601c3fa87da04c4b",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CTransLMSolver.cpp.o": "9b0af8f0f2c0712145567538e4921efda890aeb317052ee7f36d1f18f72ed8a9",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CSolver.cpp.o": "17ee57c5b7c829442a492efca178605e2979c9ccf6c13f6d831d60aebc04b360",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CTurbSolver.cpp.o": "b3ae5e5615efa0281270ed1225263a6db7ed8c39dcd1d9bc40b80d8e44c523dc",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CTurbSASolver.cpp.o": "d31c232cb7fd5c68208d6845029d178fd5027b4bf6625ff363421c74f35fdd8e",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CTurbSSTSolver.cpp.o": "4e1c8ca6cb4e50f55e15e7cb9a279ab06d3cc03d56e1a2db38615c54b93abd7e",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/solvers_CGradientSmoothingSolver.cpp.o": "a095cc86a807ec0d4963336edbdd22facffc9cee8d918edc6aadbb5953f67256",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/numerics_flow_convection_fds.cpp.o": "5e48c2fea2448dc27d1cf4d8e68f51c4d9cfbbaa4c93712ad0ccc14af0b651ff",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/numerics_flow_convection_fvs.cpp.o": "6dfcdc3d88a71d78e0b0b9b1b8c8f82c2c6fd4a0cf2fdb5e6b860749c413c641",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/numerics_flow_convection_roe.cpp.o": "3e7d12d588b2493b9ff9f035c8b56707137a3cf2dec043af99f9dd7906d247d2",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/numerics_flow_convection_ausm_slau.cpp.o": "7cc826d2fdd71616c135872a02cb94a108e917892c3f3453c3fd641950b86634",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/numerics_flow_convection_centered.cpp.o": "f7be6a693906c78d32ecc2788436da7c7f9b09c46b5bd186ceb60511392511a7",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/numerics_flow_convection_hllc.cpp.o": "85498eabe5e7e9b887d5c38d55e7c1d4f4e542b992e8349bf7ed4ad399aaff31",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/numerics_flow_flow_diffusion.cpp.o": "4c5fae8fad1d34b409ca09abca025c01a5eed4cb47448dbc56f78cf6ec1eb797",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/numerics_flow_flow_sources.cpp.o": "7b0729756c3d537b45bc5a6b74eba820cf0e26d35dc4959a030100c91a09d0cd",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/numerics_NEMO_convection_roe.cpp.o": "6aa3706c16222b6023b57860a9584a2ae1fe175c5e7050dfd9e82a0d1dc95f8b",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/numerics_NEMO_convection_lax.cpp.o": "9af5b86c7a53de0188b17daa533ceb1e21d1afb217082d2f3a55945de29add89",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/numerics_NEMO_convection_ausm_slau.cpp.o": "5ff571db14344bafcd2eadd003e34ea29efe44873599b18043e20af1403dce3d",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/numerics_NEMO_convection_msw.cpp.o": "648ea93f2398c5530764f5c119d4ee8e460fc5fa794b534d72ff37d5e79eb1f1",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/numerics_NEMO_CNEMONumerics.cpp.o": "2e82de2a2f42b76231adff870927c66e8fc478077a2405bda700bed39c3e15ba",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/numerics_NEMO_NEMO_diffusion.cpp.o": "66c2f923786c29d8f59e6b3d9eb6943d4a50a745a87c5dfbb22c99bd352a69f9",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/numerics_NEMO_NEMO_sources.cpp.o": "d3409ab48a93ee6854f5c01fb5af688f3287191dedb1cde219315a4fb00e2ed5",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/numerics_continuous_adjoint_adj_convection.cpp.o": "d0a79b3041972bc5d35c3a8b1b74eb6b5bfb1d3c52f9032842af16ec37ef7f0a",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/numerics_species_species_sources.cpp.o": "e58b51bf2f0a050b0ded8786311d9f7b7df5596253a22e0c9113676fd6d4f2b5",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/interfaces_cht_CConjugateHeatInterface.cpp.o": "3e2fba09f788362d6d1c07fdb5524230b4e5c1f46f90f138bfdc06a83ee14d3e",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/interfaces_fsi_CFlowTractionInterface.cpp.o": "7547d4d7fe967f2c45b2ce01fced7f66450eecce2b3166b7b48c3be6928c3f9b",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/drivers_CDriver.cpp.o": "ada6371bfb25cef9c04e15a0da98f60b4d332f0486ba7c92bad4f3c575fbacd7",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a.p/drivers_CDriverBase.cpp.o": "ffda6e5097cffc25c147f688a0f664f274ce823cff9f2923b02996b74de2f6cb",
+      "/opt/su2-build/Common/src/libSU2Common.a": "dfaa2399d9fdd7dcd4014d9357f54cfdb80f3db695fb3b8d7563e400c7498be4",
+      "/opt/su2-build/SU2_CFD/src/libSU2core.a": "444dcf5782e24d5b584629a93095089c7fac51dfe14427c212f567debf61b60f",
+      "/opt/su2-build/SU2_CFD/src/SU2_CFD": "8fb63c1be9cdfe69a1eb977727cf6e4df548b43a874e9c23e567a229f3a1554c"
+    }
+  },
+  "trial_exception": null,
+  "runner_returncode": 0,
+  "verifier_summary": {
+    "score": 10,
+    "total_cases": 10,
+    "completed_cases": 10,
+    "complete": true,
+    "reward": 1.0
+  },
+  "resources_task_toml": "schema_version = \"1.3\"\nartifacts = [\"/app/submission\"]\n\n[agent]\ntimeout_sec = 2400\n\n[environment]\nbuild_timeout_sec = 1800\nworkdir = \"/app\"\nos = \"linux\"\ngpus = 0\ncpus = 4\nmemory_mb = 8192\n\n[verifier]\ntimeout_sec = 4380\nenvironment_mode = \"separate\"\nnetwork_mode = \"no-network\"\n",
+  "trial_environment_config": {
+    "type": "docker",
+    "import_path": null,
+    "force_build": false,
+    "delete": true,
+    "stream": false,
+    "cpu_enforcement_policy": "auto",
+    "memory_enforcement_policy": "auto",
+    "override_cpus": null,
+    "override_memory_mb": null,
+    "override_storage_mb": null,
+    "override_gpus": null,
+    "override_tpu": null,
+    "mounts": null,
+    "extra_docker_compose": [],
+    "kwargs": {},
+    "extra_allowed_hosts": []
+  }
+}

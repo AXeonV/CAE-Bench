@@ -1,0 +1,39 @@
+# SU2 2347 独立后端审阅
+
+审阅对象：`qbank/19-solver-repair/19.4-observations/wall-heat-flux-repair`；最终公开 ZIP SHA256 `d041bdf1db275794789a233b138bbc029deb768f22971a9787c0b9316156df8d`。按 configure-judge SKILL 与 repair-question backend.md 审阅，没有修改实现、配置或Git，没有重新编译、启动CFD或付费模型。
+
+结论：公开要求与当前后端、正式配置及实际评分消费一致；62 TU真实依赖闭包完整声明，未发现配置或消费阻断问题。旧638026包Oracle-v2已真实10/10，但最终d041包完整Oracle尚未启动，应保持pending；最终离线安装与有限评分测试已完成，不能用旧10/10冒充新包正式执行验收。
+
+## 冻结身份与复用
+
+旧六探针身份保留为 ZIP `638026c8158d232aea0100c0a37d117a9face22fe5e6f55dc982aebd2cf3ae78`，题内 `author/data-evidence/backend-probes-v1/` 保存实际stdout与运行状态。本次独立逐成员比较旧ZIP/最终ZIP：成员集合一致，仅MANIFEST.json、pyproject.toml、runtime.json、wall_energy.py四成员变更；逐文件比较全部当前准备目录与原冻结SHA表，仅environment/agent.zip、tests/agent.zip变化。执行者、源码、驱动、配置、全部case/reference/grading、资源、Dockerfile字节相同。编译冻结/隔离/错误分类机制可有界复用旧证据；SDK新增整数输入契约由新证据承担，旧探针并未实际跑d041包。
+
+最终离线安装result.json已覆盖10正式+2样例、拒绝浮点iterations，实际安装wall_energy.py SHA `f7324834cd680e442abe51ecbae88211ce9cf34c521dc12d7a60c25d74fab71b`。本次评分测试直接抽取最终ZIP src导入，模块路径/哈希归档于bounded-tests.json，未依赖旧工作树扩展。旧Oracle-v2 runner state与verifier/report.json均10/10、complete=true、reward1且无exception，仅属于638026身份。
+
+## 要求与生效链
+
+| 公开要求 | 配置/消费者/实际证据 |
+|---|---|
+| 只提交3个指定文件，每份≤1MiB | source-repair.json映射geometry_toolbox.hpp、CFVMFlowSolverBase.inl、CIncNSSolver.cpp到可信绝对路径；prepare严格普通文件、精确文件集合与1048576限额；旧extra真实invalid_submission。链接/超限是本轮代码审阅，未新增容器探针。 |
+| 真实依赖闭包重编及静态链接 | 本次重新解析work/repair-22/su2-2347/compiler-deps.txt的编译器真实deps，3源影响62 TU，与题内header-dependency-closure及rebuild_files对象集合精确一致；另删除两静态库和SU2_CFD，共65产物。原件和候选都删除后由CMake custom target调用Ninja重编；旧valid将所有65项mtime设2100年后仍实际编译300.817秒；候选3个sourceSHA和全部65artifactSHA在容器内逐项核对，真实样例评分1。 |
+| 驱动实际使用新产物 | run_case.py调用/opt/su2-build/SU2_CFD/src/SU2_CFD；ldd未引用libSU2旁路，静态链接本次重建库；运行器仅转换真实VTK/history，不替代数值求解。该证据覆盖被测可执行路径及样例。 |
+| 原件失效归infra、候选语法归候选失败 | 旧baseline-compiler实际移除g++，即使完整缓存也因原件强制重编发现infra；baseline-runtime缺可信executable在候选引入前失败归infra；syntax真实build_error；extra真实invalid_submission。原件600秒、候选900秒、健康probe60秒互相独立，健康probe使用UID1000与HOME=/home/solver。 |
+| UID1000、只读可信路径、隐藏数据及禁网 | 旧valid实际检测/tests、/logs/verifier、/probe不可读写；提交、源码及父目录/头文件、构建规则和全部声明产物可读不可写。独立容器--network none/--cpus4/--memory8g，cgroup400000/100000和8589934592，探测1.1.1.1:80失败。有限路径/单地址证据不等于整个容器安全性证明。 |
+| 每例180秒及超时终止 | judge.execute每例独立session并finally killpg；旧runtime-timeout是真实候选C++死循环，3秒探针预算返回timeout/score0，原生主PID605转Z。只证明所记录主PID已终止；未证明另起session的所有后代或随后case继续执行。 |
+| 全输出/收敛条件共同计分 | 每例reference/grading.json被prepare_case实际消费，direct_outputs逐输出/逐点/逐分量比较；temperature、velocity、pressure、wall_heat_flux、bottom_heat_rate、top_heat_rate、temperature_residual共7字段全部绑定。run_case.py实际求解，残差>-8拒绝、非零退出/非有限输出拒绝。 |
+| 算例等权、基础设施不计考生0分 | judge预检全部10正式case再运行候选，按真实10例分母；每例所有字段通过得1，未完成complete=false；坏参考或evaluation worker score=null抛infra。旧Oracle-v2实际全部10例accepted验证共享汇总链，最终包Oracle仍pending。 |
+
+题面与正式策略一致：温度/速度/压力/热流/热率逐点atol1e-5、rtol1e-7；残差atol0.5、rtol0。输出对象名通过quantity/unit映射到策略，非混同quantity名称；无另加偏置或默认容差。max_output_bytes=null被judge实际消费为无额外字节限，结果仍须普通文件并通过shape/有限数等协议检查。
+
+实际task.toml为4CPU/8192MB，agent2400秒，镜像构建1800秒，verifier4380秒、独立verifier/no-network。预算2200+10×(180+30+8)=4380秒；最低原件600+候选900+健康60+10×(180+30)=3660秒，另有720秒I/O余量。评价30秒与逐例求解180秒分别执行。静态预算本身不证明最终包运行达标，需新Oracle实际结局。
+
+## 独立有限验证
+
+命令：`.venv/Scripts/python.exe -X utf8 runs/configure-judge/review_su2_backend.py 2347 wall-heat-flux-repair`；同目录bounded-tests.json归档实际读取SHA、10例评分证据和SDK路径/哈希。
+
+- 全10正式配置加载、参考自比1分；70个输出字段各自扰动首值，0.99×容差接受、1.01×拒绝，逐字段实际验证绑定和全通过聚合。
+- 10例残差差恰0.5接受、0.505拒绝；其余数值阈值验证内外点，不强求不精确的浮点等号。
+- 10例缺字段/NaN/错shape共30次均invalid_output/score0；10例坏参考绑定均evaluation_error/score=null。
+- 临时复制最终SDK并移除wall_energy.py，grade_case实际加载正式输入返回input_error/score=null、Installed materials incomplete；证明当前SDK损坏不会被该评分入口记为候选0分。此有限工具测试不是新一次容器baseline-runtime。
+
+本轮仅写审阅脚本与报告/证据。初次脚本模块名误写heatflux，修正为实际wall_energy后重跑全项成功；该设置错误不记为后端bug。未新增候选编译超时、全后代清理或后续case继续执行的真实探针，未重做高成本构建；历史失败记录保持原身份，不替换为成功结论。

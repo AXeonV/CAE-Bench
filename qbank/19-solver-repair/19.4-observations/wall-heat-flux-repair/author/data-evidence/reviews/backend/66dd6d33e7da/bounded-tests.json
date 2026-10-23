@@ -1,0 +1,1990 @@
+{
+  "issue": "2347",
+  "task": "wall-heat-flux-repair",
+  "final_zip_sha256": "d041bdf1db275794789a233b138bbc029deb768f22971a9787c0b9316156df8d",
+  "actual_tests": [
+    {
+      "case": "01-skew-conduction",
+      "reference_score": 1,
+      "evaluation_sha256": "ef6c294e732bcbf0acc170016303576d34b78ab0863c107caa6080eab04f1f19",
+      "outputs": {
+        "temperature": {
+          "quantity": "temperature",
+          "unit": "K",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 4.949999998871135e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 5.0499999986186594e-05
+            }
+          }
+        },
+        "velocity": {
+          "quantity": "velocity",
+          "unit": "m/s",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0100000000000002e-05
+            }
+          }
+        },
+        "pressure": {
+          "quantity": "pressure",
+          "unit": "Pa",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0100000000000002e-05
+            }
+          }
+        },
+        "wall_heat_flux": {
+          "quantity": "heat_flux",
+          "unit": "W/m^2",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.00010889999998653366
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.00011110000002645393
+            }
+          }
+        },
+        "bottom_heat_rate": {
+          "quantity": "heat_rate",
+          "unit": "W",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.0002079000000776432
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.00021209999999882712
+            }
+          }
+        },
+        "top_heat_rate": {
+          "quantity": "heat_rate",
+          "unit": "W",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.0002079000000776432
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.00021209999999882712
+            }
+          }
+        },
+        "temperature_residual": {
+          "quantity": "log10_residual",
+          "unit": "1",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 0.5,
+            "rtol": 0.0
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.4950000000000001
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.5049999999999999
+            },
+            "exact_half_equal": {
+              "score": 1,
+              "actual_delta": 0.5
+            }
+          }
+        }
+      },
+      "bad_outputs": {
+        "missing": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "nonfinite": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "shape": {
+          "score": 0,
+          "status": "invalid_output"
+        }
+      },
+      "bad_reference": {
+        "score": null,
+        "status": "evaluation_error",
+        "message": "ValueError: Missing or unsafe grading asset: absent.h5"
+      }
+    },
+    {
+      "case": "02-reverse",
+      "reference_score": 1,
+      "evaluation_sha256": "60ce5de4ea8bd16de86de8bca61b19a708649a3d617b3f2ae1a7b71583d2c926",
+      "outputs": {
+        "temperature": {
+          "quantity": "temperature",
+          "unit": "K",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 3.7620000000515574e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 3.837999997813313e-05
+            }
+          }
+        },
+        "velocity": {
+          "quantity": "velocity",
+          "unit": "m/s",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0100000000000002e-05
+            }
+          }
+        },
+        "pressure": {
+          "quantity": "pressure",
+          "unit": "Pa",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0100000000000002e-05
+            }
+          }
+        },
+        "wall_heat_flux": {
+          "quantity": "heat_flux",
+          "unit": "W/m^2",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 4.257000017560131e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 4.3430000175703753e-05
+            }
+          }
+        },
+        "bottom_heat_rate": {
+          "quantity": "heat_rate",
+          "unit": "W",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 5.890500005989452e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 6.0095000094406714e-05
+            }
+          }
+        },
+        "top_heat_rate": {
+          "quantity": "heat_rate",
+          "unit": "W",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 5.890500005989452e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 6.0095000094406714e-05
+            }
+          }
+        },
+        "temperature_residual": {
+          "quantity": "log10_residual",
+          "unit": "1",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 0.5,
+            "rtol": 0.0
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.4950000000000001
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.5049999999999999
+            },
+            "exact_half_equal": {
+              "score": 1,
+              "actual_delta": 0.5
+            }
+          }
+        }
+      },
+      "bad_outputs": {
+        "missing": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "nonfinite": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "shape": {
+          "score": 0,
+          "status": "invalid_output"
+        }
+      },
+      "bad_reference": {
+        "score": null,
+        "status": "evaluation_error",
+        "message": "ValueError: Missing or unsafe grading asset: absent.h5"
+      }
+    },
+    {
+      "case": "03-scaled",
+      "reference_score": 1,
+      "evaluation_sha256": "3a22c9341b2b028c8bc1d86b4ca10d64cb2120cf4213d84b4f4fae0dd3592eda",
+      "outputs": {
+        "temperature": {
+          "quantity": "temperature",
+          "unit": "K",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 4.5539999973698286e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 4.646000002139772e-05
+            }
+          }
+        },
+        "velocity": {
+          "quantity": "velocity",
+          "unit": "m/s",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0100000000000002e-05
+            }
+          }
+        },
+        "pressure": {
+          "quantity": "pressure",
+          "unit": "Pa",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0100000000000002e-05
+            }
+          }
+        },
+        "wall_heat_flux": {
+          "quantity": "heat_flux",
+          "unit": "W/m^2",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 3.8185714288374584e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 3.895714286272778e-05
+            }
+          }
+        },
+        "bottom_heat_rate": {
+          "quantity": "heat_rate",
+          "unit": "W",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 5.5157142924144864e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 5.627142866160284e-05
+            }
+          }
+        },
+        "top_heat_rate": {
+          "quantity": "heat_rate",
+          "unit": "W",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 5.5157142924144864e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 5.627142866160284e-05
+            }
+          }
+        },
+        "temperature_residual": {
+          "quantity": "log10_residual",
+          "unit": "1",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 0.5,
+            "rtol": 0.0
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.4950000000000001
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.5049999999999999
+            },
+            "exact_half_equal": {
+              "score": 1,
+              "actual_delta": 0.5
+            }
+          }
+        }
+      },
+      "bad_outputs": {
+        "missing": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "nonfinite": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "shape": {
+          "score": 0,
+          "status": "invalid_output"
+        }
+      },
+      "bad_reference": {
+        "score": null,
+        "status": "evaluation_error",
+        "message": "ValueError: Missing or unsafe grading asset: absent.h5"
+      }
+    },
+    {
+      "case": "04-thin-layer",
+      "reference_score": 1,
+      "evaluation_sha256": "7f7d48b66c7c505a9dc1e716e414a69565be43966fdd151880935c16f19f9018",
+      "outputs": {
+        "temperature": {
+          "quantity": "temperature",
+          "unit": "K",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 4.949999998871135e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 5.0499999986186594e-05
+            }
+          }
+        },
+        "velocity": {
+          "quantity": "velocity",
+          "unit": "m/s",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0100000000000002e-05
+            }
+          }
+        },
+        "pressure": {
+          "quantity": "pressure",
+          "unit": "Pa",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0100000000000002e-05
+            }
+          }
+        },
+        "wall_heat_flux": {
+          "quantity": "heat_flux",
+          "unit": "W/m^2",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.00010889999998653366
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.00011110000002645393
+            }
+          }
+        },
+        "bottom_heat_rate": {
+          "quantity": "heat_rate",
+          "unit": "W",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.0002079000000776432
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.0002121000002262008
+            }
+          }
+        },
+        "top_heat_rate": {
+          "quantity": "heat_rate",
+          "unit": "W",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.0002079000000776432
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.0002121000002262008
+            }
+          }
+        },
+        "temperature_residual": {
+          "quantity": "log10_residual",
+          "unit": "1",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 0.5,
+            "rtol": 0.0
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.4950000000000001
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.5049999999999999
+            },
+            "exact_half_equal": {
+              "score": 1,
+              "actual_delta": 0.5
+            }
+          }
+        }
+      },
+      "bad_outputs": {
+        "missing": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "nonfinite": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "shape": {
+          "score": 0,
+          "status": "invalid_output"
+        }
+      },
+      "bad_reference": {
+        "score": null,
+        "status": "evaluation_error",
+        "message": "ValueError: Missing or unsafe grading asset: absent.h5"
+      }
+    },
+    {
+      "case": "05-orthogonal-flow-coarse",
+      "reference_score": 1,
+      "evaluation_sha256": "3a87f68a42a082ed9d466fef574b650a0605fd4f32fd1f2a9b7d33cf89303040",
+      "outputs": {
+        "temperature": {
+          "quantity": "temperature",
+          "unit": "K",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 4.949999998871135e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 5.0499999986186594e-05
+            }
+          }
+        },
+        "velocity": {
+          "quantity": "velocity",
+          "unit": "m/s",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.909899999993588e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0110100000002009e-05
+            }
+          }
+        },
+        "pressure": {
+          "quantity": "pressure",
+          "unit": "Pa",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0100000000000002e-05
+            }
+          }
+        },
+        "wall_heat_flux": {
+          "quantity": "heat_flux",
+          "unit": "W/m^2",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 4.893880600320699e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 4.99274687513207e-05
+            }
+          }
+        },
+        "bottom_heat_rate": {
+          "quantity": "heat_rate",
+          "unit": "W",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.00015145594329624146
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.0001545156592328567
+            }
+          }
+        },
+        "top_heat_rate": {
+          "quantity": "heat_rate",
+          "unit": "W",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.00026434405663167126
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.0002696843407647975
+            }
+          }
+        },
+        "temperature_residual": {
+          "quantity": "log10_residual",
+          "unit": "1",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 0.5,
+            "rtol": 0.0
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.4950000000000001
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.5049999999999999
+            },
+            "exact_half_equal": {
+              "score": 1,
+              "actual_delta": 0.5
+            }
+          }
+        }
+      },
+      "bad_outputs": {
+        "missing": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "nonfinite": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "shape": {
+          "score": 0,
+          "status": "invalid_output"
+        }
+      },
+      "bad_reference": {
+        "score": null,
+        "status": "evaluation_error",
+        "message": "ValueError: Missing or unsafe grading asset: absent.h5"
+      }
+    },
+    {
+      "case": "06-orthogonal-flow-fine",
+      "reference_score": 1,
+      "evaluation_sha256": "9dd1cee2c45c81b2d479f3063dd6af5e16b6f499f3849dd0156e335b35e153c8",
+      "outputs": {
+        "temperature": {
+          "quantity": "temperature",
+          "unit": "K",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 4.949999998871135e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 5.0499999986186594e-05
+            }
+          }
+        },
+        "velocity": {
+          "quantity": "velocity",
+          "unit": "m/s",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.909899999993588e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0110100000002009e-05
+            }
+          }
+        },
+        "pressure": {
+          "quantity": "pressure",
+          "unit": "Pa",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0100000000000002e-05
+            }
+          }
+        },
+        "wall_heat_flux": {
+          "quantity": "heat_flux",
+          "unit": "W/m^2",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 4.773876565877799e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 4.870318520033834e-05
+            }
+          }
+        },
+        "bottom_heat_rate": {
+          "quantity": "heat_rate",
+          "unit": "W",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.0001508654472672788
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.00015391323404401192
+            }
+          }
+        },
+        "top_heat_rate": {
+          "quantity": "heat_rate",
+          "unit": "W",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.0002649345528880076
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.0002702867659536423
+            }
+          }
+        },
+        "temperature_residual": {
+          "quantity": "log10_residual",
+          "unit": "1",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 0.5,
+            "rtol": 0.0
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.4950000000000001
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.5049999999999999
+            },
+            "exact_half_equal": {
+              "score": 1,
+              "actual_delta": 0.5
+            }
+          }
+        }
+      },
+      "bad_outputs": {
+        "missing": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "nonfinite": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "shape": {
+          "score": 0,
+          "status": "invalid_output"
+        }
+      },
+      "bad_reference": {
+        "score": null,
+        "status": "evaluation_error",
+        "message": "ValueError: Missing or unsafe grading asset: absent.h5"
+      }
+    },
+    {
+      "case": "07-skew-flow-coarse",
+      "reference_score": 1,
+      "evaluation_sha256": "a84b4399995c9639b7c2ff5566f490a070ee06b97a505e25f90d94eeecb1d9ba",
+      "outputs": {
+        "temperature": {
+          "quantity": "temperature",
+          "unit": "K",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 4.950033672912468e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 5.050034354781019e-05
+            }
+          }
+        },
+        "velocity": {
+          "quantity": "velocity",
+          "unit": "m/s",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.909899999993588e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0110100000002009e-05
+            }
+          }
+        },
+        "pressure": {
+          "quantity": "pressure",
+          "unit": "Pa",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0100000000000002e-05
+            }
+          }
+        },
+        "wall_heat_flux": {
+          "quantity": "heat_flux",
+          "unit": "W/m^2",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 4.907876888182727e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 5.007025919212538e-05
+            }
+          }
+        },
+        "bottom_heat_rate": {
+          "quantity": "heat_rate",
+          "unit": "W",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.0001516830207037856
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.00015474732413167658
+            }
+          }
+        },
+        "top_heat_rate": {
+          "quantity": "heat_rate",
+          "unit": "W",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.0002641169794515008
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.00026945267609335133
+            }
+          }
+        },
+        "temperature_residual": {
+          "quantity": "log10_residual",
+          "unit": "1",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 0.5,
+            "rtol": 0.0
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.4950000000000001
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.5049999999999999
+            },
+            "exact_half_equal": {
+              "score": 1,
+              "actual_delta": 0.5
+            }
+          }
+        }
+      },
+      "bad_outputs": {
+        "missing": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "nonfinite": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "shape": {
+          "score": 0,
+          "status": "invalid_output"
+        }
+      },
+      "bad_reference": {
+        "score": null,
+        "status": "evaluation_error",
+        "message": "ValueError: Missing or unsafe grading asset: absent.h5"
+      }
+    },
+    {
+      "case": "08-skew-flow-fine",
+      "reference_score": 1,
+      "evaluation_sha256": "d985a4d9cbc9bc6da547e7e1f660dc918998ed7eec308d782d860b6d4adb4afc",
+      "outputs": {
+        "temperature": {
+          "quantity": "temperature",
+          "unit": "K",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 4.9500042791805754e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 5.050004364193228e-05
+            }
+          }
+        },
+        "velocity": {
+          "quantity": "velocity",
+          "unit": "m/s",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.909899999993588e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0110100000002009e-05
+            }
+          }
+        },
+        "pressure": {
+          "quantity": "pressure",
+          "unit": "Pa",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0100000000000002e-05
+            }
+          }
+        },
+        "wall_heat_flux": {
+          "quantity": "heat_flux",
+          "unit": "W/m^2",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 4.778572815666848e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 4.8751096414889616e-05
+            }
+          }
+        },
+        "bottom_heat_rate": {
+          "quantity": "heat_rate",
+          "unit": "W",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.00015094890545697126
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.00015399837843688147
+            }
+          }
+        },
+        "top_heat_rate": {
+          "quantity": "heat_rate",
+          "unit": "W",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.00026485109447094146
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.00027020162178814644
+            }
+          }
+        },
+        "temperature_residual": {
+          "quantity": "log10_residual",
+          "unit": "1",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 0.5,
+            "rtol": 0.0
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.4950000000000001
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.5049999999999999
+            },
+            "exact_half_equal": {
+              "score": 1,
+              "actual_delta": 0.5
+            }
+          }
+        }
+      },
+      "bad_outputs": {
+        "missing": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "nonfinite": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "shape": {
+          "score": 0,
+          "status": "invalid_output"
+        }
+      },
+      "bad_reference": {
+        "score": null,
+        "status": "evaluation_error",
+        "message": "ValueError: Missing or unsafe grading asset: absent.h5"
+      }
+    },
+    {
+      "case": "09-prescribed-flux",
+      "reference_score": 1,
+      "evaluation_sha256": "cc61880431cf24d8c506441208fa6a2126a988b046a4da428ab9f7f2bdf0322e",
+      "outputs": {
+        "temperature": {
+          "quantity": "temperature",
+          "unit": "K",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 4.949999998871135e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 5.0499999986186594e-05
+            }
+          }
+        },
+        "velocity": {
+          "quantity": "velocity",
+          "unit": "m/s",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0100000000000002e-05
+            }
+          }
+        },
+        "pressure": {
+          "quantity": "pressure",
+          "unit": "Pa",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0100000000000002e-05
+            }
+          }
+        },
+        "wall_heat_flux": {
+          "quantity": "heat_flux",
+          "unit": "W/m^2",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.00010889999998653366
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.00011110000002645393
+            }
+          }
+        },
+        "bottom_heat_rate": {
+          "quantity": "heat_rate",
+          "unit": "W",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.0002079000000776432
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.00021209999999882712
+            }
+          }
+        },
+        "top_heat_rate": {
+          "quantity": "heat_rate",
+          "unit": "W",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.00020789999962289585
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.00021209999954407976
+            }
+          }
+        },
+        "temperature_residual": {
+          "quantity": "log10_residual",
+          "unit": "1",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 0.5,
+            "rtol": 0.0
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.4950000000000001
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.5049999999999999
+            },
+            "exact_half_equal": {
+              "score": 1,
+              "actual_delta": 0.5
+            }
+          }
+        }
+      },
+      "bad_outputs": {
+        "missing": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "nonfinite": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "shape": {
+          "score": 0,
+          "status": "invalid_output"
+        }
+      },
+      "bad_reference": {
+        "score": null,
+        "status": "evaluation_error",
+        "message": "ValueError: Missing or unsafe grading asset: absent.h5"
+      }
+    },
+    {
+      "case": "10-zero-flux",
+      "reference_score": 1,
+      "evaluation_sha256": "b103978f686ce4de59009592e3ae4f4b5adf5d516190b7a27d5d327a9fe5f80e",
+      "outputs": {
+        "temperature": {
+          "quantity": "temperature",
+          "unit": "K",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 3.95999999796004e-05
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 4.0399999988949276e-05
+            }
+          }
+        },
+        "velocity": {
+          "quantity": "velocity",
+          "unit": "m/s",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0100000000000002e-05
+            }
+          }
+        },
+        "pressure": {
+          "quantity": "pressure",
+          "unit": "Pa",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0100000000000002e-05
+            }
+          }
+        },
+        "wall_heat_flux": {
+          "quantity": "heat_flux",
+          "unit": "W/m^2",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0100000000000002e-05
+            }
+          }
+        },
+        "bottom_heat_rate": {
+          "quantity": "heat_rate",
+          "unit": "W",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0100000000000002e-05
+            }
+          }
+        },
+        "top_heat_rate": {
+          "quantity": "heat_rate",
+          "unit": "W",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 1e-05,
+            "rtol": 1e-07
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 9.9e-06
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 1.0100000000000002e-05
+            }
+          }
+        },
+        "temperature_residual": {
+          "quantity": "log10_residual",
+          "unit": "1",
+          "rule": {
+            "metric": "pointwise",
+            "time": "per_time",
+            "components": "per_component",
+            "atol": 0.5,
+            "rtol": 0.0
+          },
+          "probes": {
+            "inside": {
+              "score": 1,
+              "actual_delta": 0.495000000000001
+            },
+            "outside": {
+              "score": 0,
+              "actual_delta": 0.504999999999999
+            },
+            "exact_half_equal": {
+              "score": 1,
+              "actual_delta": 0.5
+            }
+          }
+        }
+      },
+      "bad_outputs": {
+        "missing": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "nonfinite": {
+          "score": 0,
+          "status": "invalid_output"
+        },
+        "shape": {
+          "score": 0,
+          "status": "invalid_output"
+        }
+      },
+      "bad_reference": {
+        "score": null,
+        "status": "evaluation_error",
+        "message": "ValueError: Missing or unsafe grading asset: absent.h5"
+      }
+    }
+  ],
+  "read_files": {
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\instruction.md": "b1bc52b07527f5d9f73fe8672d66dcf6e48b003ffcaf5d4fcf99a6f9a9dbdc2e",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\DATA.md": "bf0558edadea8e21f6d2af0992d0e73c7021c7cc8444a445636a34fa503beea0",
+    "docs\\CONTRACT.md": "130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\judge-config.json": "791fc3907785171a9a6ee1ef44583fa8eb94fcd8a55975632c321fa84fbacef2",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\author\\CMakeLists.txt": "9692c52c2e80da84536e0855f936e35871b7acea90bb1eb44486c1316590df03",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\public\\run_case.py": "4fe478184aa68f4b766f6f0734c2de5847d99794ecdf1692678cdebcc43ed745",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\author\\backend_probe.py": "a9c914bd8d5bd83913f16b921e217aa551d6cfc7269665fc9bfb2225dcdc6cb9",
+    "src\\utils\\harbor\\tests\\judge.py": "23b20e463770da72422d4d4412acf501005eb9b2da3e687e543658e4f5965cfa",
+    "src\\utils\\harbor\\tests\\source_repair.py": "714e3f76ededa181e44861f6ad5257ba8a39be83e9a4588f258a516efa212e75",
+    "src\\utils\\prepare_harbor.py": "bc17153a3718abb8a6664cb8479a70ba1d75e646f0555be8ab9cdcb0c49d7e7d",
+    "src\\caeoj_tools\\source_repair.py": "45cd322e789c6f12d021e2b75066d67de6be17b8ec832d5558807055fdb05f80",
+    "runs\\harbor\\tasks\\wall-heat-flux-repair\\task.toml": "004d7b91813ecf9a2336c356c8cf11b1bec926bb48e439a8f0014ec196773d9e",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\author\\data-evidence\\backend-contract-increment.json": "e94319765494dfae6a52b7d5bd96ecb09b87743b7a3971b3ed7112b49185d952",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\author\\data-evidence\\offline-install-final\\result.json": "18c82b1eac8601e6329dfb61ef7657badf0c37a42a106fbaaf368a4398f11a02",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\harbor\\source-repair.json": "2c36b0ac54fbe1e5d4df597008eafe78c8860926e451b40ac68ba7bff05d6775",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\author\\data-evidence\\header-dependency-closure.json": "9a3d90b16918e165d84efef7856b7e6dfae05426d6538ede77a8e747bd0b0863",
+    "work\\repair-22\\su2-2347\\compiler-deps.txt": "457d56839d3a419fbd07a2d0b6688b0a55b6fb73d6d57e56418ffc2713846128",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\author\\data-evidence\\backend-probes-v1\\extra\\stdout.json": "9e52c2a42b43e541fd39a667791bfc9e97fc4b307d737a9d253755af3e6d2122",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\author\\data-evidence\\backend-probes-v1\\baseline-compiler\\stdout.json": "7662767c481ff7c66c8aa4d153efec92fb9e8bf66cfd66253873a468ff9fde2d",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\author\\data-evidence\\backend-probes-v1\\baseline-runtime\\stdout.json": "aa532fe7a8722119c575d9b986b6285379c571ce3357aa6b2acb9d2a27bb98da",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\author\\data-evidence\\backend-probes-v1\\syntax\\stdout.json": "1a522308f208ad03943857fd75274169456e9d2620f337de9c7ab8376000787c",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\author\\data-evidence\\backend-probes-v1\\valid\\stdout.json": "944c1dd6759377d970e9af8c02bff4c3f920fb227a1e1620e795be1c0b7d7e8a",
+    "qbank\\19-solver-repair\\19.4-observations\\wall-heat-flux-repair\\author\\data-evidence\\backend-probes-v1\\runtime-timeout\\stdout.json": "a0aaa54d480f69ec063cdd513f4f3d97155bb604a765bdfb2d7320b982d45553",
+    "runs\\harbor\\tasks\\wall-heat-flux-repair\\tests\\reference\\01-skew-conduction\\grading.json": "4f0c319fb0d304f96d54c67df2aae2c9dee367d06e555337ebfaa37dc3b4a55a",
+    "runs\\harbor\\tasks\\wall-heat-flux-repair\\tests\\reference\\02-reverse\\grading.json": "4f0c319fb0d304f96d54c67df2aae2c9dee367d06e555337ebfaa37dc3b4a55a",
+    "runs\\harbor\\tasks\\wall-heat-flux-repair\\tests\\reference\\03-scaled\\grading.json": "4f0c319fb0d304f96d54c67df2aae2c9dee367d06e555337ebfaa37dc3b4a55a",
+    "runs\\harbor\\tasks\\wall-heat-flux-repair\\tests\\reference\\04-thin-layer\\grading.json": "4f0c319fb0d304f96d54c67df2aae2c9dee367d06e555337ebfaa37dc3b4a55a",
+    "runs\\harbor\\tasks\\wall-heat-flux-repair\\tests\\reference\\05-orthogonal-flow-coarse\\grading.json": "4f0c319fb0d304f96d54c67df2aae2c9dee367d06e555337ebfaa37dc3b4a55a",
+    "runs\\harbor\\tasks\\wall-heat-flux-repair\\tests\\reference\\06-orthogonal-flow-fine\\grading.json": "4f0c319fb0d304f96d54c67df2aae2c9dee367d06e555337ebfaa37dc3b4a55a",
+    "runs\\harbor\\tasks\\wall-heat-flux-repair\\tests\\reference\\07-skew-flow-coarse\\grading.json": "4f0c319fb0d304f96d54c67df2aae2c9dee367d06e555337ebfaa37dc3b4a55a",
+    "runs\\harbor\\tasks\\wall-heat-flux-repair\\tests\\reference\\08-skew-flow-fine\\grading.json": "4f0c319fb0d304f96d54c67df2aae2c9dee367d06e555337ebfaa37dc3b4a55a",
+    "runs\\harbor\\tasks\\wall-heat-flux-repair\\tests\\reference\\09-prescribed-flux\\grading.json": "4f0c319fb0d304f96d54c67df2aae2c9dee367d06e555337ebfaa37dc3b4a55a",
+    "runs\\harbor\\tasks\\wall-heat-flux-repair\\tests\\reference\\10-zero-flux\\grading.json": "4f0c319fb0d304f96d54c67df2aae2c9dee367d06e555337ebfaa37dc3b4a55a",
+    "runs\\authoring\\repair-22\\repair22-su22347-oracle-v2.json": "af610733473e3024f2460d213a8b3bc57c00bf0339de2a47a3d2a20b3b7fabc9"
+  },
+  "changed_zip_members": [
+    "MANIFEST.json",
+    "pyproject.toml",
+    "src/caeoj_bundle/runtime.json",
+    "src/caeoj_task_ext/wall_energy.py"
+  ],
+  "changed_prepared_files": [
+    "environment/agent.zip",
+    "tests/agent.zip"
+  ],
+  "forced_object_count": 62,
+  "raw_compiler_dependency_closure_exact": true,
+  "probe_results": {
+    "extra": {
+      "passed": true,
+      "classification": "invalid_submission",
+      "build_seconds": null,
+      "pid": null,
+      "termination_states": null
+    },
+    "baseline-compiler": {
+      "passed": true,
+      "classification": "infrastructure_error",
+      "build_seconds": null,
+      "pid": null,
+      "termination_states": null
+    },
+    "baseline-runtime": {
+      "passed": true,
+      "classification": "infrastructure_error",
+      "build_seconds": null,
+      "pid": null,
+      "termination_states": null
+    },
+    "syntax": {
+      "passed": true,
+      "classification": "build_error",
+      "build_seconds": null,
+      "pid": null,
+      "termination_states": null
+    },
+    "valid": {
+      "passed": true,
+      "classification": null,
+      "build_seconds": 300.8169438040022,
+      "pid": null,
+      "termination_states": null
+    },
+    "runtime-timeout": {
+      "passed": true,
+      "classification": null,
+      "build_seconds": null,
+      "pid": "605",
+      "termination_states": [
+        "Z"
+      ]
+    }
+  },
+  "sdk_module_files": {
+    "caeoj.case_grading": {
+      "path": "D:\\Code\\CAE-Bench-OJ\\runs\\configure-judge\\repair22-su22347\\runtime\\src\\caeoj\\case_grading.py",
+      "sha256": "441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e"
+    },
+    "caeoj_task_ext.wall_energy": {
+      "path": "D:\\Code\\CAE-Bench-OJ\\runs\\configure-judge\\repair22-su22347\\runtime\\src\\caeoj_task_ext\\wall_energy.py",
+      "sha256": "f7324834cd680e442abe51ecbae88211ce9cf34c521dc12d7a60c25d74fab71b"
+    }
+  },
+  "damaged_sdk_classifier": {
+    "status": "input_error",
+    "score": null,
+    "message": "Installed materials are incomplete: caeoj_task_ext.wall_energy:check"
+  },
+  "oracle_snapshot": {
+    "phase": "completed",
+    "job": "repair22-su22347-oracle-v2",
+    "task": "wall-heat-flux-repair",
+    "started_unix": 1792740135.7991414,
+    "task_sha256": {
+      "instruction.md": "aef59fce8405e7e5934d6383e068da0be74c8bcf375e386946d34e97469e1c67",
+      "task.toml": "004d7b91813ecf9a2336c356c8cf11b1bec926bb48e439a8f0014ec196773d9e",
+      "environment/agent.zip": "638026c8158d232aea0100c0a37d117a9face22fe5e6f55dc982aebd2cf3ae78",
+      "environment/Dockerfile": "c95c65e4ec7030bd3c6d6bcc4a93e1677b641ab04285dc252b0f11aacc2ccba4",
+      "environment/requirements.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "solution/CFVMFlowSolverBase.inl": "4a728c5f6dc8c9a895c9ce263c4aa55ceb6d7c8dea6826628c12db96e995469c",
+      "solution/CIncNSSolver.cpp": "2635cbe1197dd3da283fe4028c02bd16c1bccc0a1e9d1c9f9afbf1c627fff0e0",
+      "solution/geometry_toolbox.hpp": "3d6dbe85d3ccde891674dce5f29ce7a5e46d4f32f6eed1dbf7abf040ed99ab71",
+      "solution/solve.sh": "56c46ace977cba114e083bff4318197df28ddde47269c1919b0700a1882c35c9",
+      "tests/agent.zip": "638026c8158d232aea0100c0a37d117a9face22fe5e6f55dc982aebd2cf3ae78",
+      "tests/Dockerfile": "57515ad0a1e09b70fcce47ebd6ac2c2956e5f0728dc6acc39536a6b7281a6daf",
+      "tests/judge-config.json": "791fc3907785171a9a6ee1ef44583fa8eb94fcd8a55975632c321fa84fbacef2",
+      "tests/judge.py": "64dbd215ebdde01aa66bd11d22f681724416287fe65d6e3dd32580326f5df3a7",
+      "tests/requirements.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tests/selection.json": "3a9d1007613cc2a678ef91c8225a4000e0230190e667d8eab3276127470abc66",
+      "tests/source-repair.json": "2c36b0ac54fbe1e5d4df597008eafe78c8860926e451b40ac68ba7bff05d6775",
+      "tests/source_repair.py": "714e3f76ededa181e44861f6ad5257ba8a39be83e9a4588f258a516efa212e75",
+      "tests/test.sh": "b3e4934913c856ca82fb3607a64298447f68fca9e272c7a6b50c636caca81472",
+      "tests/cases/01-skew-conduction/input.h5": "57a75573ac7009deddba29838845939508ee6e136c52143081f930f4ea93e24a",
+      "tests/cases/01-skew-conduction/mesh.msh": "c2933ddcd363cadbb7c43261f757469724e55166c50206d2138c6a430fe99b6f",
+      "tests/cases/01-skew-conduction/problem.json": "8052f4d881d9bf94c055283479991c07ce1cccba6b2de4f9028638fa42be025c",
+      "tests/cases/02-reverse/input.h5": "8b5003c7296c5198d0242d6fe877b1eb7b25a8a954c62d954df838c795bf067d",
+      "tests/cases/02-reverse/mesh.msh": "93473b73c89e617a9a422bacf87de1d8c6bf956b2af6c8293d94f661acff359d",
+      "tests/cases/02-reverse/problem.json": "bf55f518fc00ad2ec1274a87adea12dd84bb80ea2094a693f8f46d11add94190",
+      "tests/cases/03-scaled/input.h5": "9d0d49b5a39f88a0df02d4590f083ce9df779d3939b2441a3aff044312607665",
+      "tests/cases/03-scaled/mesh.msh": "87d91cf8c1d867222066e7cdca15bd6783fdcce6e843edf3b9bda9ab721e9314",
+      "tests/cases/03-scaled/problem.json": "0a5c00b5e3844b28b29bee0b89c958f60bc9d77e28517c1778b8512a39b1865c",
+      "tests/cases/04-thin-layer/input.h5": "c44acfa01d4f799e2b4ca95ed739a1d5475fd700c694b1f904837709dce2e5f2",
+      "tests/cases/04-thin-layer/mesh.msh": "13e7a1bf9f24dd1f246be25574e74e2edebd7a685fa004a288795137d375c179",
+      "tests/cases/04-thin-layer/problem.json": "8052f4d881d9bf94c055283479991c07ce1cccba6b2de4f9028638fa42be025c",
+      "tests/cases/05-orthogonal-flow-coarse/input.h5": "71ea444c9e4f58aa45e53a353e811b0c45c0ad263f0b2e11822a3313d930b753",
+      "tests/cases/05-orthogonal-flow-coarse/mesh.msh": "094635751877209637e740950843f36b4c8a540d97322a794ed4a28aabcfe067",
+      "tests/cases/05-orthogonal-flow-coarse/problem.json": "2838d3da677468e9a595a48c8a9a4e4bc35b023b6f1223df5710605a9e926e37",
+      "tests/cases/06-orthogonal-flow-fine/input.h5": "6948623d355edf4252a56aad2348ed36ae6bd963104a43e21c45398c784e08e8",
+      "tests/cases/06-orthogonal-flow-fine/mesh.msh": "a99b4754302185db6f11e7ac87bfcc2dc73d343a8251e3fdf6755d2258c8fa32",
+      "tests/cases/06-orthogonal-flow-fine/problem.json": "2838d3da677468e9a595a48c8a9a4e4bc35b023b6f1223df5710605a9e926e37",
+      "tests/cases/07-skew-flow-coarse/input.h5": "71ea444c9e4f58aa45e53a353e811b0c45c0ad263f0b2e11822a3313d930b753",
+      "tests/cases/07-skew-flow-coarse/mesh.msh": "a7bdc2c90b28555edf8e39c9a5d9955c245692bb9b2c960637da42cbeba1ba5c",
+      "tests/cases/07-skew-flow-coarse/problem.json": "07cf86e537f0a865262668357842b40f057b9a663bac09cc96a1acb22f7bcddf",
+      "tests/cases/08-skew-flow-fine/input.h5": "6948623d355edf4252a56aad2348ed36ae6bd963104a43e21c45398c784e08e8",
+      "tests/cases/08-skew-flow-fine/mesh.msh": "b68c97a48c7ff88473cb45b143b25555602407a7f9e617ff020d1f38dcf0b42f",
+      "tests/cases/08-skew-flow-fine/problem.json": "07cf86e537f0a865262668357842b40f057b9a663bac09cc96a1acb22f7bcddf",
+      "tests/cases/09-prescribed-flux/input.h5": "57a75573ac7009deddba29838845939508ee6e136c52143081f930f4ea93e24a",
+      "tests/cases/09-prescribed-flux/mesh.msh": "c2933ddcd363cadbb7c43261f757469724e55166c50206d2138c6a430fe99b6f",
+      "tests/cases/09-prescribed-flux/problem.json": "5d9c36aa5e8f9aaf4ee58da359d6cb6a4d74feb21f8da3ddae0a33d8fe2ee414",
+      "tests/cases/10-zero-flux/input.h5": "0b315542647356e976a1b6a1a311f0ff9f3c5d208f03405a6e779e78d131cdcb",
+      "tests/cases/10-zero-flux/mesh.msh": "23d20bd1c229e8a4674beccd203c6aad0969887c6a40a49031088d047dbf40b0",
+      "tests/cases/10-zero-flux/problem.json": "9ef93388d92e5ef25b5ca20701003d4541298f5359461662bd26e80608be0be7",
+      "tests/reference/01-skew-conduction/grading.json": "4f0c319fb0d304f96d54c67df2aae2c9dee367d06e555337ebfaa37dc3b4a55a",
+      "tests/reference/01-skew-conduction/reference.h5": "73d3886f050ce9b321d2a7371fb20652930fd09cf7799c45128c030d49a5b7c3",
+      "tests/reference/02-reverse/grading.json": "4f0c319fb0d304f96d54c67df2aae2c9dee367d06e555337ebfaa37dc3b4a55a",
+      "tests/reference/02-reverse/reference.h5": "4a4afd4c0c42ea0b9ab1645f78734357002098cddb70ad647c1a7a183abacb33",
+      "tests/reference/03-scaled/grading.json": "4f0c319fb0d304f96d54c67df2aae2c9dee367d06e555337ebfaa37dc3b4a55a",
+      "tests/reference/03-scaled/reference.h5": "af055b82f7f884ae4e141f89347aa65f6c4ec3d14f6226d9947163c601c9bc58",
+      "tests/reference/04-thin-layer/grading.json": "4f0c319fb0d304f96d54c67df2aae2c9dee367d06e555337ebfaa37dc3b4a55a",
+      "tests/reference/04-thin-layer/reference.h5": "2f15cf68a8190bfbac32d7375f543c798a0eb89d1c52c7c56755c9ab314d3f51",
+      "tests/reference/05-orthogonal-flow-coarse/grading.json": "4f0c319fb0d304f96d54c67df2aae2c9dee367d06e555337ebfaa37dc3b4a55a",
+      "tests/reference/05-orthogonal-flow-coarse/reference.h5": "f2723357a95f8bf177f47e445cc2a672d4c3f63f0506b660b567c1e990caadcf",
+      "tests/reference/06-orthogonal-flow-fine/grading.json": "4f0c319fb0d304f96d54c67df2aae2c9dee367d06e555337ebfaa37dc3b4a55a",
+      "tests/reference/06-orthogonal-flow-fine/reference.h5": "3a295206cb19209a6239cedeb33a79b82846f44c53f51717f3d7d325fb9a9673",
+      "tests/reference/07-skew-flow-coarse/grading.json": "4f0c319fb0d304f96d54c67df2aae2c9dee367d06e555337ebfaa37dc3b4a55a",
+      "tests/reference/07-skew-flow-coarse/reference.h5": "13e25f03f5719849f555a4bed99a4583be8d9fe87088662bf536b5ee5b4e47a7",
+      "tests/reference/08-skew-flow-fine/grading.json": "4f0c319fb0d304f96d54c67df2aae2c9dee367d06e555337ebfaa37dc3b4a55a",
+      "tests/reference/08-skew-flow-fine/reference.h5": "65a1ea8378bfd850addd688da80948cdd43f183b4eec32f3d931c484dd199c97",
+      "tests/reference/09-prescribed-flux/grading.json": "4f0c319fb0d304f96d54c67df2aae2c9dee367d06e555337ebfaa37dc3b4a55a",
+      "tests/reference/09-prescribed-flux/reference.h5": "3d5eeaa6bac6594d114762e6ae9f9b63dfcd3b9f249e5b13f38685f69cf4e870",
+      "tests/reference/10-zero-flux/grading.json": "4f0c319fb0d304f96d54c67df2aae2c9dee367d06e555337ebfaa37dc3b4a55a",
+      "tests/reference/10-zero-flux/reference.h5": "33747e8f9bce69cd1ff4b3132279b941add1093758fa610c60e95eceb04d227d"
+    },
+    "command": [
+      "D:\\Code\\CAE-Bench-OJ\\work\\benchmark-env\\Scripts\\harbor.exe",
+      "run",
+      "--path",
+      "D:\\Code\\CAE-Bench-OJ\\runs\\harbor\\tasks\\wall-heat-flux-repair",
+      "--env",
+      "docker",
+      "--agent",
+      "oracle",
+      "--n-attempts",
+      "1",
+      "--n-concurrent",
+      "1",
+      "--max-retries",
+      "0",
+      "--job-name",
+      "repair22-su22347-oracle-v2",
+      "--jobs-dir",
+      "D:\\Code\\CAE-Bench-OJ\\runs\\harbor\\jobs"
+    ],
+    "pid": 48180,
+    "returncode": 0,
+    "finished_unix": 1792741040.4100838,
+    "trials": 1,
+    "exception_info": null,
+    "passed": 10,
+    "total": 10,
+    "completed": 10
+  }
+}

@@ -10,6 +10,7 @@ import h5py
 import numpy as np
 
 from caeoj.sdk import load_problem, load_result
+from caeoj_tools.format_examples import randomize_example
 from .conversion import build_input, input_identity, write_analytic_reference, check_reference_initial
 from .models import parameters, public_sources, source_files
 from .sources import Reader, check_initial, feature, frame_indices, open_source
@@ -27,6 +28,8 @@ def tool_hash():
     for name in ('storage.py', 'sdk.py', 'validation.py', 'problem.schema.json'):
         h.update(('caeoj/' + name).encode())
         h.update((Path(__file__).parents[2] / 'caeoj' / name).read_bytes())
+    h.update(b'caeoj_tools/format_examples.py')
+    h.update((Path(__file__).parents[2] / 'caeoj_tools/format_examples.py').read_bytes())
     return h.hexdigest()
 
 
@@ -326,15 +329,15 @@ def prepare_entry(model,source,entry,task,cache,staging,budget,local,timeout,ref
             certificate['evidence']=write_logistic_reference(problem,reference)
             certificate['status']='reference_prepared'
         if reference.exists(): certificate['reference_sha256']=digest(reference)
-        atomic_json(ref_dir/'certificate.json',certificate)
         if public:
             sample=stage/'sample';sample.mkdir();input_dir.rename(sample/'input')
-            output=sample/'output';output.mkdir()
-            if reference.exists(): shutil.copyfile(reference,output/'result.h5')
+            certificate['format_example']=randomize_example(sample, seed=int(build_key[:16],16))
+            atomic_json(ref_dir/'certificate.json',certificate)
             install_directory(sample,target)
             private=task/'reference'/'sample-certificates'/entry['id']
             install_directory(ref_dir,private)
         else:
+            atomic_json(ref_dir/'certificate.json',certificate)
             install_directory(input_dir,target)
             install_directory(ref_dir,task/'reference'/entry['id'])
         files={str(p.relative_to(task)):digest(p) for p in target.rglob('*') if p.is_file()}
@@ -343,6 +346,7 @@ def prepare_entry(model,source,entry,task,cache,staging,budget,local,timeout,ref
         record={'kind':entry['kind'],'id':entry['id'],'status':certificate['status'],
                 'build_key':build_key,'files':files,'input_files':identity,'shape':list(shape),
                 'estimated_output_bytes':int(np.prod(shape))*len(times)*sum(f[3] for f in model.fields)*8}
+        if public: record['format_example']=certificate['format_example']
         atomic_json(record_path,record)
         budget.check()
         return record
@@ -391,9 +395,12 @@ def prepare_task(model,catalog,task,cache,staging,budget,local=None,pool=64,time
             'remaining':['Calibrate error thresholds and execution resources; no judge-config generated']}
     if any(r['estimated_output_bytes']>128*1024**2 for r in records):
         report['remaining'].append('Current Harbor output-size limit is 128 MiB; high-dimensional outputs require an audited change')
-    from caeoj_tools.grading_policy import materialize_references, author_policy
+    from caeoj_tools.grading_policy import write_direct_grading, author_policy
     from caeoj_tools.task_paths import task_directory
     from caeoj_tools.author import PROJECT_ROOT
-    materialize_references(task, author_policy(task_directory(model.task, PROJECT_ROOT)))
+    policy=author_policy(task_directory(model.task, PROJECT_ROOT))
+    for problem_path in sorted((task/'cases').glob('*/problem.json')):
+        reference=task/'reference'/problem_path.parent.name
+        if (reference/'reference.h5').is_file(): write_direct_grading(reference,policy)
     atomic_json(task/'author'/'preparation.json',report)
     return report

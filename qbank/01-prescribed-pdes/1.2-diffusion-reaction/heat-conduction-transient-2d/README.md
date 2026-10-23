@@ -2,7 +2,7 @@
 
 二维无源瞬态热传导题，求解矩形域上的 `C ∂T/∂t = kΔT`，输出指定时刻的节点温度。题面见 [instruction.md](instruction.md)，字段与边界条件解释见 [DATA.md](DATA.md)，测试点与解析解入口见 [TEST-CASES.md](TEST-CASES.md)。
 
-题面提供全零初始场样例和四种边界条件的混合样例，均包含完整输入与正确输出。
+题面提供全零初始场样例和四种边界条件的混合样例，均包含完整输入与随机格式输出（不保证数值答案正确）。
 
 24 个测试点覆盖定温、法向导数、向外热流、Robin 及混合条件；初始场包含常温、平滑分布、局部热斑、短波长、正负变化和边界层。同时变化导热系数、热容、区域位置与长宽比、输出间隔、网格密度、非结构网格及编号／编码。解析标答、时间策略与网格资源设计见 [DESIGN.md](DESIGN.md)。
 
@@ -11,7 +11,7 @@
 | 路径 | 用途 |
 |---|---|
 | `instruction.md`、`DATA.md` | 公开题面与必需输入约定 |
-| `samples/01/`、`samples/02/` | 完整公开输入与正确输出；验证记录留在出题端 |
+| `samples/01/`、`samples/02/` | 完整公开输入与随机格式输出；只保证格式，验证记录留在出题端 |
 | `cases/<case>/` | Gmsh 网格、元数据和初始节点场 |
 | `reference/<case>/reference.h5` | 连续方程级数解在指定节点／时刻的标答 |
 | `author/data-evidence/reference/<case>/analytic.json` | 积分收敛、级数尾界与网格记录，不进入 HF |
@@ -38,7 +38,7 @@ python 'qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transien
 python 'qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d/author/check.py' --time-mode adaptive
 ```
 
-`generate.py` 生成网格、初始场、解析标答与公开样例，覆盖同名数据文件。`check.py` 默认逐点运行 baseline，调用独立判分器并检查时间与内存；用 `--program <solver.py>` 检查其他求解程序。运行产物保存在 `runs/heat-conduction-transient-2d/`。
+`generate.py` 生成网格、初始场、正式case解析参考与随机格式公开样例，覆盖同名数据文件。`check.py` 默认逐点运行 baseline，调用独立判分器并检查时间与内存；用 `--program <solver.py>` 检查其他求解程序。运行产物保存在 `runs/heat-conduction-transient-2d/`。
 
 ## 数据与判分
 

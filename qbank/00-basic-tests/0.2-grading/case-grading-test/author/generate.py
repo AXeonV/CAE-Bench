@@ -7,6 +7,7 @@ import gmsh
 import numpy as np
 
 from caeoj.case_grading import direct_config, prepare_case
+from caeoj_tools.format_examples import randomize_example
 from caeoj.sdk import load_problem, write_result
 from caeoj.storage import write_hdf5
 from caeoj.validation import GMSH_LOCK, write_json
@@ -106,9 +107,8 @@ def generate(destination):
         make_reference(inp,destination/'reference'/name,seed,mode,geometry,policy)
     for seed,(name,mode) in enumerate(SAMPLES,21):
         sample = destination/'samples'/name
-        geometry = make_input(sample/'input',seed)
-        make_reference(sample/'input',sample/'reference',seed,mode,geometry,policy)
-        write_result(sample/'output/result.h5',load_problem(sample/'input/problem.json'),{'velocity':geometry[-1]})
+        make_input(sample/'input',seed)
+        randomize_example(sample, seed=seed)
     return {'cases':len(CASES),'samples':len(SAMPLES)}
 
 

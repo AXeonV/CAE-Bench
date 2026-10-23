@@ -58,3 +58,18 @@ def project_fixture(destination, tasks):
         canonical = task_directory(task,ROOT)
         shutil.copytree(task_fixture(task),destination/canonical.relative_to(ROOT),dirs_exist_ok=True)
     return destination
+
+
+def numerical_role_fixture(sample, policy=None):
+    """Explicit internal role test: treat arbitrary example arrays as expected values.
+
+    This fixture tests numerical-role packaging only, never physical correctness.
+    """
+    from caeoj_tools.grading_policy import write_direct_grading
+    sample = Path(sample)
+    (sample/'example.json').unlink(missing_ok=True)
+    reference = sample/'reference'
+    reference.mkdir(exist_ok=True)
+    shutil.copyfile(sample/'output/result.h5', reference/'reference.h5')
+    write_direct_grading(reference, policy or {'version':2,'default':{
+        'metric':'pointwise','time':'per_time','components':'per_component','atol':1e-6,'rtol':0}})

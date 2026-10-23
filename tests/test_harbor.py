@@ -12,7 +12,7 @@ import tomllib
 import unittest
 from unittest.mock import patch
 import zipfile
-from task_fixtures import project_fixture
+from task_fixtures import project_fixture, numerical_role_fixture
 
 ROOT = Path(__file__).resolve().parents[1]
 TASK = 'heat-conduction-steady-2d'
@@ -186,6 +186,8 @@ class HarborTests(unittest.TestCase):
 
     def test_instruction_lists_only_published_sample_assets(self):
         task = self.root / TASK_PATH
+        for sample in (task/'samples').iterdir():
+            numerical_role_fixture(sample)
         for example in task.glob('samples/*/output/result.h5'):
             example.unlink()
         directory = self.prepared()
@@ -202,6 +204,8 @@ class HarborTests(unittest.TestCase):
 
     def test_instruction_handles_mixed_sample_examples(self):
         task = self.root / TASK_PATH
+        for sample in (task/'samples').iterdir():
+            numerical_role_fixture(sample)
         (task/'samples/01/output/result.h5').unlink()
         directory = self.prepared()
         instruction = (directory/'instruction.md').read_text(encoding='utf-8')
@@ -504,6 +508,7 @@ class HarborTests(unittest.TestCase):
 
     def test_public_case_policy_and_private_grader_agree(self):
         task = self.root / TASK_PATH
+        numerical_role_fixture(task/'samples/01')
         policy = {'version': 1, 'fields': {'temperature': {
             'all': [
                 {'metric': 'rmse', 'time': 'per_time', 'components': 'per_component', 'limit': .01},

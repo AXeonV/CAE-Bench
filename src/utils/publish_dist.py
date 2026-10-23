@@ -77,6 +77,16 @@ def sample_kind(task_dir, name, root):
         if json.loads(read_public_file(root, marker)) != {'kind': 'format'}:
             raise ValueError('Invalid format example declaration')
         return 'format'
+    public = root/'MANIFEST.json'
+    if public.is_file():
+        published = json.loads(read_public_file(root, public))
+        kinds = published.get('sample_kinds', {})
+        if 'tasks' in published:
+            kinds = kinds.get(task_dir.name, {})
+        kind = kinds.get(name, 'graded')
+        if kind not in ('format', 'graded'):
+            raise ValueError('Invalid published sample kind')
+        return kind
     return 'graded'
 
 

@@ -67,21 +67,17 @@ class HeatTests(unittest.TestCase):
                          if c["role"] == "boundary" and c["location"] == side}
             self.assertEqual(operators, {"dirichlet", "normal_derivative", "normal_flux", "robin"})
 
-    def test_complete_public_sample_matches_scoring_case_and_passes_grader(self):
+    def test_public_sample_matches_scoring_input_and_has_random_format_output(self):
         sample = TASK / "samples/01"
         original, reference, *_ = self.case("01")
         for filename in ("problem.json", "input.h5", "mesh.msh", "mesh.geo"):
             self.assertEqual((sample/"input"/filename).read_bytes(), (original.path.parent/filename).read_bytes())
         problem = load_problem(sample/"input/problem.json")
         result = load_result(problem, sample/"output/result.h5")
-        np.testing.assert_array_equal(result["node_ids"], np.arange(1, 10, dtype=np.int64))
-        np.testing.assert_array_equal(result["temperature"], np.full((1, 9, 1), 4.0))
-        self.assertEqual(len(problem.arrays["domain_ids"]), 8)
-        report = grade_case(problem.path, sample/"output/result.h5", sample/'reference/grading.json')
-        self.assertEqual(report["score"], 1)
-        np.testing.assert_array_equal(result["temperature"], reference["temperature"])
-        saved = json.loads((TASK/"author/data-evidence/samples"/sample.name/"verification.json").read_text(encoding="utf-8"))
-        self.assertEqual(saved, {"case": original.path.parent.name, **report})
+        np.testing.assert_array_equal(result["node_ids"], problem.arrays["node_ids"])
+        self.assertFalse(np.array_equal(result["temperature"], reference["temperature"]))
+        self.assertEqual(json.loads((sample/"example.json").read_text()), {"kind": "format"})
+        self.assertFalse((sample/"reference").exists())
 
     def test_frozen_inputs_match_advertised_ranges_and_coefficients(self):
         for problem, _, _, coordinates, elements in self.cases:
@@ -109,7 +105,7 @@ class HeatTests(unittest.TestCase):
                 if "mean_temperature" in p:
                     self.assertTrue(-20 <= p["mean_temperature"] <= 20)
 
-    def test_mixed_public_sample_uses_sdk_and_passes_independent_solver(self):
+    def test_mixed_public_sample_preserves_boundary_inputs_and_valid_format(self):
         sample = TASK / "samples/02"
         problem = load_problem(sample / "input/problem.json")
         reference = load_result(problem, sample / "output/result.h5")
@@ -125,14 +121,9 @@ class HeatTests(unittest.TestCase):
             if condition["operator"] == "robin":
                 self.assertEqual(read_constant(condition["data"]["alpha"]), 1.0)
                 self.assertEqual(read_constant(condition["data"]["beta"]), 1.0)
-        coordinates, _ = baseline.read_geometry(problem)
-        expected_temperature = (1 + coordinates[:, 0] + coordinates[:, 1])[None, :, None]
-        np.testing.assert_allclose(reference["temperature"], expected_temperature, atol=1e-14, rtol=0)
-        self.assertEqual(self.grade(problem, baseline.solve(problem), reference)["score"], 1)
-        saved = json.loads((TASK/"author/data-evidence/samples"/sample.name/"verification.json").read_text(encoding="utf-8"))
-        report = grade_case(problem.path, sample/"output/result.h5", sample/'reference/grading.json')
-        self.assertEqual(report["score"], 1)
-        self.assertEqual(saved, {"case": saved["case"], **report})
+        self.assertEqual(reference["temperature"].shape, (1, 9, 1))
+        self.assertEqual(json.loads((sample/"example.json").read_text()), {"kind": "format"})
+        self.assertFalse((sample/"reference").exists())
 
     def test_every_reference_is_analytic_value_at_correct_gmsh_tag(self):
         for problem, reference, analytic, coordinates, _ in self.cases:

@@ -10,9 +10,9 @@ import numpy as np
 from numpy.polynomial.polynomial import polyval2d
 
 from caeoj.sdk import load_problem, write_result
-from caeoj.case_grading import grade_case
 from caeoj.grading_policy import load_policy
-from caeoj_tools.grading_policy import materialize_references, write_direct_grading
+from caeoj_tools.format_examples import randomize_example
+from caeoj_tools.grading_policy import materialize_references
 from caeoj.validation import GMSH_LOCK, write_json
 from catalog import Case, CASES, SIDES, D, R, N, F, source_coefficients, boundary_coefficients, exact_mean, equation
 
@@ -20,45 +20,24 @@ TASK_ROOT = Path(__file__).resolve().parents[1]
 
 
 def publish_sample(destination):
-    """Publish the constant scoring sample and a small mixed-boundary example."""
+    """Publish random format examples using two representative inputs."""
     name = "01-constant-dirichlet"
     sample = destination / "samples" / "01"
     input_dir = sample / "input"
     input_dir.mkdir(parents=True, exist_ok=True)
     for filename in ("problem.json", "input.h5", "mesh.msh", "mesh.geo"):
         shutil.copyfile(destination / "cases" / name / filename, input_dir / filename)
-    problem = load_problem(input_dir / "problem.json")
-    # Explicit constant answer, independent of the polynomial reference evaluation.
-    answer = np.full((1, len(problem.arrays["node_ids"]), 1), 4.0, dtype=np.float64)
-    output = sample / "output" / "result.h5"
-    write_result(output, problem, {"temperature": answer})
-    reference = sample/'reference'
-    shutil.copytree(destination/'reference'/name, reference, dirs_exist_ok=True)
-    report = grade_case(problem.path, output, reference/'grading.json')
-    write_json(Path(destination) / "author/data-evidence/samples" / sample.name / "verification.json", {"case": name, **report})
-    if report["score"] != 1:
-        raise ValueError("Public sample did not pass the task grader")
+    randomize_example(sample, seed=1)
     publish_mixed_sample(destination)
 
 
 def publish_mixed_sample(destination):
-    """All four operators on a 9-node mesh; analytic T=1+x+y, q=0."""
+    """Publish a small input with all four boundary operators."""
     case = Case("sample-02-mixed-boundaries", {(0, 0): 1.0, (1, 0): 1.0, (0, 1): 1.0},
                 (D, N, F, R), nx=2, ny=2, alpha=1.0, beta_ratio=1.0)
     sample = Path(destination) / "samples/02"
-    reference = sample/'reference'
-    record, coordinates = generate_case(case, sample/'input', reference)
-    write_json(Path(destination)/"author/data-evidence/reference"/case.name/"analytic.json", record)
-    write_direct_grading(reference, load_policy(TASK_ROOT/'author/grading-template.json'))
-    problem = load_problem(sample / "input/problem.json")
-    answer = (1.0 + coordinates[:, 0] + coordinates[:, 1])[None, :, None]
-    output = sample / "output/result.h5"
-    write_result(output, problem, {"temperature": answer})
-    report = grade_case(problem.path, output, reference/'grading.json')
-    write_json(Path(destination)/"author/data-evidence/samples"/sample.name/"verification.json",
-               {"case": case.name, **report})
-    if report["score"] != 1:
-        raise ValueError("Mixed-boundary public sample did not pass the task grader")
+    generate_case(case, sample/'input', None)
+    randomize_example(sample, seed=2)
 
 
 def mesh(case, path):
@@ -112,7 +91,7 @@ def field(name, location, shape, labels, unit):
 
 def generate_case(case, directory, reference_dir):
     """Use the same data contract for scoring cases and public examples."""
-    directory, reference_dir = Path(directory), Path(reference_dir)
+    directory = Path(directory)
     directory.mkdir(parents=True, exist_ok=True)
     ids, coordinates = mesh(case, directory / "mesh.msh")
     # Let the existing structural loader enumerate mesh entities/groups.
@@ -163,9 +142,10 @@ def generate_case(case, directory, reference_dir):
     write_hdf5(directory / 'input.h5', arrays, compression="gzip")
     write_json(directory / "problem.json", manifest)
     problem = load_problem(directory / "problem.json")
-    uv = (coordinates - case.origin) / case.size
-    temperature = polyval2d(uv[:, 0], uv[:, 1], case.temperature)[None, :, None]
-    write_result(reference_dir / "reference.h5", problem, {"temperature": temperature})
+    if reference_dir is not None:
+        uv = (coordinates - case.origin) / case.size
+        temperature = polyval2d(uv[:, 0], uv[:, 1], case.temperature)[None, :, None]
+        write_result(Path(reference_dir) / "reference.h5", problem, {"temperature": temperature})
     record = {"case": case.name, "temperature_coefficients": case.temperature.tolist(),
               "temperature": equation(case.temperature), "source": equation(source), "boundaries": boundaries,
               "mean_temperature": exact_mean(case), "node_count": len(ids), "cell_count": len(arrays["domain_ids"])}

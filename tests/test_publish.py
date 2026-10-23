@@ -14,7 +14,7 @@ import unittest
 import zipfile
 
 from caeoj_tools.author import PROJECT_ROOT
-from task_fixtures import project_fixture
+from task_fixtures import project_fixture, numerical_role_fixture
 from caeoj.validation import ContractError
 
 spec = importlib.util.spec_from_file_location("publish_dist", PROJECT_ROOT / "src/utils/publish_dist.py")
@@ -86,15 +86,11 @@ class PublishTests(unittest.TestCase):
         self.assertIn("validate-output", help_result.stdout)
         self.assertNotIn("make-cases", help_result.stdout)
         self.assertNotIn("smoke", help_result.stdout)
+        task = root / 'qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d'
         for sample in ("01", "02"):
-            execution = subprocess.run(
-                [sys.executable, "-m", "caeoj", "grade", "--input",
-                 f"qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/{sample}/input/problem.json", "--output",
-                 f"qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/{sample}/output/result.h5", "--grading",
-                 f"qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/samples/{sample}/reference/grading.json"],
-                cwd=root, env=env, capture_output=True, text=True, timeout=30)
-            self.assertEqual(execution.returncode, 0, execution.stderr)
-            self.assertEqual(json.loads(execution.stdout)["score"], 1)
+            self.assertFalse((task/'samples'/sample/'reference').exists())
+            kinds=json.loads((root/'MANIFEST.json').read_text())['sample_kinds']
+            self.assertEqual(kinds[sample], 'format')
 
     def test_unlisted_files_never_enter_release(self):
         root, _ = self.extracted_bundle()
@@ -111,6 +107,11 @@ class PublishTests(unittest.TestCase):
     def test_quantity_policy_runs_from_extracted_bundle_with_varying_logical_names(self):
         root, _ = self.extracted_bundle()
         task = root / 'qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d'
+        for sample in (task/'samples').iterdir():
+            numerical_role_fixture(sample)
+        published=json.loads((root/'MANIFEST.json').read_text())
+        published['sample_kinds']={name:'graded' for name in published['sample_kinds']}
+        (root/'MANIFEST.json').write_text(json.dumps(published))
         policy = {'version': 2, 'quantities': {'temperature': {'unit': 'K', 'rule': {
             'metric': 'pointwise', 'time': 'per_time', 'components': 'per_component',
             'atol': .01, 'rtol': 0}}}}
@@ -193,12 +194,10 @@ for path in paths+paths[::-1]:
     problem=load_problem(path)
     assert describe(problem.manifest)['scope']=='task-contract'
     sample=path.parent.parent
-    from caeoj.case_grading import prepare_case
-    prepare_case(problem, path.parent.parent/'reference/grading.json')
-    from caeoj.case_grading import grade_case
-    result=grade_case(path,sample/'output/result.h5',sample/'reference/grading.json')
-    assert result['score']==1,result
-print('multi-task: four alternating reads and grades passed')
+    from caeoj.sdk import load_result
+    load_result(problem, sample/'output/result.h5')
+    assert not (sample/'reference').exists()
+print('multi-task: four alternating reads and format checks passed')
 """
         environment = {**os.environ,'PYTHONPATH':str(extracted/'src')}
         execution=subprocess.run([sys.executable,'-c',code],cwd=extracted,env=environment,

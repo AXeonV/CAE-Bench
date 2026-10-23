@@ -18,6 +18,8 @@ HF保存所有实际输入和判题数据，包括JSON、网格、数组及CSV�
 
 ## 身份和文件绑定
 
+当前发行版的公开samples统一为随机格式样例，保留正确的结构、dtype、IDs和时间轴，不保证数值答案正确；不公开样例reference/判分材料。下面描述的普通数值角色供维护验证及既有数据表达使用，正式case的数值参考仍完整保留。
+
 题目稳定ID由data-manifest.json唯一拥有。case ID由输入文件路径和SHA-256集合确定，与测试／样例角色无关；同输入复用case。仅修改评分或参考保持case ID，但必须更新描述摘要和选择。题意实质变化需新题ID。
 
 当前选择schema_version为4；池索引和case描述均为3。描述必含schema_version、case_id、origin、files、input、reference、example，可选example_kind仅允许format。files的每项为size_bytes和sha256，路径仅位于input/或reference/；两组files无重叠且完整覆盖。普通example为null或参考组中一个满足完整提交契约且通过本例评价的文件路径，不另存重复样例目录。

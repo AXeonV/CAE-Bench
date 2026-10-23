@@ -42,9 +42,13 @@ Dirichlet 边界的初始节点温度为零。其他条件要求在 t>0 满足�
 ## 示例
 
 完整输入：[samples/01/input/](samples/01/input/)，入口 [problem.json](samples/01/input/problem.json)。
-完整正确输出：[samples/01/output/result.h5](samples/01/output/result.h5)。
+随机格式输出：[samples/01/output/result.h5](samples/01/output/result.h5)。
 
 本例为单位正方形、k=C=1，9 个节点，四边定温为零，初始温度全零。
-输出 `node_ids=int64([1,2,3,4,5,6,7,8,9])`，`times=float64([0,0.003,0.007,0.016,0.035,0.08])`，`temperature` 为全零的 float64 `[6,9,1]` 数组。
+输出 `node_ids=int64([1,2,3,4,5,6,7,8,9])`，`times=float64([0,0.003,0.007,0.016,0.035,0.08])`，`temperature` 为随机 float64 `[6,9,1]` 数组，不表示本例温度解。
 
-另有包含初始温度及四种边界条件的完整示例：[samples/02/input/](samples/02/input/) 和 [samples/02/output/result.h5](samples/02/output/result.h5)。
+另有包含初始温度及四种边界条件的格式示例：[samples/02/input/](samples/02/input/) 和 [samples/02/output/result.h5](samples/02/output/result.h5)。
+
+## 公开格式样例
+
+`samples/01/`、`samples/02/` 仅展示输入与输出结构。其 `output/result.h5` 为随机生成的格式示例，只保证数组结构、dtype、IDs和时间轴符合输入要求，不保证数值答案正确，也不作为本地数值判分依据。正式case使用独立的隐藏参考判分。

@@ -16,6 +16,8 @@
 
 `source_root`和许可证原位置只用于作者侧装配计划；最终catalog不依赖这些机器路径。公开包先经现有`publish_dist.py`或匹配版本的发布器生成，包含独立的严格运行闭包；它不得含正式隐藏case、参考、作者材料或装配回执。
 
+当前发行计划设置`capabilities.public_sample_policy="random-format-only"`：装配器核对全部样例显式为format、公开MANIFEST角色一致且不携带样例reference/。随机输出只展示格式，不承诺正确数值；正式case与隐藏参考按原规则验证。
+
 ## 冻结归档
 
 ```sh

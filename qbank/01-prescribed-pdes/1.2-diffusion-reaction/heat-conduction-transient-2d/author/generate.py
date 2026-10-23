@@ -7,8 +7,8 @@ import shutil
 
 import numpy as np
 
-from caeoj.case_grading import grade_case
 from caeoj.grading_policy import load_policy
+from caeoj_tools.format_examples import randomize_example
 from caeoj_tools.grading_policy import materialize_references
 from caeoj.sdk import load_problem, write_result
 from caeoj.validation import write_json
@@ -89,25 +89,13 @@ def generate_case(case, destination):
 
 
 def publish_samples(destination):
-    # A zero fixture and an independent nonzero mixed-boundary fixture.
+    # Representative inputs with random format-only outputs.
     for number, case_name in [('01', '01-zero'), ('02', '15-four-operators')]:
         sample = destination/'samples'/number
         (sample/'input').mkdir(parents=True, exist_ok=True)
         for name in ('problem.json', 'input.h5', 'mesh.msh', 'mesh.geo'):
             shutil.copyfile(destination/'cases'/case_name/name, sample/'input'/name)
-        problem = load_problem(sample/'input/problem.json')
-        reference_path = destination/'reference'/case_name/'reference.h5'
-        output = sample/'output/result.h5'
-        output.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(reference_path, output)
-        reference = sample/'reference'
-        reference.mkdir(parents=True, exist_ok=True)
-        for name in ('reference.h5', 'grading.json'):
-            shutil.copyfile(destination/'reference'/case_name/name, reference/name)
-        report = grade_case(problem.path, output, reference/'grading.json')
-        if report['score'] != 1:
-            raise ValueError('Public output failed its task grader')
-        write_json(destination/'author/data-evidence/samples'/number/'verification.json', {'case': case_name, **report})
+        randomize_example(sample, seed=int(number))
 
 
 def generate(destination=ROOT, selected=None):

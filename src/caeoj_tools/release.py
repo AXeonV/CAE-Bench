@@ -300,6 +300,9 @@ def build(plan_path, output):
             prefix = entry['task_path']
             task_root = source / prefix
             manifest, files = _snapshot(task_root)
+            if catalog['capabilities'].get('public_sample_policy') == 'random-format-only':
+                if any(sample.get('kind') != 'format' for sample in manifest['samples'].values()):
+                    raise ValueError('Random-format-only release requires explicit format samples')
             task_id = manifest['task_id']
             if not isinstance(task_id, str) or not task_id.strip() or task_id.casefold() in task_ids:
                 raise ValueError('Missing or duplicate stable task_id')
@@ -333,6 +336,14 @@ def build(plan_path, output):
                     if name.startswith(prefix + '/samples/') and name[len(prefix) + 1:] not in files:
                         raise ValueError('Public archive contains unselected sample asset')
                 public_manifest = json.loads(z.read('MANIFEST.json'))
+                if catalog['capabilities'].get('public_sample_policy') == 'random-format-only':
+                    if public_manifest.get('sample_kinds') != {name: 'format' for name in manifest['samples']}:
+                        raise ValueError('Public sample kinds conflict with random-format-only policy')
+                    if any(n.startswith(prefix + '/samples/') and '/reference/' in n for n in public_members):
+                        raise ValueError('Random format samples cannot expose numerical references')
+                    required_samples = {prefix + '/' + name for name in files if name.startswith('samples/')}
+                    if not required_samples <= set(public_members):
+                        raise ValueError('Random format public archive omits selected sample assets')
                 declared = public_manifest['files']
                 if set(declared) != set(public_members) - {'MANIFEST.json'}:
                     raise ValueError('Public archive manifest file set mismatch')

@@ -10,7 +10,7 @@
 
 ## 试运行评测
 
-仓库已提供 11 题的作者侧 author/grading-template.json（沿用各题 atol/rtol，每时刻每字段允许最多 0.1% 偏差空间点）、judge-config.json 与 Harbor 资源配置，详见 [试运行参数和运行步骤](EVALUATION.md)。baseline 可选，尚未正式校准；转换完成时由作者模板生成每例 reference/grading.json；运行时仅读取 case 配置。
+仓库已提供 11 题的作者侧 author/grading-template.json（沿用各题 atol/rtol，每时刻每字段允许最多 0.1% 偏差空间点）、judge-config.json 与 Harbor 资源配置，详见 [试运行参数和运行步骤](EVALUATION.md)。baseline 可选，尚未正式校准；转换完成时由作者模板生成正式 case 的 reference/grading.json；运行时仅读取 case 配置。
 
 ## 克隆后使用
 
@@ -52,14 +52,15 @@ runs/pdebench/reports/latest.json    每题状态、错误、当前占用和估�
 <task-dir>/author/data-evidence/reference/selection.json    已冻结的源文件、样本索引、特征分组、ID、格式变体
 <task-dir>/author/preparation.json  当前准备状态（本地生成）
 <task-dir>/samples/01/input/        公开输入：problem.json、mesh.msh、input.h5
-<task-dir>/samples/01/output/       源对齐审核通过后生成 result.h5
+<task-dir>/samples/01/output/       随机格式示例 result.h5，不保证数值正确
+<task-dir>/samples/01/example.json  kind=format
                                         samples/02 同结构
 <task-dir>/cases/<ID>/             隐藏输入
 <task-dir>/reference/<ID>/         certificate.json、official-candidate.h5；审核或稳态修正通过后生成 reference.h5
 <task-dir>/reference/sample-certificates/  公开样例的私有证书
 ```
 
-选定源轨迹留在私有缓存。工具保存原始转换对照 official-candidate.h5 及审核状态，公开样例的原始对照只位于 reference/sample-certificates/。Darcy 的原始快照与修正答案分别保存，证书记录稳态残差和改变量；一维反应扩散保留官方轨迹与同一 PDE 重算结果的差异；其余族审核通过后以官方数值轨迹生成答案。原始对照和证书不进入 Agent 包。远程子集不能用整文件 MD5 验证：工具记录源身份、Content-Range/长度、ETag（有则使用）、块 SHA-256 和选定载荷 SHA-256；只有 --source-dir 的完整文件执行整文件 MD5。
+选定源轨迹留在私有缓存。工具保存原始转换对照 official-candidate.h5 及审核状态，公开样例的原始对照及审核参考只位于 reference/sample-certificates/，不复制到 samples/。公开 result.h5 仅依据输入的输出声明，以 build_key 前 16 个十六进制字符对应的整数为种子调用统一随机格式生成器；私有 certificate.json 和 author/prepared/ 记录种子、生成方法、输出摘要、形状及未读取参考值的声明。即使参考尚待审核，公开格式示例也可生成，参考准备状态独立记录。Darcy 的原始快照与修正答案分别保存，证书记录稳态残差和改变量；一维反应扩散保留官方轨迹与同一 PDE 重算结果的差异；其余族审核通过后以官方数值轨迹生成答案。原始对照和证书不进入 Agent 包。远程子集不能用整文件 MD5 验证：工具记录源身份、Content-Range/长度、ETag（有则使用）、块 SHA-256 和选定载荷 SHA-256；只有 --source-dir 的完整文件执行整文件 MD5。
 
 题目输入、网格与参考统一存入 HF 题内数据池，代码树不保留 problem.json 骨架。冻结来源选择及历史记录位于 author/data-evidence/reference/，随代码维护。准备工具会按冻结选择重新生成输入；制作后使用通用 data pack/upload 工具发布，HF 尚未入库的题目不能直接下载。certificate.json 绑定实际文件字节，载荷变化后必须重新制作证书；作者证据不进入 Agent 公开包。
 
@@ -90,7 +91,7 @@ runs/pdebench/reports/latest.json    每题状态、错误、当前占用和估�
 | 1 | 获取、预算、来源、选样或转换错误；详情见报告 |
 | 130 | 被中断；完整缓存块与已提交条目可复用 |
 
-全族运行会继续处理相互独立的题目，并汇总失败；冻结选样后，单个算例获取或转换失败也会继续其余算例，报告保留已完成记录及逐例错误。一个题目失败不会被写成成功。尚未完成的题目不会得到假的 result.h5/reference.h5。工具不生成未校准的 judge-config.json，不自动发布或组装 Harbor。
+全族运行会继续处理相互独立的题目，并汇总失败；冻结选样后，单个算例获取或转换失败也会继续其余算例，报告保留已完成记录及逐例错误。一个题目失败不会被写成成功。参考尚未完成的题目不会得到伪造的 reference.h5；公开 result.h5 是独立标记的随机格式示例，不作为参考就绪的证据。工具不生成未校准的 judge-config.json，不自动发布或组装 Harbor。
 
 可用 --reference-mode independent 切换到已有平流解析积分、Burgers Cole–Hopf 积分和一维反应扩散空间/时间加密参考；未实现的族会明确 reference_pending。可用 `--reference-dir <目录>` 接入外部审核的参考。目录结构为：
 

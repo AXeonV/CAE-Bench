@@ -1,0 +1,112 @@
+{
+  "task": "smoke-test",
+  "samples": [
+    {
+      "sample": "01",
+      "seed": 2026102400,
+      "generator": "numpy.PCG64: float64 uniform[-1,1), int64 uniform[-1000,1000], bool Bernoulli(0.5)",
+      "reference_values_read": false,
+      "output_sha256": "25508290867086f601030a5b2a6d7a942f490a70352dab2dc72930cf6d9fec52",
+      "shapes": {
+        "temperature": [
+          1,
+          5,
+          1
+        ]
+      }
+    }
+  ],
+  "case_ids_retained": true,
+  "formal_input_reference_sha256": {
+    "cases/01-line-1d/input.h5": "9b4453e0bf2a425d4dfbf4f2d3be0e81f6cf3ddc02fc9938fd41feb0a22e0ecd",
+    "cases/01-line-1d/mesh.geo": "c844fca882148bec57f2dd7c5ad2d408195a8bbfcaecc54d08224073d4561d70",
+    "cases/01-line-1d/mesh.msh": "a685e750ed77d5d62ba6b4bc8076997ea88317f62534bb865cafc3e3d12b3606",
+    "cases/01-line-1d/problem.json": "cd49a87c4e3ddbad1a7b9b9c270ab43467564c3e6db8e580e93d83411d8cbd71",
+    "cases/02-triangle-2d/input.h5": "429506d47ed31ae61ff2c90253b568171fabd17a2c9f0758cc5e0e7839e7d1ab",
+    "cases/02-triangle-2d/mesh.geo": "95c8896d69ce07ef1c93a954774949836f0f5b6fa29f691d312013c545904c74",
+    "cases/02-triangle-2d/mesh.msh": "43310a73da8fef39c1f6c6b0cc55a607c69d2f095d27bc9305e30219dab5d4aa",
+    "cases/02-triangle-2d/problem.json": "69874ef3f39c3a09db9753de702b8d83261eec9e6860f5a9e119277de8c86150",
+    "cases/03-quad-2d/input.h5": "429506d47ed31ae61ff2c90253b568171fabd17a2c9f0758cc5e0e7839e7d1ab",
+    "cases/03-quad-2d/mesh.geo": "b951a89fb2bbb27099dd070f3ecba61eb9d268199d1d13b7eda66c7478a623b6",
+    "cases/03-quad-2d/mesh.msh": "6b8f9be3bc238408e15e57f015373c93569f8f7f9974c520f12df565476ed77d",
+    "cases/03-quad-2d/problem.json": "69874ef3f39c3a09db9753de702b8d83261eec9e6860f5a9e119277de8c86150",
+    "cases/04-tetra-3d/input.h5": "b777bfb71aa81b027a1f961ebb966ad6edea4d3f7b243406fdaebada5c3a3e5e",
+    "cases/04-tetra-3d/mesh.msh": "f6e4c50262e4a842fa3d6201d7eecdecf4c375ff2e355dc5051268bb87825507",
+    "cases/04-tetra-3d/problem.json": "4148722f05abe7b1f7bf4fefe3f067ad4332351803ad73dcf06ca016e1bf2479",
+    "cases/05-mixed-blocks/input.h5": "9f218a84055201394b3d607ae2b3ff4629ae54cd0a12f0c6938d310f2489de59",
+    "cases/05-mixed-blocks/mesh.geo": "d5978f0a6acaf91350fa7893ba519a1831c72530c275745a8c208f53cd1c1a42",
+    "cases/05-mixed-blocks/mesh.msh": "5613e5b7967ffc57214a9409232512d36bd10ac89f7e29e74b61780566830662",
+    "cases/05-mixed-blocks/problem.json": "ec2786fd39532ba1bbe0270e98101af766d3d24c63268e1b73d88a34d1f2c916",
+    "cases/06-noncontiguous-ids/input.h5": "f8bf4b3d335ee0f83dcf2b6eb3f679f9b5e0522f9050a422b8a7a95d6fbec257",
+    "cases/06-noncontiguous-ids/mesh.geo": "95c8896d69ce07ef1c93a954774949836f0f5b6fa29f691d312013c545904c74",
+    "cases/06-noncontiguous-ids/mesh.msh": "c55ba6eb8ccba58217430f8f8645440acdd16af16ec727abc8dbcf91f1cf99e4",
+    "cases/06-noncontiguous-ids/problem.json": "69874ef3f39c3a09db9753de702b8d83261eec9e6860f5a9e119277de8c86150",
+    "cases/08-scalars-and-dtypes/input.h5": "4c756252e7153059602a3498db38c9871e52c115d7e7f850a74f9320273a84d3",
+    "cases/08-scalars-and-dtypes/mesh.geo": "95c8896d69ce07ef1c93a954774949836f0f5b6fa29f691d312013c545904c74",
+    "cases/08-scalars-and-dtypes/mesh.msh": "43310a73da8fef39c1f6c6b0cc55a607c69d2f095d27bc9305e30219dab5d4aa",
+    "cases/08-scalars-and-dtypes/problem.json": "31997755b8748273af4cd2f6500cf35bc0e109c53f0b7b58e4f4e315cc9a46e5",
+    "cases/09-vector-2d/input.h5": "4073932b4cbef93890bb4540c49e85a19393a62eb15cdff9da46e23ac6f5d9a4",
+    "cases/09-vector-2d/mesh.geo": "95c8896d69ce07ef1c93a954774949836f0f5b6fa29f691d312013c545904c74",
+    "cases/09-vector-2d/mesh.msh": "43310a73da8fef39c1f6c6b0cc55a607c69d2f095d27bc9305e30219dab5d4aa",
+    "cases/09-vector-2d/problem.json": "38a7bd422d2f7e36eb238b3621233dd72dc4d8490e0c45ef37b2cbc37603a354",
+    "cases/10-full-tensor/input.h5": "cbd7f836c7fb229d2c345d5a053487fdc2e0d2b266505c38359c6a27c2eaf291",
+    "cases/10-full-tensor/mesh.geo": "95c8896d69ce07ef1c93a954774949836f0f5b6fa29f691d312013c545904c74",
+    "cases/10-full-tensor/mesh.msh": "43310a73da8fef39c1f6c6b0cc55a607c69d2f095d27bc9305e30219dab5d4aa",
+    "cases/10-full-tensor/problem.json": "b73c66e82dada8a3d0c50ff635bcac6fd0a056cfe58404d7cd30142626746743",
+    "cases/11-field-locations/input.h5": "21181db1fc354d8c41236316fffa28a98ceb78230b7a4310a3257e304f901d29",
+    "cases/11-field-locations/mesh.geo": "95c8896d69ce07ef1c93a954774949836f0f5b6fa29f691d312013c545904c74",
+    "cases/11-field-locations/mesh.msh": "43310a73da8fef39c1f6c6b0cc55a607c69d2f095d27bc9305e30219dab5d4aa",
+    "cases/11-field-locations/problem.json": "c509319e227960aed7ce5a5c5f0d8485b449e9687bb1a934b677dc830012728c",
+    "cases/12-time-series/input.h5": "65e22518c7f9fc4930bdd4768fdaa60848e280bdb60b16ae633344b08b2aec03",
+    "cases/12-time-series/mesh.geo": "95c8896d69ce07ef1c93a954774949836f0f5b6fa29f691d312013c545904c74",
+    "cases/12-time-series/mesh.msh": "43310a73da8fef39c1f6c6b0cc55a607c69d2f095d27bc9305e30219dab5d4aa",
+    "cases/12-time-series/problem.json": "38a7bd422d2f7e36eb238b3621233dd72dc4d8490e0c45ef37b2cbc37603a354",
+    "reference/01-line-1d/grading.json": "4e575429ff9905c07e6de6096abd05edfa52761ee58b1ab34b3b11cbaed11c5e",
+    "reference/01-line-1d/reference.h5": "a82f1e783f718390ec0fffa31dabd1e892b9da9fe11da0929eeee93b2a4403c6",
+    "reference/02-triangle-2d/grading.json": "4e575429ff9905c07e6de6096abd05edfa52761ee58b1ab34b3b11cbaed11c5e",
+    "reference/02-triangle-2d/reference.h5": "b0ab5ddc3517acff255b7b0555d0d8fa2fa088226bbfaa400ceb55f74dccdfca",
+    "reference/03-quad-2d/grading.json": "4e575429ff9905c07e6de6096abd05edfa52761ee58b1ab34b3b11cbaed11c5e",
+    "reference/03-quad-2d/reference.h5": "b0ab5ddc3517acff255b7b0555d0d8fa2fa088226bbfaa400ceb55f74dccdfca",
+    "reference/04-tetra-3d/grading.json": "4e575429ff9905c07e6de6096abd05edfa52761ee58b1ab34b3b11cbaed11c5e",
+    "reference/04-tetra-3d/reference.h5": "94cc3cf55fe76c60e6712c4d021003a2d17a3e0cc3dba10c92f827732e9eb450",
+    "reference/05-mixed-blocks/grading.json": "4e575429ff9905c07e6de6096abd05edfa52761ee58b1ab34b3b11cbaed11c5e",
+    "reference/05-mixed-blocks/reference.h5": "9542f73c8484b41dc2cfff89da88b4d6a8163d9795b0779dc0fed1cbf8820b01",
+    "reference/06-noncontiguous-ids/grading.json": "4e575429ff9905c07e6de6096abd05edfa52761ee58b1ab34b3b11cbaed11c5e",
+    "reference/06-noncontiguous-ids/reference.h5": "7417b8917ca8c4b21c072e6f400d67a26c5096f6646ba418f151c001e99c46ef",
+    "reference/08-scalars-and-dtypes/grading.json": "4e575429ff9905c07e6de6096abd05edfa52761ee58b1ab34b3b11cbaed11c5e",
+    "reference/08-scalars-and-dtypes/reference.h5": "016e3b631bcc7c99698aa1cf41b7ed3f7ae52689aa27af01d434671f9a0911af",
+    "reference/09-vector-2d/grading.json": "4e575429ff9905c07e6de6096abd05edfa52761ee58b1ab34b3b11cbaed11c5e",
+    "reference/09-vector-2d/reference.h5": "465ef526ca0037c7ed6344ceaac4ba9267250c07cd4988387378ffc53efa7803",
+    "reference/10-full-tensor/grading.json": "4e575429ff9905c07e6de6096abd05edfa52761ee58b1ab34b3b11cbaed11c5e",
+    "reference/10-full-tensor/reference.h5": "0ec95bb33fee96d820899efa8a5888aa0d41f4f9814d0cf2613091917a86a746",
+    "reference/11-field-locations/grading.json": "4e575429ff9905c07e6de6096abd05edfa52761ee58b1ab34b3b11cbaed11c5e",
+    "reference/11-field-locations/reference.h5": "32fd73eb967bb68e35a3bce2782cba19a9860b4c5d572535359608bb7eab2403",
+    "reference/12-time-series/grading.json": "4e575429ff9905c07e6de6096abd05edfa52761ee58b1ab34b3b11cbaed11c5e",
+    "reference/12-time-series/reference.h5": "09c6c01fdf9dc07ab6993f3426fbbd51054f46d842ac99e2dda45c7bb98d49aa"
+  },
+  "formal_bytes_unchanged": true,
+  "descriptor_bindings_changed": true,
+  "pool": "D:\\Code\\CAE-Bench-OJ\\runs\\uniform-samples\\pools\\smoke-test",
+  "hf_uploaded": false,
+  "strict": {
+    "valid": true,
+    "errors": [],
+    "public_cases": [
+      {
+        "case": "01-line-1d",
+        "sample": "01",
+        "case_id": "case-106ee40b99b2d0a3a7d52a1c",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "public": {
+    "archive": "D:\\Code\\CAE-Bench-OJ\\runs\\uniform-samples\\public\\smoke-test-agent.zip",
+    "file_count": 30,
+    "public_samples": [
+      "01"
+    ],
+    "sha256": "a38212509cbc614f1b217030cbcab2bcb28c2881079f995fb12b8c2296f7ee5c"
+  },
+  "manifest_sha256": "637af0975de5938de005e8fee1fe91874361e4acba0ad8044d5b7e8309fc797a"
+}

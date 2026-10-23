@@ -59,4 +59,4 @@
 
 题目路径、纳入状态、选样身份和待办状态见[机器清单](release-flow-scope.json)。候选数量依据[10月23日Titan与本地盘点](reviews/titan-inventory-2026-10-23/chapter02-release-review.md)，不是本次新增扫描或最终计分case数量；随后发现增量时更新证据，不以旧数量阻止补入。
 
-本次审阅RC的实际82题目录、case身份、验证边界和交付入口见[全题审查与RC3记录](reviews/prepublication-review-2026-10-23/README.md)。表中选样已完成本轮材料审查；参考数值、分支覆盖和正式验收未由此完成。
+当前RC的实际82题目录、case身份、随机格式样例、验证边界和交付入口见[随机格式样例与RC4记录](reviews/random-format-samples-2026-10-24/README.md)。表中选样已完成材料审查；参考数值、分支覆盖和正式验收未由此完成。

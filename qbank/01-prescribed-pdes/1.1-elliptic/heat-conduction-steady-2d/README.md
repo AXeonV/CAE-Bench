@@ -2,7 +2,7 @@
 
 二维稳态热传导题。题面见 [instruction.md](instruction.md)，字段与边界条件解释见 [DATA.md](DATA.md)，测试点与解析方程见 [TEST-CASES.md](TEST-CASES.md)。
 
-题面提供常温样例和四种边界条件的混合样例，均包含完整输入与已验证的正确输出。
+题面提供常温样例和四种边界条件的混合样例，均包含完整输入与随机格式输出（不保证数值答案正确）。
 
 32 个测试点覆盖常数至四次多项式解，定温、法向导数、向外热流、Robin、混合条件与纯 Neumann 的域平均温度约束；同时变化温度幅值、区域、导热系数、网格密度及存储形式。
 
@@ -12,7 +12,7 @@
 |---|---|
 | `instruction.md` | 简洁题面 |
 | `DATA.md` | 题目必需的字段与连续函数解释 |
-| `samples/01/input/`、`samples/01/output/` | 题面引用的完整公开示例输入与正确输出，复用题库第 01 点 |
+| `samples/01/input/`、`samples/01/output/` | 题面引用的完整公开示例输入与随机格式输出；输入复用题库第01点，输出不是答案 |
 | `author/data-evidence/samples/01/verification.json` | 示例答案按本题阈值判分的维护记录，不进入 HF |
 | `cases/<case>/problem.json, input.h5, mesh.msh, mesh.geo` | 32 组输入，遵守通用数据协议 |
 | `reference/<case>/reference.h5` | 在实际网格节点处代入解析解生成的标答 |

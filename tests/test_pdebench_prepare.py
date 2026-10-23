@@ -24,12 +24,13 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'src'))
 from utils.PDEBench.conversion import advection_average, build_input, check_reference_initial
 from utils.PDEBench.models import MODELS, BY_TASK
-from utils.PDEBench.pipeline import contract_hash, prepare_task
+from utils.PDEBench.pipeline import contract_hash, prepare_task, prepare_entry
 from utils.PDEBench.sources import Reader, frame_indices
 from utils.PDEBench.storage import Budget, PreparationError, RangeReader, digest
 from utils.PDEBench.references import burgers_average, logistic_diffusion
 from utils.PDEBench.source_audit import fhn_initial, audit_reference,transport_residual
 from caeoj.sdk import load_problem, load_result, write_result
+from caeoj.validation import validate_output
 from caeoj_tools.task_paths import task_directory
 
 
@@ -345,6 +346,58 @@ class PipelineTests(unittest.TestCase):
         cache=root/'runtime/cache';stage=root/'runtime/staging';budget=Budget([root/'runtime',root/'qbank'],100_000_000)
         return model,task,local,catalog,cache,stage,budget
 
+    def assert_public_format(self, task, number, record):
+        sample=task/'samples'/number
+        self.assertEqual(json.loads((sample/'example.json').read_text()), {'kind':'format'})
+        self.assertFalse((sample/'reference').exists())
+        self.assertTrue(validate_output(sample/'input/problem.json',sample/'output/result.h5')['valid'])
+        private=task/'reference/sample-certificates'/number
+        certificate=json.loads((private/'certificate.json').read_text())
+        generated=record['format_example']
+        self.assertEqual(generated,certificate['format_example'])
+        self.assertEqual(generated['seed'],int(record['build_key'][:16],16))
+        self.assertFalse(generated['reference_values_read'])
+        self.assertEqual(generated['output_sha256'],digest(sample/'output/result.h5'))
+        if (private/'reference.h5').exists():
+            problem=load_problem(sample/'input/problem.json')
+            output=load_result(problem,sample/'output/result.h5')
+            reference=load_result(problem,private/'reference.h5')
+            self.assertTrue(any(not np.array_equal(output[spec['array']],reference[spec['array']])
+                                for spec in problem.manifest['outputs'].values()))
+
+    def test_prepare_entry_public_output_is_random_with_reference(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            model,task,local,catalog,cache,stage,budget=self.fixture(Path(tmp))
+            source=catalog['files'][0]
+            entry={'kind':'sample','id':'01','source_id':source['id'],'index':0,'variant':0}
+            record=prepare_entry(model,source,entry,task,cache,stage,budget,local,45)
+            self.assert_public_format(task,'01',record)
+            private=task/'reference/sample-certificates/01'
+            self.assertTrue((private/'reference.h5').is_file())
+            self.assertTrue((private/'official-candidate.h5').is_file())
+            before=(task/'samples/01/output/result.h5').read_bytes()
+            reused=prepare_entry(model,source,entry,task,cache,stage,budget,local,45)
+            self.assertTrue(reused['reused'])
+            self.assertEqual(before,(task/'samples/01/output/result.h5').read_bytes())
+
+    def test_prepare_entry_pending_reference_still_has_format_output(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);model=BY_TASK['diffusion-sorption-1d']
+            task=root/'task';task.mkdir()
+            for name in ('instruction.md','DATA.md'):
+                shutil.copyfile(task_directory(model.task,ROOT)/name,task/name)
+            cache=root/'cache';payload=cache/'selections/1/0-5.h5'
+            payload.parent.mkdir(parents=True);payload.write_bytes(b'offline-selected-fixture')
+            coords=[(np.arange(1024)+.5)/1024];times=np.array([0.,.1])
+            values={'concentration':np.full((2,1024,1),.1)}
+            source={'id':1,'md5':'offline-fixture','filename':'offline.hdf5'}
+            entry={'kind':'sample','id':'01','source_id':1,'index':0,'variant':0}
+            with patch('utils.PDEBench.pipeline.selected',return_value=(coords,times,np.array([0,1]),values,{})):
+                record=prepare_entry(model,source,entry,task,cache,root/'stage',Budget([root],100_000_000),None,45)
+            self.assertEqual(record['status'],'reference_pending')
+            self.assert_public_format(task,'01',record)
+            self.assertFalse((task/'reference/sample-certificates/01/reference.h5').exists())
+
     def test_metadata_only_clone_restores_payloads_and_preserves_definitions(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)
@@ -386,6 +439,8 @@ class PipelineTests(unittest.TestCase):
             kwargs={'local':local,'max_cases':1}
             first=prepare_task(model,catalog,task,cache,stage,budget,**kwargs)
             self.assertEqual(first['status'],'references_prepared')
+            for record in first['records']:
+                if record['kind']=='sample':self.assert_public_format(task,record['id'],record)
             selection=json.loads((task/'author/data-evidence/reference/selection.json').read_text())
             sample_keys={(e['source_id'],e['index']) for e in selection['entries'] if e['kind']=='sample'}
             hidden_keys={(e['source_id'],e['index']) for e in selection['entries'] if e['kind']=='case'}

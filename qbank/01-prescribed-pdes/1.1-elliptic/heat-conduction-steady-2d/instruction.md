@@ -64,18 +64,18 @@ samples/01/input/
 
 ### 示例输出
 
-完整正确输出目录：[samples/01/output/](samples/01/output/)，答案文件为 [result.h5](samples/01/output/result.h5)。文件包含以下全部数组：
+随机格式输出目录：[samples/01/output/](samples/01/output/)，格式文件为 [result.h5](samples/01/output/result.h5)。文件包含以下全部数组：
 
 ```text
 node_ids    int64   [9]     = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 times       float64 [1]     = [0.0]
-temperature float64 [1,9,1] = [[[4.0], [4.0], [4.0], [4.0], [4.0], [4.0], [4.0], [4.0], [4.0]]]
+temperature float64 [1,9,1]，数值为随机数，不是温度解
 ```
 
 ## 示例 2：四种边界条件
 
 完整输入：[samples/02/input/](samples/02/input/)，入口为 [problem.json](samples/02/input/problem.json)。
-完整正确输出：[samples/02/output/result.h5](samples/02/output/result.h5)。
+随机格式输出：[samples/02/output/result.h5](samples/02/output/result.h5)。
 
 单位正方形、k=1、q=0，仍为 9 个节点、8 个三角形。四条边分别为：
 
@@ -96,5 +96,8 @@ top 的条件数据为：
 }
 ```
 
-输出仍只含 `node_ids`、`times`、`temperature`；按 tag 1～9，温度约为
-`[1,2,3,2,1.5,2.5,2.5,1.5,2]` K，完整精度见 HDF5。
+格式输出只含 `node_ids`、`times`、`temperature`；IDs和时间轴原样复制，`temperature` 为随机 float64 `[1,9,1]` 数组，不表示本例温度解。
+
+## 公开格式样例
+
+`samples/01/`、`samples/02/` 仅展示输入与输出结构。其 `output/result.h5` 为随机生成的格式示例，只保证数组结构、dtype、IDs和时间轴符合输入要求，不保证数值答案正确，也不作为本地数值判分依据。正式case使用独立的隐藏参考判分。

@@ -15,13 +15,8 @@ from caeoj.sdk import load_problem
 
 
 def randomize(sample):
-    import numpy as np
-    problem=load_problem(sample/'input/problem.json')
-    arrays=read_hdf5(sample/'output/result.h5')
-    rng=np.random.default_rng(20261020)
-    support=output_support(problem)
-    write_hdf5(sample/'output/result.h5',{k:v if k in support else rng.normal(size=v.shape) for k,v in arrays.items()})
-    pool.write_json(sample/'example.json',{'kind':'format'})
+    from caeoj_tools.format_examples import randomize_example
+    return randomize_example(sample, seed=20261020)
 
 
 class FormatExamples(unittest.TestCase):
@@ -48,6 +43,56 @@ class FormatExamples(unittest.TestCase):
         import numpy as np
         for key in first:np.testing.assert_array_equal(first[key],second[key])
         self.assertEqual(pool.checked_json(sample/'example.json'),{'kind':'format'})
+
+    def test_randomizer_dtypes_component_ranks_shared_axes_and_seed(self):
+        import numpy as np
+        from copy import deepcopy
+        from unittest.mock import patch
+        from caeoj_tools.format_examples import randomize_example
+        from caeoj.validation import validate_output
+        f=self.fixture(pool_tests.PoolTests);sample=f.source/'samples/01'
+        shutil.rmtree(sample/'reference');shutil.rmtree(sample/'output')
+        path=sample/'input/problem.json';manifest=pool.checked_json(path)
+        original=next(iter(manifest['outputs'].values()))
+        arrays=read_hdf5(sample/'input/input.h5')
+        arrays['format_times']=np.array([0.,0.2,0.9],dtype=np.float64)
+        write_hdf5(sample/'input/input.h5',arrays)
+        manifest['time_axes']['shared']='format_times'
+        manifest['time_axes']['shared_alias']='format_times'
+        manifest['locations']['shared']=deepcopy(manifest['locations'][original['location']])
+        manifest['outputs']={}
+        for i,(dtype,shape) in enumerate([('float64',[1]),('int64',[2]),('bool',[2,2]),('float64',[2,3,2])]):
+            spec=deepcopy(original)
+            spec.update(array='random_'+str(i), dtype=dtype, kind='components',
+                        component_shape=shape, components=[str(j) for j in range(np.prod(shape))],
+                        location='shared',time_axis='shared' if i%2 else 'shared_alias')
+            manifest['outputs']['output_'+str(i)]=spec
+        pool.write_json(path,manifest)
+        accessed=[]
+        def tracked_read(path):
+            accessed.append(Path(path))
+            return read_hdf5(path)
+        with patch('caeoj.validation.read_hdf5',side_effect=tracked_read):
+            randomize_example(sample,seed=3)
+        first=read_hdf5(sample/'output/result.h5')
+        randomize_example(sample,seed=3)
+        second=read_hdf5(sample/'output/result.h5')
+        randomize_example(sample,seed=4)
+        third=read_hdf5(sample/'output/result.h5')
+        problem=load_problem(path)
+        self.assertTrue(validate_output(path,sample/'output/result.h5')['valid'])
+        self.assertFalse(any('reference' in p.parts for p in accessed))
+        for key in output_support(problem):
+            np.testing.assert_array_equal(first[key],problem.arrays[key])
+            np.testing.assert_array_equal(third[key],problem.arrays[key])
+        for spec in manifest['outputs'].values():
+            key=spec['array']
+            np.testing.assert_array_equal(first[key],second[key])
+            self.assertFalse(np.array_equal(first[key],third[key]))
+            self.assertEqual(first[key].dtype,np.dtype(spec['dtype']))
+            self.assertEqual(first[key].shape[2:],tuple(spec['component_shape']))
+        self.assertGreater(np.unique(first['random_1']).size,1)
+        self.assertEqual(set(np.unique(first['random_2'])),{False,True})
 
     def test_shared_test_format_sample_keeps_reference_private(self):
         f=self.fixture(pool_tests.PoolTests)
@@ -95,6 +140,8 @@ class FormatExamples(unittest.TestCase):
 
     def test_mixed_instruction_commands_use_graded_input(self):
         f=self.fixture(harbor_tests.HarborTests);task=f.root/TASK_PATH
+        from task_fixtures import numerical_role_fixture
+        numerical_role_fixture(task/'samples/02')
         randomize(task/'samples/01')
         publisher.publish(TASK,root=f.root)
         out=Path(prepare.prepare(TASK,f.root)['task_directory'])

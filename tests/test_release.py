@@ -59,10 +59,12 @@ class ReleaseTests(unittest.TestCase):
                      'license_files': [str(license_path)]}], 'excluded': []}
         self.plan_path = self.root / 'plan.json'
 
-    def make_public(self, extra=None):
+    def make_public(self, extra=None, sample_kinds=None):
         with zipfile.ZipFile(self.archive, 'w') as z:
             for n, value in self.public.items(): z.writestr(n, value)
-            z.writestr('MANIFEST.json', json.dumps({'files': {n: digest(v) for n, v in self.public.items()}}))
+            meta = {'files': {n: digest(v) for n, v in self.public.items()}}
+            if sample_kinds is not None: meta['sample_kinds'] = sample_kinds
+            z.writestr('MANIFEST.json', json.dumps(meta))
             if extra: z.writestr(*extra)
 
     def run_build(self):
@@ -176,6 +178,11 @@ class ReleaseTests(unittest.TestCase):
         r['files']['samples/01/output/result.h5'] = {'sha256': digest(b'reference'), 'size_bytes': 9}
         r['selection_sha256'] = digest((json.dumps(m, ensure_ascii=False, indent=2, allow_nan=False)+'\n').encode())
         mp.write_text(json.dumps(m)); rp.write_text(json.dumps(r))
+        self.plan['capabilities'] = {'public_sample_policy': 'random-format-only'}
+        self.public.update({self.prefix + '/samples/01/input/problem.json': b'{}',
+                            self.prefix + '/samples/01/input/input.h5': b'input',
+                            self.prefix + '/samples/01/output/result.h5': b'reference'})
+        self.make_public(sample_kinds={'01': 'format'})
         self.run_build()
         target = self.root / 'extract-format'; extract(self.output, 'test-task', target)
         self.assertTrue((target / self.prefix / 'samples/01/output/result.h5').exists())
@@ -206,6 +213,10 @@ class ReleaseTests(unittest.TestCase):
         self.assertEqual(catalog['release_notes'], self.plan['release_notes'])
         self.assertIn(self.plan['release_notes'][0], (self.output / 'README.md').read_text(encoding='utf-8'))
         verify(self.output)
+
+    def test_random_format_policy_rejects_numerical_samples(self):
+        self.plan['capabilities'] = {'public_sample_policy': 'random-format-only'}
+        with self.assertRaisesRegex(ValueError, 'explicit format samples'): self.run_build()
 
     def test_invalid_release_notes_rejected(self):
         self.plan['release_notes'] = ['']

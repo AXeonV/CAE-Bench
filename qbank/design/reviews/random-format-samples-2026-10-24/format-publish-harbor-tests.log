@@ -1,0 +1,57 @@
+.............F.............F..................               [100%]
+================================== FAILURES ===================================
+_ PublishTests.test_quantity_policy_runs_from_extracted_bundle_with_varying_logical_names _
+
+self = <test_publish.PublishTests testMethod=test_quantity_policy_runs_from_extracted_bundle_with_varying_logical_names>
+
+    def test_quantity_policy_runs_from_extracted_bundle_with_varying_logical_names(self):
+        root, _ = self.extracted_bundle()
+        task = root / 'qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d'
+        for sample in (task/'samples').iterdir():
+            numerical_role_fixture(sample)
+        policy = {'version': 2, 'quantities': {'temperature': {'unit': 'K', 'rule': {
+            'metric': 'pointwise', 'time': 'per_time', 'components': 'per_component',
+            'atol': .01, 'rtol': 0}}}}
+        from caeoj_tools.grading_policy import write_direct_grading
+        for reference in (task/'samples').glob('*/reference'):
+            write_direct_grading(reference, policy)
+        path = task / 'samples/02/input/problem.json'
+        manifest = json.loads(path.read_text(encoding='utf-8'))
+        manifest['outputs']['other_name'] = manifest['outputs'].pop('temperature')
+        path.write_text(json.dumps(manifest))
+        released = publisher.publish('heat-conduction-steady-2d', self.root / 'quantity-dist', root)
+        extracted = self.root / 'quantity-agent'
+        with zipfile.ZipFile(released['archive']) as bundle:
+            bundle.extractall(extracted)
+        env = os.environ.copy(); env['PYTHONPATH'] = str(extracted / 'src')
+        task_path = task.relative_to(root)
+        for sample in ('01', '02'):
+            sample_path = task_path / f'samples/{sample}'
+            command = [sys.executable, '-m', 'caeoj', 'grade', '--input', str(sample_path / 'input/problem.json'),
+                '--output', str(sample_path / 'output/result.h5'),
+                '--grading', str(sample_path / 'reference/grading.json')]
+            result = subprocess.run(command, cwd=extracted, env=env, capture_output=True, text=True, timeout=30)
+>           self.assertEqual(result.returncode, 0, result.stderr)
+E           AssertionError: 2 != 0 :
+
+tests\test_publish.py:134: AssertionError
+_________ HarborTests.test_instruction_handles_mixed_sample_examples __________
+
+self = <test_harbor.HarborTests testMethod=test_instruction_handles_mixed_sample_examples>
+
+    def test_instruction_handles_mixed_sample_examples(self):
+        task = self.root / TASK_PATH
+        numerical_role_fixture(task/'samples/01')
+        (task/'samples/01/output/result.h5').unlink()
+        directory = self.prepared()
+        instruction = (directory/'instruction.md').read_text(encoding='utf-8')
+        self.assertNotIn(f'{TASK_PATH.as_posix()}/samples/01/output/result.h5', instruction)
+        self.assertIn(f'`/app/{TASK_PATH.as_posix()}/samples/02/output/result.h5`', instruction)
+>       self.assertEqual(instruction.count('完整提交示例：'), 1)
+E       AssertionError: 0 != 1
+
+tests\test_harbor.py:213: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_publish.py::PublishTests::test_quantity_policy_runs_from_extracted_bundle_with_varying_logical_names
+FAILED tests/test_harbor.py::HarborTests::test_instruction_handles_mixed_sample_examples
+2 failed, 44 passed, 12 subtests passed in 126.20s (0:02:06)

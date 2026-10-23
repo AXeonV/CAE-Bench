@@ -191,13 +191,18 @@ class TransientTests(unittest.TestCase):
         repeated = np.repeat(p.arrays['initial_temperature'], len(p.arrays['times']), axis=0)
         self.assertEqual(self.grade(p, repeated, ref)['score'], 0)
 
-    def test_public_samples_and_standalone_baseline_pass_grading(self):
+    def test_public_samples_have_random_format_outputs_and_no_references(self):
         for sample in ('01', '02'):
             directory = TASK/'samples'/sample
             p = load_problem(directory/'input/problem.json')
-            saved = json.loads((TASK/'author/data-evidence/samples'/sample/'verification.json').read_text(encoding='utf-8'))
-            report = grade_case(p.path, directory/'output/result.h5', directory/'reference/grading.json')
-            self.assertEqual(report['score'], 1)
+            result = load_result(p, directory/'output/result.h5')
+            for key in output_support(p):
+                np.testing.assert_array_equal(result[key], p.arrays[key])
+            self.assertEqual(json.loads((directory/'example.json').read_text()), {'kind': 'format'})
+            self.assertFalse((directory/'reference').exists())
+            self.assertGreater(np.ptp(result['temperature']), 0)
+
+    def test_standalone_baseline_passes_private_reference(self):
         with tempfile.TemporaryDirectory(dir=PROJECT/'runs') as tmp:
             directory = Path(tmp)
             (directory/'solve.py').write_bytes((TASK/'author/baseline.py').read_bytes())
@@ -208,7 +213,7 @@ class TransientTests(unittest.TestCase):
                                       '--output', str(directory/'result.h5')], cwd=directory, env=env,
                                      capture_output=True, timeout=self.config['timeout_seconds'])
             self.assertEqual(process.returncode, 0, process.stderr)
-            self.assertEqual(grade_case(p, directory/'result.h5', TASK/'samples/02/reference/grading.json')['score'], 1)
+            self.assertEqual(grade_case(p, directory/'result.h5', TASK/'reference/15-four-operators/grading.json')['score'], 1)
 
     def test_public_release_excludes_author_formulas_and_resources(self):
         spec = importlib.util.spec_from_file_location('transient_publish', PROJECT/'src/utils/publish_dist.py')

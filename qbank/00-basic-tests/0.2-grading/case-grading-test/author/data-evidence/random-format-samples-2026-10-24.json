@@ -1,0 +1,91 @@
+{
+  "task": "case-grading-test",
+  "samples": [
+    {
+      "sample": "01",
+      "seed": 2026102410,
+      "generator": "numpy.PCG64: float64 uniform[-1,1), int64 uniform[-1000,1000], bool Bernoulli(0.5)",
+      "reference_values_read": false,
+      "output_sha256": "2150cf8e0ef81b864a857591afdaf2db12e91e91724c120b592c8c5badb51330",
+      "shapes": {
+        "velocity": [
+          3,
+          4,
+          2
+        ]
+      }
+    },
+    {
+      "sample": "02",
+      "seed": 2026102411,
+      "generator": "numpy.PCG64: float64 uniform[-1,1), int64 uniform[-1000,1000], bool Bernoulli(0.5)",
+      "reference_values_read": false,
+      "output_sha256": "c139f14fc39b859261779f51b5ffd88f89233a0a366f7ed66e65898e48360774",
+      "shapes": {
+        "velocity": [
+          3,
+          4,
+          2
+        ]
+      }
+    }
+  ],
+  "case_ids_retained": true,
+  "formal_input_reference_sha256": {
+    "cases/01-full/input.h5": "8eebb466cdf40d66a7fc0c94677bad2d0d350c2932801c5d12bbfe2fe60622e8",
+    "cases/01-full/mesh.msh": "8e55eb68c7ca11129d9154e83932e2d8d1e66992640a108d3a14eab51d04085b",
+    "cases/01-full/problem.json": "b0c9798ce823de7d4e17977e8d96860944554327037d95e6844fa4ad41ada9f2",
+    "cases/02-x/input.h5": "461255e664e05fdbd55721ccfa9b6146a2b3f743bbd706a44395d49eb53c4da5",
+    "cases/02-x/mesh.msh": "7b92f815f0cd0c5ed4c9748721088aa37a1ba9851958d20619a99f6e9e7fb863",
+    "cases/02-x/problem.json": "b0c9798ce823de7d4e17977e8d96860944554327037d95e6844fa4ad41ada9f2",
+    "cases/03-y/input.h5": "6934bc108e09cd79d428989d3e185eb5c29e87573c111e58ee857ac619032509",
+    "cases/03-y/mesh.msh": "cd87475974a41a8f4e6a5122241b99b8a2dc133c6a4fad725ff178e677da5905",
+    "cases/03-y/problem.json": "b0c9798ce823de7d4e17977e8d96860944554327037d95e6844fa4ad41ada9f2",
+    "cases/04-xy/input.h5": "50cf678fa59b77c8f1375de69e38345163ea289c7ef0562e9ee8be770aa7c52b",
+    "cases/04-xy/mesh.msh": "831a4687621ff5dce7486c7d0d3cf60234ab9e5cd28ca3946cedd4bbe4ccd694",
+    "cases/04-xy/problem.json": "b0c9798ce823de7d4e17977e8d96860944554327037d95e6844fa4ad41ada9f2",
+    "cases/05-two-checks/input.h5": "8584b6b3aacd1c6ce2b2ae6e80b130fa731669b05bd706c8c0ecd670668e270b",
+    "cases/05-two-checks/mesh.msh": "ecdba97ccffd070611908b884d03f9733eda7bb3936f39fa0886876dfd962ffb",
+    "cases/05-two-checks/problem.json": "b0c9798ce823de7d4e17977e8d96860944554327037d95e6844fa4ad41ada9f2",
+    "cases/06-full-and-probes/input.h5": "ef93b1c0ed6941cac604d844a201932777fdaa034dedd935390bbbe023174734",
+    "cases/06-full-and-probes/mesh.msh": "03fc3589ca1c4a144d2c918cb117db0c57a67ede2744cc24f414fc7d2c3f6ccb",
+    "cases/06-full-and-probes/problem.json": "b0c9798ce823de7d4e17977e8d96860944554327037d95e6844fa4ad41ada9f2",
+    "reference/01-full/grading.json": "c6f6ff601140946dd7d7634ca083a461e8819c0356b16ee48df9db0eb7fd939b",
+    "reference/01-full/reference.h5": "8eebb466cdf40d66a7fc0c94677bad2d0d350c2932801c5d12bbfe2fe60622e8",
+    "reference/02-x/grading.json": "eaa5f3e2631663d19d3ebd7d8df72df55d64824a4cceda37af7dbada2658858a",
+    "reference/02-x/observations.h5": "a82ba241af0332525f2001e2103bd27e590b774a353fb48ab77d7f899efba477",
+    "reference/02-x/probe-reference.h5": "4be5601d8c8bb5a0079ef938187c922e62a926d16b32fcfe98a1f8050815baeb",
+    "reference/03-y/grading.json": "d4befdb3deb6239f4394c12f376ae98bed9b81fc76f79867cac89c8becb9c972",
+    "reference/03-y/observations.h5": "d83dc751dd7d36a715969475277b84a5c4a856bfaf4f88ccdbe7103ceae78dff",
+    "reference/03-y/probe-reference.h5": "7b9f097405d34d051729c6b0767ee271343ecce5060919ff85acec6968869b15",
+    "reference/04-xy/grading.json": "321860d353f1ccdead90a23d7ba9b25c70b26b7a8ac7c21725620ac480607698",
+    "reference/04-xy/observations.h5": "6aee470f85264bb322255b7c45b7c6c347e5db7a66c81151c1ff159688057c2c",
+    "reference/04-xy/probe-reference.h5": "8f234797451b2831bbf5e09a531948dd185b9637501854521d0230b2887a56b8",
+    "reference/05-two-checks/grading.json": "7a758a4bcf93af0487ab688668828b2e132768e1c6db49dd1d16054f8b91017e",
+    "reference/05-two-checks/observations.h5": "cec16fa61184da4ee946df96a7784801e6d72855750139f91db0afcce945a668",
+    "reference/05-two-checks/probe-reference.h5": "e755751cb9b7148f5ec2880944f5aec5bf114a0ad67d987a2b267e675c68d952",
+    "reference/06-full-and-probes/grading.json": "f56bbbb099c06eec24ad5dca471e6ee685ad4129372df5500fde366c9a872f2a",
+    "reference/06-full-and-probes/observations.h5": "5d5c8e3caa9ae519f8b3404fb52b0db75c4870a1168392e0dec87312fe74602a",
+    "reference/06-full-and-probes/probe-reference.h5": "3b742e4ff9df3dea5d1619bb9f794935a888e36bd708ca14c8a6c02334ce9db2",
+    "reference/06-full-and-probes/reference.h5": "ef93b1c0ed6941cac604d844a201932777fdaa034dedd935390bbbe023174734"
+  },
+  "formal_bytes_unchanged": true,
+  "descriptor_bindings_changed": false,
+  "pool": "D:\\Code\\CAE-Bench-OJ\\runs\\uniform-samples\\pools\\case-grading-test",
+  "hf_uploaded": false,
+  "strict": {
+    "valid": true,
+    "errors": [],
+    "public_cases": []
+  },
+  "public": {
+    "archive": "D:\\Code\\CAE-Bench-OJ\\runs\\uniform-samples\\public\\case-grading-test-agent.zip",
+    "file_count": 33,
+    "public_samples": [
+      "01",
+      "02"
+    ],
+    "sha256": "fcd0ac9805f01dfdd20c6c074f7a62671520c31149ef32dda841eacf00b74880"
+  },
+  "manifest_sha256": "d06efbd2952ec569530240326575e30debd432c6b399bdf1434c81badb8b8b3f"
+}

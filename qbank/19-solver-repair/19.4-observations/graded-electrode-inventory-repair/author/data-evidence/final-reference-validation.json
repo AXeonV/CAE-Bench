@@ -1,0 +1,1031 @@
+{
+  "mode": "validation",
+  "image_id": "sha256:a0685e786a028ff8bb87c39c370d727663606c3d9b665ea2934a32771fb0e6c8",
+  "cases": [
+    {
+      "case": "01-correlated-public",
+      "elapsed_seconds": 2.0929999999934807,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:a0685e786a028ff8bb87c39c370d727663606c3d9b665ea2934a32771fb0e6c8",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 3.508853766958612e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 2.003936724134559e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.233877369199505e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 6.938893903907228e-18,
+          "max_tolerance_fraction": 2.9082891193426486e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 1.6442568165719215e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 1.9667709151544624e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 2.7755575615628914e-17,
+          "max_tolerance_fraction": 2.3642871224895163e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 2.1341351365589328e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "833f0e4ccf54a3e0b6b797bd6a97bb312339b088ace13023a7047ca7708f413b",
+      "output_sha256": "89dc0ab6fa7bb863d2a8e487ac50426014a4da206eb99d59e770ed645f053872"
+    },
+    {
+      "case": "02-constant-public",
+      "elapsed_seconds": 2.125,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:a0685e786a028ff8bb87c39c370d727663606c3d9b665ea2934a32771fb0e6c8",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 1.2489751259380725e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 2.7755575615628914e-17,
+          "max_tolerance_fraction": 1.8306020071643756e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 4.318487643927411e-08,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 1.0913936421275139e-11,
+          "max_tolerance_fraction": 4.26518712386158e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 2.7755575615628914e-16,
+          "max_tolerance_fraction": 5.6159773689990814e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 4.794014075393732e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.477958425708476e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "8e0dff2fdf540da1600eb622772826d5ee6e2aff60251887cf91c637f58efb55",
+      "output_sha256": "a0c498bef8b5da507c07698dfcfb81df2cad5ddbeb8e9dc261f596938aceaa5d"
+    },
+    {
+      "case": "03-anticorrelated",
+      "elapsed_seconds": 1.9380000000819564,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:a0685e786a028ff8bb87c39c370d727663606c3d9b665ea2934a32771fb0e6c8",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 3.703380888458286e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 3.064507541359597e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 4.1336794948968104e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 1.9908509129615833e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.225210099993808e-08,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 1.8189894035458565e-12,
+          "max_tolerance_fraction": 2.0616464332799996e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 1.6653345369377348e-16,
+          "max_tolerance_fraction": 3.509237496386677e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.5254822024537856e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 1.787198030494736e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "a7eb2dd0d90cff3f770e999ab8068d5135462b0d699133f9307fe881badeefc1",
+      "output_sha256": "da45f3a1d68ba82d27d7337fc40b1f810b9468dc4bdc080da06296fb55c8ca51"
+    },
+    {
+      "case": "04-opposite-electrodes",
+      "elapsed_seconds": 1.9690000000409782,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:a0685e786a028ff8bb87c39c370d727663606c3d9b665ea2934a32771fb0e6c8",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.852434992331775e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 3.058440952070074e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.518885889352834e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 2.7755575615628914e-17,
+          "max_tolerance_fraction": 4.0922704283481414e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.8274958231326653e-08,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 1.9864375035350588e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 1.9039873868364072e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 3.37410751896589e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.6018532200829344e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "10b47308e844aab78f972ffe3eff00384ac94f1d7510a738bc239b4a5ebddbb7",
+      "output_sha256": "6cd3902bd26ee78560135a3b7dab0caaf347b7948bfe7788680a67bfe26573e1"
+    },
+    {
+      "case": "05-uniform-concentration",
+      "elapsed_seconds": 2.280999999959022,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:a0685e786a028ff8bb87c39c370d727663606c3d9b665ea2934a32771fb0e6c8",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.7336603695771952e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 1.4551915228366852e-11,
+          "max_tolerance_fraction": 4.277578659041378e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 3.643076360295711e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 3.4507985549653674e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 2.278915193802249e-08,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 2.278915193802249e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 1.9622995719876902e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 2.7755575615628914e-17,
+          "max_tolerance_fraction": 2.7087629294360286e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.110297234545065e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "dc636a04e2fa57bdd42e41893e359cb0564c96b67ee8cb0cb4c0bcadbe82a23d",
+      "output_sha256": "1d0d84284847374efc9b3e63593f03b967f4ccb65b01b750d47357bceba00537"
+    },
+    {
+      "case": "06-radial-only",
+      "elapsed_seconds": 1.7969999999040738,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:a0685e786a028ff8bb87c39c370d727663606c3d9b665ea2934a32771fb0e6c8",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 1.932469656707687e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 1.984005109727425e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 2.7755575615628914e-17,
+          "max_tolerance_fraction": 1.2642744632283093e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.4936004266411632e-08,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.4936004266411632e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 1.9847288676812552e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 3.071557897669194e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 2.9476327242321092e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "e4e64aed9ec746a66691e08a956bfa00faac24b42e69576959129d7db83bc6cd",
+      "output_sha256": "67d0346e663fb357256b5f0a792c7b554bd02ea93192f812f7c52636397a4e62"
+    },
+    {
+      "case": "07-zero",
+      "elapsed_seconds": 2.172000000020489,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:a0685e786a028ff8bb87c39c370d727663606c3d9b665ea2934a32771fb0e6c8",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        }
+      },
+      "input_sha256": "d41fcc88e39bf2b2cb6b119af9fa940b1547d7272f55be0652a08535dee11b3e",
+      "output_sha256": "65288444e981440701cfd6bc91b34edd6c0277e582222c3544aabe85b030d9a3"
+    },
+    {
+      "case": "08-saturated",
+      "elapsed_seconds": 1.859000000054948,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:a0685e786a028ff8bb87c39c370d727663606c3d9b665ea2934a32771fb0e6c8",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 1.4551915228366852e-11,
+          "max_tolerance_fraction": 2.7243368697651162e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 2.1827872842550278e-11,
+          "max_tolerance_fraction": 4.276095892781965e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 5.551115123125783e-16,
+          "max_tolerance_fraction": 5.49615358725325e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 3.7095154041130165e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.851729071695667e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 2.1984614349013e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 3.2396963386236814e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 3.9526585550750646e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "4a12194547760cdb635d220fc69d15aa8244520d9462153a7c24a544c0d06142",
+      "output_sha256": "f117443f1529e689a0460d8b8a8b50d0bac881705c00be24db0f577679eff297"
+    },
+    {
+      "case": "09-random",
+      "elapsed_seconds": 1.875,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:a0685e786a028ff8bb87c39c370d727663606c3d9b665ea2934a32771fb0e6c8",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.6482458125501823e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 1.0913936421275139e-11,
+          "max_tolerance_fraction": 4.272180956890211e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 4.4851688296885706e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 2.0281182068408885e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.9660853709242047e-08,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 4.0140191741260316e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 4.174496455661022e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 2.1586342010804175e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 3.903762774228733e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "04133f899341c3eab0380997188bc479034ea162b7ce74baa5275fc944f2ea00",
+      "output_sha256": "bb61a9e19d93f9b440e03fc85725fd7729cba4f641236d6b9e959c204e60bc5c"
+    },
+    {
+      "case": "10-coarse",
+      "elapsed_seconds": 2.1089999999385327,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:a0685e786a028ff8bb87c39c370d727663606c3d9b665ea2934a32771fb0e6c8",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.7817816776398402e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.782419450934307e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 1.8688177656317168e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 3.371064946192787e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 1.6653345369377348e-16,
+          "max_tolerance_fraction": 4.123158283276346e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 2.8184217093035858e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.0723433778360795e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "dcbc5d8e2447fd8e60a33ed775bd43dbc4f1a5caa2678a2455882f31deea8bce",
+      "output_sha256": "3b76b188c052d7c4507c301c380599240591981b0d3ea73294d5666d611ecba6"
+    },
+    {
+      "case": "11-fine",
+      "elapsed_seconds": 2.0,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:a0685e786a028ff8bb87c39c370d727663606c3d9b665ea2934a32771fb0e6c8",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 1.0913936421275139e-11,
+          "max_tolerance_fraction": 4.436822228541532e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 3.44518548368018e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.1697476987312673e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 2.7755575615628914e-17,
+          "max_tolerance_fraction": 2.3774629760661474e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 1.0913936421275139e-11,
+          "max_tolerance_fraction": 4.251016840474638e-08,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 1.4551915228366852e-11,
+          "max_tolerance_fraction": 7.034084230536183e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 4.440892098500626e-16,
+          "max_tolerance_fraction": 8.627812239061948e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 3.203417134386873e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 2.0756379958846636e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "0763fefe788352fa7230cfc5b1bd40d19a46b53c93527127711819d6b84d571b",
+      "output_sha256": "bb38de4151dff83cd6837e0378754e42847574d9d387fdf246eebf92efac441c"
+    },
+    {
+      "case": "12-mixed-resolution",
+      "elapsed_seconds": 2.2339999999385327,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:a0685e786a028ff8bb87c39c370d727663606c3d9b665ea2934a32771fb0e6c8",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.515488770851769e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 1.633623118221498e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.192840233506063e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 2.13389127607943e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 2.2000345095664986e-08,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 4.606200055790547e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 4.412763485560087e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 1.6653345369377348e-16,
+          "max_tolerance_fraction": 3.583453274684834e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 2.778103807748277e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "6334b3d7d2c600157b1cc2657eea8142f4ced7c998b784dba8df5d180a1029bb",
+      "output_sha256": "6e7218154849d0e74f85d2855825670002d2e43d6ad7219db57d17f60bbc49e0"
+    },
+    {
+      "case": "13-scales",
+      "elapsed_seconds": 1.890999999945052,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:a0685e786a028ff8bb87c39c370d727663606c3d9b665ea2934a32771fb0e6c8",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 2.8284739503630015e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 5.4569682106375694e-12,
+          "max_tolerance_fraction": 3.434242431529314e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.2143035716932273e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 3.552713678800501e-15,
+          "max_tolerance_fraction": 5.488770057806279e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 3.341180197696294e-08,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 1.0913936421275139e-11,
+          "max_tolerance_fraction": 3.9120558398823685e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 4.149158885525715e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 2.2737367544323206e-13,
+          "max_tolerance_fraction": 4.5550301017305374e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 4.547473508864641e-13,
+          "max_tolerance_fraction": 1.9682194498439647e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "0e98518dd1cde25d14fa03700bc1e2da60ff44c24057c60775a20faed8fbaad4",
+      "output_sha256": "589149631b6e4d8b521186637597be982687727e91b39802ffe2dd1ca72c1e4c"
+    },
+    {
+      "case": "14-random-geometry",
+      "elapsed_seconds": 2.14000000001397,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "-i",
+        "sha256:a0685e786a028ff8bb87c39c370d727663606c3d9b665ea2934a32771fb0e6c8",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 1.4551915228366852e-11,
+          "max_tolerance_fraction": 3.861549638715639e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 1.4551915228366852e-11,
+          "max_tolerance_fraction": 6.134327456177747e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 3.3306690738754696e-16,
+          "max_tolerance_fraction": 6.408884285904117e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 3.167797562099741e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 1.4551915228366852e-11,
+          "max_tolerance_fraction": 4.321496199361674e-08,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 1.0913936421275139e-11,
+          "max_tolerance_fraction": 4.263186712862665e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 4.263019103548209e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 1.6653345369377348e-16,
+          "max_tolerance_fraction": 4.2299751218402256e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 3.2400003172091767e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "782c6248a83bc9e7bb14290fb3fc523aab408f4e38b25e5075e67d9fde5014cc",
+      "output_sha256": "080fa89b57d9a9ec542a4fa8121b578f061f3c5105a633c5d95f65346fd697a4"
+    }
+  ],
+  "reference_producer": "actual pinned PyBaMM submodels, not author independent algebra",
+  "driver_sha256": "865d72b388df241508d05439477e780de708184c103fe39c774a271d1dd0c271",
+  "source_overlays_sha256": {}
+}

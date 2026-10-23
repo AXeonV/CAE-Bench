@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "base_image": "caeoj-pybamm5813-core:base",
+  "replacements": [
+    {
+      "submission": "averages.py",
+      "target": "/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/averages.py"
+    }
+  ],
+  "build_directory": "/opt/pybamm-build",
+  "build_target": "repair_sources",
+  "build_timeout_seconds": 60,
+  "max_source_bytes": 1048576,
+  "runner": "/app/qbank/19-solver-repair/19.4-observations/graded-electrode-inventory-repair/public/run_case.py",
+  "rebuild_files": [
+    "/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/__pycache__/averages.cpython-314.pyc"
+  ],
+  "baseline_probe": [
+    "/usr/local/bin/python",
+    "-c",
+    "import runpy,math,gmsh; assert hasattr(gmsh.lib,'gmshInitialize'); d=runpy.run_path('/opt/repair-driver/driver.py'); v=d['evaluate']({'x_count_n': 3, 'x_count_p': 3, 'r_count_n': 3, 'r_count_p': 3, 'states': [{'concentration_n': [10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0], 'concentration_p': [20000.0, 20000.0, 20000.0, 20000.0, 20000.0, 20000.0, 20000.0, 20000.0, 20000.0], 'epsilon_n': [0.5, 0.5, 0.5], 'epsilon_p': [0.6, 0.6, 0.6], 'thickness_n': 0.0001, 'thickness_p': 0.0001, 'area': 0.1, 'cmax_n': 30000.0, 'cmax_p': 50000.0}]}); assert len(v)==9; assert all(math.isfinite(z) for a in v.values() for row in a for z in row); import pybamm; print(pybamm.__file__)"
+  ]
+}

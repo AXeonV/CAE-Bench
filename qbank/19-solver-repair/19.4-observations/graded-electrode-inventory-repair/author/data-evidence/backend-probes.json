@@ -1,0 +1,226 @@
+{
+  "cases": [
+    {
+      "mode": "valid",
+      "returncode": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "caeoj-repair22-inventory-probes:preflight",
+        "python",
+        "/opt/backend_probe.py",
+        "valid"
+      ],
+      "passed": true,
+      "binding": {
+        "uid": 1000,
+        "cache_tag": "cpython-314",
+        "modules": {
+          "averages": {
+            "source": "/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/averages.py",
+            "cache": "/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/__pycache__/averages.cpython-314.pyc",
+            "source_sha256": "574270cb35b01d45a49792e7290f8ba9ef73a50c6a54c28303fcafa7a0bb33ad",
+            "pyc_sha256": "946b89d5da128bed563953dc3030e5c7f12d2ffb2b8c1b8e742ad3d2de760750"
+          }
+        },
+        "permissions": {
+          "/tests": {
+            "read": false,
+            "write": false
+          },
+          "/tests/cases": {
+            "read": false,
+            "write": false
+          },
+          "/tests/reference": {
+            "read": false,
+            "write": false
+          },
+          "/logs/verifier": {
+            "read": false,
+            "write": false
+          },
+          "/probe": {
+            "read": false,
+            "write": false
+          },
+          "/app/submission": {
+            "read": true,
+            "write": false
+          },
+          "/opt/repair-driver/driver.py": {
+            "read": true,
+            "write": false
+          },
+          "/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/averages.py": {
+            "read": true,
+            "write": false
+          },
+          "/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/__pycache__/averages.cpython-314.pyc": {
+            "read": true,
+            "write": false
+          }
+        },
+        "network": "denied"
+      },
+      "build": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "cmake",
+          "--build",
+          "/opt/pybamm-build",
+          "--target",
+          "repair_sources",
+          "--parallel",
+          "4"
+        ],
+        "exit_code": 0,
+        "status": "built",
+        "elapsed_seconds": 0.1146165600000586,
+        "sources_sha256": {
+          "averages.py": "574270cb35b01d45a49792e7290f8ba9ef73a50c6a54c28303fcafa7a0bb33ad"
+        },
+        "removed_build_artifacts": [
+          "/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/__pycache__/averages.cpython-314.pyc"
+        ],
+        "built_artifacts_sha256": {
+          "/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/__pycache__/averages.cpython-314.pyc": "946b89d5da128bed563953dc3030e5c7f12d2ffb2b8c1b8e742ad3d2de760750"
+        }
+      },
+      "baseline_probe": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "/usr/local/bin/python",
+          "-c",
+          "import runpy,math,gmsh; assert hasattr(gmsh.lib,'gmshInitialize'); d=runpy.run_path('/opt/repair-driver/driver.py'); v=d['evaluate']({'x_count_n': 3, 'x_count_p': 3, 'r_count_n': 3, 'r_count_p': 3, 'states': [{'concentration_n': [10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0], 'concentration_p': [20000.0, 20000.0, 20000.0, 20000.0, 20000.0, 20000.0, 20000.0, 20000.0, 20000.0], 'epsilon_n': [0.5, 0.5, 0.5], 'epsilon_p': [0.6, 0.6, 0.6], 'thickness_n': 0.0001, 'thickness_p': 0.0001, 'area': 0.1, 'cmax_n': 30000.0, 'cmax_p': 50000.0}]}); assert len(v)==9; assert all(math.isfinite(z) for a in v.values() for row in a for z in row); import pybamm; print(pybamm.__file__)"
+        ],
+        "exit_code": 0,
+        "status": "ready",
+        "elapsed_seconds": 2.3774122810000335
+      },
+      "cpu_max": "400000 100000",
+      "memory_max": "8589934592"
+    },
+    {
+      "mode": "syntax",
+      "returncode": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "caeoj-repair22-inventory-probes:preflight",
+        "python",
+        "/opt/backend_probe.py",
+        "syntax"
+      ],
+      "passed": true,
+      "classification": "build_error"
+    },
+    {
+      "mode": "extra",
+      "returncode": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "caeoj-repair22-inventory-probes:preflight",
+        "python",
+        "/opt/backend_probe.py",
+        "extra"
+      ],
+      "passed": true,
+      "classification": "invalid_submission"
+    },
+    {
+      "mode": "symlink",
+      "returncode": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "caeoj-repair22-inventory-probes:preflight",
+        "python",
+        "/opt/backend_probe.py",
+        "symlink"
+      ],
+      "passed": true,
+      "classification": "invalid_submission"
+    },
+    {
+      "mode": "baseline-runtime",
+      "returncode": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "caeoj-repair22-inventory-probes:preflight",
+        "python",
+        "/opt/backend_probe.py",
+        "baseline-runtime"
+      ],
+      "passed": true,
+      "classification": "infrastructure_error"
+    },
+    {
+      "mode": "runtime-timeout",
+      "returncode": 0,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "caeoj-repair22-inventory-probes:preflight",
+        "python",
+        "/opt/backend_probe.py",
+        "runtime-timeout"
+      ],
+      "passed": true,
+      "actual_candidate_import_timeout": true
+    }
+  ],
+  "started_unix": 1792724114.2077498
+}

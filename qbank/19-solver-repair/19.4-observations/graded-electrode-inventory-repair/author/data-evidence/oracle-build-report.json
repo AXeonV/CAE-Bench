@@ -1,0 +1,28 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "cmake",
+    "--build",
+    "/opt/pybamm-build",
+    "--target",
+    "repair_sources",
+    "--parallel",
+    "4"
+  ],
+  "exit_code": 0,
+  "status": "built",
+  "elapsed_seconds": 0.11754770100014866,
+  "sources_sha256": {
+    "averages.py": "574270cb35b01d45a49792e7290f8ba9ef73a50c6a54c28303fcafa7a0bb33ad"
+  },
+  "removed_build_artifacts": [
+    "/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/__pycache__/averages.cpython-314.pyc"
+  ],
+  "built_artifacts_sha256": {
+    "/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/__pycache__/averages.cpython-314.pyc": "d92f29f19af707c5532a263f56e941ea2d779ba0f3c99496ff58aeeb9ec4e397"
+  }
+}

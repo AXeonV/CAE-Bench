@@ -33,7 +33,7 @@
 | 19.3.4 | multisite-surface-concentration-repair／多占位表面浓度 | Cantera/cantera#1996 | 多位点占据、浓度与表面反应；位点平衡及独立反应核对，保留两项关联修复范围 | 待实施 |
 | 19.3.5 | reconstructed-energy-repair／可压缩流能量重构 | su2code/SU2#2602 | 重构一致性与稳定性；状态恒等关系及收敛流场，十步回归不作物理参考 | 待实施 |
 | 19.3.6 | deformed-tangential-boundary-repair／变形边界切向约束 | geodynamics/aspect#6818 | 当前几何法向与切向速度；解析几何／流场，公开限制AMG支持范围 | 待实施 |
-| 19.4.1 | graded-electrode-inventory-repair／梯度电极锂库存 | pybamm-team/PyBaMM#5810 | 空间加权积分与电极库存观测；独立积分，区分观测和演化误差 | 待实施 |
+| 19.4.1 | graded-electrode-inventory-repair／梯度电极锂库存 | pybamm-team/PyBaMM#5810 | 空间加权积分与电极库存观测；独立积分，区分观测和演化误差 | 已完成；[验收记录](../19-solver-repair/19.4-observations/graded-electrode-inventory-repair/author/README.md) |
 | 19.4.2 | diffusion-element-heat-repair／扩散元件电压与耗散 | pybamm-team/PyBaMM#5859 | 扩散过电势和不可逆热；独立能量账本与电路极限 | 已完成；[验收记录](../19-solver-repair/19.4-observations/diffusion-element-heat-repair/author/README.md) |
 | 19.4.3 | hysteresis-heat-repair／开路电势滞回热源 | pybamm-team/PyBaMM#3867 | 平衡与分支OCP的能量差；明确参数语义及独立循环功核对 | 待实施 |
 | 19.4.4 | granular-pair-stress-repair／颗粒成对力应力统计 | lammps/lammps#4219 | 成对贡献与累计力的区别；独立virial及小颗粒系统 | 待实施 |

@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.20)
+project(inventory_source_repair NONE)
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+set(SOURCE_FILE "${CMAKE_BINARY_DIR}/source/packages/pybamm/src/pybamm/expression_tree/averages.py")
+add_custom_target(repair_sources ALL COMMAND "${Python3_EXECUTABLE}" -m py_compile "${SOURCE_FILE}" VERBATIM)

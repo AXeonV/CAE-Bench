@@ -1,0 +1,1061 @@
+{
+  "mode": "reference",
+  "image_id": "sha256:4180c13b5c75a7c5900fff51bb492979a283b54b1f807806f85d68cc8f8931b5",
+  "cases": [
+    {
+      "case": "01-correlated-public",
+      "elapsed_seconds": 3.984000000054948,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\pybamm-5813\\averages.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/averages.py,readonly",
+        "-i",
+        "sha256:4180c13b5c75a7c5900fff51bb492979a283b54b1f807806f85d68cc8f8931b5",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 3.508853766958612e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 2.003936724134559e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.233877369199505e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 6.938893903907228e-18,
+          "max_tolerance_fraction": 2.9082891193426486e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 1.6442568165719215e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 1.9667709151544624e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 2.7755575615628914e-17,
+          "max_tolerance_fraction": 2.3642871224895163e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 2.1341351365589328e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "833f0e4ccf54a3e0b6b797bd6a97bb312339b088ace13023a7047ca7708f413b",
+      "output_sha256": "8a392897036fcce2e0b46890029f2e77b4549f5183e43dddd76205c5013786a7"
+    },
+    {
+      "case": "02-constant-public",
+      "elapsed_seconds": 2.875,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\pybamm-5813\\averages.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/averages.py,readonly",
+        "-i",
+        "sha256:4180c13b5c75a7c5900fff51bb492979a283b54b1f807806f85d68cc8f8931b5",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 1.2489751259380725e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 2.7755575615628914e-17,
+          "max_tolerance_fraction": 1.8306020071643756e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 4.318487643927411e-08,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 1.0913936421275139e-11,
+          "max_tolerance_fraction": 4.26518712386158e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 2.7755575615628914e-16,
+          "max_tolerance_fraction": 5.6159773689990814e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 4.794014075393732e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.477958425708476e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "8e0dff2fdf540da1600eb622772826d5ee6e2aff60251887cf91c637f58efb55",
+      "output_sha256": "9f32a4e2194a4ffbf76a6fcf00bc09a96a51ddfc57e73e86de72abd218ed6b7c"
+    },
+    {
+      "case": "03-anticorrelated",
+      "elapsed_seconds": 2.672000000020489,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\pybamm-5813\\averages.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/averages.py,readonly",
+        "-i",
+        "sha256:4180c13b5c75a7c5900fff51bb492979a283b54b1f807806f85d68cc8f8931b5",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 3.703380888458286e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 3.064507541359597e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 4.1336794948968104e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 1.9908509129615833e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.225210099993808e-08,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 1.8189894035458565e-12,
+          "max_tolerance_fraction": 2.0616464332799996e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 1.6653345369377348e-16,
+          "max_tolerance_fraction": 3.509237496386677e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.5254822024537856e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 1.787198030494736e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "a7eb2dd0d90cff3f770e999ab8068d5135462b0d699133f9307fe881badeefc1",
+      "output_sha256": "21fcd0270a5ec777aa98061ecc32df6187bbf9f131890971dfdd6e71c0ab56f5"
+    },
+    {
+      "case": "04-opposite-electrodes",
+      "elapsed_seconds": 3.5,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\pybamm-5813\\averages.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/averages.py,readonly",
+        "-i",
+        "sha256:4180c13b5c75a7c5900fff51bb492979a283b54b1f807806f85d68cc8f8931b5",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.852434992331775e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 3.058440952070074e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.518885889352834e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 2.7755575615628914e-17,
+          "max_tolerance_fraction": 4.0922704283481414e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.8274958231326653e-08,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 1.9864375035350588e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 1.9039873868364072e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 3.37410751896589e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.6018532200829344e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "10b47308e844aab78f972ffe3eff00384ac94f1d7510a738bc239b4a5ebddbb7",
+      "output_sha256": "f80522cbba5cfe62266170a6ebd7059e5fec336d29ea073cb027a9dc37928ae2"
+    },
+    {
+      "case": "05-uniform-concentration",
+      "elapsed_seconds": 3.562000000034459,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\pybamm-5813\\averages.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/averages.py,readonly",
+        "-i",
+        "sha256:4180c13b5c75a7c5900fff51bb492979a283b54b1f807806f85d68cc8f8931b5",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.7336603695771952e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 1.4551915228366852e-11,
+          "max_tolerance_fraction": 4.277578659041378e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 3.643076360295711e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 3.4507985549653674e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 2.278915193802249e-08,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 2.278915193802249e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 1.9622995719876902e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 2.7755575615628914e-17,
+          "max_tolerance_fraction": 2.7087629294360286e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.110297234545065e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "dc636a04e2fa57bdd42e41893e359cb0564c96b67ee8cb0cb4c0bcadbe82a23d",
+      "output_sha256": "93c620c1f535a9666aae4a00b2c93fde4757104c013431590fa29886f6067727"
+    },
+    {
+      "case": "06-radial-only",
+      "elapsed_seconds": 3.0,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\pybamm-5813\\averages.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/averages.py,readonly",
+        "-i",
+        "sha256:4180c13b5c75a7c5900fff51bb492979a283b54b1f807806f85d68cc8f8931b5",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 1.932469656707687e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 1.984005109727425e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 2.7755575615628914e-17,
+          "max_tolerance_fraction": 1.2642744632283093e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.4936004266411632e-08,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.4936004266411632e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 1.9847288676812552e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 3.071557897669194e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 2.9476327242321092e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "e4e64aed9ec746a66691e08a956bfa00faac24b42e69576959129d7db83bc6cd",
+      "output_sha256": "dffaae39c8d15c9518a45cda987e31ebee8ce9e13b3dadd8cf520c6230ae5c45"
+    },
+    {
+      "case": "07-zero",
+      "elapsed_seconds": 2.9540000000270084,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\pybamm-5813\\averages.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/averages.py,readonly",
+        "-i",
+        "sha256:4180c13b5c75a7c5900fff51bb492979a283b54b1f807806f85d68cc8f8931b5",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        }
+      },
+      "input_sha256": "d41fcc88e39bf2b2cb6b119af9fa940b1547d7272f55be0652a08535dee11b3e",
+      "output_sha256": "9de3e7d6b76e24762ba5155efde6f4e80e90b0b21013e05a5ec60b9637a6b4e1"
+    },
+    {
+      "case": "08-saturated",
+      "elapsed_seconds": 2.765999999945052,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\pybamm-5813\\averages.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/averages.py,readonly",
+        "-i",
+        "sha256:4180c13b5c75a7c5900fff51bb492979a283b54b1f807806f85d68cc8f8931b5",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 1.4551915228366852e-11,
+          "max_tolerance_fraction": 2.7243368697651162e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 2.1827872842550278e-11,
+          "max_tolerance_fraction": 4.276095892781965e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 5.551115123125783e-16,
+          "max_tolerance_fraction": 5.49615358725325e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 3.7095154041130165e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.851729071695667e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 2.1984614349013e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 3.2396963386236814e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 3.9526585550750646e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "4a12194547760cdb635d220fc69d15aa8244520d9462153a7c24a544c0d06142",
+      "output_sha256": "71de9e3e325b8f60f7a573c7cb4b48ca1daeb2fc97e6c03ff02f7812779ba484"
+    },
+    {
+      "case": "09-random",
+      "elapsed_seconds": 2.702999999979511,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\pybamm-5813\\averages.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/averages.py,readonly",
+        "-i",
+        "sha256:4180c13b5c75a7c5900fff51bb492979a283b54b1f807806f85d68cc8f8931b5",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.6482458125501823e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 1.0913936421275139e-11,
+          "max_tolerance_fraction": 4.272180956890211e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 4.4851688296885706e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 2.0281182068408885e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.9660853709242047e-08,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 4.0140191741260316e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 4.174496455661022e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 2.1586342010804175e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 3.903762774228733e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "04133f899341c3eab0380997188bc479034ea162b7ce74baa5275fc944f2ea00",
+      "output_sha256": "58bbb8b24ad62a50ad37b7d8fbe7824282f1bf3cf62aef95e2176aaab3dcd2c4"
+    },
+    {
+      "case": "10-coarse",
+      "elapsed_seconds": 2.2820000000065193,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\pybamm-5813\\averages.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/averages.py,readonly",
+        "-i",
+        "sha256:4180c13b5c75a7c5900fff51bb492979a283b54b1f807806f85d68cc8f8931b5",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.7817816776398402e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.782419450934307e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 1.8688177656317168e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 0.0,
+          "max_tolerance_fraction": 0.0,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 3.371064946192787e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 1.6653345369377348e-16,
+          "max_tolerance_fraction": 4.123158283276346e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 2.8184217093035858e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.0723433778360795e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "dcbc5d8e2447fd8e60a33ed775bd43dbc4f1a5caa2678a2455882f31deea8bce",
+      "output_sha256": "316c79782304f062882b607e3620158c72a0dfc1272211c1bd51f8b8120566d6"
+    },
+    {
+      "case": "11-fine",
+      "elapsed_seconds": 2.562999999965541,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\pybamm-5813\\averages.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/averages.py,readonly",
+        "-i",
+        "sha256:4180c13b5c75a7c5900fff51bb492979a283b54b1f807806f85d68cc8f8931b5",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 1.0913936421275139e-11,
+          "max_tolerance_fraction": 4.436822228541532e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 3.44518548368018e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.1697476987312673e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 2.7755575615628914e-17,
+          "max_tolerance_fraction": 2.3774629760661474e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 1.0913936421275139e-11,
+          "max_tolerance_fraction": 4.251016840474638e-08,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 1.4551915228366852e-11,
+          "max_tolerance_fraction": 7.034084230536183e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 4.440892098500626e-16,
+          "max_tolerance_fraction": 8.627812239061948e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 3.203417134386873e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 2.0756379958846636e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "0763fefe788352fa7230cfc5b1bd40d19a46b53c93527127711819d6b84d571b",
+      "output_sha256": "772b462184c0ee2da25b48e7617c2cad6322a086308b1f775fb0c7aba7043e27"
+    },
+    {
+      "case": "12-mixed-resolution",
+      "elapsed_seconds": 2.234000000054948,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\pybamm-5813\\averages.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/averages.py,readonly",
+        "-i",
+        "sha256:4180c13b5c75a7c5900fff51bb492979a283b54b1f807806f85d68cc8f8931b5",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 2.515488770851769e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 1.633623118221498e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.192840233506063e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 5.551115123125783e-17,
+          "max_tolerance_fraction": 2.13389127607943e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 2.2000345095664986e-08,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 4.606200055790547e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 4.412763485560087e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 1.6653345369377348e-16,
+          "max_tolerance_fraction": 3.583453274684834e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 2.778103807748277e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "6334b3d7d2c600157b1cc2657eea8142f4ced7c998b784dba8df5d180a1029bb",
+      "output_sha256": "6713c70f9792a3f07e463cc95b58bda5954b7b463ce0e65058e5c4d6dacb515c"
+    },
+    {
+      "case": "13-scales",
+      "elapsed_seconds": 2.5160000000614673,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\pybamm-5813\\averages.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/averages.py,readonly",
+        "-i",
+        "sha256:4180c13b5c75a7c5900fff51bb492979a283b54b1f807806f85d68cc8f8931b5",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 3.637978807091713e-12,
+          "max_tolerance_fraction": 2.8284739503630015e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 5.4569682106375694e-12,
+          "max_tolerance_fraction": 3.434242431529314e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 2.2143035716932273e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 3.552713678800501e-15,
+          "max_tolerance_fraction": 5.488770057806279e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 7.275957614183426e-12,
+          "max_tolerance_fraction": 3.341180197696294e-08,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 1.0913936421275139e-11,
+          "max_tolerance_fraction": 3.9120558398823685e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 4.149158885525715e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 2.2737367544323206e-13,
+          "max_tolerance_fraction": 4.5550301017305374e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 4.547473508864641e-13,
+          "max_tolerance_fraction": 1.9682194498439647e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "0e98518dd1cde25d14fa03700bc1e2da60ff44c24057c60775a20faed8fbaad4",
+      "output_sha256": "3e4abb35d9b38888b0f489fa147ff9f4c5b8a90f9d479c07f2b59d970b5b3884"
+    },
+    {
+      "case": "14-random-geometry",
+      "elapsed_seconds": 2.3429999999934807,
+      "score": 1,
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\qbank\\19-solver-repair\\19.4-observations\\graded-electrode-inventory-repair\\public\\driver.py,target=/opt/repair-driver/driver.py,readonly",
+        "--mount",
+        "type=bind,source=D:\\Code\\CAE-Bench-OJ\\work\\repair-22\\pybamm-5813\\averages.py,target=/opt/pybamm-build/source/packages/pybamm/src/pybamm/expression_tree/averages.py,readonly",
+        "-i",
+        "sha256:4180c13b5c75a7c5900fff51bb492979a283b54b1f807806f85d68cc8f8931b5",
+        "python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "checks": {
+        "radial_n": {
+          "max_absolute_error": 1.4551915228366852e-11,
+          "max_tolerance_fraction": 3.861549638715639e-08,
+          "passed": true
+        },
+        "volume_n": {
+          "max_absolute_error": 1.4551915228366852e-11,
+          "max_tolerance_fraction": 6.134327456177747e-08,
+          "passed": true
+        },
+        "stoichiometry_n": {
+          "max_absolute_error": 3.3306690738754696e-16,
+          "max_tolerance_fraction": 6.408884285904117e-08,
+          "passed": true
+        },
+        "inventory_n": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 3.167797562099741e-08,
+          "passed": true
+        },
+        "radial_p": {
+          "max_absolute_error": 1.4551915228366852e-11,
+          "max_tolerance_fraction": 4.321496199361674e-08,
+          "passed": true
+        },
+        "volume_p": {
+          "max_absolute_error": 1.0913936421275139e-11,
+          "max_tolerance_fraction": 4.263186712862665e-08,
+          "passed": true
+        },
+        "stoichiometry_p": {
+          "max_absolute_error": 2.220446049250313e-16,
+          "max_tolerance_fraction": 4.263019103548209e-08,
+          "passed": true
+        },
+        "inventory_p": {
+          "max_absolute_error": 1.6653345369377348e-16,
+          "max_tolerance_fraction": 4.2299751218402256e-08,
+          "passed": true
+        },
+        "total_inventory": {
+          "max_absolute_error": 1.1102230246251565e-16,
+          "max_tolerance_fraction": 3.2400003172091767e-08,
+          "passed": true
+        }
+      },
+      "input_sha256": "782c6248a83bc9e7bb14290fb3fc523aab408f4e38b25e5075e67d9fde5014cc",
+      "output_sha256": "a41984fbc2d200e35d744995161f0fbf3e9ef0e2992209ba2312a94e6dd649a6"
+    }
+  ],
+  "reference_producer": "actual pinned PyBaMM submodels, not author independent algebra",
+  "driver_sha256": "865d72b388df241508d05439477e780de708184c103fe39c774a271d1dd0c271",
+  "source_overlays_sha256": {
+    "averages.py": "574270cb35b01d45a49792e7290f8ba9ef73a50c6a54c28303fcafa7a0bb33ad"
+  }
+}

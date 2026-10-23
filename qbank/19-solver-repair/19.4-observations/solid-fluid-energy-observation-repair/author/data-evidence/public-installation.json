@@ -1,0 +1,28 @@
+{
+  "fixed_verifier_image_id": "sha256:51a8c7b6b13d168e81f1e4c2bc8a95c336cdba07bd501d7aca68d0eadb9175e8",
+  "command": [
+    "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "--user",
+    "1000:1000",
+    "--workdir",
+    "/tmp",
+    "--entrypoint",
+    "/usr/local/bin/python",
+    "caeoj-moose22074-verifier:v1",
+    "-c",
+    "import json,caeoj,caeoj_bundle,numpy,h5py,os;print(json.dumps(dict(core=caeoj.__file__,bundle=caeoj_bundle.__file__,numpy=numpy.__version__,h5py=h5py.__version__,uid=os.geteuid(),gid=os.getegid())))"
+  ],
+  "returncode": 0,
+  "installed": {
+    "core": "/opt/task-python/lib64/python3.11/site-packages/caeoj/__init__.py",
+    "bundle": "/opt/task-python/lib64/python3.11/site-packages/caeoj_bundle/__init__.py",
+    "numpy": "2.4.6",
+    "h5py": "3.16.0",
+    "uid": 1000,
+    "gid": 1000
+  }
+}

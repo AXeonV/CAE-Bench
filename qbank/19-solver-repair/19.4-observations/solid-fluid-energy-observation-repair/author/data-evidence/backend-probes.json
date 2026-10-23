@@ -1,0 +1,346 @@
+{
+  "image_id": "sha256:51a8c7b6b13d168e81f1e4c2bc8a95c336cdba07bd501d7aca68d0eadb9175e8",
+  "resources": {
+    "cpus": 4,
+    "memory_bytes": 4294967296,
+    "network": "none"
+  },
+  "probe_script_sha256": "3262fa6fcbf4492febebf6085ed4977f0c604eba62c428309d22336757d41200",
+  "modes": [
+    {
+      "mode": "valid",
+      "passed": true,
+      "library_before_sha256": "96ad1b12ee5b4c2e5f97f8fba7bdb03c6f3f8397121340355927dbf28f3f7026",
+      "library_after_sha256": "356af2d12f7e1bcd72ba1f38df46e0d84404d3d41f1feb4c1ba78a6b0ab95f01",
+      "forced_rebuild": {
+        "command": [
+          "setpriv",
+          "--reuid=1000",
+          "--regid=1000",
+          "--clear-groups",
+          "--no-new-privs",
+          "cmake",
+          "--build",
+          "/opt/moose-source-2022",
+          "--target",
+          "energy_observation_repair",
+          "--parallel",
+          "4"
+        ],
+        "exit_code": 0,
+        "status": "built",
+        "elapsed_seconds": 17.369867627996427,
+        "sources_sha256": {
+          "INSElementIntegralEnergyAdvection.C": "eaa829c1f6d38e962036c9c698f7e738c2871f23e739ed53ef1a6d17cb007825",
+          "INSElementIntegralEnergyAdvection.h": "15dc968c33f85c73c20e0cfdb2ed3e3d310c1198bb2489853a668c534c92a59a"
+        },
+        "removed_build_artifacts": [
+          "/opt/moose-source-2022/modules/navier_stokes/build/unity_src/postprocessors_Unity.x86_64-pc-linux-gnu.opt.lo",
+          "/opt/moose-source-2022/modules/navier_stokes/build/unity_src/.libs/postprocessors_Unity.x86_64-pc-linux-gnu.opt.o",
+          "/opt/moose-source-2022/modules/navier_stokes/lib/.libs/libnavier_stokes-opt.so.0.0.0",
+          "/opt/moose-source-2022/modules/navier_stokes/navier_stokes-opt"
+        ],
+        "built_artifacts_sha256": {
+          "/opt/moose-source-2022/modules/navier_stokes/build/unity_src/postprocessors_Unity.x86_64-pc-linux-gnu.opt.lo": "cb4a2de7019cc75ce287e2d82e3ae7d4dd166bbbc12595baa390571a5a822d91",
+          "/opt/moose-source-2022/modules/navier_stokes/build/unity_src/.libs/postprocessors_Unity.x86_64-pc-linux-gnu.opt.o": "a91a572a3c7b4929e8d09d21febdfe8969b0230013963db0abf7641dd7483cf4",
+          "/opt/moose-source-2022/modules/navier_stokes/lib/.libs/libnavier_stokes-opt.so.0.0.0": "356af2d12f7e1bcd72ba1f38df46e0d84404d3d41f1feb4c1ba78a6b0ab95f01",
+          "/opt/moose-source-2022/modules/navier_stokes/navier_stokes-opt": "9dd746dfac5d7f3beb6ac398cf62130de2d03ff0a9043b3a40f3d8fcf61b99fa"
+        }
+      },
+      "access": {
+        "uid": 1000,
+        "gid": 1000,
+        "groups": [],
+        "access": {
+          "/tests/cases": {
+            "exists": false,
+            "read": false,
+            "write": false
+          },
+          "/tests/reference": {
+            "exists": false,
+            "read": false,
+            "write": false
+          },
+          "/logs/verifier": {
+            "exists": true,
+            "read": false,
+            "write": false
+          },
+          "/opt/moose-source-2022": {
+            "exists": true,
+            "read": true,
+            "write": false
+          },
+          "/opt/moose-source-2022/modules/navier_stokes/navier_stokes-opt": {
+            "exists": true,
+            "read": true,
+            "write": false
+          },
+          "/opt/moose-source-2022/modules/navier_stokes/lib/.libs/libnavier_stokes-opt.so.0.0.0": {
+            "exists": true,
+            "read": true,
+            "write": false
+          },
+          "/opt/moose-source-2022/modules/navier_stokes/src/postprocessors/INSElementIntegralEnergyAdvection.C": {
+            "exists": true,
+            "read": true,
+            "write": false
+          },
+          "/opt/moose-source-2022/modules/navier_stokes/include/postprocessors/INSElementIntegralEnergyAdvection.h": {
+            "exists": true,
+            "read": true,
+            "write": false
+          },
+          "/opt/moose-source-2022/framework/include/materials/Material.h": {
+            "exists": true,
+            "read": true,
+            "write": false
+          },
+          "/opt/build-control": {
+            "exists": true,
+            "read": true,
+            "write": false
+          },
+          "/opt/build-control/CMakeLists.txt": {
+            "exists": true,
+            "read": true,
+            "write": false
+          },
+          "/environment": {
+            "exists": true,
+            "read": true,
+            "write": false
+          },
+          "/opt/task-python": {
+            "exists": true,
+            "read": true,
+            "write": false
+          },
+          "/opt/libmesh2022/lib": {
+            "exists": true,
+            "read": true,
+            "write": false
+          },
+          "/opt/petsc2022/lib": {
+            "exists": true,
+            "read": true,
+            "write": false
+          },
+          "/opt/openmpi/bin/mpicxx": {
+            "exists": true,
+            "read": true,
+            "write": false
+          },
+          "/app/qbank/19-solver-repair/19.4-observations/solid-fluid-energy-observation-repair/public/run_case.py": {
+            "exists": true,
+            "read": true,
+            "write": false
+          }
+        },
+        "network": "denied"
+      },
+      "actual_sample_score": 1,
+      "public_cli": [
+        {
+          "sample": "01",
+          "command": [
+            "/usr/local/bin/python",
+            "-m",
+            "caeoj",
+            "validate-input",
+            "/app/qbank/19-solver-repair/19.4-observations/solid-fluid-energy-observation-repair/samples/01/input/problem.json"
+          ],
+          "returncode": 0,
+          "stdout": "{\n  \"valid\": true,\n  \"errors\": [],\n  \"scope\": \"task-contract\"\n}\n",
+          "stderr": ""
+        },
+        {
+          "sample": "01",
+          "command": [
+            "/usr/local/bin/python",
+            "/app/qbank/19-solver-repair/19.4-observations/solid-fluid-energy-observation-repair/public/run_case.py",
+            "--input",
+            "/app/qbank/19-solver-repair/19.4-observations/solid-fluid-energy-observation-repair/samples/01/input/problem.json",
+            "--output",
+            "/tmp/public-sample-01.h5"
+          ],
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "sample": "01",
+          "command": [
+            "/usr/local/bin/python",
+            "-m",
+            "caeoj",
+            "validate-output",
+            "--input",
+            "/app/qbank/19-solver-repair/19.4-observations/solid-fluid-energy-observation-repair/samples/01/input/problem.json",
+            "--output",
+            "/tmp/public-sample-01.h5"
+          ],
+          "returncode": 0,
+          "stdout": "{\n  \"valid\": true,\n  \"errors\": [],\n  \"scope\": \"task-contract\"\n}\n",
+          "stderr": ""
+        },
+        {
+          "sample": "01",
+          "command": [
+            "/usr/local/bin/python",
+            "-m",
+            "caeoj",
+            "grade",
+            "--input",
+            "/app/qbank/19-solver-repair/19.4-observations/solid-fluid-energy-observation-repair/samples/01/input/problem.json",
+            "--output",
+            "/tmp/public-sample-01.h5",
+            "--grading",
+            "/app/qbank/19-solver-repair/19.4-observations/solid-fluid-energy-observation-repair/samples/01/reference/grading.json"
+          ],
+          "returncode": 0,
+          "stdout": "{\n  \"status\": \"accepted\",\n  \"score\": 1,\n  \"checks\": {\n    \"outputs\": {\n      \"evaluator\": \"direct_outputs\",\n      \"passed\": true,\n      \"fields\": {\n        \"energy_solid\": {\n          \"condition\": {\n            \"metric\": \"pointwise\",\n            \"time\": \"per_time\",\n            \"components\": \"per_component\",\n            \"atol\": 1e-05,\n            \"rtol\": 1e-09\n          },\n          \"passed\": true,\n          \"groups\": [\n            {\n              \"time_index\": 0,\n              \"component_index\": 0,\n              \"worst_location\": {\n                \"time_index\": 0,\n                \"time\": 0.0,\n                \"id\": 1,\n                \"component_index\": 0\n              },\n              \"value\": 0.0,\n              \"passed\": true,\n              \"failed_values\": 0,\n              \"total_values\": 1\n            }\n          ],\n          \"observation\": {\n            \"quantity\": \"energy_solid\",\n            \"unit\": \"J\",\n            \"components\": [\n              \"value\"\n            ],\n            \"location\": \"experiments\",\n            \"time_axis\": \"frames\"\n          }\n        },\n        \"energy_fluid\": {\n          \"condition\": {\n            \"metric\": \"pointwise\",\n            \"time\": \"per_time\",\n            \"components\": \"per_component\",\n            \"atol\": 1e-05,\n            \"rtol\": 1e-09\n          },\n          \"passed\": true,\n          \"groups\": [\n            {\n              \"time_index\": 0,\n              \"component_index\": 0,\n              \"worst_location\": {\n                \"time_index\": 0,\n                \"time\": 0.0,\n                \"id\": 1,\n                \"component_index\": 0\n              },\n              \"value\": 0.0,\n              \"passed\": true,\n              \"failed_values\": 0,\n              \"total_values\": 1\n            }\n          ],\n          \"observation\": {\n            \"quantity\": \"energy_fluid\",\n            \"unit\": \"J\",\n            \"components\": [\n              \"value\"\n            ],\n            \"location\": \"experiments\",\n            \"time_axis\": \"frames\"\n          }\n        },\n        \"advection_power\": {\n          \"condition\": {\n            \"metric\": \"pointwise\",\n            \"time\": \"per_time\",\n            \"components\": \"per_component\",\n            \"atol\": 1e-05,\n            \"rtol\": 1e-09\n          },\n          \"passed\": true,\n          \"groups\": [\n            {\n              \"time_index\": 0,\n              \"component_index\": 0,\n              \"worst_location\": {\n                \"time_index\": 0,\n                \"time\": 0.0,\n                \"id\": 1,\n                \"component_index\": 0\n              },\n              \"value\": 0.0,\n              \"passed\": true,\n              \"failed_values\": 0,\n              \"total_values\": 1\n            }\n          ],\n          \"observation\": {\n            \"quantity\": \"advection_power\",\n            \"unit\": \"W\",\n            \"components\": [\n              \"value\"\n            ],\n            \"location\": \"experiments\",\n            \"time_axis\": \"frames\"\n          }\n        },\n        \"source_power\": {\n          \"condition\": {\n            \"metric\": \"pointwise\",\n            \"time\": \"per_time\",\n            \"components\": \"per_component\",\n            \"atol\": 1e-05,\n            \"rtol\": 1e-09\n          },\n          \"passed\": true,\n          \"groups\": [\n            {\n              \"time_index\": 0,\n              \"component_index\": 0,\n              \"worst_location\": {\n                \"time_index\": 0,\n                \"time\": 0.0,\n                \"id\": 1,\n                \"component_index\": 0\n              },\n              \"value\": 0.0,\n              \"passed\": true,\n              \"failed_values\": 0,\n              \"total_values\": 1\n            }\n          ],\n          \"observation\": {\n            \"quantity\": \"source_power\",\n            \"unit\": \"W\",\n            \"components\": [\n              \"value\"\n            ],\n            \"location\": \"experiments\",\n            \"time_axis\": \"frames\"\n          }\n        },\n        \"robin_power\": {\n          \"condition\": {\n            \"metric\": \"pointwise\",\n            \"time\": \"per_time\",\n            \"components\": \"per_component\",\n            \"atol\": 1e-05,\n            \"rtol\": 1e-09\n          },\n          \"passed\": true,\n          \"groups\": [\n            {\n              \"time_index\": 0,\n              \"component_index\": 0,\n              \"worst_location\": {\n                \"time_index\": 0,\n                \"time\": 0.0,\n                \"id\": 1,\n                \"component_index\": 0\n              },\n              \"value\": 0.0,\n              \"passed\": true,\n              \"failed_values\": 0,\n              \"total_values\": 1\n            }\n          ],\n          \"observation\": {\n            \"quantity\": \"robin_power\",\n            \"unit\": \"W\",\n            \"components\": [\n              \"value\"\n            ],\n            \"location\": \"experiments\",\n            \"time_axis\": \"frames\"\n          }\n        }\n      }\n    }\n  },\n  \"grading_sha256\": \"1068d9d77260f22e85812c1fe58b0b3d04c6e1286d2a4a8198bc8a045cea3175\",\n  \"assets\": {\n    \"grading.json\": \"529a1b15b65fe7014f8f42e5048353480e851ad25bf17eab389f0c3aaf256fbc\",\n    \"reference.h5\": \"1a19fb9ca4a65966f6956247f2f04317462232e6ae684bd352f4116d63fdb250\"\n  },\n  \"evaluator_code_sha256\": {\n    \"direct_outputs\": \"441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e\",\n    \"core/__init__.py\": \"93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b\",\n    \"core/__main__.py\": \"482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea\",\n    \"core/cli.py\": \"5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40\",\n    \"core/grading.schema.json\": \"d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72\",\n    \"core/grading_metrics.py\": \"9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529\",\n    \"core/grading_policy.py\": \"f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9\",\n    \"core/mesh_geometry.py\": \"cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c\",\n    \"core/problem.schema.json\": \"0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6\",\n    \"core/public-runtime.json\": \"f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7\",\n    \"core/runtime.py\": \"f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329\",\n    \"core/sdk.py\": \"3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba\",\n    \"core/storage.py\": \"7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5\",\n    \"core/validation.py\": \"60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa\",\n    \"core/case_grading.py\": \"441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e\",\n    \"core/case-grading.schema.json\": \"68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558\",\n    \"extension/caeoj_task_ext/__init__.py\": \"1f0e4dec5eb56f9b67bcea3fbb578f1a6da2b4b49d3ccc2f329fbbea249d3ee6\",\n    \"extension/caeoj_task_ext/energy_observation.py\": \"131e317dc692428f3f549026c613625ed9dc5f3f20c3568fcc9b2448113bac95\"\n  },\n  \"input_assets\": {\n    \"problem.json\": \"306f4e83c059a4d3c16ea392915b24a134dd39687ed49fe5f9846ac27721efce\",\n    \"input.h5\": \"e324834bb33c7bb57aa9e3d24708a333b16cc9986e694345ec4ee6b1c230faf1\"\n  },\n  \"runtime_binding_sha256\": \"21119bc5103ab5a1e3238a670a41b5b1ab004f094ccd1db312a5b72fd2c8de60\",\n  \"dependencies\": {\n    \"numpy\": \"2.4.6\",\n    \"h5py\": \"3.16.0\",\n    \"gmsh\": \"4.15.2\",\n    \"jsonschema\": \"4.26.0\"\n  },\n  \"python\": \"3.11.11\",\n  \"evaluation_sha256\": \"fa3ebc5cda82ffa1d9c2cd951dd5882fd94bf7f9dacf4ca75b0a7b297d44832f\"\n}\n",
+          "stderr": ""
+        },
+        {
+          "sample": "02",
+          "command": [
+            "/usr/local/bin/python",
+            "-m",
+            "caeoj",
+            "validate-input",
+            "/app/qbank/19-solver-repair/19.4-observations/solid-fluid-energy-observation-repair/samples/02/input/problem.json"
+          ],
+          "returncode": 0,
+          "stdout": "{\n  \"valid\": true,\n  \"errors\": [],\n  \"scope\": \"task-contract\"\n}\n",
+          "stderr": ""
+        },
+        {
+          "sample": "02",
+          "command": [
+            "/usr/local/bin/python",
+            "/app/qbank/19-solver-repair/19.4-observations/solid-fluid-energy-observation-repair/public/run_case.py",
+            "--input",
+            "/app/qbank/19-solver-repair/19.4-observations/solid-fluid-energy-observation-repair/samples/02/input/problem.json",
+            "--output",
+            "/tmp/public-sample-02.h5"
+          ],
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "sample": "02",
+          "command": [
+            "/usr/local/bin/python",
+            "-m",
+            "caeoj",
+            "validate-output",
+            "--input",
+            "/app/qbank/19-solver-repair/19.4-observations/solid-fluid-energy-observation-repair/samples/02/input/problem.json",
+            "--output",
+            "/tmp/public-sample-02.h5"
+          ],
+          "returncode": 0,
+          "stdout": "{\n  \"valid\": true,\n  \"errors\": [],\n  \"scope\": \"task-contract\"\n}\n",
+          "stderr": ""
+        },
+        {
+          "sample": "02",
+          "command": [
+            "/usr/local/bin/python",
+            "-m",
+            "caeoj",
+            "grade",
+            "--input",
+            "/app/qbank/19-solver-repair/19.4-observations/solid-fluid-energy-observation-repair/samples/02/input/problem.json",
+            "--output",
+            "/tmp/public-sample-02.h5",
+            "--grading",
+            "/app/qbank/19-solver-repair/19.4-observations/solid-fluid-energy-observation-repair/samples/02/reference/grading.json"
+          ],
+          "returncode": 0,
+          "stdout": "{\n  \"status\": \"accepted\",\n  \"score\": 1,\n  \"checks\": {\n    \"outputs\": {\n      \"evaluator\": \"direct_outputs\",\n      \"passed\": true,\n      \"fields\": {\n        \"energy_solid\": {\n          \"condition\": {\n            \"metric\": \"pointwise\",\n            \"time\": \"per_time\",\n            \"components\": \"per_component\",\n            \"atol\": 1e-05,\n            \"rtol\": 1e-09\n          },\n          \"passed\": true,\n          \"groups\": [\n            {\n              \"time_index\": 0,\n              \"component_index\": 0,\n              \"worst_location\": {\n                \"time_index\": 0,\n                \"time\": 0.0,\n                \"id\": 1,\n                \"component_index\": 0\n              },\n              \"value\": 0.0,\n              \"passed\": true,\n              \"failed_values\": 0,\n              \"total_values\": 1\n            }\n          ],\n          \"observation\": {\n            \"quantity\": \"energy_solid\",\n            \"unit\": \"J\",\n            \"components\": [\n              \"value\"\n            ],\n            \"location\": \"experiments\",\n            \"time_axis\": \"frames\"\n          }\n        },\n        \"energy_fluid\": {\n          \"condition\": {\n            \"metric\": \"pointwise\",\n            \"time\": \"per_time\",\n            \"components\": \"per_component\",\n            \"atol\": 1e-05,\n            \"rtol\": 1e-09\n          },\n          \"passed\": true,\n          \"groups\": [\n            {\n              \"time_index\": 0,\n              \"component_index\": 0,\n              \"worst_location\": {\n                \"time_index\": 0,\n                \"time\": 0.0,\n                \"id\": 1,\n                \"component_index\": 0\n              },\n              \"value\": 0.0,\n              \"passed\": true,\n              \"failed_values\": 0,\n              \"total_values\": 1\n            }\n          ],\n          \"observation\": {\n            \"quantity\": \"energy_fluid\",\n            \"unit\": \"J\",\n            \"components\": [\n              \"value\"\n            ],\n            \"location\": \"experiments\",\n            \"time_axis\": \"frames\"\n          }\n        },\n        \"advection_power\": {\n          \"condition\": {\n            \"metric\": \"pointwise\",\n            \"time\": \"per_time\",\n            \"components\": \"per_component\",\n            \"atol\": 1e-05,\n            \"rtol\": 1e-09\n          },\n          \"passed\": true,\n          \"groups\": [\n            {\n              \"time_index\": 0,\n              \"component_index\": 0,\n              \"worst_location\": {\n                \"time_index\": 0,\n                \"time\": 0.0,\n                \"id\": 1,\n                \"component_index\": 0\n              },\n              \"value\": 0.0,\n              \"passed\": true,\n              \"failed_values\": 0,\n              \"total_values\": 1\n            }\n          ],\n          \"observation\": {\n            \"quantity\": \"advection_power\",\n            \"unit\": \"W\",\n            \"components\": [\n              \"value\"\n            ],\n            \"location\": \"experiments\",\n            \"time_axis\": \"frames\"\n          }\n        },\n        \"source_power\": {\n          \"condition\": {\n            \"metric\": \"pointwise\",\n            \"time\": \"per_time\",\n            \"components\": \"per_component\",\n            \"atol\": 1e-05,\n            \"rtol\": 1e-09\n          },\n          \"passed\": true,\n          \"groups\": [\n            {\n              \"time_index\": 0,\n              \"component_index\": 0,\n              \"worst_location\": {\n                \"time_index\": 0,\n                \"time\": 0.0,\n                \"id\": 1,\n                \"component_index\": 0\n              },\n              \"value\": 0.0,\n              \"passed\": true,\n              \"failed_values\": 0,\n              \"total_values\": 1\n            }\n          ],\n          \"observation\": {\n            \"quantity\": \"source_power\",\n            \"unit\": \"W\",\n            \"components\": [\n              \"value\"\n            ],\n            \"location\": \"experiments\",\n            \"time_axis\": \"frames\"\n          }\n        },\n        \"robin_power\": {\n          \"condition\": {\n            \"metric\": \"pointwise\",\n            \"time\": \"per_time\",\n            \"components\": \"per_component\",\n            \"atol\": 1e-05,\n            \"rtol\": 1e-09\n          },\n          \"passed\": true,\n          \"groups\": [\n            {\n              \"time_index\": 0,\n              \"component_index\": 0,\n              \"worst_location\": {\n                \"time_index\": 0,\n                \"time\": 0.0,\n                \"id\": 1,\n                \"component_index\": 0\n              },\n              \"value\": 0.0,\n              \"passed\": true,\n              \"failed_values\": 0,\n              \"total_values\": 1\n            }\n          ],\n          \"observation\": {\n            \"quantity\": \"robin_power\",\n            \"unit\": \"W\",\n            \"components\": [\n              \"value\"\n            ],\n            \"location\": \"experiments\",\n            \"time_axis\": \"frames\"\n          }\n        }\n      }\n    }\n  },\n  \"grading_sha256\": \"1068d9d77260f22e85812c1fe58b0b3d04c6e1286d2a4a8198bc8a045cea3175\",\n  \"assets\": {\n    \"grading.json\": \"529a1b15b65fe7014f8f42e5048353480e851ad25bf17eab389f0c3aaf256fbc\",\n    \"reference.h5\": \"1bf3090be689e2048f5aaa81ff8b1aa98ecabcc0e8a57804e96519ca5f7b7084\"\n  },\n  \"evaluator_code_sha256\": {\n    \"direct_outputs\": \"441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e\",\n    \"core/__init__.py\": \"93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b\",\n    \"core/__main__.py\": \"482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea\",\n    \"core/cli.py\": \"5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40\",\n    \"core/grading.schema.json\": \"d17c8cca6bf2938a5d7f3cb52942643e9034090c6806dd000cecaa804dd91c72\",\n    \"core/grading_metrics.py\": \"9878c58ac2231f612a5e493ad2282c672ecc498b50ef1bd10dbc7d0bb345f529\",\n    \"core/grading_policy.py\": \"f5785d0555b2119268b94586d04f9073e2ecbc316f30325615e9e0a92b6f50c9\",\n    \"core/mesh_geometry.py\": \"cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c\",\n    \"core/problem.schema.json\": \"0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6\",\n    \"core/public-runtime.json\": \"f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7\",\n    \"core/runtime.py\": \"f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329\",\n    \"core/sdk.py\": \"3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba\",\n    \"core/storage.py\": \"7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5\",\n    \"core/validation.py\": \"60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa\",\n    \"core/case_grading.py\": \"441388ecf1517aadc3577a6b8b3c2d738de2e14542e0928649ecdcab0019855e\",\n    \"core/case-grading.schema.json\": \"68d579a08c5a7b0adde10315053787344d2f37c8350ef5a878eea76311ecc558\",\n    \"extension/caeoj_task_ext/__init__.py\": \"1f0e4dec5eb56f9b67bcea3fbb578f1a6da2b4b49d3ccc2f329fbbea249d3ee6\",\n    \"extension/caeoj_task_ext/energy_observation.py\": \"131e317dc692428f3f549026c613625ed9dc5f3f20c3568fcc9b2448113bac95\"\n  },\n  \"input_assets\": {\n    \"problem.json\": \"f43774dade01610926d7ba091b17364240df0777caff1aea58cabd09acb02dd8\",\n    \"input.h5\": \"b050d3c1f28f239d8cf65c1ad333167b0b2e3f1f0b19d0d62fdaa305a2b03a46\"\n  },\n  \"runtime_binding_sha256\": \"21119bc5103ab5a1e3238a670a41b5b1ab004f094ccd1db312a5b72fd2c8de60\",\n  \"dependencies\": {\n    \"numpy\": \"2.4.6\",\n    \"h5py\": \"3.16.0\",\n    \"gmsh\": \"4.15.2\",\n    \"jsonschema\": \"4.26.0\"\n  },\n  \"python\": \"3.11.11\",\n  \"evaluation_sha256\": \"1460c3578b4e55f375c4c7408509f9236f6408f82d3bab1d66e47437e97a2b99\"\n}\n",
+          "stderr": ""
+        }
+      ],
+      "linked_paths": "\tlinux-vdso.so.1 (0x00007b559b3d0000)\n\tlibnavier_stokes_test-opt.so.0 => /opt/moose-source-2022/modules/navier_stokes/test/lib/libnavier_stokes_test-opt.so.0 (0x00007b559b31f000)\n\tlibnavier_stokes-opt.so.0 => /opt/moose-source-2022/modules/navier_stokes/lib/libnavier_stokes-opt.so.0 (0x00007b559a8a4000)\n\tlibheat_conduction-opt.so.0 => /opt/moose-source-2022/modules/heat_conduction/lib/libheat_conduction-opt.so.0 (0x00007b559a5c4000)\n\tlibrdg-opt.so.0 => /opt/moose-source-2022/modules/rdg/lib/librdg-opt.so.0 (0x00007b559b267000)\n\tlibray_tracing-opt.so.0 => /opt/moose-source-2022/modules/ray_tracing/lib/libray_tracing-opt.so.0 (0x00007b559b056000)\n\tlibfluid_properties-opt.so.0 => /opt/moose-source-2022/modules/fluid_properties/lib/libfluid_properties-opt.so.0 (0x00007b559a3ab000)\n\tlibmoose-opt.so.0 => /opt/moose-source-2022/framework/libmoose-opt.so.0 (0x00007b5598256000)\n\tlibpcre-opt.so.0 => /opt/moose-source-2022/framework/contrib/pcre/libpcre-opt.so.0 (0x00007b559b23c000)\n\tlibhit-opt.so.0 => /opt/moose-source-2022/framework/contrib/hit/libhit-opt.so.0 (0x00007b55981f8000)\n\tlibmesh_opt.so.0 => /opt/libmesh2022/lib/libmesh_opt.so.0 (0x00007b5596c50000)\n\tlibnetcdf.so.13 => /opt/libmesh2022/lib/libnetcdf.so.13 (0x00007b5596b75000)\n\tlibtimpi_opt.so.11 => /opt/libmesh2022/lib/libtimpi_opt.so.11 (0x00007b559b047000)\n\tlibglpk.so.40 => /lib64/libglpk.so.40 (0x00007b5596894000)\n\tlibz.so.1 => /lib64/libz.so.1 (0x00007b559667c000)\n\tlibpetsc.so.3.16 => /opt/petsc2022/lib/libpetsc.so.3.16 (0x00007b5595283000)\n\tlibmpi_usempif08.so.40 => /opt/openmpi/lib/libmpi_usempif08.so.40 (0x00007b5595240000)\n\tlibmpi_usempi_ignore_tkr.so.40 => /opt/openmpi/lib/libmpi_usempi_ignore_tkr.so.40 (0x00007b559b035000)\n\tlibmpi_mpifh.so.40 => /opt/openmpi/lib/libmpi_mpifh.so.40 (0x00007b55951d3000)\n\tlibmpi.so.40 => /opt/openmpi/lib/libmpi.so.40 (0x00007b5594e79000)\n\tlibopen-pal.so.80 => /opt/openmpi/lib/libopen-pal.so.80 (0x00007b5594d6f000)\n\tlibrt.so.1 => /lib64/librt.so.1 (0x00007b5594b67000)\n\tlibpmix.so.2 => /opt/openmpi/lib/libpmix.so.2 (0x00007b5594938000)\n\tlibutil.so.1 => /lib64/libutil.so.1 (0x00007b5594734000)\n\tlibevent_core-2.1.so.7 => /opt/openmpi/lib/libevent_core-2.1.so.7 (0x00007b55946fe000)\n\tlibevent_pthreads-2.1.so.7 => /opt/openmpi/lib/libevent_pthreads-2.1.so.7 (0x00007b55946f9000)\n\tlibhwloc.so.15 => /opt/openmpi/lib/libhwloc.so.15 (0x00007b559469f000)\n\tlibgfortran.so.5 => /lib64/libgfortran.so.5 (0x00007b5594220000)\n\tlibgcc_s.so.1 => /lib64/libgcc_s.so.1 (0x00007b5594008000)\n\tlibpthread.so.0 => /lib64/libpthread.so.0 (0x00007b5593de8000)\n\tlibquadmath.so.0 => /lib64/libquadmath.so.0 (0x00007b5593ba7000)\n\tlibstdc++.so.6 => /lib64/libstdc++.so.6 (0x00007b5593812000)\n\tlibdl.so.2 => /lib64/libdl.so.2 (0x00007b559360e000)\n\tlibtirpc.so.3 => /lib64/libtirpc.so.3 (0x00007b55933da000)\n\tlibm.so.6 => /lib64/libm.so.6 (0x00007b5593058000)\n\tlibgomp.so.1 => /lib64/libgomp.so.1 (0x00007b5592e20000)\n\tlibc.so.6 => /lib64/libc.so.6 (0x00007b5592a4a000)\n\tlibamd.so.2 => /lib64/libamd.so.2 (0x00007b559283d000)\n\tlibcolamd.so.2 => /lib64/libcolamd.so.2 (0x00007b5592635000)\n\tlibgmp.so.10 => /lib64/libgmp.so.10 (0x00007b559239d000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007b559b000000)\n\tlibgssapi_krb5.so.2 => /lib64/libgssapi_krb5.so.2 (0x00007b5592148000)\n\tlibkrb5.so.3 => /lib64/libkrb5.so.3 (0x00007b5591e5b000)\n\tlibk5crypto.so.3 => /lib64/libk5crypto.so.3 (0x00007b5591c44000)\n\tlibcom_err.so.2 => /lib64/libcom_err.so.2 (0x00007b5591a40000)\n\tlibsuitesparseconfig.so.4 => /lib64/libsuitesparseconfig.so.4 (0x00007b559183d000)\n\tlibkrb5support.so.0 => /lib64/libkrb5support.so.0 (0x00007b559162c000)\n\tlibkeyutils.so.1 => /lib64/libkeyutils.so.1 (0x00007b5591428000)\n\tlibcrypto.so.1.1 => /lib64/libcrypto.so.1.1 (0x00007b5590f3b000)\n\tlibresolv.so.2 => /lib64/libresolv.so.2 (0x00007b5590d23000)\n\tlibselinux.so.1 => /lib64/libselinux.so.1 (0x00007b5590af8000)\n\tlibpcre2-8.so.0 => /lib64/libpcre2-8.so.0 (0x00007b5590874000)\n",
+      "actual_observer_symbols": true,
+      "baseline_target_absent": {
+        "/opt/moose-source-2022/modules/navier_stokes/src/postprocessors/INSElementIntegralEnergyAdvection.C": true,
+        "/opt/moose-source-2022/modules/navier_stokes/include/postprocessors/INSElementIntegralEnergyAdvection.h": true
+      },
+      "new_source_discovered_in_unity": true,
+      "unity_object_sha256": "a91a572a3c7b4929e8d09d21febdfe8969b0230013963db0abf7641dd7483cf4",
+      "cpu_max": "400000 100000",
+      "memory_max": "4294967296",
+      "seconds": 76.65599999995902,
+      "raw_directory": "C:\\Users\\Jim Zhou\\.cache\\caeoj-repair22\\moose22074-backend-probes-v1\\valid",
+      "log_copy_returncode": 0
+    },
+    {
+      "mode": "syntax",
+      "passed": true,
+      "classification": "build_error",
+      "seconds": 55.125,
+      "raw_directory": "C:\\Users\\Jim Zhou\\.cache\\caeoj-repair22\\moose22074-backend-probes-v1\\syntax",
+      "log_copy_returncode": 0
+    },
+    {
+      "mode": "compiler",
+      "passed": true,
+      "classification": "infrastructure_error",
+      "reason": "Trusted baseline build failed: build_error",
+      "fault_point": "before baseline preparation",
+      "seconds": 28.828000000095926,
+      "raw_directory": "C:\\Users\\Jim Zhou\\.cache\\caeoj-repair22\\moose22074-backend-probes-v1\\compiler",
+      "log_copy_returncode": 0
+    },
+    {
+      "mode": "baseline-runtime",
+      "passed": true,
+      "classification": "infrastructure_error",
+      "reason": "Trusted baseline runtime probe failed: probe_error",
+      "fault_point": "after genuine baseline compilation",
+      "seconds": 57.28099999995902,
+      "raw_directory": "C:\\Users\\Jim Zhou\\.cache\\caeoj-repair22\\moose22074-backend-probes-v1\\baseline-runtime",
+      "log_copy_returncode": 0
+    },
+    {
+      "mode": "baseline-sdk",
+      "passed": true,
+      "classification": "infrastructure_error",
+      "reason": "Trusted baseline runtime probe failed: probe_error",
+      "fault_point": "before baseline preparation",
+      "seconds": 46.18799999996554,
+      "raw_directory": "C:\\Users\\Jim Zhou\\.cache\\caeoj-repair22\\moose22074-backend-probes-v1\\baseline-sdk",
+      "log_copy_returncode": 0
+    },
+    {
+      "mode": "extra",
+      "passed": true,
+      "classification": "invalid_submission",
+      "seconds": 0.6559999999590218,
+      "raw_directory": "C:\\Users\\Jim Zhou\\.cache\\caeoj-repair22\\moose22074-backend-probes-v1\\extra",
+      "log_copy_returncode": 0
+    },
+    {
+      "mode": "symlink",
+      "passed": true,
+      "classification": "invalid_submission",
+      "seconds": 0.45400000002700835,
+      "raw_directory": "C:\\Users\\Jim Zhou\\.cache\\caeoj-repair22\\moose22074-backend-probes-v1\\symlink",
+      "log_copy_returncode": 0
+    },
+    {
+      "mode": "oversize",
+      "passed": true,
+      "classification": "invalid_submission",
+      "seconds": 0.8440000000409782,
+      "raw_directory": "C:\\Users\\Jim Zhou\\.cache\\caeoj-repair22\\moose22074-backend-probes-v1\\oversize",
+      "log_copy_returncode": 0
+    }
+  ],
+  "complete": true
+}

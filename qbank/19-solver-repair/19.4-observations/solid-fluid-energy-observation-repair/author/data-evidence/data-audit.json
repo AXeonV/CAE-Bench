@@ -1,0 +1,124 @@
+{
+  "cases": [
+    {
+      "case": "01-cartesian-normal-standard-public",
+      "model": "explicit-cartesian-normal-standard-v1",
+      "frames": 1,
+      "score": 1
+    },
+    {
+      "case": "02-cartesian-normal-renamed",
+      "model": "explicit-cartesian-normal-renamed-v1",
+      "frames": 1,
+      "score": 1
+    },
+    {
+      "case": "03-cartesian-ad-standard",
+      "model": "explicit-cartesian-ad-standard-v1",
+      "frames": 1,
+      "score": 1
+    },
+    {
+      "case": "04-cartesian-ad-renamed",
+      "model": "explicit-cartesian-ad-renamed-v1",
+      "frames": 1,
+      "score": 1
+    },
+    {
+      "case": "05-rz-normal-standard",
+      "model": "explicit-rz-normal-standard-v1",
+      "frames": 1,
+      "score": 1
+    },
+    {
+      "case": "06-rz-normal-renamed",
+      "model": "explicit-rz-normal-renamed-v1",
+      "frames": 1,
+      "score": 1
+    },
+    {
+      "case": "07-rz-ad-standard",
+      "model": "explicit-rz-ad-standard-v1",
+      "frames": 1,
+      "score": 1
+    },
+    {
+      "case": "08-rz-ad-renamed",
+      "model": "explicit-rz-ad-renamed-v1",
+      "frames": 1,
+      "score": 1
+    },
+    {
+      "case": "09-rz-steady-q1q1-public",
+      "model": "coupled-rz-steady-v1",
+      "frames": 1,
+      "score": 1
+    },
+    {
+      "case": "10-rz-steady-q2q1",
+      "model": "coupled-rz-steady-v1",
+      "frames": 1,
+      "score": 1
+    },
+    {
+      "case": "11-rz-transient-q1q1",
+      "model": "coupled-rz-transient-v1",
+      "frames": 4,
+      "score": 1
+    },
+    {
+      "case": "12-rz-transient-q2q1",
+      "model": "coupled-rz-transient-v1",
+      "frames": 5,
+      "score": 1
+    }
+  ],
+  "samples": [
+    {
+      "sample": "sample-01",
+      "score": 1
+    },
+    {
+      "sample": "sample-02",
+      "score": 1
+    }
+  ],
+  "negative_variants": [
+    {
+      "name": "rz_swirl_padding",
+      "rejected": true,
+      "error": "ValueError"
+    },
+    {
+      "name": "rz_zeta_temperature",
+      "rejected": true,
+      "error": "ValueError"
+    },
+    {
+      "name": "float_mesh_integer",
+      "rejected": true,
+      "error": "ValueError"
+    },
+    {
+      "name": "zero_density",
+      "rejected": true,
+      "error": "ValueError"
+    },
+    {
+      "name": "wrong_units",
+      "rejected": true,
+      "error": "ValueError"
+    },
+    {
+      "name": "invalid_identity",
+      "rejected": true,
+      "error": "ValueError"
+    },
+    {
+      "name": "nonzero_initial_time",
+      "rejected": true,
+      "error": "ValueError"
+    }
+  ],
+  "complete": true
+}

@@ -1,0 +1,1 @@
+"""Public declaration validation."""

@@ -1,0 +1,386 @@
+[
+  {
+    "variant": "valid-cartesian-bounds",
+    "expected_valid": true,
+    "actual": {
+      "valid": true,
+      "errors": [],
+      "scope": "task-contract"
+    }
+  },
+  {
+    "variant": "valid-transient-foursteps",
+    "expected_valid": true,
+    "actual": {
+      "valid": true,
+      "errors": [],
+      "scope": "task-contract"
+    }
+  },
+  {
+    "variant": "nx-odd",
+    "expected_valid": false,
+    "actual": {
+      "valid": false,
+      "errors": [
+        {
+          "code": "E_ENERGY_OBSERVATION",
+          "path": "$.physics.parameters",
+          "expected": "DATA domain and mesh bounds",
+          "actual": "{'length_x': 1.0, 'length_y': 1.0, 'length_z': 1.0, 'nx': 5, 'ny': 2, 'nz': 2, 'density_solid': 2.0, 'density_fluid': 5.0, 'specific_heat_solid': 3.0, 'specific_heat_fluid': 7.0, 'conductivity_solid': 1.0, 'conductivity_fluid': 1.0, 'viscosity': 1.0, 'heat_transfer_coefficient': 1.0, 'temperature_reference': 300.0, 'inlet_speed': 0.0, 'source_constant': 0.0, 'source_radial': 1.0, 'source_axial': 1.0, 'source_time_slope': 0.0, 'dt': 0.0, 'step_count': 0, 'velocity_order': 2}",
+          "message": "Outside the public solid/fluid observation contract."
+        }
+      ],
+      "scope": "task-contract"
+    }
+  },
+  {
+    "variant": "mesh-float-integer",
+    "expected_valid": false,
+    "actual": {
+      "valid": false,
+      "errors": [
+        {
+          "code": "E_ENERGY_OBSERVATION",
+          "path": "$.physics.parameters.ny",
+          "expected": "integer",
+          "actual": "2.0",
+          "message": "Outside the public solid/fluid observation contract."
+        }
+      ],
+      "scope": "task-contract"
+    }
+  },
+  {
+    "variant": "unit-not-equivalent",
+    "expected_valid": false,
+    "actual": {
+      "valid": false,
+      "errors": [
+        {
+          "code": "E_ENERGY_OBSERVATION",
+          "path": "$.physics.parameters",
+          "expected": "exact DATA scalar parameter units",
+          "actual": "{'length_x': {'value': 1.0, 'unit': 'm'}, 'length_y': {'value': 1.0, 'unit': 'm'}, 'length_z': {'value': 1.0, 'unit': 'm'}, 'nx': {'value': 4, 'unit': '1'}, 'ny': {'value': 2, 'unit': '1'}, 'nz': {'value': 2, 'unit': '1'}, 'density_solid': {'value': 2.0, 'unit': 'kg/m3'}, 'density_fluid': {'value': 5.0, 'unit': 'g/cm3'}, 'specific_heat_solid': {'value': 3.0, 'unit': 'J/(kg*K)'}, 'specific_heat_fluid': {'value': 7.0, 'unit': 'J/(kg*K)'}, 'conductivity_solid': {'value': 1.0, 'unit': 'W/(m*K)'}, 'conductivity_fluid': {'value': 1.0, 'unit': 'W/(m*K)'}, 'viscosity': {'value': 1.0, 'unit': 'Pa*s'}, 'heat_transfer_coefficient': {'value': 1.0, 'unit': 'W/(m2*K)'}, 'temperature_reference': {'value': 300.0, 'unit': 'K'}, 'inlet_speed': {'value': 0.0, 'unit': 'm/s'}, 'source_constant': {'value': 0.0, 'unit': 'W/m3'}, 'source_radial': {'value': 1.0, 'unit': 'W/m3'}, 'source_axial': {'value': 1.0, 'unit': 'W/m3'}, 'source_time_slope': {'value': 0.0, 'unit': '1/s'}, 'dt': {'value': 0.0, 'unit': 's'}, 'step_count': {'value': 0, 'unit': '1'}, 'velocity_order': {'value': 2, 'unit': '1'}}",
+          "message": "Outside the public solid/fluid observation contract."
+        }
+      ],
+      "scope": "task-contract"
+    }
+  },
+  {
+    "variant": "missing-parameter",
+    "expected_valid": false,
+    "actual": {
+      "valid": false,
+      "errors": [
+        {
+          "code": "E_ENERGY_OBSERVATION",
+          "path": "$.physics.parameters",
+          "expected": "exact DATA scalar parameter units",
+          "actual": "{'length_x': {'value': 1.0, 'unit': 'm'}, 'length_y': {'value': 1.0, 'unit': 'm'}, 'length_z': {'value': 1.0, 'unit': 'm'}, 'nx': {'value': 4, 'unit': '1'}, 'ny': {'value': 2, 'unit': '1'}, 'nz': {'value': 2, 'unit': '1'}, 'density_solid': {'value': 2.0, 'unit': 'kg/m3'}, 'density_fluid': {'value': 5.0, 'unit': 'kg/m3'}, 'specific_heat_solid': {'value': 3.0, 'unit': 'J/(kg*K)'}, 'specific_heat_fluid': {'value': 7.0, 'unit': 'J/(kg*K)'}, 'conductivity_solid': {'value': 1.0, 'unit': 'W/(m*K)'}, 'conductivity_fluid': {'value': 1.0, 'unit': 'W/(m*K)'}, 'heat_transfer_coefficient': {'value': 1.0, 'unit': 'W/(m2*K)'}, 'temperature_reference': {'value': 300.0, 'unit': 'K'}, 'inlet_speed': {'value': 0.0, 'unit': 'm/s'}, 'source_constant': {'value': 0.0, 'unit': 'W/m3'}, 'source_radial': {'value': 1.0, 'unit': 'W/m3'}, 'source_axial': {'value': 1.0, 'unit': 'W/m3'}, 'source_time_slope': {'value': 0.0, 'unit': '1/s'}, 'dt': {'value': 0.0, 'unit': 's'}, 'step_count': {'value': 0, 'unit': '1'}, 'velocity_order': {'value': 2, 'unit': '1'}}",
+          "message": "Outside the public solid/fluid observation contract."
+        }
+      ],
+      "scope": "task-contract"
+    }
+  },
+  {
+    "variant": "unknown-parameter",
+    "expected_valid": false,
+    "actual": {
+      "valid": false,
+      "errors": [
+        {
+          "code": "E_ENERGY_OBSERVATION",
+          "path": "$.physics.parameters",
+          "expected": "exact DATA scalar parameter units",
+          "actual": "{'length_x': {'value': 1.0, 'unit': 'm'}, 'length_y': {'value': 1.0, 'unit': 'm'}, 'length_z': {'value': 1.0, 'unit': 'm'}, 'nx': {'value': 4, 'unit': '1'}, 'ny': {'value': 2, 'unit': '1'}, 'nz': {'value': 2, 'unit': '1'}, 'density_solid': {'value': 2.0, 'unit': 'kg/m3'}, 'density_fluid': {'value': 5.0, 'unit': 'kg/m3'}, 'specific_heat_solid': {'value': 3.0, 'unit': 'J/(kg*K)'}, 'specific_heat_fluid': {'value': 7.0, 'unit': 'J/(kg*K)'}, 'conductivity_solid': {'value': 1.0, 'unit': 'W/(m*K)'}, 'conductivity_fluid': {'value': 1.0, 'unit': 'W/(m*K)'}, 'viscosity': {'value': 1.0, 'unit': 'Pa*s'}, 'heat_transfer_coefficient': {'value': 1.0, 'unit': 'W/(m2*K)'}, 'temperature_reference': {'value': 300.0, 'unit': 'K'}, 'inlet_speed': {'value': 0.0, 'unit': 'm/s'}, 'source_constant': {'value': 0.0, 'unit': 'W/m3'}, 'source_radial': {'value': 1.0, 'unit': 'W/m3'}, 'source_axial': {'value': 1.0, 'unit': 'W/m3'}, 'source_time_slope': {'value': 0.0, 'unit': '1/s'}, 'dt': {'value': 0.0, 'unit': 's'}, 'step_count': {'value': 0, 'unit': '1'}, 'velocity_order': {'value': 2, 'unit': '1'}, 'ghost': {'value': 1, 'unit': '1'}}",
+          "message": "Outside the public solid/fluid observation contract."
+        }
+      ],
+      "scope": "task-contract"
+    }
+  },
+  {
+    "variant": "sampling-missing",
+    "expected_valid": false,
+    "actual": {
+      "valid": false,
+      "errors": [
+        {
+          "code": "E_ENERGY_OBSERVATION",
+          "path": "$.fields/outputs",
+          "expected": "exact DATA fields/outputs",
+          "actual": "{'temperature_coefficients': {'array': 'temperature_coefficients', 'quantity': 'temperature_coefficients', 'unit': 'K', 'location': 'experiments', 'time_axis': 'initial', 'dtype': 'float64', 'kind': 'components', 'component_shape': [10], 'components': ['constant', 'xi', 'eta', 'zeta', 'xi2', 'xi_eta', 'xi_zeta', 'eta2', 'eta_zeta', 'zeta2'], 'value_kind': 'point'}, 'velocity_coefficients': {'array': 'velocity_coefficients', 'quantity': 'velocity_coefficients', 'unit': 'm/s', 'location': 'experiments', 'time_axis': 'initial', 'dtype': 'float64', 'kind': 'components', 'component_shape': [12], 'components': ['x_constant', 'x_xi', 'x_eta', 'x_zeta', 'y_constant', 'y_xi', 'y_eta', 'y_zeta', 'z_constant', 'z_xi', 'z_eta', 'z_zeta'], 'value_kind': 'point', 'sampling': {'space': 'uniform', 'time': 'constant', 'extrapolation': 'forbid'}}}",
+          "message": "Outside the public solid/fluid observation contract."
+        }
+      ],
+      "scope": "task-contract"
+    }
+  },
+  {
+    "variant": "rz-inactive-temperature",
+    "expected_valid": false,
+    "actual": {
+      "valid": false,
+      "errors": [
+        {
+          "code": "E_ENERGY_OBSERVATION",
+          "path": "$.fields",
+          "expected": "zero RZ inactive coefficients",
+          "actual": "[[[ 0.2   0.1   0.05  0.   -0.3   0.05  0.2   0.    0.    0.    0.\n    0.  ]]]",
+          "message": "Outside the public solid/fluid observation contract."
+        }
+      ],
+      "scope": "task-contract"
+    }
+  },
+  {
+    "variant": "rz-swirl",
+    "expected_valid": false,
+    "actual": {
+      "valid": false,
+      "errors": [
+        {
+          "code": "E_ENERGY_OBSERVATION",
+          "path": "$.fields",
+          "expected": "zero RZ inactive coefficients",
+          "actual": "[[[ 0.2   0.1   0.05  0.   -0.3   0.05  0.2   0.    1.    0.    0.\n    0.  ]]]",
+          "message": "Outside the public solid/fluid observation contract."
+        }
+      ],
+      "scope": "task-contract"
+    }
+  },
+  {
+    "variant": "coupled-unused-coefficients",
+    "expected_valid": false,
+    "actual": {
+      "valid": false,
+      "errors": [
+        {
+          "code": "E_ENERGY_OBSERVATION",
+          "path": "$.fields",
+          "expected": "zero unused polynomial coefficients",
+          "actual": "[[[300.   0.   0.   0.   0.   0.   0.   0.   0.   0.]]]",
+          "message": "Outside the public solid/fluid observation contract."
+        }
+      ],
+      "scope": "task-contract"
+    }
+  },
+  {
+    "variant": "reynolds-over-bound",
+    "expected_valid": false,
+    "actual": {
+      "valid": false,
+      "errors": [
+        {
+          "code": "E_ENERGY_OBSERVATION",
+          "path": "$.physics.parameters",
+          "expected": "coupled material, temperature and low-Re bounds",
+          "actual": "{'length_x': 1.0, 'length_y': 1.0, 'length_z': 0.0, 'nx': 4, 'ny': 4, 'nz': 0, 'density_solid': 3.0, 'density_fluid': 20, 'specific_heat_solid': 2.0, 'specific_heat_fluid': 4.0, 'conductivity_solid': 1.0, 'conductivity_fluid': 1.0, 'viscosity': 0.1, 'heat_transfer_coefficient': 1.0, 'temperature_reference': 300.0, 'inlet_speed': 1, 'source_constant': 0.0, 'source_radial': 1.0, 'source_axial': 1.0, 'source_time_slope': 0.0, 'dt': 0.0, 'step_count': 0, 'velocity_order': 1}",
+          "message": "Outside the public solid/fluid observation contract."
+        }
+      ],
+      "scope": "task-contract"
+    }
+  },
+  {
+    "variant": "zero-source",
+    "expected_valid": false,
+    "actual": {
+      "valid": false,
+      "errors": [
+        {
+          "code": "E_ENERGY_OBSERVATION",
+          "path": "$.physics.parameters",
+          "expected": "nonzero nonnegative source and bounded slope",
+          "actual": "{'length_x': 1.0, 'length_y': 1.0, 'length_z': 0.0, 'nx': 4, 'ny': 4, 'nz': 0, 'density_solid': 3.0, 'density_fluid': 5.0, 'specific_heat_solid': 2.0, 'specific_heat_fluid': 4.0, 'conductivity_solid': 1.0, 'conductivity_fluid': 1.0, 'viscosity': 1.0, 'heat_transfer_coefficient': 1.0, 'temperature_reference': 300.0, 'inlet_speed': 1.0, 'source_constant': 0, 'source_radial': 0, 'source_axial': 0, 'source_time_slope': 0.0, 'dt': 0.0, 'step_count': 0, 'velocity_order': 1}",
+          "message": "Outside the public solid/fluid observation contract."
+        }
+      ],
+      "scope": "task-contract"
+    }
+  },
+  {
+    "variant": "steady-nonzero-time",
+    "expected_valid": false,
+    "actual": {
+      "valid": false,
+      "errors": [
+        {
+          "code": "E_ENERGY_OBSERVATION",
+          "path": "$.physics.parameters",
+          "expected": "steady zero time controls",
+          "actual": "{'length_x': 1.0, 'length_y': 1.0, 'length_z': 0.0, 'nx': 4, 'ny': 4, 'nz': 0, 'density_solid': 3.0, 'density_fluid': 5.0, 'specific_heat_solid': 2.0, 'specific_heat_fluid': 4.0, 'conductivity_solid': 1.0, 'conductivity_fluid': 1.0, 'viscosity': 1.0, 'heat_transfer_coefficient': 1.0, 'temperature_reference': 300.0, 'inlet_speed': 1.0, 'source_constant': 0.0, 'source_radial': 1.0, 'source_axial': 1.0, 'source_time_slope': 0.0, 'dt': 0.1, 'step_count': 0, 'velocity_order': 1}",
+          "message": "Outside the public solid/fluid observation contract."
+        }
+      ],
+      "scope": "task-contract"
+    }
+  },
+  {
+    "variant": "transient-missing-initial",
+    "expected_valid": false,
+    "actual": {
+      "valid": false,
+      "errors": [
+        {
+          "code": "E_ENERGY_OBSERVATION",
+          "path": "$.time_axes.frames",
+          "expected": "exact DATA frame times",
+          "actual": "[0.1 0.2 0.3]",
+          "message": "Outside the public solid/fluid observation contract."
+        }
+      ],
+      "scope": "task-contract"
+    }
+  },
+  {
+    "variant": "transient-near-time",
+    "expected_valid": false,
+    "actual": {
+      "valid": false,
+      "errors": [
+        {
+          "code": "E_ENERGY_OBSERVATION",
+          "path": "$.time_axes.frames",
+          "expected": "exact DATA frame times",
+          "actual": "[0.  0.1 0.2 0.3]",
+          "message": "Outside the public solid/fluid observation contract."
+        }
+      ],
+      "scope": "task-contract"
+    }
+  },
+  {
+    "variant": "initial-time-nonzero",
+    "expected_valid": false,
+    "actual": {
+      "valid": false,
+      "errors": [
+        {
+          "code": "E_ENERGY_OBSERVATION",
+          "path": "$.locations/time_axes",
+          "expected": "one experiment id1 and initial zero",
+          "actual": "{'experiments': {'kind': 'entities', 'ids': 'experiment_ids'}}",
+          "message": "Outside the public solid/fluid observation contract."
+        }
+      ],
+      "scope": "task-contract"
+    }
+  },
+  {
+    "variant": "nonfinite-coefficient",
+    "expected_valid": false,
+    "actual": {
+      "valid": false,
+      "errors": [
+        {
+          "code": "E_FINITE",
+          "path": "$.fields.temperature_coefficients.array",
+          "expected": "finite array entries",
+          "actual": "NaN or Inf",
+          "message": "Nonfinite payload value."
+        }
+      ],
+      "scope": "task-contract"
+    }
+  },
+  {
+    "variant": "missing-support",
+    "expected_status": "invalid_output",
+    "status": "invalid_output"
+  },
+  {
+    "variant": "extra-initial-support",
+    "expected_status": "invalid_output",
+    "status": "invalid_output"
+  },
+  {
+    "variant": "wrong-id",
+    "expected_status": "invalid_output",
+    "status": "invalid_output"
+  },
+  {
+    "variant": "nan-output",
+    "expected_status": "invalid_output",
+    "status": "invalid_output"
+  },
+  {
+    "variant": "wrong-dtype",
+    "expected_status": "invalid_output",
+    "status": "invalid_output"
+  },
+  {
+    "variant": "flatten-output",
+    "expected_status": "invalid_output",
+    "status": "invalid_output"
+  },
+  {
+    "variant": "energy_solid-0.999",
+    "score": 1,
+    "actual_delta": 1.090105672574282e-05,
+    "tolerance": 1.0911968750000001e-05
+  },
+  {
+    "variant": "energy_solid-1.001",
+    "score": 0,
+    "actual_delta": 1.0922880733232887e-05,
+    "tolerance": 1.0911968750000001e-05
+  },
+  {
+    "variant": "energy_fluid-0.999",
+    "score": 1,
+    "actual_delta": 1.5331814211094752e-05,
+    "tolerance": 1.5347161458333334e-05
+  },
+  {
+    "variant": "energy_fluid-1.001",
+    "score": 0,
+    "actual_delta": 1.5362508747784887e-05,
+    "tolerance": 1.5347161458333334e-05
+  },
+  {
+    "variant": "advection_power-0.999",
+    "score": 1,
+    "actual_delta": 1.0030300806818104e-05,
+    "tolerance": 1.0040341145833334e-05
+  },
+  {
+    "variant": "advection_power-1.001",
+    "score": 0,
+    "actual_delta": 1.005038148349513e-05,
+    "tolerance": 1.0040341145833334e-05
+  },
+  {
+    "variant": "source_power-0.999",
+    "score": 1,
+    "actual_delta": 9.990374625012954e-06,
+    "tolerance": 1.0000375000000002e-05
+  },
+  {
+    "variant": "source_power-1.001",
+    "score": 0,
+    "actual_delta": 1.0010375375013592e-05,
+    "tolerance": 1.0000375000000002e-05
+  },
+  {
+    "variant": "robin_power-0.999",
+    "score": 1,
+    "actual_delta": 9.990000000000001e-06,
+    "tolerance": 1e-05
+  },
+  {
+    "variant": "robin_power-1.001",
+    "score": 0,
+    "actual_delta": 1.0009999999999999e-05,
+    "tolerance": 1e-05
+  },
+  {
+    "variant": "threshold-equality-zero-reference",
+    "score": 1
+  }
+]

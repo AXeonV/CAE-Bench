@@ -38,7 +38,7 @@
 | 19.4.3 | hysteresis-heat-repair／开路电势滞回热源 | pybamm-team/PyBaMM#3867 | 平衡与分支OCP的能量差；明确参数语义及独立循环功核对 | 已完成；[验收记录](../19-solver-repair/19.4-observations/hysteresis-heat-repair/author/README.md) |
 | 19.4.4 | granular-pair-stress-repair／颗粒成对力应力统计 | lammps/lammps#4219 | 成对贡献与累计力的区别；独立virial及小颗粒系统 | 已完成；[验收记录](../19-solver-repair/19.4-observations/granular-pair-stress-repair/author/README.md) |
 | 19.4.5 | wall-heat-flux-repair／近壁热流离散与观测 | su2code/SU2#2347 | 边界和后处理热流一致；解析温度梯度与能量平衡 | 已完成；[验收记录](../19-solver-repair/19.4-observations/wall-heat-flux-repair/author/README.md) |
-| 19.4.6 | solid-fluid-energy-observation-repair／固流传热能量统计 | idaholab/moose#22074 | 固／流分区体积分与能量观测；独立积分与瞬态／稳态范围核对 | 待实施 |
+| 19.4.6 | solid-fluid-energy-observation-repair／固流传热能量统计 | idaholab/moose#22074 | 固／流分区体积分与能量观测；独立积分与瞬态／稳态范围核对 | 已完成；[验收记录](../19-solver-repair/19.4-observations/solid-fluid-energy-observation-repair/author/README.md) |
 | 19.5.1 | point-ownership-repair／域外点归属与外推 | FEniCS/dolfinx#4450 | 单元内外归属与可选外推；精确几何分类及多单元回归 | 已完成；[验收记录](../19-solver-repair/19.5-geometry/point-ownership-repair/author/README.md) |
 | 19.5.2 | nearest-projection-repair／单元插值最近投影回退 | precice/precice#1304 | 边面顶点选择及插值；精确最近点与重心坐标 | 已完成；[验收记录](../19-solver-repair/19.5-geometry/nearest-projection-repair/author/README.md) |
 | 19.6.1 | dft-decimation-repair／非线性场频谱采样 | NanoComp/meep#2408 | DFT抽样与混叠；已知频率信号及真实场求解回归 | 已完成；[验收记录](../19-solver-repair/19.6-waves/dft-decimation-repair/author/README.md) |

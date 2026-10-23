@@ -1,0 +1,1794 @@
+{
+  "cases": [
+    {
+      "case": "01-cartesian-normal-standard-public",
+      "model": "explicit-cartesian-normal-standard-v1",
+      "parameters": {
+        "length_x": 1.0,
+        "length_y": 1.0,
+        "length_z": 1.0,
+        "nx": 4,
+        "ny": 2,
+        "nz": 2,
+        "density_solid": 2.0,
+        "density_fluid": 5.0,
+        "specific_heat_solid": 3.0,
+        "specific_heat_fluid": 7.0,
+        "conductivity_solid": 1.0,
+        "conductivity_fluid": 1.0,
+        "viscosity": 1.0,
+        "heat_transfer_coefficient": 1.0,
+        "temperature_reference": 300.0,
+        "inlet_speed": 0.0,
+        "source_constant": 0.0,
+        "source_radial": 1.0,
+        "source_axial": 1.0,
+        "source_time_slope": 0.0,
+        "dt": 0.0,
+        "step_count": 0,
+        "velocity_order": 2
+      },
+      "input": {
+        "experiment_ids": {
+          "dtype": "int64",
+          "shape": [
+            1
+          ],
+          "values": [
+            1
+          ]
+        },
+        "initial_time": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "temperature_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            10
+          ],
+          "values": [
+            [
+              [
+                300.0,
+                2.0,
+                3.0,
+                4.0,
+                1.0,
+                -0.5,
+                0.75,
+                -1.0,
+                0.5,
+                0.25
+              ]
+            ]
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "velocity_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            12
+          ],
+          "values": [
+            [
+              [
+                0.2,
+                0.1,
+                0.05,
+                -0.1,
+                -0.3,
+                0.05,
+                0.2,
+                0.1,
+                0.4,
+                -0.1,
+                0.05,
+                -0.05
+              ]
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "energy_solid": [
+          911.96875
+        ],
+        "energy_fluid": [
+          5347.161458333333
+        ],
+        "advection_power": [
+          40.341145833333336
+        ],
+        "source_power": [
+          0.375
+        ],
+        "robin_power": [
+          0.0
+        ]
+      },
+      "errors": {
+        "energy_solid": 2.2737367544323206e-13,
+        "energy_fluid": 9.094947017729282e-13,
+        "advection_power": 2.913225216616411e-13,
+        "source_power": 0.0,
+        "robin_power": 0.0
+      },
+      "stats": {},
+      "grading_status": "accepted"
+    },
+    {
+      "case": "02-cartesian-normal-renamed",
+      "model": "explicit-cartesian-normal-renamed-v1",
+      "parameters": {
+        "length_x": 0.4,
+        "length_y": 0.7,
+        "length_z": 0.2,
+        "nx": 4,
+        "ny": 2,
+        "nz": 2,
+        "density_solid": 780.0,
+        "density_fluid": 997.0,
+        "specific_heat_solid": 460.0,
+        "specific_heat_fluid": 4180.0,
+        "conductivity_solid": 1.0,
+        "conductivity_fluid": 1.0,
+        "viscosity": 1.0,
+        "heat_transfer_coefficient": 1.0,
+        "temperature_reference": 300.0,
+        "inlet_speed": 0.0,
+        "source_constant": 0.0,
+        "source_radial": 1.0,
+        "source_axial": 1.0,
+        "source_time_slope": 0.0,
+        "dt": 0.0,
+        "step_count": 0,
+        "velocity_order": 2
+      },
+      "input": {
+        "experiment_ids": {
+          "dtype": "int64",
+          "shape": [
+            1
+          ],
+          "values": [
+            1
+          ]
+        },
+        "initial_time": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "temperature_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            10
+          ],
+          "values": [
+            [
+              [
+                310.0,
+                -3.0,
+                2.0,
+                1.0,
+                -0.5,
+                0.25,
+                -0.1,
+                0.2,
+                0.3,
+                -0.2
+              ]
+            ]
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "velocity_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            12
+          ],
+          "values": [
+            [
+              [
+                -0.2,
+                0.1,
+                0.2,
+                0.1,
+                0.3,
+                -0.1,
+                0.1,
+                0.0,
+                -0.4,
+                0.2,
+                0.0,
+                0.1
+              ]
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "energy_solid": [
+          3122442.0500000003
+        ],
+        "energy_fluid": [
+          36067317.29883333
+        ],
+        "advection_power": [
+          -13934.944375000008
+        ],
+        "source_power": [
+          0.020999999999999998
+        ],
+        "robin_power": [
+          0.0
+        ]
+      },
+      "errors": {
+        "energy_solid": 9.313225746154785e-10,
+        "energy_fluid": 0.0,
+        "advection_power": 5.207766662351787e-09,
+        "source_power": 1.0408340855860843e-17,
+        "robin_power": 0.0
+      },
+      "stats": {},
+      "grading_status": "accepted"
+    },
+    {
+      "case": "03-cartesian-ad-standard",
+      "model": "explicit-cartesian-ad-standard-v1",
+      "parameters": {
+        "length_x": 1.0,
+        "length_y": 1.0,
+        "length_z": 1.0,
+        "nx": 4,
+        "ny": 2,
+        "nz": 2,
+        "density_solid": 2.0,
+        "density_fluid": 5.0,
+        "specific_heat_solid": 3.0,
+        "specific_heat_fluid": 7.0,
+        "conductivity_solid": 1.0,
+        "conductivity_fluid": 1.0,
+        "viscosity": 1.0,
+        "heat_transfer_coefficient": 1.0,
+        "temperature_reference": 300.0,
+        "inlet_speed": 0.0,
+        "source_constant": 0.0,
+        "source_radial": 1.0,
+        "source_axial": 1.0,
+        "source_time_slope": 0.0,
+        "dt": 0.0,
+        "step_count": 0,
+        "velocity_order": 2
+      },
+      "input": {
+        "experiment_ids": {
+          "dtype": "int64",
+          "shape": [
+            1
+          ],
+          "values": [
+            1
+          ]
+        },
+        "initial_time": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "temperature_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            10
+          ],
+          "values": [
+            [
+              [
+                295.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ]
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "velocity_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            12
+          ],
+          "values": [
+            [
+              [
+                0.2,
+                0.1,
+                0.05,
+                -0.1,
+                -0.3,
+                0.05,
+                0.2,
+                0.1,
+                0.4,
+                -0.1,
+                0.05,
+                -0.05
+              ]
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "energy_solid": [
+          885.0
+        ],
+        "energy_fluid": [
+          5162.5
+        ],
+        "advection_power": [
+          0.0
+        ],
+        "source_power": [
+          0.375
+        ],
+        "robin_power": [
+          0.0
+        ]
+      },
+      "errors": {
+        "energy_solid": 2.2737367544323206e-13,
+        "energy_fluid": 0.0,
+        "advection_power": 3.274424450737483e-13,
+        "source_power": 0.0,
+        "robin_power": 0.0
+      },
+      "stats": {},
+      "grading_status": "accepted"
+    },
+    {
+      "case": "04-cartesian-ad-renamed",
+      "model": "explicit-cartesian-ad-renamed-v1",
+      "parameters": {
+        "length_x": 1.0,
+        "length_y": 1.0,
+        "length_z": 1.0,
+        "nx": 4,
+        "ny": 2,
+        "nz": 2,
+        "density_solid": 2.0,
+        "density_fluid": 5.0,
+        "specific_heat_solid": 3.0,
+        "specific_heat_fluid": 7.0,
+        "conductivity_solid": 1.0,
+        "conductivity_fluid": 1.0,
+        "viscosity": 1.0,
+        "heat_transfer_coefficient": 1.0,
+        "temperature_reference": 300.0,
+        "inlet_speed": 0.0,
+        "source_constant": -2.0,
+        "source_radial": 4.0,
+        "source_axial": -1.0,
+        "source_time_slope": 0.0,
+        "dt": 0.0,
+        "step_count": 0,
+        "velocity_order": 2
+      },
+      "input": {
+        "experiment_ids": {
+          "dtype": "int64",
+          "shape": [
+            1
+          ],
+          "values": [
+            1
+          ]
+        },
+        "initial_time": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "temperature_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            10
+          ],
+          "values": [
+            [
+              [
+                300.0,
+                2.0,
+                3.0,
+                4.0,
+                1.0,
+                -0.5,
+                0.75,
+                -1.0,
+                0.5,
+                0.25
+              ]
+            ]
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "velocity_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            12
+          ],
+          "values": [
+            [
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "energy_solid": [
+          911.96875
+        ],
+        "energy_fluid": [
+          5347.161458333333
+        ],
+        "advection_power": [
+          0.0
+        ],
+        "source_power": [
+          -0.75
+        ],
+        "robin_power": [
+          0.0
+        ]
+      },
+      "errors": {
+        "energy_solid": 2.2737367544323206e-13,
+        "energy_fluid": 9.094947017729282e-13,
+        "advection_power": 0.0,
+        "source_power": 0.0,
+        "robin_power": 0.0
+      },
+      "stats": {},
+      "grading_status": "accepted"
+    },
+    {
+      "case": "05-rz-normal-standard",
+      "model": "explicit-rz-normal-standard-v1",
+      "parameters": {
+        "length_x": 1.0,
+        "length_y": 1.0,
+        "length_z": 0.0,
+        "nx": 4,
+        "ny": 4,
+        "nz": 0,
+        "density_solid": 2.0,
+        "density_fluid": 5.0,
+        "specific_heat_solid": 3.0,
+        "specific_heat_fluid": 7.0,
+        "conductivity_solid": 1.0,
+        "conductivity_fluid": 1.0,
+        "viscosity": 1.0,
+        "heat_transfer_coefficient": 1.0,
+        "temperature_reference": 300.0,
+        "inlet_speed": 0.0,
+        "source_constant": 0.0,
+        "source_radial": 1.0,
+        "source_axial": 1.0,
+        "source_time_slope": 0.0,
+        "dt": 0.0,
+        "step_count": 0,
+        "velocity_order": 2
+      },
+      "input": {
+        "experiment_ids": {
+          "dtype": "int64",
+          "shape": [
+            1
+          ],
+          "values": [
+            1
+          ]
+        },
+        "initial_time": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "temperature_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            10
+          ],
+          "values": [
+            [
+              [
+                300.0,
+                2.0,
+                3.0,
+                0.0,
+                1.0,
+                -0.5,
+                0.0,
+                -1.0,
+                0.0,
+                0.0
+              ]
+            ]
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "velocity_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            12
+          ],
+          "values": [
+            [
+              [
+                0.2,
+                0.1,
+                0.05,
+                0.0,
+                -0.3,
+                0.05,
+                0.2,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "energy_solid": [
+          1422.5524234536283
+        ],
+        "energy_fluid": [
+          25000.041664027653
+        ],
+        "advection_power": [
+          58.49989132680686
+        ],
+        "source_power": [
+          0.6544984694978735
+        ],
+        "robin_power": [
+          0.0
+        ]
+      },
+      "errors": {
+        "energy_solid": 9.094947017729282e-13,
+        "energy_fluid": 7.275957614183426e-12,
+        "advection_power": 1.0373923942097463e-12,
+        "source_power": 4.440892098500626e-16,
+        "robin_power": 0.0
+      },
+      "stats": {},
+      "grading_status": "accepted"
+    },
+    {
+      "case": "06-rz-normal-renamed",
+      "model": "explicit-rz-normal-renamed-v1",
+      "parameters": {
+        "length_x": 0.2,
+        "length_y": 0.8,
+        "length_z": 0.0,
+        "nx": 4,
+        "ny": 4,
+        "nz": 0,
+        "density_solid": 31.0,
+        "density_fluid": 950.0,
+        "specific_heat_solid": 12.0,
+        "specific_heat_fluid": 4000.0,
+        "conductivity_solid": 1.0,
+        "conductivity_fluid": 1.0,
+        "viscosity": 1.0,
+        "heat_transfer_coefficient": 1.0,
+        "temperature_reference": 300.0,
+        "inlet_speed": 0.0,
+        "source_constant": 0.0,
+        "source_radial": 1.0,
+        "source_axial": 1.0,
+        "source_time_slope": 0.0,
+        "dt": 0.0,
+        "step_count": 0,
+        "velocity_order": 2
+      },
+      "input": {
+        "experiment_ids": {
+          "dtype": "int64",
+          "shape": [
+            1
+          ],
+          "values": [
+            1
+          ]
+        },
+        "initial_time": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "temperature_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            10
+          ],
+          "values": [
+            [
+              [
+                300.0,
+                2.0,
+                3.0,
+                0.0,
+                1.0,
+                -0.5,
+                0.0,
+                -1.0,
+                0.0,
+                0.0
+              ]
+            ]
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "velocity_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            12
+          ],
+          "values": [
+            [
+              [
+                -0.2,
+                -0.1,
+                -0.05,
+                0.0,
+                0.3,
+                -0.05,
+                -0.2,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "energy_solid": [
+          2822.344008131998
+        ],
+        "energy_fluid": [
+          86857287.60987894
+        ],
+        "advection_power": [
+          -1331465.8714536093
+        ],
+        "source_power": [
+          0.020943951023931956
+        ],
+        "robin_power": [
+          0.0
+        ]
+      },
+      "errors": {
+        "energy_solid": 9.094947017729282e-13,
+        "energy_fluid": 7.450580596923828e-08,
+        "advection_power": 1.1641532182693481e-08,
+        "source_power": 0.0,
+        "robin_power": 0.0
+      },
+      "stats": {},
+      "grading_status": "accepted"
+    },
+    {
+      "case": "07-rz-ad-standard",
+      "model": "explicit-rz-ad-standard-v1",
+      "parameters": {
+        "length_x": 1.0,
+        "length_y": 1.0,
+        "length_z": 0.0,
+        "nx": 8,
+        "ny": 6,
+        "nz": 0,
+        "density_solid": 2.0,
+        "density_fluid": 5.0,
+        "specific_heat_solid": 3.0,
+        "specific_heat_fluid": 7.0,
+        "conductivity_solid": 1.0,
+        "conductivity_fluid": 1.0,
+        "viscosity": 1.0,
+        "heat_transfer_coefficient": 1.0,
+        "temperature_reference": 300.0,
+        "inlet_speed": 0.0,
+        "source_constant": 0.0,
+        "source_radial": 1.0,
+        "source_axial": 1.0,
+        "source_time_slope": 0.0,
+        "dt": 0.0,
+        "step_count": 0,
+        "velocity_order": 2
+      },
+      "input": {
+        "experiment_ids": {
+          "dtype": "int64",
+          "shape": [
+            1
+          ],
+          "values": [
+            1
+          ]
+        },
+        "initial_time": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "temperature_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            10
+          ],
+          "values": [
+            [
+              [
+                275.0,
+                -6.0,
+                8.0,
+                0.0,
+                1.0,
+                -0.5,
+                0.0,
+                -1.0,
+                0.0,
+                0.0
+              ]
+            ]
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "velocity_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            12
+          ],
+          "values": [
+            [
+              [
+                0.2,
+                0.1,
+                0.05,
+                0.0,
+                -0.3,
+                0.05,
+                0.2,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "energy_solid": [
+          1303.9573007806137
+        ],
+        "energy_fluid": [
+          22631.411702914847
+        ],
+        "advection_power": [
+          -207.68463621797835
+        ],
+        "source_power": [
+          0.6544984694978735
+        ],
+        "robin_power": [
+          0.0
+        ]
+      },
+      "errors": {
+        "energy_solid": 6.821210263296962e-13,
+        "energy_fluid": 0.0,
+        "advection_power": 9.947598300641403e-13,
+        "source_power": 5.551115123125783e-16,
+        "robin_power": 0.0
+      },
+      "stats": {},
+      "grading_status": "accepted"
+    },
+    {
+      "case": "08-rz-ad-renamed",
+      "model": "explicit-rz-ad-renamed-v1",
+      "parameters": {
+        "length_x": 0.6,
+        "length_y": 0.3,
+        "length_z": 0.0,
+        "nx": 6,
+        "ny": 4,
+        "nz": 0,
+        "density_solid": 2.0,
+        "density_fluid": 5.0,
+        "specific_heat_solid": 3.0,
+        "specific_heat_fluid": 7.0,
+        "conductivity_solid": 1.0,
+        "conductivity_fluid": 1.0,
+        "viscosity": 1.0,
+        "heat_transfer_coefficient": 1.0,
+        "temperature_reference": 300.0,
+        "inlet_speed": 0.0,
+        "source_constant": 0.0,
+        "source_radial": 1.0,
+        "source_axial": 1.0,
+        "source_time_slope": 0.0,
+        "dt": 0.0,
+        "step_count": 0,
+        "velocity_order": 2
+      },
+      "input": {
+        "experiment_ids": {
+          "dtype": "int64",
+          "shape": [
+            1
+          ],
+          "values": [
+            1
+          ]
+        },
+        "initial_time": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "temperature_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            10
+          ],
+          "values": [
+            [
+              [
+                300.0,
+                0.0,
+                -4.0,
+                0.0,
+                1.0,
+                -0.5,
+                0.0,
+                -1.0,
+                0.0,
+                0.0
+              ]
+            ]
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "velocity_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            12
+          ],
+          "values": [
+            [
+              [
+                0.2,
+                0.1,
+                0.05,
+                0.0,
+                -0.3,
+                0.05,
+                0.2,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "energy_solid": [
+          151.51508669181874
+        ],
+        "energy_fluid": [
+          2654.9776230074112
+        ],
+        "advection_power": [
+          30.667343911409734
+        ],
+        "source_power": [
+          0.07068583470577033
+        ],
+        "robin_power": [
+          0.0
+        ]
+      },
+      "errors": {
+        "energy_solid": 5.684341886080802e-14,
+        "energy_fluid": 4.092726157978177e-12,
+        "advection_power": 9.947598300641403e-13,
+        "source_power": 4.163336342344337e-17,
+        "robin_power": 0.0
+      },
+      "stats": {},
+      "grading_status": "accepted"
+    },
+    {
+      "case": "09-rz-steady-q1q1-public",
+      "model": "coupled-rz-steady-v1",
+      "parameters": {
+        "length_x": 1.0,
+        "length_y": 1.0,
+        "length_z": 0.0,
+        "nx": 4,
+        "ny": 4,
+        "nz": 0,
+        "density_solid": 3.0,
+        "density_fluid": 5.0,
+        "specific_heat_solid": 2.0,
+        "specific_heat_fluid": 4.0,
+        "conductivity_solid": 1.0,
+        "conductivity_fluid": 1.0,
+        "viscosity": 1.0,
+        "heat_transfer_coefficient": 1.0,
+        "temperature_reference": 300.0,
+        "inlet_speed": 1.0,
+        "source_constant": 0.0,
+        "source_radial": 1.0,
+        "source_axial": 1.0,
+        "source_time_slope": 0.0,
+        "dt": 0.0,
+        "step_count": 0,
+        "velocity_order": 1
+      },
+      "input": {
+        "experiment_ids": {
+          "dtype": "int64",
+          "shape": [
+            1
+          ],
+          "values": [
+            1
+          ]
+        },
+        "initial_time": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "temperature_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            10
+          ],
+          "values": [
+            [
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ]
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "velocity_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            12
+          ],
+          "values": [
+            [
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "energy_solid": [
+          1414.5281489167355
+        ],
+        "energy_fluid": [
+          14142.337978166459
+        ],
+        "advection_power": [
+          0.1219713049521483
+        ],
+        "source_power": [
+          0.6544984694978735
+        ],
+        "robin_power": [
+          0.5325271630863859
+        ]
+      },
+      "errors": {
+        "energy_solid": 2.2737367544323206e-13,
+        "energy_fluid": 7.275957614183426e-12,
+        "advection_power": 8.43769498715119e-13,
+        "source_power": 4.440892098500626e-16,
+        "robin_power": 2.9531932455029164e-14
+      },
+      "stats": {
+        "fit_error": 5.377642775528102e-14,
+        "point_coordinate_error": 2.220446049250313e-16,
+        "independent_energy_balance_W": [
+          -1.4593393160566848e-09
+        ]
+      },
+      "grading_status": "accepted"
+    },
+    {
+      "case": "10-rz-steady-q2q1",
+      "model": "coupled-rz-steady-v1",
+      "parameters": {
+        "length_x": 0.8,
+        "length_y": 0.6,
+        "length_z": 0.0,
+        "nx": 4,
+        "ny": 4,
+        "nz": 0,
+        "density_solid": 3.0,
+        "density_fluid": 5.0,
+        "specific_heat_solid": 2.0,
+        "specific_heat_fluid": 4.0,
+        "conductivity_solid": 1.5,
+        "conductivity_fluid": 0.75,
+        "viscosity": 1.0,
+        "heat_transfer_coefficient": 2.0,
+        "temperature_reference": 285.0,
+        "inlet_speed": 0.4,
+        "source_constant": 0.0,
+        "source_radial": 1.0,
+        "source_axial": 1.0,
+        "source_time_slope": 0.0,
+        "dt": 0.0,
+        "step_count": 0,
+        "velocity_order": 2
+      },
+      "input": {
+        "experiment_ids": {
+          "dtype": "int64",
+          "shape": [
+            1
+          ],
+          "values": [
+            1
+          ]
+        },
+        "initial_time": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "temperature_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            10
+          ],
+          "values": [
+            [
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ]
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "velocity_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            12
+          ],
+          "values": [
+            [
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "energy_solid": [
+          515.9145412266521
+        ],
+        "energy_fluid": [
+          5158.336225864607
+        ],
+        "advection_power": [
+          0.02349994303805563
+        ],
+        "source_power": [
+          0.2513274122871834
+        ],
+        "robin_power": [
+          0.2278274692503151
+        ]
+      },
+      "errors": {
+        "energy_solid": 4.547473508864641e-13,
+        "energy_fluid": 1.8189894035458565e-12,
+        "advection_power": 3.799738301779598e-14,
+        "source_power": 4.440892098500626e-16,
+        "robin_power": 4.773959005888173e-15
+      },
+      "stats": {
+        "fit_error": 5.680178549738457e-14,
+        "point_coordinate_error": 6.661338147750939e-16,
+        "independent_energy_balance_W": [
+          1.1873280136853737e-12
+        ]
+      },
+      "grading_status": "accepted"
+    },
+    {
+      "case": "11-rz-transient-q1q1",
+      "model": "coupled-rz-transient-v1",
+      "parameters": {
+        "length_x": 1.0,
+        "length_y": 1.0,
+        "length_z": 0.0,
+        "nx": 4,
+        "ny": 4,
+        "nz": 0,
+        "density_solid": 3.0,
+        "density_fluid": 5.0,
+        "specific_heat_solid": 2.0,
+        "specific_heat_fluid": 4.0,
+        "conductivity_solid": 1.0,
+        "conductivity_fluid": 1.0,
+        "viscosity": 1.0,
+        "heat_transfer_coefficient": 1.0,
+        "temperature_reference": 300.0,
+        "inlet_speed": 1.0,
+        "source_constant": 0.0,
+        "source_radial": 1.0,
+        "source_axial": 1.0,
+        "source_time_slope": 0.0,
+        "dt": 0.1,
+        "step_count": 3,
+        "velocity_order": 1
+      },
+      "input": {
+        "experiment_ids": {
+          "dtype": "int64",
+          "shape": [
+            1
+          ],
+          "values": [
+            1
+          ]
+        },
+        "initial_time": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "temperature_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            10
+          ],
+          "values": [
+            [
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ]
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            4
+          ],
+          "values": [
+            0.0,
+            0.1,
+            0.2,
+            0.30000000000000004
+          ]
+        },
+        "velocity_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            12
+          ],
+          "values": [
+            [
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "energy_solid": [
+          1413.716694115407,
+          1413.7559092462689,
+          1413.788261228455,
+          1413.8156852772725
+        ],
+        "energy_fluid": [
+          14137.166941154068,
+          14137.192887179304,
+          14137.225393618737,
+          14137.262426390736
+        ],
+        "advection_power": [
+          8.680917150599203e-28,
+          0.00248847098255927,
+          0.005971463228620542,
+          0.01060161752744139
+        ],
+        "source_power": [
+          0.6544984694978735,
+          0.6544984694978735,
+          0.6544984694978735,
+          0.6544984694978735
+        ],
+        "robin_power": [
+          0.0,
+          0.00039843752673061227,
+          -5.7236995519654924e-05,
+          -0.0006713562747728908
+        ]
+      },
+      "errors": {
+        "energy_solid": 1.5916157281026244e-12,
+        "energy_fluid": 7.275957614183426e-12,
+        "advection_power": 1.3528891548708621e-12,
+        "source_power": 4.440892098500626e-16,
+        "robin_power": 4.464462653730461e-14
+      },
+      "stats": {
+        "fit_error": 6.94479196372555e-14,
+        "point_coordinate_error": 2.220446049250313e-16,
+        "independent_energy_balance_W": [
+          -1.9817480989559044e-13,
+          -2.706830426468798e-08,
+          -9.126333022635436e-11
+        ]
+      },
+      "grading_status": "accepted"
+    },
+    {
+      "case": "12-rz-transient-q2q1",
+      "model": "coupled-rz-transient-v1",
+      "parameters": {
+        "length_x": 0.8,
+        "length_y": 0.6,
+        "length_z": 0.0,
+        "nx": 4,
+        "ny": 4,
+        "nz": 0,
+        "density_solid": 3.0,
+        "density_fluid": 5.0,
+        "specific_heat_solid": 2.0,
+        "specific_heat_fluid": 4.0,
+        "conductivity_solid": 1.5,
+        "conductivity_fluid": 0.75,
+        "viscosity": 1.0,
+        "heat_transfer_coefficient": 2.0,
+        "temperature_reference": 285.0,
+        "inlet_speed": 0.4,
+        "source_constant": 0.0,
+        "source_radial": 1.0,
+        "source_axial": 1.0,
+        "source_time_slope": 0.5,
+        "dt": 0.15,
+        "step_count": 4,
+        "velocity_order": 2
+      },
+      "input": {
+        "experiment_ids": {
+          "dtype": "int64",
+          "shape": [
+            1
+          ],
+          "values": [
+            1
+          ]
+        },
+        "initial_time": {
+          "dtype": "float64",
+          "shape": [
+            1
+          ],
+          "values": [
+            0.0
+          ]
+        },
+        "temperature_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            10
+          ],
+          "values": [
+            [
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ]
+          ]
+        },
+        "times": {
+          "dtype": "float64",
+          "shape": [
+            5
+          ],
+          "values": [
+            0.0,
+            0.15,
+            0.3,
+            0.44999999999999996,
+            0.6
+          ]
+        },
+        "velocity_coefficients": {
+          "dtype": "float64",
+          "shape": [
+            1,
+            1,
+            12
+          ],
+          "values": [
+            [
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "energy_solid": [
+          515.7238500133005,
+          515.7430157597247,
+          515.758252432203,
+          515.7714487446937,
+          515.7834629117189
+        ],
+        "energy_fluid": [
+          5157.238500133006,
+          5157.259596706658,
+          5157.287177326449,
+          5157.319221864322,
+          5157.354679240128
+        ],
+        "advection_power": [
+          -1.785788670980095e-28,
+          0.0016867433743566562,
+          0.00387992269276454,
+          0.00596485676238589,
+          0.00790567229157838
+        ],
+        "source_power": [
+          0.2513274122871834,
+          0.2701769682087221,
+          0.2890265241302608,
+          0.3078760800517997,
+          0.3267256359733384
+        ],
+        "robin_power": [
+          -2.857261873568676e-14,
+          7.475763918431354e-05,
+          -0.00030201328566560083,
+          0.00030555416555746106,
+          0.0023430114627749086
+        ]
+      },
+      "errors": {
+        "energy_solid": 6.821210263296962e-13,
+        "energy_fluid": 4.547473508864641e-12,
+        "advection_power": 6.00083351065539e-13,
+        "source_power": 6.106226635438361e-16,
+        "robin_power": 6.190723931751019e-14
+      },
+      "stats": {
+        "fit_error": 6.631500903964138e-14,
+        "point_coordinate_error": 6.661338147750939e-16,
+        "independent_energy_balance_W": [
+          -2.064171056304076e-11,
+          4.0563347125655014e-10,
+          -3.4719338515287745e-11,
+          -1.3233469875473247e-11
+        ]
+      },
+      "grading_status": "accepted"
+    }
+  ],
+  "samples": 2,
+  "runtime_descriptor": {
+    "aliases": {},
+    "core_version": "0.3.0",
+    "dependencies": [
+      "attrs==26.1.0",
+      "gmsh==4.15.2",
+      "h5py==3.16.0",
+      "jsonschema==4.26.0",
+      "jsonschema-specifications==2025.9.1",
+      "numpy==2.4.6",
+      "referencing==0.37.0",
+      "rpds-py==2026.9.1",
+      "typing-extensions==4.16.0"
+    ],
+    "extensions": {
+      "task.solid-fluid-energy-observation-repair": {
+        "check": "caeoj_task_ext.energy_observation:check",
+        "files": [
+          "caeoj_task_ext/__init__.py",
+          "caeoj_task_ext/energy_observation.py"
+        ],
+        "requires": [],
+        "selectors": [
+          {
+            "physics.model": "explicit-cartesian-normal-standard-v1"
+          },
+          {
+            "physics.model": "explicit-cartesian-normal-renamed-v1"
+          },
+          {
+            "physics.model": "explicit-cartesian-ad-standard-v1"
+          },
+          {
+            "physics.model": "explicit-cartesian-ad-renamed-v1"
+          },
+          {
+            "physics.model": "explicit-rz-normal-standard-v1"
+          },
+          {
+            "physics.model": "explicit-rz-normal-renamed-v1"
+          },
+          {
+            "physics.model": "explicit-rz-ad-standard-v1"
+          },
+          {
+            "physics.model": "explicit-rz-ad-renamed-v1"
+          },
+          {
+            "physics.model": "coupled-rz-steady-v1"
+          },
+          {
+            "physics.model": "coupled-rz-transient-v1"
+          }
+        ],
+        "version": 1
+      }
+    },
+    "id": "96dd6c30931f73f66bacf86527cb53b1066889b8ebad37e8e27b386af329473b",
+    "model_namespace_diagnostics": {
+      "acoustic-": "E_ACOUSTIC",
+      "electrochemistry-": "E_ELECTROCHEMISTRY",
+      "electromagnetic-": "E_ELECTROMAGNETIC",
+      "fluid-energy-": "E_FLUID",
+      "fluid-multiphase-": "E_FLUID",
+      "fluid-reduced-": "E_FLUID",
+      "granular-": "E_GRANULAR",
+      "microstructure-": "E_MICROSTRUCTURE",
+      "multibody-": "E_MULTIBODY",
+      "multiphysics-": "E_MULTIPHYSICS",
+      "optics-": "E_OPTICS",
+      "plasma-": "E_PLASMA",
+      "porous-": "E_POROUS",
+      "radiation-": "E_RADIATION",
+      "semiconductor-": "E_SEMICONDUCTOR",
+      "solid-": "E_SOLID",
+      "species-": "E_SPECIES",
+      "systems-": "E_SYSTEMS",
+      "thermal-": "E_THERMAL"
+    },
+    "model_namespaces": [
+      "fluid-energy-",
+      "fluid-multiphase-",
+      "fluid-reduced-",
+      "solid-",
+      "multibody-",
+      "thermal-",
+      "acoustic-",
+      "electromagnetic-",
+      "optics-",
+      "species-",
+      "electrochemistry-",
+      "semiconductor-",
+      "granular-",
+      "porous-",
+      "plasma-",
+      "multiphysics-",
+      "systems-",
+      "radiation-",
+      "microstructure-"
+    ],
+    "modules": {},
+    "strict_tasks": true,
+    "tasks": {
+      "solid-fluid-energy-observation-repair": [
+        "task.solid-fluid-energy-observation-repair"
+      ]
+    },
+    "version": 1
+  },
+  "method": "Fresh monomial antiderivatives; coupled physical-coordinate Q1/Q2 least squares and 4x4 tensor Gauss; no author numerical code imported."
+}

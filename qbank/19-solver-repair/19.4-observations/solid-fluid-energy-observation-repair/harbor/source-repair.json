@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "base_image": "caeoj-moose22074-runtime:base",
+  "replacements": [
+    {
+      "submission": "INSElementIntegralEnergyAdvection.C",
+      "target": "/opt/moose-source-2022/modules/navier_stokes/src/postprocessors/INSElementIntegralEnergyAdvection.C"
+    },
+    {
+      "submission": "INSElementIntegralEnergyAdvection.h",
+      "target": "/opt/moose-source-2022/modules/navier_stokes/include/postprocessors/INSElementIntegralEnergyAdvection.h"
+    }
+  ],
+  "build_directory": "/opt/moose-source-2022",
+  "build_target": "energy_observation_repair",
+  "rebuild_files": [
+    "/opt/moose-source-2022/modules/navier_stokes/build/unity_src/postprocessors_Unity.x86_64-pc-linux-gnu.opt.lo",
+    "/opt/moose-source-2022/modules/navier_stokes/build/unity_src/.libs/postprocessors_Unity.x86_64-pc-linux-gnu.opt.o",
+    "/opt/moose-source-2022/modules/navier_stokes/lib/.libs/libnavier_stokes-opt.so.0.0.0",
+    "/opt/moose-source-2022/modules/navier_stokes/navier_stokes-opt"
+  ],
+  "build_timeout_seconds": 300,
+  "baseline_timeout_seconds": 300,
+  "max_source_bytes": 1048576,
+  "runner": "/app/qbank/19-solver-repair/19.4-observations/solid-fluid-energy-observation-repair/public/run_case.py",
+  "baseline_probe": [
+    "/usr/local/bin/python",
+    "/app/qbank/19-solver-repair/19.4-observations/solid-fluid-energy-observation-repair/public/health.py"
+  ]
+}

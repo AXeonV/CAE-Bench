@@ -1,0 +1,245 @@
+{
+  "baseline_image_id": "sha256:19dace486df01a36eb210364d76469885a45fead71ee5f390439be0df8a7f2ff",
+  "exact_upstream_image_id": "sha256:ff449ee9b6f62c41107684f737aca6dbad1dda54568683afda1877f23dc52e0d",
+  "originals": [
+    {
+      "label": "original-q1q1",
+      "returncode": 0,
+      "native_input_sha256": "ddf19a19422167ec9a33497ec36c5e51be0361a7cf9a10e8b14f8bb2b61d8192",
+      "observations": [
+        {
+          "time": "0",
+          "advection": "0",
+          "convective_heat_transfer": "0",
+          "energy_balance": "0",
+          "source": "0"
+        },
+        {
+          "time": "1",
+          "advection": "0.032546664449098",
+          "convective_heat_transfer": "0.62195180504878",
+          "energy_balance": "9.9920072216264e-16",
+          "source": "0.65449846949787"
+        }
+      ],
+      "csv_files": [
+        {
+          "name": "case_out.csv",
+          "sha256": "0d8da009b1dd94f8780280c567d1c8c0958b0a865694b4413472fe873f9e3753"
+        }
+      ],
+      "adaptation": "none: exact original PR input"
+    },
+    {
+      "label": "original-q2q1",
+      "returncode": 0,
+      "native_input_sha256": "06e15805d0c2238eea8051b958393d692fdee4eadcce5fd8f14cf0f20f2187d8",
+      "observations": [
+        {
+          "time": "0",
+          "advection": "0",
+          "convective_heat_transfer": "0",
+          "energy_balance": "0",
+          "source": "0"
+        },
+        {
+          "time": "1",
+          "advection": "0.035399450358858",
+          "convective_heat_transfer": "0.61909901913896",
+          "energy_balance": "-5.9174887212521e-14",
+          "source": "0.65449846949787"
+        }
+      ],
+      "csv_files": [
+        {
+          "name": "case_out.csv",
+          "sha256": "0f3b3301be7310326177c81b853cdf4b2578cdb6fa7aa1e7331128bca83e9a91"
+        }
+      ],
+      "adaptation": "none: exact original PR input"
+    }
+  ],
+  "analytic_observations": [
+    {
+      "label": "cartesian-normal",
+      "returncode": 0,
+      "native_input_sha256": "b1223a70d11dcda5b235f6bdccd02a4184f77e002969f6ff02376e7821328640",
+      "observations": [
+        {
+          "time": "0",
+          "T_integral_0": "151.99999999999994",
+          "T_integral_1": "152.5",
+          "advection": "25.37499999999989",
+          "energy_0": "911.99999999999966",
+          "energy_1": "5337.5"
+        }
+      ],
+      "csv_files": [
+        {
+          "name": "result.csv",
+          "sha256": "87f5fe029cc012f7ce0fa8209689b07f828260808498235d9aaddf697937a279"
+        },
+        {
+          "name": "result_flow_nodes_0000.csv",
+          "sha256": "e832393fd0185505539c83574d07243fd2af1a00382c776a38b18170090bec6d"
+        },
+        {
+          "name": "result_temperature_nodes_0000.csv",
+          "sha256": "fb7b518a5591be02911036fd5328d9bd1eff3447a1d4dbf83f835f3fbb419451"
+        }
+      ],
+      "independent_exact_integrals": {
+        "advection": 25.375,
+        "energy_0": 912.0,
+        "energy_1": 5337.5
+      },
+      "absolute_errors": {
+        "advection": 1.1013412404281553e-13,
+        "energy_0": 3.410605131648481e-13,
+        "energy_1": 0.0
+      }
+    },
+    {
+      "label": "cartesian-ad",
+      "returncode": 0,
+      "native_input_sha256": "55c506f701b7fc77174ee4fbc4dac1c7a83bb70d5e8be692791934af8c323065",
+      "observations": [
+        {
+          "time": "0",
+          "T_integral_0": "151.99999999999994",
+          "T_integral_1": "152.5",
+          "advection": "25.37499999999989",
+          "energy_0": "911.99999999999966",
+          "energy_1": "5337.5"
+        }
+      ],
+      "csv_files": [
+        {
+          "name": "result.csv",
+          "sha256": "87f5fe029cc012f7ce0fa8209689b07f828260808498235d9aaddf697937a279"
+        },
+        {
+          "name": "result_flow_nodes_0000.csv",
+          "sha256": "e832393fd0185505539c83574d07243fd2af1a00382c776a38b18170090bec6d"
+        },
+        {
+          "name": "result_temperature_nodes_0000.csv",
+          "sha256": "fb7b518a5591be02911036fd5328d9bd1eff3447a1d4dbf83f835f3fbb419451"
+        }
+      ],
+      "independent_exact_integrals": {
+        "advection": 25.375,
+        "energy_0": 912.0,
+        "energy_1": 5337.5
+      },
+      "absolute_errors": {
+        "advection": 1.1013412404281553e-13,
+        "energy_0": 3.410605131648481e-13,
+        "energy_1": 0.0
+      }
+    },
+    {
+      "label": "rz-normal",
+      "returncode": 0,
+      "native_input_sha256": "744c446c30acd1ab4d54b32388be3f709436d9374fd76474f4dbd6125eb2fb80",
+      "observations": [
+        {
+          "time": "0",
+          "T_integral_0": "237.32114503992887",
+          "T_integral_1": "714.05783022217929",
+          "advection": "-3.6651914291819008",
+          "energy_0": "1423.9268702395732",
+          "energy_1": "24992.024057776274"
+        }
+      ],
+      "csv_files": [
+        {
+          "name": "result.csv",
+          "sha256": "96af629ba89db75bb5a9deaffebe747266439d0ab24ad8e2e54c670a48219bf0"
+        },
+        {
+          "name": "result_flow_nodes_0000.csv",
+          "sha256": "6f93dc35b894755ca9577fac6b7779ff6229bede3ba597286c4d944f0609d4de"
+        },
+        {
+          "name": "result_temperature_nodes_0000.csv",
+          "sha256": "46f20a9143d13840e38c355fd5c87b4f596c64a35ac47074e1c56bad7fbc47be"
+        }
+      ],
+      "independent_exact_integrals": {
+        "advection": -3.665191429188092,
+        "energy_0": 1423.9268702395736,
+        "energy_1": 24992.0240577763
+      },
+      "absolute_errors": {
+        "advection": 6.191047674519723e-12,
+        "energy_0": 4.547473508864641e-13,
+        "energy_1": 2.546585164964199e-11
+      }
+    },
+    {
+      "label": "rz-ad",
+      "returncode": 0,
+      "native_input_sha256": "23e99fe761e03b40f59aa0dac98511a0a70968da007e876f939e6b98855517b4",
+      "observations": [
+        {
+          "time": "0",
+          "T_integral_0": "237.32114503992887",
+          "T_integral_1": "714.05783022217929",
+          "advection": "-3.6651914291819008",
+          "energy_0": "1423.9268702395732",
+          "energy_1": "24992.024057776274"
+        }
+      ],
+      "csv_files": [
+        {
+          "name": "result.csv",
+          "sha256": "96af629ba89db75bb5a9deaffebe747266439d0ab24ad8e2e54c670a48219bf0"
+        },
+        {
+          "name": "result_flow_nodes_0000.csv",
+          "sha256": "6f93dc35b894755ca9577fac6b7779ff6229bede3ba597286c4d944f0609d4de"
+        },
+        {
+          "name": "result_temperature_nodes_0000.csv",
+          "sha256": "46f20a9143d13840e38c355fd5c87b4f596c64a35ac47074e1c56bad7fbc47be"
+        }
+      ],
+      "independent_exact_integrals": {
+        "advection": -3.665191429188092,
+        "energy_0": 1423.9268702395736,
+        "energy_1": 24992.0240577763
+      },
+      "absolute_errors": {
+        "advection": 6.191047674519723e-12,
+        "energy_0": 4.547473508864641e-13,
+        "energy_1": 2.546585164964199e-11
+      }
+    }
+  ],
+  "existing_pde_health": {
+    "label": "existing-navier-stokes-heat-health",
+    "returncode": 0,
+    "native_input_sha256": "f18fee7d5ec06675986a6d15a47f207c9dcc35d61836151451090871d39ad613",
+    "observations": [
+      {
+        "time": "0",
+        "convective_heat_transfer": "0",
+        "source": "0"
+      },
+      {
+        "time": "1",
+        "convective_heat_transfer": "0.62195180504878",
+        "source": "0.65449846949787"
+      }
+    ],
+    "csv_files": [
+      {
+        "name": "case_out.csv",
+        "sha256": "8cab536dbb184b470543494c10bf891181ffed37a0795336bb7842507d970350"
+      }
+    ],
+    "adaptation": "Only unavailable advection observer and its derived balance PP removed; full original NS/thermal equations, mesh and physical parameters unchanged."
+  },
+  "complete": true
+}

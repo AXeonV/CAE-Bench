@@ -1,0 +1,35 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "cmake",
+    "--build",
+    "/opt/moose-source-2022",
+    "--target",
+    "energy_observation_repair",
+    "--parallel",
+    "4"
+  ],
+  "exit_code": 0,
+  "status": "built",
+  "elapsed_seconds": 18.68729195999913,
+  "sources_sha256": {
+    "INSElementIntegralEnergyAdvection.C": "eaa829c1f6d38e962036c9c698f7e738c2871f23e739ed53ef1a6d17cb007825",
+    "INSElementIntegralEnergyAdvection.h": "15dc968c33f85c73c20e0cfdb2ed3e3d310c1198bb2489853a668c534c92a59a"
+  },
+  "removed_build_artifacts": [
+    "/opt/moose-source-2022/modules/navier_stokes/build/unity_src/postprocessors_Unity.x86_64-pc-linux-gnu.opt.lo",
+    "/opt/moose-source-2022/modules/navier_stokes/build/unity_src/.libs/postprocessors_Unity.x86_64-pc-linux-gnu.opt.o",
+    "/opt/moose-source-2022/modules/navier_stokes/lib/.libs/libnavier_stokes-opt.so.0.0.0",
+    "/opt/moose-source-2022/modules/navier_stokes/navier_stokes-opt"
+  ],
+  "built_artifacts_sha256": {
+    "/opt/moose-source-2022/modules/navier_stokes/build/unity_src/postprocessors_Unity.x86_64-pc-linux-gnu.opt.lo": "cb4a2de7019cc75ce287e2d82e3ae7d4dd166bbbc12595baa390571a5a822d91",
+    "/opt/moose-source-2022/modules/navier_stokes/build/unity_src/.libs/postprocessors_Unity.x86_64-pc-linux-gnu.opt.o": "7fb4986f806b720b967ca059c8c33d0f03484bd2f7dbc21b840a330ee43683b3",
+    "/opt/moose-source-2022/modules/navier_stokes/lib/.libs/libnavier_stokes-opt.so.0.0.0": "3862fd3fef119ed8fd4f72f9e8aead515be00d7036381ce6387319796344fb0b",
+    "/opt/moose-source-2022/modules/navier_stokes/navier_stokes-opt": "9dd746dfac5d7f3beb6ac398cf62130de2d03ff0a9043b3a40f3d8fcf61b99fa"
+  }
+}

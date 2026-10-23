@@ -135,7 +135,7 @@ def prepare(task, root=PROJECT_ROOT):
                        + sample_materials(task_path, manifest['public_samples'], names))
     resources = tomllib.loads(rendered_config)
     if repair:
-        minimum = repair['build_timeout_seconds'] + 60 + len(cases) * (
+        minimum = repair['build_timeout_seconds'] + repair.get('baseline_timeout_seconds', 60) + len(cases) * (
             judge_config['timeout_seconds'] + judge_config.get('evaluation_timeout_seconds', 60))
         if repair.get('baseline_probe'):
             minimum += min(60, repair['build_timeout_seconds'])

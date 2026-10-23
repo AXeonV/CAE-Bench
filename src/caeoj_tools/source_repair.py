@@ -12,7 +12,7 @@ def configuration(source, root):
     config = json.loads(read_public_file(root, path))
     required = {'version', 'base_image', 'replacements', 'build_directory', 'build_target',
                 'build_timeout_seconds', 'max_source_bytes', 'runner', 'rebuild_files'}
-    if set(config) - required - {'baseline_probe'} or required - set(config) or config['version'] != 1:
+    if set(config) - required - {'baseline_probe', 'baseline_timeout_seconds'} or required - set(config) or config['version'] != 1:
         raise ValueError('Invalid source-repair configuration keys')
     if 'baseline_probe' in config:
         probe = config['baseline_probe']
@@ -31,6 +31,9 @@ def configuration(source, root):
     for name in ('build_timeout_seconds', 'max_source_bytes'):
         if type(config[name]) is not int or config[name] <= 0:
             raise ValueError('Invalid source-repair budget: ' + name)
+    if 'baseline_timeout_seconds' in config:
+        if type(config['baseline_timeout_seconds']) is not int or config['baseline_timeout_seconds'] <= 0:
+            raise ValueError('Invalid source-repair budget: baseline_timeout_seconds')
     if not isinstance(config['rebuild_files'], list) or not config['rebuild_files']:
         raise ValueError('Missing source-repair rebuild files')
     build = PurePosixPath(config['build_directory'])

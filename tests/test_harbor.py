@@ -84,7 +84,7 @@ class HarborTests(unittest.TestCase):
         config = {'version': 1, 'base_image': 'local-repair:test',
                   'replacements': [{'submission': 'Assembly.cpp', 'target': '/opt/source/Assembly.cpp'}],
                   'build_directory': '/opt/build', 'build_target': 'core',
-                  'build_timeout_seconds': 123, 'max_source_bytes': 1048576,
+                  'build_timeout_seconds': 123, 'baseline_timeout_seconds': 300, 'max_source_bytes': 1048576,
                   'rebuild_files': ['/opt/build/assembly.o'],
                   'runner': f'/app/{TASK_PATH.as_posix()}/public/run_case.py'}
         (task / 'harbor').mkdir(exist_ok=True)
@@ -134,10 +134,55 @@ class HarborTests(unittest.TestCase):
                                        'target': '/opt/source/material.' + suffix}]
             path.write_text(json.dumps(config))
             self.assertEqual(configuration(task, self.root)['replacements'], config['replacements'])
+        for budget in (0, -1, True, 1.5, '300'):
+            config['baseline_timeout_seconds'] = budget
+            path.write_text(json.dumps(config))
+            with self.assertRaisesRegex(ValueError, 'baseline_timeout_seconds'):
+                configuration(task, self.root)
+        config.pop('baseline_timeout_seconds')
         config['replacements'] = [{'submission': 'material.py.sh', 'target': '/opt/source/material.py.sh'}]
         path.write_text(json.dumps(config))
         with self.assertRaisesRegex(ValueError, 'plain supported'):
             configuration(task, self.root)
+
+    def test_source_repair_baseline_budget_reaches_executor_without_changing_probe_or_candidate(self):
+        backend = module('repair_budget_backend', ROOT/'src/utils/harbor/tests/source_repair.py')
+        for baseline_budget, candidate_budget in ((300, 600), (None, 300), (None, 30)):
+            with self.subTest(baseline_budget=baseline_budget, candidate_budget=candidate_budget):
+                base = self.root/('budget-'+str(baseline_budget)+'-'+str(candidate_budget))
+                submission, build, logs = base/'submission', base/'build', base/'logs'
+                submission.mkdir(parents=True)
+                build.mkdir()
+                (submission/'Core.cpp').write_text('// candidate')
+                source, artifact = base/'Core.cpp', build/'core.o'
+                source.write_text('// original')
+                artifact.write_bytes(b'original object')
+                config = {'replacements': [{'submission': 'Core.cpp', 'target': str(source)}],
+                          'build_directory': str(build), 'rebuild_files': [str(artifact)],
+                          'max_source_bytes': 1024, 'build_timeout_seconds': candidate_budget,
+                          'baseline_probe': ['/usr/bin/true']}
+                if baseline_budget is not None:
+                    config['baseline_timeout_seconds'] = baseline_budget
+                config_file = base/'config.json'
+                config_file.write_text(json.dumps(config))
+                calls = []
+                def compile_fixture(config, label, timeout, command_override=None):
+                    calls.append((label, timeout))
+                    if command_override:
+                        return {'status': 'ready'}
+                    self.assertFalse(artifact.exists())
+                    artifact.write_bytes(source.read_bytes())
+                    return {'status': 'built'}
+                with patch.object(backend, 'CONFIG', config_file), patch.object(backend, 'SUBMISSION', submission), \
+                     patch.object(backend, 'LOGS', logs), patch.object(backend, 'compile_source', compile_fixture), \
+                     patch.object(backend.os, 'chown', create=True):
+                    self.assertTrue(backend.prepare())
+                self.assertEqual(calls, [('baseline', baseline_budget or min(60, candidate_budget)),
+                                         ('baseline-probe', min(60, candidate_budget)),
+                                         ('candidate', candidate_budget)])
+                self.assertEqual(source.read_text(), '// candidate')
+                # Windows cleanup needs write permission on the now frozen file.
+                artifact.chmod(0o666)
 
     def test_instruction_lists_only_published_sample_assets(self):
         task = self.root / TASK_PATH

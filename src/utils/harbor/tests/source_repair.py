@@ -83,7 +83,8 @@ def prepare():
     # Test the pristine trusted build before introducing candidate code. Missing
     # dependencies/targets or a broken baseline are infrastructure failures.
     baseline_removed = remove_build_artifacts(config)
-    baseline = compile_source(config, 'baseline', min(60, config['build_timeout_seconds']))
+    baseline = compile_source(config, 'baseline', config.get(
+        'baseline_timeout_seconds', min(60, config['build_timeout_seconds'])))
     baseline['removed_build_artifacts'] = baseline_removed
     (LOGS / 'baseline-report.json').write_text(json.dumps(baseline, indent=2) + '\n')
     if baseline['status'] != 'built':

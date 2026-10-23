@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "D:\Code\CAE-Bench-OJ\qbank\19-solver-repair\19.6-waves\complex-helmholtz-fmm-repair\author\replay.py", line 74, in <module>
+    p=argparse.ArgumentParser();p.add_argument('--dataset',type=Path,required=True);p.add_argument('--image',required=True);p.add_argument('--docker',default='docker');p.add_argument('--mode',choices=['reference','defect'],required=True);p.add_argument('--resume',action='store_true');a=p.parse_args();replay(a.dataset,a.image,a.docker,a.mode,a.resume)
+                                                                                                                                                                                                                                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Code\CAE-Bench-OJ\qbank\19-solver-repair\19.6-waves\complex-helmholtz-fmm-repair\author\replay.py", line 49, in replay
+    if shutil.disk_usage(scratch).free<8*1024**3:raise RuntimeError('At least8GiB free disk required for native FMM scratch')
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: At least8GiB free disk required for native FMM scratch

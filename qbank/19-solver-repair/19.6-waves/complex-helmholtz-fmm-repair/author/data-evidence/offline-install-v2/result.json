@@ -1,0 +1,57 @@
+{
+  "passed": true,
+  "cases": [
+    "001",
+    "002",
+    "003",
+    "004",
+    "005",
+    "006",
+    "007",
+    "008",
+    "009",
+    "010",
+    "011",
+    "012"
+  ],
+  "samples": [
+    {
+      "sample": "01",
+      "command": [
+        "setpriv",
+        "--reuid=1000",
+        "--regid=1000",
+        "--clear-groups",
+        "/usr/local/bin/python",
+        "/tmp/tmpr3hv0lrh/package/qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/public/run_case.py",
+        "--input",
+        "/task/samples/01/input/problem.json",
+        "--output",
+        "/tmp/tmpr3hv0lrh/sample-01/result.h5"
+      ],
+      "returncode": 1,
+      "score": 0,
+      "stderr": "Traceback (most recent call last):\n  File \"/tmp/tmpr3hv0lrh/package/qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/public/run_case.py\", line 33, in <module>\n    p=argparse.ArgumentParser();p.add_argument('--input',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args();run(a.input,a.output)\n                                                                                                                                                      ^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpr3hv0lrh/package/qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/public/run_case.py\", line 28, in run\n    if process.returncode:raise RuntimeError(f'Actual Bempp driver failed {process.returncode}: {process.stderr}')\n                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: Actual Bempp driver failed 1: Traceback (most recent call last):\n  File \"/opt/repair-driver/driver.py\", line 68, in <module>\n    with contextlib.redirect_stdout(sys.stderr):result=solve(payload)\n                                                       ^^^^^^^^^^^^^^\n  File \"/opt/repair-driver/driver.py\", line 34, in solve\n    api=ExafmmInterface(sources,points,'helmholtz',wavenumber=wave,expansion_order=10,ncrit=16)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/exafmm.py\", line 68, in __init__\n    self._kernel_parameters = _np.array([wavenumber], dtype=\"float64\")\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: float() argument must be a string or a real number, not 'complex'\n\n"
+    },
+    {
+      "sample": "02",
+      "command": [
+        "setpriv",
+        "--reuid=1000",
+        "--regid=1000",
+        "--clear-groups",
+        "/usr/local/bin/python",
+        "/tmp/tmpr3hv0lrh/package/qbank/19-solver-repair/19.6-waves/complex-helmholtz-fmm-repair/public/run_case.py",
+        "--input",
+        "/task/samples/02/input/problem.json",
+        "--output",
+        "/tmp/tmpr3hv0lrh/sample-02/result.h5"
+      ],
+      "returncode": 0,
+      "score": 0,
+      "stderr": ""
+    }
+  ],
+  "installed_checker": "/usr/local/lib/python3.11/site-packages/caeoj_task_ext/helmholtz.py",
+  "installed_checker_sha256": "bf6ec9c9e2c4cef68d5fce00b86dcac6fa5d49a6e22303dbe2ec20385e74296f"
+}

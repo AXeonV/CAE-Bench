@@ -1,0 +1,15 @@
+{
+  "command": [
+    "setpriv",
+    "--reuid=1000",
+    "--regid=1000",
+    "--clear-groups",
+    "--no-new-privs",
+    "/usr/local/bin/python",
+    "-c",
+    "import subprocess,numpy,h5py,gmsh,json; gmsh.initialize(); gmsh.finalize(); r=json.loads(subprocess.check_output(['/opt/bempp-env/bin/python','/opt/repair-driver/driver.py','--health'],text=True)); assert r['runtime']=='ready'; print('actual original Bempp, native ExaFMM, OpenCL and SDK available')"
+  ],
+  "exit_code": 0,
+  "status": "ready",
+  "elapsed_seconds": 0.9247336949993041
+}

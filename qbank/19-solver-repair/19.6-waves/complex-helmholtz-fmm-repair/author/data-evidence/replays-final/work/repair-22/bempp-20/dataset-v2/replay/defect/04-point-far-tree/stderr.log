@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/opt/repair-driver/driver.py", line 68, in <module>
+    with contextlib.redirect_stdout(sys.stderr):result=solve(payload)
+                                                       ^^^^^^^^^^^^^^
+  File "/opt/repair-driver/driver.py", line 34, in solve
+    api=ExafmmInterface(sources,points,'helmholtz',wavenumber=wave,expansion_order=10,ncrit=16)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/upstream/bempp-cl-84345ee9ee314c85750f045c7ad38090f5ea5f26/bempp/api/fmm/exafmm.py", line 68, in __init__
+    self._kernel_parameters = _np.array([wavenumber], dtype="float64")
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: float() argument must be a string or a real number, not 'complex'

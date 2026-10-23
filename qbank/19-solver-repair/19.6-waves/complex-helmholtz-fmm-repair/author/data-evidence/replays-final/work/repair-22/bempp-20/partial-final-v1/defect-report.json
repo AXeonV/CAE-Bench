@@ -1,0 +1,50 @@
+{
+  "mode": "defect",
+  "image_id": "sha256:b4c4d4cc375678cc12b1d60c11f21d1d289ab2ab6408c1ea7d5d2ab2eb5a0919",
+  "driver_sha256": "ed62991327fbfe9411b0631cab7fd06661cecf0e1f96980a18677f6cbb3f368d",
+  "producer": "actual pinned Bempp API plus genuine native ExaFMM; mathematical audit never produces reference",
+  "cases": [
+    {
+      "case": "07-boundary-complex",
+      "command": [
+        "C:/Program Files/Docker/Docker/resources/bin/docker.exe",
+        "run",
+        "--rm",
+        "--name",
+        "bempp20-ce21eafee458",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,size=256m",
+        "-v",
+        "C:\\Users\\Jim Zhou\\.codex\\tmp\\repair22-bempp-disk-recovery-v1\\partial\\replay\\defect\\07-boundary-complex\\scratch-94efxnm_:/scratch",
+        "-w",
+        "/scratch",
+        "-e",
+        "HOME=/tmp",
+        "-i",
+        "sha256:b4c4d4cc375678cc12b1d60c11f21d1d289ab2ab6408c1ea7d5d2ab2eb5a0919",
+        "/opt/bempp-env/bin/python",
+        "/opt/repair-driver/driver.py"
+      ],
+      "elapsed_seconds": 197.6720000000205,
+      "returncode": 0,
+      "input_assets": {
+        "input.h5": "a76ed11c5c9a8422cc828c4b68353f159ea242c616cf5a099aeb59f89330770b",
+        "problem.json": "67b0c8dace3a1deee648107253eb8af863f9f0295a22ac1037a8f113f43abb74",
+        "surface.msh": "7db5b120fb9885061cd67398240c14b81c4e7d493262d2aed2792700b3b6646a"
+      },
+      "payload_sha256": "e629e122da29cc82b16cd35a2d9a00feb02997eab3162db4435baafa943b3bd1",
+      "stdout_sha256": "4d743b3b420a415563926817a7999e1b65b25a2d2eee904d6e2b0daa503612e0",
+      "score": 0,
+      "output_sha256": "72b3cef2a1298cf24d2b125ed6e7dbcf67f34474f5f279fe210603b9dfd96452"
+    }
+  ]
+}

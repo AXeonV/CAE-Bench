@@ -41,3 +41,7 @@ generate只生成输入与独立代数核对量，reference必须由replay实际
 装配后运行`audit_data.py --output <报告路径>`，覆盖全部16例与2样例、评分绑定、公开输出及8类非法变体。随后使用现有publish_dist／prepare_harbor装配，并以Oracle实际走通完整可信编译及全部逐例评分。`backend_probe.py`在单独私有verifier镜像中测试未来pyc时间戳、实际导入路径与源／pyc绑定、只读隔离、非法提交、可信依赖损坏及候选导入死循环的进程组超时；不能把有限探针解释为整个容器的安全证明。
 
 实际审阅、数据、运行报告和版本绑定在`data-evidence/`；完整临时日志留runs及工作缓存。准备过程中外部HTTPS失败与SDK缓存漏Gmsh共享库曾导致Oracle基础设施失败，均保留原始记录，没有记成考生数值零分，也没有追加收费模型运行。
+
+最终数据固定在HF分支`cases/repair-22-20261023`的提交`4fe4cbd84a8acd68d7b39a3d2ca116ef80b200af`。官方assemble从该提交取回74个文件，changed=0、complete=true，随后strict verify valid=true；见`data-evidence/hf-fixed-assembly.json`及`hf-strict-verification.json`。因此此前Oracle16/16所消费的数据与固定远端数据逐字节一致。
+
+当前验收包括独立设计、公开题面及考试材料审阅、全部参考独立核对、16例可信Oracle、6种后端实际探针及29项共享Harbor回归。没有执行新的收费模型Benchmark。有限的隔离／超时探针边界见backend-review.md，不将其扩写为任意代码安全证明。

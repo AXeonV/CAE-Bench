@@ -34,7 +34,7 @@
 | 19.3.5 | reconstructed-energy-repair／可压缩流能量重构 | su2code/SU2#2602 | 重构一致性与稳定性；状态恒等关系及收敛流场，十步回归不作物理参考 | 待实施 |
 | 19.3.6 | deformed-tangential-boundary-repair／变形边界切向约束 | geodynamics/aspect#6818 | 当前几何法向与切向速度；解析几何／流场，公开限制AMG支持范围 | 待实施 |
 | 19.4.1 | graded-electrode-inventory-repair／梯度电极锂库存 | pybamm-team/PyBaMM#5810 | 空间加权积分与电极库存观测；独立积分，区分观测和演化误差 | 待实施 |
-| 19.4.2 | diffusion-element-heat-repair／扩散元件电压与耗散 | pybamm-team/PyBaMM#5859 | 扩散过电势和不可逆热；独立能量账本与电路极限 | 待实施 |
+| 19.4.2 | diffusion-element-heat-repair／扩散元件电压与耗散 | pybamm-team/PyBaMM#5859 | 扩散过电势和不可逆热；独立能量账本与电路极限 | 已完成；[验收记录](../19-solver-repair/19.4-observations/diffusion-element-heat-repair/author/README.md) |
 | 19.4.3 | hysteresis-heat-repair／开路电势滞回热源 | pybamm-team/PyBaMM#3867 | 平衡与分支OCP的能量差；明确参数语义及独立循环功核对 | 待实施 |
 | 19.4.4 | granular-pair-stress-repair／颗粒成对力应力统计 | lammps/lammps#4219 | 成对贡献与累计力的区别；独立virial及小颗粒系统 | 待实施 |
 | 19.4.5 | wall-heat-flux-repair／近壁热流离散与观测 | su2code/SU2#2347 | 边界和后处理热流一致；解析温度梯度与能量平衡 | 待实施 |
@@ -50,6 +50,6 @@
 
 优先形成状态／几何／观测等参考可精确核对的首批，再推进材料与反应、多物理、波动和大型CFD环境。共享同一求解器的题复用固定构建环境，但每题基线、修复子集和数据验收独立绑定；不得将其他题的修复或无关上游改动混入本题基线／参考补丁。同题的多个必要修复点可以共同组成完整修复，但须分别有可检出的工况，解释其共同服务的能力。
 
-当前19.2—19.6均为规划，不能因为出现在此表中被计为已完成。修复题仅公开规定范围；不把上游完整应用、GPU、MPI或尚未验证的模型组合默认为支持。必要缩限须仍保留原问题的实质修复能力，并经设计审阅。
+除已明确标为完成且链接验收记录的题外，其余项仍属规划或制作，不能因为出现在此表中被计为已完成。修复题仅公开规定范围；不把上游完整应用、GPU、MPI或尚未验证的模型组合默认为支持。必要缩限须仍保留原问题的实质修复能力，并经设计审阅。
 
 独立规划审阅见`runs/design-review/repair-22-plan/report.md`：已逐题检查22项，未发现必须合并／拆分的实质重复；21道新增题尚需逐题范围卡，不能将本轮审阅称作规划全部通过。范围卡按真实源码和可执行性核查逐题补充，当前新增卡见[逐题范围](repair-22-scopes.md)。

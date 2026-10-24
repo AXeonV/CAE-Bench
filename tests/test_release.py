@@ -207,6 +207,22 @@ class ReleaseTests(unittest.TestCase):
         self.public[self.prefix + '/harbor/task.toml'] = b'[environment]\ncpus = 7\n'; self.make_public()
         with self.assertRaisesRegex(ValueError, 'private cases'): self.run_build()
 
+    def test_environment_requirements_survive_release_and_extraction(self):
+        path = self.task/'harbor/requirements.txt'
+        path.parent.mkdir(exist_ok=True)
+        content = b'scipy==1.18.1\n'
+        path.write_bytes(content)
+        catalog = self.run_build()
+        self.assertEqual(catalog['tasks'][0]['files']['harbor/requirements.txt']['sha256'], digest(content))
+        target = self.root/'requirements-workspace'
+        extract(self.output, 'test-task', target)
+        self.assertEqual((target/self.prefix/'harbor/requirements.txt').read_bytes(), content)
+
+    def test_environment_requirements_are_private_configuration(self):
+        self.public[self.prefix+'/harbor/requirements.txt'] = b'scipy==1.18.1\n'
+        self.make_public()
+        with self.assertRaisesRegex(ValueError, 'private cases'): self.run_build()
+
     def test_release_notes_are_delivered_and_verified(self):
         self.plan['release_notes'] = ['Candidate references await numerical qualification.']
         catalog = self.run_build()

@@ -1,0 +1,34 @@
+....F........................F..                             [100%]
+================================== FAILURES ===================================
+_________ HarborTests.test_build_context_contains_only_public_release _________
+
+self = <test_harbor.HarborTests testMethod=test_build_context_contains_only_public_release>
+
+    def test_build_context_contains_only_public_release(self):
+        directory = self.prepared()
+        self.assertEqual(directory, self.root / 'runs/harbor/tasks' / TASK)
+>       self.assertEqual({p.name for p in (directory / 'environment').iterdir()},
+                         {'Dockerfile', 'agent.zip', 'requirements.txt'})
+E       AssertionError: Items in the first set but not the second:
+E       'check_environment.py'
+
+tests\test_harbor.py:411: AssertionError
+______ HarborTests.test_task_without_harbor_config_uses_shared_defaults _______
+
+self = <test_harbor.HarborTests testMethod=test_task_without_harbor_config_uses_shared_defaults>
+
+    def test_task_without_harbor_config_uses_shared_defaults(self):
+        requirements = self.root / TASK_PATH / 'harbor/requirements.txt'
+        requirements.unlink()
+        resource_config = self.root / TASK_PATH / 'harbor/task.toml'
+        if resource_config.exists():
+            resource_config.unlink()
+        directory = self.prepared()
+>       self.assertEqual((directory / 'environment/requirements.txt').read_bytes(), b'')
+E       AssertionError: b'scipy==1.18.1\n' != b''
+
+tests\test_harbor.py:490: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_harbor.py::HarborTests::test_build_context_contains_only_public_release
+FAILED tests/test_harbor.py::HarborTests::test_task_without_harbor_config_uses_shared_defaults
+2 failed, 30 passed, 12 subtests passed in 122.37s (0:02:02)

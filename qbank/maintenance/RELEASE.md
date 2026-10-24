@@ -14,7 +14,7 @@
 - `tasks`：每题的`task`、`chapter`、`title`、`source_root`、相对`task_path`、现有`public_archive`、明确的`profile`和`limitations`、实际`license_files`；
 - `excluded`：未纳入的题目身份与具体原因。
 
-`source_root`和许可证原位置只用于作者侧装配计划；最终catalog不依赖这些机器路径。公开包先经现有`publish_dist.py`或匹配版本的发布器生成，包含独立的严格运行闭包；它不得含正式隐藏case、参考、作者材料或装配回执。
+`source_root`和许可证原位置只用于作者侧装配计划；最终catalog不依赖这些机器路径。题内`harbor/task.toml`及存在的`harbor/requirements.txt`属于维护方执行配置，必须进入完整题库、catalog摘要和提取结果，不能因不属于公开材料而漏掉。公开包先经现有`publish_dist.py`或匹配版本的发布器生成，包含独立的严格运行闭包；它不得含正式隐藏case、参考、作者材料或装配回执。
 
 当前发行计划设置`capabilities.public_sample_policy="random-format-only"`：装配器核对全部样例显式为format、公开MANIFEST角色一致且不携带样例reference/。随机输出只展示格式，不承诺正确数值；正式case与隐藏参考按原规则验证。
 
@@ -54,3 +54,7 @@ python release.py extract task-slug /path/empty-task-workspace
 进入提取目录后按公开README安装工具，用`python -m caeoj validate-input`、`validate-output`、`grade`检查实际输入和已有输出。普通pip安装仍需要匹配的Python依赖及Gmsh系统动态库；数据离线不表示发行包已提供全部系统镜像。模型执行器、凭据、未交付镜像、fast模式或新提交接口未实现时须在capabilities与README明确。
 
 至少验证来源路径不参与提取、公开包无隐藏参考、正式配置完整，以及代表性题目在提取后的独立安装与真实判分。记录实际覆盖与失败；不以参考自判分代替独立数值资格。装配工具改动应复核路径边界、format／数值样例、资产遗漏、损坏检测及独立CLI，再更新本流程和相关技能。
+
+环境修正版应逐题核对题面承诺和实际依赖，实际消费提取后的requirements。共享环境安装项由`src/utils/harbor/environment/runtime-requirements.txt`维护，题内要求保留并共同生效；协议SDK依赖不能冒充完整求解环境。全新考生容器与独立断网判题容器分别安装该题公开包，执行`pip check`、严格provider绑定及环境功能探针，不能依赖考生阶段临时安装的包。完整配方首次构建需要网络时在发行README明确；数据离线、环境构建离线和镜像二进制分发分别陈述。
+
+发现已发行环境缺陷时，先给原Release加勘误，保留原标签／附件／摘要，再发布新版本并列明数据、题面、参考、评分、环境分别变化。环境缺失造成的导入错误不能解释为模型能力零分；历史成绩是否更正服从本次用户授权。

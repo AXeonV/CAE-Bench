@@ -4,14 +4,14 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 考生阅读本题 `instruction.md`、`DATA.md` 和 [通用数据协议](docs/CONTRACT.md) 即可确定任务与数据规则。维护方可查阅 [题库设计](qbank/design/README.md)、[运行装配](qbank/maintenance/RUNTIME.md)、[评分配置](docs/GRADING.md) 及 [Agent 测试记录](docs/AGENT-RESULTS.md)。
 
-向团队分发已选题目及本地数据，见[离线题库发行流程](qbank/maintenance/RELEASE.md)；当前候选发行版的范围、产物及实际验证见[连续评分与RC5记录](qbank/design/reviews/continuous-scoring-2026-10-24/README.md)。公开 samples 的输出为随机格式示例，不保证数值答案正确。发行目录只包含明确纳入的题目，开发目录不等于可发布任务集。
+向团队分发已选题目及本地数据，见[离线题库发行流程](qbank/maintenance/RELEASE.md)；当前候选发行版的范围、产物及实际验证见[RC6环境修复与验证记录](qbank/design/reviews/rc6-environment-2026-10-24/README.md)。公开 samples 的输出为随机格式示例，不保证数值答案正确。发行目录只包含明确纳入的题目，开发目录不等于可发布任务集。
 
 ## 设计
 
 - **统一数据协议**：Gmsh 存网格，HDF5 存数组，JSON 声明字段和条件；题面与 DATA 明确本题任务及数据语义，求解程序按统一接口读写。
 - **核心与领域扩展**：通用核心（`src/caeoj/`）负责读写、结构校验与评分编排，领域扩展（`qbank/extensions/`）提供声明检查及评价器；维护工具（`src/caeoj_tools/`、`src/utils/`）按题目依赖和白名单装配公开材料与必要工具。
 - **做题时辅助校验**：Agent 可随时调用 SDK（`src/caeoj/sdk.py`）和**校验器**（`src/caeoj/validation.py`），减少数据读写与契约理解的负担；*校验器检查格式、引用及声明约束，不验证或纠正物理结果。*
-- **提交后独立评测**：考生材料与私有判题材料分开装配；判题器（`src/utils/harbor/tests/judge.py`）在提交后逐 case 执行、校验并按本例规则评分，每点 0/1 分，汇总结果和日志。
+- **提交后独立评测**：考生材料与私有判题材料分开装配；判题器（`src/utils/harbor/tests/judge.py`）在提交后逐 case 执行、校验并按本例规则评分，汇总真实分值和日志。当前数值题采用连续评分，第0章保留二元评分。
 - **数据与维护材料分存**：实际输入、参考和逐例评分配置上传至 [Hugging Face 数据池](https://huggingface.co/datasets/jimzhouzzy2006/CAE-Bench-OJ)，按固定版本与选样清单获取；题面、DATA、选样与执行配置、来源及验证证据、工具代码和 Skill 保留在代码仓库。
 
 ## 项目结构

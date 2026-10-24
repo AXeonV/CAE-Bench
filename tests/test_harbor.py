@@ -58,6 +58,18 @@ class HarborTests(unittest.TestCase):
         publisher.publish(TASK, root=self.root)
         return Path(prepare.prepare(TASK, self.root)['task_directory'])
 
+    def test_scientific_environment_is_shared_by_candidate_and_separate_verifier(self):
+        task = self.root/TASK_PATH
+        (task/'harbor/requirements.txt').unlink(missing_ok=True)
+        directory = self.prepared()
+        for context in ('environment', 'tests'):
+            self.assertIn('scipy==1.18.1', (directory/context/'requirements.txt').read_text())
+            self.assertIn('python /tmp/check_environment.py', (directory/context/'Dockerfile').read_text())
+            self.assertTrue((directory/context/'check_environment.py').is_file())
+        self.assertEqual((directory/'environment/requirements.txt').read_bytes(),
+                         (directory/'tests/requirements.txt').read_bytes())
+        self.assertNotIn('COPY . /tests', (directory/'environment/Dockerfile').read_text())
+
     def test_partial_scores_are_summed_without_rounding_to_pass_counts(self):
         logs=self.root/'partial-logs';logs.mkdir()
         config=dict(timeout_seconds=1)
@@ -397,7 +409,7 @@ class HarborTests(unittest.TestCase):
         directory = self.prepared()
         self.assertEqual(directory, self.root / 'runs/harbor/tasks' / TASK)
         self.assertEqual({p.name for p in (directory / 'environment').iterdir()},
-                         {'Dockerfile', 'agent.zip', 'requirements.txt'})
+                         {'Dockerfile', 'agent.zip', 'requirements.txt', 'check_environment.py'})
         with zipfile.ZipFile(directory / 'environment/agent.zip') as bundle:
             self.assertFalse(any('/author/' in p or '/cases/' in p or p.startswith(TASK_PATH.as_posix()+'/reference/') for p in bundle.namelist()))
         self.assertEqual(len(list((directory / 'tests/reference').glob('*/reference.h5'))), 2)
@@ -475,7 +487,7 @@ class HarborTests(unittest.TestCase):
         if resource_config.exists():
             resource_config.unlink()
         directory = self.prepared()
-        self.assertEqual((directory / 'environment/requirements.txt').read_bytes(), b'')
+        self.assertEqual((directory / 'environment/requirements.txt').read_bytes(), b'scipy==1.18.1\n')
         config = tomllib.loads((directory / 'task.toml').read_text(encoding='utf-8'))
         self.assertEqual(config['agent']['timeout_sec'], 1800)
         self.assertNotIn('cpus', config['environment'])

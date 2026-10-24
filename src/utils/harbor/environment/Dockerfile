@@ -8,6 +8,8 @@ RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.l
 WORKDIR /app
 COPY agent.zip /tmp/agent.zip
 COPY requirements.txt /tmp/requirements.txt
+COPY check_environment.py /tmp/check_environment.py
 RUN python -m zipfile -e /tmp/agent.zip /app \
     && python -m pip install --no-cache-dir /app -r /tmp/requirements.txt \
-    && mkdir -p /app/submission
+    && mkdir -p /app/submission \
+    && python /tmp/check_environment.py

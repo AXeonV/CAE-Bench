@@ -16,6 +16,8 @@ verifier_budget按实际case数计算总时限，包含求解、评价及装载�
 
 prepare_harbor预检全部case配置，核对公开包内容，隐藏参考仅装入独立verifier。每例配置及输入／参考／代码闭包摘要进入报告，不再维护虚假的全题单policy摘要。具有明确数值参考的作者侧验证与verifier调用同一case评价入口；随机格式样例只做结构验证。
 
+数值题的候选和独立verifier共享执行环境要求：`src/utils/harbor/environment/runtime-requirements.txt`与本题`harbor/requirements.txt`合并后分别安装到两个构建上下文。安装后运行同源`check_environment.py`，实际导入科学库，并验证SciPy稀疏求解、HDF5读写、Gmsh初始化及C++/OpenMP/MPI/HDF5开发工具链。环境探针失败应在模型调用前阻止启动，不把缺少题面承诺的软件算作考生失败。源码修复题仍使用其独立冻结环境，不由这个数值题默认环境替换。
+
 制数模板保存在author/grading-template.json，由作者工具显式生成每例配置；它不是运行时来源。当前发行范围的数值题使用完整case配置模板，包含checks和显式scoring；旧题的内层policy模板由author_case_grading显式包装为direct_outputs配置，不能从metric猜测评分模式。新制数调用author_case_grading与write_case_grading保留完整策略，不用提取的author_policy重建配置而丢失scoring或领域变换。无数据题可维护模板及题面，不能据此宣称case绑定、数值参考或预算已校准。实际判题不提供题目级策略兼容或缺省评分。
 
 case级策略只实现题面允许的判据。应用新的取样方法到真实题目前须公开其重建及误差含义并审阅；已有物理题保持原有完整输出直接比较。送分样例与去重边界见[数据池设计](../design/DATA-STORAGE.md)；公开 case 仍参与计分，报告标识 public_cases 和逐例 public_sample，不能当作未见输入的独立泛化证据。

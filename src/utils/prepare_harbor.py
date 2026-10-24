@@ -184,10 +184,16 @@ def prepare(task, root=PROJECT_ROOT):
         (staged / 'task.toml').write_text(rendered_config, encoding='utf-8', newline='\n')
         (staged / 'instruction.md').write_text(instruction, encoding='utf-8', newline='\n')
         requirements = source / 'harbor/requirements.txt'
+        requirement_lines = []
+        if not repair:
+            requirement_lines.extend(read_public_file(root, template/'environment/runtime-requirements.txt').decode('utf-8').splitlines())
         if requirements.is_file():
-            copy(requirements, Path('environment/requirements.txt'))
-        else:
-            (staged / 'environment/requirements.txt').write_text('', encoding='utf-8')
+            requirement_lines.extend(read_public_file(root, requirements).decode('utf-8').splitlines())
+        effective = list(dict.fromkeys(line.strip() for line in requirement_lines
+                                      if line.strip() and not line.lstrip().startswith('#')))
+        (staged/'environment/requirements.txt').write_text('\n'.join(effective)+'\n', encoding='utf-8', newline='\n')
+        for relative in ('environment/check_environment.py', 'tests/check_environment.py'):
+            copy(template/'environment/check_environment.py', Path(relative))
         # Only the allowlisted public archive enters the agent image build context.
         copy(archive, Path('environment/agent.zip'))
         # Harbor builds the separate verifier from tests/, not environment/.

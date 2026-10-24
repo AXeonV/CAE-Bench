@@ -193,8 +193,9 @@ def _snapshot(task_root):
     files = dict(entries)
     for name in ('instruction.md', 'DATA.md', 'judge-config.json', 'data-manifest.json', '.data-assembly.json'):
         files[name] = _record(_file(task_root, name))
-    if (task_root / 'harbor/task.toml').exists():
-        files['harbor/task.toml'] = _record(_file(task_root, 'harbor/task.toml'))
+    for name in ('harbor/task.toml', 'harbor/requirements.txt'):
+        if (task_root / name).exists():
+            files[name] = _record(_file(task_root, name))
     return manifest, files
 
 

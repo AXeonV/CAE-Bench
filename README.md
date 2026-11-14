@@ -4,6 +4,8 @@ CAE Bench OJ 用于评测 Agent 实现的计算工程求解程序。项目围绕
 
 考生阅读本题 `instruction.md`、`DATA.md` 和 [通用数据协议](docs/CONTRACT.md) 即可确定任务与数据规则。维护方可查阅 [题库设计](qbank/design/README.md)、[运行装配](qbank/maintenance/RUNTIME.md)、[评分配置](docs/GRADING.md) 及 [Agent 测试记录](docs/AGENT-RESULTS.md)。
 
+当前公开候选版为 [RC7 fast-v1](docs/releases/rc7-fast-v1.md)：固定 74 题、550 个正式 case。公开发行资产只包含考生材料，不包含隐藏 case、参考答案或私有判题包。RC7 沿用 RC6 的选题与评分配置，不代表新一轮模型评测或完整 82 题成绩；论文中的实验结果仍对应 RC6，两个版本的等权总分不可直接比较。
+
 ## 设计
 
 - **统一数据协议**：Gmsh 存网格，HDF5 存数组，JSON 声明字段和条件；题面与 DATA 明确本题任务及数据语义，求解程序按统一接口读写。

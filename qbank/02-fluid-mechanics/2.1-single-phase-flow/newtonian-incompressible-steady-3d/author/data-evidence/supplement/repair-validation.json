@@ -1,0 +1,59 @@
+{
+  "captured_at_utc": "2026-10-18T11:16:56.995545+00:00",
+  "changes": [
+    "Interior fluid pressure pin and explicit raw-pin verification",
+    "Native facet normals and geometry-based boundary trace recovery",
+    "Fluid-cell mean pressure without obstacle-mask interpolation",
+    "Finite native field validation and failure stage/traceback recording",
+    "Author execution budget and SIMPLE iteration allowance increased"
+  ],
+  "input_audit": {
+    "cases": 100,
+    "status": "pass"
+  },
+  "prior_success_review": {
+    "cases": 51,
+    "independent_grading_passes": 51,
+    "native_checks_passes": 51,
+    "evidence": "prior-success-review.json"
+  },
+  "tests": {
+    "local": {
+      "native_adapter": 4,
+      "cfd_contract": 26,
+      "case_grading": 15,
+      "status": "pass",
+      "report": 6
+    },
+    "workstation": {
+      "native_adapter": 4,
+      "status": "pass"
+    },
+    "native_adapter_scope": "All 100 candidate native configurations; all obstacle candidate field conversions; rotated gradient and ineffective pressure-pin rejection."
+  },
+  "source_sha256": {
+    "native.py": "8d3c021ffab3cbf7146b63a693003153a71f736a5d8b010eb1f4f2ad8b92ca33",
+    "supplement.py": "c3eff00167677df8ec139377c85210c2f7af18b0780c3ac1fb6d2e5bd510f54c",
+    "test_native.py": "37bcc9212db799a74621bcc906215455446ec7107433b9d7b59aff2a02117c84"
+  },
+  "resources": "parallel-resources.json",
+  "native_requalification": {
+    "status": "completed",
+    "completed": 100,
+    "passed": 72,
+    "failed": 28,
+    "evidence": "production-report.json",
+    "scope": "Reference qualification only; formal candidate resource eligibility not calibrated."
+  },
+  "formal_selection_changed": false,
+  "grading_thresholds_changed": false,
+  "benchmark_run": false,
+  "final_publication": {
+    "cases": 72,
+    "revision": "d78adb9290bc3531223ce29b140b0fd633d0bcd4",
+    "strict_integrity": "pass",
+    "reference_passes": 72,
+    "independent_passes": 72,
+    "evidence": "remote-validation.json"
+  }
+}

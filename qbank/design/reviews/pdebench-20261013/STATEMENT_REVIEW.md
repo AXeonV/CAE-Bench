@@ -1,3 +1,5 @@
+> 历史记录（2026-10-13）；旧命令和参考重算路径已退役。当前操作见 [PDEBench 工具](../../../../src/utils/PDEBench/README.md)。
+
 # 题面与现行设计一致性审阅（2026-10-13）
 
 审阅范围为 11 题的 instruction.md、DATA.md、DESIGN.md、README.md，结合当前转换工具、冻结选择及本地生成输入、参考。本文为作者材料，不进入 Agent 包。

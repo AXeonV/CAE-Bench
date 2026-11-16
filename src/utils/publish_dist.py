@@ -62,6 +62,8 @@ def collect_materials(task, root=PROJECT_ROOT):
     if (task_dir / 'data-manifest.json').is_file():
         from caeoj_tools.data_pool import verify
         verify(task_dir, strict=True, samples_only=True)
+    from caeoj_tools.public_examples import verify_public_examples
+    verify_public_examples(task_dir)
     files, runtime = runtime_materials({task: task_dir}, root)
 
     def add(path):
@@ -172,10 +174,11 @@ def publish(task, output=None, root=PROJECT_ROOT):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--task", required=True, action="append", help="Unique task directory name under qbank/<chapter>/<section>/")
-    parser.add_argument("--output", type=Path, default=PROJECT_ROOT / "dist", help="ZIP output directory")
+    parser.add_argument("--output", type=Path, help="ZIP output directory (default: <root>/dist)")
+    parser.add_argument("--root", type=Path, default=PROJECT_ROOT, help="Isolated workspace project root")
     args = parser.parse_args(argv)
     try:
-        result = publish(args.task, args.output)
+        result = publish(args.task, args.output, root=args.root)
     except (OSError, ValueError, KeyError, RuntimeError, ContractError) as exc:
         parser.exit(1, f"Publish failed: {exc}\n")
     print(json.dumps(result, ensure_ascii=True, indent=2))

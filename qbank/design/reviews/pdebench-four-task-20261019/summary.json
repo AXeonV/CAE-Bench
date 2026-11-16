@@ -1,0 +1,170 @@
+{
+  "source_implementation_commit": "21521bc",
+  "selection_sha256": "c3ff017ad0c35ae1d48f800f680aa7ca1838c0573d344b1d1164028935361136",
+  "scope": "four-task operational/source-conversion acceptance; no model/PDE solve or formal selection replacement",
+  "counts": {
+    "unique_trajectories": 8,
+    "scored_cases": 8,
+    "public_aliases": 4,
+    "unseen_cases": 4
+  },
+  "network": {
+    "phases": [
+      {
+        "phase": "inspect-sorption-attempt1-transfer",
+        "limit_bytes": 8000000,
+        "charged_body_bytes_upper": 7340039,
+        "received_complete_body_bytes": 3145728,
+        "requests": 7,
+        "scope": "response bodies; partial failures charged at admitted maximum; excludes headers/TLS",
+        "returncode": 1,
+        "reason": "initial conservative response-body budget exhausted; cached ranges retained"
+      },
+      {
+        "phase": "inspect-sorption",
+        "limit_bytes": 32000000,
+        "charged_body_bytes_upper": 4194308,
+        "received_complete_body_bytes": 2097152,
+        "requests": 4,
+        "scope": "response bodies; partial failures charged at admitted maximum; excludes headers/TLS",
+        "seconds": 6.149270000052638,
+        "returncode": 0
+      },
+      {
+        "phase": "inspect-fhn",
+        "limit_bytes": 32000000,
+        "charged_body_bytes_upper": 12582924,
+        "received_complete_body_bytes": 6291456,
+        "requests": 12,
+        "scope": "response bodies; partial failures charged at admitted maximum; excludes headers/TLS",
+        "seconds": 16.714308458031155,
+        "returncode": 0
+      },
+      {
+        "phase": "inspect-shallow",
+        "limit_bytes": 32000000,
+        "charged_body_bytes_upper": 12582924,
+        "received_complete_body_bytes": 6291456,
+        "requests": 12,
+        "scope": "response bodies; partial failures charged at admitted maximum; excludes headers/TLS",
+        "seconds": 16.240768749965355,
+        "returncode": 0
+      },
+      {
+        "phase": "inspect-cns128",
+        "limit_bytes": 32000000,
+        "charged_body_bytes_upper": 4204726,
+        "received_complete_body_bytes": 2102360,
+        "requests": 6,
+        "scope": "response bodies; partial failures charged at admitted maximum; excludes headers/TLS",
+        "seconds": 9.15247566695325,
+        "returncode": 0
+      },
+      {
+        "phase": "inspect-cns512",
+        "limit_bytes": 32000000,
+        "charged_body_bytes_upper": 4211366,
+        "received_complete_body_bytes": 2105680,
+        "requests": 6,
+        "scope": "response bodies; partial failures charged at admitted maximum; excludes headers/TLS",
+        "seconds": 11.364511082996614,
+        "returncode": 0
+      },
+      {
+        "phase": "prepare",
+        "limit_bytes": 192000000,
+        "charged_body_bytes_upper": 165675142,
+        "received_complete_body_bytes": 82837504,
+        "requests": 134,
+        "scope": "response bodies; partial failures charged at admitted maximum; excludes headers/TLS",
+        "seconds": 201.3866519590374,
+        "returncode": 0
+      }
+    ],
+    "totals": {
+      "charged_body_bytes_upper": 210791429,
+      "received_complete_body_bytes": 104871336,
+      "requests": 181
+    },
+    "resume": {
+      "limit_bytes": 0,
+      "charged_body_bytes_upper": 0,
+      "received_complete_body_bytes": 0,
+      "requests": 0,
+      "scope": "response bodies; partial failures charged at admitted maximum; excludes headers/TLS"
+    },
+    "audit": {
+      "limit_bytes": 0,
+      "charged_body_bytes_upper": 0,
+      "received_complete_body_bytes": 0,
+      "requests": 0,
+      "scope": "response bodies; partial failures charged at admitted maximum; excludes headers/TLS"
+    },
+    "notes": "response bodies only; excludes headers/TLS; empty redirects conservatively charged"
+  },
+  "disk": {
+    "prepare_accounted_peak_bytes": 1046802353,
+    "run_tree_regular_file_bytes": 648748113,
+    "scope": "run tree includes cache, cases, examples, public packages, assembly and control evidence; excludes Docker VM/image layers"
+  },
+  "assembly": {
+    "seconds": 34.00375949998852,
+    "wheel_built_offline": true,
+    "artifacts": [
+      {
+        "cases": 2,
+        "oracle_available": false,
+        "public_cases": [
+          {
+            "case": "001",
+            "sample": "01",
+            "case_id": "7d3f5be414ea1c07f119b9e23c01ed00d03a6e4615d41e63b122b61826fe7a5f"
+          }
+        ]
+      },
+      {
+        "cases": 2,
+        "oracle_available": false,
+        "public_cases": [
+          {
+            "case": "001",
+            "sample": "01",
+            "case_id": "c150b32582243127c5215f95a18bee52bfca87a4e2bf5401ced0de06101f2b7c"
+          }
+        ]
+      },
+      {
+        "cases": 2,
+        "oracle_available": false,
+        "public_cases": [
+          {
+            "case": "001",
+            "sample": "01",
+            "case_id": "1a2a8e6088198279dfeb24b4a74266590fd2f75b1dcb753ca64314d114f6459d"
+          }
+        ]
+      },
+      {
+        "cases": 2,
+        "oracle_available": false,
+        "public_cases": [
+          {
+            "case": "001",
+            "sample": "01",
+            "case_id": "60bb0a27c020144830ffcf23d63acbee5953cec5a3099aa6ee1a313b473ea83c"
+          }
+        ]
+      }
+    ]
+  },
+  "billing": {
+    "new_hf_jobs": 0,
+    "model_calls": 0
+  },
+  "controls": {
+    "host_reference_positive": 8,
+    "host_wrong_value_negative": 8,
+    "isolated_zero_value_wrong_answer": 8,
+    "public_identity_preserved": 4
+  }
+}

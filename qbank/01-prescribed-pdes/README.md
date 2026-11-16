@@ -7,7 +7,7 @@
 | 节 | 题目 | 数学范围与归属理由 |
 |---|---|---|
 | 1.1 椭圆型边值问题 | [heat-conduction-steady-2d](1.1-elliptic/heat-conduction-steady-2d/instruction.md) | 二维常系数 Poisson 边值，混合边界及纯 Neumann 规范 |
-| 1.1 | [darcy-flow-2d](1.1-elliptic/darcy-flow-2d/instruction.md) | 二维正变系数散度型椭圆方程；给定原单元平均值耦合边界仍按主算子归属 |
+| 1.1 | [darcy-flow-2d](1.1-elliptic/darcy-flow-2d/instruction.md) | 二维正变系数散度型椭圆方程 |
 | 1.2 扩散与反应扩散初边值问题 | [heat-conduction-transient-2d](1.2-diffusion-reaction/heat-conduction-transient-2d/instruction.md) | 二维线性扩散、三角形分片线性初态及齐次边界 |
 | 1.2 | [diffusion-sorption-1d](1.2-diffusion-reaction/diffusion-sorption-1d/instruction.md) | 一维非线性储存／迟滞扩散，含明确的平均值耦合边界 |
 | 1.2 | [reaction-diffusion-1d](1.2-diffusion-reaction/reaction-diffusion-1d/instruction.md) | 一维标量扩散与 logistic 局部反应 |
@@ -36,3 +36,5 @@ python src/utils/prepare_harbor.py --task heat-conduction-steady-2d
 公开 ZIP 内保留真实 qbank 相对路径，Harbor 说明使用 `/app/qbank/...`；生成任务仍在 `runs/harbor/tasks/<slug>/`。数值载荷不足时不能发布或组装，先按对应题目的维护说明准备真实数据，不补造假样例。
 
 两道热传导题的生成／检查工具随目录迁移。来源适配器默认写入各题真实 qbank 目录，`--output-root` 仍可选择另一个扁平临时题目树；缓存与报告继续在 runs 中。配置与既有数据保留不代表参考精度、预算或正式发布已经重新验证，见[迁移记录](../design/reviews/chapter-01-migration.md)。
+
+已发布PDEBench算例按[统一获取流程](../maintenance/PDEBENCH-DATA.md)装配；正式选样由各题data-manifest.json维护。来源直接制数与HF消费为两条明确的装配路径。

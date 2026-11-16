@@ -11,39 +11,38 @@ class Model:
     bounds: tuple
     fields: tuple  # output name, initial name, unit, components
     prefix: str
-    hidden_per_file: int
     grouped: bool = False
     points: bool = False
 
 
 MODELS = [
     Model("advection-1d", "advection_1d", 1, ((0, 1),),
-          (("state", "initial_state", "1", 1),), "1D/Advection/", 3),
+          (("state", "initial_state", "1", 1),), "1D/Advection/"),
     Model("burgers-1d", "burgers_1d", 1, ((0, 1),),
-          (("state", "initial_state", "m/s", 1),), "1D/Burgers/", 2),
+          (("state", "initial_state", "m/s", 1),), "1D/Burgers/"),
     Model("reaction-diffusion-1d", "reaction_diffusion_1d", 1, ((0, 1),),
-          (("state", "initial_state", "1", 1),), "1D/ReactionDiffusion/", 2),
+          (("state", "initial_state", "1", 1),), "1D/ReactionDiffusion/"),
     Model("diffusion-sorption-1d", "diffusion_sorption_1d", 1, ((0, 1),),
           (("concentration", "initial_concentration", "1", 1),),
-          "1D/diffusion-sorption/", 16, grouped=True),
+          "1D/diffusion-sorption/", grouped=True),
     Model("reaction-diffusion-2d", "reaction_diffusion_2d", 2, ((-1, 1),)*2,
           (("activator", "initial_activator", "1", 1),
            ("inhibitor", "initial_inhibitor", "1", 1)),
-          "2D/diffusion-reaction/", 16, grouped=True),
+          "2D/diffusion-reaction/", grouped=True),
     Model("darcy-flow-2d", "darcy_flow_2d", 2, ((0, 1),)*2,
-          (("state", None, "1", 1),), "2D/DarcyFlow/", 4),
+          (("state", None, "1", 1),), "2D/DarcyFlow/"),
     Model("shallow-water-2d", "shallow_water_2d", 2, ((-2.5, 2.5),)*2,
-          (("depth", "initial_depth", "m", 1),), "2D/shallow-water/", 16, grouped=True),
+          (("depth", "initial_depth", "m", 1),), "2D/shallow-water/", grouped=True),
     *[Model(f"compressible-navier-stokes-{d}d", f"compressible_navier_stokes_{d}d", d,
             ((-1, 1),) if d == 1 else ((0, 1),)*d,
             (("density", "initial_density", "kg/m3", 1),
              ("velocity", "initial_velocity", "m/s", d),
              ("pressure", "initial_pressure", "Pa", 1)),
-            f"{d}D/CFD/" if d != 3 else "3D/Train/", 2 if d == 3 else 3)
+            f"{d}D/CFD/" if d != 3 else "3D/Train/")
       for d in (1, 2, 3)],
     Model("incompressible-navier-stokes-2d",
           "inhomogeneous_incompressible_navier_stokes_2d", 2, ((0, 1),)*2,
-          (("velocity", "initial_velocity", "m/s", 2),), "2D/NS_incom/", 16, points=True),
+          (("velocity", "initial_velocity", "m/s", 2),), "2D/NS_incom/", points=True),
 ]
 BY_TASK = {m.task: m for m in MODELS}
 
@@ -90,7 +89,7 @@ def source_files(model, catalog):
     if model.points:
         # Eight four-trajectory shards form a bounded 32-candidate input pool.
         sources.sort(key=lambda s: int(s["filename"].rsplit('-', 1)[1].split('.')[0]))
-        return sources[:8]
+        return sources
     def order(source):
         p = parameters(model, source)
         if model.model == 'advection_1d': return (p['velocity']['value'],)
@@ -106,19 +105,3 @@ def source_files(model, catalog):
             return (int('Turb' in name),float(m[1]) if m else 0,p['shear_viscosity']['value'])
         return (source['filename'],)
     return sorted(sources, key=order)
-
-
-def public_sources(model, sources):
-    """Choose illustrative source configurations; trajectories are selected separately."""
-    patterns = {
-        "advection_1d": ("beta0.4.", "beta2.0."),
-        "burgers_1d": ("Nu0.1.", "Nu0.001."),
-        "reaction_diffusion_1d": ("Nu0.5_Rho1.0", "Nu0.5_Rho10.0"),
-        "darcy_flow_2d": ("beta1.0_", "beta10.0_"),
-        "compressible_navier_stokes_1d": ("Eta0.01_", "Shock_Eta"),
-        "compressible_navier_stokes_2d": ("Rand_M0.1_Eta0.01_", "Turb_M1.0_"),
-        "compressible_navier_stokes_3d": ("Rand_M0.1_", "Turb_M1.0_"),
-    }
-    if model.model in patterns:
-        return [next(s for s in sources if pattern in s["filename"]) for pattern in patterns[model.model]]
-    return [sources[0], sources[0]]

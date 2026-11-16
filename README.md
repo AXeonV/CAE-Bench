@@ -142,13 +142,16 @@ python -m pip install -e '.[maint,heat,pdebench]' -e qbank/extensions harbor
 python '<task-dir>/author/generate.py'
 ```
 
-使用 PDEBench 来源数据的题目通过适配器获取、转换并审核：
+使用 PDEBench 来源数据的题目可按需读取 DaRUS 的指定轨迹，转换为现有 case、reference 与公开 example，再接入相同的发布和 Harbor 入口。操作见 [PDEBench 工具](src/utils/PDEBench/README.md)：
 
 ```sh
-python src/utils/PDEBench/prepare.py --tasks '<task>' --budget-gb 60 --no-bootstrap
+python src/utils/PDEBench/prepare.py list --task advection-1d
+python src/utils/PDEBench/prepare.py plan --spec runs/my-trial/spec.json --output runs/my-trial/selection.json
+python src/utils/PDEBench/prepare.py prepare --selection runs/my-trial/selection.json --workspace runs/my-trial/workspace --network-mb 64
 ```
 
-`--tasks all` 准备该适配器支持的全部题目；具体来源、选样与参考证据保存在本题 `reference/`。数据来源不作为题目分类或题目 ID。参考精度及资源预算的校准状态见本题说明和 [评测说明](src/utils/PDEBench/EVALUATION.md)。
+工具不修改题面、不重新求解或修正参考，不要求先经过 HF；来源不相容时保留候选并明确阻断评测。正式阈值与资源仍以题目及[维护说明](qbank/maintenance/EVALUATION.md)为准。
+
 
 ### 评测主线
 

@@ -1,5 +1,6 @@
 """Pool integrity/transaction tests; fixtures do not certify numerical correctness."""
 from copy import deepcopy
+from contextlib import contextmanager
 import json
 from pathlib import Path
 import shutil
@@ -14,10 +15,31 @@ from caeoj_tools import data_pool as pool
 
 
 class PoolTests(unittest.TestCase):
+
+    def test_verify_canonicalizes_only_owned_temporary_root(self):
+        task = self.root/'consumer-alias-check'
+        task.mkdir()
+        value = pool.manifest(self.bundle/'selection.json')
+        pool.write_json(task/'data-manifest.json', value)
+        pool.assemble(task, value, pool.LocalStore(self.bundle/'repository'))
+        with tempfile.TemporaryDirectory(dir=self.root) as physical:
+            alias = self.root/'os-temporary-alias'
+            try:
+                alias.symlink_to(physical, target_is_directory=True)
+            except OSError:
+                self.skipTest('Directory symlinks unavailable')
+            @contextmanager
+            def alias_directory(*args, **kwargs):
+                yield str(alias)
+            with patch.object(pool.tempfile, 'TemporaryDirectory', alias_directory):
+                self.assertTrue(pool.verify(task, strict=True)['valid'])
+            with self.assertRaisesRegex(pool.PoolError, 'Linked'):
+                pool.within(alias, 'data.json')
+
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
-        self.root = Path(self.temporary.name)
+        self.root = Path(self.temporary.name).resolve()
         self.source = self.root/'generated'
         self.value = {'schema_version': 4, 'task_id': 'caeoj-000123',
                       'repository': {'repo_id': 'owner/test', 'repo_type': 'dataset', 'path': 'qbank/ch/sec/task'}}
@@ -217,7 +239,7 @@ class PoolTests(unittest.TestCase):
                 result = []
                 for name in names:
                     data = (remote/name).read_bytes()
-                    result.append(SimpleNamespace(path=name, lfs=None,
+                    result.append(SimpleNamespace(path=name, size=len(data), lfs=None,
                         blob_id=hashlib.sha1(f'blob {len(data)}\0'.encode()+data).hexdigest()))
                 return result
             def create_commit(self, **kwargs):
@@ -234,6 +256,9 @@ class PoolTests(unittest.TestCase):
         with patch.object(pool, 'HubStore', Hub), patch('huggingface_hub.HfApi', API):
             first = pool.upload(self.bundle)
             self.assertGreater(first['uploaded_files'], 0)
+            self.assertEqual(first['payload_download_bytes'], 0)
+            self.assertEqual(state['payload_reads'], 0)
+            self.assertGreater(first['verified_files'], 0)
             # Remote-only pool entries must survive later uploads.
             index_file = remote/self.value['repository']['path']/'pool/index.json'
             index = pool.checked_json(index_file)
@@ -248,6 +273,24 @@ class PoolTests(unittest.TestCase):
             with self.assertRaisesRegex(pool.PoolError, '--update'):
                 pool.upload(self.bundle)
             self.assertGreater(pool.upload(self.bundle, update=True)['uploaded_files'], 0)
+
+
+    def test_fixed_commit_verification_fails_closed_for_missing_or_corrupt_metadata(self):
+        data = b'validated bytes'
+        sha = hashlib.sha256(data).hexdigest()
+        blob = hashlib.sha1(f'blob {len(data)}\0'.encode()+data).hexdigest()
+        def api(info):
+            return SimpleNamespace(get_paths_info=lambda *a, **kw: info)
+        valid = SimpleNamespace(path='a', size=len(data), lfs=SimpleNamespace(sha256=sha), blob_id=None)
+        result = pool.verify_uploaded_files(api([valid]), 'owner/repo', 'fixed', {'a': data})
+        self.assertEqual(result['payload_download_bytes'], 0)
+        valid.lfs = None; valid.blob_id = blob
+        self.assertEqual(pool.verify_uploaded_files(api([valid]), 'owner/repo', 'fixed', {'a': data})['verified_files'], 1)
+        for corrupt in ([], [SimpleNamespace(path='a',size=len(data)+1,lfs=None,blob_id=blob)],
+                        [SimpleNamespace(path='a',size=len(data),lfs=None,blob_id='wrong')],
+                        [SimpleNamespace(path='a',size=len(data),lfs=SimpleNamespace(sha256='wrong'),blob_id=blob)]):
+            with self.assertRaises(pool.PoolError):
+                pool.verify_uploaded_files(api(corrupt), 'owner/repo', 'fixed', {'a':data})
 
     def test_evidence_cannot_leak_into_upload_tree(self):
         case = next((self.bundle/'repository').rglob('case.json'))

@@ -10,13 +10,8 @@ import yaml
 from .storage import PreparationError, RangeReader, atomic_json, digest
 
 
-def frame_indices(length, requested):
-    if length < 1: raise PreparationError("Empty source time axis")
-    return np.unique(np.linspace(0, length-1, min(length, requested)).astype(np.int64))
-
-
 @contextmanager
-def open_source(source, cache, budget, local=None, timeout=45):
+def open_source(source, cache, budget, local=None, timeout=45, network=None, block_size=1024*1024):
     if local is not None:
         root = Path(local)
         candidates = [root/source["filename"], root/source["directory"]/source["filename"]]
@@ -40,7 +35,7 @@ def open_source(source, cache, budget, local=None, timeout=45):
             atomic_json(ledger,identity)
         with h5py.File(path, "r") as handle: yield handle
     else:
-        with RangeReader(source, Path(cache)/"ranges", budget, timeout=timeout) as raw:
+        with RangeReader(source, Path(cache)/"ranges", budget, timeout=timeout, network=network, block_size=block_size) as raw:
             with h5py.File(raw, "r") as handle: yield handle
 
 
@@ -54,7 +49,7 @@ class Reader:
             # Legacy HDF5 symbol tables may enumerate every remote group for
             # len(handle). Published family counts bound the candidate prefix;
             # each selected group is still checked before use.
-            self.count = 10000 if model.model=='diffusion_sorption_1d' else 1000
+            self.count = None  # each explicit group is validated; no invented count
         elif model.points:
             self.count = handle['velocity'].shape[0]
         elif 'tensor' in handle:
@@ -65,6 +60,12 @@ class Reader:
             self.count = 1 if self.scalar_cfd else ds.shape[0]
         else:
             raise PreparationError("Unsupported source HDF5 layout")
+
+    def check_index(self, index):
+        if type(index) is not int or index < 0 or (self.count is not None and index >= self.count):
+            raise PreparationError("Source trajectory index outside actual layout")
+        if self.grouped:
+            self._group(index)
 
     def _group(self, index):
         key = f"{index:04d}"
@@ -89,6 +90,15 @@ class Reader:
                 raise PreparationError("Cannot establish unit-square source configuration")
             if list(config.get('grid_size',[]))!=list(shape):
                 raise PreparationError('Source grid_size does not match the published velocity grid')
+            expected = {'NU': .01, 'velocity_extrapolation': 'ZERO',
+                        'particle_extrapolation': 'BOUNDARY', 'force_extrapolation': 'ZERO'}
+            if any(config.get(key) != value for key, value in expected.items()):
+                raise PreparationError('Incompressible source viscosity or boundary configuration differs from task')
+            if config.get('enable_gravity', False) or config.get('enable_obstacles', False):
+                raise PreparationError('Incompressible gravity/obstacle configuration outside task')
+            n, nt, nx, ny, components = self.h['velocity'].shape
+            if components != 2 or self.h['particles'].shape != (n, nt, nx, ny, 1) or self.h['force'].shape != (n, nx, ny, 2) or self.h['t'].shape != (n, nt):
+                raise PreparationError('Incompressible scalar/vector axes differ from declared source layout')
             # Released domain_size is checked independently against short-time
             # tracer transport; the current generator's grid_size Box differs.
             coords = [lo+(np.arange(n)+.5)*(hi-lo)/n
@@ -111,6 +121,12 @@ class Reader:
                       for axis in 'xyz'[:model.dimension]]
             config = {}
             if model.model == 'darcy_flow_2d':
+                if 'beta' not in self.h.attrs:
+                    raise PreparationError('Darcy source beta attribute missing')
+                beta = np.asarray(self.h.attrs['beta'])
+                if beta.ndim != 0 or not np.isfinite(beta) or float(beta) not in (.01,.1,1.,10.,100.):
+                    raise PreparationError('Darcy source beta outside declared values')
+                config = {'beta': float(beta)}
                 times, length = np.array([0.]), 1
             else:
                 times = np.asarray(self.h['t-coordinate'], dtype=np.float64)
@@ -147,7 +163,8 @@ class Reader:
             return {name: data[..., i:i+1] for i, (name, _, _, _) in enumerate(model.fields)}
         if model.points:
             return {'velocity': np.asarray(self.h['velocity'][index, frames], dtype=np.float64),
-                    'tracer': np.asarray(self.h['particles'][index, frames], dtype=np.float64),
+                    # Tracer is input only: never fetch unrequested hidden transport outputs.
+                    'tracer': np.asarray(self.h['particles'][index, 0:1], dtype=np.float64),
                     'forcing': np.asarray(self.h['force'][index], dtype=np.float64)[None]}
         if model.model == 'darcy_flow_2d':
             # Published Darcy uses a separate nu coefficient and scalar tensor.
@@ -201,14 +218,25 @@ def check_initial(model, values):
         raise PreparationError("Unsupported shallow-water initial heights")
 
 
-def feature(model, values):
-    fields = [v for k, v in values.items() if k != 'forcing']
-    magnitude = float(np.sqrt(sum(np.mean(v*v) for v in fields)))
-    gradient = float(sum(np.mean(np.diff(v, axis=a)**2)
-                         for v in fields for a in range(1, model.dimension+1)))
-    if model.model == 'diffusion_sorption_1d': magnitude = float(values['concentration'].flat[0])
-    if model.model == 'shallow_water_2d': magnitude = float(np.mean(values['depth'] == 2))
-    if model.points:
-        magnitude = float(np.sqrt(np.mean(values['velocity']**2)))
-        gradient = float(np.sqrt(np.mean((values['tracer']*values['forcing'])**2)))
-    return magnitude, gradient
+def fhn_initial(coords,values,config):
+    sim=config.get('sim',{})
+    nx=int(sim['xdim']);ny=int(sim['ydim']);seed=int(sim['seed'])
+    if nx<2 or ny<2:raise PreparationError('Invalid original FHN initial grid')
+    axes=[]
+    for c,n,lo,hi in zip(coords,(nx,ny),(-1.,-1.),(1.,1.)):
+        index=np.rint((c-lo)*n/(hi-lo)-.5).astype(int)
+        if np.any(index<0) or np.any(index>=n):raise PreparationError('FHN sample outside original grid')
+        centers=lo+(index+.5)*(hi-lo)/n
+        if not np.allclose(c,centers,rtol=0,atol=2e-7):raise PreparationError('FHN sample is not an original cell center')
+        axes.append(index)
+    # The released data uses legacy MT19937, unlike current default_rng source.
+    # Never guess: all released t=0 samples must match the reconstruction.
+    rng=np.random.RandomState(seed)
+    fields={}
+    for name in ('activator','inhibitor'):
+        original=rng.standard_normal(nx*ny).reshape(ny,nx).T.astype(np.float32).astype(np.float64)
+        sampled=original[np.ix_(*axes)]
+        if not np.array_equal(sampled,values[name][0,...,0]):
+            raise PreparationError('FHN legacy initial reconstruction does not reproduce every released t=0 value')
+        fields[name]=original[None,...,None]
+    return (nx,ny),axes,fields

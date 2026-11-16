@@ -6,13 +6,15 @@ CAE Bench 用于评测 Agent 实现的计算工程求解程序。项目围绕通
 
 本分支收录 [RC7 论文冻结快照](docs/releases/rc7-paper.md)的 82 题、647 个正式算例，其中 80 道计算题用于论文成绩。公开发行物为一个考生 ZIP。新增章节和论文范围外的题目在 `dev` 分支维护。
 
+同一份 RC7 考生 ZIP 可从 [GitHub Release](https://github.com/AXeonV/CAE-Bench/releases/tag/caeoj-qbank-20261029-rc7)直接下载。也可登录 [Hugging Face 数据集 CAE-Bench](https://huggingface.co/datasets/jimzhouzzy2006/CAE-Bench)，获批访问后下载。两边的 ZIP 文件 SHA-256 相同。
+
 ## 设计
 
 - **统一数据协议**：Gmsh 存网格，HDF5 存数组，JSON 声明字段和条件；题面与 DATA 明确本题任务及数据语义，求解程序按统一接口读写。
 - **核心与领域扩展**：通用核心（`src/caeoj/`）负责读写、结构校验与评分编排，领域扩展（`qbank/extensions/`）提供声明检查及评价器；维护工具（`src/caeoj_tools/`、`src/utils/`）按题目依赖和白名单装配公开材料与必要工具。
 - **做题时辅助校验**：Agent 可随时调用 SDK（`src/caeoj/sdk.py`）和**校验器**（`src/caeoj/validation.py`），减少数据读写与契约理解的负担；*校验器检查格式、引用及声明约束，不验证或纠正物理结果。*
 - **提交后独立评测**：考生材料与私有判题材料分开装配；判题器（`src/utils/harbor/tests/judge.py`）在提交后逐 case 执行、校验并按本例规则评分，按逐例规则计分，汇总结果和日志。
-- **数据与维护材料分存**：实际输入、参考和逐例评分配置上传至 [Hugging Face 数据池](https://huggingface.co/datasets/jimzhouzzy2006/CAE-Bench-OJ)，按固定版本与选样清单获取；题面、DATA、选样与执行配置、来源及验证证据、工具代码和 Skill 保留在代码仓库。
+- **数据与维护材料分存**：Hugging Face 的主分支分发论文冻结的考生包。正式输入、参考和逐例判分文件由维护者按冻结版本提供。题面、DATA、运行配置与工具代码保留在代码仓库。
 
 ## 项目结构
 

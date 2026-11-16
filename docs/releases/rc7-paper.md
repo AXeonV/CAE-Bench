@@ -6,6 +6,8 @@
 
 公开 ZIP 内有 82 个独立的考生包。解开所需题包后，按其中的 README 安装工具和题目依赖。完整评测所需的正式输入、参考解和逐例判分文件由维护者本地保管。630 个计算算例使用 RMS NRMSE，基础设施用例保留原判分。
 
+可以通过 [GitHub Release 下载 ZIP](https://github.com/AXeonV/CAE-Bench/releases/download/caeoj-qbank-20261029-rc7/caeoj-qbank-rc7-paper-public.zip)，也可以通过 [Hugging Face 下载同一 ZIP](https://huggingface.co/datasets/jimzhouzzy2006/CAE-Bench/resolve/main/caeoj-qbank-rc7-paper-public.zip?download=true)。
+
 ## 本地构建与校验
 
 先用论文仓库的 `scripts/rebuild_evaluation_snapshot.py`，按论文清单从 RC6 基础归档和评测 overlay 重建全部任务。再用以下命令生成公开 ZIP：

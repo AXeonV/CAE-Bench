@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "checks": [
+    {
+      "id": "fields",
+      "evaluator": "field.normalized_outputs",
+      "reference": "reference.h5",
+      "policy": {
+        "version": 2,
+        "quantities": {
+          "u": {
+            "unit": "1",
+            "rule": {
+              "metric": "nrmse",
+              "time": "per_time",
+              "components": "per_component",
+              "scale_floor": 1e-06,
+              "limit": 0.05,
+              "weight_field": "weights"
+            }
+          },
+          "w": {
+            "unit": "1",
+            "rule": {
+              "metric": "nrmse",
+              "time": "per_time",
+              "components": "per_component",
+              "scale_floor": 1e-06,
+              "limit": 0.05,
+              "weight_field": "weights"
+            }
+          },
+          "b": {
+            "unit": "1",
+            "rule": {
+              "metric": "nrmse",
+              "time": "per_time",
+              "components": "per_component",
+              "scale_floor": 1e-06,
+              "limit": 0.05,
+              "weight_field": "weights"
+            }
+          },
+          "p": {
+            "unit": "1",
+            "rule": {
+              "metric": "nrmse",
+              "time": "per_time",
+              "components": "per_component",
+              "scale_floor": 1e-06,
+              "limit": 0.05,
+              "weight_field": "weights"
+            }
+          }
+        }
+      },
+      "weight_field": "weights",
+      "transforms": {
+        "u": {
+          "offset": 0,
+          "remove_mean": false
+        },
+        "w": {
+          "offset": 0,
+          "remove_mean": false
+        },
+        "b": {
+          "offset": 0,
+          "remove_mean": false
+        },
+        "p": {
+          "offset": 0,
+          "remove_mean": true
+        }
+      }
+    }
+  ],
+  "scoring": {
+    "metric": "max_nrmse",
+    "full_credit": 0.05,
+    "zero_credit": 0.1
+  }
+}

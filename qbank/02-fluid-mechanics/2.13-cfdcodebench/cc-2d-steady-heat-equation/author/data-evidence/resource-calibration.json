@@ -1,0 +1,44 @@
+{
+  "index": 15,
+  "task": "cc-2d-steady-heat-equation",
+  "hf_commit": "dc2be55e268aa078897da29de693491d3abf1e03",
+  "actual_solve_measurement": {
+    "index": 15,
+    "level": 128,
+    "wall_seconds": 0.007895195999992666,
+    "peak_rss_kib": 118656,
+    "cpu_max": "400000 100000",
+    "memory_max": "8589934592",
+    "producer_binding": {
+      "producer": "analytic.py",
+      "modes": 128
+    },
+    "python": "3.12.15 (main, Oct 13 2026, 16:52:04) [GCC 15.3.0]",
+    "environment_scope": "Existing sourced scientific environment Python3.12; protocol and actual candidate image measured separately",
+    "actual_solve": true,
+    "score": 1,
+    "resource_limits": {
+      "cpus": 4,
+      "memory_mb": 8192
+    },
+    "producer_selection": {
+      "index": 15,
+      "task": "cc-2d-steady-heat-equation",
+      "method": "formula",
+      "level": 128,
+      "selection_score": 1,
+      "attempts": [
+        {
+          "level": 128,
+          "score": 1
+        }
+      ]
+    },
+    "measurement_sha256": "dfb26ba66294cbb69835af544b74ab053cd966bdb3aba67968c8fc1531306d93"
+  },
+  "rule": "solver wall=max300,ceil((4*measured_wall+30)/60)*60;4CPU and8192MiB, all processes/threads share;agent3600 or5400 for heavier modelling tasks",
+  "scope": "Scientific Python3.12 producer environment in actual Docker resource limits; candidate Python3.14 protocol image separately validated. Measurements do not guarantee every numerical method fits. No reference replay used for solving cost.",
+  "judge_config_sha256": "a4dad798ef070202ab482eac2def814a8a326a74b4dc390238e85b9266c5db21",
+  "harbor_config_sha256": "f5edbb30f3958e443b8cb49a83779f39fa5ba7dc0c079ff65225bf7523601ecc",
+  "measurement_report": "runs/benchmarks/cfdcodebench-24-20261020/calibration/C15/measurement.json"
+}

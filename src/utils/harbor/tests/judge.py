@@ -82,9 +82,12 @@ def execute(directory, timeout, logs):
 
 
 def save_report(config, results, total, evaluation_manifest, public_cases, *, complete=False):
+    score = sum(row['score'] for row in results)
     passed = sum(row['score'] == 1 for row in results)
-    report = {'score': passed, 'total_cases': total, 'completed_cases': len(results),
-              'complete': complete, 'reward': passed / total, 'cases': results,
+    report = {'score': score, 'passed_cases': passed,
+              'partial_cases': sum(0 < row['score'] < 1 for row in results),
+              'total_cases': total, 'completed_cases': len(results),
+              'complete': complete, 'reward': score / total, 'cases': results,
               'evaluation_manifest': evaluation_manifest, 'public_cases': public_cases}
     if config.get('stage'):
         report['stage'] = config['stage']

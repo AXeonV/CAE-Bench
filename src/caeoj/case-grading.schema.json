@@ -25,6 +25,28 @@
           "evaluator"
         ]
       }
+    },
+    "scoring": {
+      "type": "object",
+      "properties": {
+        "metric": {
+          "const": "rms_nrmse"
+        },
+        "full_credit": {
+          "type": "number",
+          "minimum": 0
+        },
+        "zero_credit": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      },
+      "required": [
+        "metric",
+        "full_credit",
+        "zero_credit"
+      ],
+      "additionalProperties": false
     }
   },
   "required": [

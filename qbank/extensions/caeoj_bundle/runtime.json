@@ -1,1622 +1,5 @@
 {
   "version": 1,
-  "id": "qbank-development",
-  "strict_tasks": false,
-  "extensions": {
-    "fluid.common": {
-      "version": 1,
-      "requires": [],
-      "files": [
-        "caeoj_ext/__init__.py",
-        "caeoj_ext/fluid/__init__.py",
-        "caeoj_ext/fluid/_geometry.py",
-        "caeoj_ext/fluid/_sampling.py",
-        "caeoj_ext/fluid/_declaration_checks.py",
-        "caeoj_ext/fluid/_rheology.py"
-      ]
-    },
-    "fluid.single_phase": {
-      "version": 1,
-      "requires": [
-        "fluid.common"
-      ],
-      "selectors": [
-        {
-          "profile": "cfd-2.1"
-        }
-      ],
-      "geometry": true,
-      "check": "caeoj_ext.fluid.single_phase:check",
-      "files": [
-        "caeoj_ext/fluid/single_phase/__init__.py",
-        "caeoj_ext/fluid/single_phase/schema.json"
-      ],
-      "schemas": [
-        "caeoj_ext.fluid.single_phase:schema.json"
-      ],
-      "condition_compatibility": "caeoj_ext.fluid.single_phase:condition_location_compatible",
-      "schema_overrides": [
-        "$defs.condition.properties.data.minProperties"
-      ]
-    },
-    "fluid.thermal_flow": {
-      "version": 1,
-      "requires": [
-        "fluid.common"
-      ],
-      "selectors": [
-        {
-          "physics.model": "fluid-energy-lowmach-laminar-steady-v1"
-        },
-        {
-          "physics.model": "fluid-energy-lowmach-laminar-transient-v1"
-        },
-        {
-          "physics.model": "fluid-energy-inviscid-laminar-steady-v1"
-        },
-        {
-          "physics.model": "fluid-energy-inviscid-laminar-transient-v1"
-        },
-        {
-          "physics.model": "fluid-energy-compressible-laminar-steady-v1"
-        },
-        {
-          "physics.model": "fluid-energy-compressible-laminar-transient-v1"
-        }
-      ],
-      "geometry": true,
-      "check": "caeoj_ext.fluid.thermal_flow:check",
-      "files": [
-        "caeoj_ext/fluid/thermal_flow/__init__.py",
-        "caeoj_ext/fluid/_compat_energy.py"
-      ]
-    },
-    "fluid.turbulence": {
-      "version": 1,
-      "requires": [
-        "fluid.common",
-        "fluid.thermal_flow"
-      ],
-      "selectors": [
-        {
-          "physics.model": "fluid-energy-incompressible-rans-steady-v1"
-        },
-        {
-          "physics.model": "fluid-energy-incompressible-urans-transient-v1"
-        },
-        {
-          "physics.model": "fluid-energy-incompressible-resolved-statistics-v1"
-        },
-        {
-          "physics.model": "fluid-energy-lowmach-rans-steady-v1"
-        },
-        {
-          "physics.model": "fluid-energy-lowmach-urans-transient-v1"
-        },
-        {
-          "physics.model": "fluid-energy-lowmach-resolved-statistics-v1"
-        },
-        {
-          "physics.model": "fluid-energy-isothermal-rans-steady-v1"
-        },
-        {
-          "physics.model": "fluid-energy-compressible-rans-steady-v1"
-        }
-      ],
-      "geometry": true,
-      "check": "caeoj_ext.fluid.turbulence:check",
-      "files": [
-        "caeoj_ext/fluid/turbulence/__init__.py",
-        "caeoj_ext/fluid/_compat_energy.py"
-      ]
-    },
-    "fluid.multiphase": {
-      "version": 1,
-      "requires": [
-        "fluid.common"
-      ],
-      "selectors": [
-        {
-          "physics.model": "fluid-multiphase-free-surface-v1"
-        },
-        {
-          "physics.model": "fluid-multiphase-immiscible-v1"
-        },
-        {
-          "physics.model": "fluid-multiphase-wetting-v1"
-        },
-        {
-          "physics.model": "fluid-multiphase-passive-particles-v1"
-        },
-        {
-          "physics.model": "fluid-multiphase-coupled-particles-v1"
-        },
-        {
-          "physics.model": "fluid-multiphase-bubbles-droplets-v1"
-        },
-        {
-          "physics.model": "fluid-multiphase-dense-dispersed-v1"
-        },
-        {
-          "physics.model": "fluid-multiphase-interphase-exchange-v1"
-        },
-        {
-          "physics.model": "fluid-multiphase-evaporation-condensation-v1"
-        },
-        {
-          "physics.model": "fluid-multiphase-boiling-v1"
-        },
-        {
-          "physics.model": "fluid-multiphase-cavitation-v1"
-        },
-        {
-          "physics.model": "fluid-multiphase-melting-solidification-v1"
-        }
-      ],
-      "geometry": true,
-      "check": "caeoj_ext.fluid.multiphase:check",
-      "files": [
-        "caeoj_ext/fluid/multiphase/__init__.py"
-      ]
-    },
-    "fluid.thin_film": {
-      "version": 1,
-      "requires": [
-        "fluid.common"
-      ],
-      "selectors": [
-        {
-          "physics.model": "fluid-reduced-liquid-lubrication-v1"
-        },
-        {
-          "physics.model": "fluid-reduced-gas-film-v1"
-        },
-        {
-          "physics.model": "fluid-reduced-thermal-film-v1"
-        },
-        {
-          "physics.model": "fluid-reduced-nonnewtonian-film-v1"
-        }
-      ],
-      "geometry": true,
-      "check": "caeoj_ext.fluid.thin_film:check",
-      "files": [
-        "caeoj_ext/fluid/thin_film/__init__.py",
-        "caeoj_ext/fluid/_compat_reduced.py",
-        "caeoj_ext/fluid/_sdk_compat.py"
-      ]
-    },
-    "fluid.depth_averaged": {
-      "version": 1,
-      "requires": [
-        "fluid.common"
-      ],
-      "selectors": [
-        {
-          "physics.model": "fluid-reduced-fully-wet-steady-v1"
-        },
-        {
-          "physics.model": "fluid-reduced-fully-wet-transient-v1"
-        },
-        {
-          "physics.model": "fluid-reduced-wetting-drying-v1"
-        },
-        {
-          "physics.model": "fluid-reduced-two-layer-v1"
-        }
-      ],
-      "geometry": true,
-      "check": "caeoj_ext.fluid.depth_averaged:check",
-      "files": [
-        "caeoj_ext/fluid/depth_averaged/__init__.py",
-        "caeoj_ext/fluid/_compat_reduced.py",
-        "caeoj_ext/fluid/_sdk_compat.py"
-      ]
-    },
-    "fluid.rarefied": {
-      "version": 1,
-      "requires": [
-        "fluid.common"
-      ],
-      "selectors": [
-        {
-          "physics.model": "fluid-reduced-isothermal-slip-v1"
-        },
-        {
-          "physics.model": "fluid-reduced-thermal-slip-v1"
-        },
-        {
-          "physics.model": "fluid-reduced-transition-gas-v1"
-        },
-        {
-          "physics.model": "fluid-reduced-free-molecular-v1"
-        }
-      ],
-      "geometry": true,
-      "check": "caeoj_ext.fluid.rarefied:check",
-      "files": [
-        "caeoj_ext/fluid/rarefied/__init__.py",
-        "caeoj_ext/fluid/_compat_reduced.py",
-        "caeoj_ext/fluid/_sdk_compat.py"
-      ]
-    },
-    "fluid.complex_fluid": {
-      "version": 1,
-      "requires": [
-        "fluid.common"
-      ],
-      "selectors": [
-        {
-          "physics.model": "fluid-reduced-viscoelastic-steady-v1"
-        },
-        {
-          "physics.model": "fluid-reduced-viscoelastic-transient-v1"
-        },
-        {
-          "physics.model": "fluid-reduced-thixotropic-transient-v1"
-        },
-        {
-          "physics.model": "fluid-reduced-thermal-generalized-newtonian-v1"
-        },
-        {
-          "physics.model": "fluid-reduced-thermal-viscoelastic-v1"
-        }
-      ],
-      "geometry": true,
-      "check": "caeoj_ext.fluid.complex_fluid:check",
-      "files": [
-        "caeoj_ext/fluid/complex_fluid/__init__.py",
-        "caeoj_ext/fluid/_compat_reduced.py",
-        "caeoj_ext/fluid/_sdk_compat.py"
-      ]
-    },
-    "solid.mechanics": {
-      "version": 1,
-      "requires": [],
-      "geometry": true,
-      "selectors": [
-        {
-          "physics.model": "solid-plane-stress-v1"
-        },
-        {
-          "physics.model": "solid-plane-strain-v1"
-        },
-        {
-          "physics.model": "solid-elastic-solid-3d-v1"
-        },
-        {
-          "physics.model": "solid-elastic-truss-v1"
-        },
-        {
-          "physics.model": "solid-elastic-beam-v1"
-        },
-        {
-          "physics.model": "solid-elastic-plate-v1"
-        },
-        {
-          "physics.model": "solid-elastic-modes-v1"
-        },
-        {
-          "physics.model": "solid-elastic-transient-v1"
-        },
-        {
-          "physics.model": "solid-elastic-harmonic-v1"
-        },
-        {
-          "physics.model": "solid-hyperelastic-solid-v1"
-        },
-        {
-          "physics.model": "solid-elastic-buckling-v1"
-        },
-        {
-          "physics.model": "solid-frictionless-contact-v1"
-        },
-        {
-          "physics.model": "solid-frictional-contact-v1"
-        },
-        {
-          "physics.model": "solid-j2-plasticity-v1"
-        },
-        {
-          "physics.model": "solid-linear-viscoelastic-v1"
-        },
-        {
-          "physics.model": "solid-power-law-creep-v1"
-        },
-        {
-          "physics.model": "solid-gradient-damage-v1"
-        },
-        {
-          "physics.model": "solid-linear-elastic-fracture-v1"
-        },
-        {
-          "physics.model": "solid-cohesive-interface-v1"
-        },
-        {
-          "physics.model": "solid-stress-life-fatigue-v1"
-        },
-        {
-          "physics.model": "solid-fatigue-crack-growth-v1"
-        }
-      ],
-      "check": "caeoj_ext.solid:check",
-      "files": [
-        "caeoj_ext/__init__.py",
-        "caeoj_ext/solid/__init__.py",
-        "caeoj_ext/solid/models.json"
-      ]
-    },
-    "multibody.mechanics": {
-      "version": 1,
-      "requires": [],
-      "selectors": [
-        {
-          "physics.model": "multibody-planar-kinematics-v1"
-        },
-        {
-          "physics.model": "multibody-planar-inverse-dynamics-v1"
-        },
-        {
-          "physics.model": "multibody-planar-multibody-v1"
-        },
-        {
-          "physics.model": "multibody-spatial-free-rigid-v1"
-        },
-        {
-          "physics.model": "multibody-elastic-connectors-v1"
-        },
-        {
-          "physics.model": "multibody-prescribed-drive-v1"
-        },
-        {
-          "physics.model": "multibody-normal-contact-v1"
-        },
-        {
-          "physics.model": "multibody-regularized-friction-v1"
-        },
-        {
-          "physics.model": "multibody-normal-impact-v1"
-        },
-        {
-          "physics.model": "multibody-frictional-impact-v1"
-        },
-        {
-          "physics.model": "multibody-modal-flexible-v1"
-        },
-        {
-          "physics.model": "multibody-translating-flexible-v1"
-        }
-      ],
-      "geometry": false,
-      "check": "caeoj_ext.multibody:check",
-      "files": [
-        "caeoj_ext/__init__.py",
-        "caeoj_ext/multibody/__init__.py",
-        "caeoj_ext/multibody/models.json"
-      ]
-    },
-    "thermal.transport": {
-      "version": 1,
-      "requires": [],
-      "selectors": [
-        {
-          "physics.model": "thermal-thermal-steady-v1"
-        },
-        {
-          "physics.model": "thermal-thermal-transient-v1"
-        },
-        {
-          "physics.model": "thermal-anisotropic-conduction-v1"
-        },
-        {
-          "physics.model": "thermal-nonlinear-conductivity-v1"
-        },
-        {
-          "physics.model": "thermal-nonlinear-capacity-v1"
-        },
-        {
-          "physics.model": "thermal-thermal-contact-v1"
-        },
-        {
-          "physics.model": "thermal-thin-sheet-heat-v1"
-        },
-        {
-          "physics.model": "thermal-prescribed-advection-heat-v1"
-        },
-        {
-          "physics.model": "thermal-conjugate-prescribed-flow-v1"
-        },
-        {
-          "physics.model": "thermal-radiative-boundary-v1"
-        },
-        {
-          "physics.model": "thermal-gray-enclosure-v1"
-        },
-        {
-          "physics.model": "thermal-mushy-enthalpy-v1"
-        },
-        {
-          "physics.model": "thermal-isothermal-stefan-v1"
-        }
-      ],
-      "geometry": true,
-      "check": "caeoj_ext.thermal:check",
-      "files": [
-        "caeoj_ext/__init__.py",
-        "caeoj_ext/thermal/__init__.py",
-        "caeoj_ext/thermal/models.json"
-      ]
-    },
-    "acoustic.linear": {
-      "version": 1,
-      "requires": [],
-      "selectors": [
-        {
-          "physics.model": "acoustic-acoustic-transient-v1"
-        },
-        {
-          "physics.model": "acoustic-acoustic-harmonic-v1"
-        },
-        {
-          "physics.model": "acoustic-surface-radiation-v1"
-        },
-        {
-          "physics.model": "acoustic-rigid-scattering-v1"
-        },
-        {
-          "physics.model": "acoustic-equivalent-fluid-v1"
-        },
-        {
-          "physics.model": "acoustic-thermoviscous-acoustics-v1"
-        },
-        {
-          "physics.model": "acoustic-uniform-flow-acoustics-v1"
-        },
-        {
-          "physics.model": "acoustic-lighthill-radiation-v1"
-        },
-        {
-          "physics.model": "acoustic-resonator-wall-v1"
-        },
-        {
-          "physics.model": "acoustic-modal-vibroacoustics-v1"
-        }
-      ],
-      "geometry": true,
-      "check": "caeoj_ext.acoustic:check",
-      "files": [
-        "caeoj_ext/__init__.py",
-        "caeoj_ext/acoustic/__init__.py",
-        "caeoj_ext/acoustic/geometry.py",
-        "caeoj_ext/acoustic/models.json"
-      ]
-    },
-    "electromagnetic.linear": {
-      "version": 1,
-      "requires": [],
-      "geometry": true,
-      "selectors": [
-        {
-          "physics.model": "electromagnetic-electrostatic-v1"
-        },
-        {
-          "physics.model": "electromagnetic-floating-electrode-v1"
-        },
-        {
-          "physics.model": "electromagnetic-dc-conduction-v1"
-        },
-        {
-          "physics.model": "electromagnetic-dielectric-relaxation-v1"
-        },
-        {
-          "physics.model": "electromagnetic-magnetostatic-v1"
-        },
-        {
-          "physics.model": "electromagnetic-harmonic-eddy-v1"
-        },
-        {
-          "physics.model": "electromagnetic-maxwell-cavity-v1"
-        },
-        {
-          "physics.model": "electromagnetic-rlc-transient-v1"
-        },
-        {
-          "physics.model": "electromagnetic-rlc-harmonic-v1"
-        },
-        {
-          "physics.model": "electromagnetic-coil-circuit-v1"
-        }
-      ],
-      "check": "caeoj_ext.electromagnetic:check",
-      "files": [
-        "caeoj_ext/__init__.py",
-        "caeoj_ext/electromagnetic/__init__.py",
-        "caeoj_ext/electromagnetic/geometry.py",
-        "caeoj_ext/electromagnetic/models.json"
-      ]
-    },
-    "optics.linear": {
-      "version": 1,
-      "requires": [],
-      "geometry": true,
-      "selectors": [
-        {
-          "physics.model": "optics-layered-rays-v1"
-        },
-        {
-          "physics.model": "optics-coherent-interference-v1"
-        },
-        {
-          "physics.model": "optics-partial-coherence-v1"
-        },
-        {
-          "physics.model": "optics-fresnel-aperture-v1"
-        },
-        {
-          "physics.model": "optics-farfield-aperture-v1"
-        },
-        {
-          "physics.model": "optics-jones-chain-v1"
-        },
-        {
-          "physics.model": "optics-thin-film-v1"
-        },
-        {
-          "physics.model": "optics-slab-modes-v1"
-        }
-      ],
-      "check": "caeoj_ext.optics:check",
-      "files": [
-        "caeoj_ext/__init__.py",
-        "caeoj_ext/optics/__init__.py",
-        "caeoj_ext/optics/models.json"
-      ]
-    },
-    "species.transport_kinetics": {
-      "version": 1,
-      "requires": [],
-      "selectors": [
-        {
-          "physics.model_prefix": "species-"
-        }
-      ],
-      "check": "caeoj_ext.species:check",
-      "files": [
-        "caeoj_ext/__init__.py",
-        "caeoj_ext/species/__init__.py",
-        "caeoj_ext/species/models.json"
-      ]
-    },
-    "electrochemistry.interfaces_transport": {
-      "version": 1,
-      "requires": [],
-      "selectors": [
-        {
-          "physics.model_prefix": "electrochemistry-"
-        }
-      ],
-      "check": "caeoj_ext.electrochemistry:check",
-      "files": [
-        "caeoj_ext/__init__.py",
-        "caeoj_ext/electrochemistry/__init__.py",
-        "caeoj_ext/electrochemistry/models.json"
-      ]
-    },
-    "semiconductor.transport": {
-      "version": 1,
-      "requires": [],
-      "selectors": [
-        {
-          "physics.model_prefix": "semiconductor-"
-        }
-      ],
-      "check": "caeoj_ext.semiconductor:check",
-      "files": [
-        "caeoj_ext/__init__.py",
-        "caeoj_ext/semiconductor/__init__.py",
-        "caeoj_ext/semiconductor/models.json"
-      ]
-    },
-    "granular.dynamics": {
-      "version": 1,
-      "requires": [],
-      "selectors": [
-        {
-          "physics.model_prefix": "granular-"
-        }
-      ],
-      "check": "caeoj_ext.granular:check",
-      "files": [
-        "caeoj_ext/__init__.py",
-        "caeoj_ext/granular/__init__.py",
-        "caeoj_ext/granular/models.json"
-      ]
-    },
-    "porous.flow_transport": {
-      "version": 1,
-      "requires": [],
-      "selectors": [
-        {
-          "physics.model": "porous-darcy-steady-v1"
-        },
-        {
-          "physics.model": "porous-darcy-transient-v1"
-        },
-        {
-          "physics.model": "porous-forchheimer-steady-v1"
-        },
-        {
-          "physics.model": "porous-richards-steady-v1"
-        },
-        {
-          "physics.model": "porous-richards-transient-v1"
-        },
-        {
-          "physics.model": "porous-immiscible-two-phase-v1"
-        },
-        {
-          "physics.model": "porous-compressible-two-phase-v1"
-        },
-        {
-          "physics.model": "porous-embedded-fracture-v1"
-        },
-        {
-          "physics.model": "porous-dual-continuum-v1"
-        },
-        {
-          "physics.model": "porous-pore-creeping-v1"
-        },
-        {
-          "physics.model": "porous-pore-laminar-transient-v1"
-        },
-        {
-          "physics.model": "porous-porous-tracer-v1"
-        },
-        {
-          "physics.model": "porous-porous-sorption-decay-v1"
-        }
-      ],
-      "geometry": true,
-      "check": "caeoj_ext.porous:check",
-      "files": [
-        "caeoj_ext/__init__.py",
-        "caeoj_ext/porous/__init__.py",
-        "caeoj_ext/porous/models.json"
-      ]
-    },
-    "plasma": {
-      "version": 1,
-      "requires": [],
-      "geometry": true,
-      "error_code": "E_PLASMA",
-      "selectors": [
-        {
-          "physics.model": "plasma-charged-orbits-v1"
-        },
-        {
-          "physics.model": "plasma-relativistic-orbits-v1"
-        },
-        {
-          "physics.model": "plasma-collisional-states-v1"
-        },
-        {
-          "physics.model": "plasma-plasma-chemistry-v1"
-        },
-        {
-          "physics.model": "plasma-vlasov-poisson-v1"
-        },
-        {
-          "physics.model": "plasma-space-charge-beam-v1"
-        },
-        {
-          "physics.model": "plasma-isothermal-discharge-v1"
-        },
-        {
-          "physics.model": "plasma-energy-discharge-v1"
-        },
-        {
-          "physics.model": "plasma-cold-plasma-relaxation-v1"
-        },
-        {
-          "physics.model": "plasma-magnetized-plasma-slab-v1"
-        }
-      ],
-      "check": "caeoj_ext.plasma:check",
-      "files": [
-        "caeoj_ext/__init__.py",
-        "caeoj_ext/plasma/__init__.py",
-        "caeoj_ext/plasma/models.json"
-      ]
-    },
-    "multiphysics.continuum": {
-      "version": 1,
-      "requires": [],
-      "selectors": [
-        {
-          "physics.model": "multiphysics-compliant-tube-wave-v1"
-        },
-        {
-          "physics.model": "multiphysics-acoustic-piston-feedback-v1"
-        },
-        {
-          "physics.model": "multiphysics-constrained-thermal-expansion-v1"
-        },
-        {
-          "physics.model": "multiphysics-reciprocal-thermoelastic-wave-v1"
-        },
-        {
-          "physics.model": "multiphysics-steady-joule-feedback-v1"
-        },
-        {
-          "physics.model": "multiphysics-transient-joule-feedback-v1"
-        },
-        {
-          "physics.model": "multiphysics-static-piezoelectric-rod-v1"
-        },
-        {
-          "physics.model": "multiphysics-shunted-piezoelectric-rod-v1"
-        },
-        {
-          "physics.model": "multiphysics-magnetic-diffusion-elasticity-v1"
-        },
-        {
-          "physics.model": "multiphysics-biot-consolidation-v1"
-        },
-        {
-          "physics.model": "multiphysics-thermo-poroelastic-transient-v1"
-        },
-        {
-          "physics.model": "multiphysics-thermoelectric-leg-v1"
-        }
-      ],
-      "check": "caeoj_ext.multiphysics:check",
-      "files": [
-        "caeoj_ext/__init__.py",
-        "caeoj_ext/multiphysics/__init__.py",
-        "caeoj_ext/multiphysics/models.json"
-      ]
-    },
-    "systems.networks": {
-      "version": 1,
-      "requires": [],
-      "selectors": [
-        {
-          "physics.model": "systems-geared-torsional-network-v1"
-        },
-        {
-          "physics.model": "systems-deadzone-transmission-network-v1"
-        },
-        {
-          "physics.model": "systems-nonlinear-hydraulic-network-v1"
-        },
-        {
-          "physics.model": "systems-distributed-pipe-network-v1"
-        },
-        {
-          "physics.model": "systems-isothermal-pneumatic-network-v1"
-        },
-        {
-          "physics.model": "systems-radiative-thermal-network-v1"
-        },
-        {
-          "physics.model": "systems-nonlinear-diode-rlc-network-v1"
-        },
-        {
-          "physics.model": "systems-motor-thermal-feedback-system-v1"
-        },
-        {
-          "physics.model": "systems-electrohydraulic-actuator-system-v1"
-        },
-        {
-          "physics.model": "systems-sampled-position-servo-v1"
-        }
-      ],
-      "check": "caeoj_ext.systems:check",
-      "files": [
-        "caeoj_ext/__init__.py",
-        "caeoj_ext/systems/__init__.py",
-        "caeoj_ext/systems/models.json"
-      ]
-    },
-    "radiation.nuclear": {
-      "version": 1,
-      "requires": [],
-      "selectors": [
-        {
-          "physics.model": "radiation-photon-absorption-v1"
-        },
-        {
-          "physics.model": "radiation-slab-transport-steady-v1"
-        },
-        {
-          "physics.model": "radiation-slab-transport-transient-v1"
-        },
-        {
-          "physics.model": "radiation-neutron-diffusion-source-v1"
-        },
-        {
-          "physics.model": "radiation-neutron-diffusion-critical-v1"
-        },
-        {
-          "physics.model": "radiation-point-kinetics-v1"
-        },
-        {
-          "physics.model": "radiation-decay-network-v1"
-        },
-        {
-          "physics.model": "radiation-irradiated-network-v1"
-        }
-      ],
-      "check": "caeoj_ext.radiation:check",
-      "files": [
-        "caeoj_ext/__init__.py",
-        "caeoj_ext/radiation/__init__.py",
-        "caeoj_ext/radiation/models.json"
-      ]
-    },
-    "microstructure.phase_field": {
-      "version": 1,
-      "requires": [],
-      "selectors": [
-        {
-          "physics.model": "microstructure-binary-separation-v1"
-        },
-        {
-          "physics.model": "microstructure-ternary-separation-v1"
-        },
-        {
-          "physics.model": "microstructure-order-relaxation-v1"
-        },
-        {
-          "physics.model": "microstructure-driven-ordering-v1"
-        },
-        {
-          "physics.model": "microstructure-grain-coarsening-v1"
-        },
-        {
-          "physics.model": "microstructure-coupled-precipitation-v1"
-        },
-        {
-          "physics.model": "microstructure-crystal-density-v1"
-        }
-      ],
-      "check": "caeoj_ext.microstructure:check",
-      "files": [
-        "caeoj_ext/__init__.py",
-        "caeoj_ext/microstructure/__init__.py",
-        "caeoj_ext/microstructure/models.json"
-      ]
-    }
-  },
-  "tasks": {
-    "compressible-navier-stokes-3d": [],
-    "compressible-navier-stokes-1d": [],
-    "compressible-navier-stokes-2d": [],
-    "incompressible-navier-stokes-2d": [],
-    "advection-1d": [],
-    "shallow-water-2d": [],
-    "heat-conduction-transient-2d": [],
-    "reaction-diffusion-1d": [],
-    "reaction-diffusion-2d": [],
-    "diffusion-sorption-1d": [],
-    "burgers-1d": [],
-    "heat-conduction-steady-2d": [],
-    "darcy-flow-2d": [],
-    "smoke-test": [],
-    "case-grading-test": [],
-    "passive-particles-3d": [
-      "fluid.multiphase"
-    ],
-    "bubbles-droplets-3d": [
-      "fluid.multiphase"
-    ],
-    "dense-dispersed-3d": [
-      "fluid.multiphase"
-    ],
-    "coupled-particles-3d": [
-      "fluid.multiphase"
-    ],
-    "compressible-thermal-rans-3d": [
-      "fluid.turbulence"
-    ],
-    "thermal-urans-3d": [
-      "fluid.turbulence"
-    ],
-    "thermal-statistics-3d": [
-      "fluid.turbulence"
-    ],
-    "thermal-rans-3d": [
-      "fluid.turbulence"
-    ],
-    "immiscible-interface-3d": [
-      "fluid.multiphase"
-    ],
-    "capillary-wetting-3d": [
-      "fluid.multiphase"
-    ],
-    "free-surface-3d": [
-      "fluid.multiphase"
-    ],
-    "free-surface-2d": [
-      "fluid.multiphase"
-    ],
-    "capillary-wetting-2d": [
-      "fluid.multiphase"
-    ],
-    "immiscible-interface-2d": [
-      "fluid.multiphase"
-    ],
-    "thermal-film": [
-      "fluid.thin_film"
-    ],
-    "liquid-lubrication": [
-      "fluid.thin_film"
-    ],
-    "gas-film": [
-      "fluid.thin_film"
-    ],
-    "nonnewtonian-film": [
-      "fluid.thin_film"
-    ],
-    "boiling-3d": [
-      "fluid.multiphase"
-    ],
-    "interphase-exchange-3d": [
-      "fluid.multiphase"
-    ],
-    "evaporation-condensation-2d": [
-      "fluid.multiphase"
-    ],
-    "cavitation-3d": [
-      "fluid.multiphase"
-    ],
-    "melting-solidification-2d": [
-      "fluid.multiphase"
-    ],
-    "newtonian-incompressible-steady-3d": [
-      "fluid.single_phase"
-    ],
-    "newtonian-isothermal-compressible-transient-3d": [
-      "fluid.single_phase"
-    ],
-    "generalized-newtonian-incompressible-steady-3d": [
-      "fluid.single_phase"
-    ],
-    "generalized-newtonian-incompressible-transient-2d": [
-      "fluid.single_phase"
-    ],
-    "newtonian-isothermal-compressible-steady-3d": [
-      "fluid.single_phase"
-    ],
-    "newtonian-incompressible-transient-2d": [
-      "fluid.single_phase"
-    ],
-    "newtonian-incompressible-transient-3d": [
-      "fluid.single_phase"
-    ],
-    "generalized-newtonian-incompressible-transient-3d": [
-      "fluid.single_phase"
-    ],
-    "newtonian-isothermal-compressible-steady-2d": [
-      "fluid.single_phase"
-    ],
-    "generalized-newtonian-incompressible-steady-2d": [
-      "fluid.single_phase"
-    ],
-    "newtonian-isothermal-compressible-transient-2d": [
-      "fluid.single_phase"
-    ],
-    "newtonian-incompressible-steady-2d": [
-      "fluid.single_phase"
-    ],
-    "rans-steady-3d": [
-      "fluid.turbulence"
-    ],
-    "urans-transient-3d": [
-      "fluid.turbulence"
-    ],
-    "rans-steady-2d": [
-      "fluid.turbulence"
-    ],
-    "isothermal-rans-3d": [
-      "fluid.turbulence"
-    ],
-    "resolved-statistics-3d": [
-      "fluid.turbulence"
-    ],
-    "newtonian-lowmach-transient-3d": [
-      "fluid.thermal_flow"
-    ],
-    "newtonian-lowmach-steady-3d": [
-      "fluid.thermal_flow"
-    ],
-    "inviscid-compressible-transient-3d": [
-      "fluid.thermal_flow"
-    ],
-    "newtonian-compressible-steady-2d": [
-      "fluid.thermal_flow"
-    ],
-    "newtonian-compressible-transient-3d": [
-      "fluid.thermal_flow"
-    ],
-    "inviscid-compressible-steady-3d": [
-      "fluid.thermal_flow"
-    ],
-    "inviscid-compressible-steady-2d": [
-      "fluid.thermal_flow"
-    ],
-    "newtonian-compressible-transient-2d": [
-      "fluid.thermal_flow"
-    ],
-    "newtonian-compressible-steady-3d": [
-      "fluid.thermal_flow"
-    ],
-    "inviscid-compressible-transient-2d": [
-      "fluid.thermal_flow"
-    ],
-    "newtonian-lowmach-transient-2d": [
-      "fluid.thermal_flow"
-    ],
-    "newtonian-lowmach-steady-2d": [
-      "fluid.thermal_flow"
-    ],
-    "wetting-drying": [
-      "fluid.depth_averaged"
-    ],
-    "fully-wet-transient": [
-      "fluid.depth_averaged"
-    ],
-    "fully-wet-steady": [
-      "fluid.depth_averaged"
-    ],
-    "two-layer": [
-      "fluid.depth_averaged"
-    ],
-    "isothermal-slip": [
-      "fluid.rarefied"
-    ],
-    "transition-gas": [
-      "fluid.rarefied"
-    ],
-    "free-molecular": [
-      "fluid.rarefied"
-    ],
-    "thermal-slip": [
-      "fluid.rarefied"
-    ],
-    "viscoelastic-steady": [
-      "fluid.complex_fluid"
-    ],
-    "thixotropic-transient": [
-      "fluid.complex_fluid"
-    ],
-    "thermal-viscoelastic": [
-      "fluid.complex_fluid"
-    ],
-    "thermal-generalized-newtonian": [
-      "fluid.complex_fluid"
-    ],
-    "viscoelastic-transient": [
-      "fluid.complex_fluid"
-    ],
-    "plane-stress": [
-      "solid.mechanics"
-    ],
-    "plane-strain": [
-      "solid.mechanics"
-    ],
-    "elastic-solid-3d": [
-      "solid.mechanics"
-    ],
-    "elastic-truss": [
-      "solid.mechanics"
-    ],
-    "elastic-beam": [
-      "solid.mechanics"
-    ],
-    "elastic-plate": [
-      "solid.mechanics"
-    ],
-    "elastic-modes": [
-      "solid.mechanics"
-    ],
-    "elastic-transient": [
-      "solid.mechanics"
-    ],
-    "elastic-harmonic": [
-      "solid.mechanics"
-    ],
-    "hyperelastic-solid": [
-      "solid.mechanics"
-    ],
-    "elastic-buckling": [
-      "solid.mechanics"
-    ],
-    "frictionless-contact": [
-      "solid.mechanics"
-    ],
-    "frictional-contact": [
-      "solid.mechanics"
-    ],
-    "j2-plasticity": [
-      "solid.mechanics"
-    ],
-    "linear-viscoelastic": [
-      "solid.mechanics"
-    ],
-    "power-law-creep": [
-      "solid.mechanics"
-    ],
-    "gradient-damage": [
-      "solid.mechanics"
-    ],
-    "linear-elastic-fracture": [
-      "solid.mechanics"
-    ],
-    "cohesive-interface": [
-      "solid.mechanics"
-    ],
-    "stress-life-fatigue": [
-      "solid.mechanics"
-    ],
-    "fatigue-crack-growth": [
-      "solid.mechanics"
-    ],
-    "planar-kinematics": [
-      "multibody.mechanics"
-    ],
-    "planar-inverse-dynamics": [
-      "multibody.mechanics"
-    ],
-    "planar-multibody": [
-      "multibody.mechanics"
-    ],
-    "spatial-free-rigid": [
-      "multibody.mechanics"
-    ],
-    "elastic-connectors": [
-      "multibody.mechanics"
-    ],
-    "prescribed-drive": [
-      "multibody.mechanics"
-    ],
-    "normal-contact": [
-      "multibody.mechanics"
-    ],
-    "regularized-friction": [
-      "multibody.mechanics"
-    ],
-    "normal-impact": [
-      "multibody.mechanics"
-    ],
-    "frictional-impact": [
-      "multibody.mechanics"
-    ],
-    "modal-flexible": [
-      "multibody.mechanics"
-    ],
-    "translating-flexible": [
-      "multibody.mechanics"
-    ],
-    "thermal-steady": [
-      "thermal.transport"
-    ],
-    "thermal-transient": [
-      "thermal.transport"
-    ],
-    "anisotropic-conduction": [
-      "thermal.transport"
-    ],
-    "nonlinear-conductivity": [
-      "thermal.transport"
-    ],
-    "nonlinear-capacity": [
-      "thermal.transport"
-    ],
-    "thermal-contact": [
-      "thermal.transport"
-    ],
-    "thin-sheet-heat": [
-      "thermal.transport"
-    ],
-    "prescribed-advection-heat": [
-      "thermal.transport"
-    ],
-    "conjugate-prescribed-flow": [
-      "thermal.transport"
-    ],
-    "radiative-boundary": [
-      "thermal.transport"
-    ],
-    "gray-enclosure": [
-      "thermal.transport"
-    ],
-    "mushy-enthalpy": [
-      "thermal.transport"
-    ],
-    "isothermal-stefan": [
-      "thermal.transport"
-    ],
-    "acoustic-transient": [
-      "acoustic.linear"
-    ],
-    "acoustic-harmonic": [
-      "acoustic.linear"
-    ],
-    "surface-radiation": [
-      "acoustic.linear"
-    ],
-    "rigid-scattering": [
-      "acoustic.linear"
-    ],
-    "equivalent-fluid": [
-      "acoustic.linear"
-    ],
-    "thermoviscous-acoustics": [
-      "acoustic.linear"
-    ],
-    "uniform-flow-acoustics": [
-      "acoustic.linear"
-    ],
-    "lighthill-radiation": [
-      "acoustic.linear"
-    ],
-    "resonator-wall": [
-      "acoustic.linear"
-    ],
-    "modal-vibroacoustics": [
-      "acoustic.linear"
-    ],
-    "electrostatic": [
-      "electromagnetic.linear"
-    ],
-    "floating-electrode": [
-      "electromagnetic.linear"
-    ],
-    "dc-conduction": [
-      "electromagnetic.linear"
-    ],
-    "dielectric-relaxation": [
-      "electromagnetic.linear"
-    ],
-    "magnetostatic": [
-      "electromagnetic.linear"
-    ],
-    "harmonic-eddy": [
-      "electromagnetic.linear"
-    ],
-    "maxwell-cavity": [
-      "electromagnetic.linear"
-    ],
-    "rlc-transient": [
-      "electromagnetic.linear"
-    ],
-    "rlc-harmonic": [
-      "electromagnetic.linear"
-    ],
-    "coil-circuit": [
-      "electromagnetic.linear"
-    ],
-    "layered-rays": [
-      "optics.linear"
-    ],
-    "coherent-interference": [
-      "optics.linear"
-    ],
-    "partial-coherence": [
-      "optics.linear"
-    ],
-    "fresnel-aperture": [
-      "optics.linear"
-    ],
-    "farfield-aperture": [
-      "optics.linear"
-    ],
-    "jones-chain": [
-      "optics.linear"
-    ],
-    "thin-film": [
-      "optics.linear"
-    ],
-    "slab-modes": [
-      "optics.linear"
-    ],
-    "fick-diffusion": [
-      "species.transport_kinetics"
-    ],
-    "imposed-field-migration": [
-      "species.transport_kinetics"
-    ],
-    "competitive-adsorption": [
-      "species.transport_kinetics"
-    ],
-    "pore-adsorption": [
-      "species.transport_kinetics"
-    ],
-    "mass-action-network": [
-      "species.transport_kinetics"
-    ],
-    "reactive-transport": [
-      "species.transport_kinetics"
-    ],
-    "adiabatic-combustion": [
-      "species.transport_kinetics"
-    ],
-    "partition-transfer": [
-      "species.transport_kinetics"
-    ],
-    "ionic-equilibrium": [
-      "electrochemistry.interfaces_transport"
-    ],
-    "blocking-pnp": [
-      "electrochemistry.interfaces_transport"
-    ],
-    "mixed-potential": [
-      "electrochemistry.interfaces_transport"
-    ],
-    "capacitive-redox": [
-      "electrochemistry.interfaces_transport"
-    ],
-    "redox-impedance": [
-      "electrochemistry.interfaces_transport"
-    ],
-    "electrode-diffusion": [
-      "electrochemistry.interfaces_transport"
-    ],
-    "particle-battery": [
-      "electrochemistry.interfaces_transport"
-    ],
-    "fuel-cell-energy": [
-      "electrochemistry.interfaces_transport"
-    ],
-    "semiconductor-equilibrium": [
-      "semiconductor.transport"
-    ],
-    "semiconductor-drift-steady": [
-      "semiconductor.transport"
-    ],
-    "semiconductor-drift-transient": [
-      "semiconductor.transport"
-    ],
-    "semiconductor-bulk-recombination": [
-      "semiconductor.transport"
-    ],
-    "semiconductor-trap-kinetics": [
-      "semiconductor.transport"
-    ],
-    "semiconductor-minority-diffusion": [
-      "semiconductor.transport"
-    ],
-    "semiconductor-landauer": [
-      "semiconductor.transport"
-    ],
-    "semiconductor-effective-mass": [
-      "semiconductor.transport"
-    ],
-    "granular-forced-motion": [
-      "granular.dynamics"
-    ],
-    "granular-normal-contact": [
-      "granular.dynamics"
-    ],
-    "granular-sliding-friction": [
-      "granular.dynamics"
-    ],
-    "granular-cohesive-contact": [
-      "granular.dynamics"
-    ],
-    "granular-periodic-assembly": [
-      "granular.dynamics"
-    ],
-    "granular-coagulation": [
-      "granular.dynamics"
-    ],
-    "granular-fragmentation": [
-      "granular.dynamics"
-    ],
-    "darcy-steady": [
-      "porous.flow_transport"
-    ],
-    "darcy-transient": [
-      "porous.flow_transport"
-    ],
-    "forchheimer-steady": [
-      "porous.flow_transport"
-    ],
-    "richards-steady": [
-      "porous.flow_transport"
-    ],
-    "richards-transient": [
-      "porous.flow_transport"
-    ],
-    "immiscible-two-phase": [
-      "porous.flow_transport"
-    ],
-    "compressible-two-phase": [
-      "porous.flow_transport"
-    ],
-    "embedded-fracture": [
-      "porous.flow_transport"
-    ],
-    "dual-continuum": [
-      "porous.flow_transport"
-    ],
-    "pore-creeping": [
-      "porous.flow_transport"
-    ],
-    "pore-laminar-transient": [
-      "porous.flow_transport"
-    ],
-    "porous-tracer": [
-      "porous.flow_transport"
-    ],
-    "porous-sorption-decay": [
-      "porous.flow_transport"
-    ],
-    "charged-orbits": [
-      "plasma"
-    ],
-    "relativistic-orbits": [
-      "plasma"
-    ],
-    "collisional-states": [
-      "plasma"
-    ],
-    "plasma-chemistry": [
-      "plasma"
-    ],
-    "vlasov-poisson": [
-      "plasma"
-    ],
-    "space-charge-beam": [
-      "plasma"
-    ],
-    "isothermal-discharge": [
-      "plasma"
-    ],
-    "energy-discharge": [
-      "plasma"
-    ],
-    "cold-plasma-relaxation": [
-      "plasma"
-    ],
-    "magnetized-plasma-slab": [
-      "plasma"
-    ],
-    "compliant-tube-wave": [
-      "multiphysics.continuum"
-    ],
-    "acoustic-piston-feedback": [
-      "multiphysics.continuum"
-    ],
-    "constrained-thermal-expansion": [
-      "multiphysics.continuum"
-    ],
-    "reciprocal-thermoelastic-wave": [
-      "multiphysics.continuum"
-    ],
-    "steady-joule-feedback": [
-      "multiphysics.continuum"
-    ],
-    "transient-joule-feedback": [
-      "multiphysics.continuum"
-    ],
-    "static-piezoelectric-rod": [
-      "multiphysics.continuum"
-    ],
-    "shunted-piezoelectric-rod": [
-      "multiphysics.continuum"
-    ],
-    "magnetic-diffusion-elasticity": [
-      "multiphysics.continuum"
-    ],
-    "biot-consolidation": [
-      "multiphysics.continuum"
-    ],
-    "thermo-poroelastic-transient": [
-      "multiphysics.continuum"
-    ],
-    "thermoelectric-leg": [
-      "multiphysics.continuum"
-    ],
-    "geared-torsional-network": [
-      "systems.networks"
-    ],
-    "deadzone-transmission-network": [
-      "systems.networks"
-    ],
-    "nonlinear-hydraulic-network": [
-      "systems.networks"
-    ],
-    "distributed-pipe-network": [
-      "systems.networks"
-    ],
-    "isothermal-pneumatic-network": [
-      "systems.networks"
-    ],
-    "radiative-thermal-network": [
-      "systems.networks"
-    ],
-    "nonlinear-diode-rlc-network": [
-      "systems.networks"
-    ],
-    "motor-thermal-feedback-system": [
-      "systems.networks"
-    ],
-    "electrohydraulic-actuator-system": [
-      "systems.networks"
-    ],
-    "sampled-position-servo": [
-      "systems.networks"
-    ],
-    "photon-absorption": [
-      "radiation.nuclear"
-    ],
-    "slab-transport-steady": [
-      "radiation.nuclear"
-    ],
-    "slab-transport-transient": [
-      "radiation.nuclear"
-    ],
-    "neutron-diffusion-source": [
-      "radiation.nuclear"
-    ],
-    "neutron-diffusion-critical": [
-      "radiation.nuclear"
-    ],
-    "point-kinetics": [
-      "radiation.nuclear"
-    ],
-    "decay-network": [
-      "radiation.nuclear"
-    ],
-    "irradiated-network": [
-      "radiation.nuclear"
-    ],
-    "binary-separation": [
-      "microstructure.phase_field"
-    ],
-    "ternary-separation": [
-      "microstructure.phase_field"
-    ],
-    "order-relaxation": [
-      "microstructure.phase_field"
-    ],
-    "driven-ordering": [
-      "microstructure.phase_field"
-    ],
-    "grain-coarsening": [
-      "microstructure.phase_field"
-    ],
-    "coupled-precipitation": [
-      "microstructure.phase_field"
-    ],
-    "crystal-density": [
-      "microstructure.phase_field"
-    ]
-  },
-  "aliases": {
-    "absolute_pressure": "caeoj_ext.fluid.single_phase:absolute_pressure",
-    "fluid_material": "caeoj_ext.fluid.single_phase:fluid_material",
-    "density_at_pressure": "caeoj_ext.fluid.single_phase:density_at_pressure",
-    "dynamic_viscosity": "caeoj_ext.fluid.single_phase:dynamic_viscosity",
-    "condition_values": "caeoj_ext.fluid.single_phase:condition_values",
-    "periodic_face_pairs": "caeoj_ext.fluid.single_phase:periodic_condition_pairs",
-    "fluid_energy_properties": "caeoj_ext.fluid._compat_energy:fluid_energy_properties",
-    "fluid_energy_condition_values": "caeoj_ext.fluid._compat_energy:fluid_energy_condition_values",
-    "fluid_energy_statistics": "caeoj_ext.fluid._compat_energy:fluid_energy_statistics",
-    "multiphase_parameters": "caeoj_ext.fluid.multiphase:multiphase_parameters",
-    "multiphase_phase_mass": "caeoj_ext.fluid.multiphase:multiphase_phase_mass",
-    "reduced_parameters": "caeoj_ext.fluid._compat_reduced:reduced_parameters",
-    "reduced_viscosity": "caeoj_ext.fluid._sdk_compat:reduced_viscosity",
-    "maxwellian": "caeoj_ext.fluid._sdk_compat:maxwellian"
-  },
-  "modules": {
-    "caeoj.cfd": "caeoj_ext.fluid.single_phase",
-    "caeoj.fluid_energy": "caeoj_ext.fluid._compat_energy",
-    "caeoj.fluid_multiphase": "caeoj_ext.fluid.multiphase",
-    "caeoj.fluid_reduced": "caeoj_ext.fluid._compat_reduced"
-  },
   "model_namespaces": [
     "fluid-energy-",
     "fluid-multiphase-",
@@ -1658,5 +41,604 @@
     "systems-": "E_SYSTEMS",
     "radiation-": "E_RADIATION",
     "microstructure-": "E_MICROSTRUCTURE"
+  },
+  "id": "qbank-rc7-paper-frozen",
+  "strict_tasks": false,
+  "tasks": {
+    "advection-1d": [],
+    "burgers-1d": [],
+    "case-grading-test": [],
+    "cc-1d-burgers-equation": [
+      "compat.cfdcodebench"
+    ],
+    "cc-1d-diffusion": [
+      "compat.cfdcodebench"
+    ],
+    "cc-1d-euler-shock-tube": [
+      "compat.cfdcodebench"
+    ],
+    "cc-1d-kdv-burgers-equation": [
+      "compat.cfdcodebench"
+    ],
+    "cc-1d-linear-convection": [
+      "compat.cfdcodebench"
+    ],
+    "cc-1d-nonlinear-convection": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-burgers-equation": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-convection": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-diffusion": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-inviscid-burgers": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-laplace-equation": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-linear-convection": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-navier-stokes-cavity": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-navier-stokes-channel": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-poisson-equation": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-rayleigh-benard-convection": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-shear-flow-with-tracer": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-steady-heat-equation": [
+      "compat.cfdcodebench"
+    ],
+    "cc-2d-unsteady-heat-equation": [
+      "compat.cfdcodebench"
+    ],
+    "cc-flow-past-circular-cylinder": [
+      "compat.cfdcodebench"
+    ],
+    "cc-fully-developed-turbulent-channel-flow": [
+      "compat.cfdcodebench"
+    ],
+    "cc-lane-emden-equation": [
+      "compat.cfdcodebench"
+    ],
+    "cc-lid-driven-cavity": [
+      "compat.cfdcodebench"
+    ],
+    "cc-pipe-flow-disk-evp": [
+      "compat.cfdcodebench"
+    ],
+    "compressible-navier-stokes-1d": [],
+    "compressible-navier-stokes-2d": [],
+    "compressible-navier-stokes-3d": [],
+    "compressible-thermal-rans-3d": [
+      "fluid.turbulence"
+    ],
+    "darcy-flow-2d": [],
+    "diffusion-sorption-1d": [],
+    "free-molecular": [
+      "fluid.rarefied"
+    ],
+    "fully-wet-steady": [
+      "fluid.depth_averaged"
+    ],
+    "fully-wet-transient": [
+      "fluid.depth_averaged"
+    ],
+    "gas-film": [
+      "fluid.thin_film"
+    ],
+    "generalized-newtonian-incompressible-steady-2d": [
+      "fluid.single_phase"
+    ],
+    "generalized-newtonian-incompressible-steady-3d": [
+      "fluid.single_phase"
+    ],
+    "generalized-newtonian-incompressible-transient-2d": [
+      "fluid.single_phase"
+    ],
+    "generalized-newtonian-incompressible-transient-3d": [
+      "fluid.single_phase"
+    ],
+    "heat-conduction-steady-2d": [],
+    "heat-conduction-transient-2d": [],
+    "immiscible-interface-2d": [
+      "fluid.multiphase"
+    ],
+    "immiscible-interface-3d": [
+      "fluid.multiphase"
+    ],
+    "incompressible-navier-stokes-2d": [],
+    "inviscid-compressible-steady-2d": [
+      "fluid.thermal_flow"
+    ],
+    "inviscid-compressible-steady-3d": [
+      "fluid.thermal_flow"
+    ],
+    "inviscid-compressible-transient-2d": [
+      "fluid.thermal_flow"
+    ],
+    "inviscid-compressible-transient-3d": [
+      "fluid.thermal_flow"
+    ],
+    "isothermal-rans-3d": [
+      "fluid.turbulence"
+    ],
+    "newtonian-compressible-steady-2d": [
+      "fluid.thermal_flow"
+    ],
+    "newtonian-compressible-steady-3d": [
+      "fluid.thermal_flow"
+    ],
+    "newtonian-compressible-transient-2d": [
+      "fluid.thermal_flow"
+    ],
+    "newtonian-compressible-transient-3d": [
+      "fluid.thermal_flow"
+    ],
+    "newtonian-incompressible-steady-2d": [
+      "fluid.single_phase"
+    ],
+    "newtonian-incompressible-steady-3d": [
+      "fluid.single_phase"
+    ],
+    "newtonian-incompressible-transient-2d": [
+      "fluid.single_phase"
+    ],
+    "newtonian-incompressible-transient-3d": [
+      "fluid.single_phase"
+    ],
+    "newtonian-isothermal-compressible-steady-2d": [
+      "fluid.single_phase"
+    ],
+    "newtonian-isothermal-compressible-steady-3d": [
+      "fluid.single_phase"
+    ],
+    "newtonian-isothermal-compressible-transient-2d": [
+      "fluid.single_phase"
+    ],
+    "newtonian-isothermal-compressible-transient-3d": [
+      "fluid.single_phase"
+    ],
+    "newtonian-lowmach-steady-2d": [
+      "fluid.thermal_flow"
+    ],
+    "newtonian-lowmach-steady-3d": [
+      "fluid.thermal_flow"
+    ],
+    "newtonian-lowmach-transient-2d": [
+      "fluid.thermal_flow"
+    ],
+    "newtonian-lowmach-transient-3d": [
+      "fluid.thermal_flow"
+    ],
+    "rans-steady-2d": [
+      "fluid.turbulence"
+    ],
+    "rans-steady-3d": [
+      "fluid.turbulence"
+    ],
+    "reaction-diffusion-1d": [],
+    "reaction-diffusion-2d": [],
+    "resolved-statistics-3d": [
+      "fluid.turbulence"
+    ],
+    "shallow-water-2d": [],
+    "smoke-test": [],
+    "thermal-rans-3d": [
+      "fluid.turbulence"
+    ],
+    "thermal-statistics-3d": [
+      "fluid.turbulence"
+    ],
+    "thermal-urans-3d": [
+      "fluid.turbulence"
+    ],
+    "transition-gas": [
+      "fluid.rarefied"
+    ],
+    "urans-transient-3d": [
+      "fluid.turbulence"
+    ],
+    "viscoelastic-steady": [
+      "fluid.complex_fluid"
+    ],
+    "viscoelastic-transient": [
+      "fluid.complex_fluid"
+    ],
+    "wetting-drying": [
+      "fluid.depth_averaged"
+    ]
+  },
+  "extensions": {
+    "compat.cfdcodebench": {
+      "check": "caeoj_ext.cfdcodebench:check",
+      "evaluators": {
+        "field.normalized_outputs": "caeoj_ext.normalized_fields:prepare"
+      },
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/cfdcodebench/__init__.py",
+        "caeoj_ext/cfdcodebench/models.json",
+        "caeoj_ext/normalized_fields.py"
+      ],
+      "requires": [],
+      "selectors": [
+        {
+          "physics.model": "cfdcodebench-c01-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c02-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c03-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c04-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c05-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c06-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c07-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c08-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c09-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c10-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c11-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c12-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c13-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c14-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c15-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c16-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c17-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c18-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c19-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c20-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c21-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c22-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c23-v1"
+        },
+        {
+          "physics.model": "cfdcodebench-c24-v1"
+        }
+      ],
+      "version": 1
+    },
+    "fluid.common": {
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/fluid/__init__.py",
+        "caeoj_ext/fluid/_geometry.py",
+        "caeoj_ext/fluid/_sampling.py",
+        "caeoj_ext/fluid/_declaration_checks.py",
+        "caeoj_ext/fluid/_rheology.py"
+      ],
+      "requires": [],
+      "version": 1
+    },
+    "fluid.complex_fluid": {
+      "check": "caeoj_ext.fluid.complex_fluid:check",
+      "files": [
+        "caeoj_ext/fluid/complex_fluid/__init__.py",
+        "caeoj_ext/fluid/_compat_reduced.py",
+        "caeoj_ext/fluid/_sdk_compat.py"
+      ],
+      "geometry": true,
+      "requires": [
+        "fluid.common"
+      ],
+      "selectors": [
+        {
+          "physics.model": "fluid-reduced-viscoelastic-steady-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-viscoelastic-transient-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-thixotropic-transient-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-thermal-generalized-newtonian-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-thermal-viscoelastic-v1"
+        }
+      ],
+      "version": 1
+    },
+    "fluid.depth_averaged": {
+      "check": "caeoj_ext.fluid.depth_averaged:check",
+      "files": [
+        "caeoj_ext/fluid/depth_averaged/__init__.py",
+        "caeoj_ext/fluid/_compat_reduced.py",
+        "caeoj_ext/fluid/_sdk_compat.py"
+      ],
+      "geometry": true,
+      "requires": [
+        "fluid.common"
+      ],
+      "selectors": [
+        {
+          "physics.model": "fluid-reduced-fully-wet-steady-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-fully-wet-transient-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-wetting-drying-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-two-layer-v1"
+        }
+      ],
+      "version": 1
+    },
+    "fluid.multiphase": {
+      "check": "caeoj_ext.fluid.multiphase:check",
+      "files": [
+        "caeoj_ext/fluid/multiphase/__init__.py"
+      ],
+      "geometry": true,
+      "requires": [
+        "fluid.common"
+      ],
+      "selectors": [
+        {
+          "physics.model": "fluid-multiphase-free-surface-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-immiscible-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-wetting-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-passive-particles-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-coupled-particles-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-bubbles-droplets-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-dense-dispersed-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-interphase-exchange-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-evaporation-condensation-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-boiling-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-cavitation-v1"
+        },
+        {
+          "physics.model": "fluid-multiphase-melting-solidification-v1"
+        }
+      ],
+      "version": 1
+    },
+    "fluid.rarefied": {
+      "check": "caeoj_ext.fluid.rarefied:check",
+      "files": [
+        "caeoj_ext/fluid/rarefied/__init__.py",
+        "caeoj_ext/fluid/_compat_reduced.py",
+        "caeoj_ext/fluid/_sdk_compat.py"
+      ],
+      "geometry": true,
+      "requires": [
+        "fluid.common"
+      ],
+      "selectors": [
+        {
+          "physics.model": "fluid-reduced-isothermal-slip-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-thermal-slip-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-transition-gas-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-free-molecular-v1"
+        }
+      ],
+      "version": 1
+    },
+    "fluid.single_phase": {
+      "check": "caeoj_ext.fluid.single_phase:check",
+      "condition_compatibility": "caeoj_ext.fluid.single_phase:condition_location_compatible",
+      "files": [
+        "caeoj_ext/fluid/single_phase/__init__.py",
+        "caeoj_ext/fluid/single_phase/schema.json"
+      ],
+      "geometry": true,
+      "requires": [
+        "fluid.common"
+      ],
+      "schema_overrides": [
+        "$defs.condition.properties.data.minProperties"
+      ],
+      "schemas": [
+        "caeoj_ext.fluid.single_phase:schema.json"
+      ],
+      "selectors": [
+        {
+          "profile": "cfd-2.1"
+        }
+      ],
+      "version": 1
+    },
+    "fluid.thermal_flow": {
+      "check": "caeoj_ext.fluid.thermal_flow:check",
+      "files": [
+        "caeoj_ext/fluid/thermal_flow/__init__.py",
+        "caeoj_ext/fluid/_compat_energy.py"
+      ],
+      "geometry": true,
+      "requires": [
+        "fluid.common"
+      ],
+      "selectors": [
+        {
+          "physics.model": "fluid-energy-lowmach-laminar-steady-v1"
+        },
+        {
+          "physics.model": "fluid-energy-lowmach-laminar-transient-v1"
+        },
+        {
+          "physics.model": "fluid-energy-inviscid-laminar-steady-v1"
+        },
+        {
+          "physics.model": "fluid-energy-inviscid-laminar-transient-v1"
+        },
+        {
+          "physics.model": "fluid-energy-compressible-laminar-steady-v1"
+        },
+        {
+          "physics.model": "fluid-energy-compressible-laminar-transient-v1"
+        }
+      ],
+      "version": 1
+    },
+    "fluid.thin_film": {
+      "check": "caeoj_ext.fluid.thin_film:check",
+      "files": [
+        "caeoj_ext/fluid/thin_film/__init__.py",
+        "caeoj_ext/fluid/_compat_reduced.py",
+        "caeoj_ext/fluid/_sdk_compat.py"
+      ],
+      "geometry": true,
+      "requires": [
+        "fluid.common"
+      ],
+      "selectors": [
+        {
+          "physics.model": "fluid-reduced-liquid-lubrication-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-gas-film-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-thermal-film-v1"
+        },
+        {
+          "physics.model": "fluid-reduced-nonnewtonian-film-v1"
+        }
+      ],
+      "version": 1
+    },
+    "fluid.turbulence": {
+      "check": "caeoj_ext.fluid.turbulence:check",
+      "files": [
+        "caeoj_ext/fluid/turbulence/__init__.py",
+        "caeoj_ext/fluid/_compat_energy.py"
+      ],
+      "geometry": true,
+      "requires": [
+        "fluid.common",
+        "fluid.thermal_flow"
+      ],
+      "selectors": [
+        {
+          "physics.model": "fluid-energy-incompressible-rans-steady-v1"
+        },
+        {
+          "physics.model": "fluid-energy-incompressible-urans-transient-v1"
+        },
+        {
+          "physics.model": "fluid-energy-incompressible-resolved-statistics-v1"
+        },
+        {
+          "physics.model": "fluid-energy-lowmach-rans-steady-v1"
+        },
+        {
+          "physics.model": "fluid-energy-lowmach-urans-transient-v1"
+        },
+        {
+          "physics.model": "fluid-energy-lowmach-resolved-statistics-v1"
+        },
+        {
+          "physics.model": "fluid-energy-isothermal-rans-steady-v1"
+        },
+        {
+          "physics.model": "fluid-energy-compressible-rans-steady-v1"
+        }
+      ],
+      "version": 1
+    }
+  },
+  "modules": {
+    "caeoj.cfd": "caeoj_ext.fluid.single_phase",
+    "caeoj.fluid_energy": "caeoj_ext.fluid._compat_energy",
+    "caeoj.fluid_multiphase": "caeoj_ext.fluid.multiphase",
+    "caeoj.fluid_reduced": "caeoj_ext.fluid._compat_reduced"
+  },
+  "aliases": {
+    "absolute_pressure": "caeoj_ext.fluid.single_phase:absolute_pressure",
+    "condition_values": "caeoj_ext.fluid.single_phase:condition_values",
+    "density_at_pressure": "caeoj_ext.fluid.single_phase:density_at_pressure",
+    "dynamic_viscosity": "caeoj_ext.fluid.single_phase:dynamic_viscosity",
+    "fluid_energy_condition_values": "caeoj_ext.fluid._compat_energy:fluid_energy_condition_values",
+    "fluid_energy_properties": "caeoj_ext.fluid._compat_energy:fluid_energy_properties",
+    "fluid_energy_statistics": "caeoj_ext.fluid._compat_energy:fluid_energy_statistics",
+    "fluid_material": "caeoj_ext.fluid.single_phase:fluid_material",
+    "maxwellian": "caeoj_ext.fluid._sdk_compat:maxwellian",
+    "multiphase_parameters": "caeoj_ext.fluid.multiphase:multiphase_parameters",
+    "multiphase_phase_mass": "caeoj_ext.fluid.multiphase:multiphase_phase_mass",
+    "periodic_face_pairs": "caeoj_ext.fluid.single_phase:periodic_condition_pairs",
+    "reduced_parameters": "caeoj_ext.fluid._compat_reduced:reduced_parameters",
+    "reduced_viscosity": "caeoj_ext.fluid._sdk_compat:reduced_viscosity"
   }
 }

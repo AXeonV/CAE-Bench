@@ -1,0 +1,2719 @@
+{
+  "release": "caeoj-qbank-20261029-rc7",
+  "profile": "paper-frozen",
+  "paper_manifest_sha256": "afe52ceed42413c64348d05c197403034338bc44ddf1cdb3a481a951c9880caf",
+  "task_count": 82,
+  "formal_cases": 647,
+  "scoring_policy": {
+    "floating_group_metric": "rms_nrmse",
+    "full_score_error": 0.05,
+    "zero_score_error": 0.1,
+    "computational_cases": 630,
+    "infrastructure_cases": 17,
+    "note": "All other per-case grading fields, references, weights, transforms, and scale floors retain the RC6 values."
+  },
+  "hf_execution_policy": {
+    "declared_cpus": 8,
+    "declared_memory_gib": 24,
+    "memory_enforcement": "per-process RLIMIT_AS plus sampled aggregate RSS; not hard cgroup",
+    "hf_flavor": "cpu-upgrade",
+    "container_image_tag": "python:3.12-slim-bookworm",
+    "image_digest": null,
+    "expected_hf_python": "3.12.16",
+    "local_preflight_python": "3.11.9",
+    "default_grading_timeout_seconds": 60,
+    "note": "HF and local fingerprints differ by Python version and the resulting canonical digest. Per-record legacy histories remain heterogeneous."
+  },
+  "tasks": {
+    "smoke-test": {
+      "path": "qbank/00-basic-tests/0.1-io/smoke-test",
+      "formal_cases": 11,
+      "judge": {
+        "timeout_seconds": 10,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 1800,
+        "build_seconds": 1200,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7aea961b4a643ce860c58302cf26fedd83373dfcad17c8dcd999fe9e1ad7b3fa",
+        "source_task_config": "qbank/00-basic-tests/0.1-io/smoke-test/harbor/task.toml"
+      }
+    },
+    "case-grading-test": {
+      "path": "qbank/00-basic-tests/0.2-grading/case-grading-test",
+      "formal_cases": 6,
+      "judge": {
+        "timeout_seconds": 10,
+        "evaluation_timeout_seconds": 60,
+        "max_output_bytes": null,
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 1800,
+        "build_seconds": 1200,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "f039780f83a410c1c3930f7067885069be09ae563ac9e9abca71c11d33cb0441",
+        "source_task_config": "qbank/00-basic-tests/0.2-grading/case-grading-test/harbor/task.toml"
+      }
+    },
+    "darcy-flow-2d": {
+      "path": "qbank/01-prescribed-pdes/1.1-elliptic/darcy-flow-2d",
+      "formal_cases": 20,
+      "judge": {
+        "timeout_seconds": 600,
+        "max_output_bytes": 268435456,
+        "stage": "provisional",
+        "notes": "宽松试运行配置，尚未完成连续参考误差与运行资源校准；不作为正式 Benchmark 精度声明。",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "bc23ddf687fb0f37218196327cf53301198d3b7288134b3c5f0dc4d2cd74d280",
+        "source_task_config": "qbank/01-prescribed-pdes/1.1-elliptic/darcy-flow-2d/harbor/task.toml"
+      }
+    },
+    "heat-conduction-steady-2d": {
+      "path": "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d",
+      "formal_cases": 32,
+      "judge": {
+        "timeout_seconds": 4,
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        },
+        "max_output_bytes": null,
+        "stage": "provisional"
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 1800,
+        "build_seconds": 1200,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "500c3e2388338e31779d7bf4c225cdf4699957c6250821832f3e3deeed2c7443",
+        "source_task_config": "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/harbor/task.toml"
+      }
+    },
+    "diffusion-sorption-1d": {
+      "path": "qbank/01-prescribed-pdes/1.2-diffusion-reaction/diffusion-sorption-1d",
+      "formal_cases": 16,
+      "judge": {
+        "timeout_seconds": 120,
+        "max_output_bytes": 134217728,
+        "stage": "provisional",
+        "notes": "宽松试运行配置，尚未完成连续参考误差与运行资源校准；不作为正式 Benchmark 精度声明。",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "69fdea218bd72d3c3a3b91dc9343deabe8c15138abdb55af1190c806ccaecb01",
+        "source_task_config": "qbank/01-prescribed-pdes/1.2-diffusion-reaction/diffusion-sorption-1d/harbor/task.toml"
+      }
+    },
+    "heat-conduction-transient-2d": {
+      "path": "qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d",
+      "formal_cases": 24,
+      "judge": {
+        "timeout_seconds": 5,
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        },
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "memory_mb": 24576
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 1800,
+        "build_seconds": 1200,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "500c3e2388338e31779d7bf4c225cdf4699957c6250821832f3e3deeed2c7443",
+        "source_task_config": "qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d/harbor/task.toml"
+      }
+    },
+    "reaction-diffusion-1d": {
+      "path": "qbank/01-prescribed-pdes/1.2-diffusion-reaction/reaction-diffusion-1d",
+      "formal_cases": 32,
+      "judge": {
+        "timeout_seconds": 120,
+        "max_output_bytes": 134217728,
+        "stage": "provisional",
+        "notes": "宽松试运行配置，尚未完成连续参考误差与运行资源校准；不作为正式 Benchmark 精度声明。",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7db79348e98690e18506014e8aca2ee4ff19d5fde2e7b0651acca4c09d6cd6c2",
+        "source_task_config": "qbank/01-prescribed-pdes/1.2-diffusion-reaction/reaction-diffusion-1d/harbor/task.toml"
+      }
+    },
+    "reaction-diffusion-2d": {
+      "path": "qbank/01-prescribed-pdes/1.2-diffusion-reaction/reaction-diffusion-2d",
+      "formal_cases": 16,
+      "judge": {
+        "timeout_seconds": 600,
+        "max_output_bytes": 268435456,
+        "stage": "provisional",
+        "notes": "宽松试运行配置，尚未完成连续参考误差与运行资源校准；不作为正式 Benchmark 精度声明。",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "f1e462b3a7072d8373e7c8739722eb64bedbe6ababa5b59fcec6e54a7db21413",
+        "source_task_config": "qbank/01-prescribed-pdes/1.2-diffusion-reaction/reaction-diffusion-2d/harbor/task.toml"
+      }
+    },
+    "advection-1d": {
+      "path": "qbank/01-prescribed-pdes/1.3-scalar-transport/advection-1d",
+      "formal_cases": 24,
+      "judge": {
+        "timeout_seconds": 120,
+        "max_output_bytes": 134217728,
+        "stage": "provisional",
+        "notes": "宽松试运行配置，尚未完成连续参考误差与运行资源校准；不作为正式 Benchmark 精度声明。",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "e8208b62c3a2d1b7b8951d56c6a29053d513283dbc2c6b22f8a8816e5a6ea290",
+        "source_task_config": "qbank/01-prescribed-pdes/1.3-scalar-transport/advection-1d/harbor/task.toml"
+      }
+    },
+    "shallow-water-2d": {
+      "path": "qbank/01-prescribed-pdes/1.4-hyperbolic/shallow-water-2d",
+      "formal_cases": 16,
+      "judge": {
+        "timeout_seconds": 600,
+        "max_output_bytes": 268435456,
+        "stage": "provisional",
+        "notes": "宽松试运行配置，尚未完成连续参考误差与运行资源校准；不作为正式 Benchmark 精度声明。",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "f1e462b3a7072d8373e7c8739722eb64bedbe6ababa5b59fcec6e54a7db21413",
+        "source_task_config": "qbank/01-prescribed-pdes/1.4-hyperbolic/shallow-water-2d/harbor/task.toml"
+      }
+    },
+    "burgers-1d": {
+      "path": "qbank/01-prescribed-pdes/1.5-advection-diffusion/burgers-1d",
+      "formal_cases": 24,
+      "judge": {
+        "timeout_seconds": 120,
+        "max_output_bytes": 134217728,
+        "stage": "provisional",
+        "notes": "宽松试运行配置，尚未完成连续参考误差与运行资源校准；不作为正式 Benchmark 精度声明。",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "e8208b62c3a2d1b7b8951d56c6a29053d513283dbc2c6b22f8a8816e5a6ea290",
+        "source_task_config": "qbank/01-prescribed-pdes/1.5-advection-diffusion/burgers-1d/harbor/task.toml"
+      }
+    },
+    "incompressible-navier-stokes-2d": {
+      "path": "qbank/01-prescribed-pdes/1.6-constrained-systems/incompressible-navier-stokes-2d",
+      "formal_cases": 16,
+      "judge": {
+        "timeout_seconds": 900,
+        "max_output_bytes": 268435456,
+        "stage": "provisional",
+        "notes": "宽松试运行配置，尚未完成连续参考误差与运行资源校准；不作为正式 Benchmark 精度声明。",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "d5b214a5a658eb62182a626773fc9be1943327589b4ed8738c22f3d720d6daca",
+        "source_task_config": "qbank/01-prescribed-pdes/1.6-constrained-systems/incompressible-navier-stokes-2d/harbor/task.toml"
+      }
+    },
+    "compressible-navier-stokes-1d": {
+      "path": "qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-1d",
+      "formal_cases": 16,
+      "judge": {
+        "timeout_seconds": 120,
+        "max_output_bytes": 134217728,
+        "stage": "provisional",
+        "notes": "宽松试运行配置，尚未完成连续参考误差与运行资源校准；不作为正式 Benchmark 精度声明。",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "69fdea218bd72d3c3a3b91dc9343deabe8c15138abdb55af1190c806ccaecb01",
+        "source_task_config": "qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-1d/harbor/task.toml"
+      }
+    },
+    "compressible-navier-stokes-2d": {
+      "path": "qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-2d",
+      "formal_cases": 24,
+      "judge": {
+        "timeout_seconds": 600,
+        "max_output_bytes": 268435456,
+        "stage": "provisional",
+        "notes": "宽松试运行配置，尚未完成连续参考误差与运行资源校准；不作为正式 Benchmark 精度声明。",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "d5b214a5a658eb62182a626773fc9be1943327589b4ed8738c22f3d720d6daca",
+        "source_task_config": "qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-2d/harbor/task.toml"
+      }
+    },
+    "compressible-navier-stokes-3d": {
+      "path": "qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-3d",
+      "formal_cases": 6,
+      "judge": {
+        "timeout_seconds": 1800,
+        "max_output_bytes": 2147483648,
+        "stage": "provisional",
+        "notes": "宽松试运行配置，尚未完成连续参考误差与运行资源校准；不作为正式 Benchmark 精度声明。",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        },
+        "evaluation_timeout_seconds": 120
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 7200,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "bcfd9266551aa5544b7d795a719cc67a01d360f868b5d5dd170cf033f8c647d7",
+        "source_task_config": "qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-3d/harbor/task.toml"
+      }
+    },
+    "newtonian-incompressible-steady-2d": {
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-steady-2d",
+      "formal_cases": 10,
+      "judge": {
+        "timeout_seconds": 600,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-steady-2d/harbor/task.toml"
+      }
+    },
+    "newtonian-incompressible-steady-3d": {
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-steady-3d",
+      "formal_cases": 10,
+      "judge": {
+        "timeout_seconds": 600,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-steady-3d/harbor/task.toml"
+      }
+    },
+    "cc-1d-burgers-equation": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-burgers-equation",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "2e9226155a001b1152f3a009f0ac0e7050457cb1f953e8ae7be1eb604daa6915",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-burgers-equation/harbor/task.toml"
+      }
+    },
+    "cc-1d-diffusion": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-diffusion",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "2e9226155a001b1152f3a009f0ac0e7050457cb1f953e8ae7be1eb604daa6915",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-diffusion/harbor/task.toml"
+      }
+    },
+    "cc-1d-euler-shock-tube": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-euler-shock-tube",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "2e9226155a001b1152f3a009f0ac0e7050457cb1f953e8ae7be1eb604daa6915",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-euler-shock-tube/harbor/task.toml"
+      }
+    },
+    "cc-1d-linear-convection": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-linear-convection",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "2e9226155a001b1152f3a009f0ac0e7050457cb1f953e8ae7be1eb604daa6915",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-linear-convection/harbor/task.toml"
+      }
+    },
+    "cc-1d-nonlinear-convection": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-nonlinear-convection",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "2e9226155a001b1152f3a009f0ac0e7050457cb1f953e8ae7be1eb604daa6915",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-nonlinear-convection/harbor/task.toml"
+      }
+    },
+    "cc-2d-burgers-equation": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-burgers-equation",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "2e9226155a001b1152f3a009f0ac0e7050457cb1f953e8ae7be1eb604daa6915",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-burgers-equation/harbor/task.toml"
+      }
+    },
+    "cc-2d-convection": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-convection",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "2e9226155a001b1152f3a009f0ac0e7050457cb1f953e8ae7be1eb604daa6915",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-convection/harbor/task.toml"
+      }
+    },
+    "cc-2d-diffusion": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-diffusion",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "2e9226155a001b1152f3a009f0ac0e7050457cb1f953e8ae7be1eb604daa6915",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-diffusion/harbor/task.toml"
+      }
+    },
+    "cc-2d-inviscid-burgers": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-inviscid-burgers",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "2e9226155a001b1152f3a009f0ac0e7050457cb1f953e8ae7be1eb604daa6915",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-inviscid-burgers/harbor/task.toml"
+      }
+    },
+    "cc-2d-laplace-equation": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-laplace-equation",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "2e9226155a001b1152f3a009f0ac0e7050457cb1f953e8ae7be1eb604daa6915",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-laplace-equation/harbor/task.toml"
+      }
+    },
+    "cc-2d-linear-convection": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-linear-convection",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "2e9226155a001b1152f3a009f0ac0e7050457cb1f953e8ae7be1eb604daa6915",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-linear-convection/harbor/task.toml"
+      }
+    },
+    "cc-2d-navier-stokes-cavity": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-navier-stokes-cavity",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 5400,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "6246aab35c840020826736bf20a02f0c112d5842f4f54b139f36378fd13cf723",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-navier-stokes-cavity/harbor/task.toml"
+      }
+    },
+    "cc-2d-navier-stokes-channel": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-navier-stokes-channel",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "2e9226155a001b1152f3a009f0ac0e7050457cb1f953e8ae7be1eb604daa6915",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-navier-stokes-channel/harbor/task.toml"
+      }
+    },
+    "cc-2d-poisson-equation": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-poisson-equation",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "2e9226155a001b1152f3a009f0ac0e7050457cb1f953e8ae7be1eb604daa6915",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-poisson-equation/harbor/task.toml"
+      }
+    },
+    "cc-2d-steady-heat-equation": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-steady-heat-equation",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "2e9226155a001b1152f3a009f0ac0e7050457cb1f953e8ae7be1eb604daa6915",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-steady-heat-equation/harbor/task.toml"
+      }
+    },
+    "cc-2d-unsteady-heat-equation": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-unsteady-heat-equation",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "2e9226155a001b1152f3a009f0ac0e7050457cb1f953e8ae7be1eb604daa6915",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-unsteady-heat-equation/harbor/task.toml"
+      }
+    },
+    "cc-fully-developed-turbulent-channel-flow": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-fully-developed-turbulent-channel-flow",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "2e9226155a001b1152f3a009f0ac0e7050457cb1f953e8ae7be1eb604daa6915",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-fully-developed-turbulent-channel-flow/harbor/task.toml"
+      }
+    },
+    "cc-lid-driven-cavity": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-lid-driven-cavity",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "2e9226155a001b1152f3a009f0ac0e7050457cb1f953e8ae7be1eb604daa6915",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-lid-driven-cavity/harbor/task.toml"
+      }
+    },
+    "cc-flow-past-circular-cylinder": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-flow-past-circular-cylinder",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 720,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 5400,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "6246aab35c840020826736bf20a02f0c112d5842f4f54b139f36378fd13cf723",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-flow-past-circular-cylinder/harbor/task.toml"
+      }
+    },
+    "cc-1d-kdv-burgers-equation": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-kdv-burgers-equation",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "2e9226155a001b1152f3a009f0ac0e7050457cb1f953e8ae7be1eb604daa6915",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-kdv-burgers-equation/harbor/task.toml"
+      }
+    },
+    "cc-2d-rayleigh-benard-convection": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-rayleigh-benard-convection",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 5400,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "6246aab35c840020826736bf20a02f0c112d5842f4f54b139f36378fd13cf723",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-rayleigh-benard-convection/harbor/task.toml"
+      }
+    },
+    "cc-2d-shear-flow-with-tracer": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-shear-flow-with-tracer",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 5400,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "6246aab35c840020826736bf20a02f0c112d5842f4f54b139f36378fd13cf723",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-shear-flow-with-tracer/harbor/task.toml"
+      }
+    },
+    "cc-pipe-flow-disk-evp": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-pipe-flow-disk-evp",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 5400,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "6246aab35c840020826736bf20a02f0c112d5842f4f54b139f36378fd13cf723",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-pipe-flow-disk-evp/harbor/task.toml"
+      }
+    },
+    "cc-lane-emden-equation": {
+      "path": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-lane-emden-equation",
+      "formal_cases": 1,
+      "judge": {
+        "timeout_seconds": 300,
+        "max_output_bytes": null,
+        "evaluation_timeout_seconds": 60,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "2e9226155a001b1152f3a009f0ac0e7050457cb1f953e8ae7be1eb604daa6915",
+        "source_task_config": "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-lane-emden-equation/harbor/task.toml"
+      }
+    },
+    "newtonian-incompressible-transient-2d": {
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-transient-2d",
+      "formal_cases": 10,
+      "judge": {
+        "timeout_seconds": 600,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-transient-2d/harbor/task.toml"
+      }
+    },
+    "newtonian-incompressible-transient-3d": {
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-transient-3d",
+      "formal_cases": 10,
+      "judge": {
+        "timeout_seconds": 600,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-transient-3d/harbor/task.toml"
+      }
+    },
+    "generalized-newtonian-incompressible-steady-2d": {
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-steady-2d",
+      "formal_cases": 8,
+      "judge": {
+        "timeout_seconds": 600,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-steady-2d/harbor/task.toml"
+      }
+    },
+    "generalized-newtonian-incompressible-transient-2d": {
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-transient-2d",
+      "formal_cases": 8,
+      "judge": {
+        "timeout_seconds": 600,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-transient-2d/harbor/task.toml"
+      }
+    },
+    "generalized-newtonian-incompressible-steady-3d": {
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-steady-3d",
+      "formal_cases": 7,
+      "judge": {
+        "timeout_seconds": 600,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-steady-3d/harbor/task.toml"
+      }
+    },
+    "generalized-newtonian-incompressible-transient-3d": {
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-transient-3d",
+      "formal_cases": 8,
+      "judge": {
+        "timeout_seconds": 600,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-transient-3d/harbor/task.toml"
+      }
+    },
+    "newtonian-isothermal-compressible-steady-2d": {
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-steady-2d",
+      "formal_cases": 3,
+      "judge": {
+        "timeout_seconds": 600,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-steady-2d/harbor/task.toml"
+      }
+    },
+    "newtonian-isothermal-compressible-transient-2d": {
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-transient-2d",
+      "formal_cases": 5,
+      "judge": {
+        "timeout_seconds": 600,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-transient-2d/harbor/task.toml"
+      }
+    },
+    "newtonian-isothermal-compressible-steady-3d": {
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-steady-3d",
+      "formal_cases": 3,
+      "judge": {
+        "timeout_seconds": 600,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-steady-3d/harbor/task.toml"
+      }
+    },
+    "newtonian-isothermal-compressible-transient-3d": {
+      "path": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-transient-3d",
+      "formal_cases": 5,
+      "judge": {
+        "timeout_seconds": 600,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-transient-3d/harbor/task.toml"
+      }
+    },
+    "newtonian-lowmach-steady-2d": {
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-steady-2d",
+      "formal_cases": 10,
+      "judge": {
+        "timeout_seconds": 900,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-steady-2d/harbor/task.toml"
+      }
+    },
+    "newtonian-lowmach-transient-2d": {
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-transient-2d",
+      "formal_cases": 10,
+      "judge": {
+        "timeout_seconds": 900,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-transient-2d/harbor/task.toml"
+      }
+    },
+    "newtonian-lowmach-steady-3d": {
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-steady-3d",
+      "formal_cases": 10,
+      "judge": {
+        "timeout_seconds": 900,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-steady-3d/harbor/task.toml"
+      }
+    },
+    "newtonian-lowmach-transient-3d": {
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-transient-3d",
+      "formal_cases": 10,
+      "judge": {
+        "timeout_seconds": 900,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-transient-3d/harbor/task.toml"
+      }
+    },
+    "inviscid-compressible-steady-2d": {
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-steady-2d",
+      "formal_cases": 10,
+      "judge": {
+        "timeout_seconds": 900,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-steady-2d/harbor/task.toml"
+      }
+    },
+    "inviscid-compressible-transient-2d": {
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-transient-2d",
+      "formal_cases": 10,
+      "judge": {
+        "timeout_seconds": 900,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-transient-2d/harbor/task.toml"
+      }
+    },
+    "inviscid-compressible-steady-3d": {
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-steady-3d",
+      "formal_cases": 10,
+      "judge": {
+        "timeout_seconds": 900,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-steady-3d/harbor/task.toml"
+      }
+    },
+    "inviscid-compressible-transient-3d": {
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-transient-3d",
+      "formal_cases": 10,
+      "judge": {
+        "timeout_seconds": 900,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-transient-3d/harbor/task.toml"
+      }
+    },
+    "newtonian-compressible-transient-2d": {
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-transient-2d",
+      "formal_cases": 5,
+      "judge": {
+        "timeout_seconds": 900,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-transient-2d/harbor/task.toml"
+      }
+    },
+    "newtonian-compressible-transient-3d": {
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-transient-3d",
+      "formal_cases": 5,
+      "judge": {
+        "timeout_seconds": 900,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-transient-3d/harbor/task.toml"
+      }
+    },
+    "rans-steady-2d": {
+      "path": "qbank/02-fluid-mechanics/2.3-turbulent-flow/rans-steady-2d",
+      "formal_cases": 8,
+      "judge": {
+        "timeout_seconds": 1800,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.3-turbulent-flow/rans-steady-2d/harbor/task.toml"
+      }
+    },
+    "rans-steady-3d": {
+      "path": "qbank/02-fluid-mechanics/2.3-turbulent-flow/rans-steady-3d",
+      "formal_cases": 7,
+      "judge": {
+        "timeout_seconds": 1800,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.3-turbulent-flow/rans-steady-3d/harbor/task.toml"
+      }
+    },
+    "urans-transient-3d": {
+      "path": "qbank/02-fluid-mechanics/2.3-turbulent-flow/urans-transient-3d",
+      "formal_cases": 10,
+      "judge": {
+        "timeout_seconds": 1800,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.3-turbulent-flow/urans-transient-3d/harbor/task.toml"
+      }
+    },
+    "resolved-statistics-3d": {
+      "path": "qbank/02-fluid-mechanics/2.3-turbulent-flow/resolved-statistics-3d",
+      "formal_cases": 10,
+      "judge": {
+        "timeout_seconds": 1800,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.3-turbulent-flow/resolved-statistics-3d/harbor/task.toml"
+      }
+    },
+    "isothermal-rans-3d": {
+      "path": "qbank/02-fluid-mechanics/2.3-turbulent-flow/isothermal-rans-3d",
+      "formal_cases": 7,
+      "judge": {
+        "timeout_seconds": 1800,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.3-turbulent-flow/isothermal-rans-3d/harbor/task.toml"
+      }
+    },
+    "thermal-rans-3d": {
+      "path": "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-rans-3d",
+      "formal_cases": 9,
+      "judge": {
+        "timeout_seconds": 1800,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-rans-3d/harbor/task.toml"
+      }
+    },
+    "thermal-urans-3d": {
+      "path": "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-urans-3d",
+      "formal_cases": 4,
+      "judge": {
+        "timeout_seconds": 1800,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-urans-3d/harbor/task.toml"
+      }
+    },
+    "thermal-statistics-3d": {
+      "path": "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-statistics-3d",
+      "formal_cases": 10,
+      "judge": {
+        "timeout_seconds": 1800,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-statistics-3d/harbor/task.toml"
+      }
+    },
+    "immiscible-interface-2d": {
+      "path": "qbank/02-fluid-mechanics/2.5-interface-flow/immiscible-interface-2d",
+      "formal_cases": 10,
+      "judge": {
+        "timeout_seconds": 1800,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.5-interface-flow/immiscible-interface-2d/harbor/task.toml"
+      }
+    },
+    "immiscible-interface-3d": {
+      "path": "qbank/02-fluid-mechanics/2.5-interface-flow/immiscible-interface-3d",
+      "formal_cases": 10,
+      "judge": {
+        "timeout_seconds": 1800,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.5-interface-flow/immiscible-interface-3d/harbor/task.toml"
+      }
+    },
+    "gas-film": {
+      "path": "qbank/02-fluid-mechanics/2.8-thin-film/gas-film",
+      "formal_cases": 10,
+      "judge": {
+        "timeout_seconds": 1200,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.8-thin-film/gas-film/harbor/task.toml"
+      }
+    },
+    "fully-wet-steady": {
+      "path": "qbank/02-fluid-mechanics/2.9-shallow-water/fully-wet-steady",
+      "formal_cases": 3,
+      "judge": {
+        "timeout_seconds": 900,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.9-shallow-water/fully-wet-steady/harbor/task.toml"
+      }
+    },
+    "fully-wet-transient": {
+      "path": "qbank/02-fluid-mechanics/2.9-shallow-water/fully-wet-transient",
+      "formal_cases": 9,
+      "judge": {
+        "timeout_seconds": 900,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.9-shallow-water/fully-wet-transient/harbor/task.toml"
+      }
+    },
+    "wetting-drying": {
+      "path": "qbank/02-fluid-mechanics/2.9-shallow-water/wetting-drying",
+      "formal_cases": 7,
+      "judge": {
+        "timeout_seconds": 900,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.9-shallow-water/wetting-drying/harbor/task.toml"
+      }
+    },
+    "transition-gas": {
+      "path": "qbank/02-fluid-mechanics/2.10-rarefied-gas/transition-gas",
+      "formal_cases": 10,
+      "judge": {
+        "timeout_seconds": 2400,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.10-rarefied-gas/transition-gas/harbor/task.toml"
+      }
+    },
+    "free-molecular": {
+      "path": "qbank/02-fluid-mechanics/2.10-rarefied-gas/free-molecular",
+      "formal_cases": 10,
+      "judge": {
+        "timeout_seconds": 2400,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.10-rarefied-gas/free-molecular/harbor/task.toml"
+      }
+    },
+    "viscoelastic-steady": {
+      "path": "qbank/02-fluid-mechanics/2.11-memory-fluids/viscoelastic-steady",
+      "formal_cases": 9,
+      "judge": {
+        "timeout_seconds": 1800,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.11-memory-fluids/viscoelastic-steady/harbor/task.toml"
+      }
+    },
+    "viscoelastic-transient": {
+      "path": "qbank/02-fluid-mechanics/2.11-memory-fluids/viscoelastic-transient",
+      "formal_cases": 9,
+      "judge": {
+        "timeout_seconds": 1800,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.11-memory-fluids/viscoelastic-transient/harbor/task.toml"
+      }
+    },
+    "newtonian-compressible-steady-2d": {
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-steady-2d",
+      "formal_cases": 4,
+      "judge": {
+        "timeout_seconds": 900,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-steady-2d/harbor/task.toml"
+      }
+    },
+    "newtonian-compressible-steady-3d": {
+      "path": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-steady-3d",
+      "formal_cases": 3,
+      "judge": {
+        "timeout_seconds": 900,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-steady-3d/harbor/task.toml"
+      }
+    },
+    "compressible-thermal-rans-3d": {
+      "path": "qbank/02-fluid-mechanics/2.4-turbulent-energy/compressible-thermal-rans-3d",
+      "formal_cases": 4,
+      "judge": {
+        "timeout_seconds": 1800,
+        "max_output_bytes": null,
+        "stage": "provisional",
+        "verifier_budget": {
+          "base_seconds": 300,
+          "per_case_overhead_seconds": 60
+        }
+      },
+      "corrected_hf_development": {
+        "agent_seconds": 3600,
+        "build_seconds": 1800,
+        "step_limit": 0,
+        "max_consecutive_format_errors": 3,
+        "command_timeout": "remaining whole task wall; no separate120second cap",
+        "tool_output": "full raw output into native mini template; no extra tail-onlypretrim",
+        "output_limits": {
+          "openai": 128000,
+          "deepseek": 393216
+        },
+        "shared_template_sha256": "a68fbb2cc287020c7d72c6dcff381004a210ef1145d26ec169b966f01e859432",
+        "task_overlay_sha256": "7137a23b167c8311089f68f72efc6d781efa32b860119b8c242a6254733fe07e",
+        "source_task_config": "qbank/02-fluid-mechanics/2.4-turbulent-energy/compressible-thermal-rans-3d/harbor/task.toml"
+      }
+    }
+  },
+  "source_projection_sha256": {
+    "docs/CONTRACT.md": "dbf943c664f1490c669c069fb59331ccd972f1adeeb76f2965ac01aa1f8b844f",
+    "docs/GRADING.md": "40ac299fd084289ac5270989b73aba598ce69dd01f1af05c8d8816f79a22bfdf",
+    "qbank/00-basic-tests/0.1-io/smoke-test/DATA.md": "51a8607a52b9173f6816d9615422d4635d727385af03ee715bda01f884325b15",
+    "qbank/00-basic-tests/0.1-io/smoke-test/harbor/requirements.txt": "8598478ece7e93cc1b3bc0dadbed75d956f9b1f67a12f60795ca10b437cdf9d2",
+    "qbank/00-basic-tests/0.1-io/smoke-test/instruction.md": "cbe13f9fb9db078eb4db5c5baeba943aa5d0e6b74a7b4bcd8174c3acc188c13f",
+    "qbank/00-basic-tests/0.1-io/smoke-test/judge-config.json": "875fc443095a6693b2e721e22030fc022d79c6353799e533710073d2e2dce95e",
+    "qbank/00-basic-tests/0.2-grading/case-grading-test/DATA.md": "0239c28f00e729d4264c0cc5eda6d84721b97003ca5d3c90dd6bd4ee27236542",
+    "qbank/00-basic-tests/0.2-grading/case-grading-test/harbor/requirements.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "qbank/00-basic-tests/0.2-grading/case-grading-test/instruction.md": "a1566fd071adfeef7c5f3a2a24a0aa2c54fb8dc0cc0e9939dd89a396eb73b632",
+    "qbank/00-basic-tests/0.2-grading/case-grading-test/judge-config.json": "7d078b963ec009f465c8b27b59a79fe7c24bee4917c222a0289233641c02ed25",
+    "qbank/01-prescribed-pdes/1.1-elliptic/darcy-flow-2d/DATA.md": "0b9d78fe743716bd90600b2f038c657ae15392548f271b18d7a65235d6a39ec2",
+    "qbank/01-prescribed-pdes/1.1-elliptic/darcy-flow-2d/instruction.md": "6bf56ec8560b344954be90a9bec6cb623377482e7f3215e6dff19388bee8db8e",
+    "qbank/01-prescribed-pdes/1.1-elliptic/darcy-flow-2d/judge-config.json": "2bfb5f438a414890ba7919cbe620b8202d73faeb80304c9de3e78e55d0488bbb",
+    "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/DATA.md": "0ebddc4d16fd6f2c4e9580867cdf6885f88f467ab848f2d39dbb69c7e7fb2061",
+    "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/instruction.md": "5f17016215a3517eaab61c0012164c9ab3f77c03e153e75e91a065973c0d1647",
+    "qbank/01-prescribed-pdes/1.1-elliptic/heat-conduction-steady-2d/judge-config.json": "4b88bc56e33f76b812115e42f5e9a47ec74374e82dd70f085a44be8435c81ba4",
+    "qbank/01-prescribed-pdes/1.2-diffusion-reaction/diffusion-sorption-1d/DATA.md": "a891d70ccf780fbffb3d23656dcf42e4ecbfd14e2c0a2b6078c0ce81e50f224b",
+    "qbank/01-prescribed-pdes/1.2-diffusion-reaction/diffusion-sorption-1d/instruction.md": "fd792e12e834d481ad3de58c1e3bf5265a7d63af35a120662536de1321bbe274",
+    "qbank/01-prescribed-pdes/1.2-diffusion-reaction/diffusion-sorption-1d/judge-config.json": "11cd18874d7a6af520b3d3d774c1c2240f29702b8a1b97343ef57ff58fe13350",
+    "qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d/DATA.md": "8b8e8eaae4373ba80dfc0e0357b491bed4890b91e550c2c74dd46dcd1cae692c",
+    "qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d/instruction.md": "711bd1e8502a4b40b5f6d3f8c0b59623b06bbbeb6ed66974c5cc876340732f37",
+    "qbank/01-prescribed-pdes/1.2-diffusion-reaction/heat-conduction-transient-2d/judge-config.json": "8dbe82fe7c7192625b90a6f928a9fb9b5254fa318ad8a07e498cac7eff6cffe8",
+    "qbank/01-prescribed-pdes/1.2-diffusion-reaction/reaction-diffusion-1d/DATA.md": "6d1c350ecd002c0886e74208f740d7b1fa4e51ad7ded05e8d1d9f6e3c21b760f",
+    "qbank/01-prescribed-pdes/1.2-diffusion-reaction/reaction-diffusion-1d/instruction.md": "f33b542f63187b7b3abf03a7033e57ed3ce47df6f66790b18e8c566394af2111",
+    "qbank/01-prescribed-pdes/1.2-diffusion-reaction/reaction-diffusion-1d/judge-config.json": "11cd18874d7a6af520b3d3d774c1c2240f29702b8a1b97343ef57ff58fe13350",
+    "qbank/01-prescribed-pdes/1.2-diffusion-reaction/reaction-diffusion-2d/DATA.md": "37d727851940d721a40fe4cf7007dbbce91d4c34ca8f729369e953aedc228ddb",
+    "qbank/01-prescribed-pdes/1.2-diffusion-reaction/reaction-diffusion-2d/instruction.md": "69cb0f451fb633d08e62f0751ad48338f69b4a72b5dff246cb1d0edc7e9bb164",
+    "qbank/01-prescribed-pdes/1.2-diffusion-reaction/reaction-diffusion-2d/judge-config.json": "2bfb5f438a414890ba7919cbe620b8202d73faeb80304c9de3e78e55d0488bbb",
+    "qbank/01-prescribed-pdes/1.3-scalar-transport/advection-1d/DATA.md": "8531cf967d5208907ccedb8758c2ca98d354174282c8d3a34388cc66bdaac3bf",
+    "qbank/01-prescribed-pdes/1.3-scalar-transport/advection-1d/instruction.md": "79bf24880bd8b00c80a47f6324ac5399e0b9d36552efae4862e7cbb2fe026c4e",
+    "qbank/01-prescribed-pdes/1.3-scalar-transport/advection-1d/judge-config.json": "11cd18874d7a6af520b3d3d774c1c2240f29702b8a1b97343ef57ff58fe13350",
+    "qbank/01-prescribed-pdes/1.4-hyperbolic/shallow-water-2d/DATA.md": "2dd9fe46fcfcfb5325fea0d856e09bdf5a32d143a30ea1567c477a527d665d71",
+    "qbank/01-prescribed-pdes/1.4-hyperbolic/shallow-water-2d/instruction.md": "be4e27cf21da61f075007c1e2021f6e66b715f620cc2a7b71aa994062808a27a",
+    "qbank/01-prescribed-pdes/1.4-hyperbolic/shallow-water-2d/judge-config.json": "2bfb5f438a414890ba7919cbe620b8202d73faeb80304c9de3e78e55d0488bbb",
+    "qbank/01-prescribed-pdes/1.5-advection-diffusion/burgers-1d/DATA.md": "63bec17ceb291bad00d348519adc960b7512a41281e643ee1c794f8d84e4468f",
+    "qbank/01-prescribed-pdes/1.5-advection-diffusion/burgers-1d/instruction.md": "b25e6e2619db6391cf8e5ca581b5940305c7fa704d4092a90616e7a859396af7",
+    "qbank/01-prescribed-pdes/1.5-advection-diffusion/burgers-1d/judge-config.json": "11cd18874d7a6af520b3d3d774c1c2240f29702b8a1b97343ef57ff58fe13350",
+    "qbank/01-prescribed-pdes/1.6-constrained-systems/incompressible-navier-stokes-2d/DATA.md": "c5d70e638f7412ac9dcb6d629743fd74da261453ec1bf20114c7564b382e3b73",
+    "qbank/01-prescribed-pdes/1.6-constrained-systems/incompressible-navier-stokes-2d/instruction.md": "2316bf55177c2ad7b07e3e96b8e67db275be711c3ee306f19e99973101e83b71",
+    "qbank/01-prescribed-pdes/1.6-constrained-systems/incompressible-navier-stokes-2d/judge-config.json": "eafc5e33faee174ff8a5c4c1a0b63ca5e262ebbad27c29abb781d509a82ed0c6",
+    "qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-1d/DATA.md": "377906b0f16c12d0a72465adef1d8c579028bb1507c1403b778eae5a3c98fef3",
+    "qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-1d/instruction.md": "0a09742d5512fa70e3c856d11dceb01b4354c6ee1af5a1a94b42372ca49ab76f",
+    "qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-1d/judge-config.json": "11cd18874d7a6af520b3d3d774c1c2240f29702b8a1b97343ef57ff58fe13350",
+    "qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-2d/DATA.md": "1d6c12880de18f433a864e059954d38a13de4488be247b61f436a3eb703e0c65",
+    "qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-2d/instruction.md": "ab55b6e05e37ccd0a8849c71816b5f23ac76eaec10cdf54da29ac7b43834784b",
+    "qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-2d/judge-config.json": "2bfb5f438a414890ba7919cbe620b8202d73faeb80304c9de3e78e55d0488bbb",
+    "qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-3d/DATA.md": "cd1013f6f6b6bdb46f33b38dcfb3e86fb7b10004241ab7681e7128794a4f6824",
+    "qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-3d/instruction.md": "54cf172d51f79a73df01a930175521170bb4c5bf0cc4febd280d2db72d65b846",
+    "qbank/01-prescribed-pdes/1.7-coupled-systems/compressible-navier-stokes-3d/judge-config.json": "190213141c592b5e5ad765680f6977a526e1dc04833657c9764a5d698f40c061",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-steady-2d/DATA.md": "58de1aa48b521fa6b612d956c2305094a5e9c5ec258f0f028621f31c404444cf",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-steady-2d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-steady-2d/instruction.md": "712b8564dd89b2ac32e76f62950b44aba3ff5f6a7f283d028127a8fbfaecb73b",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-steady-2d/judge-config.json": "912ca9e44e4c8253a90e5e78d1f57a05af0892ab592a3e0ff22aec7fcc6cae98",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-steady-3d/DATA.md": "be035ffea07417cb3588415dcf56dc238c60223baa1368991d84ca5d77f6c335",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-steady-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-steady-3d/instruction.md": "8f1a49c0799d39ef736d4974cbba71ba0fbd954362dc91d9e0d5c204c215fc8a",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-steady-3d/judge-config.json": "912ca9e44e4c8253a90e5e78d1f57a05af0892ab592a3e0ff22aec7fcc6cae98",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-transient-2d/DATA.md": "c18d56594243f259fcba9e02f5d2a44a22d94e40105480f4727833442fa661a3",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-transient-2d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-transient-2d/instruction.md": "e2bb0efafd740259fddbbd5058680a87bc34f4468a7337227eb8704b7f442e85",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-transient-2d/judge-config.json": "912ca9e44e4c8253a90e5e78d1f57a05af0892ab592a3e0ff22aec7fcc6cae98",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-transient-3d/DATA.md": "eae351d6e15953b36235f72917b88dd5b7b8e9725a32dacbe17e7c9c52108cdb",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-transient-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-transient-3d/instruction.md": "11fa8c18042e3ec91b87c399a2466503f2ac40e925510e5b57909bb0b44c4de2",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/generalized-newtonian-incompressible-transient-3d/judge-config.json": "912ca9e44e4c8253a90e5e78d1f57a05af0892ab592a3e0ff22aec7fcc6cae98",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-steady-2d/DATA.md": "d2c61547d59c411f1a6b3f45879003a216fc2819313f69d2f4d3de2e3cd5b4af",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-steady-2d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-steady-2d/instruction.md": "a93a59df19a087f1fc688db973ef37391ad39f9067933fd8c1a57ef9c0933674",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-steady-2d/judge-config.json": "912ca9e44e4c8253a90e5e78d1f57a05af0892ab592a3e0ff22aec7fcc6cae98",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-steady-3d/DATA.md": "4799e680f96389d731f8dc0c39ebc3afaee25a587c619420f3f47961fe43a40c",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-steady-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-steady-3d/instruction.md": "eca5a5e7e864be30fae1f6ec8100f8835c376e56e1ec7dbc9548f4fd6f777f94",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-steady-3d/judge-config.json": "912ca9e44e4c8253a90e5e78d1f57a05af0892ab592a3e0ff22aec7fcc6cae98",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-transient-2d/DATA.md": "38e607ad69c3c88a1bbb1dffc4da0c0e897b586bb626eedfef6af02516d5d33b",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-transient-2d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-transient-2d/instruction.md": "b52c05460805adf1443097d99994bc041d26a5dbc57b76e2553e8367d76b84d7",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-transient-2d/judge-config.json": "912ca9e44e4c8253a90e5e78d1f57a05af0892ab592a3e0ff22aec7fcc6cae98",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-transient-3d/DATA.md": "4ae49ac05fd59cbc530bd956d762f74686fd3756e1d2f42766ff6083046bd63c",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-transient-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-transient-3d/instruction.md": "9eacb8846f453bcda748ba80bfd734983fe866675398f68e1626d4179ddc5222",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-incompressible-transient-3d/judge-config.json": "912ca9e44e4c8253a90e5e78d1f57a05af0892ab592a3e0ff22aec7fcc6cae98",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-steady-2d/DATA.md": "d0c29d8198bafe76bfedeedefd5592d50cb2f273f511217ed8c489722ce375c8",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-steady-2d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-steady-2d/instruction.md": "2fca30792c8d5081504ee685d186187a11496b178a4eb885a85d4567f51e407a",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-steady-2d/judge-config.json": "912ca9e44e4c8253a90e5e78d1f57a05af0892ab592a3e0ff22aec7fcc6cae98",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-steady-3d/DATA.md": "b4202902c19b2611bdcbb66427d2727bdf4d010b6287f4aa16e6b9e1263f1682",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-steady-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-steady-3d/instruction.md": "6c551114b80306da85083eab0eda3dafcba1ee0bd2142f4513c2fd3ce4c16b96",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-steady-3d/judge-config.json": "912ca9e44e4c8253a90e5e78d1f57a05af0892ab592a3e0ff22aec7fcc6cae98",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-transient-2d/DATA.md": "b7d916325ae0d658ba77e5e956d4d27c0a68f1a8d7d376c9fe9048c1ddf1b033",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-transient-2d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-transient-2d/instruction.md": "92d061afccff810bd65f712ac8785b7d3410ac076ceea01d1c24e797e7a2c8de",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-transient-2d/judge-config.json": "912ca9e44e4c8253a90e5e78d1f57a05af0892ab592a3e0ff22aec7fcc6cae98",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-transient-3d/DATA.md": "b2d0a75588516422b964f406a8e4d57dde54a8f0f3465b97308334b50634fe5a",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-transient-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-transient-3d/instruction.md": "0ee4b4bda227e22dec93c386f6e78d5b4a00b277b06357bcbcdb63b46cc79641",
+    "qbank/02-fluid-mechanics/2.1-single-phase-flow/newtonian-isothermal-compressible-transient-3d/judge-config.json": "912ca9e44e4c8253a90e5e78d1f57a05af0892ab592a3e0ff22aec7fcc6cae98",
+    "qbank/02-fluid-mechanics/2.10-rarefied-gas/free-molecular/DATA.md": "da7f2ccbb8866eed1a36024de2287f4b9b3fa4511b60fd3180717bbdef9ed7c4",
+    "qbank/02-fluid-mechanics/2.10-rarefied-gas/free-molecular/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.10-rarefied-gas/free-molecular/instruction.md": "ff3979e32c70978b0207f58127636a6e21f2f599cae44b4f3ee2c78d0cd93bcd",
+    "qbank/02-fluid-mechanics/2.10-rarefied-gas/free-molecular/judge-config.json": "5f2722b7f305c9d70379f8d069940a1a929a717ec6624c09662f2654d9230ef1",
+    "qbank/02-fluid-mechanics/2.10-rarefied-gas/transition-gas/DATA.md": "366a48ff0448a8b5276e06a9a811bc5a993d560dbe3313d8c98b387be7cabbcf",
+    "qbank/02-fluid-mechanics/2.10-rarefied-gas/transition-gas/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.10-rarefied-gas/transition-gas/instruction.md": "8db0b877db59a2198b61391dc37d34dd8d92e906784fb5597028aec33845c8b8",
+    "qbank/02-fluid-mechanics/2.10-rarefied-gas/transition-gas/judge-config.json": "5f2722b7f305c9d70379f8d069940a1a929a717ec6624c09662f2654d9230ef1",
+    "qbank/02-fluid-mechanics/2.11-memory-fluids/viscoelastic-steady/DATA.md": "dda9c11e0cb8a3d78fec179f939f1d43d2056dad8ba358098f263aedb145fa01",
+    "qbank/02-fluid-mechanics/2.11-memory-fluids/viscoelastic-steady/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.11-memory-fluids/viscoelastic-steady/instruction.md": "6a0ca1031dd3c29779a31b2abcf2b1ba13a28e57ef68a7b8d686740ca986da44",
+    "qbank/02-fluid-mechanics/2.11-memory-fluids/viscoelastic-steady/judge-config.json": "8cf085ddece6b4e40c7837c3b5974883c74191dd38403ef4c3e0dbb22b1d7418",
+    "qbank/02-fluid-mechanics/2.11-memory-fluids/viscoelastic-transient/DATA.md": "1224eb8719587deab16aae844a78ec21d69b502f24f9e1389ae5cc34c0f1941b",
+    "qbank/02-fluid-mechanics/2.11-memory-fluids/viscoelastic-transient/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.11-memory-fluids/viscoelastic-transient/instruction.md": "4e08f302d4ae12e58e6a1ddd6ed21a73626d0aca785128fead67353cd0ee0d12",
+    "qbank/02-fluid-mechanics/2.11-memory-fluids/viscoelastic-transient/judge-config.json": "8cf085ddece6b4e40c7837c3b5974883c74191dd38403ef4c3e0dbb22b1d7418",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-burgers-equation/DATA.md": "c4757d08649ca5e6677e977a35e9eaed5fcba4dd4842d035cb5aba629c1effb6",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-burgers-equation/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-burgers-equation/instruction.md": "399102af4681d26aa623f3f52115485c2afaa3222bf0b1bb85ac8021fcb4fa1d",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-burgers-equation/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-diffusion/DATA.md": "fcc916fce23cf82b4d74c58807542bba83785127f07779aed59f85a3331655cc",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-diffusion/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-diffusion/instruction.md": "ef2d92a398d161d51a5fd62cf9ca25e7476898b460a862455e52402f59b421bb",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-diffusion/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-euler-shock-tube/DATA.md": "5bf5ba925302ceca722f3b17d9874a333ca83f3594c245b9653ffc0acef2900f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-euler-shock-tube/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-euler-shock-tube/instruction.md": "7e13adeb31217594ebebe2bfb269c6ed29948ff81b91aae127699917070f108d",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-euler-shock-tube/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-kdv-burgers-equation/DATA.md": "639cae20cd3af28fc76e6ebc02acb87ee258c34da65ee1598725f815646f9950",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-kdv-burgers-equation/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-kdv-burgers-equation/instruction.md": "370598026dcaaeab21227769520885102c0ff06d6355f394ce1ebc36867a905d",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-kdv-burgers-equation/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-linear-convection/DATA.md": "c15409d2290291e31c81d8b91b31fc4a42bbeac120c7f22b17a30c74424e6252",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-linear-convection/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-linear-convection/instruction.md": "d740e220833918555cca49b9f30b2bf54b73f1d585ab2cdac9d1e2c76b62be47",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-linear-convection/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-nonlinear-convection/DATA.md": "9c8c4359d6473a5c9dcab329cd112c1f91f13d23b6e978b7533a5c1f45a6c215",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-nonlinear-convection/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-nonlinear-convection/instruction.md": "52032a633de8f740866dbf054b4461e8bc3041e1d1e87df79ba177913e3c6faa",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-1d-nonlinear-convection/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-burgers-equation/DATA.md": "6986bb1b468ed8bf345b05cda793cef58c72d426a9e348dcd302dfc713271971",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-burgers-equation/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-burgers-equation/instruction.md": "5ec9835ffe8a686d96476151006a4eaddefd49dfd678fa5f4d5e41241fd166f1",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-burgers-equation/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-convection/DATA.md": "9a1d30d15c07a5a88931f96fc487efe4476a5430efeccc1b51e0f9a54bf0f069",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-convection/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-convection/instruction.md": "2c3a023604fc5b77d90c21a10fa8cd796ab7ba6a6d8ba1d36b996b660ea7e41e",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-convection/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-diffusion/DATA.md": "1e20b41aa64ccdac0f9126620eb835ad6602251e91421547d0607701fb145085",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-diffusion/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-diffusion/instruction.md": "8e18909ea5dce4ffb5570097d2263a732144a6c200a4e3fba1a4261e6f6e4fc1",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-diffusion/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-inviscid-burgers/DATA.md": "8b6d89871c54a997005a464eb900e910a025538986a17d1bb04255def5565082",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-inviscid-burgers/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-inviscid-burgers/instruction.md": "5209a939b90db466bd8af5649626b9eb6f6a2c67a021feeedc475ca7bf886fda",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-inviscid-burgers/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-laplace-equation/DATA.md": "1b61b3b12abbf0bd6908204edc68f7e577e47d5f64911c85701379a67f345210",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-laplace-equation/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-laplace-equation/instruction.md": "d25f6426f4ffd903f98717293c3d095a1e5c8bbdff11f092f13ac7a24dac0cd9",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-laplace-equation/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-linear-convection/DATA.md": "bb0034c16b97b3bbd462116178036cee74e8caf8954b6a7756e1a9a399b20b55",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-linear-convection/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-linear-convection/instruction.md": "f15eaf8472546a5a354a34cd8cd7b2a16f673e1f24494599cf03647a170bb813",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-linear-convection/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-navier-stokes-cavity/DATA.md": "40bb2eb77158e3ee05561c5b7e1769fa5898ba732a9cc43777ca049256827fd3",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-navier-stokes-cavity/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-navier-stokes-cavity/instruction.md": "34d3f333728c03724042c6b8fd68bc771b4c1161b686d8cddfd0bc27ba4d9692",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-navier-stokes-cavity/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-navier-stokes-channel/DATA.md": "893a170598e251795fa7d9cf9ad99e5f30d445920c053a31f360fc9b0790e9d0",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-navier-stokes-channel/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-navier-stokes-channel/instruction.md": "b8eee7343e2ee60a83da163a33a3a4973b408124fb5263c6faf5228c61c76500",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-navier-stokes-channel/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-poisson-equation/DATA.md": "0566aecb5253a4f09a943dec9be1f97084319c617241c283a83ac7ab7dc1f15a",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-poisson-equation/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-poisson-equation/instruction.md": "e07cf887c57da65012cd7b061cef54fffafa14cf21f399e294d66879065a926d",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-poisson-equation/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-rayleigh-benard-convection/DATA.md": "677d347b9a60e3d5aa9ce25bb58d4dadacdcdfadd91676dc9ca671bd2b22242a",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-rayleigh-benard-convection/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-rayleigh-benard-convection/instruction.md": "3478c1ada5bef8550fced7d3c10863a9b9767f9666eed9385be5b31076a94c00",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-rayleigh-benard-convection/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-shear-flow-with-tracer/DATA.md": "56567199939a10c3537e1a7775f72e746d7be9d510c7323a1bc35a14e1da598b",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-shear-flow-with-tracer/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-shear-flow-with-tracer/instruction.md": "78904fd0717f2cf209876000ad0c7a1b0b73af837cc9814a9f9878b7342b5ba1",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-shear-flow-with-tracer/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-steady-heat-equation/DATA.md": "c314a5d11e8e1470f4733f845b83d6bb74dd037ae30cef39d33d79433ae3daf6",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-steady-heat-equation/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-steady-heat-equation/instruction.md": "c5d11000397dadc84e8877526813ff4a9ee68280ed40e809c1e6f63239a6bd6f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-steady-heat-equation/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-unsteady-heat-equation/DATA.md": "8e92668b19e74b15797b68504dfd8b876c5ba6260e74f84b767fd8c697678645",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-unsteady-heat-equation/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-unsteady-heat-equation/instruction.md": "bff2393b09056cf3ae8d9fb9b1ba2d52578dac21391602e47b1a941a0faf7e70",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-2d-unsteady-heat-equation/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-flow-past-circular-cylinder/DATA.md": "3e033270a728e58bb090920dffff9ff799ad5e2354c3ee2050897414f7d57e87",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-flow-past-circular-cylinder/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-flow-past-circular-cylinder/instruction.md": "3b47c6eca3bed64f9c31f57ea64736f115d8cf303a133c69ddf98330f115eb79",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-flow-past-circular-cylinder/judge-config.json": "e79af9af3ad1947b103716f6462597af3f74f07cd1c7335b9fe4624438fac6c1",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-fully-developed-turbulent-channel-flow/DATA.md": "543aae19b43781a8a3a5597fde502f7e6632f3cd4281ea393f0a282cee92f916",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-fully-developed-turbulent-channel-flow/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-fully-developed-turbulent-channel-flow/instruction.md": "132008b3adc5cab895879f71fb83cef8f6d34e7aad3d76219d9dda6640555872",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-fully-developed-turbulent-channel-flow/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-lane-emden-equation/DATA.md": "796f9d2e02f8ada7340b6b85ece63b2796a74e351c8a0d7fca361013167a3a81",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-lane-emden-equation/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-lane-emden-equation/instruction.md": "2fe446c7180dabdcb8ffe3d268db5dc992c3533da80bace94435bea6a3daf3f9",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-lane-emden-equation/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-lid-driven-cavity/DATA.md": "ed23c0a6df04c00ff1555f4af252b1863523f349e0b768a43187401beca5fa05",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-lid-driven-cavity/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-lid-driven-cavity/instruction.md": "999001a17bd1d6c6f75a9c653a976101bfc53a926ff514719152dbf730dd165b",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-lid-driven-cavity/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-pipe-flow-disk-evp/DATA.md": "0e57883e96510507ab7302fb5cbe6609c195f287376fc34ac92b4010a57869c3",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-pipe-flow-disk-evp/harbor/requirements.txt": "32bc3c6b68d5a81f91cafef57f2e87b9e90895f93d2ade3ebdd1251afebc228f",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-pipe-flow-disk-evp/instruction.md": "8017e6eb8aea2d4ef26d8d0eca16a69169a4e4037c75b411101a8475be23a28a",
+    "qbank/02-fluid-mechanics/2.13-cfdcodebench/cc-pipe-flow-disk-evp/judge-config.json": "4dfc50854150089ecdb828646a93550d6cb7bfb161980140a58d01ec8f9ebdb7",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-steady-2d/DATA.md": "b2397173bb1bf60c77a9971b6ff5b9930fde219f15202b32cc3f059695dbcc3e",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-steady-2d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-steady-2d/instruction.md": "893aab63f49bac717dfa1a5de97c6ca7bda890147f549145bb70d59c6940c029",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-steady-2d/judge-config.json": "8bc5007b7c335d4ed93fbe4007a86933ba79f3dc6d8b86dea8476459537e7dec",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-steady-3d/DATA.md": "6704a3495df823a044cc6ad9028e162be155954fdd5293c7589a9e71936dfb4f",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-steady-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-steady-3d/instruction.md": "baae479c6cd6087efd3cfdf9db1c69eb9a32216f78f78d3070ba041c30a4e0c8",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-steady-3d/judge-config.json": "8bc5007b7c335d4ed93fbe4007a86933ba79f3dc6d8b86dea8476459537e7dec",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-transient-2d/DATA.md": "48846766c7cecd0c68f9e792299fccb81163f8b3b220a75fd40785d977995df1",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-transient-2d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-transient-2d/instruction.md": "14eeb039ce2e0b2bd2933fb0e403e38601e31d9ac8944e832b1885ca49de1065",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-transient-2d/judge-config.json": "8bc5007b7c335d4ed93fbe4007a86933ba79f3dc6d8b86dea8476459537e7dec",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-transient-3d/DATA.md": "a60b50ae3021ed149242344d7b2e37b390a6e49cf0b5c82a876ace93a546ed6a",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-transient-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-transient-3d/instruction.md": "c8729861c71dde192bf9e450bd2cacb6b38444cb71aa4bce2209383fd9179c23",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/inviscid-compressible-transient-3d/judge-config.json": "8bc5007b7c335d4ed93fbe4007a86933ba79f3dc6d8b86dea8476459537e7dec",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-steady-2d/DATA.md": "3dd8842678116a1c88fcdda89eee9b3cdc1313aa6f462b85b6ddfdc7e4604856",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-steady-2d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-steady-2d/instruction.md": "9468f2cec3a84d43ed6383fa088998fd58e27d156815af37c827da5f1b73c1df",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-steady-2d/judge-config.json": "8bc5007b7c335d4ed93fbe4007a86933ba79f3dc6d8b86dea8476459537e7dec",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-steady-3d/DATA.md": "31ef87e3792e60b09b36de9f2d4e65b1fc8afc418e387c4154cf2c194e8854d0",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-steady-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-steady-3d/instruction.md": "fe7c0dd4f5b2ae3f8a57be1877ef73e2ba994452d227ad891e26329a3047bbf7",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-steady-3d/judge-config.json": "8bc5007b7c335d4ed93fbe4007a86933ba79f3dc6d8b86dea8476459537e7dec",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-transient-2d/DATA.md": "de13a3baa463b92d41b916bcd943bf993b8413d50115db2aaff595bbcaf436f2",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-transient-2d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-transient-2d/instruction.md": "eccd9231d0626b9317b16adbd233ec30df97b99f6874146436775057fe564acf",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-transient-2d/judge-config.json": "8bc5007b7c335d4ed93fbe4007a86933ba79f3dc6d8b86dea8476459537e7dec",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-transient-3d/DATA.md": "5e2e99c2c1099aff9531650aa507c29c6a31806e1ed8306f79a9017dbb25df10",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-transient-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-transient-3d/instruction.md": "afa2c30aa5905ce599b956708f66b71e07893f97097e3031383c1e63db2b2b48",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-compressible-transient-3d/judge-config.json": "8bc5007b7c335d4ed93fbe4007a86933ba79f3dc6d8b86dea8476459537e7dec",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-steady-2d/DATA.md": "6c850e0bd359652d0c424e7cdbdfd60f372d5c34fb83116e6f0bcb43b61664e4",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-steady-2d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-steady-2d/instruction.md": "2d8f2eb11b11ec90394141db0fac687b3fac9ba2ce3df2f95d678a291a34ab26",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-steady-2d/judge-config.json": "8bc5007b7c335d4ed93fbe4007a86933ba79f3dc6d8b86dea8476459537e7dec",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-steady-3d/DATA.md": "32ba3af50b06a3f388febfac8ece54dc405647edf05b62fe668732d57c6b0c94",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-steady-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-steady-3d/instruction.md": "abbcfcb8caaaa6431b3017a5fb7c2aadea08ecbd44ba0778377d531a705857c4",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-steady-3d/judge-config.json": "8bc5007b7c335d4ed93fbe4007a86933ba79f3dc6d8b86dea8476459537e7dec",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-transient-2d/DATA.md": "33dce098be1fdfff16c5adb3a2e32b97929ce4e4b81a7a25544ee0974a05fabb",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-transient-2d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-transient-2d/instruction.md": "756879b5dc49f448f805dff834fcc024d37c7b5c093d0302c823cf34858cee2e",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-transient-2d/judge-config.json": "8bc5007b7c335d4ed93fbe4007a86933ba79f3dc6d8b86dea8476459537e7dec",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-transient-3d/DATA.md": "c7d05bedfbed0331294715d063952563f08513f18e5ffe4571ae63d9cc10cd4d",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-transient-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-transient-3d/instruction.md": "3f9924a2e3e523c016d338fc1f296a2f488a106fc3e4b35d7bef061a5eaf4866",
+    "qbank/02-fluid-mechanics/2.2-single-phase-energy/newtonian-lowmach-transient-3d/judge-config.json": "8bc5007b7c335d4ed93fbe4007a86933ba79f3dc6d8b86dea8476459537e7dec",
+    "qbank/02-fluid-mechanics/2.3-turbulent-flow/isothermal-rans-3d/DATA.md": "bc2d523f52ad74a2d36cd237f681e8f6e0057a169f09142ec9d759707dbac2e3",
+    "qbank/02-fluid-mechanics/2.3-turbulent-flow/isothermal-rans-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.3-turbulent-flow/isothermal-rans-3d/instruction.md": "a43203a1a2df0cbd2e57f2952d2f3f439554b6a77b0aef50e488c99e23991269",
+    "qbank/02-fluid-mechanics/2.3-turbulent-flow/isothermal-rans-3d/judge-config.json": "8cf085ddece6b4e40c7837c3b5974883c74191dd38403ef4c3e0dbb22b1d7418",
+    "qbank/02-fluid-mechanics/2.3-turbulent-flow/rans-steady-2d/DATA.md": "0f7e4775ce2cc21d93f5e3655d6e0a91ff636b2c7aceddd8eb98d28b918fefe5",
+    "qbank/02-fluid-mechanics/2.3-turbulent-flow/rans-steady-2d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.3-turbulent-flow/rans-steady-2d/instruction.md": "0856bca68e82ac5b8bb0a77aba22e22643d64b161adbb3834a1c834fa96a9f94",
+    "qbank/02-fluid-mechanics/2.3-turbulent-flow/rans-steady-2d/judge-config.json": "8cf085ddece6b4e40c7837c3b5974883c74191dd38403ef4c3e0dbb22b1d7418",
+    "qbank/02-fluid-mechanics/2.3-turbulent-flow/rans-steady-3d/DATA.md": "ec854f705faabc49ce325de5382d8010da1fc311e110f40f2ca6cbf6fea66958",
+    "qbank/02-fluid-mechanics/2.3-turbulent-flow/rans-steady-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.3-turbulent-flow/rans-steady-3d/instruction.md": "377de38f92ca59d9b802c6191eb42ea3354da03a5a2b068cb6dffcc94e79eec2",
+    "qbank/02-fluid-mechanics/2.3-turbulent-flow/rans-steady-3d/judge-config.json": "8cf085ddece6b4e40c7837c3b5974883c74191dd38403ef4c3e0dbb22b1d7418",
+    "qbank/02-fluid-mechanics/2.3-turbulent-flow/resolved-statistics-3d/DATA.md": "7fb8d82a1a172e86b980ac33b6301233aee2e27e1ba44ea316af866d072ffcad",
+    "qbank/02-fluid-mechanics/2.3-turbulent-flow/resolved-statistics-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.3-turbulent-flow/resolved-statistics-3d/instruction.md": "8a4cf433421f51b85fee35c7f627405c77c3dd30d926b1bd18ea955cc42e5bc5",
+    "qbank/02-fluid-mechanics/2.3-turbulent-flow/resolved-statistics-3d/judge-config.json": "8cf085ddece6b4e40c7837c3b5974883c74191dd38403ef4c3e0dbb22b1d7418",
+    "qbank/02-fluid-mechanics/2.3-turbulent-flow/urans-transient-3d/DATA.md": "951dbb548e0f694584c29244ddc448ed72785fa19e7f7b63e3d23df8517122e5",
+    "qbank/02-fluid-mechanics/2.3-turbulent-flow/urans-transient-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.3-turbulent-flow/urans-transient-3d/instruction.md": "842f0ef1dbbe9bac2570394918715b885dce73c2fb6036857155173672a1eb3e",
+    "qbank/02-fluid-mechanics/2.3-turbulent-flow/urans-transient-3d/judge-config.json": "8cf085ddece6b4e40c7837c3b5974883c74191dd38403ef4c3e0dbb22b1d7418",
+    "qbank/02-fluid-mechanics/2.4-turbulent-energy/compressible-thermal-rans-3d/DATA.md": "304ffc1be000c7dd3aa23442eb7659e3d7bbd8e28f92bdd3c6beee215bf2391a",
+    "qbank/02-fluid-mechanics/2.4-turbulent-energy/compressible-thermal-rans-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.4-turbulent-energy/compressible-thermal-rans-3d/instruction.md": "da6e941e55ce7aae59364f2dfb007b15be92f68b090a77146566777ff29eb3fe",
+    "qbank/02-fluid-mechanics/2.4-turbulent-energy/compressible-thermal-rans-3d/judge-config.json": "8cf085ddece6b4e40c7837c3b5974883c74191dd38403ef4c3e0dbb22b1d7418",
+    "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-rans-3d/DATA.md": "5d947561edfc9bca8d1e923b783a6baf1080bade5b6c154a993e296627edc2bb",
+    "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-rans-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-rans-3d/instruction.md": "47a3e8908b548bed876c57526f830828373267f877a4ff11ec43dbf84dfdfb32",
+    "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-rans-3d/judge-config.json": "8cf085ddece6b4e40c7837c3b5974883c74191dd38403ef4c3e0dbb22b1d7418",
+    "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-statistics-3d/DATA.md": "13639f2a0d52a813fd759968d8c7c5de32274d13cb125914c000ffa748371878",
+    "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-statistics-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-statistics-3d/instruction.md": "9cd3f90c8596b9b1d47f21c07383183352b37234792ab436a17cb902ac6695c8",
+    "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-statistics-3d/judge-config.json": "8cf085ddece6b4e40c7837c3b5974883c74191dd38403ef4c3e0dbb22b1d7418",
+    "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-urans-3d/DATA.md": "b5a605aa9e917a65f631d101ca8856fcfaefd55d301437ca230e12902ae2fe14",
+    "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-urans-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-urans-3d/instruction.md": "159ef50395cb1dcd04b61bef2b2e64396dfb24fe684f38aedeb893bad2dd4787",
+    "qbank/02-fluid-mechanics/2.4-turbulent-energy/thermal-urans-3d/judge-config.json": "8cf085ddece6b4e40c7837c3b5974883c74191dd38403ef4c3e0dbb22b1d7418",
+    "qbank/02-fluid-mechanics/2.5-interface-flow/immiscible-interface-2d/DATA.md": "42dfaf9cbd7a6d641c5924773b31c1f37fe8451db7005356911d780177135743",
+    "qbank/02-fluid-mechanics/2.5-interface-flow/immiscible-interface-2d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.5-interface-flow/immiscible-interface-2d/instruction.md": "06ee9bb2fc44b08b2b3bc1171dce54f9bc7887da277f0098b568ba06c298e0c4",
+    "qbank/02-fluid-mechanics/2.5-interface-flow/immiscible-interface-2d/judge-config.json": "8cf085ddece6b4e40c7837c3b5974883c74191dd38403ef4c3e0dbb22b1d7418",
+    "qbank/02-fluid-mechanics/2.5-interface-flow/immiscible-interface-3d/DATA.md": "5fb05829f97f4849dad51d0c6cb458fda188d8ec408d4b6b7dec3d6ffba42ae2",
+    "qbank/02-fluid-mechanics/2.5-interface-flow/immiscible-interface-3d/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.5-interface-flow/immiscible-interface-3d/instruction.md": "fe73c1d0d004c572993fbf945e40f8d11a80df5029267f332ed182844e4754b6",
+    "qbank/02-fluid-mechanics/2.5-interface-flow/immiscible-interface-3d/judge-config.json": "8cf085ddece6b4e40c7837c3b5974883c74191dd38403ef4c3e0dbb22b1d7418",
+    "qbank/02-fluid-mechanics/2.8-thin-film/gas-film/DATA.md": "b10037e6696aa34b4922d2039082b5225fe0dd0a76e2c2bb7afcc80fca45eeb6",
+    "qbank/02-fluid-mechanics/2.8-thin-film/gas-film/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.8-thin-film/gas-film/instruction.md": "ff5f2ab984d4adc8dc0f5532355b1c89c076cb277e8a345d73cebc0076e757a0",
+    "qbank/02-fluid-mechanics/2.8-thin-film/gas-film/judge-config.json": "d7e2649ad03a19457f92a56022a71249e0b4d73924908ccc4bddde9743c31aa2",
+    "qbank/02-fluid-mechanics/2.9-shallow-water/fully-wet-steady/DATA.md": "f2f9066585d78b247c579367df46e86b50a90887cd580e3ac658f75ae9d353f5",
+    "qbank/02-fluid-mechanics/2.9-shallow-water/fully-wet-steady/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.9-shallow-water/fully-wet-steady/instruction.md": "ece2f4adf6fed1dbaee525486b44b13a30f346466ebfc19ad735a396d12df8b4",
+    "qbank/02-fluid-mechanics/2.9-shallow-water/fully-wet-steady/judge-config.json": "8bc5007b7c335d4ed93fbe4007a86933ba79f3dc6d8b86dea8476459537e7dec",
+    "qbank/02-fluid-mechanics/2.9-shallow-water/fully-wet-transient/DATA.md": "f5adf3dcb4a95af4da1b64bf2c33f2fd45cacd52e14288a35f325d61ff4d60b5",
+    "qbank/02-fluid-mechanics/2.9-shallow-water/fully-wet-transient/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.9-shallow-water/fully-wet-transient/instruction.md": "7960ea19f5b922948120434aa9c483194e4ce6503413554a51b82fed84df434b",
+    "qbank/02-fluid-mechanics/2.9-shallow-water/fully-wet-transient/judge-config.json": "8bc5007b7c335d4ed93fbe4007a86933ba79f3dc6d8b86dea8476459537e7dec",
+    "qbank/02-fluid-mechanics/2.9-shallow-water/wetting-drying/DATA.md": "d4d660cdf24ff1ca31065328a82454f03bdfe71e39ad424d3182d20575416215",
+    "qbank/02-fluid-mechanics/2.9-shallow-water/wetting-drying/harbor/requirements.txt": "087ed14a832894d45baf3fbccb96380c26077e56f109f917b06e832411fafc39",
+    "qbank/02-fluid-mechanics/2.9-shallow-water/wetting-drying/instruction.md": "10bb2f924069a82cdd555cf2e39b8ce70420f562b032c6ec718c6cbc6005c85a",
+    "qbank/02-fluid-mechanics/2.9-shallow-water/wetting-drying/judge-config.json": "8bc5007b7c335d4ed93fbe4007a86933ba79f3dc6d8b86dea8476459537e7dec",
+    "qbank/extensions/caeoj_ext/__init__.py": "e59634b2ffde512080596273a9d7c15cc9cb590bf73e4d9164c59e3857531a0f",
+    "qbank/extensions/caeoj_ext/cfdcodebench/__init__.py": "543fe5d2ed0d9a0bd29cacae5d2fa754933b997196a71e63ab338b396e12e969",
+    "qbank/extensions/caeoj_ext/cfdcodebench/models.json": "34cc46ce2475662b7860fd5b590a7401ac480a49184a58ab5186d8606bc6ef5c",
+    "qbank/extensions/caeoj_ext/fluid/__init__.py": "52deb38d1d6615630270a049b88c0abcc1f5669f1184aa2747a92e5cfe07725f",
+    "qbank/extensions/caeoj_ext/fluid/_compat_energy.py": "eccb8c4ef0f94880e5e9a43374053bc6600e6677c0adf7f66684fda38bf67fe9",
+    "qbank/extensions/caeoj_ext/fluid/_compat_reduced.py": "42c5dcc75c6952cbfcb4d2c29b59c22cb7c91e5a29e4480a80cc88bdf4f9ab3e",
+    "qbank/extensions/caeoj_ext/fluid/_declaration_checks.py": "eca7ddf4abb1270ea430f8320f5411e9a661f520a9142ff9bb99790976a3b704",
+    "qbank/extensions/caeoj_ext/fluid/_geometry.py": "36324b0087d213e313e8960a9b5dc300005d6feb0cf92cda80bf0c45fd94ea30",
+    "qbank/extensions/caeoj_ext/fluid/_rheology.py": "ca61a25dfa9905825914635f7303c77e8925caea8065906d2ee34944af586f1d",
+    "qbank/extensions/caeoj_ext/fluid/_sampling.py": "f3546021c9700edc47b2bf0cb0e0a342f2425e51b248e4017ef1cb4509d461c5",
+    "qbank/extensions/caeoj_ext/fluid/_sdk_compat.py": "2d2c61aae99186ff018edf094ab0983513d6a5752efa7fc824a667f440d8f90d",
+    "qbank/extensions/caeoj_ext/fluid/complex_fluid/__init__.py": "39cceec2cc6c07cfbc36fb5cc030cd2282830f4ce213dbc7b47acce879e4e411",
+    "qbank/extensions/caeoj_ext/fluid/depth_averaged/__init__.py": "30888f88e692969b6b154ec27653dabd242eb3860576f99d7230bdae0fa79052",
+    "qbank/extensions/caeoj_ext/fluid/multiphase/__init__.py": "63468b4a97b012718efd28dbc6f75213e558d5fbb8ccfa00928238b8e990111a",
+    "qbank/extensions/caeoj_ext/fluid/rarefied/__init__.py": "b1969a0f012525c19132a9d3dc57ed4eea1e1f1113c07dbfc552de5e82e8c446",
+    "qbank/extensions/caeoj_ext/fluid/single_phase/__init__.py": "70bb6c773ecbe190577c3131e4d703215aedafe905ba82e12cd697f7b3fdf378",
+    "qbank/extensions/caeoj_ext/fluid/single_phase/schema.json": "d521bc026a760883c30af29693b7715ae1b40e43569e09f6677e1699e95cb860",
+    "qbank/extensions/caeoj_ext/fluid/thermal_flow/__init__.py": "c0f8cffaa24892219976fe17306b8584c0b5e5c28d19a41ca50e5bbe78ced4d0",
+    "qbank/extensions/caeoj_ext/fluid/thin_film/__init__.py": "5b5f4151f02c71aeb9dae637a395caefcb24d3f8c73511a5839bc26efc047751",
+    "qbank/extensions/caeoj_ext/fluid/turbulence/__init__.py": "fbb57fdcf98307047ea93dfd90ca8e21b561289f4e8f43fce126f4d408ae446b",
+    "qbank/extensions/caeoj_ext/normalized_fields.py": "afe33f134ff979fe6d9bb2fac83d7cfbd1ec04668c508c0e144b04e45d95d349",
+    "src/caeoj/__init__.py": "93f28b174ae1899c1d4b21395111f3379f5540903b7fb093a5976068235e3a8b",
+    "src/caeoj/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
+    "src/caeoj/case-grading.schema.json": "47bafa5df5f10f986e4e79e59b59ecedd6ae7a50ff1a7ed79190918c6da6231e",
+    "src/caeoj/case_grading.py": "5412d18ac8f030531619e2ea52962f0c08be822e8f2e1898689fdbe5926a4ee3",
+    "src/caeoj/cli.py": "5c0ee356b10aad84569d17d47ee25f3256bc64b48461f6e7cc05ffe616d9ea40",
+    "src/caeoj/grading.schema.json": "0bc8bfdb5debdb1f760a01b4d2ff031bacfd94245edb75f21f3c7bffcd1bae26",
+    "src/caeoj/grading_metrics.py": "aa1e4cded2b0ec694082b45cbe2963b94ab9e8fbb5eb8ed55dd9e5b1f6a9fa4f",
+    "src/caeoj/grading_policy.py": "65f3d6756bcb666a0818f48fd2f3093025374bbca95262144ec6b79d6f9361c6",
+    "src/caeoj/mesh_geometry.py": "cf1ac007cafe58849a612ebb3c0a7308a8c9d2d230e6d6f3c7f38110e79fc15c",
+    "src/caeoj/problem.schema.json": "0763e789f64c52cfdb0cd20ae06309ffe19e2d007780271a61421eac24d20cb6",
+    "src/caeoj/public-runtime.json": "f71df3dfdf1d3f2cfbf625d2d12ef63f94e7fb3e0f5b3a47a000e56aff4d43a7",
+    "src/caeoj/runtime.py": "f1e35d8d89caa9c4fb3f4b10f450b0f92b26b0312ecab6e6140a5b7946e73329",
+    "src/caeoj/sdk.py": "3ddf8f5a1b516eca67abae35a05a26dc1b7a8381a168d7d148ea22f2ecab9cba",
+    "src/caeoj/storage.py": "7de5005e11a0fb01ed9adde18b2f01410b897194510be7eb64454429c8a47ce5",
+    "src/caeoj/validation.py": "60fa0b4d0763e60a758710417a8559666e2d97a693237e4d6fa9726f77fa07fa"
+  }
+}

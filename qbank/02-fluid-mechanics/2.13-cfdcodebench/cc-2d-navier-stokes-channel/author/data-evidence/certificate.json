@@ -1,0 +1,97 @@
+{
+  "source_id": "CFDCodeBench:e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2:2D_Navier_Stokes_Channel",
+  "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_problem": "2D_Navier_Stokes_Channel",
+  "development_case_id": "C13-base",
+  "input_files": {
+    "input.h5": "77676284659403b6565985719a36b9d4c408e4c7ef2a9902c971f2c49d53fc27",
+    "problem.json": "34148aa3405c7804f229ef105f25c4f7c29364e1cabc3b4cb1d959b163dde4ff"
+  },
+  "reference_files": {
+    "grading.json": "ac9c323ab597699ebee1b0865f66d38bf379cb37e54fdcee0c693e51a8d8b932",
+    "reference.h5": "f1b900a8e04e30c02c0d2f3a7a5e200b3278ef6242e60235b841409c423d85d0"
+  },
+  "contract_sha256": "130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063",
+  "numerical_validation_sha256": "cf60c4c54442eade0df3a83a0d4256d23266412aab46adb9113aee63961e103e",
+  "numerical_validation": {
+    "index": 13,
+    "task": "cc-2d-navier-stokes-channel",
+    "case_id": "C13-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [],
+    "checks": {
+      "truncation_64_128": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 2.5899764640983154,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "truncation_128_256": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 2.5899764640983154,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "independent_representation": {
+        "u": {
+          "rmse": 3.0518221575137005e-16,
+          "reference_rms": 2.5899764640983154,
+          "nrmse": 1.1783204209835064e-16,
+          "nmse": 1.3884390145067478e-32,
+          "max_abs": 8.881784197001252e-16
+        }
+      }
+    },
+    "reference_sha256": "f1b900a8e04e30c02c0d2f3a7a5e200b3278ef6242e60235b841409c423d85d0",
+    "resource_status": "provisional"
+  },
+  "reference_production": {
+    "index": 13,
+    "task": "cc-2d-navier-stokes-channel",
+    "case_id": "C13-base",
+    "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+    "input_contract": "passed",
+    "reference_status": "formula-evaluated-needs-independent-audit",
+    "comparisons": {
+      "truncation_64_128": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 2.5899764640983154,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "truncation_128_256": {
+        "u": {
+          "rmse": 0.0,
+          "reference_rms": 2.5899764640983154,
+          "nrmse": 0.0,
+          "nmse": 0.0,
+          "max_abs": 0.0
+        }
+      }
+    },
+    "producer": "published representation; see formula audit",
+    "reference_self_grade": "passed",
+    "reference_sha256": "f1b900a8e04e30c02c0d2f3a7a5e200b3278ef6242e60235b841409c423d85d0",
+    "production_sources": [
+      {
+        "file": "qbank\\02-fluid-mechanics\\2.13-cfdcodebench\\author\\analytic.py",
+        "sha256": "b86207a33d547f35ad53aaa4307a61b769a2527ca32b8392f8ca60cd396dd692",
+        "base": "repository"
+      }
+    ]
+  },
+  "conversion_tool_sha256": "30675f2817ab349d9c769bea4f8ca60829513342e9b82e03cb65c8196e724926",
+  "resource_status": "provisional",
+  "hf_uploaded": false
+}

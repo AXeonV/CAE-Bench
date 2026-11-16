@@ -1,23 +1,73 @@
-# 第二章：流体力学分析
+# RC7 论文冻结题目
 
-本章每道题的考生材料仅由本题 instruction.md、DATA.md 和通用 docs/CONTRACT.md 组成：instruction.md 给出任务、方法要求、资源和评分；DATA.md 就地定义该题全部物理参数、条件、采样与输出。无需阅读章节共享文件、领域协议、其他题目或维护记录。各节目录只承担导航作用。
+本章收录论文快照中的 67 题。完整评测范围及运行配置见 [RC7 说明](../../docs/releases/rc7-paper.md)。
 
-65题的评分模板、judge及Harbor配置已按题面补齐，采用逐例quantity绑定；正式输入、参考及执行校准仍待建设。维护方流程与状态见[评测配置说明](../maintenance/EVALUATION.md)。
-
-| 节 | 目录 | 题数 |
-|---|---|---:|
-| 2.1 | [无能量、无湍流单相流动](2.1-single-phase-flow/README.md) | 12 |
-| 2.2 | [包含能量的单相层流](2.2-single-phase-energy/README.md) | 12 |
-| 2.3 | [无能量的单相湍流](2.3-turbulent-flow/README.md) | 5 |
-| 2.4 | [包含能量的单相湍流](2.4-turbulent-energy/README.md) | 4 |
-| 2.5 | [不相变界面多相流](2.5-interface-flow/README.md) | 6 |
-| 2.6 | [分散多相流](2.6-dispersed-flow/README.md) | 4 |
-| 2.7 | [热质交换与相变流动](2.7-phase-change-flow/README.md) | 5 |
-| 2.8 | [薄膜与润滑](2.8-thin-film/README.md) | 4 |
-| 2.9 | [浅水与深度平均流动](2.9-shallow-water/README.md) | 4 |
-| 2.10 | [稀薄气体](2.10-rarefied-gas/README.md) | 4 |
-| 2.11 | [记忆与结构演化非牛顿流动](2.11-memory-fluids/README.md) | 5 |
-
-共计 **65 题**。规划与维护状态见[逐题实施清单](../design/chapter-02-task-plan.md)及[章级进度与审阅证据](../design/reviews/chapter-02-progress.md)。本页是题库维护索引；正式提供考生材料时仅选择相应题目的完整公开依赖。
-
-数据与评测未发布：examples、references、cases 仅保留目录占位。公开协议的最小测试 fixture 置于临时目录，不属于正式算例或参考答案。所有新增题目的资源和精度均为待真实数据校准的设计目标。
+| 题目 | 正式算例数 |
+|---|---:|
+| [newtonian-incompressible-steady-2d](2.1-single-phase-flow/newtonian-incompressible-steady-2d/instruction.md) | 10 |
+| [newtonian-incompressible-steady-3d](2.1-single-phase-flow/newtonian-incompressible-steady-3d/instruction.md) | 10 |
+| [cc-1d-burgers-equation](2.13-cfdcodebench/cc-1d-burgers-equation/instruction.md) | 1 |
+| [cc-1d-diffusion](2.13-cfdcodebench/cc-1d-diffusion/instruction.md) | 1 |
+| [cc-1d-euler-shock-tube](2.13-cfdcodebench/cc-1d-euler-shock-tube/instruction.md) | 1 |
+| [cc-1d-linear-convection](2.13-cfdcodebench/cc-1d-linear-convection/instruction.md) | 1 |
+| [cc-1d-nonlinear-convection](2.13-cfdcodebench/cc-1d-nonlinear-convection/instruction.md) | 1 |
+| [cc-2d-burgers-equation](2.13-cfdcodebench/cc-2d-burgers-equation/instruction.md) | 1 |
+| [cc-2d-convection](2.13-cfdcodebench/cc-2d-convection/instruction.md) | 1 |
+| [cc-2d-diffusion](2.13-cfdcodebench/cc-2d-diffusion/instruction.md) | 1 |
+| [cc-2d-inviscid-burgers](2.13-cfdcodebench/cc-2d-inviscid-burgers/instruction.md) | 1 |
+| [cc-2d-laplace-equation](2.13-cfdcodebench/cc-2d-laplace-equation/instruction.md) | 1 |
+| [cc-2d-linear-convection](2.13-cfdcodebench/cc-2d-linear-convection/instruction.md) | 1 |
+| [cc-2d-navier-stokes-cavity](2.13-cfdcodebench/cc-2d-navier-stokes-cavity/instruction.md) | 1 |
+| [cc-2d-navier-stokes-channel](2.13-cfdcodebench/cc-2d-navier-stokes-channel/instruction.md) | 1 |
+| [cc-2d-poisson-equation](2.13-cfdcodebench/cc-2d-poisson-equation/instruction.md) | 1 |
+| [cc-2d-steady-heat-equation](2.13-cfdcodebench/cc-2d-steady-heat-equation/instruction.md) | 1 |
+| [cc-2d-unsteady-heat-equation](2.13-cfdcodebench/cc-2d-unsteady-heat-equation/instruction.md) | 1 |
+| [cc-fully-developed-turbulent-channel-flow](2.13-cfdcodebench/cc-fully-developed-turbulent-channel-flow/instruction.md) | 1 |
+| [cc-lid-driven-cavity](2.13-cfdcodebench/cc-lid-driven-cavity/instruction.md) | 1 |
+| [cc-flow-past-circular-cylinder](2.13-cfdcodebench/cc-flow-past-circular-cylinder/instruction.md) | 1 |
+| [cc-1d-kdv-burgers-equation](2.13-cfdcodebench/cc-1d-kdv-burgers-equation/instruction.md) | 1 |
+| [cc-2d-rayleigh-benard-convection](2.13-cfdcodebench/cc-2d-rayleigh-benard-convection/instruction.md) | 1 |
+| [cc-2d-shear-flow-with-tracer](2.13-cfdcodebench/cc-2d-shear-flow-with-tracer/instruction.md) | 1 |
+| [cc-pipe-flow-disk-evp](2.13-cfdcodebench/cc-pipe-flow-disk-evp/instruction.md) | 1 |
+| [cc-lane-emden-equation](2.13-cfdcodebench/cc-lane-emden-equation/instruction.md) | 1 |
+| [newtonian-incompressible-transient-2d](2.1-single-phase-flow/newtonian-incompressible-transient-2d/instruction.md) | 10 |
+| [newtonian-incompressible-transient-3d](2.1-single-phase-flow/newtonian-incompressible-transient-3d/instruction.md) | 10 |
+| [generalized-newtonian-incompressible-steady-2d](2.1-single-phase-flow/generalized-newtonian-incompressible-steady-2d/instruction.md) | 8 |
+| [generalized-newtonian-incompressible-transient-2d](2.1-single-phase-flow/generalized-newtonian-incompressible-transient-2d/instruction.md) | 8 |
+| [generalized-newtonian-incompressible-steady-3d](2.1-single-phase-flow/generalized-newtonian-incompressible-steady-3d/instruction.md) | 7 |
+| [generalized-newtonian-incompressible-transient-3d](2.1-single-phase-flow/generalized-newtonian-incompressible-transient-3d/instruction.md) | 8 |
+| [newtonian-isothermal-compressible-steady-2d](2.1-single-phase-flow/newtonian-isothermal-compressible-steady-2d/instruction.md) | 3 |
+| [newtonian-isothermal-compressible-transient-2d](2.1-single-phase-flow/newtonian-isothermal-compressible-transient-2d/instruction.md) | 5 |
+| [newtonian-isothermal-compressible-steady-3d](2.1-single-phase-flow/newtonian-isothermal-compressible-steady-3d/instruction.md) | 3 |
+| [newtonian-isothermal-compressible-transient-3d](2.1-single-phase-flow/newtonian-isothermal-compressible-transient-3d/instruction.md) | 5 |
+| [newtonian-lowmach-steady-2d](2.2-single-phase-energy/newtonian-lowmach-steady-2d/instruction.md) | 10 |
+| [newtonian-lowmach-transient-2d](2.2-single-phase-energy/newtonian-lowmach-transient-2d/instruction.md) | 10 |
+| [newtonian-lowmach-steady-3d](2.2-single-phase-energy/newtonian-lowmach-steady-3d/instruction.md) | 10 |
+| [newtonian-lowmach-transient-3d](2.2-single-phase-energy/newtonian-lowmach-transient-3d/instruction.md) | 10 |
+| [inviscid-compressible-steady-2d](2.2-single-phase-energy/inviscid-compressible-steady-2d/instruction.md) | 10 |
+| [inviscid-compressible-transient-2d](2.2-single-phase-energy/inviscid-compressible-transient-2d/instruction.md) | 10 |
+| [inviscid-compressible-steady-3d](2.2-single-phase-energy/inviscid-compressible-steady-3d/instruction.md) | 10 |
+| [inviscid-compressible-transient-3d](2.2-single-phase-energy/inviscid-compressible-transient-3d/instruction.md) | 10 |
+| [newtonian-compressible-transient-2d](2.2-single-phase-energy/newtonian-compressible-transient-2d/instruction.md) | 5 |
+| [newtonian-compressible-transient-3d](2.2-single-phase-energy/newtonian-compressible-transient-3d/instruction.md) | 5 |
+| [rans-steady-2d](2.3-turbulent-flow/rans-steady-2d/instruction.md) | 8 |
+| [rans-steady-3d](2.3-turbulent-flow/rans-steady-3d/instruction.md) | 7 |
+| [urans-transient-3d](2.3-turbulent-flow/urans-transient-3d/instruction.md) | 10 |
+| [resolved-statistics-3d](2.3-turbulent-flow/resolved-statistics-3d/instruction.md) | 10 |
+| [isothermal-rans-3d](2.3-turbulent-flow/isothermal-rans-3d/instruction.md) | 7 |
+| [thermal-rans-3d](2.4-turbulent-energy/thermal-rans-3d/instruction.md) | 9 |
+| [thermal-urans-3d](2.4-turbulent-energy/thermal-urans-3d/instruction.md) | 4 |
+| [thermal-statistics-3d](2.4-turbulent-energy/thermal-statistics-3d/instruction.md) | 10 |
+| [immiscible-interface-2d](2.5-interface-flow/immiscible-interface-2d/instruction.md) | 10 |
+| [immiscible-interface-3d](2.5-interface-flow/immiscible-interface-3d/instruction.md) | 10 |
+| [gas-film](2.8-thin-film/gas-film/instruction.md) | 10 |
+| [fully-wet-steady](2.9-shallow-water/fully-wet-steady/instruction.md) | 3 |
+| [fully-wet-transient](2.9-shallow-water/fully-wet-transient/instruction.md) | 9 |
+| [wetting-drying](2.9-shallow-water/wetting-drying/instruction.md) | 7 |
+| [transition-gas](2.10-rarefied-gas/transition-gas/instruction.md) | 10 |
+| [free-molecular](2.10-rarefied-gas/free-molecular/instruction.md) | 10 |
+| [viscoelastic-steady](2.11-memory-fluids/viscoelastic-steady/instruction.md) | 9 |
+| [viscoelastic-transient](2.11-memory-fluids/viscoelastic-transient/instruction.md) | 9 |
+| [newtonian-compressible-steady-2d](2.2-single-phase-energy/newtonian-compressible-steady-2d/instruction.md) | 4 |
+| [newtonian-compressible-steady-3d](2.2-single-phase-energy/newtonian-compressible-steady-3d/instruction.md) | 3 |
+| [compressible-thermal-rans-3d](2.4-turbulent-energy/compressible-thermal-rans-3d/instruction.md) | 4 |

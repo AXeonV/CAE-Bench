@@ -1,0 +1,222 @@
+{
+  "source_id": "CFDCodeBench:e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2:2D_Burgers_Equation",
+  "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+  "source_problem": "2D_Burgers_Equation",
+  "development_case_id": "C06-base",
+  "input_files": {
+    "input.h5": "d8926a545c3f5cef7e62c67ad8e2792c8bf12feb630dfbe4cd858844afccda63",
+    "problem.json": "24d9307ec89ff574f67f3554ab8927613b5837744ce7b8d0dfbc5ef7d3161476"
+  },
+  "reference_files": {
+    "grading.json": "a2911a08ada98e313fdb8c452def0a42d53e8593c75c364708997c648bea91ba",
+    "reference.h5": "579dfa3cc1b52f73cddb29c5b3e6f7960991953a97baf0aea3fce4016ae72033"
+  },
+  "contract_sha256": "130d4416fd533812493780c8bc6afbc0a158de6800b59bbec14a852f3cf1c063",
+  "numerical_validation_sha256": "7c0b1e4e71bcb9f97d19b3858c0b38657244d17af7f6c17c5a84cff10838208a",
+  "numerical_validation": {
+    "index": 6,
+    "task": "cc-2d-burgers-equation",
+    "case_id": "C06-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [],
+    "checks": {
+      "space_L0_L1": {
+        "u": {
+          "rmse": 0.012621081174174138,
+          "reference_rms": 1.0879267339211496,
+          "nrmse": 0.011601039647849011,
+          "nmse": 0.0001345841209109647,
+          "max_abs": 0.08821962524885985
+        },
+        "v": {
+          "rmse": 0.012621081174174138,
+          "reference_rms": 1.0879267339211496,
+          "nrmse": 0.011601039647849011,
+          "nmse": 0.0001345841209109647,
+          "max_abs": 0.08821962524885985
+        }
+      },
+      "space_L1_L2": {
+        "u": {
+          "rmse": 0.007146243664967466,
+          "reference_rms": 1.0869963194218046,
+          "nrmse": 0.006574303461090556,
+          "nmse": 4.322146599850726e-05,
+          "max_abs": 0.047747336048388656
+        },
+        "v": {
+          "rmse": 0.007146243664967466,
+          "reference_rms": 1.0869963194218046,
+          "nrmse": 0.006574303461090556,
+          "nmse": 4.322146599850726e-05,
+          "max_abs": 0.047747336048388656
+        }
+      },
+      "half_dt": {
+        "u": {
+          "rmse": 2.935668410600993e-06,
+          "reference_rms": 1.086996361634912,
+          "nrmse": 2.7007159492103174e-06,
+          "nmse": 7.293866638318986e-12,
+          "max_abs": 2.5672822030919917e-05
+        },
+        "v": {
+          "rmse": 2.935668410600993e-06,
+          "reference_rms": 1.086996361634912,
+          "nrmse": 2.7007159492103174e-06,
+          "nmse": 7.293866638318986e-12,
+          "max_abs": 2.5672822030919917e-05
+        }
+      },
+      "independent_FEM_L0": {
+        "u": {
+          "rmse": 0.011400692269173635,
+          "reference_rms": 1.086996361634912,
+          "nrmse": 0.010488252464825425,
+          "nmse": 0.00011000343976591659,
+          "max_abs": 0.13976061178391985
+        },
+        "v": {
+          "rmse": 0.011400692269173635,
+          "reference_rms": 1.086996361634912,
+          "nrmse": 0.010488252464825425,
+          "nmse": 0.00011000343976591659,
+          "max_abs": 0.13976061178391985
+        }
+      },
+      "independent_FEM_L1": {
+        "u": {
+          "rmse": 0.010195686660276612,
+          "reference_rms": 1.086996361634912,
+          "nrmse": 0.009379687936527817,
+          "nmse": 8.797854578664544e-05,
+          "max_abs": 0.06844772411511757
+        },
+        "v": {
+          "rmse": 0.010195686660276612,
+          "reference_rms": 1.086996361634912,
+          "nrmse": 0.009379687936527817,
+          "nmse": 8.797854578664544e-05,
+          "max_abs": 0.06844772411511757
+        }
+      },
+      "independent_FEM_L2": {
+        "u": {
+          "rmse": 0.008964264533096865,
+          "reference_rms": 1.086996361634912,
+          "nrmse": 0.008246821102155334,
+          "nmse": 6.801005829095452e-05,
+          "max_abs": 0.06233747690220959
+        },
+        "v": {
+          "rmse": 0.008964264533096865,
+          "reference_rms": 1.086996361634912,
+          "nrmse": 0.008246821102155334,
+          "nmse": 6.801005829095452e-05,
+          "max_abs": 0.06233747690220959
+        }
+      }
+    },
+    "reference_sha256": "579dfa3cc1b52f73cddb29c5b3e6f7960991953a97baf0aea3fce4016ae72033",
+    "resource_status": "provisional"
+  },
+  "reference_production": {
+    "index": 6,
+    "task": "cc-2d-burgers-equation",
+    "case_id": "C06-base",
+    "source_revision": "e37e8b61fbb1f3532dcfd2f2e8ab67e7c91c3ee2",
+    "input_contract": "passed",
+    "reference_status": "computed-needs-independent-audit",
+    "comparisons": {
+      "space_L0_L1": {
+        "u": {
+          "rmse": 0.012621081174174138,
+          "reference_rms": 1.0879267339211496,
+          "nrmse": 0.011601039647849011,
+          "nmse": 0.0001345841209109647,
+          "max_abs": 0.08821962524885985
+        },
+        "v": {
+          "rmse": 0.012621081174174138,
+          "reference_rms": 1.0879267339211496,
+          "nrmse": 0.011601039647849011,
+          "nmse": 0.0001345841209109647,
+          "max_abs": 0.08821962524885985
+        }
+      },
+      "space_L1_L2": {
+        "u": {
+          "rmse": 0.007146243664967466,
+          "reference_rms": 1.0869963194218046,
+          "nrmse": 0.006574303461090556,
+          "nmse": 4.322146599850726e-05,
+          "max_abs": 0.047747336048388656
+        },
+        "v": {
+          "rmse": 0.007146243664967466,
+          "reference_rms": 1.0869963194218046,
+          "nrmse": 0.006574303461090556,
+          "nmse": 4.322146599850726e-05,
+          "max_abs": 0.047747336048388656
+        }
+      },
+      "half_dt": {
+        "u": {
+          "rmse": 2.935668410600993e-06,
+          "reference_rms": 1.086996361634912,
+          "nrmse": 2.7007159492103174e-06,
+          "nmse": 7.293866638318986e-12,
+          "max_abs": 2.5672822030919917e-05
+        },
+        "v": {
+          "rmse": 2.935668410600993e-06,
+          "reference_rms": 1.086996361634912,
+          "nrmse": 2.7007159492103174e-06,
+          "nmse": 7.293866638318986e-12,
+          "max_abs": 2.5672822030919917e-05
+        }
+      }
+    },
+    "reference_self_grade": "passed",
+    "production_sources": [
+      {
+        "file": "burgers\\L0-dt1\\process.json",
+        "sha256": "e0ba7a6202878e2b9b8ab59361469014b63fe0b267b694d4700a29e49b8cfee0"
+      },
+      {
+        "file": "burgers\\L0-dt1\\native.npz",
+        "sha256": "7fd4cceeebcf2024de4c30a5614d86a2f4725f775f1d7d8044bb43ebd2fbcaba"
+      },
+      {
+        "file": "burgers\\L1-dt1\\process.json",
+        "sha256": "1538d3f1f279c131e5b67e849c5c3e6b584a422d501efffb004bfe1f88b8958e"
+      },
+      {
+        "file": "burgers\\L1-dt1\\native.npz",
+        "sha256": "aca8f3f00e6d45b484d2a2a28bc1dd6582debd890f874a266f485d2986a97c06"
+      },
+      {
+        "file": "burgers\\L2-dt1\\process.json",
+        "sha256": "e355b8d38c0e58fc7eae2f5205f9e8f81442e7edc9b08f018d02053bca2db771"
+      },
+      {
+        "file": "burgers\\L2-dt1\\native.npz",
+        "sha256": "e74a0297c13b5079c4ef0312e0e4a8a7e0d1efb2f19e3e9a2efa5b21b6395e14"
+      },
+      {
+        "file": "burgers\\L2-dt2\\process.json",
+        "sha256": "c45aa1b163464d47ef27ebcaaabeecf20ba7a72ee010bcc040f3fcd3a95ed8db"
+      },
+      {
+        "file": "burgers\\L2-dt2\\native.npz",
+        "sha256": "a58a211ec6dadcf2656dc844186ab27af595ac0102cb686aee80a1fe2cc7a019"
+      }
+    ],
+    "reference_sha256": "579dfa3cc1b52f73cddb29c5b3e6f7960991953a97baf0aea3fce4016ae72033"
+  },
+  "conversion_tool_sha256": "30675f2817ab349d9c769bea4f8ca60829513342e9b82e03cb65c8196e724926",
+  "resource_status": "provisional",
+  "hf_uploaded": false
+}

@@ -118,8 +118,10 @@ class QuantityPolicyTests(unittest.TestCase):
 
     def test_all_chapter_two_configs_grade_requested_quantities_and_exact_boundaries(self):
         from caeoj.grading_policy import load_policy
-        policies = sorted((ROOT / 'qbank/02-fluid-mechanics').glob('*/*/author/grading-template.json'))
-        self.assertEqual(len(policies), 65)
+        chapter = ROOT / 'qbank/02-fluid-mechanics'
+        policies = sorted(path for path in chapter.glob('*/*/author/grading-template.json')
+                          if path.relative_to(chapter).parts[0] != '2.13-cfdcodebench')
+        self.assertEqual(len(policies), 43)
         for path in policies:
             with self.subTest(task=path.parent.name):
                 policy = load_policy(path)

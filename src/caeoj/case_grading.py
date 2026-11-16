@@ -2,6 +2,7 @@
 from dataclasses import dataclass, field
 import hashlib
 import inspect
+import math
 from importlib.resources import files as package_files
 from importlib.metadata import version
 import sys
@@ -43,6 +44,10 @@ def parse_config(text):
     except jsonschema.ValidationError as exc: raise ValueError('Invalid case grading: ' + exc.message) from exc
     ids = [c['id'] for c in value['checks']]
     if len(set(ids)) != len(ids): raise ValueError('Repeated evaluation ID')
+    scoring = value.get('scoring')
+    if scoring and (not all(math.isfinite(scoring[k]) for k in ('full_credit', 'zero_credit')) or
+                    not scoring['full_credit'] < scoring['zero_credit']):
+        raise ValueError('Finite full_credit must be less than finite zero_credit')
     return value
 
 
@@ -220,6 +225,7 @@ class PreparedCase:
     evidence: dict
     assets: Assets
     input_assets: dict
+    scoring: dict | None = None
 
     def verify_assets(self):
         for name, expected in self.evidence['input_assets'].items():
@@ -236,14 +242,60 @@ class PreparedCase:
             record = evaluate(result)
             if type(record.get('passed')) is not bool: raise ValueError('Evaluator must return boolean passed')
             records[name] = {'evaluator': evaluator, **record}
-        return {'status': 'accepted' if all(x['passed'] for x in records.values()) else 'wrong_answer',
-                'score': int(all(x['passed'] for x in records.values())), 'checks': records, **self.evidence}
+        if self.scoring is None:
+            score = int(all(x['passed'] for x in records.values()))
+            extra = {}
+        else:
+            errors, hard_failure = [], False
+            def collect(record):
+                nonlocal hard_failure
+                if 'fields' in record:
+                    for child in record['fields'].values(): collect(child)
+                elif 'children' in record:
+                    for child in record['children']: collect(child)
+                elif 'condition' in record:
+                    for group in record['groups']:
+                        value = group['value']
+                        errors.append(math.inf if value == 'overflow' else float(value))
+                elif not record['passed']:
+                    # Exact integer/bool checks and normalization overflow are hard failures.
+                    hard_failure = True
+            for record in records.values(): collect(record)
+            if not errors and not hard_failure:
+                raise ValueError('Continuous scoring requires numerical NRMSE observations')
+            # Scale before squaring: finite NRMSE values may exceed sqrt(DBL_MAX).
+            scale = max(errors, default=math.inf)
+            error = (scale * math.sqrt(math.fsum((value / scale)**2 for value in errors) / len(errors))
+                     if 0 < scale < math.inf else scale)
+            full, zero = self.scoring['full_credit'], self.scoring['zero_credit']
+            score = 0.0 if hard_failure or error >= zero else 1.0 if error <= full else (zero-error)/(zero-full)
+            extra = {'total_nrmse': error if math.isfinite(error) else 'overflow',
+                     'scoring': self.scoring}
+        status = 'accepted' if score == 1 else 'partial_credit' if score > 0 else 'wrong_answer'
+        return {'status': status, 'score': score, 'checks': records, **extra, **self.evidence}
 
 
 def prepare_case(problem, grading_path):
     path = Path(grading_path)
     assets = Assets(path.parent.resolve())
     config = parse_config(assets.file(path.name).read_text(encoding='utf-8'))
+    scoring = config.get('scoring')
+    if scoring:
+        def continuous_rule(node):
+            if 'all' in node:
+                for child in node['all']: continuous_rule(child)
+            elif (node.get('metric') != 'nrmse' or node.get('time') != 'per_time' or
+                  node.get('components') != 'per_component' or node.get('limit') != scoring['full_credit']):
+                raise ValueError('rms_nrmse scoring requires per-time/per-component NRMSE rules at full_credit')
+        for check in config['checks']:
+            if check['evaluator'] in ('direct_outputs', 'field.normalized_outputs'):
+                policy = resolve_policy(check['policy'], problem)
+                if not policy['fields']: raise ValueError('Continuous scoring requires floating outputs')
+                for rule in policy['fields'].values(): continuous_rule(rule)
+            elif check['evaluator'] == 'field.sample_points':
+                continuous_rule(check['rule'])
+            else:
+                raise ValueError('Evaluator does not support rms_nrmse scoring')
     registry = _evaluators(problem); checks = []; code = {}
     for check in config['checks']:
         evaluator = registry.get(check['evaluator'])
@@ -275,7 +327,7 @@ def prepare_case(problem, grading_path):
                 'python': '.'.join(map(str,sys.version_info[:3]))}
     evidence['evaluation_sha256'] = hashlib.sha256(canonical(evidence)).hexdigest()
 
-    return PreparedCase(problem, checks, evidence, assets, input_assets)
+    return PreparedCase(problem, checks, evidence, assets, input_assets, scoring)
 
 
 def grade_case(input_path, output_path, grading_path):

@@ -1,0 +1,110 @@
+{
+  "index": 16,
+  "task": "cc-2d-unsteady-heat-equation",
+  "task_id": "caeoj-000021",
+  "pool_case_id": "case-df5cb01460655c0e7683fc47",
+  "bundle": "D:\\Code\\CAE-Bench-OJ\\runs\\benchmarks\\cfdcodebench-24-20261020\\release\\bundles\\cc-2d-unsteady-heat-equation",
+  "reference_sha256": "b86b4477d11364dde565a89bc9c9e18eb210af331aa8e1382192a2634742eff4",
+  "hf_branch": "cases/cfdcodebench-24-20261020",
+  "hf_commit": "dc2be55e268aa078897da29de693491d3abf1e03",
+  "manifest_sha256": "15c2f42820e9c8e8fc699af152789c58b80bce045a7eae4153f3223e597e3e2f",
+  "descriptor_sha256": "e6fc194d1c9f8660ddf28d99dca80f442f5d5b4a0754df9615fe3be4dd33ac7d",
+  "samples": 1,
+  "sample_kind": "format",
+  "sample_seed": 2026102016,
+  "sample_output_sha256": "a55e8af1223a6c3ac785c711173327a61137f84363386b04ac80d243422e07aa",
+  "strict_integrity": {
+    "valid": true,
+    "errors": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-df5cb01460655c0e7683fc47",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "assembly_report": {
+    "revision": "dc2be55e268aa078897da29de693491d3abf1e03",
+    "files": 8,
+    "changed": 2,
+    "removed": 0,
+    "complete": true,
+    "incomplete": [],
+    "overlaps": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-df5cb01460655c0e7683fc47",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "numerical_validation": {
+    "index": 16,
+    "task": "cc-2d-unsteady-heat-equation",
+    "case_id": "C16-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [
+      {
+        "steady_comparison_uniform_transient_bound": 3.636429214230108e-06,
+        "method": "sum of absolute heat-mode coefficients; higher modes exponentially suppressed"
+      }
+    ],
+    "checks": {
+      "truncation_64_128": {
+        "T": {
+          "rmse": 7.143828053921834e-17,
+          "reference_rms": 1.294797982811117,
+          "nrmse": 5.517330231247328e-17,
+          "nmse": 3.0440932880635697e-33,
+          "max_abs": 8.881784197001252e-16
+        }
+      },
+      "truncation_128_256": {
+        "T": {
+          "rmse": 8.407461554190792e-17,
+          "reference_rms": 1.294797982811117,
+          "nrmse": 6.493261239052501e-17,
+          "nmse": 4.216244151858163e-33,
+          "max_abs": 8.881784197001252e-16
+        }
+      },
+      "independent_FEM_L0": {
+        "T": {
+          "rmse": 5.9813036626929074e-05,
+          "reference_rms": 1.294797982811117,
+          "nrmse": 4.619487937189234e-05,
+          "nmse": 2.1339668801836845e-09,
+          "max_abs": 0.001094220657495093
+        }
+      },
+      "independent_FEM_L1": {
+        "T": {
+          "rmse": 3.148477437227098e-06,
+          "reference_rms": 1.294797982811117,
+          "nrmse": 2.4316360382269707e-06,
+          "nmse": 5.912853822404158e-12,
+          "max_abs": 4.3879964448656494e-05
+        }
+      },
+      "independent_FEM_L2": {
+        "T": {
+          "rmse": 1.828727121031592e-06,
+          "reference_rms": 1.294797982811117,
+          "nrmse": 1.412364820851257e-06,
+          "nmse": 1.9947743871782034e-12,
+          "max_abs": 5.477922324637063e-06
+        }
+      }
+    },
+    "reference_sha256": "b86b4477d11364dde565a89bc9c9e18eb210af331aa8e1382192a2634742eff4",
+    "resource_status": "provisional"
+  },
+  "resource_status": "awaiting_calibration",
+  "installed_consumption": "passed"
+}

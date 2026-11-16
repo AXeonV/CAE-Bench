@@ -1,0 +1,98 @@
+{
+  "index": 20,
+  "task": "cc-1d-kdv-burgers-equation",
+  "task_id": "caeoj-000025",
+  "pool_case_id": "case-6fecc6bf178d5d92bbcee935",
+  "bundle": "D:\\Code\\CAE-Bench-OJ\\runs\\benchmarks\\cfdcodebench-24-20261020\\release\\bundles\\cc-1d-kdv-burgers-equation",
+  "reference_sha256": "5d40c9c70dfdf223b7c63825734c0e9cadb3030c20f624ba5f59f2a94571098c",
+  "hf_branch": "cases/cfdcodebench-24-20261020",
+  "hf_commit": "dc2be55e268aa078897da29de693491d3abf1e03",
+  "manifest_sha256": "c183d70ff692a6acbe5bba47c60655c14521a5bb0432e99f54fb38e5f1386646",
+  "descriptor_sha256": "a73b92c6196d40f254bad63ada4c63257be5d83589e2878a20e5811774b525ef",
+  "samples": 1,
+  "sample_kind": "format",
+  "sample_seed": 2026102020,
+  "sample_output_sha256": "3cbfa83b2b49b0977583930eaf26ba544a852700776de3be6686140a58e2098f",
+  "strict_integrity": {
+    "valid": true,
+    "errors": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-6fecc6bf178d5d92bbcee935",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "assembly_report": {
+    "revision": "dc2be55e268aa078897da29de693491d3abf1e03",
+    "files": 8,
+    "changed": 2,
+    "removed": 0,
+    "complete": true,
+    "incomplete": [],
+    "overlaps": [],
+    "public_cases": [
+      {
+        "case": "001",
+        "sample": "01",
+        "case_id": "case-6fecc6bf178d5d92bbcee935",
+        "sample_kind": "format"
+      }
+    ]
+  },
+  "numerical_validation": {
+    "index": 20,
+    "task": "cc-1d-kdv-burgers-equation",
+    "case_id": "C20-base",
+    "status": "verified_with_stated_limits",
+    "missing": [],
+    "failed": [],
+    "limitations": [
+      "Space/time checks use the same Dedalus engine and equation configuration; not an independent solver cross-validation"
+    ],
+    "checks": {
+      "space_L0_L1": {
+        "u": {
+          "rmse": 2.8407823366157268e-05,
+          "reference_rms": 0.1753483662977809,
+          "nrmse": 0.00016200791581892702,
+          "nmse": 2.6246564787992544e-08,
+          "max_abs": 9.707635143262755e-05
+        }
+      },
+      "space_L1_L2": {
+        "u": {
+          "rmse": 8.496606391767287e-05,
+          "reference_rms": 0.17534865172140843,
+          "nrmse": 0.00048455498849609525,
+          "nmse": 2.34793536876451e-07,
+          "max_abs": 0.00015578015275413692
+        }
+      },
+      "half_dt": {
+        "u": {
+          "rmse": 2.132331259219637e-05,
+          "reference_rms": 0.1753487121631028,
+          "nrmse": 0.00012160518505754535,
+          "nmse": 1.4787821032879851e-08,
+          "max_abs": 4.000888066159336e-05
+        }
+      },
+      "RK443_vs_SBDF2": {
+        "u": {
+          "rmse": 7.1238359693456485e-06,
+          "reference_rms": 0.1753487121631028,
+          "nrmse": 4.062667972559344e-05,
+          "nmse": 1.650527105525945e-09,
+          "max_abs": 1.360417835601091e-05
+        }
+      }
+    },
+    "reference_sha256": "5d40c9c70dfdf223b7c63825734c0e9cadb3030c20f624ba5f59f2a94571098c",
+    "resource_status": "provisional"
+  },
+  "resource_status": "awaiting_calibration",
+  "installed_consumption": "passed"
+}

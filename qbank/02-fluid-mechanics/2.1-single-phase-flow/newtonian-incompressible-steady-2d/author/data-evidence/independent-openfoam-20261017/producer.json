@@ -1,0 +1,39 @@
+{
+  "producer": "OpenFOAM Foundation incompressibleFluid (foamRun)",
+  "source": "https://github.com/OpenFOAM/OpenFOAM-dev",
+  "commit": "5de9f113a9e3d0f76ae8f9df6ec02554c866851b",
+  "git_status": "",
+  "source_urls": {
+    "solver": "https://github.com/OpenFOAM/OpenFOAM-dev/blob/5de9f113a9e3d0f76ae8f9df6ec02554c866851b/applications/modules/incompressibleFluid/incompressibleFluid.C",
+    "momentum": "https://github.com/OpenFOAM/OpenFOAM-dev/blob/5de9f113a9e3d0f76ae8f9df6ec02554c866851b/applications/modules/incompressibleFluid/momentumPredictor.C",
+    "pressure": "https://github.com/OpenFOAM/OpenFOAM-dev/blob/5de9f113a9e3d0f76ae8f9df6ec02554c866851b/applications/modules/incompressibleFluid/correctPressure.C",
+    "source_model": "https://github.com/OpenFOAM/OpenFOAM-dev/blob/5de9f113a9e3d0f76ae8f9df6ec02554c866851b/src/fvModels/general/codedFvModel/codedFvModel.H",
+    "steady_tutorial": "https://github.com/OpenFOAM/OpenFOAM-dev/blob/5de9f113a9e3d0f76ae8f9df6ec02554c866851b/tutorials/incompressibleFluid/pitzDailySteady/system/fvSolution",
+    "sampling": "https://github.com/OpenFOAM/OpenFOAM-dev/blob/5de9f113a9e3d0f76ae8f9df6ec02554c866851b/src/sampling/sampledSet/points/points.H"
+  },
+  "runtime": {
+    "platform": "Linux-6.8.0-147-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "numpy": "2.5.4",
+    "h5py": "3.16.0",
+    "gmsh": "4.15.2",
+    "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+    "mpi": "mpicc: Open MPI 4.1.2 (Language: C)",
+    "wm_options": "linux64GccDPInt32Opt"
+  },
+  "executables_and_libraries": {
+    "platforms/linux64GccDPInt32Opt/bin/foamRun": "85471d894536bf1c575b57fab427ab72595506169e9f834d2d94800e1cb3ae92",
+    "platforms/linux64GccDPInt32Opt/bin/blockMesh": "81f134e4348a5fc4f82784dc695786ab139ad75e7dca51e0cada029bb8dbb4b9",
+    "platforms/linux64GccDPInt32Opt/bin/checkMesh": "41d3f577945f20f984d9dddb97af54c928cfa49b016f98ef36b458b3ddd4ccb3",
+    "platforms/linux64GccDPInt32Opt/bin/mapFields": "3b17fbb29e8d77d9d93fa387edecae964fc3049411e36458a1453b0c24d4cd5b",
+    "platforms/linux64GccDPInt32Opt/lib/libincompressibleFluidSolver.so": "cb0efa174db1b75978fcf3a464524fc1dbb212ef3ab75d3ae597bbc9b70ce4ff",
+    "platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so": "58983e0eddc0f65e27ec1a10156915d66fb7233319f6f7449455990114b944c4",
+    "platforms/linux64GccDPInt32Opt/lib/libsampling.so": "62bd47c0e62ffac95f6dab164a89475237997d82df29c223ad01c8f835334143",
+    "platforms/linux64GccDPInt32Opt/lib/libfieldFunctionObjects.so": "f43bc657726704731f525591cd7b83a7099e258721e76655341aafc5d6877572",
+    "platforms/linux64GccDPInt32Opt/lib/libincompressibleMomentumTransportModels.so": "880661afef3d2272f488d9e7013a925c9c33991a7c7709402d63431b47be507c",
+    "platforms/linux64GccDPInt32Opt/lib/libmomentumTransportModels.so": "21db64772fecdfc48685179c1b6779dc8ca436039b287edbf8385744f09dd931"
+  },
+  "independence": "Separate upstream finite-volume solver and mesh/field adapter; no Lethe code, numerical output, or candidate submission used as a solve or initial guess.",
+  "source_adapter": "codedFvModel only evaluates frozen affine acceleration and inserts -V*a into the standard fvModels source. No PDE implementation is replaced.",
+  "frozen_hf_commit": "fbe115effe8131bd575c0cde1c9ca87a9d87fd3a"
+}

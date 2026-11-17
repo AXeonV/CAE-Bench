@@ -42,7 +42,7 @@
     "radiation-": "E_RADIATION",
     "microstructure-": "E_MICROSTRUCTURE"
   },
-  "id": "qbank-rc7-paper-frozen",
+  "id": "qbank-rc7-with-solid8",
   "strict_tasks": false,
   "tasks": {
     "advection-1d": [],
@@ -260,6 +260,30 @@
     ],
     "wetting-drying": [
       "fluid.depth_averaged"
+    ],
+    "elastic-solid-3d": [
+      "solid.mechanics"
+    ],
+    "elastic-beam": [
+      "solid.mechanics"
+    ],
+    "elastic-modes": [
+      "solid.mechanics"
+    ],
+    "elastic-transient": [
+      "solid.mechanics"
+    ],
+    "hyperelastic-solid": [
+      "solid.mechanics"
+    ],
+    "elastic-buckling": [
+      "solid.mechanics"
+    ],
+    "j2-plasticity": [
+      "solid.mechanics"
+    ],
+    "linear-elastic-fracture": [
+      "solid.mechanics"
     ]
   },
   "extensions": {
@@ -617,6 +641,82 @@
         }
       ],
       "version": 1
+    },
+    "solid.mechanics": {
+      "version": 1,
+      "requires": [],
+      "geometry": true,
+      "selectors": [
+        {
+          "physics.model": "solid-plane-stress-v1"
+        },
+        {
+          "physics.model": "solid-plane-strain-v1"
+        },
+        {
+          "physics.model": "solid-elastic-solid-3d-v1"
+        },
+        {
+          "physics.model": "solid-elastic-truss-v1"
+        },
+        {
+          "physics.model": "solid-elastic-beam-v1"
+        },
+        {
+          "physics.model": "solid-elastic-plate-v1"
+        },
+        {
+          "physics.model": "solid-elastic-modes-v1"
+        },
+        {
+          "physics.model": "solid-elastic-transient-v1"
+        },
+        {
+          "physics.model": "solid-elastic-harmonic-v1"
+        },
+        {
+          "physics.model": "solid-hyperelastic-solid-v1"
+        },
+        {
+          "physics.model": "solid-elastic-buckling-v1"
+        },
+        {
+          "physics.model": "solid-frictionless-contact-v1"
+        },
+        {
+          "physics.model": "solid-frictional-contact-v1"
+        },
+        {
+          "physics.model": "solid-j2-plasticity-v1"
+        },
+        {
+          "physics.model": "solid-linear-viscoelastic-v1"
+        },
+        {
+          "physics.model": "solid-power-law-creep-v1"
+        },
+        {
+          "physics.model": "solid-gradient-damage-v1"
+        },
+        {
+          "physics.model": "solid-linear-elastic-fracture-v1"
+        },
+        {
+          "physics.model": "solid-cohesive-interface-v1"
+        },
+        {
+          "physics.model": "solid-stress-life-fatigue-v1"
+        },
+        {
+          "physics.model": "solid-fatigue-crack-growth-v1"
+        }
+      ],
+      "check": "caeoj_ext.solid:check",
+      "files": [
+        "caeoj_ext/__init__.py",
+        "caeoj_ext/solid/__init__.py",
+        "caeoj_ext/solid/models.json"
+      ]
     }
   },
   "modules": {

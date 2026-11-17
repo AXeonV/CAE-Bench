@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "status": "local-consumer-checks-passed-with-preexisting-upstream-test-failures",
+  "base_master_commit": "8786e35f5e221a65c0e4c3d3b7f65422d75fa0ba",
+  "imported_dev_commit": "c92736b72adc55c5260b8806a686aee9016260b5",
+  "source_contract_commit": "1fd666fcb3aee83138d34d225853bc5aec44cad1",
+  "reviewed_source_acceptance_sha256": "7db1a6f3a40b3ccaf89e53fc1d36f5c7e333069108d6dde14e2d8930b0d31b81",
+  "counts": {
+    "tasks": 8,
+    "cases": 26,
+    "public": 8,
+    "held_out": 18
+  },
+  "reviewed_assets_rechecked": 246,
+  "frozen_anchors_rechecked": 52,
+  "task_contracts_rechecked": 40,
+  "preserved_master_task_directories": 82,
+  "preserved_master_task_files": 919,
+  "preserved_master_core_tool_and_solid_files": 35,
+  "runtime_delta": {
+    "added_task_mappings": 8,
+    "added_extensions": [
+      "solid.mechanics"
+    ],
+    "original_task_and_extension_values_preserved": true,
+    "master_grading_implementation_unchanged": true
+  },
+  "native_execution": {
+    "mode": "native",
+    "container_image": null,
+    "platform": "darwin/arm64",
+    "python_version": "3.12.5",
+    "network_accessed": false,
+    "docker_used": false,
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1",
+    "pde_solve": false,
+    "oj_source_imported": false
+  },
+  "checks": {
+    "current_grader_accepted": 26,
+    "independent_public_packages_passed": 8,
+    "harbor_tasks_prepared": 8,
+    "inventory": {
+      "tasks": 8,
+      "inputs": 34,
+      "cases": 26,
+      "samples": 8,
+      "hdf5_input_headers_read": 34,
+      "mesh_headers_read": 34,
+      "missing_undeclared_sample_outputs_allowed": 8,
+      "other_gaps": 0,
+      "inputs_with_unreadable_or_missing_input_assets": 0
+    },
+    "solid_test_summary": "27 passed, 42 subtests passed in 2.21s",
+    "selected_regression_summary": "12 failed, 151 passed, 1 deselected, 150 subtests passed in 31.89s",
+    "same_regression_on_original_master": "12 failed, 124 passed, 1 deselected, 108 subtests passed in 27.06s",
+    "new_failing_inherited_nodes": [],
+    "unchanged_failing_inherited_methods": [
+      "tests/test_domain_assembly.py::DomainAssemblyTests::test_six_physical_capability_closures",
+      "tests/test_publish.py::DomainPublishTests::test_radiation_and_microstructure_bundle_with_disposable_samples",
+      "tests/test_publish.py::PublishTests::test_bad_task_names_and_missing_samples_fail",
+      "tests/test_publish.py::PublishTests::test_extracted_bundle_checks_input_and_output_without_source_checkout",
+      "tests/test_publish.py::PublishTests::test_invalid_public_output_does_not_replace_existing_release",
+      "tests/test_publish.py::PublishTests::test_manifest_reproducibility_and_public_only_contents",
+      "tests/test_publish.py::PublishTests::test_multitask_package_switches_contracts_without_reinstallation",
+      "tests/test_publish.py::PublishTests::test_public_preflight_uses_staged_binding_and_checks_hook",
+      "tests/test_publish.py::PublishTests::test_quantity_policy_runs_from_extracted_bundle_with_varying_logical_names",
+      "tests/test_publish.py::PublishTests::test_unlisted_files_never_enter_release"
+    ],
+    "other_baseline_test_issues": [
+      "tests/test_runtime_assembly.py::RuntimeAssemblyTests::test_every_task_declares_a_single_scoring_source",
+      "tests/test_grading_offset.py::ReferenceOffsetTests::test_schema_finiteness_allowed_metrics_and_renderer"
+    ]
+  },
+  "numerical_references_recomputed": false,
+  "baseline_solvers_rerun": false,
+  "hf_uploaded": false,
+  "formal_selections_changed": false,
+  "agent_benchmark_run": false,
+  "source_qualification": "Actual custom producers remain explicit; maintainer source-policy review is not automatically completed.",
+  "evidence_sha256": {
+    "local_import_receipt": "219d17bf36499e7146491fff80b1ad1d4d80e47e18915312e2c2950d5885ab60",
+    "master_scope": "803172e26f2bdb29919ae5945f9662eca80895c41b5c9004f2805513f28f4d28",
+    "regression_comparison": "9049aa9757c6f9fcdeb0b4523bbba772a8fa97126785543c0cf7057eca0ad36a",
+    "solid_test_log": "777298b5a6bb30ad3e4f45a8a96d657c56dbb65fa5292975a8352882cb567b0e",
+    "public_packages": "64708080afde42a53686666961c40ea93bd01d18aa13d779972f4a34125f82b8",
+    "inventory": "74173a8f26e2c25eb0ebc62af2890fe34d16cac0d776b599c1a2e870d445f896"
+  }
+}

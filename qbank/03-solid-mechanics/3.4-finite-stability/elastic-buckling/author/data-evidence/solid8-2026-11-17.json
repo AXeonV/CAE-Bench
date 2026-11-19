@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "batch": "solid8-reviewed-2026-11-17",
+  "task": "elastic-buckling",
+  "status": "reviewed-local-reference-import",
+  "published": false,
+  "source_contract_commit": "1fd666fcb3aee83138d34d225853bc5aec44cad1",
+  "source_acceptance_sha256": "7db1a6f3a40b3ccaf89e53fc1d36f5c7e333069108d6dde14e2d8930b0d31b81",
+  "requested_task_id": "caeoj-000088",
+  "cases": [
+    {
+      "case_id": "compressed-cantilever-v1",
+      "alias": "001",
+      "role": "public",
+      "grader_score": 1,
+      "pool_case_id": "case-54766fcaf510f4fc7ffa661b",
+      "descriptor_sha256": "fb81975b44b8304f9d5e6edc70e974d2a0e68d9e9049a2f4f885ac27c5d6f09a",
+      "grade_report": "grading/elastic-buckling/001.json",
+      "grade_report_sha256": "93f47d701bbebf0baf278fe1e792e6123474e6ad54a1ea8d32889116027a86a7",
+      "reference_budget": {
+        "independent_eta": 6.794102935004388e-07,
+        "h_eta": 4.251233999082706e-05,
+        "p_same_mesh_eta": 1.7076427198320603e-05
+      },
+      "physics_status": "validated-independent-assembly-and-convergence",
+      "physics_report_sha256": "40c24e2d11b0448ae4b399bc8a14b9d21f2147685c73249efebf9a5525859ec8",
+      "source_artifacts_sha256": {
+        "input/input.h5": "99e501a80f0b781eef144b257ae385e7b5d6d68c1a4aefde1227173a51dffaf0",
+        "input/mesh.msh": "8f322f7c9ebc642b2766a508bfa1a355946100391bcbe749a4798987744361a4",
+        "input/problem.json": "182405740cae4cc3eb9dad3334b034351f6cb05631c877d260ebf77632dc50b7",
+        "reference/grading.json": "661bafc695347a0ab30b9e5e0ba6d9a28463aa433cbdd87e9005792fa7a26ca9",
+        "reference/reference-record.json": "b39d9d9cb4ef486dcabc691e596c1b721dae5e8b823840fcc62e0061e3b10467",
+        "reference/reference.h5": "4b17bf0c0be8ca27d8cf5a48062e5166fccea3c9b3491a0221a44195c80b71cf",
+        "reports/physics-verification.json": "40c24e2d11b0448ae4b399bc8a14b9d21f2147685c73249efebf9a5525859ec8"
+      },
+      "baseline_sha256": "f77ef8063da23154be73ad16fa19402ed084d63728778f7da9d7734a2b202e9c",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "99e501a80f0b781eef144b257ae385e7b5d6d68c1a4aefde1227173a51dffaf0",
+          "mesh.msh": "8f322f7c9ebc642b2766a508bfa1a355946100391bcbe749a4798987744361a4",
+          "problem.json": "182405740cae4cc3eb9dad3334b034351f6cb05631c877d260ebf77632dc50b7"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": {
+        "degree": 4,
+        "uniform_refinements": 1,
+        "cells": 3840,
+        "dofs": 139587,
+        "max_relative_eigen_residual": 2.6073631283961523e-08,
+        "wall_seconds": 33.02434280700004,
+        "positive_roots": true,
+        "prestress_max_error_Pa": 0.0002193195978179574,
+        "values": [
+          38.83710020271133
+        ],
+        "change_from_previous": {
+          "load_factor": {
+            "max_abs_error": 1.2741543763183927e-05,
+            "max_fraction_of_grading_tolerance": 3.279921460468401e-05,
+            "worst_index": [
+              0
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "local_pool_valid": true,
+  "baseline_regrades_passed": 1,
+  "staged_selection_sha256": "71a544d7ed0664f3adb9c91f4212127fa474dbb62fdd05da5f9e4c1b1cc7015c",
+  "candidate_zip_sha256": "7182e05e0301a73bda6f33213dde00ba06c318dfdff01eaffacafc8076a621f4",
+  "formal_selection_changed": false,
+  "hf_uploaded": false,
+  "reference_origin": "Existing user-reviewed local reference workspace; this importer only copies and validates bytes",
+  "source_qualification": "Preserve actual custom formulations/analytic evaluators and CalculiX attribution. Numerical user acceptance is not automatic compliance with the upstream external-reference provenance rule; maintainer source-policy review remains explicit before release.",
+  "validation_scope": "26 selected local cases; not complete task-family coverage or an agent/model score"
+}

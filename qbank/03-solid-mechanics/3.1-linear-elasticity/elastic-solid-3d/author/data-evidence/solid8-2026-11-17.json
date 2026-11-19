@@ -1,0 +1,354 @@
+{
+  "schema_version": 1,
+  "batch": "solid8-reviewed-2026-11-17",
+  "task": "elastic-solid-3d",
+  "status": "reviewed-local-reference-import",
+  "published": false,
+  "source_contract_commit": "1fd666fcb3aee83138d34d225853bc5aec44cad1",
+  "source_acceptance_sha256": "7db1a6f3a40b3ccaf89e53fc1d36f5c7e333069108d6dde14e2d8930b0d31b81",
+  "requested_task_id": "caeoj-000083",
+  "cases": [
+    {
+      "case_id": "axial-body-force-v1",
+      "alias": "001",
+      "role": "public",
+      "grader_score": 1,
+      "pool_case_id": "case-47357797645d12896f6891e4",
+      "descriptor_sha256": "e27ebaf01bbe2611cf9ab50126074604da48fdb93775f603154d78e783d94bc9",
+      "grade_report": "grading/elastic-solid-3d/001.json",
+      "grade_report_sha256": "92e7f375c5451d699d772046e263a75f39d0aefdee4d4a551feb9fad5c2f3ed4",
+      "reference_budget": {
+        "independent_eta": 2.5128926446193328e-11,
+        "mesh_eta": 4.8352178979081515e-05
+      },
+      "physics_status": "validated-analytical",
+      "physics_report_sha256": "0acd41b6b00673532591eee98562a851938308e809c177c552ca4623477d91cd",
+      "source_artifacts_sha256": {
+        "input/input.h5": "c679b0bc6c307d74d7a83ec10c9f51a4165fdfb0731109dac1cca1c2109ca92f",
+        "input/mesh.msh": "d19e8cd4afa78eedf05bc1e41111d864fa1a77f7e457ede372ef0636020b1989",
+        "input/problem.json": "5722eca54aa5377bacad1d1a4881c0b506565000877c32262d5a16ea39265407",
+        "reference/grading.json": "be799f000422799a31c28ecbad62cddd27530d476922cd3fcb30188c82f3e5a6",
+        "reference/reference-record.json": "7e5b2084ddda1ca376aeb0e28ec3255441b7cd6808f1fa2ec1a9a5048729ce15",
+        "reference/reference.h5": "f0e10bc31a6ecd789d00c355acdd0fce13ed476fade63b8ba37bddfc67b9c3bd",
+        "reports/physics-verification.json": "0acd41b6b00673532591eee98562a851938308e809c177c552ca4623477d91cd"
+      },
+      "baseline_sha256": "e0a4798493486bf21a52f8dd0db068db2b34a275d6e13c65753e8e52fcb7b966",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "c679b0bc6c307d74d7a83ec10c9f51a4165fdfb0731109dac1cca1c2109ca92f",
+          "mesh.msh": "d19e8cd4afa78eedf05bc1e41111d864fa1a77f7e457ede372ef0636020b1989",
+          "problem.json": "5722eca54aa5377bacad1d1a4881c0b506565000877c32262d5a16ea39265407"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": "See the hash-bound original physics report and author source snapshot"
+    },
+    {
+      "case_id": "heldout-01-poisson-traction-v1",
+      "alias": "002",
+      "role": "held-out",
+      "grader_score": 1,
+      "pool_case_id": "case-bb8e7e3609141f9e99825e09",
+      "descriptor_sha256": "49add6f04f7cab4e3cabea381e725dbf5dce31a7a5fbe2b46c3a165331e8d723",
+      "grade_report": "grading/elastic-solid-3d/002.json",
+      "grade_report_sha256": "b19c26512bcde47aaa0f3526faadb48c580553fcc7c6d5da546c88ad044dc7e2",
+      "reference_budget": {
+        "same_fine_mesh_P3_P4": 0.06044322460466847,
+        "fixed_P4_local_h": 0.09358396676781426
+      },
+      "physics_status": "validated-high-order-convergence",
+      "physics_report_sha256": "45ae9358e0d4650d8feb943a2e2ee4307802ab01e221a4f3930aeb151780f5cf",
+      "source_artifacts_sha256": {
+        "input/input.h5": "1ebda50dde0cf1077200ac69c76d9bef16797121ede4ab82de9e05e813d14061",
+        "input/mesh.msh": "1b95874740b52eb7438a1d1c1712208bace1c192a2bb15f54fb4a580d2fd2a27",
+        "input/problem.json": "22f7e60f62d34de9b7fb2fb204a96a48e65cfb79c7205f04adfa5e1942fba1b9",
+        "reference/grading.json": "be799f000422799a31c28ecbad62cddd27530d476922cd3fcb30188c82f3e5a6",
+        "reference/reference.h5": "6b1c815f0951fa099e6d089769cc99970cd3e291d5e198d9d4d19fcb83df382d",
+        "reports/physics-verification.json": "45ae9358e0d4650d8feb943a2e2ee4307802ab01e221a4f3930aeb151780f5cf"
+      },
+      "baseline_sha256": "35835a65deaf0b8ac222aa87c3065f868cc9a24913a97479f6dc951d3b4d85df",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "1ebda50dde0cf1077200ac69c76d9bef16797121ede4ab82de9e05e813d14061",
+          "mesh.msh": "1b95874740b52eb7438a1d1c1712208bace1c192a2bb15f54fb4a580d2fd2a27",
+          "problem.json": "22f7e60f62d34de9b7fb2fb204a96a48e65cfb79c7205f04adfa5e1942fba1b9"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": {
+        "degree": 4,
+        "uniform_refinements": 1,
+        "cells": 42224,
+        "dofs": 1448523,
+        "refinement_plan": {
+          "uniform": 1,
+          "clamp_levels": 4,
+          "radius": 0.2
+        },
+        "wall_seconds": 298.1665783430001,
+        "linear_solver": "gamg",
+        "iterations": 208,
+        "converged_reason": 2,
+        "relative_free_equilibrium_residual": 3.116145484748818e-12,
+        "external_force_dot_displacement_J": 29.810220902257573,
+        "relative_work_energy_defect": 6.26874722323021e-14
+      }
+    },
+    {
+      "case_id": "heldout-02-combined-traction-v1",
+      "alias": "003",
+      "role": "held-out",
+      "grader_score": 1,
+      "pool_case_id": "case-98cbd07c1b97fdd98523df7a",
+      "descriptor_sha256": "ba51d1cb36484f95f633061cf92258ce6261a6e466b8407bb80fbc76e5d6ed81",
+      "grade_report": "grading/elastic-solid-3d/003.json",
+      "grade_report_sha256": "7279713f716d557eee1d757d38ba133ae1c57c148e948b21e4a8f5891281e779",
+      "reference_budget": {
+        "same_bulk_fine_P3_P4": 0.11265226285160121,
+        "local_h_fixed_bulk": 0.13162028612018667,
+        "bulk_h_uniform1_uniform2": 0.020035169832322713
+      },
+      "physics_status": "validated-high-order-bulk-and-edge-convergence",
+      "physics_report_sha256": "4ac28470488be1410dc83ea2c51754fdd516bf6fe0a5b41bf4cfb9abc14711bd",
+      "source_artifacts_sha256": {
+        "input/input.h5": "c7382ec0926717c663304966bd3a1d18485746c18eedab22402808b3852d6af3",
+        "input/mesh.msh": "d9c9799f874f7cc9959b7538eddaa7b04a387c6f90fedac7f815a9f707a92a7a",
+        "input/problem.json": "05cd6da7068fdba52d8619fd6eb184cd1f165f41164510a799e06404d6eddbe1",
+        "reference/grading.json": "be799f000422799a31c28ecbad62cddd27530d476922cd3fcb30188c82f3e5a6",
+        "reference/reference.h5": "c7645738c5e6aaed441d00c78565e497e7877eba57406ec28a62637d3c6b05b6",
+        "reports/physics-verification.json": "4ac28470488be1410dc83ea2c51754fdd516bf6fe0a5b41bf4cfb9abc14711bd"
+      },
+      "baseline_sha256": "281fa284bc02260427af7e0526833f73edbbe17cb7584d85af559d253697b377",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "c7382ec0926717c663304966bd3a1d18485746c18eedab22402808b3852d6af3",
+          "mesh.msh": "d9c9799f874f7cc9959b7538eddaa7b04a387c6f90fedac7f815a9f707a92a7a",
+          "problem.json": "05cd6da7068fdba52d8619fd6eb184cd1f165f41164510a799e06404d6eddbe1"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": {
+        "method": "Exact Cartesian-load superposition with quarter-domain reflection parity and bulk refinement",
+        "degree": 4,
+        "clamp_levels": 6,
+        "loaded_levels": 6,
+        "uniform_refinements": 1,
+        "components": [
+          {
+            "direction": 0,
+            "degree": 4,
+            "clamp_levels": 6,
+            "loaded_levels": 0,
+            "uniform_refinements": 1,
+            "quarter_cells": 36998,
+            "quarter_dofs": 1291521,
+            "full_observation_volume_conserved": true,
+            "relative_free_equilibrium_residual": 5.039533468135473e-12,
+            "linear_iterations": 156,
+            "external_force_dot_displacement_J": 38.22248075779319,
+            "relative_work_energy_defect": 3.755110337632283e-14
+          },
+          {
+            "direction": 1,
+            "degree": 4,
+            "clamp_levels": 6,
+            "loaded_levels": 6,
+            "uniform_refinements": 1,
+            "quarter_cells": 70924,
+            "quarter_dofs": 2471199,
+            "full_observation_volume_conserved": true,
+            "relative_free_equilibrium_residual": 8.469031045259176e-10,
+            "linear_iterations": 194,
+            "external_force_dot_displacement_J": 406.5046381371241,
+            "relative_work_energy_defect": 3.914110659657857e-11
+          }
+        ],
+        "wall_seconds": 2149.6246900610004,
+        "maximum_equilibrium_residual": 8.469031045259176e-10,
+        "maximum_work_energy_defect": 3.914110659657857e-11,
+        "scope": "Full original nodal observations and original tetrahedron means; uniform quarter refinement replaces the first local refinement level.",
+        "execution_environment": {
+          "machine": "aarch64",
+          "system": "Linux",
+          "dolfinx": "0.11.0.post0",
+          "petsc": [
+            3,
+            25,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "heldout-03-oblique-body-v1",
+      "alias": "004",
+      "role": "held-out",
+      "grader_score": 1,
+      "pool_case_id": "case-4e535aebf0899ad6c31d97e7",
+      "descriptor_sha256": "e06c691047b87766e4bddba412c0fb54f047888090197c2ae9303773eb8d5e40",
+      "grade_report": "grading/elastic-solid-3d/004.json",
+      "grade_report_sha256": "399d81872c3e327266495483469d5cb1fa25905b8a3ca88d18ce290a0b1e1550",
+      "reference_budget": {
+        "same_fine_mesh_P3_P4": 0.10698780172318786,
+        "fixed_P4_clamp_h": 0.1682193648869739
+      },
+      "physics_status": "validated-high-order-convergence",
+      "physics_report_sha256": "b58fe145b6ba032088c3a72a521e892041e707316928b04ed8864418f121084c",
+      "source_artifacts_sha256": {
+        "input/input.h5": "0b422b3c50e8ffcc9d7bafeeb7b4db260f8891d8055642fd7d4faa59a1a28797",
+        "input/mesh.msh": "0ce5f1634f944d3e974375e7f66849edc46fc3614b630d4a145deb8f7b8c3279",
+        "input/problem.json": "c4d62fc9f7c824265aff3ba85ef76f279e297e5d4550287c95bc6e6dc91f640e",
+        "reference/grading.json": "be799f000422799a31c28ecbad62cddd27530d476922cd3fcb30188c82f3e5a6",
+        "reference/reference.h5": "ba8314889a221b54fc3bd309fe75bd6d426f7ab72330eef08f1bd70f4128fbf2",
+        "reports/physics-verification.json": "b58fe145b6ba032088c3a72a521e892041e707316928b04ed8864418f121084c"
+      },
+      "baseline_sha256": "3bc35fb66abc6f23a6304e5993debf7eaae74621de532309b22d6ce041e7500c",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "0b422b3c50e8ffcc9d7bafeeb7b4db260f8891d8055642fd7d4faa59a1a28797",
+          "mesh.msh": "0ce5f1634f944d3e974375e7f66849edc46fc3614b630d4a145deb8f7b8c3279",
+          "problem.json": "c4d62fc9f7c824265aff3ba85ef76f279e297e5d4550287c95bc6e6dc91f640e"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": {
+        "method": "Exact Cartesian-load superposition with quarter-domain reflection parity",
+        "degree": 4,
+        "clamp_levels": 4,
+        "loaded_levels": 0,
+        "components": [
+          {
+            "direction": 0,
+            "degree": 4,
+            "clamp_levels": 4,
+            "loaded_levels": 0,
+            "quarter_cells": 17524,
+            "quarter_dofs": 596919,
+            "full_observation_volume_conserved": true,
+            "relative_free_equilibrium_residual": 2.3376378156550552e-11,
+            "linear_iterations": 327,
+            "external_force_dot_displacement_J": 0.20051278668615025,
+            "relative_work_energy_defect": 2.361634304746077e-12
+          },
+          {
+            "direction": 1,
+            "degree": 4,
+            "clamp_levels": 4,
+            "loaded_levels": 0,
+            "quarter_cells": 17524,
+            "quarter_dofs": 596919,
+            "full_observation_volume_conserved": true,
+            "relative_free_equilibrium_residual": 2.337310445880267e-10,
+            "linear_iterations": 340,
+            "external_force_dot_displacement_J": 0.7416383740698356,
+            "relative_work_energy_defect": 1.5616868061905255e-11
+          },
+          {
+            "direction": 2,
+            "degree": 4,
+            "clamp_levels": 4,
+            "loaded_levels": 0,
+            "quarter_cells": 17524,
+            "quarter_dofs": 596919,
+            "full_observation_volume_conserved": true,
+            "relative_free_equilibrium_residual": 1.6993565486908216e-09,
+            "linear_iterations": 373,
+            "external_force_dot_displacement_J": 0.5946562470859724,
+            "relative_work_energy_defect": 5.6154682956412955e-11
+          }
+        ],
+        "wall_seconds": 809.8478107850001,
+        "maximum_equilibrium_residual": 1.6993565486908216e-09,
+        "maximum_work_energy_defect": 5.6154682956412955e-11,
+        "scope": "Full original nodal observations and original tetrahedron means; initial symmetric mesh refines every reflected original tetrahedron.",
+        "execution_environment": {
+          "machine": "aarch64",
+          "system": "Linux",
+          "dolfinx": "0.11.0.post0",
+          "petsc": [
+            3,
+            25,
+            1
+          ]
+        }
+      }
+    }
+  ],
+  "local_pool_valid": true,
+  "baseline_regrades_passed": 4,
+  "staged_selection_sha256": "9ef7de33531ae94fd34f91e013535703f709d50e312ca9dc995207d7a209cc4a",
+  "candidate_zip_sha256": "bc73262f03c991e06b8131fae6e04a23e4cb49c876b5224de353c825e07a4382",
+  "formal_selection_changed": false,
+  "hf_uploaded": false,
+  "reference_origin": "Existing user-reviewed local reference workspace; this importer only copies and validates bytes",
+  "source_qualification": "Preserve actual custom formulations/analytic evaluators and CalculiX attribution. Numerical user acceptance is not automatic compliance with the upstream external-reference provenance rule; maintainer source-policy review remains explicit before release.",
+  "validation_scope": "26 selected local cases; not complete task-family coverage or an agent/model score"
+}

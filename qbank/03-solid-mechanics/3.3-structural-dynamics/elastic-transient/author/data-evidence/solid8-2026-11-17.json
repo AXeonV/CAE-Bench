@@ -1,0 +1,332 @@
+{
+  "schema_version": 1,
+  "batch": "solid8-reviewed-2026-11-17",
+  "task": "elastic-transient",
+  "status": "reviewed-local-reference-import",
+  "published": false,
+  "source_contract_commit": "1fd666fcb3aee83138d34d225853bc5aec44cad1",
+  "source_acceptance_sha256": "7db1a6f3a40b3ccaf89e53fc1d36f5c7e333069108d6dde14e2d8930b0d31b81",
+  "requested_task_id": "caeoj-000086",
+  "cases": [
+    {
+      "case_id": "longitudinal-ramp-v1",
+      "alias": "001",
+      "role": "public",
+      "grader_score": 1,
+      "pool_case_id": "case-fd1005cad53c73e308d327bf",
+      "descriptor_sha256": "dbde501c6c674f049daad015d00d078f633332f9717ccfe0ff4bcc95f1021b5e",
+      "grade_report": "grading/elastic-transient/001.json",
+      "grade_report_sha256": "39ea4f70f5c26c42060f14a9f5ca07918984869a70c9b783987ce9ca60cb7908",
+      "reference_budget": {
+        "series_eta": 1.178247210520594e-06,
+        "h_eta": 0.04370011697069985,
+        "time_eta": 0.0202575513030827,
+        "FE_vs_series_eta": 0.006437824527005103
+      },
+      "physics_status": "validated-semi-analytical",
+      "physics_report_sha256": "3ef9c96db0f7aba299a7feeda5a57a19b6f49ba52c2517648d99c6bd931f73d6",
+      "source_artifacts_sha256": {
+        "input/input.h5": "d27a69f5cb75cb37dc3822e5123b8e277767ad3e4d9c8b3e73b78cbacfb8a2c8",
+        "input/mesh.msh": "b3c04019c84d79dd11c51c3b6727c4ef94ec2d3aaece4fd1e654c22ddc63063b",
+        "input/problem.json": "6d248a137f764c58d51972afb1f3c1cb19d4352183454e9ba7e0dcf99b93012f",
+        "reference/grading.json": "ed5d98e73cb008059a17c0635785deb3e82b22015bf4f9eb7edeb29430e08235",
+        "reference/reference-record.json": "80d8d55291ca78a43e0eccd14d261afa9773e1be8703a8cda6ad0a81dbc86fe3",
+        "reference/reference.h5": "f650a2579d5bce9066e05106390da71f81a268d3a6023d18a4604b49b2587196",
+        "reports/physics-verification.json": "3ef9c96db0f7aba299a7feeda5a57a19b6f49ba52c2517648d99c6bd931f73d6"
+      },
+      "baseline_sha256": "0831ae6962ce2cd52bdf71a2aa2caf5fa56a00122c29d209c2716b52e0976ba8",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "d27a69f5cb75cb37dc3822e5123b8e277767ad3e4d9c8b3e73b78cbacfb8a2c8",
+          "mesh.msh": "b3c04019c84d79dd11c51c3b6727c4ef94ec2d3aaece4fd1e654c22ddc63063b",
+          "problem.json": "6d248a137f764c58d51972afb1f3c1cb19d4352183454e9ba7e0dcf99b93012f"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": "See the hash-bound original physics report and author source snapshot"
+    },
+    {
+      "case_id": "heldout-01-coupled-traction-ramp-v1",
+      "alias": "002",
+      "role": "held-out",
+      "grader_score": 1,
+      "pool_case_id": "case-1bc35f6dfc31339fc1c62c81",
+      "descriptor_sha256": "4bc9b2b00055269ccf85e58c7326bf6cf9c69c6677658e7c56e2008d9f265d67",
+      "grade_report": "grading/elastic-transient/002.json",
+      "grade_report_sha256": "630b7d1cd79f581f5a76867cc206556b8b436e1efd6e07c5631e60faf38008a3",
+      "reference_budget": {
+        "y_previous": 0.12983620558084913,
+        "same_mesh_p": 0.18564573554432962,
+        "x_refinement": 0.07481638496477291,
+        "z_refinement": 0.10316606328582628,
+        "polynomial_tail": 2.3609982167598682e-08,
+        "observation_quadrature": 0.0006858415860226752
+      },
+      "physics_status": "validated-space-time-and-polynomial-convergence",
+      "physics_report_sha256": "667c607d31f93ffcba6190dfe4783b56058a07dd438a06efd6bcc5d698100ae7",
+      "source_artifacts_sha256": {
+        "input/input.h5": "a558f9a80c93158099f6ea2032af23a4562091e755ee9496b92e088647b9626a",
+        "input/mesh.msh": "b3c04019c84d79dd11c51c3b6727c4ef94ec2d3aaece4fd1e654c22ddc63063b",
+        "input/problem.json": "c87eee293de097ce040116afa90bf9db7c4ca78d554505a586f1368058033400",
+        "reference/grading.json": "ed5d98e73cb008059a17c0635785deb3e82b22015bf4f9eb7edeb29430e08235",
+        "reference/reference.h5": "abe445fbb7a2c7fe68ca44efea3331957f20e5261414f8a0aa2b50096dd626ce",
+        "reports/physics-verification.json": "667c607d31f93ffcba6190dfe4783b56058a07dd438a06efd6bcc5d698100ae7"
+      },
+      "baseline_sha256": "7708e203001e71f5e42d2bad436f00458b29e9d054ca835db336041c94757e08",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "a558f9a80c93158099f6ea2032af23a4562091e755ee9496b92e088647b9626a",
+          "mesh.msh": "b3c04019c84d79dd11c51c3b6727c4ef94ec2d3aaece4fd1e654c22ddc63063b",
+          "problem.json": "c87eee293de097ce040116afa90bf9db7c4ca78d554505a586f1368058033400"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": {
+        "method": "GLL P7 finite elements with full-operator Chebyshev ramp response and spectral-moment energy audit",
+        "mass_model": "Positive collocated GLL mass; approximation controlled by directional h and same-mesh global p checks",
+        "element": "Three-dimensional GLL nodal Lagrange hexahedron",
+        "degree": 7,
+        "divisions": [
+          64,
+          16,
+          4
+        ],
+        "free_dofs": 4340672,
+        "quarter_symmetry": true,
+        "full_spatial_operator_retained": true,
+        "time_method": {
+          "method": "full-order matrix-free Chebyshev polynomial matrix-function evaluation",
+          "operator_bound": 121992364985.702,
+          "operator_bound_is_caller_supplied": true,
+          "cutoff_degree": 12638,
+          "full_degree": 12702,
+          "polynomial_node_count": 25406,
+          "lower_degree_omits_terms": 64,
+          "max_abs_tail_displacement": 8.461981115814865e-15,
+          "max_abs_tail_velocity": 2.4841309564926917e-12,
+          "damping_interpretation": "not computed; no external work or damping is inferred",
+          "initial_state_forced_exact_zero": true,
+          "time_integration_seconds": 2305.288343427
+        },
+        "fixed_original_tetrahedron_volume_averages": true
+      }
+    },
+    {
+      "case_id": "heldout-02-fast-body-ramp-v1",
+      "alias": "003",
+      "role": "held-out",
+      "grader_score": 1,
+      "pool_case_id": "case-f37c61741d9bedd9ad5391fe",
+      "descriptor_sha256": "049658e7d97fe48fe5bd7742c7f7fc3c5e927b8d721ffe0d60a6fc7fe9c19d7d",
+      "grade_report": "grading/elastic-transient/003.json",
+      "grade_report_sha256": "54a9bf8fbd7d577856c89d043cb887766b4e5a70b516a59d762d11e03bb356e3",
+      "reference_budget": {
+        "time_quarter_h0": 4.87692408957264e-08,
+        "space_P3_same_dt": 0.1090482220514255,
+        "time_quarter_h1": 3.49161794936425e-06
+      },
+      "physics_status": "validated-space-time-convergence",
+      "physics_report_sha256": "263da1a0ab580ef263a83f8d55362f63e99a6e2f59681ca640f627e1db040e1f",
+      "source_artifacts_sha256": {
+        "input/input.h5": "6668bf4bd3e7380c929cd493c470c370914eca9290b02d986fbe737d48f672bd",
+        "input/mesh.msh": "e087223e5aad8c9155b3758efb262e99fe309ee7ce08c0fb46a12e16648f974b",
+        "input/problem.json": "70977aa4f102611f43f4a0c4d74812877a3eca407c43a18dc8172a8ea85666a1",
+        "reference/grading.json": "ed5d98e73cb008059a17c0635785deb3e82b22015bf4f9eb7edeb29430e08235",
+        "reference/reference.h5": "54f2b064c7069ae6f336a3ff55c686e7874c529304b86d1cb01dbad2d04322a7",
+        "reports/physics-verification.json": "263da1a0ab580ef263a83f8d55362f63e99a6e2f59681ca640f627e1db040e1f"
+      },
+      "baseline_sha256": "ca46979521aa88594e5eb6644ab4d3bdfab10f5f04e9531116c21495485595c6",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "6668bf4bd3e7380c929cd493c470c370914eca9290b02d986fbe737d48f672bd",
+          "mesh.msh": "e087223e5aad8c9155b3758efb262e99fe309ee7ce08c0fb46a12e16648f974b",
+          "problem.json": "70977aa4f102611f43f4a0c4d74812877a3eca407c43a18dc8172a8ea85666a1"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": {
+        "method": "Three-stage Gauss-Legendre collocation, order6",
+        "steps": 1200,
+        "dt": 1e-05,
+        "linear_backend": "real/complex sparse LU",
+        "max_stage_linear_residual": 9.852283550695757e-16,
+        "terminal_mechanical_energy": 0.002181881210328099,
+        "external_work": 0.002190730951573972,
+        "damping_work": 8.849741247988467e-06,
+        "minimum_damping_increment": 5.683656044035433e-21,
+        "energy_balance_relative": 9.654593123656359e-13,
+        "linear_iterations_max": 0,
+        "linear_iterations_mean": 0.0,
+        "wall_seconds": 635.8132319570004,
+        "energy_scope": "Positive three-point Gauss quadrature of stage damping/power; discrete consistency, not a time accuracy proof",
+        "degree": 3,
+        "quarter_uniform_refinements": 1,
+        "quarter_cells": 6144,
+        "quarter_dofs": 97851,
+        "full_original_observations": true,
+        "reflected_parent_volume_conserved": true,
+        "symmetry_scope": "Normal uniform loading; u_y/u_z odd at respective midplanes. Quarter initial common refinement handles odd original transverse mesh divisions.",
+        "full_energy_symmetry_factor": 4,
+        "matrix_nnz": {
+          "stiffness": 11007710,
+          "mass": 3937506
+        },
+        "execution_environment": {
+          "machine": "aarch64",
+          "system": "Linux",
+          "dolfinx": "0.11.0.post0",
+          "petsc": [
+            3,
+            25,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "heldout-03-long-damped-ramp-v1",
+      "alias": "004",
+      "role": "held-out",
+      "grader_score": 1,
+      "pool_case_id": "case-0be26c5c64bd9d1c4dfba7cd",
+      "descriptor_sha256": "18ae7f893832bd3ad0f116ff05e7339a55db0db86d25562c74a8a634004b27a7",
+      "grade_report": "grading/elastic-transient/004.json",
+      "grade_report_sha256": "e6d31c30bb8cb478484b34d5da0058d18f419ae4b473a0a9e7ea6ab177f70550",
+      "reference_budget": {
+        "space_P3_fixed_time_formula": 0.034876934557843686,
+        "fine_projection_dimension_512_1024": 0.039333269825064535,
+        "fine_independent_negative_pole": 0.04013133991038425,
+        "independent_Gauss_time_algorithm": 0.013165591093528146,
+        "Gauss_time_steps_600_1200": 0.0010595471857132856
+      },
+      "physics_status": "validated-space-time-and-projection-convergence",
+      "physics_report_sha256": "f283865544c6a743853f5b9d482960332460d258fc58e076136a1a98c696ddb4",
+      "source_artifacts_sha256": {
+        "input/input.h5": "a3cc2269199e293d138df86a7cd044a832bcd4ba74b3d7e6882ef6e35c4f5db2",
+        "input/mesh.msh": "b3c04019c84d79dd11c51c3b6727c4ef94ec2d3aaece4fd1e654c22ddc63063b",
+        "input/problem.json": "44ba54af84a463afcdb598a29a0a52ed0175c7956edeed4d35df301a713c2590",
+        "reference/grading.json": "ed5d98e73cb008059a17c0635785deb3e82b22015bf4f9eb7edeb29430e08235",
+        "reference/reference.h5": "7c8101fe978449e019c4e2761f151769e2bed4bcda2dda5783b09adb6c9da51b",
+        "reports/physics-verification.json": "f283865544c6a743853f5b9d482960332460d258fc58e076136a1a98c696ddb4"
+      },
+      "baseline_sha256": "3662e02380d86c861e85cc6c17c7059a948fb0ecd923d962ee466063eb6c2172",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "a3cc2269199e293d138df86a7cd044a832bcd4ba74b3d7e6882ef6e35c4f5db2",
+          "mesh.msh": "b3c04019c84d79dd11c51c3b6727c4ef94ec2d3aaece4fd1e654c22ddc63063b",
+          "problem.json": "44ba54af84a463afcdb598a29a0a52ed0175c7956edeed4d35df301a713c2590"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": {
+        "method": "Force-directed rational Krylov Galerkin projection with closed damped-ramp time response",
+        "projection_dimension": 1024,
+        "negative_pole": -100000000.0,
+        "mass_orthogonality_defect": 3.552713678800501e-15,
+        "initial_static_relative_residual": 6.620201933873456e-11,
+        "max_shifted_solve_relative_residual": 1.8200535803628896e-15,
+        "energy_balance_relative": 1.5870993379573338e-16,
+        "terminal_mechanical_energy": 0.0033651312258454478,
+        "external_work": 0.003473493272408778,
+        "damping_work": 0.00010836204656333075,
+        "minimum_damping_increment": 1.8675175110397021e-06,
+        "scope": "Full 3D FE operators, unchanged full observations; reduced dimension and pole, plus independent h/p comparisons must converge. Energy balance alone is not an accuracy proof.",
+        "wall_seconds": 240.13370969199968,
+        "degree": 3,
+        "quarter_uniform_refinements": 1,
+        "quarter_cells": 6144,
+        "quarter_dofs": 97851,
+        "full_original_observations": true,
+        "reflected_parent_volume_conserved": true,
+        "symmetry_scope": "Normal uniform loading; u_y/u_z odd at respective midplanes. Quarter initial common refinement handles odd original transverse mesh divisions.",
+        "execution_environment": {
+          "machine": "aarch64",
+          "system": "Linux",
+          "dolfinx": "0.11.0.post0",
+          "petsc": [
+            3,
+            25,
+            1
+          ]
+        }
+      }
+    }
+  ],
+  "local_pool_valid": true,
+  "baseline_regrades_passed": 4,
+  "staged_selection_sha256": "7cecf073bda7f43e34186b183d5faadb46351c001758be3530da67baea67e57d",
+  "candidate_zip_sha256": "0559dca6271ef47ace93a48cda20a4fda28646525be913e89d16a3f6e32bde17",
+  "formal_selection_changed": false,
+  "hf_uploaded": false,
+  "reference_origin": "Existing user-reviewed local reference workspace; this importer only copies and validates bytes",
+  "source_qualification": "Preserve actual custom formulations/analytic evaluators and CalculiX attribution. Numerical user acceptance is not automatic compliance with the upstream external-reference provenance rule; maintainer source-policy review remains explicit before release.",
+  "validation_scope": "26 selected local cases; not complete task-family coverage or an agent/model score"
+}

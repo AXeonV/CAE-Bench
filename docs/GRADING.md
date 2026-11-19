@@ -12,7 +12,7 @@
 python -m caeoj grade --input problem.json --output result.h5 --grading reference/grading.json
 ```
 
-隐藏例的配置和参考只进入 verifier；公开包提供随机格式样例及必要工具，随机样例不附数值参考或判分材料。考生无需阅读机器配置补题意。观察什么、采用何种重建、误差和通过含义必须由题面／DATA完整说明；配置不能增加隐藏要求。
+隐藏例的配置和参考只进入 verifier。公开材料按题目声明提供：随机格式样例不附数值参考或判分材料；声明的真实 public 算例可附 reference/grading.json 及其绑定参考。参考资产不自动成为完整提交示例。考生无需阅读机器配置补题意。观察什么、采用何种重建、误差和通过含义必须由题面／DATA完整说明；配置不能增加隐藏要求。
 
 ## 配置与扩展
 

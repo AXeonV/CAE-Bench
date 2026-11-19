@@ -1,0 +1,222 @@
+{
+  "schema_version": 1,
+  "batch": "solid8-reviewed-2026-11-17",
+  "task": "hyperelastic-solid",
+  "status": "reviewed-local-reference-import",
+  "published": false,
+  "source_contract_commit": "1fd666fcb3aee83138d34d225853bc5aec44cad1",
+  "source_acceptance_sha256": "7db1a6f3a40b3ccaf89e53fc1d36f5c7e333069108d6dde14e2d8930b0d31b81",
+  "requested_task_id": "caeoj-000087",
+  "cases": [
+    {
+      "case_id": "affine-stretch-shear-v1",
+      "alias": "001",
+      "role": "public",
+      "grader_score": 1,
+      "pool_case_id": "case-a0ed59a3e5450ee2faa277ef",
+      "descriptor_sha256": "6375201a92879a52336d5e7f18cb1daedc96ffccbf779160488ea19e1dd7d53e",
+      "grade_report": "grading/hyperelastic-solid/001.json",
+      "grade_report_sha256": "c9a53580d932e9f0537ec2b8e379aff930668e8794adc735ee4667bec4c1cc9e",
+      "reference_budget": {
+        "FE_vs_exact_eta": 6.85272592344685e-11
+      },
+      "physics_status": "validated-analytical",
+      "physics_report_sha256": "2a63cd6b4a0089a4609614770211e1b4afb8edd014f4f1d0844969c7cccfd250",
+      "source_artifacts_sha256": {
+        "input/input.h5": "62011639929302ab8a9e01c5dd9d0c7de6da92595c1f35e7c02009afbdbcc0e8",
+        "input/mesh.msh": "b0671d4ea5373a7e416bdd340b3fcdb6deeda9c84aefd8403448e710d3d8b73b",
+        "input/problem.json": "6890223a9194b7ba4fdb9517f2e094582a034b979123edfcd8e09d7bb9beb01c",
+        "reference/grading.json": "be799f000422799a31c28ecbad62cddd27530d476922cd3fcb30188c82f3e5a6",
+        "reference/reference-record.json": "4c7c67373ef07f2d5545fbbcac87f053e8d41b9e22e978b32816f8a75b946151",
+        "reference/reference.h5": "20721da53a406f8acf78947e17899165c7818c5cd55610597f6117803f9a33e8",
+        "reports/physics-verification.json": "2a63cd6b4a0089a4609614770211e1b4afb8edd014f4f1d0844969c7cccfd250"
+      },
+      "baseline_sha256": "ccb8dd6c7ab2c6ce6c68b5ca0a0649e05a067bfd1c83259dd96e10653a643614",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "62011639929302ab8a9e01c5dd9d0c7de6da92595c1f35e7c02009afbdbcc0e8",
+          "mesh.msh": "b0671d4ea5373a7e416bdd340b3fcdb6deeda9c84aefd8403448e710d3d8b73b",
+          "problem.json": "6890223a9194b7ba4fdb9517f2e094582a034b979123edfcd8e09d7bb9beb01c"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": "See the hash-bound original physics report and author source snapshot"
+    },
+    {
+      "case_id": "heldout-01-reversed-shear-stretch-v1",
+      "alias": "002",
+      "role": "held-out",
+      "grader_score": 1,
+      "pool_case_id": "case-783cbe27b8899fd8dd88869f",
+      "descriptor_sha256": "b1fc8935ad804e63c76fa130838dd60919262d6b52485e93b1d0170732883dae",
+      "grade_report": "grading/hyperelastic-solid/002.json",
+      "grade_report_sha256": "e5e06817b2a6c87ab85a025ebb84ede59d47bd65c7d51383d97a6ce5c5c213f0",
+      "reference_budget": {
+        "FE_vs_exact": 6.756642963090071e-11
+      },
+      "physics_status": "validated-analytical-affine-and-h-p-load-step",
+      "physics_report_sha256": "66df967c8486cfd95b1ae9c20d019b62f6176e99e7209edfc4abccf0cae48877",
+      "source_artifacts_sha256": {
+        "input/input.h5": "a9d68cfaa1c1bba1efd258cf73c415d312fc9e87373490f18c5882683603bef7",
+        "input/mesh.msh": "b0671d4ea5373a7e416bdd340b3fcdb6deeda9c84aefd8403448e710d3d8b73b",
+        "input/problem.json": "009b69d0ae33f2ce6fa1f1bd1ecaf6b6b0c76d4d173a6e42cad98a1086daa6e8",
+        "reference/grading.json": "be799f000422799a31c28ecbad62cddd27530d476922cd3fcb30188c82f3e5a6",
+        "reference/reference.h5": "dacc53e3cbf7fdfbdf18b991a8bfc1b82cfed5f5c933ae7aeda770a63b3ab2d3",
+        "reports/physics-verification.json": "66df967c8486cfd95b1ae9c20d019b62f6176e99e7209edfc4abccf0cae48877"
+      },
+      "baseline_sha256": "1ce5f05c286723eb0327265a6510e35555db50f9a148d06d701f0919c47abf7b",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "a9d68cfaa1c1bba1efd258cf73c415d312fc9e87373490f18c5882683603bef7",
+          "mesh.msh": "b0671d4ea5373a7e416bdd340b3fcdb6deeda9c84aefd8403448e710d3d8b73b",
+          "problem.json": "009b69d0ae33f2ce6fa1f1bd1ecaf6b6b0c76d4d173a6e42cad98a1086daa6e8"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": "See the hash-bound original physics report and author source snapshot"
+    },
+    {
+      "case_id": "heldout-02-triaxial-out-of-plane-v1",
+      "alias": "003",
+      "role": "held-out",
+      "grader_score": 1,
+      "pool_case_id": "case-7109e84e87058c4642a27ae3",
+      "descriptor_sha256": "d927ee3032ed0df1ebe63413a742c400f136488cec1d4ca48560a54674dade9a",
+      "grade_report": "grading/hyperelastic-solid/003.json",
+      "grade_report_sha256": "a8d65a820ebcac862dc3d5fe0f4da43a8b0ae5c4d85930f56c77b06d2f1f47c3",
+      "reference_budget": {
+        "FE_vs_exact": 3.6718035834571194e-11
+      },
+      "physics_status": "validated-analytical-affine-and-h-p-load-step",
+      "physics_report_sha256": "6ace11d5ce210129e75a45c18fa4d191f250f711708bb6ea2f9587a375499c12",
+      "source_artifacts_sha256": {
+        "input/input.h5": "9e0b2f491efe987cfa53a1db2f8d980611b0a9d6a9b8dd634516fa4cc5815fd9",
+        "input/mesh.msh": "b0671d4ea5373a7e416bdd340b3fcdb6deeda9c84aefd8403448e710d3d8b73b",
+        "input/problem.json": "51fdc0cb13d6bc2a5da9f0dc84348e15ae40b641c992f0c1d17e303dc080e94a",
+        "reference/grading.json": "be799f000422799a31c28ecbad62cddd27530d476922cd3fcb30188c82f3e5a6",
+        "reference/reference.h5": "f363dd750cb2cf7881e9214a461fda31a0f200d8a7b4a3fa892891d287e24985",
+        "reports/physics-verification.json": "6ace11d5ce210129e75a45c18fa4d191f250f711708bb6ea2f9587a375499c12"
+      },
+      "baseline_sha256": "6810566fd3e334d99068886dcb76ddb03f61bcab6050e27cfdd6bede424be237",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "9e0b2f491efe987cfa53a1db2f8d980611b0a9d6a9b8dd634516fa4cc5815fd9",
+          "mesh.msh": "b0671d4ea5373a7e416bdd340b3fcdb6deeda9c84aefd8403448e710d3d8b73b",
+          "problem.json": "51fdc0cb13d6bc2a5da9f0dc84348e15ae40b641c992f0c1d17e303dc080e94a"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": "See the hash-bound original physics report and author source snapshot"
+    },
+    {
+      "case_id": "heldout-03-large-double-shear-v1",
+      "alias": "004",
+      "role": "held-out",
+      "grader_score": 1,
+      "pool_case_id": "case-958db55e9063113b4ab9129c",
+      "descriptor_sha256": "2f30b635ed57e353abb7ff0607aadc642689db32bdfe1a50640a5fbbf2517000",
+      "grade_report": "grading/hyperelastic-solid/004.json",
+      "grade_report_sha256": "dc8346dce4f099cd946e4e2fe3f682a7526fc3424e15ac7084187bf9f7b76a27",
+      "reference_budget": {
+        "FE_vs_exact": 9.59255098974254e-11
+      },
+      "physics_status": "validated-analytical-affine-and-h-p-load-step",
+      "physics_report_sha256": "5d48caaca323d3b336acf93b6dfdb470e24e8440e71300121de05dcedb559b47",
+      "source_artifacts_sha256": {
+        "input/input.h5": "af9dd86a9f8f4ce05f5d8e768063a48d250ed73cbe570dc4ece76363ef26f91b",
+        "input/mesh.msh": "b0671d4ea5373a7e416bdd340b3fcdb6deeda9c84aefd8403448e710d3d8b73b",
+        "input/problem.json": "7e5ad5c098113f8d7363145d08fd954bf224edbe60cf053e43a17c3bd2137a90",
+        "reference/grading.json": "be799f000422799a31c28ecbad62cddd27530d476922cd3fcb30188c82f3e5a6",
+        "reference/reference.h5": "cda89c11832f9b1e3b13daf5ada57bc9cd8c95828e4290464d9912e314730600",
+        "reports/physics-verification.json": "5d48caaca323d3b336acf93b6dfdb470e24e8440e71300121de05dcedb559b47"
+      },
+      "baseline_sha256": "cf435db2f40e3a69dcf3d94da467df2677de9943dbe9fed82737a56ba3b6bd48",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "af9dd86a9f8f4ce05f5d8e768063a48d250ed73cbe570dc4ece76363ef26f91b",
+          "mesh.msh": "b0671d4ea5373a7e416bdd340b3fcdb6deeda9c84aefd8403448e710d3d8b73b",
+          "problem.json": "7e5ad5c098113f8d7363145d08fd954bf224edbe60cf053e43a17c3bd2137a90"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": "See the hash-bound original physics report and author source snapshot"
+    }
+  ],
+  "local_pool_valid": true,
+  "baseline_regrades_passed": 4,
+  "staged_selection_sha256": "f47d5f265e00e8bc1a3e466e97298ce791a524aca463c0d4693ccef42b7c537d",
+  "candidate_zip_sha256": "5907fb695513e467d8048866d5a487d01c35699a276ac88f8ab9bbb85e6a8d4b",
+  "formal_selection_changed": false,
+  "hf_uploaded": false,
+  "reference_origin": "Existing user-reviewed local reference workspace; this importer only copies and validates bytes",
+  "source_qualification": "Preserve actual custom formulations/analytic evaluators and CalculiX attribution. Numerical user acceptance is not automatic compliance with the upstream external-reference provenance rule; maintainer source-policy review remains explicit before release.",
+  "validation_scope": "26 selected local cases; not complete task-family coverage or an agent/model score"
+}

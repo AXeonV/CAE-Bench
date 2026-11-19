@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "batch": "solid8-reviewed-2026-11-17",
+  "task": "j2-plasticity",
+  "status": "reviewed-local-reference-import",
+  "published": false,
+  "source_contract_commit": "1fd666fcb3aee83138d34d225853bc5aec44cad1",
+  "source_acceptance_sha256": "7db1a6f3a40b3ccaf89e53fc1d36f5c7e333069108d6dde14e2d8930b0d31b81",
+  "requested_task_id": "caeoj-000089",
+  "cases": [
+    {
+      "case_id": "constrained-strain-cycle-v1",
+      "alias": "001",
+      "role": "public",
+      "grader_score": 1,
+      "pool_case_id": "case-22a25419811f6ceb23c333d2",
+      "descriptor_sha256": "e8c60eea7d87fd61ba0a753f9e8054bbea05a9c53919bc5d0c76898d2cfe2c46",
+      "grade_report": "grading/j2-plasticity/001.json",
+      "grade_report_sha256": "f64ae5b6270590ea3abe528a846d69948d46aa3c6986d153847cac8670588b1d",
+      "reference_budget": {
+        "independent_eta": 3.809209397832501e-05,
+        "increment_eta": 5.048631999997974e-11,
+        "mesh_eta": 2.6386177037491515e-10
+      },
+      "physics_status": "validated-analytical-and-CalculiX",
+      "physics_report_sha256": "5195639e68659c775fe3100bdc7d300552f9e9c2b4d241cfd6dfd3142b67f5ef",
+      "source_artifacts_sha256": {
+        "input/input.h5": "3ad8ddabd2ca862c47cf3139765153f154300df485fe11f87f590471486c6ba5",
+        "input/mesh.msh": "b0671d4ea5373a7e416bdd340b3fcdb6deeda9c84aefd8403448e710d3d8b73b",
+        "input/problem.json": "828573928276354fa775630cdfb79f130e343bb7160d5428e830097cdf9a16de",
+        "reference/grading.json": "58d4389fc6db0554cd7b6a5d5ba4096631fb2cc93954add4e57aaf3582fc0ddd",
+        "reference/reference-record.json": "d58ce3b6cd26eb63180de6fa5fb08b1f041aa43be888482e80d0a673af02f470",
+        "reference/reference.h5": "c45c609f3f78fc666540a596b508170e6f7259dea978293e030065260deabe37",
+        "reports/physics-verification.json": "5195639e68659c775fe3100bdc7d300552f9e9c2b4d241cfd6dfd3142b67f5ef"
+      },
+      "baseline_sha256": "7144cdec5ddf5c7766bd711438cc197c34748ee3c6e32ba0c96df1962d65b964",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "3ad8ddabd2ca862c47cf3139765153f154300df485fe11f87f590471486c6ba5",
+          "mesh.msh": "b0671d4ea5373a7e416bdd340b3fcdb6deeda9c84aefd8403448e710d3d8b73b",
+          "problem.json": "828573928276354fa775630cdfb79f130e343bb7160d5428e830097cdf9a16de"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": "See the hash-bound original physics report and author source snapshot"
+    },
+    {
+      "case_id": "heldout-01-reverse-yield-cycle-v1",
+      "alias": "002",
+      "role": "held-out",
+      "grader_score": 1,
+      "pool_case_id": "case-d2106e42b9e1e6e30cc75990",
+      "descriptor_sha256": "a07b8eb2b84faf147b296d32349e847f67f554393cb3f84ce8f93d6ffc633082",
+      "grade_report": "grading/j2-plasticity/002.json",
+      "grade_report_sha256": "2948580ec6ce8e8cde90cf43f6ed6e2f9e5b2eb51871478ecec691dd208af949",
+      "reference_budget": {
+        "CCX_vs_radial_return": 2.1446457482690207e-05,
+        "increment": 5.983157e-10,
+        "mesh": 9.51173667499903e-10
+      },
+      "physics_status": "validated-CalculiX-and-incremental-radial-return",
+      "physics_report_sha256": "f0b551bba0747871a0512fe1d692258a7f6f9a629bd13a3f063540d39142c9d2",
+      "source_artifacts_sha256": {
+        "input/input.h5": "a0bad2efc5b98e58b7a96a613148cefd0853c718e509cb2b8f8581fe98a63b68",
+        "input/mesh.msh": "b0671d4ea5373a7e416bdd340b3fcdb6deeda9c84aefd8403448e710d3d8b73b",
+        "input/problem.json": "0784057344e575f0700cbe5dc2af04460f3dd86894de6ba4cd4c76548d9b2c11",
+        "reference/grading.json": "58d4389fc6db0554cd7b6a5d5ba4096631fb2cc93954add4e57aaf3582fc0ddd",
+        "reference/reference.h5": "5b9c6f4ad3de53619caf1074755b6cba2cad35198db70420cdf744bdfacf145f",
+        "reports/physics-verification.json": "f0b551bba0747871a0512fe1d692258a7f6f9a629bd13a3f063540d39142c9d2"
+      },
+      "baseline_sha256": "8c7c41c594623b0faf071fc681b107e141e373de9f2b2bd2f17bb104b3df6ce1",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "a0bad2efc5b98e58b7a96a613148cefd0853c718e509cb2b8f8581fe98a63b68",
+          "mesh.msh": "b0671d4ea5373a7e416bdd340b3fcdb6deeda9c84aefd8403448e710d3d8b73b",
+          "problem.json": "0784057344e575f0700cbe5dc2af04460f3dd86894de6ba4cd4c76548d9b2c11"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": "See the hash-bound original physics report and author source snapshot"
+    },
+    {
+      "case_id": "heldout-02-unload-reload-v1",
+      "alias": "003",
+      "role": "held-out",
+      "grader_score": 1,
+      "pool_case_id": "case-998633dcecfa2bd64251aea1",
+      "descriptor_sha256": "a7327480e19a753c4321f0c240b787ab75466bf9ca67ca59261cd5823a2244a5",
+      "grade_report": "grading/j2-plasticity/003.json",
+      "grade_report_sha256": "9a7f029807a9831ef52ec2559828044e63dc50c563e1e7de332594a52d34912b",
+      "reference_budget": {
+        "CCX_vs_radial_return": 7.428571425528718e-05,
+        "increment": 2.1828055999994283e-10,
+        "mesh": 3.6390407749987956e-10
+      },
+      "physics_status": "validated-CalculiX-and-incremental-radial-return",
+      "physics_report_sha256": "20e87fddd38b137397ca6f88fdd68511f62d4bb1c5e3c25052cc170b58e62ada",
+      "source_artifacts_sha256": {
+        "input/input.h5": "7e0257daea6778921c75bfacdaac9cd93c5dff918602d10640be1afaf6bc633c",
+        "input/mesh.msh": "b0671d4ea5373a7e416bdd340b3fcdb6deeda9c84aefd8403448e710d3d8b73b",
+        "input/problem.json": "8cc690d8080767ad0e4dafc21b6e236ae6f0abf28801d74a9639c3b30433e47b",
+        "reference/grading.json": "58d4389fc6db0554cd7b6a5d5ba4096631fb2cc93954add4e57aaf3582fc0ddd",
+        "reference/reference.h5": "cf1f33f55ef55680d0a2fc31344499a660040c4310a5625eb378c4d3b05b2500",
+        "reports/physics-verification.json": "20e87fddd38b137397ca6f88fdd68511f62d4bb1c5e3c25052cc170b58e62ada"
+      },
+      "baseline_sha256": "563ca1fcd5c509ea05e4d3e3cc1fe0d50a79c2ae24d08f4cb77b23405aaddb10",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "7e0257daea6778921c75bfacdaac9cd93c5dff918602d10640be1afaf6bc633c",
+          "mesh.msh": "b0671d4ea5373a7e416bdd340b3fcdb6deeda9c84aefd8403448e710d3d8b73b",
+          "problem.json": "8cc690d8080767ad0e4dafc21b6e236ae6f0abf28801d74a9639c3b30433e47b"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": "See the hash-bound original physics report and author source snapshot"
+    },
+    {
+      "case_id": "heldout-03-proportional-tension-shear-v1",
+      "alias": "004",
+      "role": "held-out",
+      "grader_score": 1,
+      "pool_case_id": "case-5a03e157de57f888ad716bf4",
+      "descriptor_sha256": "1070e9c45e654e74283b605d47bb1458a06641718b9913b64e90b60cf00c65f5",
+      "grade_report": "grading/j2-plasticity/004.json",
+      "grade_report_sha256": "156029cb28992be831f4ef6efb8b7332636c3f28bae03838b99e61b87bd6d74d",
+      "reference_budget": {
+        "CCX_vs_radial_return": 2.6889250602385732e-05,
+        "increment": 4.067133699998436e-11,
+        "mesh": 8.638451899999997e-10
+      },
+      "physics_status": "validated-CalculiX-and-incremental-radial-return",
+      "physics_report_sha256": "5cb33399f3fe66445d218489d29ab865d843aaac1ad80654e8de1b158733ce76",
+      "source_artifacts_sha256": {
+        "input/input.h5": "93111fce5304ff546bb39ec8748f7e9cac80b4a9868f4e1a32d31717011f0b35",
+        "input/mesh.msh": "b0671d4ea5373a7e416bdd340b3fcdb6deeda9c84aefd8403448e710d3d8b73b",
+        "input/problem.json": "1e7250518fbf757f129a6b0fcfe109e834ff5b025137d7097f033b9adae07668",
+        "reference/grading.json": "58d4389fc6db0554cd7b6a5d5ba4096631fb2cc93954add4e57aaf3582fc0ddd",
+        "reference/reference.h5": "901a9431f70844a1bc6f03ada6a483408edc48ac5c635d6829060e7272fbeeaf",
+        "reports/physics-verification.json": "5cb33399f3fe66445d218489d29ab865d843aaac1ad80654e8de1b158733ce76"
+      },
+      "baseline_sha256": "f0013c4868bb00ca8ce4e1732d50af2a137613afe13792f43ba4d215d27a9077",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "93111fce5304ff546bb39ec8748f7e9cac80b4a9868f4e1a32d31717011f0b35",
+          "mesh.msh": "b0671d4ea5373a7e416bdd340b3fcdb6deeda9c84aefd8403448e710d3d8b73b",
+          "problem.json": "1e7250518fbf757f129a6b0fcfe109e834ff5b025137d7097f033b9adae07668"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": "See the hash-bound original physics report and author source snapshot"
+    }
+  ],
+  "local_pool_valid": true,
+  "baseline_regrades_passed": 4,
+  "staged_selection_sha256": "af6d1dac346631e4ebd6f51624b8b589e61b0187ca251e0c2d6daaaa3252a9cf",
+  "candidate_zip_sha256": "313d110ba8146b03b73c0f67a77618151c447a86aa074fbc9cd340de33bd22a0",
+  "formal_selection_changed": false,
+  "hf_uploaded": false,
+  "reference_origin": "Existing user-reviewed local reference workspace; this importer only copies and validates bytes",
+  "source_qualification": "Preserve actual custom formulations/analytic evaluators and CalculiX attribution. Numerical user acceptance is not automatic compliance with the upstream external-reference provenance rule; maintainer source-policy review remains explicit before release.",
+  "validation_scope": "26 selected local cases; not complete task-family coverage or an agent/model score"
+}

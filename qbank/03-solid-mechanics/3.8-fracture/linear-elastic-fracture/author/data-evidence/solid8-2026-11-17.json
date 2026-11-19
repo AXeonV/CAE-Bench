@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "batch": "solid8-reviewed-2026-11-17",
+  "task": "linear-elastic-fracture",
+  "status": "reviewed-local-reference-import",
+  "published": false,
+  "source_contract_commit": "1fd666fcb3aee83138d34d225853bc5aec44cad1",
+  "source_acceptance_sha256": "7db1a6f3a40b3ccaf89e53fc1d36f5c7e333069108d6dde14e2d8930b0d31b81",
+  "requested_task_id": "caeoj-000090",
+  "cases": [
+    {
+      "case_id": "center-crack-mode-i-v1",
+      "alias": "001",
+      "role": "public",
+      "grader_score": 1,
+      "pool_case_id": "case-2407f0fa39c0025a6117af0b",
+      "descriptor_sha256": "d429b1296997e050355017893eddf73971badc84714e2587870c81f5c1f5bedd",
+      "grade_report": "grading/linear-elastic-fracture/001.json",
+      "grade_report_sha256": "5acad9b925b52e81c8e5a2b3bec7ae76093ad2117f559447069aeda2c77e3a22",
+      "reference_budget": {
+        "fixed_observation_refinement": 0.04231590858059672
+      },
+      "physics_status": "numerically-converged-local",
+      "physics_report_sha256": "bcebb6b71d9d4643917221e13bae9319be6ef81acc10fec56e04b70e5276935e",
+      "source_artifacts_sha256": {
+        "input/input.h5": "255bdb363799bd83e23f2ab58ccc7c9e5f925c218d8f7d207a42785d6414230d",
+        "input/mesh.msh": "0a275d824a8229f030d3cf984fe86ebfa76824f0b55a7ed0bdbd2098caac0beb",
+        "input/problem.json": "2b9cdb7f01f0ca0a568a08bb27a72281199328563516647357eb5ff009a4e2b2",
+        "reference/cells.csv": "19e97aefff77838ffb9882e8166fe8f878aa35f965b018989f530eaa027e3820",
+        "reference/grading.json": "f7729762262a057beb41de6cbb7d1387f3c576c8fe12997411517d885bc79b3a",
+        "reference/nodes.csv": "346b6a6481675e992cdec273c9e540fbcb1cd22d3b0f67518c325b3912dedf0b",
+        "reference/reference-record.json": "6bc008870273d00af41671b7167fa41b6eeb3a98bfeb3241e84ade0483ac4177",
+        "reference/reference.h5": "aec4df926cb6344ca694bd621c5686c9c19faa33d9b58ee690ac723a36d0a581",
+        "reports/physics-verification.json": "bcebb6b71d9d4643917221e13bae9319be6ef81acc10fec56e04b70e5276935e"
+      },
+      "baseline_sha256": "707ae4a597480d39060a9bed39a4844b1d5d3d547d4b536cd66dbed6c5e0128d",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "255bdb363799bd83e23f2ab58ccc7c9e5f925c218d8f7d207a42785d6414230d",
+          "mesh.msh": "0a275d824a8229f030d3cf984fe86ebfa76824f0b55a7ed0bdbd2098caac0beb",
+          "problem.json": "2b9cdb7f01f0ca0a568a08bb27a72281199328563516647357eb5ff009a4e2b2"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": "DOLFINx high-order FE with nested uniform/local tip refinement; exact polynomial cell integration"
+    }
+  ],
+  "local_pool_valid": true,
+  "baseline_regrades_passed": 1,
+  "staged_selection_sha256": "36608453cb49bbfbdbb3dbef059542cdc5f7c03131551ee13085150931a5f1f0",
+  "candidate_zip_sha256": "ed034e22a79ac86072e71be39c8eec2d94876b9d6ef62d849f18b91356457d80",
+  "formal_selection_changed": false,
+  "hf_uploaded": false,
+  "reference_origin": "Existing user-reviewed local reference workspace; this importer only copies and validates bytes",
+  "source_qualification": "Preserve actual custom formulations/analytic evaluators and CalculiX attribution. Numerical user acceptance is not automatic compliance with the upstream external-reference provenance rule; maintainer source-policy review remains explicit before release.",
+  "validation_scope": "26 selected local cases; not complete task-family coverage or an agent/model score"
+}

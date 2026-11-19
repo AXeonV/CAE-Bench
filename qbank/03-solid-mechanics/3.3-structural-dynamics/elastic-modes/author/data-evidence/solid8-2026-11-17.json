@@ -1,0 +1,297 @@
+{
+  "schema_version": 1,
+  "batch": "solid8-reviewed-2026-11-17",
+  "task": "elastic-modes",
+  "status": "reviewed-local-reference-import",
+  "published": false,
+  "source_contract_commit": "1fd666fcb3aee83138d34d225853bc5aec44cad1",
+  "source_acceptance_sha256": "7db1a6f3a40b3ccaf89e53fc1d36f5c7e333069108d6dde14e2d8930b0d31b81",
+  "requested_task_id": "caeoj-000085",
+  "cases": [
+    {
+      "case_id": "rectangular-cantilever-v1",
+      "alias": "001",
+      "role": "public",
+      "grader_score": 1,
+      "pool_case_id": "case-cf9fc4f0b269b0557cff9400",
+      "descriptor_sha256": "48bc2a0922085239c196792ee6fb388d402ae275cb8ea1cbcc5f1de01c8b212a",
+      "grade_report": "grading/elastic-modes/001.json",
+      "grade_report_sha256": "6b7e35c2935daaa3d9c4792112c770adfaadd0cc48178df7ed1a0c7a9b9517e7",
+      "reference_budget": {
+        "independent_eta": 8.179540483990186e-07,
+        "h_eta": 0.09257075636020867,
+        "p_same_mesh_eta": 0.02023240636948321
+      },
+      "physics_status": "validated-independent-assembly-and-convergence",
+      "physics_report_sha256": "e8021d47868e06c96123f14360103a5b04a184894412cf9903818b465cfc7f5f",
+      "source_artifacts_sha256": {
+        "input/input.h5": "dfea09e54626db48e2bc7db4d46f24daf0dcb64485ae261043ae5d0c6b70bf99",
+        "input/mesh.msh": "8f322f7c9ebc642b2766a508bfa1a355946100391bcbe749a4798987744361a4",
+        "input/problem.json": "c85aeec50146f41f78ecd50613f8f1fb52d339695c1a5dbcc4cad4f85fd1ebcb",
+        "reference/grading.json": "d4c108e19e0a2356d8ee7019d0735312f33c5c366b56e6132aaf2f479fdcedbf",
+        "reference/reference-record.json": "d3670ee1d50fb37be298ac814631eaf59f7de3326681595ebfb6bc9938281d02",
+        "reference/reference.h5": "3814540a8568350a49dea0e7919c2bb3c6d6e70e912649548ebbe7bbae1ba789",
+        "reports/physics-verification.json": "e8021d47868e06c96123f14360103a5b04a184894412cf9903818b465cfc7f5f"
+      },
+      "baseline_sha256": "c6fec8be297800d7766cde57110cf53a965d54e41544da51f9fb7b1fbce3486c",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "dfea09e54626db48e2bc7db4d46f24daf0dcb64485ae261043ae5d0c6b70bf99",
+          "mesh.msh": "8f322f7c9ebc642b2766a508bfa1a355946100391bcbe749a4798987744361a4",
+          "problem.json": "c85aeec50146f41f78ecd50613f8f1fb52d339695c1a5dbcc4cad4f85fd1ebcb"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": {
+        "degree": 4,
+        "uniform_refinements": 1,
+        "cells": 3840,
+        "dofs": 139587,
+        "max_relative_eigen_residual": 2.275295490756521e-07,
+        "wall_seconds": 19.842432968000026,
+        "positive_roots": true,
+        "values": [
+          25.18538660406334,
+          41.89783429966618,
+          157.17485527274593,
+          259.56819841386573
+        ],
+        "change_from_previous": {
+          "frequency": {
+            "max_abs_error": 0.09341650916491062,
+            "max_fraction_of_grading_tolerance": 0.03987522914321148,
+            "worst_index": [
+              2
+            ]
+          }
+        }
+      }
+    },
+    {
+      "case_id": "heldout-01-aluminium-six-modes-v1",
+      "alias": "002",
+      "role": "held-out",
+      "grader_score": 1,
+      "pool_case_id": "case-d87886b8cab751f196a72bf1",
+      "descriptor_sha256": "c4679eecb84118b72f38b43b115cf13cbbbaba6867dfb06e4cff866d3a4afee4",
+      "grade_report": "grading/elastic-modes/002.json",
+      "grade_report_sha256": "7a9fb0de1b26a59affb967a145029ee242c9e8545a529fe2e1aae80564b55c64",
+      "reference_budget": {
+        "same_fine_mesh_P3_P4": 0.018356857030651496,
+        "fixed_P4_h": 0.04228961991975842,
+        "fixed_P3_h": 0.15681585875939463
+      },
+      "physics_status": "validated-high-order-spectrum-convergence",
+      "physics_report_sha256": "df84e06bf2b869c95286ce1c250c540b23070daab7f4d96721a70591a7fca95d",
+      "source_artifacts_sha256": {
+        "input/input.h5": "dfea09e54626db48e2bc7db4d46f24daf0dcb64485ae261043ae5d0c6b70bf99",
+        "input/mesh.msh": "ae3ac4f9cf64467597f0ace57c7adea7c894059029f78cdf8079a1a823ede50e",
+        "input/problem.json": "1b1a9c5db48a0219bd07d1f88662ea76d7c3ee91c9f16ff17844edd39903972b",
+        "reference/grading.json": "d4c108e19e0a2356d8ee7019d0735312f33c5c366b56e6132aaf2f479fdcedbf",
+        "reference/reference.h5": "959870f78bc14cc8bd4d955d4746ea1f379e6f277694360dbd81de94a5cc12ca",
+        "reports/physics-verification.json": "df84e06bf2b869c95286ce1c250c540b23070daab7f4d96721a70591a7fca95d"
+      },
+      "baseline_sha256": "6f0b533e63b5a520e3dd1611971cfd972bac82037ad48778a6fa1a7fa1056611",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "dfea09e54626db48e2bc7db4d46f24daf0dcb64485ae261043ae5d0c6b70bf99",
+          "mesh.msh": "ae3ac4f9cf64467597f0ace57c7adea7c894059029f78cdf8079a1a823ede50e",
+          "problem.json": "1b1a9c5db48a0219bd07d1f88662ea76d7c3ee91c9f16ff17844edd39903972b"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": {
+        "degree": 4,
+        "uniform_refinements": 1,
+        "cells": 3840,
+        "dofs": 139587,
+        "max_relative_eigen_residual": 3.3102091316303934e-08,
+        "wall_seconds": 22.07818601100007,
+        "positive_roots": true
+      }
+    },
+    {
+      "case_id": "heldout-02-titanium-five-modes-v1",
+      "alias": "003",
+      "role": "held-out",
+      "grader_score": 1,
+      "pool_case_id": "case-03be494c64958cddaab669f3",
+      "descriptor_sha256": "625b5424bc79070648fc2e53acb821a6ed10cd33867ba6085c8fba5304997d4e",
+      "grade_report": "grading/elastic-modes/003.json",
+      "grade_report_sha256": "b9580290db72c403f5bc07debebea20614faf730e8233056413d8e8c4aa548df",
+      "reference_budget": {
+        "same_fine_mesh_P3_P4": 0.03650532895996808,
+        "fixed_P4_h": 0.06612637694939422,
+        "fixed_P3_h": 0.14979297008512743
+      },
+      "physics_status": "validated-high-order-spectrum-convergence",
+      "physics_report_sha256": "5c97afc9dda2b57e1884429367cf2eae0c4ce7c6c29c0551476e6b53f90f89f0",
+      "source_artifacts_sha256": {
+        "input/input.h5": "dfea09e54626db48e2bc7db4d46f24daf0dcb64485ae261043ae5d0c6b70bf99",
+        "input/mesh.msh": "b8416e7dcfaedab9ede7c352369a2173d267994e2f3f0b46dc02747aa6948e9a",
+        "input/problem.json": "1fa4d914f8c3464dfe26dccf431198da855aa087183741129a6bb47056627fd0",
+        "reference/grading.json": "d4c108e19e0a2356d8ee7019d0735312f33c5c366b56e6132aaf2f479fdcedbf",
+        "reference/reference.h5": "85678698028e8697dbd84028ff9468b0c9a07f4363c20247942b4c4e938ff8a9",
+        "reports/physics-verification.json": "5c97afc9dda2b57e1884429367cf2eae0c4ce7c6c29c0551476e6b53f90f89f0"
+      },
+      "baseline_sha256": "59d96690c8c7019e148711277092ab4cb682f819c2654e9ce0519b868b57ab93",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "dfea09e54626db48e2bc7db4d46f24daf0dcb64485ae261043ae5d0c6b70bf99",
+          "mesh.msh": "b8416e7dcfaedab9ede7c352369a2173d267994e2f3f0b46dc02747aa6948e9a",
+          "problem.json": "1fa4d914f8c3464dfe26dccf431198da855aa087183741129a6bb47056627fd0"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": {
+        "degree": 4,
+        "uniform_refinements": 1,
+        "cells": 3840,
+        "dofs": 139587,
+        "max_relative_eigen_residual": 1.2238649146683533e-07,
+        "wall_seconds": 43.26375885300013,
+        "positive_roots": true,
+        "per_root_relative_residual": [
+          4.90199998639166e-10,
+          1.2238649146683533e-07,
+          2.7216018631219305e-08,
+          3.235720417656712e-09,
+          3.538713823024903e-09,
+          3.1366501083059153e-09
+        ],
+        "unrefined_float64_matvec_residuals": [
+          1.062422387110349e-06,
+          1.2238649146683533e-07,
+          2.7216018631219305e-08,
+          3.235720417656712e-09,
+          3.538713823024903e-09,
+          3.1366501083059153e-09
+        ],
+        "max_relative_eigenvalue_refinement": 1.271646942121779e-08,
+        "mixed_precision_correction_steps": 3,
+        "longdouble_epsilon": 1.0842021724855044e-19,
+        "algebraic_precision_scope": "Residual and correction accumulation use longdouble on the same assembled float64 matrices; not a change to the FE problem or a discretization error bound."
+      }
+    },
+    {
+      "case_id": "heldout-03-short-beam-v1",
+      "alias": "004",
+      "role": "held-out",
+      "grader_score": 1,
+      "pool_case_id": "case-077b89f73fc61bf89102ca75",
+      "descriptor_sha256": "0561d53204bd0464ecec0572bec3d31d1988c84454cc7f4db822029b65ac7855",
+      "grade_report": "grading/elastic-modes/004.json",
+      "grade_report_sha256": "de40eb0f251093a2a1d5a4f802231f828e0421bfd67141cc4cbe7566f51c17fb",
+      "reference_budget": {
+        "same_fine_mesh_P3_P4": 0.013037433759404212,
+        "fixed_P4_h": 0.0336006792491396,
+        "fixed_P3_h": 0.07354796736879674
+      },
+      "physics_status": "validated-high-order-spectrum-convergence",
+      "physics_report_sha256": "8c5e552ce81caac0a60e97a6393a80a6f352c7ba3ff90f974bf5c169763f145e",
+      "source_artifacts_sha256": {
+        "input/input.h5": "1e6c590b413758da9b93e84df2c890f2fab9ad4551c8d6b13ac2f732bc2a16b9",
+        "input/mesh.msh": "d00a60e14baabafead18e6a21c3348a0e45dc7379b605245bf4ba674c2c8b212",
+        "input/problem.json": "f2d09ba09d14fdb64072523ab724d62f58caeda8a54ed170ef9b185a555df6d3",
+        "reference/grading.json": "d4c108e19e0a2356d8ee7019d0735312f33c5c366b56e6132aaf2f479fdcedbf",
+        "reference/reference.h5": "638be4fcc8e61ba7bfac8948a7ec7dd12805121cdd661f77e7a9e299a2153ee1",
+        "reports/physics-verification.json": "8c5e552ce81caac0a60e97a6393a80a6f352c7ba3ff90f974bf5c169763f145e"
+      },
+      "baseline_sha256": "d1fb94f19e0dc8f6518654cf2227cd91af73a7650158f79d4e6b043d425e98d6",
+      "baseline_run_identity": {
+        "solver_source_sha256": "fff991350ccf4a34ecfe413d8954ce50a3757e8183e1c5d3de127d8776cbcf1f",
+        "input_sha256": {
+          "input.h5": "1e6c590b413758da9b93e84df2c890f2fab9ad4551c8d6b13ac2f732bc2a16b9",
+          "mesh.msh": "d00a60e14baabafead18e6a21c3348a0e45dc7379b605245bf4ba674c2c8b212",
+          "problem.json": "f2d09ba09d14fdb64072523ab724d62f58caeda8a54ed170ef9b185a555df6d3"
+        },
+        "runtime_identity": {
+          "machine": "x86_64",
+          "system": "Linux",
+          "python": "3.12.3",
+          "packages": {
+            "dolfinx": "0.11.0.post0",
+            "numpy": "2.4.6",
+            "petsc": "3.25.1",
+            "petsc4py": "3.25.1"
+          },
+          "threads": {
+            "OPENBLAS_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "1"
+          },
+          "solidbench_image_id": "sha256:537a37b2873db1a9b37ab771bc335c76887d4f7f60f0ec00de476461d4a9f281"
+        },
+        "runtime_identity_sha256": "58d4aa614306e2cc08db40753bdd6c328ee459e422d10fcae13b10e4ea54c552"
+      },
+      "method_as_recorded": {
+        "degree": 4,
+        "uniform_refinements": 1,
+        "cells": 3072,
+        "dofs": 111843,
+        "max_relative_eigen_residual": 3.8743033188858606e-09,
+        "wall_seconds": 27.889182595999955,
+        "positive_roots": true
+      }
+    }
+  ],
+  "local_pool_valid": true,
+  "baseline_regrades_passed": 4,
+  "staged_selection_sha256": "d170587795a28affccaf69ae3970e72b1251fb08772da01ae547e32077577c38",
+  "candidate_zip_sha256": "236242049f25f796d278eead10497c03aeec4c2585f8ba0738b430959ddb46dd",
+  "formal_selection_changed": false,
+  "hf_uploaded": false,
+  "reference_origin": "Existing user-reviewed local reference workspace; this importer only copies and validates bytes",
+  "source_qualification": "Preserve actual custom formulations/analytic evaluators and CalculiX attribution. Numerical user acceptance is not automatic compliance with the upstream external-reference provenance rule; maintainer source-policy review remains explicit before release.",
+  "validation_scope": "26 selected local cases; not complete task-family coverage or an agent/model score"
+}

@@ -21,6 +21,10 @@ FIXED = {'elastic-buckling', 'linear-elastic-fracture'}
 COUNTS = dict(tasks=8, cases=26, public=8, held_out=18)
 PROTOCOL = {'instruction.md', 'DATA.md', 'author/grading-template.json',
             'judge-config.json', 'harbor/task.toml'}
+# Exact suffix of the frozen instructions, moved to the author review record.
+LEGACY_INSTRUCTION_FOOTER = (
+    '\n这些是待校准设计目标；契约工具验证不构成数值解、物理模型或参考精度的证据。正式数据、参考及评测发布另行完成。\n'
+).encode('utf-8')
 PROJECT = Path(__file__).resolve().parents[3]
 
 
@@ -70,8 +74,15 @@ def load_reviewed(source, project_root):
             raise ValueError('Expected five original protocol/config files per task')
         for spec in task['copied_files']:
             path = inside(project_root, task['source_path']) / spec['path']
-            if not path.is_file() or sha(path) != spec['sha256']:
-                raise ValueError(f'Repository contract SHA mismatch: {path}')
+            if path.is_file():
+                digest = hashlib.sha256(path.read_bytes())
+                if digest.hexdigest() == spec['sha256']:
+                    continue
+                if spec['path'] == 'instruction.md':
+                    digest.update(LEGACY_INSTRUCTION_FOOTER)
+                    if digest.hexdigest() == spec['sha256']:
+                        continue
+            raise ValueError(f'Repository contract SHA mismatch: {path}')
     for row in rows:
         if (row['task'] not in ROSTER or row['case_dir'] != f'cases/{row["task"]}/{row["case_id"]}'
                 or not all(row.get(k) is True for k in ('input_valid', 'reference_valid', 'baseline_valid'))

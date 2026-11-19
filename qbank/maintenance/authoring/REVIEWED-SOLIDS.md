@@ -21,7 +21,7 @@ PYTHONPATH=src:qbank/extensions python qbank/maintenance/authoring/import_review
 
 工具依次执行：
 
-1. 核对已通过的批次清单、全部声明资产 SHA-256 和原题五份契约／执行配置。
+1. 核对已通过的批次清单、全部声明资产 SHA-256 和原题五份契约／执行配置。对于已移除作者尾注的 `instruction.md`，追加原尾注后的字节必须与冻结清单中的 SHA-256 一致。
 2. 将输入平铺为 `cases/<编号>/`，参考平铺为 `reference/<编号>/`；公开算例同时作为 `samples/001/input/`。不改输入、网格、参考或评分文件字节。原参考来源记录和物理报告放在 `prepared/<题目>/author/data-evidence/`，不混入可上传载荷。
 3. 调用现有池 API 制池，利用 `LocalStore` 在 `assembled-project/` 的隔离代码副本装配并严格核验。每题公开样例复用对应计分 case 的身份。
 4. 用当前 grader 重评冻结的基线输出，保存逐例完整评分报告；生成公开 ZIP 并检查白名单和样例输入字节，再准备 Harbor 任务。

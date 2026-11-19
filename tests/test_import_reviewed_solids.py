@@ -183,6 +183,24 @@ class ImportReviewedSolidsTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 load_importer().load_reviewed(source, project)
 
+    def test_accepts_only_the_reviewed_footer_removal(self):
+        importer = load_importer()
+        with tempfile.TemporaryDirectory() as tmp:
+            source, project, manifest, _ = reviewed_fixture(Path(tmp))
+            task = manifest['ordered_tasks'][0]
+            instruction = project / task['source_path'] / 'instruction.md'
+            original = instruction.read_bytes()
+            instruction.write_bytes(original + importer.LEGACY_INSTRUCTION_FOOTER)
+            spec = next(f for f in task['copied_files'] if f['path'] == 'instruction.md')
+            spec['sha256'] = digest(instruction)
+            (source / 'task-manifest.json').write_text(json.dumps(manifest), encoding='utf-8')
+
+            instruction.write_bytes(original)
+            importer.load_reviewed(source, project)
+            instruction.write_bytes(b'changed task body\n')
+            with self.assertRaisesRegex(ValueError, 'Repository contract SHA mismatch'):
+                importer.load_reviewed(source, project)
+
     def test_stages_public_first_stable_aliases_and_exact_source_bytes(self):
         with tempfile.TemporaryDirectory() as tmp:
             source, project, _, acceptance = reviewed_fixture(Path(tmp))
